@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central Group HR System - Employee Information</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cg-red': '#C8102E',
+                        'cg-dark': '#333333',
+                        'cg-light': '#F5F5F5',
+                        'cg-success': '#28A745',
+                        'cg-warning': '#FFC107',
+                        'cg-error': '#DC3545',
+                        'cg-info': '#17A2B8'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'Noto Sans Thai', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Google Fonts - Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Noto Sans Thai for Thai text -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen bg-gray-100 font-sans">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link" data-i18n="accessibility.skipToContent">Skip to main content</a>
+
+    <!-- ARIA Live Regions for Screen Reader Announcements -->
+    <div id="aria-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    <div id="aria-alerts" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
+
+    <!-- Connection Status Banner -->
+    <div id="connection-status-banner" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- App Root -->
+    <div id="app" role="application">
+        <!-- Header will be injected here -->
+        <header id="header-container" role="banner"></header>
+
+        <!-- Mobile Menu Container -->
+        <div id="mobile-menu-container" role="navigation" aria-label="Mobile navigation"></div>
+
+        <!-- Main Content -->
+        <main id="main-content" class="pb-16" role="main" tabindex="-1">
+            <!-- Page content will be injected here -->
+        </main>
+
+        <!-- Toast Container -->
+        <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+
+        <!-- Modal Container -->
+        <div id="modal-container"></div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="js/state.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/router.js"></script>
+
+    <!-- Utilities -->
+    <script src="js/utils/accessibility.js"></script>
+    <script src="js/utils/date.js"></script>
+    <script src="js/utils/validation.js"></script>
+    <script src="js/utils/mask.js"></script>
+    <script src="js/utils/rbac.js"></script>
+
+    <!-- Data -->
+    <script src="js/data/mock-employee.js"></script>
+    <script src="js/data/mock-lookups.js"></script>
+    <script src="js/data/mock-workflows.js"></script>
+
+    <!-- Components -->
+    <script src="js/components/skeleton.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/card.js"></script>
+    <script src="js/components/form-field.js"></script>
+    <script src="js/components/data-table.js"></script>
+    <script src="js/components/mobile-menu.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/notification-bell.js"></script>
+    <script src="js/components/tabs.js"></script>
+    <script src="js/components/profile-header.js"></script>
+    <script src="js/components/org-chart.js"></script>
+    <script src="js/components/error-boundary.js"></script>
+    <script src="js/components/connection-status.js"></script>
+
+    <!-- Workflow -->
+    <script src="js/workflow/rules.js"></script>
+    <script src="js/workflow/engine.js"></script>
+    <script src="js/workflow/notifications.js"></script>
+
+    <!-- Pages -->
+    <script src="js/pages/error.js"></script>
+    <script src="js/pages/home.js"></script>
+    <script src="js/pages/profile.js"></script>
+    <script src="js/pages/personal-info.js"></script>
+    <script src="js/pages/employment.js"></script>
+    <script src="js/pages/compensation.js"></script>
+    <script src="js/pages/benefits.js"></script>
+    <script src="js/pages/profile-details.js"></script>
+    <script src="js/pages/scorecard.js"></script>
+    <script src="js/pages/workflows.js"></script>
+
+    <!-- App Initialization -->
+    <script src="js/app.js"></script>
+</body>
+</html>

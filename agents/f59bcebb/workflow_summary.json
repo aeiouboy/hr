@@ -1,0 +1,23 @@
+{
+  "workflow": "chore_implement",
+  "adw_id": "f59bcebb",
+  "prompt": "Implement Work Permit Information section as specified in PRD Section 3.1. Add to apps/js/pages/personal-info.js: 1) Create renderWorkPermitSection() method showing work permit details (permit number, issue date, expiry date, issuing authority, status) 2) Add edit modal for work permit information with file attachment for permit document 3) Show expiry warning badge if permit expires within 90 days 4) Show expired badge if permit is expired 5) Add mock work permit data to mock-employee.js 6) Add i18n translations for work permit fields in en.json and th.json 7) Add workflow trigger for work permit changes requiring HR approval.",
+  "model": "sonnet",
+  "working_dir": "/Users/tachongrak/Projects/RIS HR System",
+  "plan_path": "specs/chore-f59bcebb-work-permit-information-section.md",
+  "phases": {
+    "planning": {
+      "success": true,
+      "session_id": "bea4be2d-6b30-4145-a0e1-3d32045febcf",
+      "agent": "planner",
+      "output_dir": "./agents/f59bcebb/planner/"
+    },
+    "implementation": {
+      "success": true,
+      "session_id": "48ea5b92-6902-4185-b802-9fabe185ebad",
+      "agent": "builder",
+      "output_dir": "./agents/f59bcebb/builder/"
+    }
+  },
+  "overall_success": true
+}

@@ -1,0 +1,23 @@
+{
+  "workflow": "chore_implement",
+  "adw_id": "82adc142",
+  "prompt": "Extend Profile Details page with additional PRD sections. Add to apps/js/pages/profile-details.js: 1) E-Letter section showing Annual Bonus and Merit Increment Letters with download capability 2) Learning History section showing training records with completion dates and certificates 3) OHS Certificate section for safety certifications 4) OHS Document section for safety documents 5) Individual Document section for personal documents with upload/download. Add corresponding mock data to mock-employee.js, add i18n translations for all new labels, and implement document download functionality similar to payslip download.",
+  "model": "sonnet",
+  "working_dir": "/Users/tachongrak/Projects/RIS HR System",
+  "plan_path": "specs/chore-82adc142-extend-profile-details-sections.md",
+  "phases": {
+    "planning": {
+      "success": true,
+      "session_id": "c5d6686b-f31c-4020-866c-da68b4839e0a",
+      "agent": "planner",
+      "output_dir": "./agents/82adc142/planner/"
+    },
+    "implementation": {
+      "success": true,
+      "session_id": "e308d010-b202-4703-b5db-74e5355936fa",
+      "agent": "builder",
+      "output_dir": "./agents/82adc142/builder/"
+    }
+  },
+  "overall_success": true
+}

@@ -1,0 +1,587 @@
+/* Custom Styles for Central Group HR System */
+
+/* Base Styles */
+:root {
+    --cg-red: #C8102E;
+    --cg-dark: #333333;
+    --cg-light: #F5F5F5;
+    --cg-success: #28A745;
+    --cg-warning: #FFC107;
+    --cg-error: #DC3545;
+    --cg-info: #17A2B8;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Screen Reader Only - hides content visually but keeps it accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--cg-info);
+    outline-offset: 2px;
+}
+
+/* Enhanced focus ring for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible {
+    outline: 2px solid var(--cg-info);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(23, 162, 184, 0.2);
+}
+
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--cg-red);
+    color: white;
+    padding: 8px 16px;
+    z-index: 100;
+    transition: top 0.3s;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading spinner */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Toast animations */
+.toast-enter {
+    animation: slideInRight 0.3s ease forwards;
+}
+
+.toast-exit {
+    animation: slideOutRight 0.3s ease forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Modal animations */
+.modal-backdrop {
+    animation: fadeIn 0.2s ease forwards;
+}
+
+.modal-content {
+    animation: scaleIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Tab indicator animation */
+.tab-indicator {
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+/* Profile header gradient */
+.profile-gradient {
+    background: linear-gradient(135deg, #4a5568 0%, #718096 100%);
+}
+
+/* Org chart node styles */
+.org-node {
+    transition: all 0.2s ease;
+}
+
+.org-node:hover {
+    transform: scale(1.02);
+}
+
+.org-connector {
+    stroke: #cbd5e0;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Form field styles */
+.form-input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: var(--cg-info);
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+}
+
+.form-input.error {
+    border-color: var(--cg-error);
+}
+
+.form-input.error:focus {
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+/* Badge pulse animation */
+.badge-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* History timeline styles */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 30px;
+    bottom: -10px;
+    width: 2px;
+    background: #e2e8f0;
+}
+
+.timeline-item:last-child::before {
+    display: none;
+}
+
+/* Responsive table scroll */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile menu transition */
+.mobile-menu {
+    transition: transform 0.3s ease;
+    touch-action: pan-y;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+.mobile-menu.closed {
+    transform: translateX(-100%);
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Mobile menu item touch styles */
+.mobile-menu-item {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.mobile-menu-item:active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Dropdown animation */
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Skeleton loading styles */
+.skeleton {
+    background-color: #e2e8f0;
+    border-radius: 4px;
+}
+
+.shimmer {
+    background: linear-gradient(
+        90deg,
+        #e2e8f0 0%,
+        #f7fafc 50%,
+        #e2e8f0 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Button spinner animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Disable shimmer animation for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .shimmer {
+        animation: none;
+        background: #e2e8f0;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #e2e8f0;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid #000;
+    }
+
+    button {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Touch-friendly styles for mobile */
+@media (max-width: 768px) {
+    button,
+    a,
+    input,
+    select {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .touch-action-manipulation {
+        touch-action: manipulation;
+    }
+}
+
+/* ============================================================
+   Error Pages and Components
+   ============================================================ */
+
+/* Error Page Container */
+.error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 2rem;
+}
+
+.error-content {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Error Icon */
+.error-icon {
+    font-size: 72px;
+    margin-bottom: 1.5rem;
+}
+
+.error-icon .material-icons {
+    font-size: 72px;
+}
+
+/* Error Title */
+.error-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.error-title:focus {
+    outline: 2px solid #C8102E;
+    outline-offset: 4px;
+}
+
+/* Error Description */
+.error-description {
+    font-size: 1rem;
+    color: #6B7280;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Error Details (for development) */
+.error-details {
+    font-size: 0.875rem;
+    color: #9CA3AF;
+    font-family: monospace;
+}
+
+.error-details-section {
+    margin-top: 1.5rem;
+    text-align: left;
+    background: #F3F4F6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.error-details-section summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.error-details-section pre {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #DC2626;
+    overflow-x: auto;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 0.25rem;
+}
+
+/* Error Actions */
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.error-actions .btn {
+    min-width: 150px;
+}
+
+/* Connection Status Banner */
+#connection-status-banner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.connection-banner {
+    background-color: #F59E0B;
+    color: white;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.connection-banner.show {
+    transform: translateY(0);
+}
+
+.connection-banner.hide {
+    transform: translateY(-100%);
+}
+
+.connection-banner.offline {
+    background-color: #F59E0B;
+}
+
+.connection-banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.connection-banner-icon {
+    font-size: 1.25rem;
+}
+
+.connection-banner-text {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* Offline Indicator (optional small badge) */
+.offline-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #FEF3C7;
+    color: #92400E;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.offline-indicator .material-icons {
+    font-size: 1rem;
+}
+
+/* Responsive Error Pages */
+@media (max-width: 640px) {
+    .error-page {
+        padding: 1rem;
+    }
+
+    .error-icon {
+        font-size: 56px;
+    }
+
+    .error-icon .material-icons {
+        font-size: 56px;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .error-description {
+        font-size: 0.875rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+    }
+}

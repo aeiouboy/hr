@@ -1,0 +1,23 @@
+{
+  "workflow": "chore_implement",
+  "adw_id": "1b8269b9",
+  "prompt": "Implement Advanced Personal Information section from PRD Section 3.1. Add to apps/js/pages/personal-info.js after Personal Information section: 1) Create renderAdvancedInfoSection() method with fields: religion, blood type, military status, visa information (for non-Thai employees) 2) Add edit modal with conditional fields based on nationality 3) Add mock advanced info data to mock-employee.js 4) Add i18n translations for all fields: 'Religion', 'Blood Type', 'Military Status', 'Visa Type', 'Visa Expiry Date' 5) Apply RBAC - only HR Admin/Manager can edit most fields.",
+  "model": "sonnet",
+  "working_dir": "/Users/tachongrak/Projects/RIS HR System",
+  "plan_path": "specs/chore-1b8269b9-advanced-personal-information.md",
+  "phases": {
+    "planning": {
+      "success": true,
+      "session_id": "c2a3df18-1683-4c42-b2f5-0b11a028274f",
+      "agent": "planner",
+      "output_dir": "./agents/1b8269b9/planner/"
+    },
+    "implementation": {
+      "success": true,
+      "session_id": "0034e8f1-b7e7-4d12-8990-4a7eb7f513ce",
+      "agent": "builder",
+      "output_dir": "./agents/1b8269b9/builder/"
+    }
+  },
+  "overall_success": true
+}

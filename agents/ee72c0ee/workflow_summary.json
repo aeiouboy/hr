@@ -1,0 +1,23 @@
+{
+  "workflow": "chore_implement",
+  "adw_id": "ee72c0ee",
+  "prompt": "Implement Job Relationships section from PRD Section 3.2. Add to apps/js/pages/employment.js: 1) Create renderJobRelationshipsSection() method showing: dotted-line manager, matrix manager, HR business partner, administrative assistant 2) Each relationship displays photo, name, title, and contact info 3) Make names clickable to navigate to their profiles 4) Add mock job relationships data to mock-employee.js 5) Add i18n translations: 'Job Relationships', 'Dotted-line Manager', 'Matrix Manager', 'HR Business Partner', 'Administrative Assistant' 6) Show empty state if no relationships configured.",
+  "model": "sonnet",
+  "working_dir": "/Users/tachongrak/Projects/RIS HR System",
+  "plan_path": "specs/chore-ee72c0ee-job-relationships-section.md",
+  "phases": {
+    "planning": {
+      "success": true,
+      "session_id": "10752465-6915-46a7-a53c-d9821859c44c",
+      "agent": "planner",
+      "output_dir": "./agents/ee72c0ee/planner/"
+    },
+    "implementation": {
+      "success": true,
+      "session_id": "3b85ac12-d542-4c9c-808e-69c1169a8c76",
+      "agent": "builder",
+      "output_dir": "./agents/ee72c0ee/builder/"
+    }
+  },
+  "overall_success": true
+}

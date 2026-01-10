@@ -1,0 +1,1 @@
+/implement specs/chore-82adc142-extend-profile-details-sections.md
