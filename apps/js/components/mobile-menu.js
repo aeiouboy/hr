@@ -111,6 +111,30 @@ const MobileMenuComponent = (function() {
                                 <span class="text-gray-700">${i18n.t('profile.benefits')}</span>
                             </a>
 
+                            <!-- Payslip & Tax Documents -->
+                            <a href="#/payslip"
+                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                               onclick="MobileMenuComponent.handleNavigation(event)">
+                                <span class="material-icons text-gray-600" aria-hidden="true">receipt_long</span>
+                                <span class="text-gray-800 font-medium">${i18n.t('payslip.title')}</span>
+                            </a>
+
+                            <!-- Leave Request -->
+                            <a href="#/leave"
+                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                               onclick="MobileMenuComponent.handleNavigation(event)">
+                                <span class="material-icons text-gray-600" aria-hidden="true">event_available</span>
+                                <span class="text-gray-800 font-medium">${i18n.t('leave.title')}</span>
+                            </a>
+
+                            <!-- Performance/Goals -->
+                            <a href="#/performance"
+                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                               onclick="MobileMenuComponent.handleNavigation(event)">
+                                <span class="material-icons text-gray-600" aria-hidden="true">flag</span>
+                                <span class="text-gray-800 font-medium">${i18n.t('performance.title')}</span>
+                            </a>
+
                             <!-- Workflows -->
                             <a href="#/workflows"
                                class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
@@ -118,6 +142,16 @@ const MobileMenuComponent = (function() {
                                 <span class="material-icons text-gray-600" aria-hidden="true">assignment</span>
                                 <span class="text-gray-800 font-medium">${i18n.t('nav.workflows')}</span>
                             </a>
+
+                            ${RBAC.isManager() ? `
+                            <!-- Manager Dashboard -->
+                            <a href="#/manager-dashboard"
+                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-red-50 rounded-lg transition min-h-[44px] bg-red-50/50 border border-red-100"
+                               onclick="MobileMenuComponent.handleNavigation(event)">
+                                <span class="material-icons text-cg-red" aria-hidden="true">dashboard</span>
+                                <span class="text-cg-red font-medium">${i18n.isThai() ? 'แดชบอร์ดผู้จัดการ' : 'Manager Dashboard'}</span>
+                            </a>
+                            ` : ''}
                         </div>
 
                         <hr class="my-4">

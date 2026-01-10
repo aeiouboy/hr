@@ -30,7 +30,14 @@ const WorkflowRules = (function() {
             'dependent_edit',
             'dependent_delete',
             // Advanced information changes require HR verification for sensitive personal data
-            'advanced_info_change'
+            'advanced_info_change',
+            // Extended leave requests (over 5 days) require HR approval
+            'leave_request_extended'
+        ],
+
+        // Single-level approval for leave (Manager only)
+        managerApprovalOnly: [
+            'leave_request'
         ],
 
         // Three-level approval (Manager + HR Admin + HR Manager)
@@ -41,6 +48,49 @@ const WorkflowRules = (function() {
             'compensation_change',
             // Work permit changes require full approval chain for legal compliance
             'work_permit_change'
+        ],
+
+        // HR Manager + Finance Director approval for payroll
+        payrollApproval: [
+            'payroll_run'
+        ],
+
+        // Transfer-specific approvals
+        internalTransfer: [
+            'transfer_internal'
+        ],
+        intercompanyTransfer: [
+            'transfer_intercompany',
+            'transfer_crossbg'
+        ],
+        secondmentTransfer: [
+            'transfer_secondment'
+        ]
+    };
+
+    // Transfer approver roles by type
+    const transferApproverRoles = {
+        internal: [
+            { step: 1, role: 'current_manager', name: 'Current Manager' },
+            { step: 2, role: 'target_manager', name: 'Target Manager' },
+            { step: 3, role: 'hr_admin', name: 'HR Admin' }
+        ],
+        intercompany: [
+            { step: 1, role: 'current_manager', name: 'Current Manager' },
+            { step: 2, role: 'target_manager', name: 'Target Manager' },
+            { step: 3, role: 'hr_source', name: 'HR (Source Company)' },
+            { step: 4, role: 'hr_target', name: 'HR (Target Company)' }
+        ],
+        crossbg: [
+            { step: 1, role: 'current_manager', name: 'Current Manager' },
+            { step: 2, role: 'target_manager', name: 'Target Manager' },
+            { step: 3, role: 'hr_source', name: 'HR (Source Company)' },
+            { step: 4, role: 'hr_target', name: 'HR (Target Company)' }
+        ],
+        secondment: [
+            { step: 1, role: 'current_manager', name: 'Current Manager' },
+            { step: 2, role: 'target_manager', name: 'Target Manager' },
+            { step: 3, role: 'hr_admin', name: 'HR Admin' }
         ]
     };
 
@@ -49,6 +99,12 @@ const WorkflowRules = (function() {
         1: { role: 'manager', name: 'Manager' },
         2: { role: 'hr_admin', name: 'HR Admin' },
         3: { role: 'hr_manager', name: 'HR Manager' }
+    };
+
+    // Special approver roles for payroll
+    const payrollApproverRoles = {
+        1: { role: 'hr_manager', name: 'HR Manager' },
+        2: { role: 'finance_director', name: 'Finance Director' }
     };
 
     return {
@@ -69,7 +125,9 @@ const WorkflowRules = (function() {
         getApprovalLevels(changeType) {
             if (rules.selfService.includes(changeType)) return 0;
             if (rules.managerApproval.includes(changeType)) return 1;
+            if (rules.managerApprovalOnly?.includes(changeType)) return 1;
             if (rules.managerAndHRApproval.includes(changeType)) return 2;
+            if (rules.payrollApproval?.includes(changeType)) return 2; // HR Manager + Finance Director
             if (rules.fullApproval.includes(changeType)) return 3;
             return 2; // Default to manager + HR approval
         },
@@ -84,8 +142,13 @@ const WorkflowRules = (function() {
             const levels = this.getApprovalLevels(changeType);
             const approvers = [];
 
+            // Use special payroll approvers for payroll runs
+            const roleConfigs = rules.payrollApproval?.includes(changeType)
+                ? payrollApproverRoles
+                : approverRoles;
+
             for (let i = 1; i <= levels; i++) {
-                const roleConfig = approverRoles[i];
+                const roleConfig = roleConfigs[i];
                 approvers.push({
                     step: i,
                     role: roleConfig.name,
@@ -121,6 +184,10 @@ const WorkflowRules = (function() {
                 case 'hr_manager':
                     // In real app, would lookup HR manager
                     return { id: 'HRM001', name: 'HR Manager' };
+
+                case 'finance_director':
+                    // In real app, would lookup Finance Director
+                    return { id: 'FIN001', name: 'Finance Director' };
 
                 default:
                     return null;
@@ -234,6 +301,203 @@ const WorkflowRules = (function() {
             }
 
             return { valid: true };
+        },
+
+        /**
+         * Get transfer approval levels based on transfer type
+         * @param {string} transferType - internal, intercompany, crossbg, secondment
+         * @returns {number}
+         */
+        getTransferApprovalLevels(transferType) {
+            const levels = {
+                internal: 3,
+                intercompany: 4,
+                crossbg: 4,
+                secondment: 3
+            };
+            return levels[transferType] || 3;
+        },
+
+        /**
+         * Get transfer approvers
+         * @param {string} transferType
+         * @param {object} transferData
+         * @returns {array}
+         */
+        getTransferApprovers(transferType, transferData) {
+            const approverConfig = transferApproverRoles[transferType] || transferApproverRoles.internal;
+            const approvers = [];
+
+            approverConfig.forEach(config => {
+                let approverUser = null;
+
+                switch (config.role) {
+                    case 'current_manager':
+                        approverUser = {
+                            id: transferData.currentSupervisorId || 'MGR001',
+                            name: transferData.currentSupervisorName || 'Current Manager'
+                        };
+                        break;
+                    case 'target_manager':
+                        approverUser = {
+                            id: transferData.targetSupervisorId || 'MGR002',
+                            name: transferData.targetSupervisor || 'Target Manager'
+                        };
+                        break;
+                    case 'hr_admin':
+                    case 'hr_source':
+                        approverUser = { id: 'HR001', name: 'HR Administrator (Source)' };
+                        break;
+                    case 'hr_target':
+                        approverUser = { id: 'HR002', name: 'HR Administrator (Target)' };
+                        break;
+                    default:
+                        approverUser = null;
+                }
+
+                approvers.push({
+                    step: config.step,
+                    role: config.name,
+                    roleId: config.role,
+                    user: approverUser,
+                    status: 'pending'
+                });
+            });
+
+            return approvers;
+        },
+
+        /**
+         * Check if user can approve transfer at specific step
+         * @param {object} user
+         * @param {object} transfer
+         * @param {number} step
+         * @returns {boolean}
+         */
+        canApproveTransfer(user, transfer, step) {
+            const approver = transfer.approvers?.[step - 1];
+            if (!approver) return false;
+
+            // Check if user is the designated approver
+            if (approver.user?.id === user.employeeId) return true;
+
+            // Check if user has the required role
+            return RBAC.hasRole(approver.roleId, user);
+        },
+
+        /**
+         * Apply transfer changes after full approval
+         * @param {object} transfer
+         * @param {object} employee
+         * @returns {object} Updated employee
+         */
+        applyTransferChanges(transfer, employee) {
+            // Store previous position in history
+            const previousPosition = {
+                company: employee.employmentInfo?.organization?.company,
+                businessUnit: employee.employmentInfo?.organization?.businessUnit,
+                department: employee.employmentInfo?.organization?.department,
+                position: employee.employmentInfo?.organization?.position,
+                supervisor: employee.employmentInfo?.job?.supervisorName,
+                workLocation: employee.employmentInfo?.organization?.workLocation,
+                endDate: transfer.effectiveDate,
+                movementType: transfer.type
+            };
+
+            // Initialize transfer history if not exists
+            if (!employee.transferHistory) {
+                employee.transferHistory = [];
+            }
+
+            // Add to history
+            employee.transferHistory.unshift({
+                id: `TH_${Date.now()}`,
+                ...previousPosition,
+                effectiveDate: employee.employmentInfo?.details?.currentJobEffectiveDate,
+                createdAt: new Date().toISOString()
+            });
+
+            // Update current position (only for permanent transfers, not secondments)
+            if (transfer.type !== 'secondment') {
+                employee.employmentInfo.organization = {
+                    ...employee.employmentInfo.organization,
+                    company: transfer.targetCompany || employee.employmentInfo.organization.company,
+                    businessUnit: transfer.targetBusinessUnit,
+                    department: transfer.targetDepartment,
+                    position: transfer.targetPosition,
+                    workLocation: transfer.targetWorkLocation
+                };
+
+                employee.employmentInfo.job = {
+                    ...employee.employmentInfo.job,
+                    supervisorName: transfer.targetSupervisor
+                };
+
+                employee.employmentInfo.details = {
+                    ...employee.employmentInfo.details,
+                    currentJobEffectiveDate: transfer.effectiveDate,
+                    currentYearsInJob: '0 years',
+                    currentPositionEffectiveDate: transfer.effectiveDate,
+                    currentYearsInPosition: '0 years'
+                };
+            } else {
+                // For secondment, track temporary assignment
+                employee.secondmentInfo = {
+                    isOnSecondment: true,
+                    originalPosition: previousPosition,
+                    temporaryPosition: {
+                        company: transfer.targetCompany,
+                        department: transfer.targetDepartment,
+                        position: transfer.targetPosition,
+                        supervisor: transfer.targetSupervisor
+                    },
+                    startDate: transfer.effectiveDate,
+                    endDate: transfer.endDate
+                };
+            }
+
+            return employee;
+        },
+
+        /**
+         * Get post-transfer notification recipients
+         * @param {object} transfer
+         * @returns {array}
+         */
+        getPostTransferNotificationRecipients(transfer) {
+            const recipients = [];
+
+            // IT Department for system access changes
+            recipients.push({
+                type: 'IT',
+                reason: 'System access and email updates',
+                reasonTh: 'อัปเดตการเข้าถึงระบบและอีเมล'
+            });
+
+            // Payroll for compensation changes
+            recipients.push({
+                type: 'Payroll',
+                reason: 'Salary and benefits updates',
+                reasonTh: 'อัปเดตเงินเดือนและสวัสดิการ'
+            });
+
+            // Admin for physical access and equipment
+            recipients.push({
+                type: 'Admin',
+                reason: 'Access card and equipment transfer',
+                reasonTh: 'โอนบัตรเข้าอาคารและอุปกรณ์'
+            });
+
+            // For cross-company transfers, add additional recipients
+            if (transfer.type === 'intercompany' || transfer.type === 'crossbg') {
+                recipients.push({
+                    type: 'Legal',
+                    reason: 'Contract updates',
+                    reasonTh: 'อัปเดตสัญญาจ้าง'
+                });
+            }
+
+            return recipients;
         }
     };
 })();

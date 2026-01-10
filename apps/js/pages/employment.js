@@ -11,14 +11,10 @@ const EmploymentPage = (function() {
          * @returns {string}
          */
         render(employee) {
-            const isLoading = AppState.get('isLoading');
-
-            // Show skeleton while loading
-            if (isLoading) {
+            // Show skeleton only if employee data is not available
+            if (!employee) {
                 return this.renderSkeleton();
             }
-
-            if (!employee) return CardComponent.emptyState(i18n.t('common.noData'));
 
             const employment = employee.employmentInfo || {};
             const orgChart = employee.orgChart;
@@ -177,7 +173,7 @@ const EmploymentPage = (function() {
 
             // Helper function to render a single relationship card
             const renderRelationshipCard = (person, relationshipType) => {
-                const currentLang = i18n.getCurrentLanguage();
+                const currentLang = i18n.getLanguage();
                 const displayName = currentLang === 'th' && person.nameTh ? person.nameTh : person.name;
 
                 return `

@@ -208,7 +208,9 @@ const MockLookupData = {
         { value: 'bank_change', labelEn: 'Bank Account Change', labelTh: 'เปลี่ยนแปลงบัญชีธนาคาร' },
         { value: 'dependent_add', labelEn: 'Add Dependent', labelTh: 'เพิ่มผู้พึ่งพิง' },
         { value: 'dependent_remove', labelEn: 'Remove Dependent', labelTh: 'ลบผู้พึ่งพิง' },
-        { value: 'benefit_enrollment', labelEn: 'Benefit Enrollment', labelTh: 'ลงทะเบียนสวัสดิการ' }
+        { value: 'benefit_enrollment', labelEn: 'Benefit Enrollment', labelTh: 'ลงทะเบียนสวัสดิการ' },
+        { value: 'leave_request', labelEn: 'Leave Request', labelTh: 'ขอลางาน' },
+        { value: 'leave_request_extended', labelEn: 'Extended Leave Request', labelTh: 'ขอลางานระยะยาว' }
     ],
 
     // Work Permit Types
@@ -250,6 +252,32 @@ const MockLookupData = {
         { value: 'not_applicable', labelEn: 'Not Applicable', labelTh: 'ไม่ใช้บังคับ' }
     ],
 
+    // Leave Types
+    leaveTypes: [
+        { value: 'annual', labelEn: 'Annual Leave', labelTh: 'วันลาพักร้อน', color: 'blue' },
+        { value: 'sick', labelEn: 'Sick Leave', labelTh: 'วันลาป่วย', color: 'orange' },
+        { value: 'personal', labelEn: 'Personal Leave', labelTh: 'วันลากิจ', color: 'purple' },
+        { value: 'maternity', labelEn: 'Maternity Leave', labelTh: 'วันลาคลอดบุตร', color: 'pink' },
+        { value: 'paternity', labelEn: 'Paternity Leave', labelTh: 'วันลาดูแลบุตร', color: 'teal' },
+        { value: 'ordination', labelEn: 'Ordination Leave', labelTh: 'วันลาบวช', color: 'amber' },
+        { value: 'military', labelEn: 'Military Leave', labelTh: 'วันลาทหาร', color: 'gray' },
+        { value: 'compensatory', labelEn: 'Compensatory Leave', labelTh: 'วันหยุดชดเชย', color: 'green' }
+    ],
+
+    // Leave Status
+    leaveStatuses: [
+        { value: 'pending', labelEn: 'Pending', labelTh: 'รอดำเนินการ' },
+        { value: 'approved', labelEn: 'Approved', labelTh: 'อนุมัติแล้ว' },
+        { value: 'rejected', labelEn: 'Rejected', labelTh: 'ปฏิเสธ' },
+        { value: 'cancelled', labelEn: 'Cancelled', labelTh: 'ยกเลิก' }
+    ],
+
+    // Half Day Options
+    halfDayOptions: [
+        { value: 'morning', labelEn: 'Morning (AM)', labelTh: 'ครึ่งเช้า' },
+        { value: 'afternoon', labelEn: 'Afternoon (PM)', labelTh: 'ครึ่งบ่าย' }
+    ],
+
     // Visa Types
     visaTypes: [
         { value: 'non_immigrant_b', labelEn: 'Non-Immigrant B (Work)', labelTh: 'วีซ่าทำงาน (Non-Immigrant B)' },
@@ -258,6 +286,118 @@ const MockLookupData = {
         { value: 'business', labelEn: 'Business Visa', labelTh: 'วีซ่าธุรกิจ' },
         { value: 'digital_nomad', labelEn: 'Digital Nomad Visa', labelTh: 'วีซ่าดิจิทัลโนแมด' },
         { value: 'other', labelEn: 'Other', labelTh: 'อื่นๆ' }
+    ],
+
+    // Tax Document Types
+    taxDocumentTypes: [
+        { value: 'withholding_cert', labelEn: 'Withholding Tax Certificate (50 ทวิ)', labelTh: 'หนังสือรับรองหัก ณ ที่จ่าย (50 ทวิ)' },
+        { value: 'social_security', labelEn: 'Social Security Statement', labelTh: 'ใบแจ้งยอดประกันสังคม' },
+        { value: 'provident_fund', labelEn: 'Provident Fund Statement', labelTh: 'ใบแจ้งยอดกองทุนสำรองเลี้ยงชีพ' }
+    ],
+
+    // Earnings Types (for payslip line items)
+    earningsTypes: [
+        { value: 'baseSalary', labelEn: 'Base Salary', labelTh: 'เงินเดือน' },
+        { value: 'positionAllowance', labelEn: 'Position Allowance', labelTh: 'ค่าตำแหน่ง' },
+        { value: 'colAllowance', labelEn: 'Cost of Living Allowance', labelTh: 'ค่าครองชีพ' },
+        { value: 'overtime', labelEn: 'Overtime', labelTh: 'ค่าล่วงเวลา' },
+        { value: 'otherEarnings', labelEn: 'Other Earnings', labelTh: 'รายได้อื่นๆ' }
+    ],
+
+    // Deduction Types (for payslip line items)
+    deductionTypes: [
+        { value: 'tax', labelEn: 'Personal Income Tax', labelTh: 'ภาษีเงินได้บุคคลธรรมดา' },
+        { value: 'socialSecurity', labelEn: 'Social Security', labelTh: 'ประกันสังคม' },
+        { value: 'providentFund', labelEn: 'Provident Fund', labelTh: 'กองทุนสำรองเลี้ยงชีพ' },
+        { value: 'loans', labelEn: 'Loans', labelTh: 'สินเชื่อ/เงินกู้' },
+        { value: 'otherDeductions', labelEn: 'Other Deductions', labelTh: 'รายการหักอื่นๆ' }
+    ],
+
+    // Goal Categories
+    goalCategories: [
+        { value: 'kpi', labelEn: 'KPI', labelTh: 'KPI', descriptionEn: 'Key Performance Indicators', descriptionTh: 'ตัวชี้วัดผลการดำเนินงานหลัก' },
+        { value: 'gbest', labelEn: 'G-BEST', labelTh: 'G-BEST', descriptionEn: 'Central Group Behavioral Competencies', descriptionTh: 'สมรรถนะพฤติกรรมกลุ่มเซ็นทรัล' },
+        { value: 'development', labelEn: 'Development', labelTh: 'การพัฒนา', descriptionEn: 'Personal and Professional Development Goals', descriptionTh: 'เป้าหมายการพัฒนาส่วนบุคคลและวิชาชีพ' }
+    ],
+
+    // Goal Metric Types
+    metricTypes: [
+        { value: 'number', labelEn: 'Number', labelTh: 'ตัวเลข', descriptionEn: 'Numeric value (e.g., 5, 100)', descriptionTh: 'ค่าตัวเลข (เช่น 5, 100)' },
+        { value: 'percentage', labelEn: 'Percentage', labelTh: 'เปอร์เซ็นต์', descriptionEn: 'Percentage value (0-100%)', descriptionTh: 'ค่าเปอร์เซ็นต์ (0-100%)' },
+        { value: 'yesno', labelEn: 'Yes/No', labelTh: 'ใช่/ไม่ใช่', descriptionEn: 'Binary completion (Yes or No)', descriptionTh: 'ผลสำเร็จแบบใช่หรือไม่' },
+        { value: 'rating', labelEn: 'Rating (1-5)', labelTh: 'คะแนน (1-5)', descriptionEn: 'Rating scale from 1 to 5', descriptionTh: 'มาตรวัดคะแนน 1 ถึง 5' }
+    ],
+
+    // Goal Review Periods
+    reviewPeriods: [
+        { value: 'Q1', labelEn: 'Q1', labelTh: 'ไตรมาส 1', fullLabelEn: 'Quarter 1', fullLabelTh: 'ไตรมาสที่ 1' },
+        { value: 'Q2', labelEn: 'Q2', labelTh: 'ไตรมาส 2', fullLabelEn: 'Quarter 2', fullLabelTh: 'ไตรมาสที่ 2' },
+        { value: 'Q3', labelEn: 'Q3', labelTh: 'ไตรมาส 3', fullLabelEn: 'Quarter 3', fullLabelTh: 'ไตรมาสที่ 3' },
+        { value: 'Q4', labelEn: 'Q4', labelTh: 'ไตรมาส 4', fullLabelEn: 'Quarter 4', fullLabelTh: 'ไตรมาสที่ 4' },
+        { value: 'H1', labelEn: 'H1', labelTh: 'ครึ่งปีแรก', fullLabelEn: 'First Half', fullLabelTh: 'ครึ่งปีแรก' },
+        { value: 'H2', labelEn: 'H2', labelTh: 'ครึ่งปีหลัง', fullLabelEn: 'Second Half', fullLabelTh: 'ครึ่งปีหลัง' },
+        { value: 'Annual', labelEn: 'Annual', labelTh: 'ประจำปี', fullLabelEn: 'Annual', fullLabelTh: 'ประจำปี' }
+    ],
+
+    // Goal Statuses
+    goalStatuses: [
+        { value: 'draft', labelEn: 'Draft', labelTh: 'ร่าง', color: 'gray', icon: 'edit_note' },
+        { value: 'submitted', labelEn: 'Submitted', labelTh: 'ส่งแล้ว', color: 'blue', icon: 'send' },
+        { value: 'approved', labelEn: 'Approved', labelTh: 'อนุมัติแล้ว', color: 'green', icon: 'check_circle' },
+        { value: 'in_progress', labelEn: 'In Progress', labelTh: 'กำลังดำเนินการ', color: 'orange', icon: 'pending' },
+        { value: 'completed', labelEn: 'Completed', labelTh: 'เสร็จสิ้น', color: 'teal', icon: 'task_alt' },
+        { value: 'sent_back', labelEn: 'Sent Back', labelTh: 'ส่งกลับ', color: 'red', icon: 'reply' }
+    ],
+
+    // G-BEST Competency Codes
+    gbestCodes: [
+        { value: 'G', labelEn: 'Guest Focus', labelTh: 'มุ่งเน้นลูกค้า' },
+        { value: 'B', labelEn: 'Business Acumen', labelTh: 'ความเฉียบแหลมทางธุรกิจ' },
+        { value: 'E', labelEn: 'Execution Excellence', labelTh: 'ความเป็นเลิศในการดำเนินงาน' },
+        { value: 'S', labelEn: 'Self Development', labelTh: 'การพัฒนาตนเอง' },
+        { value: 'T', labelEn: 'Teamwork', labelTh: 'การทำงานเป็นทีม' }
+    ],
+
+    // Goal Years
+    goalYears: [
+        { value: '2024', labelEn: '2024', labelTh: '2567' },
+        { value: '2025', labelEn: '2025', labelTh: '2568' },
+        { value: '2026', labelEn: '2026', labelTh: '2569' },
+        { value: '2027', labelEn: '2027', labelTh: '2570' }
+    ],
+
+    // Evaluation Statuses (workflow states)
+    evaluationStatuses: [
+        { value: 'self_assessment', labelEn: 'Self Assessment', labelTh: 'ประเมินตนเอง', color: 'blue', icon: 'person' },
+        { value: 'manager_review', labelEn: 'Manager Review', labelTh: 'หัวหน้าประเมิน', color: 'orange', icon: 'supervisor_account' },
+        { value: 'calibration', labelEn: 'HR Calibration', labelTh: 'ปรับเทียบโดย HR', color: 'purple', icon: 'tune' },
+        { value: 'confirmed', labelEn: 'Confirmed', labelTh: 'ยืนยันแล้ว', color: 'teal', icon: 'verified' },
+        { value: 'acknowledged', labelEn: 'Acknowledged', labelTh: 'รับทราบแล้ว', color: 'green', icon: 'check_circle' }
+    ],
+
+    // Rating Scale (5-point with Thai descriptors)
+    ratingScale: [
+        { value: 5, labelEn: 'Outstanding', labelTh: 'ดีเด่น', descriptionEn: 'Consistently exceeds all expectations with exceptional results', descriptionTh: 'ทำได้เกินความคาดหวังทุกด้านอย่างโดดเด่น', color: 'emerald' },
+        { value: 4, labelEn: 'Exceeds Expectations', labelTh: 'ดีมาก', descriptionEn: 'Frequently exceeds expectations in most areas', descriptionTh: 'ทำได้เกินความคาดหวังในหลายด้าน', color: 'green' },
+        { value: 3, labelEn: 'Meets Expectations', labelTh: 'ดี', descriptionEn: 'Consistently meets expectations and requirements', descriptionTh: 'ทำได้ตามความคาดหวังและข้อกำหนด', color: 'blue' },
+        { value: 2, labelEn: 'Below Expectations', labelTh: 'ต้องปรับปรุง', descriptionEn: 'Occasionally meets expectations but needs improvement', descriptionTh: 'บางครั้งทำได้ตามความคาดหวังแต่ต้องปรับปรุง', color: 'amber' },
+        { value: 1, labelEn: 'Unsatisfactory', labelTh: 'ไม่เป็นที่พอใจ', descriptionEn: 'Does not meet minimum expectations', descriptionTh: 'ไม่ถึงความคาดหวังขั้นต่ำ', color: 'red' }
+    ],
+
+    // Evaluation Component Weights (default configuration)
+    evaluationWeightDefaults: {
+        kpi: { value: 50, labelEn: 'KPI Results', labelTh: 'ผลลัพธ์ KPI' },
+        gbest: { value: 30, labelEn: 'G-BEST Competencies', labelTh: 'สมรรถนะ G-BEST' },
+        attendance: { value: 10, labelEn: 'Attendance', labelTh: 'การเข้างาน' },
+        manager: { value: 10, labelEn: 'Manager Assessment', labelTh: 'การประเมินจากหัวหน้า' }
+    },
+
+    // Evaluation Periods
+    evaluationPeriods: [
+        { value: 'annual', labelEn: 'Annual Review', labelTh: 'ประเมินประจำปี' },
+        { value: 'mid_year', labelEn: 'Mid-Year Review', labelTh: 'ประเมินกลางปี' },
+        { value: 'probation', labelEn: 'Probation Review', labelTh: 'ประเมินทดลองงาน' },
+        { value: 'quarterly', labelEn: 'Quarterly Review', labelTh: 'ประเมินรายไตรมาส' }
     ]
 };
 

@@ -11,14 +11,11 @@ const PersonalInfoPage = (function() {
          * @returns {string}
          */
         render(employee) {
-            const isLoading = AppState.get('isLoading');
-
-            // Show skeleton while loading
-            if (isLoading) {
+            // Show skeleton only if employee data is not available
+            // Note: isLoading state is used by router for route transitions, not for data loading
+            if (!employee) {
                 return this.renderSkeleton();
             }
-
-            if (!employee) return CardComponent.emptyState(i18n.t('common.noData'));
 
             const personal = employee.personalInfo || {};
             const contact = employee.contactInfo || {};

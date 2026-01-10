@@ -1,0 +1,476 @@
+/**
+ * Team Calendar Component
+ * Monthly calendar visualization for team absence/leave with overlap detection
+ */
+
+const TeamCalendarComponent = (function() {
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let viewMode = 'calendar'; // 'calendar' or 'workload'
+
+    /**
+     * Get Thai public holidays
+     * @param {number} year
+     * @returns {array}
+     */
+    function getPublicHolidays(year) {
+        return [
+            { date: `${year}-01-01`, name: "New Year's Day", nameTh: 'วันขึ้นปีใหม่' },
+            { date: `${year}-02-10`, name: 'Makha Bucha Day', nameTh: 'วันมาฆบูชา' },
+            { date: `${year}-04-06`, name: 'Chakri Memorial Day', nameTh: 'วันจักรี' },
+            { date: `${year}-04-13`, name: 'Songkran Festival', nameTh: 'วันสงกรานต์' },
+            { date: `${year}-04-14`, name: 'Songkran Festival', nameTh: 'วันสงกรานต์' },
+            { date: `${year}-04-15`, name: 'Songkran Festival', nameTh: 'วันสงกรานต์' },
+            { date: `${year}-05-01`, name: 'National Labor Day', nameTh: 'วันแรงงานแห่งชาติ' },
+            { date: `${year}-05-04`, name: 'Coronation Day', nameTh: 'วันฉัตรมงคล' },
+            { date: `${year}-06-03`, name: "Queen's Birthday", nameTh: 'วันเฉลิมพระชนมพรรษาสมเด็จพระนางเจ้าฯ' },
+            { date: `${year}-07-28`, name: "King's Birthday", nameTh: 'วันเฉลิมพระชนมพรรษา ร.10' },
+            { date: `${year}-08-12`, name: "Mother's Day", nameTh: 'วันแม่แห่งชาติ' },
+            { date: `${year}-10-13`, name: 'King Rama IX Memorial Day', nameTh: 'วันคล้ายวันสวรรคต ร.9' },
+            { date: `${year}-10-23`, name: 'Chulalongkorn Day', nameTh: 'วันปิยมหาราช' },
+            { date: `${year}-12-05`, name: "Father's Day", nameTh: 'วันพ่อแห่งชาติ' },
+            { date: `${year}-12-10`, name: 'Constitution Day', nameTh: 'วันรัฐธรรมนูญ' },
+            { date: `${year}-12-31`, name: "New Year's Eve", nameTh: 'วันสิ้นปี' }
+        ];
+    }
+
+    /**
+     * Check if date is weekend
+     * @param {Date} date
+     * @returns {boolean}
+     */
+    function isWeekend(date) {
+        return date.getDay() === 0 || date.getDay() === 6;
+    }
+
+    /**
+     * Check if date is public holiday
+     * @param {Date} date
+     * @returns {object|null}
+     */
+    function isHoliday(date) {
+        const dateStr = DateUtils.format(date, 'iso');
+        const holidays = getPublicHolidays(date.getFullYear());
+        return holidays.find(h => h.date === dateStr);
+    }
+
+    /**
+     * Get leaves for a specific date
+     * @param {Date} date
+     * @param {array} leaves
+     * @returns {array}
+     */
+    function getLeavesForDate(date, leaves) {
+        const dateStr = DateUtils.format(date, 'iso');
+        return leaves.filter(leave => {
+            const start = new Date(leave.startDate);
+            const end = new Date(leave.endDate);
+            const checkDate = new Date(dateStr);
+            return checkDate >= start && checkDate <= end;
+        });
+    }
+
+    /**
+     * Check for overlapping leaves
+     * @param {array} leaves
+     * @returns {boolean}
+     */
+    function hasOverlap(leaves) {
+        return leaves.length > 1;
+    }
+
+    /**
+     * Get leave type color
+     * @param {string} type
+     * @returns {object}
+     */
+    function getLeaveTypeColor(type) {
+        const colors = {
+            annual: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-500', dot: 'bg-blue-500' },
+            sick: { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-500', dot: 'bg-orange-500' },
+            personal: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-500', dot: 'bg-purple-500' },
+            maternity: { bg: 'bg-pink-100', text: 'text-pink-800', border: 'border-pink-500', dot: 'bg-pink-500' },
+            paternity: { bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-500', dot: 'bg-teal-500' },
+            ordination: { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-500', dot: 'bg-amber-500' },
+            military: { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-500', dot: 'bg-gray-500' },
+            compensatory: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-500', dot: 'bg-green-500' }
+        };
+        return colors[type] || colors.annual;
+    }
+
+    /**
+     * Calculate workload for a day
+     * @param {number} totalMembers
+     * @param {number} onLeave
+     * @returns {object}
+     */
+    function getWorkloadLevel(totalMembers, onLeave) {
+        const percentage = (onLeave / totalMembers) * 100;
+        if (percentage >= 40) {
+            return { level: 'critical', bg: 'bg-red-200', text: 'text-red-800', label: 'Critical' };
+        } else if (percentage >= 25) {
+            return { level: 'high', bg: 'bg-orange-200', text: 'text-orange-800', label: 'High' };
+        } else if (percentage > 0) {
+            return { level: 'normal', bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Normal' };
+        }
+        return { level: 'full', bg: 'bg-green-100', text: 'text-green-800', label: 'Full' };
+    }
+
+    return {
+        /**
+         * Render the team calendar
+         * @param {object} options
+         * @returns {string}
+         */
+        render(options = {}) {
+            const {
+                teamLeaves = [],
+                teamMembers = [],
+                containerId = 'team-calendar'
+            } = options;
+
+            const isThai = i18n.isThai();
+            const totalMembers = teamMembers.length || 5;
+
+            const daysOfWeek = isThai
+                ? ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส']
+                : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            const monthNames = isThai
+                ? ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                   'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม']
+                : ['January', 'February', 'March', 'April', 'May', 'June',
+                   'July', 'August', 'September', 'October', 'November', 'December'];
+
+            // Get first day and number of days in month
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startDayOfWeek = firstDay.getDay();
+
+            // Get days from previous month
+            const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+
+            // Build calendar grid
+            let calendarDays = [];
+            let dayCounter = 1;
+            let nextMonthDay = 1;
+
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 7; col++) {
+                    const cellIndex = row * 7 + col;
+
+                    if (cellIndex < startDayOfWeek) {
+                        const day = prevMonthLastDay - (startDayOfWeek - cellIndex - 1);
+                        calendarDays.push({
+                            day,
+                            date: new Date(currentYear, currentMonth - 1, day),
+                            isOtherMonth: true,
+                            isCurrentMonth: false
+                        });
+                    } else if (dayCounter <= daysInMonth) {
+                        const date = new Date(currentYear, currentMonth, dayCounter);
+                        const leaves = getLeavesForDate(date, teamLeaves);
+                        calendarDays.push({
+                            day: dayCounter,
+                            date,
+                            isOtherMonth: false,
+                            isCurrentMonth: true,
+                            isToday: DateUtils.isToday(date),
+                            isWeekend: isWeekend(date),
+                            holiday: isHoliday(date),
+                            leaves,
+                            hasOverlap: hasOverlap(leaves),
+                            workload: getWorkloadLevel(totalMembers, leaves.length)
+                        });
+                        dayCounter++;
+                    } else {
+                        calendarDays.push({
+                            day: nextMonthDay,
+                            date: new Date(currentYear, currentMonth + 1, nextMonthDay),
+                            isOtherMonth: true,
+                            isCurrentMonth: false
+                        });
+                        nextMonthDay++;
+                    }
+                }
+            }
+
+            return `
+                <div id="${containerId}" class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <!-- Calendar Header -->
+                    <div class="flex items-center justify-between px-4 py-3 border-b">
+                        <div class="flex items-center gap-2">
+                            <button onclick="TeamCalendarComponent.prevMonth('${containerId}')"
+                                    class="p-2 hover:bg-gray-100 rounded-lg transition min-h-[44px] min-w-[44px]"
+                                    aria-label="${isThai ? 'เดือนก่อนหน้า' : 'Previous month'}">
+                                <span class="material-icons">chevron_left</span>
+                            </button>
+                            <h3 class="text-lg font-semibold text-gray-900 min-w-[160px] text-center">
+                                ${monthNames[currentMonth]} ${isThai ? (currentYear + 543) : currentYear}
+                            </h3>
+                            <button onclick="TeamCalendarComponent.nextMonth('${containerId}')"
+                                    class="p-2 hover:bg-gray-100 rounded-lg transition min-h-[44px] min-w-[44px]"
+                                    aria-label="${isThai ? 'เดือนถัดไป' : 'Next month'}">
+                                <span class="material-icons">chevron_right</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="TeamCalendarComponent.goToToday('${containerId}')"
+                                    class="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition">
+                                ${isThai ? 'วันนี้' : 'Today'}
+                            </button>
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <button onclick="TeamCalendarComponent.setViewMode('calendar', '${containerId}')"
+                                        class="px-3 py-1.5 text-sm ${viewMode === 'calendar' ? 'bg-cg-red text-white' : 'bg-gray-100 hover:bg-gray-200'}">
+                                    <span class="material-icons text-sm">calendar_month</span>
+                                </button>
+                                <button onclick="TeamCalendarComponent.setViewMode('workload', '${containerId}')"
+                                        class="px-3 py-1.5 text-sm ${viewMode === 'workload' ? 'bg-cg-red text-white' : 'bg-gray-100 hover:bg-gray-200'}">
+                                    <span class="material-icons text-sm">bar_chart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Days of Week Header -->
+                    <div class="grid grid-cols-7 border-b bg-gray-50">
+                        ${daysOfWeek.map((day, index) => `
+                            <div class="py-2 text-center text-sm font-medium ${index === 0 || index === 6 ? 'text-red-500' : 'text-gray-600'}">
+                                ${day}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Calendar Grid -->
+                    <div class="grid grid-cols-7">
+                        ${calendarDays.map(cell => this.renderCalendarCell(cell, totalMembers)).join('')}
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="px-4 py-3 border-t bg-gray-50">
+                        ${viewMode === 'calendar' ? `
+                            <div class="flex flex-wrap gap-4 text-xs">
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                                    <span>${isThai ? 'ลาพักร้อน' : 'Annual'}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+                                    <span>${isThai ? 'ลาป่วย' : 'Sick'}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+                                    <span>${isThai ? 'ลากิจ' : 'Personal'}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded bg-yellow-400 ring-2 ring-yellow-500"></span>
+                                    <span>${isThai ? 'ลาซ้อนทับ' : 'Overlap'}</span>
+                                </div>
+                            </div>
+                        ` : `
+                            <div class="flex flex-wrap gap-4 text-xs">
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded bg-green-100 border border-green-300"></span>
+                                    <span>${isThai ? 'ทีมครบ' : 'Full Team'}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded bg-yellow-100 border border-yellow-300"></span>
+                                    <span>${isThai ? 'ปกติ' : 'Normal'}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded bg-orange-200 border border-orange-300"></span>
+                                    <span>${isThai ? 'สูง' : 'High'}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-3 h-3 rounded bg-red-200 border border-red-300"></span>
+                                    <span>${isThai ? 'วิกฤต' : 'Critical'}</span>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render a single calendar cell
+         * @param {object} cell
+         * @param {number} totalMembers
+         * @returns {string}
+         */
+        renderCalendarCell(cell, totalMembers) {
+            const isThai = i18n.isThai();
+            let cellClasses = 'min-h-[80px] p-1 border-b border-r relative';
+
+            if (cell.isOtherMonth) {
+                cellClasses += ' bg-gray-50 text-gray-400';
+            } else if (cell.isWeekend) {
+                cellClasses += ' bg-red-50';
+            } else if (cell.holiday) {
+                cellClasses += ' bg-red-50';
+            } else if (viewMode === 'workload' && cell.workload) {
+                cellClasses += ` ${cell.workload.bg}`;
+            }
+
+            if (cell.isToday) {
+                cellClasses += ' ring-2 ring-inset ring-cg-red';
+            }
+
+            if (cell.hasOverlap) {
+                cellClasses += ' ring-2 ring-inset ring-yellow-400';
+            }
+
+            const dayClasses = cell.isWeekend || cell.holiday
+                ? 'text-red-500 font-medium'
+                : (cell.isOtherMonth ? 'text-gray-400' : 'text-gray-900');
+
+            if (viewMode === 'workload') {
+                return `
+                    <div class="${cellClasses}">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm ${dayClasses}">${cell.day}</span>
+                            ${cell.holiday ? `
+                                <span class="material-icons text-xs text-red-500" title="${isThai ? cell.holiday.nameTh : cell.holiday.name}">
+                                    celebration
+                                </span>
+                            ` : ''}
+                        </div>
+                        ${cell.isCurrentMonth && !cell.isWeekend && !cell.holiday ? `
+                            <div class="mt-2 text-center">
+                                <span class="text-2xl font-bold ${cell.workload?.text || 'text-gray-600'}">
+                                    ${totalMembers - (cell.leaves?.length || 0)}
+                                </span>
+                                <p class="text-xs text-gray-500">/${totalMembers}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="${cellClasses}">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm ${dayClasses}">${cell.day}</span>
+                        ${cell.holiday ? `
+                            <span class="material-icons text-xs text-red-500" title="${isThai ? cell.holiday.nameTh : cell.holiday.name}">
+                                celebration
+                            </span>
+                        ` : ''}
+                    </div>
+
+                    ${cell.leaves?.length > 0 ? `
+                        <div class="mt-1 space-y-0.5">
+                            ${cell.leaves.slice(0, 3).map(leave => {
+                                const colors = getLeaveTypeColor(leave.type);
+                                const name = isThai ? leave.employeeNameTh || leave.employeeName : leave.employeeName;
+                                const shortName = name.split(' ')[0];
+                                return `
+                                    <div class="flex items-center gap-1 text-xs truncate px-1 py-0.5 rounded ${colors.bg} ${colors.text}"
+                                         title="${name}">
+                                        <span class="w-1.5 h-1.5 rounded-full ${colors.dot} flex-shrink-0"></span>
+                                        <span class="truncate">${shortName}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                            ${cell.leaves.length > 3 ? `
+                                <div class="text-xs text-gray-500 px-1">+${cell.leaves.length - 3} ${isThai ? 'คน' : 'more'}</div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        },
+
+        /**
+         * Navigate to previous month
+         * @param {string} containerId
+         */
+        prevMonth(containerId) {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            this.refresh(containerId);
+        },
+
+        /**
+         * Navigate to next month
+         * @param {string} containerId
+         */
+        nextMonth(containerId) {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            this.refresh(containerId);
+        },
+
+        /**
+         * Go to today
+         * @param {string} containerId
+         */
+        goToToday(containerId) {
+            const today = new Date();
+            currentMonth = today.getMonth();
+            currentYear = today.getFullYear();
+            this.refresh(containerId);
+        },
+
+        /**
+         * Set view mode
+         * @param {string} mode
+         * @param {string} containerId
+         */
+        setViewMode(mode, containerId) {
+            viewMode = mode;
+            this.refresh(containerId);
+        },
+
+        /**
+         * Refresh the calendar
+         * @param {string} containerId
+         */
+        refresh(containerId) {
+            const container = document.getElementById(containerId);
+            if (container && window.ManagerDashboardPage) {
+                const options = ManagerDashboardPage.getCalendarOptions?.() || {};
+                options.containerId = containerId;
+                container.outerHTML = this.render(options);
+            }
+        },
+
+        /**
+         * Set month/year
+         * @param {number} month
+         * @param {number} year
+         */
+        setDate(month, year) {
+            currentMonth = month;
+            currentYear = year;
+        },
+
+        /**
+         * Get current month/year
+         * @returns {object}
+         */
+        getCurrentDate() {
+            return { month: currentMonth, year: currentYear };
+        },
+
+        /**
+         * Get current view mode
+         * @returns {string}
+         */
+        getViewMode() {
+            return viewMode;
+        }
+    };
+})();
+
+// Export for module usage
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = TeamCalendarComponent;
+}

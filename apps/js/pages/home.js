@@ -10,14 +10,13 @@ const HomePage = (function() {
          * @returns {string}
          */
         render() {
-            const isLoading = AppState.get('isLoading');
             const user = AppState.get('currentUser');
             const employee = AppState.get('currentEmployee');
             const pendingWorkflows = AppState.get('pendingWorkflows') || [];
             const isManager = RBAC.isManager();
 
-            // Show skeleton while loading
-            if (isLoading) {
+            // Show skeleton while data is not yet loaded
+            if (!user || !employee) {
                 return this.renderSkeleton(isManager);
             }
 

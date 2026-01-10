@@ -11,14 +11,10 @@ const ProfileDetailsPage = (function() {
          * @returns {string}
          */
         render(employee) {
-            const isLoading = AppState.get('isLoading');
-
-            // Show skeleton while loading
-            if (isLoading) {
+            // Show skeleton only if employee data is not available
+            if (!employee) {
                 return this.renderSkeleton();
             }
-
-            if (!employee) return CardComponent.emptyState(i18n.t('common.noData'));
 
             const details = employee.profileDetails || {};
 

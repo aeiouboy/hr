@@ -34,6 +34,90 @@ const App = (function() {
             onEnter: () => WorkflowsPage.init()
         });
 
+        // Leave Request page
+        Router.register('leave', {
+            render: () => LeaveRequestPage.render(),
+            onEnter: () => LeaveRequestPage.init()
+        });
+
+        // Payslip page
+        Router.register('payslip', {
+            render: () => PayslipPage.render(),
+            onEnter: () => PayslipPage.init()
+        });
+
+        // Payslip with specific month
+        Router.register('payslip/:month', {
+            render: (params) => PayslipPage.render(params),
+            onEnter: (params) => PayslipPage.init(params)
+        });
+
+        // Performance/Goals page
+        Router.register('performance', {
+            render: () => PerformancePage.render(),
+            onEnter: () => PerformancePage.init()
+        });
+
+        // Government Reports page
+        Router.register('government-reports', {
+            render: () => GovernmentReportsPage.render(),
+            onEnter: () => GovernmentReportsPage.init()
+        });
+
+        // Payroll Processing page
+        Router.register('payroll-processing', {
+            render: () => PayrollProcessingPage.render(),
+            onEnter: () => PayrollProcessingPage.init()
+        });
+
+        // Time Management page
+        Router.register('time-management', {
+            render: () => TimeManagementPage.render(),
+            onEnter: () => TimeManagementPage.init()
+        });
+
+        // Payroll Setup page
+        Router.register('payroll-setup', {
+            render: () => PayrollSetupPage.render(),
+            onEnter: () => PayrollSetupPage.init()
+        });
+
+        // Position Management page (Epic 1.2)
+        Router.register('positions', {
+            render: (params) => PositionManagementPage.render(params),
+            onEnter: (params) => PositionManagementPage.init(params)
+        });
+
+        // Position Details page
+        Router.register('positions/:id', {
+            render: (params) => PositionManagementPage.render(params),
+            onEnter: (params) => PositionManagementPage.init(params)
+        });
+
+        // Manager Dashboard page (Epic 3.3)
+        Router.register('manager-dashboard', {
+            render: () => ManagerDashboardPage.render(),
+            onEnter: () => ManagerDashboardPage.init()
+        });
+
+        // Transfer Request page (Epic 2.1)
+        Router.register('transfer-request', {
+            render: (params) => TransferRequestPage.render(params),
+            onEnter: (params) => TransferRequestPage.init(params)
+        });
+
+        // Transfer Request with specific ID
+        Router.register('transfer-request/:id', {
+            render: (params) => TransferRequestPage.render(params),
+            onEnter: (params) => TransferRequestPage.init(params)
+        });
+
+        // Organization Chart page (Epic 1.1)
+        Router.register('org-chart', {
+            render: () => OrgChartPage.render(),
+            onEnter: () => OrgChartPage.init()
+        });
+
         // Error pages
         Router.register('404', {
             render: (params) => ErrorPage.render404(params),
@@ -310,6 +394,10 @@ const App = (function() {
 
                 // Initialize router (this will render the initial route)
                 Router.init();
+
+                // Re-render route after data is loaded to ensure content displays
+                // (fixes race condition where route renders before data is available)
+                setTimeout(() => Router.refresh(), 0);
 
                 initialized = true;
                 console.log('App initialized successfully');

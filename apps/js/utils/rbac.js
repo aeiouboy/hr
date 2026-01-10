@@ -37,7 +37,8 @@ const RBAC = (function() {
             'reject_workflows',
             'send_back_workflows',
             'view_team_summary',
-            'view_pending_approvals'
+            'view_pending_approvals',
+            'view_positions'
         ],
         hr_admin: [
             'view_all_profiles',
@@ -49,7 +50,10 @@ const RBAC = (function() {
             'manage_workflows',
             'configure_workflows',
             'view_reports',
-            'export_data'
+            'export_data',
+            'view_positions',
+            'edit_positions',
+            'manage_positions'
         ],
         hr_manager: [
             'approve_sensitive_workflows',

@@ -66,6 +66,63 @@ const FormFieldComponent = (function() {
         },
 
         /**
+         * Render a number input field
+         * @param {object} options
+         * @returns {string}
+         */
+        number(options) {
+            const {
+                id,
+                name,
+                label,
+                value = '',
+                placeholder = '',
+                required = false,
+                disabled = false,
+                readonly = false,
+                error = '',
+                hint = '',
+                min = '',
+                max = '',
+                step = '',
+                className = ''
+            } = options;
+
+            const fieldId = id || name;
+
+            return `
+                <div class="form-group ${className}">
+                    <label for="${fieldId}" class="block text-sm font-medium text-gray-700 mb-1">
+                        ${label}
+                        ${required ? '<span class="text-red-500">*</span>' : ''}
+                    </label>
+                    <input
+                        type="number"
+                        id="${fieldId}"
+                        name="${name}"
+                        value="${value}"
+                        placeholder="${placeholder}"
+                        ${required ? 'required aria-required="true"' : ''}
+                        ${disabled ? 'disabled' : ''}
+                        ${readonly ? 'readonly' : ''}
+                        ${min !== '' ? `min="${min}"` : ''}
+                        ${max !== '' ? `max="${max}"` : ''}
+                        ${step !== '' ? `step="${step}"` : ''}
+                        class="w-full px-3 py-2 border rounded-lg form-input
+                               ${error ? 'border-red-500 error' : 'border-gray-300'}
+                               ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}
+                               ${readonly ? 'bg-gray-50' : ''}
+                               focus:outline-none focus:ring-2 focus:ring-cg-info/20 focus:border-cg-info"
+                        aria-describedby="${[error ? `${fieldId}-error` : '', hint ? `${fieldId}-hint` : ''].filter(Boolean).join(' ').trim() || undefined}"
+                        aria-invalid="${error ? 'true' : 'false'}"
+                    >
+                    ${hint && !error ? `<p id="${fieldId}-hint" class="mt-1 text-xs text-gray-500">${hint}</p>` : ''}
+                    ${error ? `<p id="${fieldId}-error" class="mt-1 text-xs text-red-500" role="alert">${error}</p>` : ''}
+                </div>
+            `;
+        },
+
+        /**
          * Render a textarea field
          * @param {object} options
          * @returns {string}
@@ -252,6 +309,50 @@ const FormFieldComponent = (function() {
                         >
                         <span class="text-sm text-gray-700">${label}</span>
                     </label>
+                    ${error ? `<p class="mt-1 text-xs text-red-500" role="alert">${error}</p>` : ''}
+                </div>
+            `;
+        },
+
+        /**
+         * Render radio button group
+         * @param {object} options
+         * @returns {string}
+         */
+        radio(options) {
+            const {
+                name,
+                label = '',
+                options: radioOptions = [],
+                value = '',
+                disabled = false,
+                inline = true,
+                error = '',
+                className = '',
+                onChange = ''
+            } = options;
+
+            const optionsHtml = radioOptions.map(opt => `
+                <label class="flex items-center gap-2 cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}">
+                    <input
+                        type="radio"
+                        name="${name}"
+                        value="${opt.value}"
+                        ${opt.value === value ? 'checked' : ''}
+                        ${disabled ? 'disabled' : ''}
+                        ${onChange ? `onchange="${onChange}"` : ''}
+                        class="w-4 h-4 text-cg-red border-gray-300 focus:ring-cg-red"
+                    >
+                    <span class="text-sm text-gray-700">${opt.label}</span>
+                </label>
+            `).join('');
+
+            return `
+                <div class="form-group ${className}">
+                    ${label ? `<label class="block text-sm font-medium text-gray-700 mb-2">${label}</label>` : ''}
+                    <div class="${inline ? 'flex items-center gap-4' : 'space-y-2'}">
+                        ${optionsHtml}
+                    </div>
                     ${error ? `<p class="mt-1 text-xs text-red-500" role="alert">${error}</p>` : ''}
                 </div>
             `;

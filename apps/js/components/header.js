@@ -54,10 +54,29 @@ const HeaderComponent = (function() {
                                         <span class="material-icons text-sm text-gray-500" aria-hidden="true">person</span>
                                         <span>${i18n.t('nav.profile')}</span>
                                     </a>
+                                    <a href="#/leave" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">event_available</span>
+                                        <span>${i18n.t('leave.title')}</span>
+                                    </a>
+                                    <a href="#/payslip" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">receipt_long</span>
+                                        <span>${i18n.t('payslip.title')}</span>
+                                    </a>
+                                    <a href="#/performance" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">flag</span>
+                                        <span>${i18n.t('performance.title')}</span>
+                                    </a>
                                     <a href="#/workflows" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
                                         <span class="material-icons text-sm text-gray-500" aria-hidden="true">assignment</span>
                                         <span>${i18n.t('nav.workflows')}</span>
                                     </a>
+                                    ${RBAC.isManager() ? `
+                                    <hr class="my-1">
+                                    <a href="#/manager-dashboard" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-cg-red" role="menuitem">
+                                        <span class="material-icons text-sm" aria-hidden="true">dashboard</span>
+                                        <span>${i18n.isThai() ? 'แดชบอร์ดผู้จัดการ' : 'Manager Dashboard'}</span>
+                                    </a>
+                                    ` : ''}
                                 </div>
                             </div>
                         </div>
