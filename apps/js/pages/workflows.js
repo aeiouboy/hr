@@ -12,13 +12,6 @@ const WorkflowsPage = (function() {
          * @returns {string}
          */
         render() {
-            const isLoading = AppState.get('isLoading');
-
-            // Show skeleton while loading
-            if (isLoading) {
-                return this.renderSkeleton();
-            }
-
             const isManager = RBAC.isManager();
 
             // Get workflow counts
