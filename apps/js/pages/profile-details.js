@@ -392,7 +392,7 @@ const ProfileDetailsPage = (function() {
                                 <div class="flex items-center gap-2">
                                     <h4 class="font-medium text-gray-900">${cert.certificateName}</h4>
                                     <span class="px-2 py-0.5 text-xs font-medium rounded-full ${statusConf.class}">
-                                        ${i18n.t('profileDetails.' + cert.status.replace('_', ''))}
+                                        ${i18n.t('profileDetails.' + cert.status.replace(/_([a-z])/g, (_, c) => c.toUpperCase()))}
                                     </span>
                                 </div>
                                 <p class="text-sm text-gray-600 mt-1">${i18n.t('profileDetails.certificateNumber')}: ${cert.certificateNumber}</p>
