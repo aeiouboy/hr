@@ -7,5 +7,8 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #811 | 5:26 PM | 🟣 | Performance Evaluation System Implemented with Opus Model | ~1363 |
+| #501 | 2:54 PM | ✅ | Mock Employee Data Extended with Advanced Sections | ~495 |
+| #497 | " | 🟣 | Job Relationships Section Implementation | ~908 |
 | #426 | 2:37 PM | 🟣 | Work Permit Information Section Implementation | ~856 |
 </claude-mem-context>

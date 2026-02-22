@@ -1,0 +1,47 @@
+[
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "adc2c3b777d803de9",
+    "agent_type": "Explore",
+    "logged_at": "2026-02-22T17:19:16.764146"
+  },
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "a466f007dc0fa35c1",
+    "agent_type": "Explore",
+    "logged_at": "2026-02-22T17:35:08.366370"
+  },
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "a182b708d6a386a9b",
+    "agent_type": "implementer",
+    "logged_at": "2026-02-22T17:37:03.792397"
+  },
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "accbfc3ed6822e56e",
+    "agent_type": "implementer",
+    "logged_at": "2026-02-22T17:37:17.306517"
+  },
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "a9378e2b0f56d12f4",
+    "agent_type": "implementer",
+    "logged_at": "2026-02-22T17:37:32.188011"
+  }
+]

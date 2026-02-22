@@ -79,8 +79,9 @@ const MockPositionData = {
         { code: 'inactive', nameEn: 'Inactive', nameTh: 'ไม่ใช้งาน', color: 'gray' }
     ],
 
-    // Positions list
+    // Positions list (matching real org structure)
     positions: [
+        // Current user's position
         {
             id: 'POS001',
             positionCode: '40128307',
@@ -104,8 +105,8 @@ const MockPositionData = {
             incumbents: [
                 {
                     employeeId: 'EMP001',
-                    nameEn: 'Chatchai Tangsiri',
-                    nameTh: 'ชาติชาย ทังศิริ',
+                    nameEn: 'Chongrak Tanaka',
+                    nameTh: 'จงรักษ์ ทานากะ',
                     photo: 'https://i.pravatar.cc/150?img=11',
                     startDate: '2022-01-01',
                     endDate: null,
@@ -114,10 +115,11 @@ const MockPositionData = {
             ],
             history: [
                 { date: '2020-01-15', action: 'created', description: 'Position created', byUser: 'HR Admin' },
-                { date: '2022-01-01', action: 'incumbent_assigned', description: 'Chatchai Tangsiri assigned', byUser: 'HR Admin' },
+                { date: '2022-01-01', action: 'incumbent_assigned', description: 'Chongrak Tanaka assigned', byUser: 'HR Admin' },
                 { date: '2024-06-01', action: 'modified', description: 'Job grade updated from M3 to M2', byUser: 'HR Manager' }
             ]
         },
+        // Head of Product (supervisor)
         {
             id: 'POS002',
             positionCode: '40128301',
@@ -129,7 +131,7 @@ const MockPositionData = {
             jobFamilyCode: 'IT',
             costCenterCode: 'CC001',
             status: 'active',
-            reportsToPositionId: 'POS010',
+            reportsToPositionId: 'POS_HEAD_PROD',
             matrixReportsToPositionId: null,
             createdDate: '2019-06-01',
             modifiedDate: '2024-03-15',
@@ -141,8 +143,8 @@ const MockPositionData = {
             incumbents: [
                 {
                     employeeId: 'EMP_SUP001',
-                    nameEn: 'Prawit Wongsuwan',
-                    nameTh: 'ประวิตร วงศ์สุวรรณ',
+                    nameEn: 'Rungrote Amnuaysopon',
+                    nameTh: 'รุ่งโรจน์ อำนวยสพน',
                     photo: 'https://i.pravatar.cc/150?img=12',
                     startDate: '2021-03-01',
                     endDate: null,
@@ -151,7 +153,159 @@ const MockPositionData = {
             ],
             history: [
                 { date: '2019-06-01', action: 'created', description: 'Position created', byUser: 'HR Admin' },
-                { date: '2021-03-01', action: 'incumbent_assigned', description: 'Prawit Wongsuwan assigned', byUser: 'HR Admin' }
+                { date: '2021-03-01', action: 'incumbent_assigned', description: 'Rungrote Amnuaysopon assigned', byUser: 'HR Admin' }
+            ]
+        },
+        // Team Positions - Filled (Functional Trainees)
+        {
+            id: 'POS_FT001',
+            positionCode: '40128350',
+            titleEn: 'Functional Trainee (ProNext)',
+            titleTh: 'พนักงานฝึกหัด (ProNext)',
+            companyCode: 'C015',
+            departmentCode: 'D001',
+            jobGradeCode: 'P3',
+            jobFamilyCode: 'IT',
+            costCenterCode: 'CC001',
+            status: 'active',
+            reportsToPositionId: 'POS001',
+            matrixReportsToPositionId: null,
+            createdDate: '2025-06-01',
+            modifiedDate: '2025-07-15',
+            jobDescription: {
+                fileName: 'JD_Functional_Trainee.pdf',
+                fileUrl: '/uploads/jd/JD_Functional_Trainee.pdf',
+                uploadedDate: '2025-06-01'
+            },
+            incumbents: [
+                {
+                    employeeId: 'EMP_DR001',
+                    nameEn: 'Naruechon Woraphatphawan',
+                    nameTh: 'นฤชล วรพัฒน์พาวัลย์',
+                    photo: 'https://i.pravatar.cc/150?img=14',
+                    startDate: '2025-07-01',
+                    endDate: null,
+                    isPrimary: true
+                }
+            ],
+            history: [
+                { date: '2025-06-01', action: 'created', description: 'Position created for ProNext program', byUser: 'HR Admin' },
+                { date: '2025-07-01', action: 'incumbent_assigned', description: 'Naruechon Woraphatphawan assigned', byUser: 'HR Admin' }
+            ]
+        },
+        {
+            id: 'POS_FT002',
+            positionCode: '40128351',
+            titleEn: 'Functional Trainee (ProNext)',
+            titleTh: 'พนักงานฝึกหัด (ProNext)',
+            companyCode: 'C015',
+            departmentCode: 'D001',
+            jobGradeCode: 'P3',
+            jobFamilyCode: 'IT',
+            costCenterCode: 'CC001',
+            status: 'active',
+            reportsToPositionId: 'POS001',
+            matrixReportsToPositionId: null,
+            createdDate: '2025-06-01',
+            modifiedDate: '2025-07-15',
+            jobDescription: {
+                fileName: 'JD_Functional_Trainee.pdf',
+                fileUrl: '/uploads/jd/JD_Functional_Trainee.pdf',
+                uploadedDate: '2025-06-01'
+            },
+            incumbents: [
+                {
+                    employeeId: 'EMP_DR002',
+                    nameEn: 'Punnapa Thianchai',
+                    nameTh: 'ปุณณภา เทียนชัย',
+                    photo: 'https://i.pravatar.cc/150?img=15',
+                    startDate: '2025-07-01',
+                    endDate: null,
+                    isPrimary: true
+                }
+            ],
+            history: [
+                { date: '2025-06-01', action: 'created', description: 'Position created for ProNext program', byUser: 'HR Admin' },
+                { date: '2025-07-01', action: 'incumbent_assigned', description: 'Punnapa Thianchai assigned', byUser: 'HR Admin' }
+            ]
+        },
+        // Team Positions - Vacant (To be recruited)
+        {
+            id: 'POS_PM_VACANT1',
+            positionCode: '40128352',
+            titleEn: 'Product Manager',
+            titleTh: 'ผู้จัดการผลิตภัณฑ์',
+            companyCode: 'C015',
+            departmentCode: 'D001',
+            jobGradeCode: 'M2',
+            jobFamilyCode: 'IT',
+            costCenterCode: 'CC001',
+            status: 'vacant',
+            reportsToPositionId: 'POS002',
+            matrixReportsToPositionId: null,
+            createdDate: '2025-10-01',
+            modifiedDate: '2025-10-01',
+            jobDescription: {
+                fileName: 'JD_Product_Manager.pdf',
+                fileUrl: '/uploads/jd/JD_Product_Manager.pdf',
+                uploadedDate: '2023-01-10'
+            },
+            incumbents: [],
+            recruitmentStatus: 'to_be_recruited',
+            history: [
+                { date: '2025-10-01', action: 'created', description: 'Position created for team expansion', byUser: 'HR Admin' }
+            ]
+        },
+        {
+            id: 'POS_PM_VACANT2',
+            positionCode: '40128353',
+            titleEn: 'Product Manager',
+            titleTh: 'ผู้จัดการผลิตภัณฑ์',
+            companyCode: 'C015',
+            departmentCode: 'D001',
+            jobGradeCode: 'M2',
+            jobFamilyCode: 'IT',
+            costCenterCode: 'CC001',
+            status: 'vacant',
+            reportsToPositionId: 'POS002',
+            matrixReportsToPositionId: null,
+            createdDate: '2025-10-01',
+            modifiedDate: '2025-10-01',
+            jobDescription: {
+                fileName: 'JD_Product_Manager.pdf',
+                fileUrl: '/uploads/jd/JD_Product_Manager.pdf',
+                uploadedDate: '2023-01-10'
+            },
+            incumbents: [],
+            recruitmentStatus: 'to_be_recruited',
+            history: [
+                { date: '2025-10-01', action: 'created', description: 'Position created for team expansion', byUser: 'HR Admin' }
+            ]
+        },
+        {
+            id: 'POS_PO_VACANT',
+            positionCode: '40128354',
+            titleEn: 'Product Owner',
+            titleTh: 'เจ้าของผลิตภัณฑ์',
+            companyCode: 'C015',
+            departmentCode: 'D001',
+            jobGradeCode: 'M3',
+            jobFamilyCode: 'IT',
+            costCenterCode: 'CC001',
+            status: 'vacant',
+            reportsToPositionId: 'POS001',
+            matrixReportsToPositionId: null,
+            createdDate: '2025-10-01',
+            modifiedDate: '2025-10-01',
+            jobDescription: {
+                fileName: 'JD_Product_Owner.pdf',
+                fileUrl: '/uploads/jd/JD_Product_Owner.pdf',
+                uploadedDate: '2025-10-01'
+            },
+            incumbents: [],
+            recruitmentStatus: 'to_be_recruited',
+            history: [
+                { date: '2025-10-01', action: 'created', description: 'Position created for product team', byUser: 'HR Admin' }
             ]
         },
         {

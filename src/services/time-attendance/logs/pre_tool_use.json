@@ -1,0 +1,100 @@
+[
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/benefits-management && npx prisma generate 2>&1",
+      "timeout": 60000,
+      "description": "Generate Prisma client for benefits-management"
+    },
+    "tool_use_id": "toolu_01FyoQswAA8iwEDcaSTJTFQk"
+  },
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "npx jest --no-cache 2>&1",
+      "timeout": 120000,
+      "description": "Run benefits-management tests"
+    },
+    "tool_use_id": "toolu_01WQUErEk7BxBBg7G7RymQxF"
+  },
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/benefits-management && npx jest --no-cache --forceExit 2>&1 | tail -12",
+      "timeout": 120000,
+      "description": "Verify benefits-management tests"
+    },
+    "tool_use_id": "toolu_01EA2xNaJdTJ9uVygSm7HggE"
+  },
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/benefits-management && npx jest --no-cache 2>&1",
+      "timeout": 120000,
+      "description": "Run benefits-management tests"
+    },
+    "tool_use_id": "toolu_01XNvFexbnAeGzCCW2UiwKcQ"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/benefits-management && npx jest --no-cache --forceExit 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Run benefits-management service tests"
+    },
+    "tool_use_id": "toolu_01AcSisjosG3hwQNWJC8Hr9D"
+  },
+  {
+    "session_id": "c479b1e6-6643-4200-ae21-883505b6e505",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/c479b1e6-6643-4200-ae21-883505b6e505.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/benefits-management && npx jest src/policy/claims-policy-validation.service.spec.ts --no-coverage 2>&1 | tail -40",
+      "timeout": 60000,
+      "description": "Run claims policy validation tests"
+    },
+    "tool_use_id": "toolu_01UdvqSf6yYjE6pM6fA3UVAk"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/recruitment-onboarding && npx jest --no-cache --forceExit 2>&1 | tail -15",
+      "timeout": 120000,
+      "description": "Run recruitment-onboarding tests"
+    },
+    "tool_use_id": "toolu_01SJhuVRPnNpPbRk4WPHEJ5W"
+  }
+]

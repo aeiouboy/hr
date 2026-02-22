@@ -10,6 +10,7 @@ const PayrollSetupPage = (function() {
     let taxBrackets = {};
     let banks = [];
     let companySettings = {};
+    let isDataLoading = false;
 
     return {
         /**
@@ -17,10 +18,18 @@ const PayrollSetupPage = (function() {
          * @returns {string}
          */
         render() {
-            const isLoading = AppState.get('isLoading');
-            const hasData = earningTypes.length > 0;
+            // Check if data has been loaded (not relying on isLoading flag to avoid race condition)
+            const hasData = earningTypes.length > 0 || deductionTypes.length > 0 || banks.length > 0;
 
-            if (isLoading && !hasData) {
+            if (!hasData) {
+                // If no data yet, trigger load and show skeleton
+                if (!isDataLoading) {
+                    isDataLoading = true;
+                    this.loadData().then(() => {
+                        isDataLoading = false;
+                        Router.refresh();
+                    });
+                }
                 return this.renderSkeleton();
             }
 

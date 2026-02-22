@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 <claude-mem-context>
 # Recent Activity
 
@@ -9,3 +13,121 @@
 |----|------|---|-------|------|
 | #221 | 1:42 PM | 🔵 | RIS HR System - Employee Information Module Architecture | ~480 |
 </claude-mem-context>
+
+## Running the Application
+
+No build step required. The app runs directly from static files:
+
+```bash
+# Serve the app (recommended)
+python -m http.server 8080 -d apps
+# Then open http://localhost:8080
+
+# Or open directly
+open apps/index.html
+```
+
+## Running Tests
+
+```bash
+# Run all unit/verification tests
+npm run test:all
+
+# Run individual test suites
+npm test                        # verification-test.js
+npm run test:additional         # additional modules
+npm run test:profile            # profile-details
+npm run test:scorecard          # scorecard tab
+npm run test:benefits           # benefits tab
+
+# E2E tests use Playwright MCP (see .mcp.json)
+```
+
+## Architecture
+
+### Frontend SPA (`apps/`)
+
+Vanilla JavaScript with no build tooling. All modules are IIFE (Immediately Invoked Function Expression) patterns loaded via `<script>` tags in `apps/index.html`. **Script load order matters** — core modules must be loaded before pages that depend on them.
+
+**Load order in `index.html`:**
+1. Core: `state.js` → `i18n.js` → `api.js` → `router.js`
+2. Utils: `date.js`, `mask.js`, `rbac.js`, `validation.js`, `accessibility.js`
+3. Mock data: `mock-*.js` files
+4. Components: reusable UI (`header.js`, `modal.js`, `tabs.js`, etc.)
+5. Workflow engine: `engine.js`, `rules.js`, `notifications.js`
+6. Pages: `home.js`, `profile.js`, etc.
+7. Bootstrap: `app.js` (initializes everything)
+
+**Key modules:**
+- `apps/js/state.js` — Centralized pub/sub state store (`AppState.get/set/subscribe`)
+- `apps/js/router.js` — Hash-based SPA routing (`#/profile/tab`, `#/home`)
+- `apps/js/api.js` — Mock API client with simulated 300ms delays and retry logic
+- `apps/js/i18n.js` — Internationalization (Thai/English), loads from `apps/locales/`
+- `apps/js/utils/rbac.js` — Role-based access control (Employee, Manager, HR Admin, HR Manager)
+
+**Adding a new page:**
+1. Create `apps/js/pages/my-page.js` with `render()` and `init()` functions
+2. Add `<script src="js/pages/my-page.js">` to `apps/index.html`
+3. Register route in `apps/js/app.js` `registerRoutes()`
+4. Add translations to `apps/locales/en.json` and `apps/locales/th.json`
+
+### State Management
+
+```javascript
+AppState.set('currentEmployee', data);     // Update state
+AppState.get('currentEmployee');           // Read state
+AppState.subscribe('language', callback);  // React to changes
+```
+
+### Routing
+
+```javascript
+Router.register('profile/:tab', { render: (params) => ..., onEnter: (params) => ... });
+Router.navigate('profile', { id: 'EMP001' }); // → #/profile/EMP001
+```
+
+### Branding
+
+Custom Tailwind colors: `cg-red` (#C8102E), `cg-dark`, `cg-light`, `cg-success`, `cg-warning`, `cg-error`, `cg-info`.
+
+### MCP Servers (`.mcp.json`)
+
+- **playwright** — Browser automation for E2E testing
+- **azure-devops** — Azure DevOps integration for `centralgroup` org
+- **firecrawl-mcp** — Web scraping/research
+
+## AI Developer Workflows (`adws/`)
+
+Python scripts that orchestrate Claude Code agents for complex development tasks. Requires `uv` (Python package manager).
+
+```bash
+# Run a prompt directly
+./adws/adw_prompt.py "Add error handling to api.js"
+
+# Plan then implement (two-phase)
+./adws/adw_chore_implement.py "Add new HR feature"
+
+# Execute a slash command
+./adws/adw_slash_command.py /chore "description"
+
+# Multi-agent task orchestrator (reads tasks.md)
+python adws/adw_triggers/adw_trigger_cron_todone.py
+```
+
+ADW outputs are saved to `agents/{adw_id}/` with raw JSONL, parsed JSON, and summary files.
+
+**Slash commands** (`.claude/commands/*.md`) define reusable prompts: `/chore`, `/implement`, `/plan`, `/build`, `/prime`, `/test_e2e`.
+
+## Specs and Task Planning
+
+- `specs/` — Feature specs and chore plans (e.g., `specs/chore-{id}-{name}.md`)
+- `tasks.md` — Multi-agent task queue used by `adw_trigger_cron_todone.py`
+- Workflow: `/chore` creates a spec → `/implement` executes it → `/update_task` marks done
+
+## Key Conventions
+
+- All JS uses IIFE module pattern — no ES modules, no `import/export` (except `module.exports` guards for test compatibility)
+- Mock data lives in `apps/js/data/mock-*.js` and is imported by `api.js`
+- i18n keys follow dot notation: `nav.home`, `profile.personalInfo`, `common.save`
+- Thai Buddhist Era dates: use `apps/js/utils/date.js` helpers
+- Sensitive fields (bank accounts, national IDs) use `apps/js/utils/mask.js`

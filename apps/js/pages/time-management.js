@@ -1,6 +1,6 @@
 /**
  * Time Management Page
- * Work shift configuration and assignment management
+ * Work shift configuration, assignment management, attendance tracking, and anomaly detection
  */
 
 const TimeManagementPage = (function() {
@@ -11,6 +11,21 @@ const TimeManagementPage = (function() {
     let calendarData = null;
     let currentMonth = new Date().getMonth() + 1;
     let currentYear = new Date().getFullYear();
+
+    // Attendance data
+    let attendanceRecords = [];
+    let detectedAnomalies = [];
+    let importHistory = [];
+    let monthlySummary = null;
+    let attendanceFilter = {
+        startDate: null,
+        endDate: null,
+        employeeId: 'all',
+        status: 'all'
+    };
+    let importWizardStep = 1;
+    let importFileData = null;
+    let columnMapping = {};
 
     return {
         /**
@@ -33,7 +48,11 @@ const TimeManagementPage = (function() {
             const tabs = [
                 { id: 'shifts', icon: 'schedule', label: i18n.t('timeManagement.shifts') },
                 { id: 'assignments', icon: 'assignment_ind', label: i18n.t('timeManagement.assignments') },
-                { id: 'calendar', icon: 'calendar_month', label: i18n.t('timeManagement.calendar') }
+                { id: 'calendar', icon: 'calendar_month', label: i18n.t('timeManagement.calendar') },
+                { id: 'attendance', icon: 'fingerprint', label: i18n.t('attendance.title') },
+                { id: 'anomalies', icon: 'warning', label: i18n.t('attendance.anomalies') },
+                { id: 'import', icon: 'upload_file', label: i18n.t('attendance.import') },
+                { id: 'summary', icon: 'analytics', label: i18n.t('attendance.summary') }
             ];
 
             return `
@@ -87,6 +106,14 @@ const TimeManagementPage = (function() {
                     return this.renderAssignmentsTab();
                 case 'calendar':
                     return this.renderCalendarTab();
+                case 'attendance':
+                    return this.renderAttendanceTab();
+                case 'anomalies':
+                    return this.renderAnomaliesTab();
+                case 'import':
+                    return this.renderImportTab();
+                case 'summary':
+                    return this.renderSummaryTab();
                 default:
                     return this.renderShiftsTab();
             }
@@ -909,6 +936,12 @@ const TimeManagementPage = (function() {
                 shiftAssignments = MockShiftData.shiftAssignments || [];
                 calendarData = MockShiftData.shiftCalendar || null;
             }
+
+            // Load attendance data (always use mock for now)
+            attendanceRecords = MockAttendanceData.attendanceRecords || [];
+            detectedAnomalies = MockAttendanceData.detectedAnomalies || [];
+            importHistory = MockAttendanceData.importHistory || [];
+            monthlySummary = MockAttendanceData.getMonthlySummary('2026-01');
         },
 
         /**
@@ -943,6 +976,1382 @@ const TimeManagementPage = (function() {
                     </div>
                 </div>
             `;
+        },
+
+        // ==========================================
+        // ATTENDANCE TAB
+        // ==========================================
+
+        /**
+         * Render attendance records tab
+         * @returns {string}
+         */
+        renderAttendanceTab() {
+            const isThai = i18n.isThai();
+            const isHR = RBAC.hasPermission('manage_shifts');
+
+            // Default date range to current month
+            const today = new Date();
+            const startDate = attendanceFilter.startDate || `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-01`;
+            const endDate = attendanceFilter.endDate || today.toISOString().split('T')[0];
+
+            const statusOptions = [
+                { value: 'all', label: i18n.t('common.all') },
+                { value: 'present', label: i18n.t('attendance.statusLabels.present') },
+                { value: 'absent', label: i18n.t('attendance.statusLabels.absent') },
+                { value: 'incomplete', label: i18n.t('attendance.statusLabels.incomplete') }
+            ];
+
+            return `
+                <div class="space-y-6">
+                    <!-- Filters -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div>
+                                <label for="att-start-date" class="block text-sm font-medium text-gray-700 mb-1">
+                                    ${i18n.t('attendance.startDate')}
+                                </label>
+                                <input type="date" id="att-start-date"
+                                       value="${startDate}"
+                                       onchange="TimeManagementPage.updateAttendanceFilter('startDate', this.value)"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cg-red focus:border-cg-red min-h-[44px]"
+                                       aria-label="${i18n.t('attendance.startDate')}">
+                            </div>
+                            <div>
+                                <label for="att-end-date" class="block text-sm font-medium text-gray-700 mb-1">
+                                    ${i18n.t('attendance.endDate')}
+                                </label>
+                                <input type="date" id="att-end-date"
+                                       value="${endDate}"
+                                       onchange="TimeManagementPage.updateAttendanceFilter('endDate', this.value)"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cg-red focus:border-cg-red min-h-[44px]"
+                                       aria-label="${i18n.t('attendance.endDate')}">
+                            </div>
+                            <div>
+                                <label for="att-status" class="block text-sm font-medium text-gray-700 mb-1">
+                                    ${i18n.t('attendance.status')}
+                                </label>
+                                <select id="att-status"
+                                        onchange="TimeManagementPage.updateAttendanceFilter('status', this.value)"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cg-red focus:border-cg-red min-h-[44px]"
+                                        aria-label="${i18n.t('attendance.status')}">
+                                    ${statusOptions.map(opt => `
+                                        <option value="${opt.value}" ${attendanceFilter.status === opt.value ? 'selected' : ''}>
+                                            ${opt.label}
+                                        </option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-end">
+                                <button onclick="TimeManagementPage.searchAttendance()"
+                                        class="w-full px-4 py-2 bg-cg-red text-white rounded-lg hover:bg-red-700 transition min-h-[44px] flex items-center justify-center gap-2">
+                                    <span class="material-icons text-sm" aria-hidden="true">search</span>
+                                    ${i18n.t('common.search')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Records Table -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full" role="table" aria-label="${i18n.t('attendance.title')}">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.employee')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.date')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.checkIn')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.checkOut')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.workingHours')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.status')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ${i18n.t('attendance.source')}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200" id="attendance-records-list">
+                                    ${this.renderAttendanceRows()}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render attendance table rows
+         * @returns {string}
+         */
+        renderAttendanceRows() {
+            const isThai = i18n.isThai();
+            const filteredRecords = this.getFilteredAttendanceRecords();
+
+            if (filteredRecords.length === 0) {
+                return `
+                    <tr>
+                        <td colspan="7" class="px-4 py-8 text-center text-gray-500">
+                            <span class="material-icons text-4xl mb-2" aria-hidden="true">event_busy</span>
+                            <p>${i18n.t('attendance.noRecords')}</p>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            return filteredRecords.map(record => {
+                const employeeName = isThai ? record.employeeNameTh : record.employeeName;
+                const source = record.checkInSource ? MockAttendanceData.getSourceById(record.checkInSource) : null;
+                const sourceName = source ? (isThai ? source.nameTh : source.nameEn) : '-';
+
+                const statusColors = {
+                    present: 'bg-green-100 text-green-800',
+                    absent: 'bg-red-100 text-red-800',
+                    incomplete: 'bg-yellow-100 text-yellow-800',
+                    leave: 'bg-blue-100 text-blue-800'
+                };
+
+                const hasAnomalies = record.anomalies && record.anomalies.length > 0;
+
+                return `
+                    <tr class="hover:bg-gray-50 ${hasAnomalies ? 'border-l-4 border-l-yellow-400' : ''}">
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            <div class="font-medium text-gray-900">${employeeName}</div>
+                            <div class="text-sm text-gray-500">${record.employeeId}</div>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-gray-700">
+                            ${DateUtils.format(record.date, 'medium')}
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            ${record.actualCheckIn ? `
+                                <div class="flex items-center gap-1">
+                                    <span class="${record.isLate ? 'text-red-600 font-medium' : 'text-gray-700'}">${record.actualCheckIn}</span>
+                                    ${record.isLate ? `<span class="text-xs text-red-600">(+${record.lateMinutes}${i18n.t('attendance.min')})</span>` : ''}
+                                </div>
+                            ` : `<span class="text-red-500">${i18n.t('attendance.missing')}</span>`}
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            ${record.actualCheckOut ? `
+                                <div class="flex items-center gap-1">
+                                    <span class="${record.isEarlyDeparture ? 'text-orange-600 font-medium' : 'text-gray-700'}">${record.actualCheckOut}</span>
+                                    ${record.isEarlyDeparture ? `<span class="text-xs text-orange-600">(-${record.earlyMinutes}${i18n.t('attendance.min')})</span>` : ''}
+                                </div>
+                            ` : `<span class="text-red-500">${i18n.t('attendance.missing')}</span>`}
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            ${record.workingHours !== null ? `
+                                <span class="${record.workingHours < 8 ? 'text-orange-600' : 'text-gray-700'}">
+                                    ${record.workingHours.toFixed(2)} ${i18n.t('timeManagement.hours')}
+                                </span>
+                                ${record.overtimeHours > 0 ? `
+                                    <span class="text-xs text-purple-600">(+${record.overtimeHours.toFixed(1)} OT)</span>
+                                ` : ''}
+                            ` : '-'}
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${statusColors[record.status] || 'bg-gray-100 text-gray-800'}">
+                                ${i18n.t('attendance.statusLabels.' + record.status)}
+                            </span>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div title="${record.checkInLocation || ''}">${sourceName}</div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        },
+
+        /**
+         * Get filtered attendance records
+         * @returns {array}
+         */
+        getFilteredAttendanceRecords() {
+            let records = [...attendanceRecords];
+
+            if (attendanceFilter.startDate) {
+                records = records.filter(r => r.date >= attendanceFilter.startDate);
+            }
+            if (attendanceFilter.endDate) {
+                records = records.filter(r => r.date <= attendanceFilter.endDate);
+            }
+            if (attendanceFilter.status && attendanceFilter.status !== 'all') {
+                records = records.filter(r => r.status === attendanceFilter.status);
+            }
+            if (attendanceFilter.employeeId && attendanceFilter.employeeId !== 'all') {
+                records = records.filter(r => r.employeeId === attendanceFilter.employeeId);
+            }
+
+            return records.sort((a, b) => new Date(b.date) - new Date(a.date));
+        },
+
+        /**
+         * Update attendance filter
+         * @param {string} field
+         * @param {string} value
+         */
+        updateAttendanceFilter(field, value) {
+            attendanceFilter[field] = value;
+        },
+
+        /**
+         * Search attendance records
+         */
+        async searchAttendance() {
+            try {
+                // In real implementation, this would call the API
+                const filteredRecords = this.getFilteredAttendanceRecords();
+                const container = document.getElementById('attendance-records-list');
+                if (container) {
+                    container.innerHTML = this.renderAttendanceRows();
+                }
+            } catch (error) {
+                console.error('Error searching attendance:', error);
+                ToastComponent.error(i18n.t('error.loadFailed'));
+            }
+        },
+
+        // ==========================================
+        // ANOMALIES TAB
+        // ==========================================
+
+        /**
+         * Render anomalies detection tab
+         * @returns {string}
+         */
+        renderAnomaliesTab() {
+            const isThai = i18n.isThai();
+            const isHR = RBAC.hasPermission('manage_shifts');
+            const openAnomalies = detectedAnomalies.filter(a => a.status === 'open');
+            const resolvedAnomalies = detectedAnomalies.filter(a => a.status === 'resolved');
+
+            const severityCounts = {
+                critical: openAnomalies.filter(a => a.severity === 'critical').length,
+                high: openAnomalies.filter(a => a.severity === 'high').length,
+                medium: openAnomalies.filter(a => a.severity === 'medium').length,
+                low: openAnomalies.filter(a => a.severity === 'low').length
+            };
+
+            return `
+                <div class="space-y-6">
+                    <!-- Anomaly Summary Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-red-600" aria-hidden="true">error</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-red-700">${severityCounts.critical}</p>
+                                    <p class="text-sm text-red-600">${i18n.t('attendance.severity.critical')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-orange-600" aria-hidden="true">warning</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-orange-700">${severityCounts.high}</p>
+                                    <p class="text-sm text-orange-600">${i18n.t('attendance.severity.high')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-yellow-600" aria-hidden="true">info</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-yellow-700">${severityCounts.medium}</p>
+                                    <p class="text-sm text-yellow-600">${i18n.t('attendance.severity.medium')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-blue-600" aria-hidden="true">low_priority</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-blue-700">${severityCounts.low}</p>
+                                    <p class="text-sm text-blue-600">${i18n.t('attendance.severity.low')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuration Panel -->
+                    ${isHR ? `
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                            <h3 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                <span class="material-icons text-gray-500" aria-hidden="true">settings</span>
+                                ${i18n.t('attendance.anomalyConfig')}
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        ${i18n.t('attendance.lateThreshold')}
+                                    </label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="number" value="${MockAttendanceData.config.lateThresholdMinutes}"
+                                               class="w-20 px-3 py-2 border border-gray-300 rounded-lg min-h-[44px]"
+                                               aria-label="${i18n.t('attendance.lateThreshold')}">
+                                        <span class="text-gray-500">${i18n.t('attendance.minutes')}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        ${i18n.t('attendance.earlyDepartureThreshold')}
+                                    </label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="number" value="${MockAttendanceData.config.earlyDepartureThresholdMinutes}"
+                                               class="w-20 px-3 py-2 border border-gray-300 rounded-lg min-h-[44px]"
+                                               aria-label="${i18n.t('attendance.earlyDepartureThreshold')}">
+                                        <span class="text-gray-500">${i18n.t('attendance.minutes')}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        ${i18n.t('attendance.consecutiveAbsenceAlert')}
+                                    </label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="number" value="${MockAttendanceData.config.consecutiveAbsenceAlertDays}"
+                                               class="w-20 px-3 py-2 border border-gray-300 rounded-lg min-h-[44px]"
+                                               aria-label="${i18n.t('attendance.consecutiveAbsenceAlert')}">
+                                        <span class="text-gray-500">${i18n.t('attendance.days')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Open Anomalies -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b bg-gray-50 flex items-center justify-between">
+                            <h3 class="font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons text-yellow-500" aria-hidden="true">warning</span>
+                                ${i18n.t('attendance.openAnomalies')} (${openAnomalies.length})
+                            </h3>
+                            ${isHR ? `
+                                <button onclick="TimeManagementPage.runAnomalyDetection()"
+                                        class="px-4 py-2 bg-cg-red text-white rounded-lg hover:bg-red-700 transition min-h-[44px] flex items-center gap-2">
+                                    <span class="material-icons text-sm" aria-hidden="true">refresh</span>
+                                    ${i18n.t('attendance.runDetection')}
+                                </button>
+                            ` : ''}
+                        </div>
+
+                        ${openAnomalies.length === 0 ? `
+                            <div class="p-8 text-center text-gray-500">
+                                <span class="material-icons text-4xl mb-2" aria-hidden="true">check_circle</span>
+                                <p>${i18n.t('attendance.noAnomalies')}</p>
+                            </div>
+                        ` : `
+                            <div class="divide-y divide-gray-200">
+                                ${openAnomalies.map(anomaly => this.renderAnomalyCard(anomaly, isHR)).join('')}
+                            </div>
+                        `}
+                    </div>
+
+                    <!-- Resolved Anomalies -->
+                    ${resolvedAnomalies.length > 0 ? `
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                            <div class="p-4 border-b bg-gray-50">
+                                <h3 class="font-semibold text-gray-900 flex items-center gap-2">
+                                    <span class="material-icons text-green-500" aria-hidden="true">check_circle</span>
+                                    ${i18n.t('attendance.resolvedAnomalies')} (${resolvedAnomalies.length})
+                                </h3>
+                            </div>
+                            <div class="divide-y divide-gray-200">
+                                ${resolvedAnomalies.slice(0, 5).map(anomaly => this.renderAnomalyCard(anomaly, false)).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        },
+
+        /**
+         * Render anomaly card
+         * @param {object} anomaly
+         * @param {boolean} canResolve
+         * @returns {string}
+         */
+        renderAnomalyCard(anomaly, canResolve) {
+            const isThai = i18n.isThai();
+            const employeeName = isThai ? anomaly.employeeNameTh : anomaly.employeeName;
+            const typeInfo = MockAttendanceData.getAnomalyTypeInfo(anomaly.type);
+
+            const severityColors = {
+                critical: 'bg-red-100 text-red-800 border-red-300',
+                high: 'bg-orange-100 text-orange-800 border-orange-300',
+                medium: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                low: 'bg-blue-100 text-blue-800 border-blue-300'
+            };
+
+            const severityIcons = {
+                critical: 'error',
+                high: 'warning',
+                medium: 'info',
+                low: 'low_priority'
+            };
+
+            let detailsHtml = '';
+            if (anomaly.type === 'late_arrival') {
+                detailsHtml = `${i18n.t('attendance.scheduled')}: ${anomaly.details.scheduledTime}, ${i18n.t('attendance.actual')}: ${anomaly.details.actualTime} (+${anomaly.details.differenceMinutes} ${i18n.t('attendance.min')})`;
+            } else if (anomaly.type === 'missing_checkout') {
+                detailsHtml = `${i18n.t('attendance.checkIn')}: ${anomaly.details.checkIn}, ${i18n.t('attendance.expectedCheckOut')}: ${anomaly.details.expectedCheckout}`;
+            } else if (anomaly.type === 'early_departure') {
+                detailsHtml = `${i18n.t('attendance.scheduled')}: ${anomaly.details.scheduledEnd}, ${i18n.t('attendance.actual')}: ${anomaly.details.actualEnd} (-${anomaly.details.differenceMinutes} ${i18n.t('attendance.min')})`;
+            } else if (anomaly.type === 'unapproved_ot') {
+                detailsHtml = `${i18n.t('attendance.overtime')}: ${anomaly.details.overtimeHours.toFixed(1)} ${i18n.t('timeManagement.hours')}`;
+            } else if (anomaly.type === 'consecutive_absence') {
+                detailsHtml = `${anomaly.details.consecutiveDays} ${i18n.t('attendance.days')} (${i18n.t('attendance.since')} ${DateUtils.format(anomaly.details.startDate, 'short')})`;
+            }
+
+            return `
+                <div class="p-4 hover:bg-gray-50 ${anomaly.status === 'resolved' ? 'bg-gray-50' : ''}">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center ${severityColors[anomaly.severity]}">
+                                <span class="material-icons text-lg" aria-hidden="true">${typeInfo?.icon || severityIcons[anomaly.severity]}</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-medium text-gray-900">${employeeName}</span>
+                                    <span class="px-2 py-0.5 text-xs rounded-full ${severityColors[anomaly.severity]}">
+                                        ${i18n.t('attendance.severity.' + anomaly.severity)}
+                                    </span>
+                                </div>
+                                <p class="text-sm text-gray-700 mb-1">
+                                    ${isThai ? typeInfo?.labelTh : typeInfo?.labelEn}
+                                </p>
+                                <p class="text-xs text-gray-500">${detailsHtml}</p>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    ${DateUtils.format(anomaly.date, 'medium')}
+                                </p>
+                                ${anomaly.resolution ? `
+                                    <div class="mt-2 p-2 bg-green-50 rounded text-sm text-green-700">
+                                        <span class="font-medium">${i18n.t('attendance.resolution')}:</span> ${anomaly.resolution}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        ${canResolve && anomaly.status === 'open' ? `
+                            <button onclick="TimeManagementPage.resolveAnomaly('${anomaly.id}')"
+                                    class="px-3 py-1 text-sm text-cg-red border border-cg-red rounded-lg hover:bg-red-50 transition min-h-[36px]">
+                                ${i18n.t('attendance.resolve')}
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Run anomaly detection
+         */
+        async runAnomalyDetection() {
+            ToastComponent.info(i18n.t('attendance.runningDetection'));
+
+            // Simulate detection process
+            setTimeout(() => {
+                ToastComponent.success(i18n.t('attendance.detectionComplete'));
+                Router.refresh();
+            }, 1500);
+        },
+
+        /**
+         * Resolve an anomaly
+         * @param {string} anomalyId
+         */
+        resolveAnomaly(anomalyId) {
+            const anomaly = detectedAnomalies.find(a => a.id === anomalyId);
+            if (!anomaly) return;
+
+            const isThai = i18n.isThai();
+            const employeeName = isThai ? anomaly.employeeNameTh : anomaly.employeeName;
+            const typeInfo = MockAttendanceData.getAnomalyTypeInfo(anomaly.type);
+
+            ModalComponent.open({
+                title: i18n.t('attendance.resolveAnomaly'),
+                size: 'md',
+                content: `
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <p class="font-medium text-gray-900">${employeeName}</p>
+                            <p class="text-sm text-gray-600">${isThai ? typeInfo?.labelTh : typeInfo?.labelEn}</p>
+                            <p class="text-sm text-gray-500">${DateUtils.format(anomaly.date, 'medium')}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                ${i18n.t('attendance.resolutionNote')}
+                            </label>
+                            <textarea id="resolution-note"
+                                      rows="3"
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cg-red focus:border-cg-red"
+                                      placeholder="${i18n.t('attendance.resolutionPlaceholder')}"
+                                      aria-label="${i18n.t('attendance.resolutionNote')}"></textarea>
+                        </div>
+                    </div>
+                `,
+                actions: [
+                    { label: i18n.t('common.cancel'), onclick: 'ModalComponent.close()' },
+                    { label: i18n.t('attendance.resolve'), primary: true, onclick: `TimeManagementPage.confirmResolveAnomaly('${anomalyId}')` }
+                ]
+            });
+        },
+
+        /**
+         * Confirm resolve anomaly
+         * @param {string} anomalyId
+         */
+        confirmResolveAnomaly(anomalyId) {
+            const note = document.getElementById('resolution-note')?.value;
+            if (!note) {
+                ToastComponent.error(i18n.t('attendance.resolutionRequired'));
+                return;
+            }
+
+            // Update anomaly in mock data
+            const anomalyIndex = detectedAnomalies.findIndex(a => a.id === anomalyId);
+            if (anomalyIndex >= 0) {
+                detectedAnomalies[anomalyIndex].status = 'resolved';
+                detectedAnomalies[anomalyIndex].resolution = note;
+                detectedAnomalies[anomalyIndex].resolvedAt = new Date().toISOString();
+                detectedAnomalies[anomalyIndex].resolvedBy = 'HR Admin';
+            }
+
+            ModalComponent.close();
+            ToastComponent.success(i18n.t('attendance.anomalyResolved'));
+            Router.refresh();
+        },
+
+        // ==========================================
+        // IMPORT TAB
+        // ==========================================
+
+        /**
+         * Render import tab
+         * @returns {string}
+         */
+        renderImportTab() {
+            const isThai = i18n.isThai();
+            const isHR = RBAC.hasPermission('manage_shifts');
+
+            return `
+                <div class="space-y-6">
+                    <!-- Import Wizard -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b bg-gray-50">
+                            <h3 class="font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons text-cg-red" aria-hidden="true">upload_file</span>
+                                ${i18n.t('attendance.importWizard')}
+                            </h3>
+                        </div>
+
+                        <!-- Wizard Steps -->
+                        <div class="p-4 border-b">
+                            <div class="flex items-center justify-center gap-4" role="progressbar" aria-valuenow="${importWizardStep}" aria-valuemin="1" aria-valuemax="4">
+                                ${[1, 2, 3, 4].map(step => `
+                                    <div class="flex items-center ${step < 4 ? 'flex-1' : ''}">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                                                ${importWizardStep >= step ? 'bg-cg-red text-white' : 'bg-gray-200 text-gray-500'}">
+                                                ${step}
+                                            </div>
+                                            <span class="hidden sm:inline text-sm ${importWizardStep >= step ? 'text-gray-900 font-medium' : 'text-gray-500'}">
+                                                ${i18n.t('attendance.importStep' + step)}
+                                            </span>
+                                        </div>
+                                        ${step < 4 ? `
+                                            <div class="flex-1 h-0.5 mx-4 ${importWizardStep > step ? 'bg-cg-red' : 'bg-gray-200'}"></div>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Wizard Content -->
+                        <div class="p-6">
+                            ${this.renderImportWizardContent()}
+                        </div>
+                    </div>
+
+                    <!-- Import History -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b bg-gray-50">
+                            <h3 class="font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons text-gray-500" aria-hidden="true">history</span>
+                                ${i18n.t('attendance.importHistory')}
+                            </h3>
+                        </div>
+
+                        ${importHistory.length === 0 ? `
+                            <div class="p-8 text-center text-gray-500">
+                                <span class="material-icons text-4xl mb-2" aria-hidden="true">folder_open</span>
+                                <p>${i18n.t('attendance.noImportHistory')}</p>
+                            </div>
+                        ` : `
+                            <div class="overflow-x-auto">
+                                <table class="w-full" role="table" aria-label="${i18n.t('attendance.importHistory')}">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                ${i18n.t('attendance.fileName')}
+                                            </th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                ${i18n.t('attendance.importDate')}
+                                            </th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                ${i18n.t('attendance.period')}
+                                            </th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                ${i18n.t('attendance.records')}
+                                            </th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                ${i18n.t('attendance.status')}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        ${importHistory.map(imp => this.renderImportHistoryRow(imp)).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render import wizard content based on current step
+         * @returns {string}
+         */
+        renderImportWizardContent() {
+            const isThai = i18n.isThai();
+
+            switch (importWizardStep) {
+                case 1:
+                    return `
+                        <div class="text-center">
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 hover:border-cg-red transition cursor-pointer"
+                                 onclick="document.getElementById('import-file-input').click()"
+                                 ondragover="event.preventDefault(); this.classList.add('border-cg-red', 'bg-red-50');"
+                                 ondragleave="this.classList.remove('border-cg-red', 'bg-red-50');"
+                                 ondrop="TimeManagementPage.handleFileDrop(event)"
+                                 role="button"
+                                 tabindex="0"
+                                 aria-label="${i18n.t('attendance.uploadFile')}">
+                                <span class="material-icons text-5xl text-gray-400 mb-4" aria-hidden="true">cloud_upload</span>
+                                <p class="text-lg font-medium text-gray-700 mb-2">${i18n.t('attendance.dragDropFile')}</p>
+                                <p class="text-sm text-gray-500 mb-4">${i18n.t('attendance.supportedFormats')}</p>
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition min-h-[44px]">
+                                    ${i18n.t('attendance.browseFiles')}
+                                </button>
+                            </div>
+                            <input type="file" id="import-file-input" accept=".csv,.xlsx,.xls" class="hidden"
+                                   onchange="TimeManagementPage.handleFileSelect(event)"
+                                   aria-label="${i18n.t('attendance.selectFile')}">
+
+                            <!-- Template Download -->
+                            <div class="mt-6 p-4 bg-blue-50 rounded-lg text-left">
+                                <p class="text-sm text-blue-800 mb-2">
+                                    <span class="material-icons text-sm align-middle mr-1" aria-hidden="true">info</span>
+                                    ${i18n.t('attendance.templateInfo')}
+                                </p>
+                                <button onclick="TimeManagementPage.downloadTemplate()"
+                                        class="text-sm text-blue-600 hover:underline flex items-center gap-1">
+                                    <span class="material-icons text-sm" aria-hidden="true">download</span>
+                                    ${i18n.t('attendance.downloadTemplate')}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                case 2:
+                    const templates = MockAttendanceData.columnMappingTemplates;
+                    const previewData = importFileData?.preview || [];
+                    const headers = importFileData?.headers || [];
+
+                    return `
+                        <div class="space-y-6">
+                            <!-- Template Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    ${i18n.t('attendance.selectTemplate')}
+                                </label>
+                                <div class="flex flex-wrap gap-2">
+                                    ${templates.map(tpl => `
+                                        <button onclick="TimeManagementPage.applyMappingTemplate('${tpl.id}')"
+                                                class="px-4 py-2 border border-gray-300 rounded-lg hover:border-cg-red hover:text-cg-red transition min-h-[44px]">
+                                            ${isThai ? tpl.nameTh : tpl.name}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Column Mapping -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                ${this.renderColumnMappingFields(headers)}
+                            </div>
+
+                            <!-- Data Preview -->
+                            ${previewData.length > 0 ? `
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">${i18n.t('attendance.dataPreview')}</h4>
+                                    <div class="overflow-x-auto border rounded-lg">
+                                        <table class="w-full text-sm">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    ${headers.map(h => `<th class="px-3 py-2 text-left">${h}</th>`).join('')}
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y">
+                                                ${previewData.slice(0, 5).map(row => `
+                                                    <tr>
+                                                        ${headers.map(h => `<td class="px-3 py-2">${row[h] || '-'}</td>`).join('')}
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <!-- Navigation -->
+                            <div class="flex justify-between pt-4 border-t">
+                                <button onclick="TimeManagementPage.setImportStep(1)"
+                                        class="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition min-h-[44px]">
+                                    ${i18n.t('common.back')}
+                                </button>
+                                <button onclick="TimeManagementPage.validateImportData()"
+                                        class="px-4 py-2 bg-cg-red text-white rounded-lg hover:bg-red-700 transition min-h-[44px]">
+                                    ${i18n.t('attendance.validateData')}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                case 3:
+                    const validationResults = importFileData?.validationResults || { valid: 0, invalid: 0, errors: [] };
+
+                    return `
+                        <div class="space-y-6">
+                            <!-- Validation Summary -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="p-4 bg-green-50 rounded-lg text-center">
+                                    <p class="text-3xl font-bold text-green-700">${validationResults.valid}</p>
+                                    <p class="text-sm text-green-600">${i18n.t('attendance.validRecords')}</p>
+                                </div>
+                                <div class="p-4 bg-red-50 rounded-lg text-center">
+                                    <p class="text-3xl font-bold text-red-700">${validationResults.invalid}</p>
+                                    <p class="text-sm text-red-600">${i18n.t('attendance.invalidRecords')}</p>
+                                </div>
+                                <div class="p-4 bg-blue-50 rounded-lg text-center">
+                                    <p class="text-3xl font-bold text-blue-700">${validationResults.valid + validationResults.invalid}</p>
+                                    <p class="text-sm text-blue-600">${i18n.t('attendance.totalRecords')}</p>
+                                </div>
+                            </div>
+
+                            <!-- Validation Errors -->
+                            ${validationResults.errors.length > 0 ? `
+                                <div class="border border-red-200 rounded-lg overflow-hidden">
+                                    <div class="p-3 bg-red-50 border-b border-red-200">
+                                        <h4 class="text-sm font-medium text-red-800 flex items-center gap-2">
+                                            <span class="material-icons text-sm" aria-hidden="true">error</span>
+                                            ${i18n.t('attendance.validationErrors')} (${validationResults.errors.length})
+                                        </h4>
+                                    </div>
+                                    <div class="max-h-60 overflow-y-auto">
+                                        <table class="w-full text-sm">
+                                            <thead class="bg-gray-50 sticky top-0">
+                                                <tr>
+                                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.row')}</th>
+                                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.field')}</th>
+                                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.error')}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y">
+                                                ${validationResults.errors.slice(0, 20).map(err => `
+                                                    <tr>
+                                                        <td class="px-3 py-2">${err.row}</td>
+                                                        <td class="px-3 py-2">${err.field}</td>
+                                                        <td class="px-3 py-2 text-red-600">${err.error}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            ` : `
+                                <div class="p-4 bg-green-50 rounded-lg text-center">
+                                    <span class="material-icons text-4xl text-green-500 mb-2" aria-hidden="true">check_circle</span>
+                                    <p class="text-green-700 font-medium">${i18n.t('attendance.allRecordsValid')}</p>
+                                </div>
+                            `}
+
+                            <!-- Navigation -->
+                            <div class="flex justify-between pt-4 border-t">
+                                <button onclick="TimeManagementPage.setImportStep(2)"
+                                        class="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition min-h-[44px]">
+                                    ${i18n.t('common.back')}
+                                </button>
+                                <button onclick="TimeManagementPage.executeImport()"
+                                        class="px-4 py-2 bg-cg-red text-white rounded-lg hover:bg-red-700 transition min-h-[44px]"
+                                        ${validationResults.valid === 0 ? 'disabled' : ''}>
+                                    ${i18n.t('attendance.importData')} (${validationResults.valid} ${i18n.t('attendance.records')})
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                case 4:
+                    return `
+                        <div class="text-center py-8">
+                            <span class="material-icons text-6xl text-green-500 mb-4" aria-hidden="true">check_circle</span>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">${i18n.t('attendance.importSuccess')}</h3>
+                            <p class="text-gray-600 mb-6">${i18n.t('attendance.importSuccessMessage')}</p>
+                            <div class="flex justify-center gap-4">
+                                <button onclick="TimeManagementPage.resetImportWizard()"
+                                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition min-h-[44px]">
+                                    ${i18n.t('attendance.importAnother')}
+                                </button>
+                                <button onclick="TimeManagementPage.switchTab('attendance')"
+                                        class="px-4 py-2 bg-cg-red text-white rounded-lg hover:bg-red-700 transition min-h-[44px]">
+                                    ${i18n.t('attendance.viewRecords')}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                default:
+                    return '';
+            }
+        },
+
+        /**
+         * Render column mapping fields
+         * @param {array} headers
+         * @returns {string}
+         */
+        renderColumnMappingFields(headers) {
+            const fields = [
+                { key: 'employeeId', label: i18n.t('attendance.columnEmployeeId'), required: true },
+                { key: 'date', label: i18n.t('attendance.columnDate'), required: true },
+                { key: 'checkIn', label: i18n.t('attendance.columnCheckIn'), required: false },
+                { key: 'checkOut', label: i18n.t('attendance.columnCheckOut'), required: false },
+                { key: 'shiftCode', label: i18n.t('attendance.columnShift'), required: false },
+                { key: 'source', label: i18n.t('attendance.columnSource'), required: false }
+            ];
+
+            return fields.map(field => `
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        ${field.label} ${field.required ? '<span class="text-red-500">*</span>' : ''}
+                    </label>
+                    <select id="mapping-${field.key}"
+                            onchange="TimeManagementPage.updateColumnMapping('${field.key}', this.value)"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cg-red focus:border-cg-red min-h-[44px]"
+                            aria-label="${field.label}">
+                        <option value="">${i18n.t('attendance.selectColumn')}</option>
+                        ${headers.map(h => `
+                            <option value="${h}" ${columnMapping[field.key] === h ? 'selected' : ''}>${h}</option>
+                        `).join('')}
+                    </select>
+                </div>
+            `).join('');
+        },
+
+        /**
+         * Render import history row
+         * @param {object} imp
+         * @returns {string}
+         */
+        renderImportHistoryRow(imp) {
+            const statusColors = {
+                completed: 'bg-green-100 text-green-800',
+                failed: 'bg-red-100 text-red-800',
+                processing: 'bg-yellow-100 text-yellow-800'
+            };
+
+            return `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-icons text-gray-400" aria-hidden="true">
+                                ${imp.sourceType === 'csv' ? 'description' : imp.sourceType === 'excel' ? 'grid_on' : 'cloud'}
+                            </span>
+                            <div>
+                                <p class="font-medium text-gray-900">${imp.fileName}</p>
+                                <p class="text-xs text-gray-500">${imp.importedBy}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-4 text-gray-600">
+                        ${DateUtils.format(imp.importDate, 'medium')}
+                    </td>
+                    <td class="px-4 py-4 text-gray-600">
+                        ${DateUtils.format(imp.period.start, 'short')} - ${DateUtils.format(imp.period.end, 'short')}
+                    </td>
+                    <td class="px-4 py-4">
+                        <span class="text-green-600">${imp.successfulRecords}</span> /
+                        <span class="${imp.failedRecords > 0 ? 'text-red-600' : 'text-gray-600'}">${imp.totalRecords}</span>
+                        ${imp.failedRecords > 0 ? `
+                            <button onclick="TimeManagementPage.showImportErrors('${imp.id}')"
+                                    class="ml-2 text-xs text-red-600 hover:underline">
+                                (${imp.failedRecords} ${i18n.t('attendance.failed')})
+                            </button>
+                        ` : ''}
+                    </td>
+                    <td class="px-4 py-4">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full ${statusColors[imp.status]}">
+                            ${i18n.t('attendance.importStatus.' + imp.status)}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        },
+
+        /**
+         * Handle file selection
+         * @param {Event} event
+         */
+        handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.processImportFile(file);
+            }
+        },
+
+        /**
+         * Handle file drop
+         * @param {Event} event
+         */
+        handleFileDrop(event) {
+            event.preventDefault();
+            event.target.classList.remove('border-cg-red', 'bg-red-50');
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                this.processImportFile(file);
+            }
+        },
+
+        /**
+         * Process import file
+         * @param {File} file
+         */
+        processImportFile(file) {
+            const validTypes = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+            if (!validTypes.includes(file.type) && !file.name.endsWith('.csv') && !file.name.endsWith('.xlsx')) {
+                ToastComponent.error(i18n.t('attendance.invalidFileType'));
+                return;
+            }
+
+            // Simulate file parsing
+            ToastComponent.info(i18n.t('attendance.parsingFile'));
+
+            setTimeout(() => {
+                // Mock parsed data
+                importFileData = {
+                    fileName: file.name,
+                    fileSize: file.size,
+                    headers: ['Employee ID', 'Date', 'Check In', 'Check Out', 'Shift', 'Device'],
+                    preview: [
+                        { 'Employee ID': 'EMP001', 'Date': '2026-01-02', 'Check In': '08:25', 'Check Out': '17:35', 'Shift': 'REG', 'Device': 'Biometric' },
+                        { 'Employee ID': 'EMP001', 'Date': '2026-01-03', 'Check In': '08:52', 'Check Out': '17:30', 'Shift': 'REG', 'Device': 'Mobile' },
+                        { 'Employee ID': 'EMP_DR001', 'Date': '2026-01-02', 'Check In': '09:30', 'Check Out': '18:30', 'Shift': 'FLX', 'Device': 'Mobile' },
+                        { 'Employee ID': 'EMP_DR002', 'Date': '2026-01-02', 'Check In': '08:28', 'Check Out': '17:32', 'Shift': 'REG', 'Device': 'Biometric' }
+                    ],
+                    totalRows: 250
+                };
+
+                importWizardStep = 2;
+                ToastComponent.success(i18n.t('attendance.fileLoaded'));
+                Router.refresh();
+            }, 1000);
+        },
+
+        /**
+         * Apply mapping template
+         * @param {string} templateId
+         */
+        applyMappingTemplate(templateId) {
+            const template = MockAttendanceData.columnMappingTemplates.find(t => t.id === templateId);
+            if (template) {
+                columnMapping = { ...template.mappings };
+                Router.refresh();
+                ToastComponent.success(i18n.t('attendance.templateApplied'));
+            }
+        },
+
+        /**
+         * Update column mapping
+         * @param {string} field
+         * @param {string} column
+         */
+        updateColumnMapping(field, column) {
+            columnMapping[field] = column;
+        },
+
+        /**
+         * Validate import data
+         */
+        validateImportData() {
+            if (!columnMapping.employeeId || !columnMapping.date) {
+                ToastComponent.error(i18n.t('attendance.requiredMappingsMissing'));
+                return;
+            }
+
+            ToastComponent.info(i18n.t('attendance.validatingData'));
+
+            setTimeout(() => {
+                // Simulate validation
+                importFileData.validationResults = {
+                    valid: 245,
+                    invalid: 5,
+                    errors: [
+                        { row: 45, field: 'date', error: 'Invalid date format' },
+                        { row: 78, field: 'employeeId', error: 'Employee not found' },
+                        { row: 112, field: 'checkIn', error: 'Invalid time format' },
+                        { row: 156, field: 'employeeId', error: 'Missing required field' },
+                        { row: 201, field: 'id', error: 'Duplicate record' }
+                    ]
+                };
+
+                importWizardStep = 3;
+                Router.refresh();
+            }, 1500);
+        },
+
+        /**
+         * Execute import
+         */
+        executeImport() {
+            ToastComponent.info(i18n.t('attendance.importing'));
+
+            setTimeout(() => {
+                importWizardStep = 4;
+                ToastComponent.success(i18n.t('attendance.importComplete'));
+                Router.refresh();
+            }, 2000);
+        },
+
+        /**
+         * Set import wizard step
+         * @param {number} step
+         */
+        setImportStep(step) {
+            importWizardStep = step;
+            Router.refresh();
+        },
+
+        /**
+         * Reset import wizard
+         */
+        resetImportWizard() {
+            importWizardStep = 1;
+            importFileData = null;
+            columnMapping = {};
+            Router.refresh();
+        },
+
+        /**
+         * Download import template
+         */
+        downloadTemplate() {
+            ToastComponent.info(i18n.t('attendance.downloadingTemplate'));
+            // In real implementation, this would trigger a file download
+        },
+
+        /**
+         * Show import errors
+         * @param {string} importId
+         */
+        showImportErrors(importId) {
+            const imp = importHistory.find(i => i.id === importId);
+            if (!imp || !imp.errorLog) return;
+
+            ModalComponent.open({
+                title: i18n.t('attendance.importErrors'),
+                size: 'lg',
+                content: `
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.row')}</th>
+                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.field')}</th>
+                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.value')}</th>
+                                    <th class="px-3 py-2 text-left">${i18n.t('attendance.error')}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                ${imp.errorLog.map(err => `
+                                    <tr>
+                                        <td class="px-3 py-2">${err.row}</td>
+                                        <td class="px-3 py-2">${err.field}</td>
+                                        <td class="px-3 py-2 text-gray-500">${err.value || '-'}</td>
+                                        <td class="px-3 py-2 text-red-600">${err.error}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `,
+                actions: [
+                    { label: i18n.t('common.close'), primary: true, onclick: 'ModalComponent.close()' }
+                ]
+            });
+        },
+
+        // ==========================================
+        // SUMMARY TAB
+        // ==========================================
+
+        /**
+         * Render summary tab
+         * @returns {string}
+         */
+        renderSummaryTab() {
+            const isThai = i18n.isThai();
+            const summary = monthlySummary || MockAttendanceData.getMonthlySummary('2026-01');
+
+            if (!summary) {
+                return `
+                    <div class="text-center py-12 text-gray-500">
+                        <span class="material-icons text-5xl mb-4" aria-hidden="true">analytics</span>
+                        <p class="text-lg">${i18n.t('attendance.noSummaryData')}</p>
+                    </div>
+                `;
+            }
+
+            const stats = summary.overallStats;
+
+            return `
+                <div class="space-y-6">
+                    <!-- Period Selector -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="flex flex-wrap items-center gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    ${i18n.t('attendance.selectPeriod')}
+                                </label>
+                                <input type="month" id="summary-period"
+                                       value="${currentYear}-${String(currentMonth).padStart(2, '0')}"
+                                       onchange="TimeManagementPage.loadMonthlySummary(this.value)"
+                                       class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cg-red focus:border-cg-red min-h-[44px]"
+                                       aria-label="${i18n.t('attendance.selectPeriod')}">
+                            </div>
+                            <button onclick="TimeManagementPage.exportSummary()"
+                                    class="mt-auto px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition min-h-[44px] flex items-center gap-2">
+                                <span class="material-icons text-sm" aria-hidden="true">download</span>
+                                ${i18n.t('attendance.exportReport')}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Overall Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-blue-600" aria-hidden="true">groups</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-gray-900">${stats.totalEmployees}</p>
+                                    <p class="text-sm text-gray-500">${i18n.t('attendance.totalEmployees')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-green-600" aria-hidden="true">trending_up</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-gray-900">${stats.averageAttendanceRate.toFixed(1)}%</p>
+                                    <p class="text-sm text-gray-500">${i18n.t('attendance.attendanceRate')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-red-600" aria-hidden="true">schedule</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-gray-900">${stats.totalLateDays}</p>
+                                    <p class="text-sm text-gray-500">${i18n.t('attendance.totalLateDays')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <span class="material-icons text-purple-600" aria-hidden="true">more_time</span>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-gray-900">${stats.totalOvertimeHours.toFixed(1)}</p>
+                                    <p class="text-sm text-gray-500">${i18n.t('attendance.totalOT')} (${i18n.t('timeManagement.hours')})</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Department Summary -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b bg-gray-50">
+                            <h3 class="font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons text-gray-500" aria-hidden="true">business</span>
+                                ${i18n.t('attendance.departmentSummary')}
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full" role="table" aria-label="${i18n.t('attendance.departmentSummary')}">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.department')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.employees')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.attendanceRate')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.lateDays')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.absentDays')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.overtime')}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    ${summary.departmentSummary.map(dept => `
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-4 py-4 font-medium text-gray-900">
+                                                ${isThai ? dept.departmentTh : dept.department}
+                                            </td>
+                                            <td class="px-4 py-4 text-center text-gray-700">${dept.totalEmployees}</td>
+                                            <td class="px-4 py-4 text-center">
+                                                <span class="${dept.averageAttendanceRate >= 95 ? 'text-green-600' : dept.averageAttendanceRate >= 90 ? 'text-yellow-600' : 'text-red-600'} font-medium">
+                                                    ${dept.averageAttendanceRate.toFixed(1)}%
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-4 text-center text-gray-700">${dept.totalLateDays}</td>
+                                            <td class="px-4 py-4 text-center text-gray-700">${dept.totalAbsentDays}</td>
+                                            <td class="px-4 py-4 text-center text-gray-700">${dept.totalOvertimeHours.toFixed(1)} h</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Employee Details -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b bg-gray-50">
+                            <h3 class="font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons text-gray-500" aria-hidden="true">person</span>
+                                ${i18n.t('attendance.employeeSummary')}
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full" role="table" aria-label="${i18n.t('attendance.employeeSummary')}">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.employee')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.present')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.late')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.absent')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.workingHours')}
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                                            ${i18n.t('attendance.attendanceRate')}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    ${summary.employees.map(emp => `
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-4 py-4">
+                                                <div class="font-medium text-gray-900">
+                                                    ${isThai ? emp.employeeNameTh : emp.employeeName}
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    ${isThai ? emp.departmentTh : emp.department}
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4 text-center text-green-600 font-medium">${emp.presentDays}/${emp.workingDays}</td>
+                                            <td class="px-4 py-4 text-center ${emp.lateDays > 0 ? 'text-red-600 font-medium' : 'text-gray-700'}">${emp.lateDays}</td>
+                                            <td class="px-4 py-4 text-center ${emp.absentDays > 0 ? 'text-red-600 font-medium' : 'text-gray-700'}">${emp.absentDays}</td>
+                                            <td class="px-4 py-4 text-center text-gray-700">${emp.totalWorkingHours.toFixed(1)} h</td>
+                                            <td class="px-4 py-4 text-center">
+                                                <span class="${emp.attendanceRate >= 95 ? 'text-green-600' : emp.attendanceRate >= 90 ? 'text-yellow-600' : 'text-red-600'} font-medium">
+                                                    ${emp.attendanceRate.toFixed(1)}%
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Load monthly summary for a given period
+         * @param {string} period - Format: YYYY-MM
+         */
+        async loadMonthlySummary(period) {
+            const [year, month] = period.split('-');
+            currentYear = parseInt(year);
+            currentMonth = parseInt(month);
+
+            try {
+                monthlySummary = MockAttendanceData.getMonthlySummary(period);
+                Router.refresh();
+            } catch (error) {
+                console.error('Error loading summary:', error);
+                ToastComponent.error(i18n.t('error.loadFailed'));
+            }
+        },
+
+        /**
+         * Export summary report
+         */
+        exportSummary() {
+            ToastComponent.info(i18n.t('attendance.exportingReport'));
+            // In real implementation, this would trigger a file download
         }
     };
 })();

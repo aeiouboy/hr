@@ -7,6 +7,13 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #824 | 5:34 PM | 🔴 | Leave Calendar Date Formatting Method Correction | ~402 |
+| #823 | 5:33 PM | 🔴 | Leave Calendar Component Error - Missing DateUtils.formatISO Function | ~587 |
+| #670 | 4:44 PM | 🔴 | Script Reload Attempt Causes Duplicate Declaration Error | ~498 |
+| #666 | 4:43 PM | ✅ | Radio Button Component Added to FormFieldComponent | ~453 |
+| #665 | 4:42 PM | 🔵 | FormFieldComponent.radio Method Actually Exists | ~579 |
+| #661 | " | 🔴 | Missing FormFieldComponent.radio Method Causing Leave Request Error | ~488 |
+| #658 | 4:41 PM | 🔴 | Leave Request Form Error - Missing FormFieldComponent.radio Method | ~423 |
 | #503 | 2:55 PM | 🟣 | Background Workflows Completed - Accessibility and Error Handling Features | ~705 |
 | #257 | 1:51 PM | 🟣 | Mobile-Responsive Hamburger Menu Implementation | ~723 |
 </claude-mem-context>

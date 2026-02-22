@@ -7,6 +7,8 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #811 | 5:26 PM | 🟣 | Performance Evaluation System Implemented with Opus Model | ~1363 |
+| #497 | 2:54 PM | 🟣 | Job Relationships Section Implementation | ~908 |
 | #426 | 2:37 PM | 🟣 | Work Permit Information Section Implementation | ~856 |
 | #257 | 1:51 PM | 🟣 | Mobile-Responsive Hamburger Menu Implementation | ~723 |
 </claude-mem-context>

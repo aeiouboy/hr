@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "251bfa9c-8432-48c6-8537-dc57c1481658",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/251bfa9c-8432-48c6-8537-dc57c1481658.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/performance-talent",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:20.589859"
+  }
+]

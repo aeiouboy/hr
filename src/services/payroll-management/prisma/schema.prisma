@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PayrollRun {
+  id                 String    @id @default(uuid())
+  period             String    // YYYY-MM
+  year               Int
+  month              Int
+  status             String    @default("draft") // draft, processing, completed, approved, rejected
+  type               String    @default("regular") // regular, bonus, 13th_month
+  total_gross        Float     @default(0)
+  total_deductions   Float     @default(0)
+  total_net          Float     @default(0)
+  total_employer_cost Float    @default(0)
+  employee_count     Int       @default(0)
+  created_by         String
+  approved_by        String?
+  notes              String?
+
+  payslips Payslip[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([period, type])
+  @@map("payroll_runs")
+}
+
+model Payslip {
+  id                       String  @id @default(uuid())
+  payroll_run_id           String
+  payroll_run              PayrollRun @relation(fields: [payroll_run_id], references: [id], onDelete: Cascade)
+  employee_id              String
+  base_salary              Float
+  gross_salary             String  // encrypted
+  total_earnings           Float
+  total_deductions         Float
+  net_salary               String  // encrypted
+  tax_amount               Float
+  sso_amount               Float
+  provident_fund_employee  Float   @default(0)
+  provident_fund_employer  Float   @default(0)
+  earnings_detail          Json?
+  deductions_detail        Json?
+  bank_code                String?
+  bank_account             String? // encrypted
+  payment_status           String  @default("pending") // pending, paid, failed
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([payroll_run_id, employee_id])
+  @@map("payslips")
+}
+
+model Compensation {
+  id                       String    @id @default(uuid())
+  employee_id              String    @unique
+  base_salary              String    // encrypted
+  position_allowance       Float     @default(0)
+  housing_allowance        Float     @default(0)
+  transportation_allowance Float     @default(0)
+  meal_allowance           Float     @default(0)
+  other_allowances         Json?
+  effective_date           DateTime
+  currency                 String    @default("THB")
+  grade                    String?
+  level                    String?
+  provident_fund_rate      Float     @default(0) // percentage
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("compensations")
+}
+
+model TaxDeduction {
+  id                       String  @id @default(uuid())
+  employee_id              String
+  tax_year                 Int
+  annual_income            Float   @default(0)
+  personal_allowance       Float   @default(60000)
+  expense_deduction        Float   @default(0)
+  spouse_allowance         Float   @default(0)
+  child_allowance          Float   @default(0)
+  parent_allowance         Float   @default(0)
+  life_insurance           Float   @default(0)
+  health_insurance         Float   @default(0)
+  provident_fund_deduction Float   @default(0)
+  social_security_deduction Float  @default(0)
+  home_loan_interest       Float   @default(0)
+  donation                 Float   @default(0)
+  other_deductions         Float   @default(0)
+  total_deductions         Float   @default(0)
+  taxable_income           Float   @default(0)
+  calculated_tax           Float   @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([employee_id, tax_year])
+  @@map("tax_deductions")
+}
+
+model GovernmentReport {
+  id               String    @id @default(uuid())
+  report_type      String    // pnd1, pnd1a, sso_report, pvd_report
+  period           String    // YYYY-MM or YYYY
+  year             Int
+  month            Int?
+  status           String    @default("draft") // draft, submitted, accepted, rejected
+  file_url         String?
+  data             Json?
+  generated_at     DateTime?
+  submitted_at     DateTime?
+  submitted_by     String?
+  total_employees  Int       @default(0)
+  total_amount     Float     @default(0)
+  reference_number String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("government_reports")
+}

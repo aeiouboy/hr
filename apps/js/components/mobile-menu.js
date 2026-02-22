@@ -16,6 +16,8 @@ const MobileMenuComponent = (function() {
          */
         render() {
             const user = AppState.get('currentUser');
+            const isManager = RBAC.isManager();
+            const isHR = RBAC.isHR();
 
             return `
                 <!-- Mobile Menu Overlay -->
@@ -62,97 +64,202 @@ const MobileMenuComponent = (function() {
 
                     <!-- Navigation Links -->
                     <div class="p-4">
-                        <div class="space-y-1">
-                            <!-- Home -->
-                            <a href="#/home"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-gray-600" aria-hidden="true">home</span>
-                                <span class="text-gray-800 font-medium">${i18n.t('nav.home')}</span>
-                            </a>
-
-                            <!-- My Profile -->
-                            <a href="#/profile"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-gray-600" aria-hidden="true">person</span>
-                                <span class="text-gray-800 font-medium">${i18n.t('nav.profile')}</span>
-                            </a>
-
-                            <!-- Personal Info -->
-                            <a href="#/profile/personal-info"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px] ml-4"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-sm text-gray-500" aria-hidden="true">badge</span>
-                                <span class="text-gray-700">${i18n.t('profile.personal')}</span>
-                            </a>
-
-                            <!-- Employment -->
-                            <a href="#/profile/employment"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px] ml-4"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-sm text-gray-500" aria-hidden="true">work</span>
-                                <span class="text-gray-700">${i18n.t('profile.employment')}</span>
-                            </a>
-
-                            <!-- Compensation -->
-                            <a href="#/profile/compensation"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px] ml-4"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-sm text-gray-500" aria-hidden="true">payments</span>
-                                <span class="text-gray-700">${i18n.t('profile.compensation')}</span>
-                            </a>
-
-                            <!-- Benefits -->
-                            <a href="#/profile/benefits"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px] ml-4"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-sm text-gray-500" aria-hidden="true">health_and_safety</span>
-                                <span class="text-gray-700">${i18n.t('profile.benefits')}</span>
-                            </a>
-
-                            <!-- Payslip & Tax Documents -->
-                            <a href="#/payslip"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-gray-600" aria-hidden="true">receipt_long</span>
-                                <span class="text-gray-800 font-medium">${i18n.t('payslip.title')}</span>
-                            </a>
-
-                            <!-- Leave Request -->
-                            <a href="#/leave"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-gray-600" aria-hidden="true">event_available</span>
-                                <span class="text-gray-800 font-medium">${i18n.t('leave.title')}</span>
-                            </a>
-
-                            <!-- Performance/Goals -->
-                            <a href="#/performance"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-gray-600" aria-hidden="true">flag</span>
-                                <span class="text-gray-800 font-medium">${i18n.t('performance.title')}</span>
-                            </a>
-
-                            <!-- Workflows -->
-                            <a href="#/workflows"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-gray-600" aria-hidden="true">assignment</span>
-                                <span class="text-gray-800 font-medium">${i18n.t('nav.workflows')}</span>
-                            </a>
-
-                            ${RBAC.isManager() ? `
-                            <!-- Manager Dashboard -->
-                            <a href="#/manager-dashboard"
-                               class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-red-50 rounded-lg transition min-h-[44px] bg-red-50/50 border border-red-100"
-                               onclick="MobileMenuComponent.handleNavigation(event)">
-                                <span class="material-icons text-cg-red" aria-hidden="true">dashboard</span>
-                                <span class="text-cg-red font-medium">${i18n.isThai() ? 'แดชบอร์ดผู้จัดการ' : 'Manager Dashboard'}</span>
-                            </a>
-                            ` : ''}
+                        <!-- Phase 1: Employee Self-Service (All users) -->
+                        <div class="mb-4">
+                            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-4">${i18n.t('nav.selfService')}</h3>
+                            <div class="space-y-1">
+                                <a href="#/home"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">home</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('nav.home')}</span>
+                                </a>
+                                <a href="#/leave"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">event_available</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('leave.title')}</span>
+                                </a>
+                                <a href="#/payslip"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">receipt_long</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('payslip.title')}</span>
+                                </a>
+                                <a href="#/performance"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">flag</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('performance.title')}</span>
+                                </a>
+                                <a href="#/profile"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">person</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('nav.profile')}</span>
+                                </a>
+                                <a href="#/workflows"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">assignment</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('nav.workflows')}</span>
+                                </a>
+                            </div>
                         </div>
+
+                        ${isHR ? `
+                        <!-- Phase 2: Time & Payroll (HR only) -->
+                        <div class="mb-4">
+                            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-4">${i18n.t('nav.timePayroll')}</h3>
+                            <div class="space-y-1">
+                                <a href="#/time-management"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">schedule</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('timeManagement.title')}</span>
+                                </a>
+                                <a href="#/payroll-setup"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">tune</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('payrollSetup.title')}</span>
+                                </a>
+                                <a href="#/payroll-processing"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">calculate</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('payroll.title')}</span>
+                                </a>
+                                <a href="#/government-reports"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">summarize</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('govReports.title')}</span>
+                                </a>
+                                <a href="#/overtime"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">more_time</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('overtime.title')}</span>
+                                </a>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        <!-- Phase 3: Organization (Mixed visibility) -->
+                        <div class="mb-4">
+                            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-4">${i18n.t('nav.organization')}</h3>
+                            <div class="space-y-1">
+                                <a href="#/org-chart"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">account_tree</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('orgChart.title')}</span>
+                                </a>
+                                ${isHR ? `
+                                <a href="#/positions"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">work</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('position.title')}</span>
+                                </a>
+                                ` : ''}
+                                ${isManager ? `
+                                <a href="#/manager-dashboard"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-red-50 rounded-lg transition min-h-[44px] bg-red-50/50 border border-red-100"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-cg-red" aria-hidden="true">dashboard</span>
+                                    <span class="text-cg-red font-medium">${i18n.t('managerDashboard.title')}</span>
+                                </a>
+                                ` : ''}
+                                ${isHR ? `
+                                <a href="#/transfer-request"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">swap_horiz</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('transfer.title')}</span>
+                                </a>
+                                <a href="#/locations"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">location_on</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('location.title')}</span>
+                                </a>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        ${(isManager || isHR) ? `
+                        <!-- Phase 4: Talent Development (Managers and HR) -->
+                        <div class="mb-4">
+                            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-4">${i18n.t('nav.talentDevelopment')}</h3>
+                            <div class="space-y-1">
+                                <a href="#/talent-management"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">stars</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('talent.title')}</span>
+                                </a>
+                                <a href="#/learning"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">school</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('learning.title')}</span>
+                                </a>
+                                <a href="#/idp"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">trending_up</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('idp.title')}</span>
+                                </a>
+                                <a href="#/training-records"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">history_edu</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('training.title')}</span>
+                                </a>
+                                <a href="#/succession-planning"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">supervisor_account</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('succession.title')}</span>
+                                </a>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        ${isHR ? `
+                        <!-- Phase 5: Recruitment (HR only) -->
+                        <div class="mb-4">
+                            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-4">${i18n.t('nav.recruitment')}</h3>
+                            <div class="space-y-1">
+                                <a href="#/recruitment"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">person_add</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('recruitment.title')}</span>
+                                </a>
+                                <a href="#/candidate-screening"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">how_to_reg</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('candidateScreening.title')}</span>
+                                </a>
+                                <a href="#/onboarding"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">waving_hand</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('onboarding.title')}</span>
+                                </a>
+                                <a href="#/resignation"
+                                   class="mobile-menu-item flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                                   onclick="MobileMenuComponent.handleNavigation(event)">
+                                    <span class="material-icons text-gray-600" aria-hidden="true">exit_to_app</span>
+                                    <span class="text-gray-800 font-medium">${i18n.t('resignation.title')}</span>
+                                </a>
+                            </div>
+                        </div>
+                        ` : ''}
 
                         <hr class="my-4">
 

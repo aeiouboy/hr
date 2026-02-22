@@ -1,0 +1,141 @@
+{
+  "realm": "central-hrms",
+  "enabled": true,
+  "displayName": "Central HRMS",
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "employee",
+        "description": "Regular employee with self-service access"
+      },
+      {
+        "name": "manager",
+        "description": "Manager with team management access"
+      },
+      {
+        "name": "hr_admin",
+        "description": "HR Administrator with full HR module access"
+      },
+      {
+        "name": "hr_manager",
+        "description": "HR Manager with strategic HR access and reporting"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "hrms-frontend",
+      "name": "HRMS Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ]
+    },
+    {
+      "clientId": "hrms-api",
+      "name": "HRMS API",
+      "enabled": true,
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "secret": "hrms-api-secret-dev",
+      "protocol": "openid-connect",
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "emp01",
+      "email": "emp01@cg.com",
+      "firstName": "Employee",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["employee"]
+    },
+    {
+      "username": "mgr01",
+      "email": "mgr01@cg.com",
+      "firstName": "Manager",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["manager", "employee"]
+    },
+    {
+      "username": "hradmin01",
+      "email": "hradmin01@cg.com",
+      "firstName": "HR Admin",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["hr_admin", "employee"]
+    },
+    {
+      "username": "hrmgr01",
+      "email": "hrmgr01@cg.com",
+      "firstName": "HR Manager",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["hr_manager", "hr_admin", "employee"]
+    }
+  ]
+}

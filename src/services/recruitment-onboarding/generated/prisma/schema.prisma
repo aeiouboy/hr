@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model JobPosting {
+  id                String    @id @default(uuid())
+  position_id       String?
+  position_title    String
+  position_title_th String?
+  department        String
+  department_th     String?
+  company           String    @default("Central Retail Corporation")
+  location          String?
+  location_th       String?
+  job_family        String?
+  employment_type   String    @default("full_time")
+  salary_range_min  Float?
+  salary_range_max  Float?
+  currency          String    @default("THB")
+  posting_date      DateTime  @default(now())
+  closing_date      DateTime?
+  status            String    @default("draft")
+  headcount         Int       @default(1)
+  filled_count      Int       @default(0)
+  description       String?
+  description_th    String?
+  requirements      String[]
+  benefits          String[]
+  hiring_manager_id String?
+  hr_recruiter_id   String?
+  is_internal       Boolean   @default(true)
+  is_external       Boolean   @default(true)
+
+  candidates Candidate[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("job_postings")
+}
+
+model Candidate {
+  id             String     @id @default(uuid())
+  job_posting_id String
+  job_posting    JobPosting @relation(fields: [job_posting_id], references: [id], onDelete: Cascade)
+  first_name     String
+  last_name      String
+  email          String
+  phone          String?
+  resume_url     String?
+  source         String?
+  status         String     @default("applied")
+  current_stage  String     @default("screening")
+  applied_date   DateTime   @default(now())
+  notes          String?
+
+  screenings Screening[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("candidates")
+}
+
+model Screening {
+  id             String    @id @default(uuid())
+  candidate_id   String
+  candidate      Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  stage          String
+  status         String    @default("pending")
+  scheduled_date DateTime?
+  completed_date DateTime?
+  interviewer_id String?
+  score          Float?
+  feedback       String?
+  recommendation String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("screenings")
+}
+
+model OnboardingTemplate {
+  id         String  @id @default(uuid())
+  name_en    String
+  name_th    String?
+  department String?
+  is_default Boolean @default(false)
+
+  tasks OnboardingTask[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("onboarding_templates")
+}
+
+model OnboardingTask {
+  id             String              @id @default(uuid())
+  template_id    String?
+  template       OnboardingTemplate? @relation(fields: [template_id], references: [id])
+  employee_id    String?
+  category       String
+  title_en       String
+  title_th       String?
+  description_en String?
+  description_th String?
+  required       Boolean             @default(true)
+  status         String              @default("pending")
+  due_date       DateTime?
+  completed_date DateTime?
+  completed_by   String?
+  assigned_to    String?
+  sort_order     Int                 @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("onboarding_tasks")
+}
+
+model Resignation {
+  id                     String    @id @default(uuid())
+  employee_id            String
+  employee_name          String
+  department             String?
+  position               String?
+  submission_date        DateTime  @default(now())
+  last_working_date      DateTime
+  reason_type            String
+  reason_detail          String?   @db.Text
+  status                 String    @default("submitted")
+  manager_id             String?
+  manager_approved_at    DateTime?
+  manager_comments       String?   @db.Text
+  hr_clearance_completed Boolean   @default(false)
+  hr_clearance_date      DateTime?
+  settlement_amount      Float?
+  settlement_date        DateTime?
+  exit_interview_date    DateTime?
+  exit_interview_notes   String?   @db.Text
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
+
+  clearance_items ClearanceItem[]
+
+  @@map("resignations")
+}
+
+model ClearanceItem {
+  id             String    @id @default(uuid())
+  resignation_id String
+  category       String
+  item_name      String
+  item_name_th   String?
+  required       Boolean   @default(true)
+  status         String    @default("pending")
+  completed_date DateTime?
+  completed_by   String?
+  notes          String?   @db.Text
+
+  resignation Resignation @relation(fields: [resignation_id], references: [id])
+
+  @@map("clearance_items")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  entity_type  String
+  entity_id    String
+  action       String
+  performed_by String
+  details      String?  @db.Text
+  created_at   DateTime @default(now())
+
+  @@map("audit_logs")
+}

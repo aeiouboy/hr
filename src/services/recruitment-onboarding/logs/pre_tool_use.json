@@ -1,0 +1,98 @@
+[
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/lnd-service && npx prisma generate 2>&1 | tail -3",
+      "timeout": 60000,
+      "description": "Generate Prisma client for lnd-service"
+    },
+    "tool_use_id": "toolu_01BdS6AQT4RoENfrYW2Pe211"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "grep -r \"export type\" generated/prisma/index.d.ts 2>/dev/null | grep \"Delegate\" | head -10",
+      "description": "Check Prisma model accessor names"
+    },
+    "tool_use_id": "toolu_012N2JUMTaThrL1TVb3eiJX1"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "grep \"get \" generated/prisma/index.d.ts 2>/dev/null | head -15",
+      "description": "Check Prisma client model accessors"
+    },
+    "tool_use_id": "toolu_01Qt8Se16ujqP6uvKXtq9ZLs"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "npx jest --no-cache 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Retry tests after prisma generate"
+    },
+    "tool_use_id": "toolu_01G5bVHh7aD7sYPNpqjcLjE7"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/lnd-service && npx jest --no-cache 2>&1 | tail -10",
+      "timeout": 120000,
+      "description": "Verify lnd-service tests still pass"
+    },
+    "tool_use_id": "toolu_01Hq5QsGLMTtqunT4RQTByVA"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache --forceExit 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Run time-attendance service tests"
+    },
+    "tool_use_id": "toolu_01BoZkns75Mk2Wcjkdmgva8f"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/lnd-service && npx jest --no-cache --forceExit 2>&1 | tail -15",
+      "timeout": 120000,
+      "description": "Run lnd-service tests"
+    },
+    "tool_use_id": "toolu_017ffwN9xSmF745D8vtNwCiN"
+  }
+]

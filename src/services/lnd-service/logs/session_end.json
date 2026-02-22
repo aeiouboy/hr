@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/lnd-service",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:20.970731"
+  }
+]

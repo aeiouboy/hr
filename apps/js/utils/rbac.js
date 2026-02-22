@@ -324,7 +324,7 @@ const RBAC = (function() {
                 }
             };
 
-            return roleNames[currentLang]?.[role] || role;
+            return roleNames[currentLang]?.[role] || role || 'User';
         },
 
         /**

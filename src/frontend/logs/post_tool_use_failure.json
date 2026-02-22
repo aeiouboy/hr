@@ -1,0 +1,184 @@
+[
+  {
+    "timestamp": "2026-02-22T17:19:27.512920",
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01PkA3S2m1mAohiwFd3kkQMq",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/src/services/leave-management"
+    },
+    "error": "EISDIR: illegal operation on a directory, read '/Users/tachongrak/Projects/hr/src/services/leave-management'",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "raw_input": {
+      "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/src/services/leave-management"
+      },
+      "tool_use_id": "toolu_01PkA3S2m1mAohiwFd3kkQMq",
+      "error": "EISDIR: illegal operation on a directory, read '/Users/tachongrak/Projects/hr/src/services/leave-management'",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T17:19:27.512920"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T17:37:26.799667",
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01K4T1dNV3FgwiEGWo2hvD5h",
+    "tool_input": {
+      "command": "ls /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+      "description": "List locale app pages"
+    },
+    "error": "Exit code 1\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/\n\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "raw_input": {
+      "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "ls /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+        "description": "List locale app pages"
+      },
+      "tool_use_id": "toolu_01K4T1dNV3FgwiEGWo2hvD5h",
+      "error": "Exit code 1\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/\n\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T17:37:26.799667"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T17:37:33.025872",
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01Vn4n92yZoCCFW3mbFG5npx",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/workflows"
+    },
+    "error": "EISDIR: illegal operation on a directory, read '/Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/workflows'",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "raw_input": {
+      "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/workflows"
+      },
+      "tool_use_id": "toolu_01Vn4n92yZoCCFW3mbFG5npx",
+      "error": "EISDIR: illegal operation on a directory, read '/Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/workflows'",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T17:37:33.025872"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T17:37:40.684753",
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01KeFTLasVPp4XruW1QALG6P",
+    "tool_input": {
+      "command": "ls /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+      "description": "List locale app routes"
+    },
+    "error": "Exit code 1\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/\n\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "raw_input": {
+      "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "ls /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+        "description": "List locale app routes"
+      },
+      "tool_use_id": "toolu_01KeFTLasVPp4XruW1QALG6P",
+      "error": "Exit code 1\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/\n\n(eval):1: no matches found: /Users/tachongrak/Projects/hr/src/frontend/src/app/[locale]/",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T17:37:40.684753"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T17:37:55.203424",
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01K9TDSXpze2yk5MWM7MSsHH",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/src/frontend/src/i18n"
+    },
+    "error": "EISDIR: illegal operation on a directory, read '/Users/tachongrak/Projects/hr/src/frontend/src/i18n'",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "raw_input": {
+      "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/src/frontend/src/i18n"
+      },
+      "tool_use_id": "toolu_01K9TDSXpze2yk5MWM7MSsHH",
+      "error": "EISDIR: illegal operation on a directory, read '/Users/tachongrak/Projects/hr/src/frontend/src/i18n'",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T17:37:55.203424"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T22:20:03.274542",
+    "session_id": "f8346371-2666-42fe-b799-3de4ced32b1e",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01NbL2AaH3PWQJhUhyvoADeC",
+    "tool_input": {
+      "command": "npx next dev --port 3003 &\nsleep 20 && curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3003 2>/dev/null",
+      "timeout": 60000,
+      "description": "Start Next.js on port 3003"
+    },
+    "error": "Exit code 7\n\u26a0 Warning: Next.js inferred your workspace root, but it may not be correct.\n We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n Detected additional lockfiles: \n   * /Users/tachongrak/Projects/hr/package-lock.json\n\n\u25b2 Next.js 16.1.6 (Turbopack)\n- Local:         http://localhost:3003\n- Network:       http://192.168.68.104:3003\n\n\u2713 Starting...\n\u2a2f Unable to acquire lock at /Users/tachongrak/Projects/hr/src/frontend/.next/dev/lock, is another instance of next dev running?\n  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.\n\u001b[?25h\n000\n\u26a0 Warning: Next.js inferred your workspace root, but it may not be correct.\n We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n Detected additional lockfiles: \n   * /Users/tachongrak/Projects/hr/package-lock.json\n\n\u25b2 Next.js 16.1.6 (Turbopack)\n- Local:         http://localhost:3003\n- Network:       http://192.168.68.104:3003\n\n\u2713 Starting...\n\u2a2f Unable to acquire lock at /Users/tachongrak/Projects/hr/src/frontend/.next/dev/lock, is another instance of next dev running?\n  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.\n\u001b[?25h\n000",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/f8346371-2666-42fe-b799-3de4ced32b1e.jsonl",
+    "raw_input": {
+      "session_id": "f8346371-2666-42fe-b799-3de4ced32b1e",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/f8346371-2666-42fe-b799-3de4ced32b1e.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "npx next dev --port 3003 &\nsleep 20 && curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3003 2>/dev/null",
+        "timeout": 60000,
+        "description": "Start Next.js on port 3003"
+      },
+      "tool_use_id": "toolu_01NbL2AaH3PWQJhUhyvoADeC",
+      "error": "Exit code 7\n\u26a0 Warning: Next.js inferred your workspace root, but it may not be correct.\n We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n Detected additional lockfiles: \n   * /Users/tachongrak/Projects/hr/package-lock.json\n\n\u25b2 Next.js 16.1.6 (Turbopack)\n- Local:         http://localhost:3003\n- Network:       http://192.168.68.104:3003\n\n\u2713 Starting...\n\u2a2f Unable to acquire lock at /Users/tachongrak/Projects/hr/src/frontend/.next/dev/lock, is another instance of next dev running?\n  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.\n\u001b[?25h\n000\n\u26a0 Warning: Next.js inferred your workspace root, but it may not be correct.\n We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n Detected additional lockfiles: \n   * /Users/tachongrak/Projects/hr/package-lock.json\n\n\u25b2 Next.js 16.1.6 (Turbopack)\n- Local:         http://localhost:3003\n- Network:       http://192.168.68.104:3003\n\n\u2713 Starting...\n\u2a2f Unable to acquire lock at /Users/tachongrak/Projects/hr/src/frontend/.next/dev/lock, is another instance of next dev running?\n  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.\n\u001b[?25h\n000",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T22:20:03.274542"
+    }
+  }
+]

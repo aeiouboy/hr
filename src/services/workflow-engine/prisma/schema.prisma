@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Workflow {
+  id             String   @id @default(uuid())
+  change_type    String
+  section        String?
+  status         String   @default("pending")
+  requested_by   String
+  requester_name String?
+  effective_date DateTime?
+  current_step   Int      @default(1)
+  total_steps    Int      @default(0)
+  old_values     String?  @db.Text
+  new_values     String?  @db.Text
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  completed_at   DateTime?
+
+  steps          WorkflowStep[]
+
+  @@map("workflows")
+}
+
+model WorkflowStep {
+  id            String    @id @default(uuid())
+  workflow_id   String
+  step_number   Int
+  role          String
+  role_name     String?
+  approver_id   String?
+  approver_name String?
+  status        String    @default("pending")
+  action_date   DateTime?
+  comments      String?
+
+  workflow      Workflow   @relation(fields: [workflow_id], references: [id])
+
+  @@map("workflow_steps")
+}
+
+model ApprovalAction {
+  id           String   @id @default(uuid())
+  workflow_id  String
+  step_number  Int?
+  action       String
+  performed_by String
+  comments     String?
+  performed_at DateTime @default(now())
+  details      String?  @db.Text
+
+  @@map("approval_actions")
+}
+
+model Delegation {
+  id            String   @id @default(uuid())
+  delegator_id  String
+  delegate_id   String
+  start_date    DateTime
+  end_date      DateTime
+  change_types  Json?
+  status        String   @default("active")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@map("delegations")
+}
+
+model ApprovalDelegation {
+  id              String    @id @default(uuid())
+  delegator_id    String
+  delegate_id     String
+  start_date      DateTime
+  end_date        DateTime
+  workflow_types  String[]
+  is_active       Boolean   @default(true)
+  revoked_at      DateTime?
+  revoked_by      String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@map("approval_delegations")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  entity_type  String
+  entity_id    String
+  action       String
+  performed_by String
+  details      String?  @db.Text
+  created_at   DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model PolicyRule {
+  id              String    @id @default(uuid())
+  name            String
+  description     String?
+  category        String    // leave, overtime, claims
+  rule_type       String    // hard, soft
+  condition_field String    // e.g. leave_balance, weekly_ot_hours, claim_amount
+  condition_op    String    // gt, gte, lt, lte, eq
+  condition_value String    // threshold value
+  message         String?   // inline warning/error message
+  is_active       Boolean   @default(true)
+  created_by      String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@map("policy_rules")
+}

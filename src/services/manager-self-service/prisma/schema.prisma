@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ManagerDashboardConfig {
+  id           String   @id @default(uuid())
+  manager_id   String   @unique
+  widgets      Json     @default("[]")
+  preferences  Json     @default("{}")
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("manager_dashboard_configs")
+}
+
+model TeamMember {
+  id              String    @id @default(uuid())
+  employee_id     String    @unique
+  first_name_en   String?
+  first_name_th   String?
+  last_name_en    String?
+  last_name_th    String?
+  job_title       String?
+  department      String?
+  manager_id      String?
+  status          String    @default("active")
+  photo_url       String?
+  hire_date       DateTime?
+  probation_end   DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([manager_id])
+  @@map("team_members")
+}
+
+model PendingApproval {
+  id              String   @id @default(uuid())
+  request_type    String
+  requester_id    String
+  requester_name  String?
+  approver_id     String
+  status          String   @default("pending")
+  priority        String   @default("normal")
+  title           String
+  description     String?
+  metadata        Json?
+  submitted_at    DateTime @default(now())
+  due_date        DateTime?
+  resolved_at     DateTime?
+  resolved_by     String?
+
+  @@index([approver_id, status])
+  @@map("pending_approvals")
+}
+
+model TeamLeaveEntry {
+  id           String   @id @default(uuid())
+  employee_id  String
+  employee_name String?
+  leave_type   String
+  start_date   DateTime
+  end_date     DateTime
+  status       String   @default("approved")
+
+  @@index([employee_id])
+  @@map("team_leave_entries")
+}
+
+model ManagerAuditLog {
+  id           String   @id @default(uuid())
+  manager_id   String
+  action       String
+  entity_type  String
+  entity_id    String?
+  details      Json?
+  performed_at DateTime @default(now())
+
+  @@index([manager_id])
+  @@map("manager_audit_logs")
+}

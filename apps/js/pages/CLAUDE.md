@@ -7,6 +7,23 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #841 | 5:40 PM | 🔴 | Performance Tab Switching Accessibility and Styling Enhancement | ~626 |
+| #835 | 5:37 PM | 🟣 | Performance Management Page Loading with Thai Interface | ~641 |
+| #831 | " | 🔴 | Performance Page Status Translation Key Formatting Fixed | ~495 |
+| #830 | 5:36 PM | 🔵 | Performance Management Page Implementation Confirmed | ~686 |
+| #826 | 5:34 PM | 🟣 | Payslip Amount Masking Confirmation Dialog in Thai | ~571 |
+| #820 | 5:32 PM | 🔵 | Leave Request Tab Switching Implementation | ~712 |
+| #819 | 5:31 PM | 🔵 | Leave Request Page Tab Navigation and Form Interaction Logic | ~643 |
+| #811 | 5:26 PM | 🟣 | Performance Evaluation System Implemented with Opus Model | ~1363 |
+| #674 | 4:45 PM | 🔵 | Leave Request Form Renders Successfully via Direct Tab Switch | ~572 |
+| #662 | 4:42 PM | 🟣 | Leave Balance Display Successfully Rendering | ~613 |
+| #661 | " | 🔴 | Missing FormFieldComponent.radio Method Causing Leave Request Error | ~488 |
+| #658 | 4:41 PM | 🔴 | Leave Request Form Error - Missing FormFieldComponent.radio Method | ~423 |
+| #652 | 4:39 PM | 🔴 | Leave Page Skeleton Loading Logic Fixed | ~512 |
+| #651 | " | 🔴 | Leave Request Page Router Refresh Fix | ~392 |
+| #647 | 4:37 PM | 🔵 | Leave Request Form Implementation with Date Selection and Half-Day Options | ~539 |
+| #646 | " | 🔴 | Leave Request Page Error - Missing DateUtils.formatISO Function | ~411 |
+| #639 | 4:35 PM | 🔵 | Leave Request Page Module Exists with Init Method | ~368 |
 | #503 | 2:55 PM | 🟣 | Background Workflows Completed - Accessibility and Error Handling Features | ~705 |
 | #497 | 2:54 PM | 🟣 | Job Relationships Section Implementation | ~908 |
 | #426 | 2:37 PM | 🟣 | Work Permit Information Section Implementation | ~856 |

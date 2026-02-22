@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "0f9a2391-7600-4ddf-a16e-da38eac93110",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/0f9a2391-7600-4ddf-a16e-da38eac93110.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/performance-talent",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
+  }
+]

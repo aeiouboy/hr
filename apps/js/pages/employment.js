@@ -44,7 +44,12 @@ const EmploymentPage = (function() {
          * Initialize page
          */
         init() {
-            // Any initialization logic
+            // Initialize org chart interactivity (pan, zoom, etc.)
+            setTimeout(() => {
+                if (typeof OrgChartComponent !== 'undefined') {
+                    OrgChartComponent.init();
+                }
+            }, 100);
         },
 
         /**

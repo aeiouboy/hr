@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "9c684b8f-e007-4992-b83a-21558e6daa55",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/9c684b8f-e007-4992-b83a-21558e6daa55.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/leave-management",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T17:47:52.147500"
+  }
+]

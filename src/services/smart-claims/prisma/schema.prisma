@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ClaimRequest {
+  id              String    @id @default(uuid())
+  employee_id     String
+  claim_type      String    // medical, travel, meal, equipment, other
+  amount          Decimal   @db.Decimal(12, 2)
+  currency        String    @default("THB")
+  receipt_date    DateTime
+  receipt_url     String?
+  ocr_result_id   String?
+  ocr_confidence  Float?
+  policy_rule_id  String?
+  status          String    @default("draft") // draft, submitted, processing, approved, rejected
+  rejection_reason String?
+  submitted_at    DateTime?
+  approved_at     DateTime?
+  approved_by     String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  ocr_result      OCRResult?
+  policy_rule     PolicyRule? @relation(fields: [policy_rule_id], references: [id])
+
+  @@map("claim_requests")
+}
+
+model PolicyRule {
+  id                  String    @id @default(uuid())
+  rule_name           String
+  claim_type          String
+  max_amount          Decimal   @db.Decimal(12, 2)
+  max_amount_per_month Decimal  @db.Decimal(12, 2)
+  auto_approve_threshold Decimal? @db.Decimal(12, 2)
+  requires_receipt    Boolean   @default(true)
+  requires_doctor_cert Boolean  @default(false)
+  min_days_notice     Int       @default(0)
+  effective_from      DateTime
+  effective_to        DateTime?
+  eligible_grades     Json?
+  is_active           Boolean   @default(true)
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  claims              ClaimRequest[]
+
+  @@map("policy_rules")
+}
+
+model OCRResult {
+  id                String    @id @default(uuid())
+  claim_id          String    @unique
+  raw_text          String?   @db.Text
+  extracted_amount  Decimal?  @db.Decimal(12, 2)
+  extracted_date    DateTime?
+  extracted_merchant String?
+  extracted_tax_id  String?
+  confidence_score  Float
+  model_version     String?
+  processing_time_ms Int?
+  needs_manual_review Boolean @default(false)
+  created_at        DateTime  @default(now())
+
+  claim             ClaimRequest @relation(fields: [claim_id], references: [id])
+
+  @@map("ocr_results")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  entity_type  String
+  entity_id    String
+  action       String
+  performed_by String
+  details      String?  @db.Text
+  created_at   DateTime @default(now())
+
+  @@map("audit_logs")
+}

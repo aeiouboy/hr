@@ -1,0 +1,6 @@
+{
+  "session_id": "6778dabc-4414-4788-9be0-de6610e6f7f2",
+  "prompts": [
+    "<task-notification>\n<task-id>b422509</task-id>\n<tool-use-id>toolu_011qESPD7Tghd2XyngqdFg4v</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/b422509.output</output-file>\n<status>completed</status>\n<summary>Background command \"Run Organization Service tests\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/b422509.output"
+  ]
+}

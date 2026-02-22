@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BenefitPlan {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  name_en         String
+  name_th         String?
+  category        String   // health, dental, vision, life, retirement, welfare
+  description_en  String?
+  description_th  String?
+  coverage_amount Float?
+  employer_contribution Float @default(0)
+  employee_contribution Float @default(0)
+  is_active       Boolean  @default(true)
+  effective_date  DateTime
+  end_date        DateTime?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  enrollments     BenefitEnrollment[]
+  @@map("benefit_plans")
+}
+
+model BenefitEnrollment {
+  id              String   @id @default(uuid())
+  employee_id     String
+  plan_id         String
+  coverage_level  String   // individual, individual_spouse, family
+  status          String   @default("active") // active, pending, cancelled, expired
+  enrolled_at     DateTime @default(now())
+  effective_date  DateTime
+  end_date        DateTime?
+  cancelled_at    DateTime?
+  cancellation_reason String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  plan            BenefitPlan @relation(fields: [plan_id], references: [id])
+  dependents      BenefitDependent[]
+  @@unique([employee_id, plan_id])
+  @@map("benefit_enrollments")
+}
+
+model BenefitDependent {
+  id              String   @id @default(uuid())
+  enrollment_id   String
+  name            String
+  relationship    String   // spouse, child, parent
+  date_of_birth   DateTime?
+  national_id     String?
+  is_active       Boolean  @default(true)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  enrollment      BenefitEnrollment @relation(fields: [enrollment_id], references: [id])
+  @@map("benefit_dependents")
+}
+
+model BenefitClaim {
+  id              String   @id @default(uuid())
+  employee_id     String
+  plan_id         String
+  claim_type      String   // medical, dental, vision, wellness
+  amount          Float
+  description     String?
+  receipt_date    DateTime
+  status          String   @default("pending") // pending, approved, rejected, paid
+  submitted_at    DateTime @default(now())
+  reviewed_at     DateTime?
+  reviewed_by     String?
+  rejection_reason String?
+  paid_at         DateTime?
+  paid_amount     Float?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  @@map("benefit_claims")
+}
+
+// ── Smart Claims (Feature F6) ───────────────────────────────────────
+
+model ClaimRequest {
+  id                String        @id @default(uuid())
+  employee_id       String
+  receipt_id        String?
+  category          String        // medical, dental, travel, meals, office_supplies, training, other
+  amount            Decimal       @db.Decimal(12, 2)
+  currency          String        @default("THB")
+  description       String?
+  status            String        @default("draft") // draft, submitted, processing, approved, rejected
+  auto_approved     Boolean       @default(false)
+  approved_by       String?
+  approved_at       DateTime?
+  rejected_by       String?
+  rejected_reason   String?
+  submitted_at      DateTime?
+  ocr_result_id     String?
+  requires_finance_approval Boolean @default(false)
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+
+  ocr_result        OCRResult?    @relation(fields: [ocr_result_id], references: [id])
+  policy_checks     PolicyCheck[]
+  @@map("claim_requests")
+}
+
+model OCRResult {
+  id                String        @id @default(uuid())
+  receipt_file_name String
+  receipt_file_type String        // jpg, png, pdf
+  receipt_file_size Int
+  vendor_name       String?
+  amount            Decimal?      @db.Decimal(12, 2)
+  receipt_date      DateTime?
+  category          String?
+  confidence_score  Float         @default(0)
+  raw_text          String?
+  processed_at      DateTime      @default(now())
+
+  claims            ClaimRequest[]
+  @@map("ocr_results")
+}
+
+model PolicyRule {
+  id                String        @id @default(uuid())
+  name              String
+  description       String?
+  rule_type         String        // hard_limit, soft_warning, required_document, category_restriction
+  category          String?       // applies to specific category, null = all
+  condition_field   String        // max_amount, monthly_cap, required_docs, eligible_categories
+  condition_value   String        // JSON value
+  is_active         Boolean       @default(true)
+  created_by        String
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+  @@map("policy_rules")
+}
+
+model PolicyCheck {
+  id                String        @id @default(uuid())
+  claim_id          String
+  rule_id           String
+  rule_name         String
+  passed            Boolean
+  message           String?
+  checked_at        DateTime      @default(now())
+
+  claim             ClaimRequest  @relation(fields: [claim_id], references: [id])
+  @@map("policy_checks")
+}

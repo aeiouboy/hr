@@ -1,0 +1,26 @@
+[
+  {
+    "session_id": "0c806f55-452c-4d95-9efd-d00ece60c159",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/0c806f55-452c-4d95-9efd-d00ece60c159.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/workflow-engine",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T17:47:53.218105"
+  },
+  {
+    "session_id": "fdc6245b-da9b-400c-9ea9-0d1c011f5244",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/fdc6245b-da9b-400c-9ea9-0d1c011f5244.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/workflow-engine",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T18:21:04.874535"
+  },
+  {
+    "session_id": "0f9a2391-7600-4ddf-a16e-da38eac93110",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/0f9a2391-7600-4ddf-a16e-da38eac93110.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/workflow-engine",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T21:57:01.364572"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "eab75a4e-fac6-44a7-8deb-17f7a4ae4884",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/eab75a4e-fac6-44a7-8deb-17f7a4ae4884.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/payroll-management",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
+  }
+]

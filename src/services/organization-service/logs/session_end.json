@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "dafff119-1736-4770-bb13-d89455f8d434",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/dafff119-1736-4770-bb13-d89455f8d434.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/organization-service",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:21.011698"
+  }
+]

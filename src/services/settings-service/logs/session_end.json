@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "7d121679-a01e-4219-82d4-411d14112201",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7d121679-a01e-4219-82d4-411d14112201.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/settings-service",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T17:47:42.869515"
+  },
+  {
+    "session_id": "c479b1e6-6643-4200-ae21-883505b6e505",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/c479b1e6-6643-4200-ae21-883505b6e505.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/settings-service",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T18:32:25.645695"
+  }
+]

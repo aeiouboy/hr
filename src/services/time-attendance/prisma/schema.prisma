@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Shift {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  name_en         String
+  name_th         String?
+  start_time      String   // HH:MM
+  end_time        String   // HH:MM
+  is_flexible     Boolean  @default(false)
+  break_minutes   Int      @default(60)
+  work_hours      Float    @default(8)
+  is_active       Boolean  @default(true)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  attendance_records AttendanceRecord[]
+  @@map("shifts")
+}
+
+model AttendanceRecord {
+  id                String   @id @default(uuid())
+  employee_id       String
+  date              DateTime @db.Date
+  shift_id          String?
+  scheduled_start   String?  // HH:MM
+  scheduled_end     String?  // HH:MM
+  actual_check_in   String?  // HH:MM
+  actual_check_out  String?  // HH:MM
+  check_in_source   String?
+  check_in_location String?
+  check_out_source  String?
+  check_out_location String?
+  working_hours     Float?
+  overtime_hours    Float    @default(0)
+  is_late           Boolean  @default(false)
+  late_minutes      Int      @default(0)
+  is_early_departure Boolean @default(false)
+  early_minutes     Int      @default(0)
+  status            String   @default("present") // present, absent, incomplete, leave
+  anomalies         String[] // array of anomaly type ids
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  shift             Shift?   @relation(fields: [shift_id], references: [id])
+  @@unique([employee_id, date])
+  @@map("attendance_records")
+}
+
+model OvertimeRequest {
+  id              String    @id @default(uuid())
+  employee_id     String
+  date            DateTime  @db.Date
+  day_type        String    // weekday, weekend, holiday
+  start_time      String    // HH:MM
+  end_time        String    // HH:MM
+  hours           Float
+  ot_type         String    // weekday, weekend, holiday
+  rate            Float
+  hourly_rate     Float
+  amount          Float
+  has_night_premium Boolean @default(false)
+  night_hours     Float     @default(0)
+  night_premium_amount Float @default(0)
+  total_amount    Float
+  reason          String
+  work_description String?
+  pre_approved    Boolean   @default(false)
+  status          String    @default("pending") // pending, approved, rejected, completed, cancelled
+  submitted_at    DateTime  @default(now())
+  approved_at     DateTime?
+  approved_by     String?
+  rejected_at     DateTime?
+  rejected_by     String?
+  rejection_reason String?
+  post_confirmed  Boolean   @default(false)
+  post_confirmed_at DateTime?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+  @@map("overtime_requests")
+}
+
+model Location {
+  id                  String    @id @default(uuid())
+  location_code       String    @unique
+  name_en             String
+  name_th             String?
+  location_type       String    // business_zone, region, province, branch, building, floor
+  parent_location_id  String?
+  address             Json?
+  coordinates         Json?     // { lat, lng }
+  status              String    @default("active")
+  headcount           Int       @default(0)
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+  parent              Location? @relation("LocationHierarchy", fields: [parent_location_id], references: [id])
+  children            Location[] @relation("LocationHierarchy")
+  employee_locations  EmployeeLocation[]
+  @@map("locations")
+}
+
+model EmployeeLocation {
+  id              String    @id @default(uuid())
+  employee_id     String
+  location_id     String
+  location_type   String    @default("primary") // primary, secondary
+  effective_date  DateTime
+  end_date        DateTime?
+  status          String    @default("active")
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+  location        Location  @relation(fields: [location_id], references: [id])
+  @@unique([employee_id, location_id, location_type])
+  @@map("employee_locations")
+}
+
+model AttendanceConfig {
+  id                        String @id @default(uuid())
+  late_threshold_minutes    Int    @default(15)
+  early_departure_threshold_minutes Int @default(30)
+  overtime_approval_required Boolean @default(true)
+  consecutive_absence_alert_days Int @default(3)
+  work_hours_per_day        Float  @default(8)
+  break_minutes             Int    @default(60)
+  created_at                DateTime @default(now())
+  updated_at                DateTime @updatedAt
+  @@map("attendance_config")
+}

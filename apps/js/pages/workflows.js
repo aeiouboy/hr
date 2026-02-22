@@ -29,7 +29,16 @@ const WorkflowsPage = (function() {
 
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-                    <h1 class="text-2xl font-bold text-gray-900 mb-6">${i18n.t('workflow.title')}</h1>
+                    <!-- Page Header -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">${i18n.t('workflow.title')}</h1>
+                        <button onclick="WorkflowsPage.openCreateRequestModal()"
+                                class="mt-4 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-cg-red text-white rounded-lg hover:bg-red-700 transition min-h-[44px]"
+                                aria-label="${i18n.t('workflow.createRequest')}">
+                            <span class="material-icons text-sm" aria-hidden="true">add</span>
+                            ${i18n.t('workflow.createRequest')}
+                        </button>
+                    </div>
 
                     <!-- Summary Cards -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -416,6 +425,158 @@ const WorkflowsPage = (function() {
                 await API.sendBackWorkflow(workflowId, formData);
                 ToastComponent.success(i18n.t('toast.sendBackSuccess'));
                 ModalComponent.close();
+                Router.refresh();
+            } catch (error) {
+                ToastComponent.error(i18n.t('error.generic'));
+            }
+        },
+
+        /**
+         * Open create request modal
+         */
+        openCreateRequestModal() {
+            const isThai = i18n.isThai();
+
+            // Get request type options from MockLookupData
+            const requestTypeOptions = MockLookupData.requestTypes.map(type => ({
+                value: type.value,
+                label: isThai ? type.labelTh : type.labelEn
+            }));
+
+            // Get today's date for minimum effective date
+            const today = new Date().toISOString().split('T')[0];
+
+            ModalComponent.open({
+                title: i18n.t('workflow.createRequest'),
+                size: 'lg',
+                content: `
+                    <form id="create-request-form" class="space-y-4">
+                        ${FormFieldComponent.select({
+                            name: 'requestType',
+                            label: i18n.t('workflow.requestType'),
+                            required: true,
+                            placeholder: i18n.t('workflow.selectRequestType'),
+                            options: requestTypeOptions
+                        })}
+
+                        ${FormFieldComponent.date({
+                            name: 'effectiveDate',
+                            label: i18n.t('common.effectiveDate'),
+                            required: true,
+                            min: today,
+                            hint: i18n.t('workflow.effectiveDateHint')
+                        })}
+
+                        ${FormFieldComponent.textarea({
+                            name: 'description',
+                            label: i18n.t('workflow.description'),
+                            required: true,
+                            rows: 4,
+                            placeholder: i18n.t('workflow.descriptionPlaceholder')
+                        })}
+
+                        ${FormFieldComponent.file({
+                            name: 'attachments',
+                            label: i18n.t('workflow.attachments'),
+                            accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+                            multiple: true,
+                            hint: i18n.t('workflow.attachmentsHint')
+                        })}
+                    </form>
+                `,
+                actions: [
+                    { label: i18n.t('common.cancel'), onclick: 'ModalComponent.close()' },
+                    {
+                        label: i18n.t('workflow.submitRequest'),
+                        primary: true,
+                        onclick: 'WorkflowsPage.submitCreateRequest()'
+                    }
+                ]
+            });
+        },
+
+        /**
+         * Submit create request form
+         */
+        async submitCreateRequest() {
+            const formData = FormFieldComponent.getFormData('create-request-form');
+
+            // Validate required fields
+            if (!formData.requestType) {
+                ToastComponent.error(i18n.t('workflow.errorSelectRequestType'));
+                return;
+            }
+
+            if (!formData.effectiveDate) {
+                ToastComponent.error(i18n.t('workflow.errorSelectEffectiveDate'));
+                return;
+            }
+
+            if (!formData.description?.trim()) {
+                ToastComponent.error(i18n.t('workflow.errorEnterDescription'));
+                return;
+            }
+
+            try {
+                // Get current user info
+                const currentUser = MockEmployeeData.currentUser || {};
+
+                // Create new workflow request
+                const newRequest = {
+                    id: `wf_${Date.now()}`,
+                    type: formData.requestType,
+                    status: 'pending',
+                    requestedBy: {
+                        id: currentUser.employeeId || 'EMP001',
+                        name: currentUser.name || 'Current User',
+                        nameTh: currentUser.nameTh || currentUser.name || 'ผู้ใช้ปัจจุบัน',
+                        photo: currentUser.photo || 'https://i.pravatar.cc/150?img=1'
+                    },
+                    submittedAt: new Date().toISOString(),
+                    effectiveDate: formData.effectiveDate,
+                    currentStep: 1,
+                    totalSteps: 2,
+                    approvers: [
+                        {
+                            step: 1,
+                            role: 'Manager',
+                            user: { id: 'MGR001', name: 'Manager' },
+                            status: 'pending'
+                        },
+                        {
+                            step: 2,
+                            role: 'HR Admin',
+                            user: { id: 'HR001', name: 'HR Administrator' },
+                            status: 'pending'
+                        }
+                    ],
+                    changes: {
+                        section: formData.requestType,
+                        description: formData.description
+                    },
+                    attachments: [],
+                    comments: []
+                };
+
+                // Handle file attachments if any
+                const fileInput = document.getElementById('attachments');
+                if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                    Array.from(fileInput.files).forEach(file => {
+                        newRequest.attachments.push({
+                            name: file.name,
+                            size: FormFieldComponent.formatFileSize(file.size)
+                        });
+                    });
+                }
+
+                // Add to mock data
+                MockWorkflowData.requests.push(newRequest);
+
+                // Close modal and show success
+                ModalComponent.close();
+                ToastComponent.success(i18n.t('workflow.requestCreatedSuccess'));
+
+                // Refresh the page to show new request
                 Router.refresh();
             } catch (error) {
                 ToastComponent.error(i18n.t('error.generic'));

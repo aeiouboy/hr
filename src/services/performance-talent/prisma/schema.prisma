@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://hrms:hrms@localhost:5432/hrms_performance_talent"
+}
+
+model Goal {
+  id            String   @id @default(uuid())
+  employee_id   String
+  title         String
+  description   String?
+  category      String   // business, development, personal
+  weight        Int      @default(0)
+  target_value  Float?
+  actual_value  Float?
+  unit          String?
+  status        String   @default("draft") // draft, active, completed, cancelled
+  progress      Int      @default(0)
+  start_date    DateTime?
+  due_date      DateTime?
+  completed_at  DateTime?
+  period        String   // e.g. "2024-H1", "2024-Q1"
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@map("goals")
+}
+
+model Evaluation {
+  id                String   @id @default(uuid())
+  employee_id       String
+  evaluator_id      String
+  period            String   // e.g. "2024-H1"
+  type              String   // mid_year, annual, probation
+  status            String   @default("draft") // draft, self_review, manager_review, calibration, completed
+  self_rating       Float?
+  manager_rating    Float?
+  final_rating      Float?
+  self_comments     String?
+  manager_comments  String?
+  strengths         String?
+  improvements      String?
+  submitted_at      DateTime?
+  completed_at      DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  scores  EvaluationScore[]
+
+  @@map("evaluations")
+}
+
+model EvaluationScore {
+  id              String   @id @default(uuid())
+  evaluation_id   String
+  competency_id   String
+  self_score      Float?
+  manager_score   Float?
+  final_score     Float?
+  comments        String?
+
+  evaluation  Evaluation @relation(fields: [evaluation_id], references: [id])
+
+  @@map("evaluation_scores")
+}
+
+model Competency {
+  id          String   @id @default(uuid())
+  name        String
+  category    String   // core, leadership, functional
+  description String?
+  levels      Json?    // Array of {level, label, description}
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+
+  @@map("competencies")
+}
+
+model TalentProfile {
+  id                  String   @id @default(uuid())
+  employee_id         String   @unique
+  performance_rating  Float?
+  potential_rating    Float?
+  nine_box_position   String?  // e.g. "star", "high_performer", "solid_professional"
+  risk_of_leaving     String?  // low, medium, high
+  impact_of_leaving   String?  // low, medium, high
+  career_aspiration   String?
+  mobility            String?  // open, limited, not_open
+  key_strengths       Json?
+  development_areas   Json?
+  last_calibration    DateTime?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  @@map("talent_profiles")
+}
+
+model SuccessionPlan {
+  id              String   @id @default(uuid())
+  position_id     String
+  position_title  String
+  department      String?
+  incumbent_id    String?
+  criticality     String   @default("medium") // low, medium, high, critical
+  status          String   @default("active")
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  successors  Successor[]
+
+  @@map("succession_plans")
+}
+
+model Successor {
+  id                  String   @id @default(uuid())
+  succession_plan_id  String
+  employee_id         String
+  readiness           String   // ready_now, ready_1_2_years, ready_3_5_years
+  development_gaps    Json?
+  development_actions Json?
+
+  succession_plan  SuccessionPlan @relation(fields: [succession_plan_id], references: [id])
+
+  @@map("successors")
+}
+
+model IDPPlan {
+  id              String   @id @default(uuid())
+  employee_id     String
+  title           String
+  status          String   @default("draft") // draft, active, completed, cancelled
+  period          String
+  development_areas Json?  // Array of {area, current_level, target_level}
+  action_items    Json?    // Array of {title, type, status, due_date}
+  milestones      Json?    // Array of {title, target_date, status}
+  mentor_id       String?
+  approved_by         String?
+  approved_at         DateTime?
+  signed_by_employee  Boolean  @default(false)
+  signed_by_manager   Boolean  @default(false)
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  @@map("idp_plans")
+}

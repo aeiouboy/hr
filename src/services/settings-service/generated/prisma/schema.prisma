@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Setting {
+  id          String   @id @default(uuid())
+  category    String
+  key         String   @unique
+  value       Json
+  description String?
+  is_system   Boolean  @default(false)
+  updated_by  String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  audits SettingAudit[]
+
+  @@map("settings")
+}
+
+model SettingAudit {
+  id         String   @id @default(uuid())
+  setting_id String
+  setting    Setting  @relation(fields: [setting_id], references: [id], onDelete: Cascade)
+  old_value  Json?
+  new_value  Json
+  changed_by String
+  changed_at DateTime @default(now())
+
+  @@map("setting_audits")
+}

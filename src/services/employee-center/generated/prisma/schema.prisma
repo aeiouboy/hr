@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id              String    @id @default(uuid())
+  employee_id     String    @unique
+  first_name_en   String?
+  first_name_th   String?
+  last_name_en    String?
+  last_name_th    String?
+  nickname        String?
+  gender          String?
+  date_of_birth   DateTime?
+  nationality     String?
+  national_id     String?
+  religion        String?
+  blood_type      String?
+  marital_status  String?
+  tax_id          String?
+  passport_number String?
+  photo_url       String?
+  email           String?
+  personal_email  String?
+  business_phone  String?
+  personal_mobile String?
+
+  // Relations
+  employment         Employment?
+  addresses          Address[]
+  emergency_contacts EmergencyContact[]
+  dependents         Dependent[]
+  work_permits       WorkPermit[]
+  audit_logs         AuditLog[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("employees")
+}
+
+model Employment {
+  id                 String    @id @default(uuid())
+  employee_id        String    @unique
+  employee           Employee  @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  hire_date          DateTime?
+  status             String    @default("active")
+  probation_end_date DateTime?
+  termination_date   DateTime?
+  job_title          String?
+  position_id        String?
+  department         String?
+  division           String?
+  location           String?
+  grade              String?
+  level              String?
+  manager_id         String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("employments")
+}
+
+model Address {
+  id             String   @id @default(uuid())
+  employee_id    String
+  employee       Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  address_type   String?
+  address_line_1 String?
+  address_line_2 String?
+  district       String?
+  sub_district   String?
+  province       String?
+  postal_code    String?
+  country        String   @default("Thailand")
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("addresses")
+}
+
+model EmergencyContact {
+  id           String   @id @default(uuid())
+  employee_id  String
+  employee     Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  name         String
+  relationship String
+  phone        String
+  email        String?
+  address      String?
+  is_primary   Boolean  @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("emergency_contacts")
+}
+
+model Dependent {
+  id                String    @id @default(uuid())
+  employee_id       String
+  employee          Employee  @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  name              String
+  relationship_type String
+  date_of_birth     DateTime?
+  gender            String?
+  national_id       String?
+  is_tax_deductible Boolean   @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("dependents")
+}
+
+model WorkPermit {
+  id              String   @id @default(uuid())
+  employee_id     String
+  employee        Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  permit_type     String
+  permit_number   String
+  issue_date      DateTime
+  expiry_date     DateTime
+  issuing_country String
+  status          String   @default("active")
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("work_permits")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  employee_id  String
+  employee     Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  action       String
+  entity_type  String
+  entity_id    String?
+  changes      Json?
+  performed_by String
+  changed_at   DateTime @default(now())
+
+  @@map("audit_logs")
+}

@@ -1,0 +1,64 @@
+[
+  {
+    "timestamp": "2026-02-22T17:53:36.018866",
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01HmPfNaHyF1Y2exkNjvSSTt",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache 2>&1",
+      "timeout": 120000,
+      "description": "Run time-attendance tests"
+    },
+    "error": "Exit code 1\nFAIL test/unit/location.service.spec.ts\n  \u25cf Test suite failed to run\n\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m50\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'children' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                 ~~~~~~~~~~~~\u001b[0m\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m64\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'employee_locations' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                               ~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n\nPASS test/unit/shift.service.spec.ts\nPASS test/unit/overtime.service.spec.ts\nPASS test/unit/dto.spec.ts\nPASS test/unit/attendance.service.spec.ts\nPASS test/unit/overtime.controller.spec.ts (5.199 s)\n\nTest Suites: 1 failed, 5 passed, 6 total\nTests:       91 passed, 91 total\nSnapshots:   0 total\nTime:        6.128 s\nRan all test suites.\n\nFAIL test/unit/location.service.spec.ts\n  \u25cf Test suite failed to run\n\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m50\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'children' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                 ~~~~~~~~~~~~\u001b[0m\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m64\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'employee_locations' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                               ~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n\nPASS test/unit/shift.service.spec.ts\nPASS test/unit/overtime.service.spec.ts\nPASS test/unit/dto.spec.ts\nPASS test/unit/attendance.service.spec.ts\nPASS test/unit/overtime.controller.spec.ts (5.199 s)\n\nTest Suites: 1 failed, 5 passed, 6 total\nTests:       91 passed, 91 total\nSnapshots:   0 total\nTime:        6.128 s\nRan all test suites.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "raw_input": {
+      "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache 2>&1",
+        "timeout": 120000,
+        "description": "Run time-attendance tests"
+      },
+      "tool_use_id": "toolu_01HmPfNaHyF1Y2exkNjvSSTt",
+      "error": "Exit code 1\nFAIL test/unit/location.service.spec.ts\n  \u25cf Test suite failed to run\n\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m50\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'children' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                 ~~~~~~~~~~~~\u001b[0m\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m64\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'employee_locations' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                               ~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n\nPASS test/unit/shift.service.spec.ts\nPASS test/unit/overtime.service.spec.ts\nPASS test/unit/dto.spec.ts\nPASS test/unit/attendance.service.spec.ts\nPASS test/unit/overtime.controller.spec.ts (5.199 s)\n\nTest Suites: 1 failed, 5 passed, 6 total\nTests:       91 passed, 91 total\nSnapshots:   0 total\nTime:        6.128 s\nRan all test suites.\n\nFAIL test/unit/location.service.spec.ts\n  \u25cf Test suite failed to run\n\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m50\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'children' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                 ~~~~~~~~~~~~\u001b[0m\n    \u001b[96mtest/unit/location.service.spec.ts\u001b[0m:\u001b[93m49\u001b[0m:\u001b[93m64\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS7018: \u001b[0mObject literal's property 'employee_locations' implicitly has an 'any[]' type.\n\n    \u001b[7m49\u001b[0m       const location = { id: '1', name_en: 'HQ', children: [], employee_locations: [] };\n    \u001b[7m  \u001b[0m \u001b[91m                                                               ~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n\nPASS test/unit/shift.service.spec.ts\nPASS test/unit/overtime.service.spec.ts\nPASS test/unit/dto.spec.ts\nPASS test/unit/attendance.service.spec.ts\nPASS test/unit/overtime.controller.spec.ts (5.199 s)\n\nTest Suites: 1 failed, 5 passed, 6 total\nTests:       91 passed, 91 total\nSnapshots:   0 total\nTime:        6.128 s\nRan all test suites.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T17:53:36.018866"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T18:40:27.219015",
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01LApNXim849ivkj4qC3yzsx",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/apps/js/data/mock-employee.js"
+    },
+    "error": "File content (26747 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "raw_input": {
+      "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/apps/js/data/mock-employee.js"
+      },
+      "tool_use_id": "toolu_01LApNXim849ivkj4qC3yzsx",
+      "error": "File content (26747 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T18:40:27.219015"
+    }
+  }
+]

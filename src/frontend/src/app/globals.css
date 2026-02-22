@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-cg-red: #C8102E;
+  --color-cg-dark: #333333;
+  --color-cg-light: #F5F5F5;
+  --color-cg-success: #28A745;
+  --color-cg-warning: #FFC107;
+  --color-cg-error: #DC3545;
+  --color-cg-info: #17A2B8;
+  --font-sans: 'Roboto', 'Noto Sans Thai', sans-serif;
+}

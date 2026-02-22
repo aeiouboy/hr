@@ -1,0 +1,147 @@
+[
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/recruitment-onboarding && npm install 2>&1 | tail -5",
+      "timeout": 120000,
+      "description": "Install recruitment-onboarding dependencies"
+    },
+    "tool_response": {
+      "stdout": "To address all issues (including breaking changes), run:\n  npm audit fix --force\n\nRun `npm audit` for details.",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01NjHB3ckEkx1G68XYMWSftw"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/recruitment-onboarding && npx prisma generate 2>&1",
+      "timeout": 60000,
+      "description": "Generate Prisma client"
+    },
+    "tool_response": {
+      "stdout": "Prisma schema loaded from prisma/schema.prisma\n\n\u2714 Generated Prisma Client (v6.19.2) to ./generated/prisma in 117ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_017GnHaeAC2aDETsiMPwXoPL"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "grep -r \"export type\" generated/prisma/index.d.ts 2>/dev/null | grep \"Delegate\" | head -10",
+      "description": "Check Prisma model accessor names"
+    },
+    "tool_response": {
+      "stdout": "",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_012N2JUMTaThrL1TVb3eiJX1"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "grep \"get \" generated/prisma/index.d.ts 2>/dev/null | head -15",
+      "description": "Check Prisma client model accessors"
+    },
+    "tool_response": {
+      "stdout": "  get jobPosting(): Prisma.JobPostingDelegate<ExtArgs, ClientOptions>;\n  get candidate(): Prisma.CandidateDelegate<ExtArgs, ClientOptions>;\n  get screening(): Prisma.ScreeningDelegate<ExtArgs, ClientOptions>;\n  get onboardingTemplate(): Prisma.OnboardingTemplateDelegate<ExtArgs, ClientOptions>;\n  get onboardingTask(): Prisma.OnboardingTaskDelegate<ExtArgs, ClientOptions>;\n  get resignation(): Prisma.ResignationDelegate<ExtArgs, ClientOptions>;\n     * // Group by city, order by createdAt, get count\n     * // Group by city, order by createdAt, get count\n     * // Group by city, order by createdAt, get count\n     * // Group by city, order by createdAt, get count\n     * // Group by city, order by createdAt, get count\n     * // Group by city, order by createdAt, get count",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01Qt8Se16ujqP6uvKXtq9ZLs"
+  },
+  {
+    "session_id": "1b167843-511e-4584-a280-52f3a5acbeb9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/1b167843-511e-4584-a280-52f3a5acbeb9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "npx jest --no-cache 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Retry tests after prisma generate"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/job-posting.service.spec.ts\nPASS test/unit/onboarding.service.spec.ts\nPASS test/unit/resignation.service.spec.ts\nPASS test/unit/candidate.service.spec.ts\n\nTest Suites: 4 passed, 4 total\nTests:       46 passed, 46 total\nSnapshots:   0 total\nTime:        4.345 s\nRan all test suites.",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01G5bVHh7aD7sYPNpqjcLjE7"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/recruitment-onboarding && npx jest --no-cache --forceExit 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Run recruitment-onboarding service tests"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/onboarding.service.spec.ts\nPASS test/unit/job-posting.service.spec.ts\nPASS test/unit/candidate.service.spec.ts\nPASS test/unit/resignation.service.spec.ts\n\nTest Suites: 4 passed, 4 total\nTests:       46 passed, 46 total\nSnapshots:   0 total\nTime:        5.047 s\nRan all test suites.\nForce exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01JcFR2GFmCn5Utrt3TT6WF2"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/recruitment-onboarding",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/recruitment-onboarding && npx jest --no-cache --forceExit 2>&1 | tail -15",
+      "timeout": 120000,
+      "description": "Run recruitment-onboarding tests"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/onboarding.service.spec.ts\nPASS test/unit/candidate.service.spec.ts\nPASS test/unit/resignation.service.spec.ts\nPASS test/unit/job-posting.service.spec.ts\n\nTest Suites: 4 passed, 4 total\nTests:       46 passed, 46 total\nSnapshots:   0 total\nTime:        3.118 s\nRan all test suites.\nForce exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01SJhuVRPnNpPbRk4WPHEJ5W"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
+  },
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
+  }
+]

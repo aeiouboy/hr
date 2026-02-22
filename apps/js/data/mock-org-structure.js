@@ -341,88 +341,145 @@ const MockOrgStructure = {
         }
     ],
 
-    // Employees in org structure
+    // Employees in org structure (matching real Central Group hierarchy)
     employees: [
-        // CTO
+        // Executive Chairman & CEO
         {
-            id: 'EMP_SUP002',
-            employeeId: 'EMP_SUP002',
-            nameEn: 'Suthep Thuaksuban',
-            nameTh: 'สุเทพ ทวกสุบรรณ',
+            id: 'EMP_L0',
+            employeeId: 'EMP_L0',
+            nameEn: 'Tos Chirathivat',
+            nameTh: 'ทศ จิราธิวัฒน์',
+            positionId: 'P_CEO',
+            departmentId: 'D_EXEC',
+            companyId: 'C002',
+            photo: 'https://i.pravatar.cc/150?img=23',
+            email: 'tos.c@central.co.th',
+            phone: '+66 2 021 9000',
+            isVacant: false,
+            headcount: 16,
+            totalHeadcount: 67704
+        },
+        // CEO - CRC
+        {
+            id: 'EMP_L1',
+            employeeId: 'EMP_L1',
+            nameEn: 'Suthisarn Chirathivat',
+            nameTh: 'สุทธิศาสน์ จิราธิวัฒน์',
+            positionId: 'P_CEO_CRC',
+            departmentId: 'D_EXEC',
+            companyId: 'C002',
+            photo: 'https://i.pravatar.cc/150?img=22',
+            email: 'suthisarn.c@central.co.th',
+            phone: '+66 2 021 9001',
+            isVacant: false,
+            headcount: 18,
+            totalHeadcount: 59002
+        },
+        // CIO
+        {
+            id: 'EMP_L2',
+            employeeId: 'EMP_L2',
+            nameEn: 'Rutchapon Vongsatitporn',
+            nameTh: 'รัชพล วงศ์สถิตย์พร',
             positionId: 'P001',
             departmentId: 'D000',
             companyId: 'C015',
+            photo: 'https://i.pravatar.cc/150?img=21',
+            email: 'rutchapon.v@central.co.th',
+            phone: '+66 2 021 9100',
+            isVacant: false,
+            headcount: 5,
+            totalHeadcount: 465
+        },
+        // Head of IT Strategy, Application & International
+        {
+            id: 'EMP_L3',
+            employeeId: 'EMP_L3',
+            nameEn: 'Maneerat Suramethakul',
+            nameTh: 'มณีรัตน์ สุระเมทกุล',
+            positionId: 'P_HEAD_IT',
+            departmentId: 'D000',
+            companyId: 'C015',
+            photo: 'https://i.pravatar.cc/150?img=20',
+            email: 'maneerat.s@central.co.th',
+            phone: '+66 2 021 9110',
+            isVacant: false,
+            headcount: 7,
+            totalHeadcount: 266
+        },
+        // Head of IT Strategy & Products
+        {
+            id: 'EMP_SUP002',
+            employeeId: 'EMP_SUP002',
+            nameEn: 'Kajorn Kanjanawarin',
+            nameTh: 'ขจร กาญจนวรินทร์',
+            positionId: 'P_HEAD_PROD',
+            departmentId: 'D001',
+            companyId: 'C015',
             photo: 'https://i.pravatar.cc/150?img=13',
-            email: 'suthep.t@central.co.th',
-            phone: '+66 2 123 4500',
-            isVacant: false
+            email: 'kajorn.k@central.co.th',
+            phone: '+66 2 021 9120',
+            isVacant: false,
+            headcount: 20,
+            totalHeadcount: 129
         },
         // Head of Product
         {
             id: 'EMP_SUP001',
             employeeId: 'EMP_SUP001',
-            nameEn: 'Prawit Wongsuwan',
-            nameTh: 'ประวิตร วงศ์สุวรรณ',
+            nameEn: 'Rungrote Amnuaysopon',
+            nameTh: 'รุ่งโรจน์ อำนวยสพน',
             positionId: 'P002',
             departmentId: 'D001',
             companyId: 'C015',
             photo: 'https://i.pravatar.cc/150?img=12',
-            email: 'prawit.w@central.co.th',
-            phone: '+66 2 123 4501',
-            isVacant: false
+            email: 'rungrote.a@central.co.th',
+            phone: '+66 2 021 9130',
+            isVacant: false,
+            headcount: 7,
+            totalHeadcount: 9
         },
         // Product Manager (current user)
         {
             id: 'EMP001',
             employeeId: 'EMP001',
-            nameEn: 'Chatchai Tangsiri',
-            nameTh: 'ชาติชาย ทังศิริ',
+            nameEn: 'Chongrak Tanaka',
+            nameTh: 'จงรักษ์ ทานากะ',
             positionId: 'P003',
             departmentId: 'D001',
             companyId: 'C015',
             photo: 'https://i.pravatar.cc/150?img=11',
-            email: 'chatchai.t@central.co.th',
-            phone: '+66 2 123 4567',
-            isVacant: false
+            email: 'chongrak.t@central.co.th',
+            phone: '+66 2 021 9140',
+            isVacant: false,
+            headcount: 2,
+            totalHeadcount: 2
         },
-        // Direct Reports
+        // Direct Reports - Functional Trainees
         {
             id: 'EMP_DR001',
             employeeId: 'EMP_DR001',
-            nameEn: 'Natthapong Chai',
-            nameTh: 'ณัฐพงศ์ ชัย',
-            positionId: 'P004',
+            nameEn: 'Naruechon Woraphatphawan',
+            nameTh: 'นฤชล วรพัฒน์พาวัลย์',
+            positionId: 'P_FT001',
             departmentId: 'D001',
             companyId: 'C015',
             photo: 'https://i.pravatar.cc/150?img=14',
-            email: 'natthapong.c@central.co.th',
-            phone: '+66 2 123 4568',
+            email: 'naruechon.w@central.co.th',
+            phone: '+66 2 021 9141',
             isVacant: false
         },
         {
             id: 'EMP_DR002',
             employeeId: 'EMP_DR002',
-            nameEn: 'Siriporn Kaewdee',
-            nameTh: 'ศิริพร แก้วดี',
-            positionId: 'P005',
+            nameEn: 'Punnapa Thianchai',
+            nameTh: 'ปุณณภา เทียนชัย',
+            positionId: 'P_FT002',
             departmentId: 'D001',
             companyId: 'C015',
             photo: 'https://i.pravatar.cc/150?img=15',
-            email: 'siriporn.k@central.co.th',
-            phone: '+66 2 123 4569',
-            isVacant: false
-        },
-        {
-            id: 'EMP_DR003',
-            employeeId: 'EMP_DR003',
-            nameEn: 'Worachai Limpakit',
-            nameTh: 'วรชัย ลิมปกิจ',
-            positionId: 'P006',
-            departmentId: 'D001',
-            companyId: 'C015',
-            photo: 'https://i.pravatar.cc/150?img=16',
-            email: 'worachai.l@central.co.th',
-            phone: '+66 2 123 4570',
+            email: 'punnapa.t@central.co.th',
+            phone: '+66 2 021 9142',
             isVacant: false
         },
         // Head of Engineering
@@ -469,44 +526,68 @@ const MockOrgStructure = {
         }
     ],
 
-    // Reporting relationships (solid and dotted lines)
+    // Reporting relationships (solid and dotted lines) - Real Central Group hierarchy
     reportingLines: [
-        // Solid line (direct reporting)
+        // Executive hierarchy
+        {
+            id: 'RL_EXEC1',
+            fromEmployeeId: 'EMP_L1',
+            toEmployeeId: 'EMP_L0',
+            type: 'solid',
+            relationshipType: 'direct'
+        },
+        {
+            id: 'RL_EXEC2',
+            fromEmployeeId: 'EMP_L2',
+            toEmployeeId: 'EMP_L1',
+            type: 'solid',
+            relationshipType: 'direct'
+        },
+        {
+            id: 'RL_EXEC3',
+            fromEmployeeId: 'EMP_L3',
+            toEmployeeId: 'EMP_L2',
+            type: 'solid',
+            relationshipType: 'direct'
+        },
+        // IT Strategy & Products hierarchy
         {
             id: 'RL001',
+            fromEmployeeId: 'EMP_SUP002',
+            toEmployeeId: 'EMP_L3',
+            type: 'solid',
+            relationshipType: 'direct'
+        },
+        {
+            id: 'RL002',
             fromEmployeeId: 'EMP_SUP001',
             toEmployeeId: 'EMP_SUP002',
             type: 'solid',
             relationshipType: 'direct'
         },
         {
-            id: 'RL002',
+            id: 'RL003',
             fromEmployeeId: 'EMP001',
             toEmployeeId: 'EMP_SUP001',
             type: 'solid',
             relationshipType: 'direct'
         },
+        // Direct reports to Product Manager (Chongrak)
         {
-            id: 'RL003',
+            id: 'RL004',
             fromEmployeeId: 'EMP_DR001',
             toEmployeeId: 'EMP001',
             type: 'solid',
             relationshipType: 'direct'
         },
         {
-            id: 'RL004',
+            id: 'RL005',
             fromEmployeeId: 'EMP_DR002',
             toEmployeeId: 'EMP001',
             type: 'solid',
             relationshipType: 'direct'
         },
-        {
-            id: 'RL005',
-            fromEmployeeId: 'EMP_DR003',
-            toEmployeeId: 'EMP001',
-            type: 'solid',
-            relationshipType: 'direct'
-        },
+        // Other departments
         {
             id: 'RL006',
             fromEmployeeId: 'EMP_ENG001',

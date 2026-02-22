@@ -258,7 +258,7 @@ const ProfileDetailsPage = (function() {
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">${i18n.t('profileDetails.letterType')}</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">${i18n.t('profileDetails.title')}</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">${i18n.t('profileDetails.letterTitle')}</th>
                                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">${i18n.t('profileDetails.fiscalYear')}</th>
                                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">${i18n.t('profileDetails.issueDate')}</th>
                                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">${i18n.t('common.actions')}</th>

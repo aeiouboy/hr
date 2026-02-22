@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model LeaveType {
+  id                    String  @id @default(uuid())
+  code                  String  @unique
+  name_en               String
+  name_th               String?
+  max_days              Int
+  requires_medical_cert Boolean @default(false)
+  medical_cert_days     Int?
+  applicable_gender     String?
+  max_per_career        Int?
+  is_active             Boolean @default(true)
+
+  balances LeaveBalance[]
+  requests LeaveRequest[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("leave_types")
+}
+
+model LeaveBalance {
+  id            String    @id @default(uuid())
+  employee_id   String
+  leave_type_id String
+  leave_type    LeaveType @relation(fields: [leave_type_id], references: [id])
+  year          Int
+  entitled      Int       @default(0)
+  used          Int       @default(0)
+  pending       Int       @default(0)
+  remaining     Int       @default(0)
+  carry_over    Int       @default(0)
+  expiry_date   DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([employee_id, leave_type_id, year])
+  @@map("leave_balances")
+}
+
+model LeaveRequest {
+  id               String    @id @default(uuid())
+  employee_id      String
+  leave_type_id    String
+  leave_type       LeaveType @relation(fields: [leave_type_id], references: [id])
+  start_date       DateTime
+  end_date         DateTime
+  days             Float
+  half_day         String?
+  reason           String?
+  status           String    @default("pending")
+  substitute_id    String?
+  attachments      Json?
+  approved_by      String?
+  approved_date    DateTime?
+  rejection_reason String?
+  submitted_at     DateTime  @default(now())
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("leave_requests")
+}
+
+model LeaveCalendar {
+  id              String   @id @default(uuid())
+  date            DateTime @unique
+  is_holiday      Boolean  @default(false)
+  holiday_name    String?
+  holiday_name_th String?
+  created_at      DateTime @default(now())
+
+  @@map("leave_calendar")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  employee_id  String
+  entity_type  String
+  entity_id    String
+  action       String
+  performed_by String
+  changes      Json?
+  created_at   DateTime @default(now())
+
+  @@map("audit_logs")
+}

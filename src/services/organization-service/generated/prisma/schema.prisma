@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id                   String  @id @default(uuid())
+  code                 String  @unique
+  name_en              String
+  name_th              String?
+  company_id           String
+  parent_department_id String?
+  cost_center          String?
+  headcount            Int?
+  budget               Int?
+
+  positions Position[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("departments")
+}
+
+model Position {
+  id                     String     @id @default(uuid())
+  position_code          String     @unique
+  title_en               String
+  title_th               String?
+  department_id          String
+  department             Department @relation(fields: [department_id], references: [id])
+  company_id             String
+  job_grade              String?
+  job_family             String?
+  cost_center            String?
+  status                 String     @default("active")
+  reports_to_position_id String?
+  matrix_reports_to_id   String?
+  headcount              Int?
+  budget                 Int?
+
+  incumbents Incumbent[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("positions")
+}
+
+model Incumbent {
+  id          String    @id @default(uuid())
+  employee_id String
+  position_id String
+  position    Position  @relation(fields: [position_id], references: [id], onDelete: Cascade)
+  start_date  DateTime
+  end_date    DateTime?
+  is_primary  Boolean   @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("incumbents")
+}
+
+model OrgNode {
+  id                String  @id @default(uuid())
+  employee_id       String  @unique
+  name_en           String
+  name_th           String?
+  position_title_en String?
+  position_title_th String?
+  department_id     String?
+  company_id        String?
+  photo_url         String?
+  email             String?
+  phone             String?
+  headcount         Int?
+  total_headcount   Int?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("org_nodes")
+}
+
+model ReportingLine {
+  id                String  @id @default(uuid())
+  from_employee_id  String
+  to_employee_id    String
+  type              String  @default("solid")
+  relationship_type String? @default("direct")
+  label_en          String?
+  label_th          String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("reporting_lines")
+}
+
+model Transfer {
+  id                 String   @id @default(uuid())
+  employee_id        String
+  from_position_id   String?
+  to_position_id     String?
+  from_department_id String?
+  to_department_id   String?
+  transfer_type      String // lateral, promotion, demotion, relocation
+  effective_date     DateTime
+  status             String   @default("pending") // pending, approved, rejected, cancelled
+  reason             String?
+  rejection_reason   String?
+  requested_by       String
+  approved_by        String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("transfers")
+}

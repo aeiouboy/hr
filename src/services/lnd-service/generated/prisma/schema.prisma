@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id               String   @id @default(uuid())
+  code             String   @unique
+  name_en          String
+  name_th          String?
+  description_en   String?
+  description_th   String?
+  category         String
+  delivery_method  String
+  duration_hours   Int
+  credits          Int      @default(0)
+  level            String   @default("beginner")
+  mandatory        Boolean  @default(false)
+  max_participants Int      @default(30)
+  prerequisites    String[]
+  status           String   @default("active")
+  rating           Float?
+  review_count     Int      @default(0)
+  instructor_ids   String[]
+  target_audience  String[]
+
+  enrollments      Enrollment[]
+  training_records TrainingRecord[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("courses")
+}
+
+model Enrollment {
+  id              String    @id @default(uuid())
+  course_id       String
+  course          Course    @relation(fields: [course_id], references: [id], onDelete: Cascade)
+  employee_id     String
+  schedule_id     String?
+  status          String    @default("pending_approval")
+  enrollment_date DateTime  @default(now())
+  completion_date DateTime?
+  score           Float?
+  progress        Int       @default(0)
+  certificate_id  String?
+  attendance_rate Float?
+  feedback        String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([course_id, employee_id])
+  @@map("enrollments")
+}
+
+model TrainingRecord {
+  id                    String    @id @default(uuid())
+  course_id             String?
+  course                Course?   @relation(fields: [course_id], references: [id])
+  employee_id           String
+  course_code           String
+  course_name_en        String
+  course_name_th        String?
+  training_type         String
+  category              String
+  provider              String?
+  instructor_name       String?
+  start_date            DateTime
+  end_date              DateTime
+  duration_hours        Int
+  location              String?
+  status                String    @default("scheduled")
+  completion_date       DateTime?
+  certificate_id        String?
+  cost                  Float?
+  currency              String    @default("THB")
+  paid_by               String?
+  pre_assessment_score  Float?
+  post_assessment_score Float?
+  instructor_rating     Float?
+  course_rating         Float?
+  feedback              String?
+
+  evaluations KirkpatrickEvaluation[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("training_records")
+}
+
+model KirkpatrickEvaluation {
+  id                 String         @id @default(uuid())
+  training_record_id String
+  training_record    TrainingRecord @relation(fields: [training_record_id], references: [id], onDelete: Cascade)
+  level              Int // 1=Reaction, 2=Learning, 3=Behavior, 4=Results
+  level_name         String // "reaction", "learning", "behavior", "results"
+  score              Float?
+  evaluator_id       String?
+  evaluation_date    DateTime?
+  comments           String?
+  evidence           String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([training_record_id, level])
+  @@map("kirkpatrick_evaluations")
+}

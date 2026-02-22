@@ -1,0 +1,20 @@
+[
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/payroll-management",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "a9c58be248ebaf38e",
+    "agent_type": "builder",
+    "logged_at": "2026-02-22T17:47:24.945422"
+  },
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/payroll-management",
+    "hook_event_name": "SubagentStart",
+    "agent_id": "a4ead5b48695426b1",
+    "agent_type": "builder",
+    "logged_at": "2026-02-22T17:47:44.956867"
+  }
+]

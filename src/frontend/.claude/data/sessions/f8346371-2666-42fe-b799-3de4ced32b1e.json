@@ -1,0 +1,8 @@
+{
+  "session_id": "f8346371-2666-42fe-b799-3de4ced32b1e",
+  "prompts": [
+    "<task-notification>\n<task-id>bafbac0</task-id>\n<tool-use-id>toolu_01KTML8Xx6jXoh6NLjp1s3Ra</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bafbac0.output</output-file>\n<status>completed</status>\n<summary>Background command \"Start Next.js dev server on port 3000\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bafbac0.output",
+    "<task-notification>\n<task-id>b55e322</task-id>\n<tool-use-id>toolu_01BP9Ra13cEMEm8cZ4jc6S3Z</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/b55e322.output</output-file>\n<status>completed</status>\n<summary>Background command \"Start Next.js dev server on port 3001\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/b55e322.output",
+    "<task-notification>\n<task-id>bbe7056</task-id>\n<tool-use-id>toolu_01P4LTBZEonnXbDm6gemBR5A</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bbe7056.output</output-file>\n<status>completed</status>\n<summary>Background command \"Start Next.js dev server on port 3002\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bbe7056.output"
+  ]
+}

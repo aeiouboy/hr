@@ -1,0 +1,42 @@
+[
+  {
+    "session_id": "df8f64c3-f8bf-4a6e-afb5-535dc9f0047d",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/df8f64c3-f8bf-4a6e-afb5-535dc9f0047d.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T18:26:03.744945"
+  },
+  {
+    "session_id": "52de99e4-11c0-4b53-9a7c-45929411e325",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/52de99e4-11c0-4b53-9a7c-45929411e325.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T18:40:44.554028"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T21:57:08.395079"
+  },
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:00:28.340618"
+  },
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/benefits-management",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:20.776449"
+  }
+]

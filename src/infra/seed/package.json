@@ -1,0 +1,37 @@
+{
+  "name": "hrms-seed",
+  "version": "1.0.0",
+  "description": "Database seed scripts for HRMS - migrates frontend mock data to PostgreSQL via Prisma",
+  "scripts": {
+    "seed": "ts-node index.ts",
+    "seed:all": "ts-node index.ts",
+    "seed:employee": "ts-node seed-employee.ts",
+    "seed:organization": "ts-node seed-organization.ts",
+    "seed:leave": "ts-node seed-leave.ts",
+    "seed:payroll": "ts-node seed-payroll.ts",
+    "seed:attendance": "ts-node seed-attendance.ts",
+    "seed:overtime": "ts-node seed-overtime.ts",
+    "seed:training": "ts-node seed-training.ts",
+    "seed:recruitment": "ts-node seed-recruitment.ts",
+    "seed:performance": "ts-node seed-performance.ts",
+    "seed:locations": "ts-node seed-locations.ts",
+    "seed:settings": "ts-node seed-settings.ts",
+    "seed:workflows": "ts-node seed-workflows.ts",
+    "seed:benefits": "ts-node seed-benefits.ts",
+    "seed:validate": "ts-node validate-seed.ts",
+    "validate": "ts-node validate-seed.ts",
+    "migrate": "bash ../migrations/migrate-all.sh dev",
+    "migrate:deploy": "bash ../migrations/migrate-all.sh deploy",
+    "migrate:status": "bash ../migrations/migrate-all.sh status",
+    "generate": "bash ../migrations/generate-all.sh",
+    "reset": "bash ../migrations/migrate-all.sh reset && ts-node index.ts --validate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

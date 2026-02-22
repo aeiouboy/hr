@@ -1,0 +1,66 @@
+[
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T17:47:40.459494"
+  },
+  {
+    "session_id": "6d67f05b-ac1e-46ec-b2b2-ba311e191d28",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/6d67f05b-ac1e-46ec-b2b2-ba311e191d28.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T18:32:40.375221"
+  },
+  {
+    "session_id": "9f934133-9ab5-463b-889f-4cfe3431f17f",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/9f934133-9ab5-463b-889f-4cfe3431f17f.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T18:47:13.776719"
+  },
+  {
+    "session_id": "895c99a4-91b2-4008-a405-b7a3beb29ce9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/895c99a4-91b2-4008-a405-b7a3beb29ce9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T21:57:02.011575"
+  },
+  {
+    "session_id": "6778dabc-4414-4788-9be0-de6610e6f7f2",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/6778dabc-4414-4788-9be0-de6610e6f7f2.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:20.380833"
+  },
+  {
+    "session_id": "f8346371-2666-42fe-b799-3de4ced32b1e",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/f8346371-2666-42fe-b799-3de4ced32b1e.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:20.494864"
+  },
+  {
+    "session_id": "28d4a8cd-03e6-43de-899b-76427afc56a3",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/28d4a8cd-03e6-43de-899b-76427afc56a3.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:20.590032"
+  },
+  {
+    "session_id": "f343db9c-f8f5-4815-a75c-2ba16f4ec40f",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/f343db9c-f8f5-4815-a75c-2ba16f4ec40f.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-22T22:23:21.002735"
+  }
+]

@@ -6,7 +6,7 @@ git ls-files
 
 ## Read
 README.md
-adws/README.md
+CLAUDE.md
 
 ## Report
 Summarize your understanding of the codebase.

@@ -40,6 +40,12 @@ const App = (function() {
             onEnter: () => LeaveRequestPage.init()
         });
 
+        // Overtime page
+        Router.register('overtime', {
+            render: () => OvertimePage.render(),
+            onEnter: () => OvertimePage.init()
+        });
+
         // Payslip page
         Router.register('payslip', {
             render: () => PayslipPage.render(),
@@ -116,6 +122,72 @@ const App = (function() {
         Router.register('org-chart', {
             render: () => OrgChartPage.render(),
             onEnter: () => OrgChartPage.init()
+        });
+
+        // Talent Management page
+        Router.register('talent-management', {
+            render: () => TalentManagementPage.render(),
+            onEnter: () => TalentManagementPage.init()
+        });
+
+        // Learning/Training page
+        Router.register('learning', {
+            render: () => LearningPage.render(),
+            onEnter: () => LearningPage.init()
+        });
+
+        // Individual Development Plan page
+        Router.register('idp', {
+            render: () => IDPPage.render(),
+            onEnter: () => IDPPage.init()
+        });
+
+        // Training Records page
+        Router.register('training-records', {
+            render: () => TrainingRecordsPage.render(),
+            onEnter: () => TrainingRecordsPage.init()
+        });
+
+        // Location Management page
+        Router.register('locations', {
+            render: (params) => LocationManagementPage.render(params),
+            onEnter: (params) => LocationManagementPage.init(params)
+        });
+
+        // Recruitment page
+        Router.register('recruitment', {
+            render: () => RecruitmentPage.render(),
+            onEnter: () => RecruitmentPage.init()
+        });
+
+        // Onboarding page
+        Router.register('onboarding', {
+            render: () => OnboardingPage.render(),
+            onEnter: () => OnboardingPage.init()
+        });
+
+        // Candidate Screening page
+        Router.register('candidate-screening', {
+            render: () => CandidateScreeningPage.render(),
+            onEnter: () => CandidateScreeningPage.init()
+        });
+
+        // Succession Planning page
+        Router.register('succession-planning', {
+            render: () => SuccessionPlanningPage.render(),
+            onEnter: () => SuccessionPlanningPage.init()
+        });
+
+        // Resignation page
+        Router.register('resignation', {
+            render: () => ResignationPage.render(),
+            onEnter: () => ResignationPage.init()
+        });
+
+        // Settings page
+        Router.register('settings', {
+            render: () => SettingsPage.render(),
+            onEnter: () => SettingsPage.init()
         });
 
         // Error pages
@@ -391,6 +463,10 @@ const App = (function() {
 
                 // Load initial data
                 await loadInitialData();
+
+                // Re-render header after user data is loaded (fixes RBAC-dependent menus)
+                initHeader();
+                initMobileMenu();
 
                 // Initialize router (this will render the initial route)
                 Router.init();

@@ -34,51 +34,14 @@ const HeaderComponent = (function() {
                                 </div>
                             </a>
 
-                            <!-- Employee Files Dropdown -->
-                            <div class="relative hidden md:block">
-                                <button class="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
-                                        onclick="HeaderComponent.toggleDropdown('nav-dropdown')"
-                                        aria-label="${i18n.t('nav.employeeFiles')}"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        id="nav-dropdown-btn">
-                                    <span class="text-gray-700">${i18n.t('nav.employeeFiles')}</span>
-                                    <span class="material-icons text-sm text-gray-500" aria-hidden="true">expand_more</span>
-                                </button>
-                                <div id="nav-dropdown" class="dropdown-menu absolute left-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border py-1" role="menu">
-                                    <a href="#/home" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
-                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">home</span>
-                                        <span>${i18n.t('nav.home')}</span>
-                                    </a>
-                                    <a href="#/profile" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
-                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">person</span>
-                                        <span>${i18n.t('nav.profile')}</span>
-                                    </a>
-                                    <a href="#/leave" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
-                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">event_available</span>
-                                        <span>${i18n.t('leave.title')}</span>
-                                    </a>
-                                    <a href="#/payslip" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
-                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">receipt_long</span>
-                                        <span>${i18n.t('payslip.title')}</span>
-                                    </a>
-                                    <a href="#/performance" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
-                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">flag</span>
-                                        <span>${i18n.t('performance.title')}</span>
-                                    </a>
-                                    <a href="#/workflows" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
-                                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">assignment</span>
-                                        <span>${i18n.t('nav.workflows')}</span>
-                                    </a>
-                                    ${RBAC.isManager() ? `
-                                    <hr class="my-1">
-                                    <a href="#/manager-dashboard" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-cg-red" role="menuitem">
-                                        <span class="material-icons text-sm" aria-hidden="true">dashboard</span>
-                                        <span>${i18n.isThai() ? 'แดชบอร์ดผู้จัดการ' : 'Manager Dashboard'}</span>
-                                    </a>
-                                    ` : ''}
-                                </div>
-                            </div>
+                            <!-- Phase Navigation Dropdowns -->
+                            <nav class="hidden lg:flex items-center gap-1" role="navigation" aria-label="${i18n.t('accessibility.mainNavigation') || 'Main Navigation'}">
+                                ${this.renderSelfServiceDropdown()}
+                                ${RBAC.isHR() ? this.renderTimePayrollDropdown() : ''}
+                                ${this.renderOrganizationDropdown()}
+                                ${(RBAC.isManager() || RBAC.isHR()) ? this.renderTalentDropdown() : ''}
+                                ${RBAC.isHR() ? this.renderRecruitmentDropdown() : ''}
+                            </nav>
                         </div>
 
                         <!-- Search Bar -->
@@ -128,7 +91,9 @@ const HeaderComponent = (function() {
                             </button>
 
                             <!-- User Avatar -->
-                            <div class="relative ml-2">
+                            <div class="relative ml-2"
+                                 onmouseenter="HeaderComponent.openDropdown('user-dropdown')"
+                                 onmouseleave="HeaderComponent.closeDropdown('user-dropdown')">
                                 <button class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded-full min-h-[44px]"
                                         onclick="HeaderComponent.toggleDropdown('user-dropdown')"
                                         aria-label="${i18n.t('accessibility.userMenu')}"
@@ -181,12 +146,263 @@ const HeaderComponent = (function() {
         },
 
         /**
+         * Render Phase 1 - Employee Self-Service dropdown
+         * Visible to ALL users
+         * @returns {string}
+         */
+        renderSelfServiceDropdown() {
+            return `
+                <div class="relative"
+                     onmouseenter="HeaderComponent.openDropdown('self-service-dropdown')"
+                     onmouseleave="HeaderComponent.closeDropdown('self-service-dropdown')">
+                    <button class="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                            onclick="HeaderComponent.toggleDropdown('self-service-dropdown')"
+                            aria-label="${i18n.t('nav.selfService')}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            id="self-service-dropdown-btn">
+                        <span class="text-gray-700 text-sm">${i18n.t('nav.selfService')}</span>
+                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">expand_more</span>
+                    </button>
+                    <div id="self-service-dropdown" class="dropdown-menu absolute left-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border py-1" role="menu">
+                        <a href="#/home" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">home</span>
+                            <span>${i18n.t('nav.home')}</span>
+                        </a>
+                        <a href="#/leave" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">event_available</span>
+                            <span>${i18n.t('leave.title')}</span>
+                        </a>
+                        <a href="#/payslip" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">receipt_long</span>
+                            <span>${i18n.t('payslip.title')}</span>
+                        </a>
+                        <a href="#/performance" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">flag</span>
+                            <span>${i18n.t('performance.title')}</span>
+                        </a>
+                        <a href="#/profile" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">person</span>
+                            <span>${i18n.t('nav.profile')}</span>
+                        </a>
+                        <a href="#/workflows" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">assignment</span>
+                            <span>${i18n.t('nav.workflows')}</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render Phase 2 - Time & Payroll dropdown
+         * Visible to HR and admin roles only
+         * @returns {string}
+         */
+        renderTimePayrollDropdown() {
+            return `
+                <div class="relative"
+                     onmouseenter="HeaderComponent.openDropdown('time-payroll-dropdown')"
+                     onmouseleave="HeaderComponent.closeDropdown('time-payroll-dropdown')">
+                    <button class="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                            onclick="HeaderComponent.toggleDropdown('time-payroll-dropdown')"
+                            aria-label="${i18n.t('nav.timePayroll')}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            id="time-payroll-dropdown-btn">
+                        <span class="text-gray-700 text-sm">${i18n.t('nav.timePayroll')}</span>
+                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">expand_more</span>
+                    </button>
+                    <div id="time-payroll-dropdown" class="dropdown-menu absolute left-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border py-1" role="menu">
+                        <a href="#/time-management" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">schedule</span>
+                            <span>${i18n.t('timeManagement.title')}</span>
+                        </a>
+                        <a href="#/payroll-setup" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">tune</span>
+                            <span>${i18n.t('payrollSetup.title')}</span>
+                        </a>
+                        <a href="#/payroll-processing" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">calculate</span>
+                            <span>${i18n.t('payroll.title')}</span>
+                        </a>
+                        <a href="#/government-reports" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">summarize</span>
+                            <span>${i18n.t('govReports.title')}</span>
+                        </a>
+                        <a href="#/overtime" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">more_time</span>
+                            <span>${i18n.t('overtime.title')}</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render Phase 3 - Organization dropdown
+         * Mixed visibility: Org Chart visible to all, Manager Dashboard for managers, others for HR
+         * @returns {string}
+         */
+        renderOrganizationDropdown() {
+            const isManager = RBAC.isManager();
+            const isHR = RBAC.isHR();
+
+            return `
+                <div class="relative"
+                     onmouseenter="HeaderComponent.openDropdown('organization-dropdown')"
+                     onmouseleave="HeaderComponent.closeDropdown('organization-dropdown')">
+                    <button class="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                            onclick="HeaderComponent.toggleDropdown('organization-dropdown')"
+                            aria-label="${i18n.t('nav.organization')}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            id="organization-dropdown-btn">
+                        <span class="text-gray-700 text-sm">${i18n.t('nav.organization')}</span>
+                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">expand_more</span>
+                    </button>
+                    <div id="organization-dropdown" class="dropdown-menu absolute left-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border py-1" role="menu">
+                        <a href="#/org-chart" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">account_tree</span>
+                            <span>${i18n.t('orgChart.title')}</span>
+                        </a>
+                        ${isHR ? `
+                        <a href="#/positions" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">work</span>
+                            <span>${i18n.t('position.title')}</span>
+                        </a>
+                        ` : ''}
+                        ${isManager ? `
+                        <a href="#/manager-dashboard" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-cg-red" role="menuitem">
+                            <span class="material-icons text-sm" aria-hidden="true">dashboard</span>
+                            <span>${i18n.t('managerDashboard.title')}</span>
+                        </a>
+                        ` : ''}
+                        ${isHR ? `
+                        <a href="#/transfer-request" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">swap_horiz</span>
+                            <span>${i18n.t('transfer.title')}</span>
+                        </a>
+                        <a href="#/locations" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">location_on</span>
+                            <span>${i18n.t('location.title')}</span>
+                        </a>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render Phase 4 - Talent Development dropdown
+         * Visible to Managers and HR only
+         * @returns {string}
+         */
+        renderTalentDropdown() {
+            return `
+                <div class="relative"
+                     onmouseenter="HeaderComponent.openDropdown('talent-dropdown')"
+                     onmouseleave="HeaderComponent.closeDropdown('talent-dropdown')">
+                    <button class="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                            onclick="HeaderComponent.toggleDropdown('talent-dropdown')"
+                            aria-label="${i18n.t('nav.talentDevelopment')}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            id="talent-dropdown-btn">
+                        <span class="text-gray-700 text-sm">${i18n.t('nav.talentDevelopment')}</span>
+                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">expand_more</span>
+                    </button>
+                    <div id="talent-dropdown" class="dropdown-menu absolute left-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border py-1" role="menu">
+                        <a href="#/talent-management" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">stars</span>
+                            <span>${i18n.t('talent.title')}</span>
+                        </a>
+                        <a href="#/learning" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">school</span>
+                            <span>${i18n.t('learning.title')}</span>
+                        </a>
+                        <a href="#/idp" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">trending_up</span>
+                            <span>${i18n.t('idp.title')}</span>
+                        </a>
+                        <a href="#/training-records" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">history_edu</span>
+                            <span>${i18n.t('training.title')}</span>
+                        </a>
+                        <a href="#/succession-planning" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">supervisor_account</span>
+                            <span>${i18n.t('succession.title')}</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Render Phase 5 - Recruitment dropdown
+         * Visible to HR only
+         * @returns {string}
+         */
+        renderRecruitmentDropdown() {
+            return `
+                <div class="relative"
+                     onmouseenter="HeaderComponent.openDropdown('recruitment-dropdown')"
+                     onmouseleave="HeaderComponent.closeDropdown('recruitment-dropdown')">
+                    <button class="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+                            onclick="HeaderComponent.toggleDropdown('recruitment-dropdown')"
+                            aria-label="${i18n.t('nav.recruitment')}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            id="recruitment-dropdown-btn">
+                        <span class="text-gray-700 text-sm">${i18n.t('nav.recruitment')}</span>
+                        <span class="material-icons text-sm text-gray-500" aria-hidden="true">expand_more</span>
+                    </button>
+                    <div id="recruitment-dropdown" class="dropdown-menu absolute left-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border py-1" role="menu">
+                        <a href="#/recruitment" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">person_add</span>
+                            <span>${i18n.t('recruitment.title')}</span>
+                        </a>
+                        <a href="#/candidate-screening" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">how_to_reg</span>
+                            <span>${i18n.t('candidateScreening.title')}</span>
+                        </a>
+                        <a href="#/onboarding" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">waving_hand</span>
+                            <span>${i18n.t('onboarding.title')}</span>
+                        </a>
+                        <a href="#/resignation" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50" role="menuitem">
+                            <span class="material-icons text-sm text-gray-500" aria-hidden="true">exit_to_app</span>
+                            <span>${i18n.t('resignation.title')}</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
          * Initialize header event listeners
          */
         init() {
             // Subscribe to notification changes
             AppState.subscribe('notifications', () => {
                 this.updateNotificationCount();
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                const dropdowns = document.querySelectorAll('.dropdown-menu.open');
+                dropdowns.forEach(dropdown => {
+                    const parent = dropdown.parentElement;
+                    if (parent && !parent.contains(e.target)) {
+                        dropdown.classList.remove('open');
+                        // Update aria-expanded
+                        const btnId = dropdown.id + '-btn';
+                        const btn = document.getElementById(btnId);
+                        if (btn) {
+                            btn.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
             });
         },
 
@@ -204,6 +420,42 @@ const HeaderComponent = (function() {
                 const btn = document.getElementById(btnId);
                 if (btn) {
                     btn.setAttribute('aria-expanded', isOpen);
+                }
+            }
+        },
+
+        /**
+         * Open dropdown
+         * @param {string} id
+         */
+        openDropdown(id) {
+            const dropdown = document.getElementById(id);
+            if (dropdown) {
+                dropdown.classList.add('open');
+
+                // Update aria-expanded on the trigger button
+                const btnId = id + '-btn';
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            }
+        },
+
+        /**
+         * Close dropdown
+         * @param {string} id
+         */
+        closeDropdown(id) {
+            const dropdown = document.getElementById(id);
+            if (dropdown) {
+                dropdown.classList.remove('open');
+
+                // Update aria-expanded on the trigger button
+                const btnId = id + '-btn';
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.setAttribute('aria-expanded', 'false');
                 }
             }
         },

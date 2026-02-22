@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "f8346371-2666-42fe-b799-3de4ced32b1e",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/f8346371-2666-42fe-b799-3de4ced32b1e.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input",
+    "notification_type": "idle_prompt"
+  }
+]

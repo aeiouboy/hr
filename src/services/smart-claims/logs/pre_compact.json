@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "d7f10b1a-0f40-42a6-95af-93e0dca2bc80",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/d7f10b1a-0f40-42a6-95af-93e0dca2bc80.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/smart-claims",
+    "hook_event_name": "PreCompact",
+    "trigger": "auto",
+    "custom_instructions": null
+  }
+]

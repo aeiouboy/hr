@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id               String   @id @default(uuid())
+  code             String   @unique
+  name_en          String
+  name_th          String
+  description_en   String?  @db.Text
+  description_th   String?  @db.Text
+  category         String
+  delivery_method  String
+  duration_hours   Float
+  credits          Float    @default(0)
+  level            String   @default("beginner")
+  mandatory        Boolean  @default(false)
+  max_participants Int?
+  status           String   @default("active")
+  rating           Float    @default(0)
+  review_count     Int      @default(0)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  enrollments      Enrollment[]
+
+  @@map("courses")
+}
+
+model Enrollment {
+  id                  String    @id @default(uuid())
+  course_id           String
+  employee_id         String
+  employee_name       String
+  status              String    @default("enrolled")
+  enrolled_at         DateTime  @default(now())
+  started_at          DateTime?
+  completed_at        DateTime?
+  cancelled_at        DateTime?
+  cancellation_reason String?
+
+  course              Course    @relation(fields: [course_id], references: [id])
+
+  @@map("enrollments")
+}
+
+model TrainingRecord {
+  id                   String    @id @default(uuid())
+  enrollment_id        String?
+  employee_id          String
+  course_code          String
+  course_name_en       String
+  course_name_th       String?
+  training_type        String    @default("internal")
+  category             String
+  provider             String?
+  instructor_name      String?
+  start_date           DateTime
+  end_date             DateTime?
+  duration_hours       Float
+  location             String?
+  status               String    @default("in_progress")
+  completion_date      DateTime?
+  certificate_id       String?
+  cost                 Float?
+  currency             String?   @default("THB")
+  paid_by              String?
+  pre_assessment_score Float?
+  post_assessment_score Float?
+  feedback             String?   @db.Text
+
+  evaluations          TrainingEvaluation[]
+
+  @@map("training_records")
+}
+
+model TrainingEvaluation {
+  id                 String   @id @default(uuid())
+  training_record_id String
+  reaction_score     Float?
+  learning_score     Float?
+  behavior_score     Float?
+  results_score      Float?
+  evaluated_by       String
+  evaluated_at       DateTime @default(now())
+
+  training_record    TrainingRecord @relation(fields: [training_record_id], references: [id])
+
+  @@map("training_evaluations")
+}
+
+model Certificate {
+  id                  String    @id @default(uuid())
+  employee_id         String
+  training_record_id  String?
+  certificate_number  String    @unique
+  course_name         String
+  issue_date          DateTime
+  expiry_date         DateTime?
+  issuing_authority   String?
+  status              String    @default("active")
+  file_url            String?
+
+  @@map("certificates")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  entity_type  String
+  entity_id    String
+  action       String
+  performed_by String
+  details      String?  @db.Text
+  created_at   DateTime @default(now())
+
+  @@map("audit_logs")
+}

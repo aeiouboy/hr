@@ -1,0 +1,26 @@
+[
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "PreCompact",
+    "trigger": "auto",
+    "custom_instructions": null
+  },
+  {
+    "session_id": "a95bde62-228b-413a-a02b-a17eaef80729",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a95bde62-228b-413a-a02b-a17eaef80729.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "PreCompact",
+    "trigger": "auto",
+    "custom_instructions": null
+  },
+  {
+    "session_id": "895c99a4-91b2-4008-a405-b7a3beb29ce9",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/895c99a4-91b2-4008-a405-b7a3beb29ce9.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "PreCompact",
+    "trigger": "auto",
+    "custom_instructions": null
+  }
+]

@@ -55,6 +55,11 @@ const ProfilePage = (function() {
         init(params = {}) {
             const activeTab = params.tab || params.id || 'personal';
             AppState.set('activeTab', activeTab);
+
+            // Initialize the current tab page after DOM is ready
+            setTimeout(() => {
+                this.initTabPage(activeTab);
+            }, 100);
         },
 
         /**

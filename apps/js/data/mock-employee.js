@@ -8,7 +8,7 @@ const MockEmployeeData = {
     currentUser: {
         id: 'user_001',
         employeeId: 'EMP001',
-        username: 'chatchai.t',
+        username: 'chongrak.t',
         role: 'manager', // employee, manager, hr_admin, hr_manager
         permissions: ['view_profile', 'edit_contact', 'edit_emergency', 'view_team', 'approve_workflow']
     },
@@ -22,18 +22,18 @@ const MockEmployeeData = {
         personalInfo: {
             salutationEn: 'Mr.',
             salutationTh: 'นาย',
-            firstNameEn: 'Chatchai',
-            firstNameTh: 'ชาติชาย',
+            firstNameEn: 'Chongrak',
+            firstNameTh: 'จงรักษ์',
             middleNameEn: '',
-            lastNameEn: 'Tangsiri',
-            lastNameTh: 'ทังศิริ',
-            nickname: 'Chat',
+            lastNameEn: 'Tanaka',
+            lastNameTh: 'ทานากะ',
+            nickname: 'Chong',
             gender: 'male',
-            dateOfBirth: '1985-03-15',
+            dateOfBirth: '1988-05-12',
             nationality: 'Thai',
             nationalId: '1234567890123',
             maritalStatus: 'married',
-            maritalStatusSince: '2015-06-20',
+            maritalStatusSince: '2018-11-15',
             effectiveDate: '2020-01-01'
         },
 
@@ -51,10 +51,10 @@ const MockEmployeeData = {
 
         // Contact Information
         contactInfo: {
-            businessEmail: 'chatchai.t@centralgroup.com',
-            personalEmail: 'chatchai.tangsiri@gmail.com',
-            businessPhone: '+66 2 123 4567',
-            personalMobile: '+66 81 234 5678',
+            businessEmail: 'chongrak.t@centralgroup.com',
+            personalEmail: 'chongrak.tanaka@gmail.com',
+            businessPhone: '+66 2 021 9000',
+            personalMobile: '+66 89 123 4567',
             homePhone: '+66 2 987 6543'
         },
 
@@ -90,16 +90,16 @@ const MockEmployeeData = {
         emergencyContacts: [
             {
                 id: 'ec_001',
-                name: 'Supaporn Tangsiri',
-                nameTh: 'สุภาพร ทังศิริ',
+                name: 'Yuki Tanaka',
+                nameTh: 'ยูกิ ทานากะ',
                 relationship: 'spouse',
                 phone: '+66 82 345 6789',
                 isPrimary: true
             },
             {
                 id: 'ec_002',
-                name: 'Somchai Tangsiri',
-                nameTh: 'สมชาย ทังศิริ',
+                name: 'Hiroshi Tanaka',
+                nameTh: 'ฮิโรชิ ทานากะ',
                 relationship: 'parent',
                 phone: '+66 89 012 3456',
                 isPrimary: false
@@ -110,19 +110,19 @@ const MockEmployeeData = {
         dependents: [
             {
                 id: 'dep_001',
-                name: 'Supaporn Tangsiri',
-                nameTh: 'สุภาพร ทังศิริ',
+                name: 'Yuki Tanaka',
+                nameTh: 'ยูกิ ทานากะ',
                 relationship: 'spouse',
-                dateOfBirth: '1987-08-22',
+                dateOfBirth: '1990-03-15',
                 nationalId: '9876543210123',
                 gender: 'female'
             },
             {
                 id: 'dep_002',
-                name: 'Patchara Tangsiri',
-                nameTh: 'พัชรา ทังศิริ',
+                name: 'Sakura Tanaka',
+                nameTh: 'ซากุระ ทานากะ',
                 relationship: 'child',
-                dateOfBirth: '2018-04-10',
+                dateOfBirth: '2020-06-20',
                 nationalId: '1122334455667',
                 gender: 'female'
             }
@@ -167,7 +167,7 @@ const MockEmployeeData = {
             job: {
                 employeeStatus: 'Active',
                 supervisorId: 'EMP_SUP001',
-                supervisorName: 'Prawit Wongsuwan',
+                supervisorName: 'Rungrote Amnuaysopon',
                 country: 'Thailand',
                 jobFamily: 'Digital & IT - Product Owner',
                 jobCode: 'Product Owner/Manager TL3',
@@ -227,44 +227,97 @@ const MockEmployeeData = {
             }
         },
 
-        // Organization Chart
+        // Organization Chart (matching real org structure)
         orgChart: {
             employee: {
                 id: 'EMP001',
-                name: 'Chatchai Tangsiri',
+                name: 'Chongrak Tanaka',
+                nameTh: 'จงรักษ์ ทานากะ',
                 title: 'Product Manager',
-                photo: 'https://i.pravatar.cc/150?img=11'
+                titleTh: 'ผู้จัดการผลิตภัณฑ์',
+                photo: 'https://i.pravatar.cc/150?img=11',
+                headcount: 2,
+                totalHeadcount: 2
             },
             supervisor: {
                 id: 'EMP_SUP001',
-                name: 'Prawit Wongsuwan',
+                name: 'Rungrote Amnuaysopon',
+                nameTh: 'รุ่งโรจน์ อำนวยสพน',
                 title: 'Head of Product',
-                photo: 'https://i.pravatar.cc/150?img=12'
+                titleTh: 'หัวหน้าฝ่ายผลิตภัณฑ์',
+                photo: 'https://i.pravatar.cc/150?img=12',
+                headcount: 7,
+                totalHeadcount: 9
             },
             supervisorOfSupervisor: {
                 id: 'EMP_SUP002',
-                name: 'Suthep Thuaksuban',
-                title: 'CTO',
-                photo: 'https://i.pravatar.cc/150?img=13'
+                name: 'Kajorn Kanjanawarin',
+                nameTh: 'ขจร กาญจนวรินทร์',
+                title: 'Head of IT Strategy & Products',
+                titleTh: 'หัวหน้าฝ่ายกลยุทธ์ไอทีและผลิตภัณฑ์',
+                photo: 'https://i.pravatar.cc/150?img=13',
+                headcount: 20,
+                totalHeadcount: 129
             },
+            // Extended hierarchy (for full org chart view)
+            extendedHierarchy: [
+                {
+                    id: 'EMP_L3',
+                    name: 'Maneerat Suramethakul',
+                    nameTh: 'มณีรัตน์ สุระเมทกุล',
+                    title: 'Head of IT Strategy, Application & International',
+                    titleTh: 'หัวหน้าฝ่ายกลยุทธ์ไอที แอปพลิเคชันและต่างประเทศ',
+                    photo: 'https://i.pravatar.cc/150?img=20',
+                    headcount: 7,
+                    totalHeadcount: 266
+                },
+                {
+                    id: 'EMP_L2',
+                    name: 'Rutchapon Vongsatitporn',
+                    nameTh: 'รัชพล วงศ์สถิตย์พร',
+                    title: 'CIO',
+                    titleTh: 'ประธานเจ้าหน้าที่ฝ่ายสารสนเทศ',
+                    photo: 'https://i.pravatar.cc/150?img=21',
+                    headcount: 5,
+                    totalHeadcount: 465
+                },
+                {
+                    id: 'EMP_L1',
+                    name: 'Suthisarn Chirathivat',
+                    nameTh: 'สุทธิศาสน์ จิราธิวัฒน์',
+                    title: 'CEO - CRC',
+                    titleTh: 'ประธานเจ้าหน้าที่บริหาร - CRC',
+                    photo: 'https://i.pravatar.cc/150?img=22',
+                    headcount: 18,
+                    totalHeadcount: 59002
+                },
+                {
+                    id: 'EMP_L0',
+                    name: 'Tos Chirathivat',
+                    nameTh: 'ทศ จิราธิวัฒน์',
+                    title: 'Executive Chairman & CEO',
+                    titleTh: 'ประธานกรรมการบริหารและประธานเจ้าหน้าที่บริหาร',
+                    photo: 'https://i.pravatar.cc/150?img=23',
+                    headcount: 16,
+                    totalHeadcount: 67704
+                }
+            ],
             directReports: [
                 {
                     id: 'EMP_DR001',
-                    name: 'Natthapong Chai',
-                    title: 'Senior Product Analyst',
+                    name: 'Naruechon Woraphatphawan',
+                    nameTh: 'นฤชล วรพัฒน์พาวัลย์',
+                    title: 'Functional Trainee (ProNext)',
+                    titleTh: 'พนักงานฝึกหัด (ProNext)',
                     photo: 'https://i.pravatar.cc/150?img=14'
                 },
                 {
                     id: 'EMP_DR002',
-                    name: 'Siriporn Kaewdee',
-                    title: 'Product Analyst',
+                    name: 'Punnapa Thianchai',
+                    nameTh: 'ปุณณภา เทียนชัย',
+                    title: 'Functional Trainee (ProNext)',
+                    titleTh: 'พนักงานฝึกหัด (ProNext)',
                     photo: 'https://i.pravatar.cc/150?img=15'
-                },
-                {
-                    id: 'EMP_DR003',
-                    name: 'Worachai Limpakit',
-                    title: 'Associate Product Manager',
-                    photo: 'https://i.pravatar.cc/150?img=16'
                 }
             ]
         },

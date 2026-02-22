@@ -7,5 +7,10 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #834 | 5:37 PM | 🔵 | English Translation File Structure and Common Keys | ~588 |
+| #811 | 5:26 PM | 🟣 | Performance Evaluation System Implemented with Opus Model | ~1363 |
+| #503 | 2:55 PM | 🟣 | Background Workflows Completed - Accessibility and Error Handling Features | ~705 |
+| #498 | 2:54 PM | ✅ | JSON Locale File Validation Passed | ~306 |
+| #497 | " | 🟣 | Job Relationships Section Implementation | ~908 |
 | #426 | 2:37 PM | 🟣 | Work Permit Information Section Implementation | ~856 |
 </claude-mem-context>

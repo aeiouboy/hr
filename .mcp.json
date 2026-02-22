@@ -24,6 +24,15 @@
         "-y",
         "@playwright/mcp@latest"
       ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "ctx7sk-296354c0-bdef-4a93-9f3f-b653e1bb4217"
+      ]
     }
   }
 }

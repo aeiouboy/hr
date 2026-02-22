@@ -1,0 +1,149 @@
+[
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx prisma generate 2>&1",
+      "timeout": 60000,
+      "description": "Generate Prisma client for time-attendance"
+    },
+    "tool_response": {
+      "stdout": "Prisma schema loaded from prisma/schema.prisma\n\n\u2714 Generated Prisma Client (v6.19.2) to ./generated/prisma in 231ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01BBRR9aVMn2kEMq7RANm8Wf"
+  },
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache 2>&1",
+      "timeout": 120000,
+      "description": "Run time-attendance tests again"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/dto.spec.ts\nPASS test/unit/shift.service.spec.ts\nPASS test/unit/location.service.spec.ts\nPASS test/unit/overtime.service.spec.ts\nPASS test/unit/attendance.service.spec.ts\nPASS test/unit/overtime.controller.spec.ts\n\nTest Suites: 6 passed, 6 total\nTests:       104 passed, 104 total\nSnapshots:   0 total\nTime:        5.379 s\nRan all test suites.",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01LWu5zud62gcmuXdErjGmtg"
+  },
+  {
+    "session_id": "7bb47633-171c-4092-bf9f-4a1e9f3173f4",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7bb47633-171c-4092-bf9f-4a1e9f3173f4.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache --forceExit 2>&1 | tail -12",
+      "timeout": 120000,
+      "description": "Verify time-attendance tests"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/shift.service.spec.ts (6.208 s)\nPASS test/unit/overtime.service.spec.ts (6.426 s)\nPASS test/unit/location.service.spec.ts (6.606 s)\nPASS test/unit/attendance.service.spec.ts (6.6 s)\nPASS test/unit/overtime.controller.spec.ts (7.958 s)\n\nTest Suites: 6 passed, 6 total\nTests:       104 passed, 104 total\nSnapshots:   0 total\nTime:        8.95 s\nRan all test suites.\nForce exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01Fa8ofG5XZzXAFxbKXodWma"
+  },
+  {
+    "session_id": "7cdb6717-7431-430c-a928-d2746dc7831a",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/7cdb6717-7431-430c-a928-d2746dc7831a.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "npx jest --no-cache 2>&1",
+      "timeout": 120000,
+      "description": "Run benefits-management tests"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/shift.service.spec.ts (5.859 s)\nPASS test/unit/dto.spec.ts (5.84 s)\nPASS test/unit/location.service.spec.ts (5.638 s)\nPASS test/unit/overtime.service.spec.ts (5.995 s)\nPASS test/unit/attendance.service.spec.ts (5.895 s)\nPASS test/unit/overtime.controller.spec.ts (6.698 s)\n\nTest Suites: 6 passed, 6 total\nTests:       104 passed, 104 total\nSnapshots:   0 total\nTime:        8.301 s\nRan all test suites.",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01WQUErEk7BxBBg7G7RymQxF"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache --forceExit 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Run time-attendance service tests"
+    },
+    "tool_response": {
+      "stdout": "PASS test/unit/dto.spec.ts\nPASS test/unit/location.service.spec.ts\nPASS test/unit/shift.service.spec.ts\nPASS test/unit/overtime.service.spec.ts\nPASS test/unit/attendance.service.spec.ts\nPASS test/unit/overtime.controller.spec.ts\n\nTest Suites: 6 passed, 6 total\nTests:       104 passed, 104 total\nSnapshots:   0 total\nTime:        5.575 s\nRan all test suites.\nForce exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01BoZkns75Mk2Wcjkdmgva8f"
+  },
+  {
+    "session_id": "c479b1e6-6643-4200-ae21-883505b6e505",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/c479b1e6-6643-4200-ae21-883505b6e505.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest src/policy/ot-policy-validation.service.spec.ts --no-coverage 2>&1 | tail -40",
+      "timeout": 60000,
+      "description": "Run OT policy validation tests"
+    },
+    "tool_response": {
+      "stdout": "PASS src/policy/ot-policy-validation.service.spec.ts\n  OTPolicyValidationService\n    validateOvertimeRequest\n      \u2713 should return all rules passed for a valid OT request (12 ms)\n      \u2713 should fail weekly_ot_limit when exceeding 36-hour weekly cap (hard rule) (2 ms)\n      \u2713 should pass weekly_ot_limit when within 36-hour cap (1 ms)\n      \u2713 should fail daily_max_hours when exceeding shift + 4 hours (hard rule) (1 ms)\n      \u2713 should pass daily_max_hours when within shift + 4 hours (1 ms)\n      \u2713 should warn on approval_chain when OT > 2 hours (soft rule) (2 ms)\n      \u2713 should pass approval_chain when OT <= 2 hours (1 ms)\n      \u2713 should fail duplicate_request when same-date OT exists (hard rule) (2 ms)\n      \u2713 should pass duplicate_request when no existing OT for date (1 ms)\n      \u2713 should include rule, type, passed, and message in each result (2 ms)\n\nTest Suites: 1 passed, 1 total\nTests:       10 passed, 10 total\nSnapshots:   0 total\nTime:        3.846 s\nRan all test suites matching /src\\/policy\\/ot-policy-validation.service.spec.ts/i.",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_016mDro7WQSGHJhqM7k1V1rx"
+  },
+  {
+    "session_id": "235561c2-5081-452b-ad43-1cd851058bea",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/235561c2-5081-452b-ad43-1cd851058bea.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/time-attendance",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/time-attendance && npx jest --no-cache --forceExit 2>&1 | tail -15",
+      "timeout": 120000,
+      "description": "Run time-attendance tests"
+    },
+    "tool_response": {
+      "stdout": "      at ../../../node_modules/@nestjs/core/injector/instance-loader.js:42:13\n          at async Promise.all (index 1)\n      at TestingInstanceLoader.createInstances (../../../node_modules/@nestjs/core/injector/instance-loader.js:39:9)\n      at TestingInstanceLoader.createInstancesOfDependencies (../../../node_modules/@nestjs/core/injector/instance-loader.js:22:13)\n      at TestingInstanceLoader.createInstancesOfDependencies (../../../node_modules/@nestjs/testing/testing-instance-loader.js:9:9)\n      at TestingModuleBuilder.createInstancesOfDependencies (../../../node_modules/@nestjs/testing/testing-module.builder.js:118:9)\n      at TestingModuleBuilder.compile (../../../node_modules/@nestjs/testing/testing-module.builder.js:74:9)\n      at Object.<anonymous> (test/unit/overtime.controller.spec.ts:51:35)\n\nTest Suites: 1 failed, 6 passed, 7 total\nTests:       9 failed, 105 passed, 114 total\nSnapshots:   0 total\nTime:        5.971 s\nRan all test suites.\nForce exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_011S7QkRnuspEDfvxjRvG4S5"
+  }
+]
