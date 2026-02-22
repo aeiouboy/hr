@@ -1363,7 +1363,17 @@
         "clickToViewProfile": "Click to view profile",
         "accessDenied": "You do not have permission to view this employee",
         "loading": "Loading organization chart...",
-        "error": "Error loading organization chart"
+        "error": "Error loading organization chart",
+        "viewProfile": "View Full Profile",
+        "sidePanel": {
+            "manager": "Reports To",
+            "directReports": "Direct Reports",
+            "email": "Email",
+            "phone": "Phone",
+            "noManager": "No manager",
+            "noDirectReports": "No direct reports",
+            "andMore": "and {n} more"
+        }
     },
     "position": {
         "title": "Position Management",
