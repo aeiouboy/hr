@@ -29,20 +29,6 @@ const OrgChartPage = (function() {
                                         : 'View the organizational hierarchy with reporting lines and vacant positions'}
                                 </p>
                             </div>
-                            <div class="flex gap-2">
-                                <button onclick="OrgChartPage.exportToPng()"
-                                        class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
-                                        aria-label="${i18n.isThai() ? 'ส่งออกเป็นรูปภาพ' : 'Export as image'}">
-                                    <span class="material-icons text-sm">image</span>
-                                    ${i18n.isThai() ? 'ส่งออกรูปภาพ' : 'Export Image'}
-                                </button>
-                                <button onclick="OrgChartPage.print()"
-                                        class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
-                                        aria-label="${i18n.isThai() ? 'พิมพ์' : 'Print'}">
-                                    <span class="material-icons text-sm">print</span>
-                                    ${i18n.isThai() ? 'พิมพ์' : 'Print'}
-                                </button>
-                            </div>
                         </div>
                     </div>
 
