@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "HR App (Python HTTP Server)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8080", "-d", "/Users/tachongrak/Projects/hr/.claude/worktrees/youthful-sinoussi/apps"],
+      "port": 8080
+    }
+  ]
+}
