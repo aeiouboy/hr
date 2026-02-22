@@ -190,6 +190,11 @@ textarea:focus-visible,
     fill: none;
 }
 
+/* Org chart side panel slide-in animation */
+.animate-slide-in {
+    animation: slideInRight 0.2s ease-out;
+}
+
 /* Form field styles */
 .form-input {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
