@@ -21,7 +21,9 @@ const OrgChartComponent = (function() {
         showVacant: true,
         showDottedLines: true,
         expandedNodes: new Set(),
-        hoveredNode: null
+        hoveredNode: null,
+        sidePanelEmployeeId: null,
+        parentMap: null
     };
 
     // Constants
@@ -52,7 +54,9 @@ const OrgChartComponent = (function() {
             showVacant: true,
             showDottedLines: true,
             expandedNodes: new Set(),
-            hoveredNode: null
+            hoveredNode: null,
+            sidePanelEmployeeId: null,
+            parentMap: null
         };
     }
 
@@ -103,15 +107,15 @@ const OrgChartComponent = (function() {
                 <div class="org-chart-wrapper" role="region" aria-label="${t('title')}">
                     ${showFilters ? this.renderFilters(companyId) : ''}
 
-                    <div class="org-chart-main relative">
+                    <div class="org-chart-main relative flex gap-0">
                         <!-- Toolbar -->
-                        <div class="org-chart-toolbar absolute top-2 right-2 z-20 flex gap-2 bg-white rounded-lg shadow-md p-2">
+                        <div class="org-chart-toolbar absolute top-2 z-20 flex gap-2 bg-white rounded-lg shadow-md p-2" style="right: ${state.sidePanelEmployeeId ? '336px' : '8px'}">
                             ${this.renderToolbar()}
                         </div>
 
                         <!-- Main canvas area -->
                         <div id="org-chart-canvas"
-                             class="org-chart-canvas overflow-hidden bg-gray-50 rounded-lg border border-gray-200"
+                             class="org-chart-canvas overflow-hidden bg-gray-50 rounded-lg border border-gray-200 flex-1"
                              style="height: 600px; cursor: grab;"
                              role="application"
                              aria-label="${t('interactiveChart')}"
@@ -121,6 +125,11 @@ const OrgChartComponent = (function() {
                                  style="transform: translate(${state.translateX}px, ${state.translateY}px) scale(${state.scale}); transform-origin: center center; transition: transform 0.1s ease-out;">
                                 ${orgData ? this.renderTree(orgData) : ''}
                             </div>
+                        </div>
+
+                        <!-- Side Panel slot -->
+                        <div id="org-chart-side-panel">
+                            ${state.sidePanelEmployeeId ? this.renderSidePanel(state.sidePanelEmployeeId) : ''}
                         </div>
 
                         <!-- Minimap -->
@@ -766,6 +775,9 @@ const OrgChartComponent = (function() {
                 case '0':
                     this.resetView();
                     return;
+                case 'Escape':
+                    this.closeSidePanel();
+                    return;
                 default:
                     return;
             }
@@ -980,24 +992,178 @@ const OrgChartComponent = (function() {
         },
 
         /**
-         * Open the side panel for an employee (placeholder for Task 4)
+         * Find a node in the org tree by employeeId (BFS)
          */
-        openSidePanel(employeeId) {
-            // Side panel rendering will be implemented in a later task.
-            // For now, navigate to the profile as a fallback.
-            const currentUser = AppState.get('currentUser');
-            if (employeeId === currentUser?.employeeId) {
-                Router.navigate('profile');
-            } else {
-                Router.navigate('profile', { id: employeeId });
+        findNodeById(root, employeeId) {
+            if (!root) return null;
+            const queue = [root];
+            while (queue.length > 0) {
+                const node = queue.shift();
+                if (node.employeeId === employeeId) return node;
+                if (node.children) queue.push(...node.children);
             }
+            return null;
         },
 
         /**
-         * Close the side panel (placeholder for Task 4)
+         * Build a parent map: { childEmployeeId -> parentNode }
+         */
+        buildParentMap(node, parentNode, map) {
+            if (!node) return;
+            if (parentNode) map[node.employeeId] = parentNode;
+            (node.children || []).forEach(child => this.buildParentMap(child, node, map));
+        },
+
+        /**
+         * Render the employee side panel
+         */
+        renderSidePanel(employeeId) {
+            if (!employeeId) return '';
+
+            const orgData = typeof MockOrgStructure !== 'undefined'
+                ? MockOrgStructure.buildOrgChartData({ showVacant: false, showDottedLines: false })
+                : null;
+
+            const node = this.findNodeById(orgData, employeeId);
+            if (!node) return '';
+
+            const manager = state.parentMap?.[employeeId] || null;
+            const directReports = node.children || [];
+            const visibleReports = directReports.slice(0, 3);
+            const extraCount = directReports.length - visibleReports.length;
+
+            return `
+                <div class="org-side-panel w-80 bg-white border-l border-gray-200 shadow-xl flex flex-col animate-slide-in"
+                     style="height: 600px; overflow-y: auto;">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-100 sticky top-0 bg-white z-10">
+                        <h3 class="text-sm font-semibold text-gray-700">${t('employee')}</h3>
+                        <button onclick="OrgChartComponent.closeSidePanel()"
+                                class="p-1 hover:bg-gray-100 rounded-lg transition"
+                                aria-label="Close panel">
+                            <span class="material-icons text-gray-500 text-lg">close</span>
+                        </button>
+                    </div>
+
+                    <div class="p-4 flex flex-col items-center text-center border-b border-gray-100">
+                        <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md mb-3">
+                            <img src="${node.photo || 'https://via.placeholder.com/64'}"
+                                 alt="${node.name}"
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/64?text=${encodeURIComponent(node.name?.charAt(0) || 'U')}'">
+                        </div>
+                        <p class="font-semibold text-gray-900">${node.name}</p>
+                        <p class="text-sm text-gray-500 mt-0.5">${node.title}</p>
+                        ${node.costCenter ? `
+                            <p class="text-xs text-gray-400 mt-1">
+                                <span class="material-icons text-xs align-middle">account_balance</span>
+                                ${node.costCenter}
+                            </p>
+                        ` : ''}
+                    </div>
+
+                    <div class="p-4 border-b border-gray-100 space-y-2">
+                        ${node.email ? `
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="material-icons text-gray-400 text-base">email</span>
+                                <a href="mailto:${node.email}" class="text-cg-red hover:underline truncate">${node.email}</a>
+                            </div>
+                        ` : ''}
+                        ${node.phone ? `
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="material-icons text-gray-400 text-base">phone</span>
+                                <span class="text-gray-700">${node.phone}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="p-4 border-b border-gray-100">
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">${t('sidePanel.manager')}</p>
+                        ${manager ? `
+                            <div class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded-lg transition"
+                                 onclick="OrgChartComponent.openSidePanel('${manager.employeeId}')">
+                                <img src="${manager.photo || 'https://via.placeholder.com/32'}"
+                                     alt="${manager.name}"
+                                     class="w-8 h-8 rounded-full object-cover border border-gray-200">
+                                <div class="min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate">${manager.name}</p>
+                                    <p class="text-xs text-gray-500 truncate">${manager.title}</p>
+                                </div>
+                            </div>
+                        ` : `<p class="text-sm text-gray-400">${t('sidePanel.noManager')}</p>`}
+                    </div>
+
+                    <div class="p-4 border-b border-gray-100">
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+                            ${t('sidePanel.directReports')} (${directReports.length})
+                        </p>
+                        ${directReports.length === 0 ? `
+                            <p class="text-sm text-gray-400">${t('sidePanel.noDirectReports')}</p>
+                        ` : `
+                            <div class="space-y-1">
+                                ${visibleReports.map(r => `
+                                    <div class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded-lg transition"
+                                         onclick="OrgChartComponent.openSidePanel('${r.employeeId}')">
+                                        <img src="${r.photo || 'https://via.placeholder.com/28'}"
+                                             alt="${r.name}"
+                                             class="w-7 h-7 rounded-full object-cover border border-gray-200">
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate">${r.name}</p>
+                                            <p class="text-xs text-gray-500 truncate">${r.title}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                ${extraCount > 0 ? `
+                                    <p class="text-xs text-gray-400 pl-1">
+                                        ${t('sidePanel.andMore').replace('{n}', extraCount)}
+                                    </p>
+                                ` : ''}
+                            </div>
+                        `}
+                    </div>
+
+                    <div class="p-4 mt-auto sticky bottom-0 bg-white border-t border-gray-100">
+                        <button onclick="Router.navigate('profile', { id: '${node.employeeId}' })"
+                                class="w-full bg-cg-red text-white py-2 px-4 rounded-lg hover:bg-red-700 transition text-sm font-medium">
+                            ${t('viewProfile')}
+                        </button>
+                    </div>
+                </div>
+            `;
+        },
+
+        /**
+         * Open the side panel for an employee
+         */
+        openSidePanel(employeeId) {
+            if (state.hasDragged) return;
+            state.sidePanelEmployeeId = employeeId;
+
+            // Build parent map if not cached
+            if (!state.parentMap) {
+                state.parentMap = {};
+                const orgData = typeof MockOrgStructure !== 'undefined'
+                    ? MockOrgStructure.buildOrgChartData({ showVacant: false, showDottedLines: false })
+                    : null;
+                this.buildParentMap(orgData, null, state.parentMap);
+            }
+
+            const panelSlot = document.getElementById('org-chart-side-panel');
+            if (panelSlot) {
+                panelSlot.innerHTML = this.renderSidePanel(employeeId);
+            }
+            const toolbar = document.querySelector('.org-chart-toolbar');
+            if (toolbar) toolbar.style.right = '336px';
+        },
+
+        /**
+         * Close the side panel
          */
         closeSidePanel() {
-            // Will be implemented in a later task
+            state.sidePanelEmployeeId = null;
+            const panelSlot = document.getElementById('org-chart-side-panel');
+            if (panelSlot) panelSlot.innerHTML = '';
+            const toolbar = document.querySelector('.org-chart-toolbar');
+            if (toolbar) toolbar.style.right = '8px';
         },
 
         /**
