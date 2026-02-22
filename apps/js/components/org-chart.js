@@ -623,8 +623,10 @@ const OrgChartComponent = (function() {
             // Keyboard navigation
             canvas.addEventListener('keydown', this.handleKeydown.bind(this));
 
-            // Center the chart initially
+            // Fit chart then center on current user
             this.fitToScreen();
+            // Use setTimeout to ensure DOM has rendered before measuring
+            setTimeout(() => this.centerOnCurrentUser(), 100);
         },
 
         /**
@@ -868,6 +870,31 @@ const OrgChartComponent = (function() {
 
             this.updateTransform();
             this.updateToolbar();
+        },
+
+        /**
+         * Center the canvas view on the current user's node
+         */
+        centerOnCurrentUser() {
+            const currentUser = AppState.get('currentUser');
+            if (!currentUser?.employeeId) return;
+
+            const canvas = document.getElementById('org-chart-canvas');
+            const node = document.querySelector(`[data-employee-id="${currentUser.employeeId}"]`);
+            if (!canvas || !node) return;
+
+            const canvasRect = canvas.getBoundingClientRect();
+            const nodeRect = node.getBoundingClientRect();
+
+            // Calculate where the node currently is relative to canvas, accounting for current transform
+            const nodeCenterX = nodeRect.left + nodeRect.width / 2 - canvasRect.left;
+            const nodeCenterY = nodeRect.top + nodeRect.height / 2 - canvasRect.top;
+
+            // Shift translate so node lands in center of canvas
+            state.translateX += canvasRect.width / 2 - nodeCenterX;
+            state.translateY += canvasRect.height / 2 - nodeCenterY;
+
+            this.updateTransform();
         },
 
         /**
