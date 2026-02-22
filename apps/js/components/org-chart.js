@@ -1031,6 +1031,10 @@ const OrgChartComponent = (function() {
             const directReports = node.children || [];
             const visibleReports = directReports.slice(0, 3);
             const extraCount = directReports.length - visibleReports.length;
+            const currentUser = AppState.get('currentUser');
+            const canViewProfile = typeof RBAC !== 'undefined'
+                ? (RBAC.canViewEmployee(employeeId) || employeeId === currentUser?.employeeId)
+                : true;
 
             return `
                 <div class="org-side-panel w-80 bg-white border-l border-gray-200 shadow-xl flex flex-col animate-slide-in"
@@ -1121,12 +1125,14 @@ const OrgChartComponent = (function() {
                         `}
                     </div>
 
+                    ${canViewProfile ? `
                     <div class="p-4 mt-auto sticky bottom-0 bg-white border-t border-gray-100">
                         <button onclick="Router.navigate('profile', { id: '${node.employeeId}' })"
                                 class="w-full bg-cg-red text-white py-2 px-4 rounded-lg hover:bg-red-700 transition text-sm font-medium">
                             ${t('viewProfile')}
                         </button>
                     </div>
+                    ` : ''}
                 </div>
             `;
         },
@@ -1136,6 +1142,16 @@ const OrgChartComponent = (function() {
          */
         openSidePanel(employeeId) {
             if (state.hasDragged) return;
+
+            // RBAC check — only allow viewing own profile or if user has permission
+            const currentUser = AppState.get('currentUser');
+            if (typeof RBAC !== 'undefined' && !RBAC.canViewEmployee(employeeId) && employeeId !== currentUser?.employeeId) {
+                ToastComponent.info(i18n.isThai()
+                    ? 'คุณไม่มีสิทธิ์ดูข้อมูลพนักงานนี้'
+                    : 'You do not have permission to view this employee');
+                return;
+            }
+
             state.sidePanelEmployeeId = employeeId;
 
             // Build parent map if not cached
