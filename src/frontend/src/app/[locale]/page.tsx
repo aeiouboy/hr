@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import {
   User,
   Calendar,
@@ -26,6 +27,8 @@ interface QuickAction {
 
 export default function HomePage() {
   const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.startsWith('/th') ? 'th' : 'en';
   const { username, roles } = useAuthStore();
 
   const quickActions: QuickAction[] = [
@@ -105,7 +108,7 @@ export default function HomePage() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {allActions.map((action) => (
-                <a key={action.href} href={action.href}>
+                <a key={action.href} href={`/${locale}${action.href}`}>
                   <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                     <CardHeader className="pb-3">
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${action.color}`}>

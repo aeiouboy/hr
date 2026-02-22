@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import type { Role } from '@/lib/rbac';
 
+// Default mock user for development (no Keycloak required)
+const DEV_DEFAULTS = {
+  userId: 'EMP001',
+  username: 'Somchai Jaidee',
+  email: 'somchai.j@centralgroup.com',
+  roles: ['employee', 'manager', 'hr_admin', 'hr_manager'] as Role[],
+};
+
 interface AuthState {
   userId: string | null;
   username: string | null;
@@ -12,11 +20,11 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  userId: null,
-  username: null,
-  email: null,
-  roles: [],
-  isAuthenticated: false,
+  userId: DEV_DEFAULTS.userId,
+  username: DEV_DEFAULTS.username,
+  email: DEV_DEFAULTS.email,
+  roles: DEV_DEFAULTS.roles,
+  isAuthenticated: true,
   setUser: (user) =>
     set({
       userId: user.id,
