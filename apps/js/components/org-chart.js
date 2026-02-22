@@ -11,6 +11,9 @@ const OrgChartComponent = (function() {
         translateX: 0,
         translateY: 0,
         isDragging: false,
+        hasDragged: false,
+        dragStartX: 0,
+        dragStartY: 0,
         startX: 0,
         startY: 0,
         selectedCompany: null,
@@ -39,6 +42,9 @@ const OrgChartComponent = (function() {
             translateX: 0,
             translateY: 0,
             isDragging: false,
+            hasDragged: false,
+            dragStartX: 0,
+            dragStartY: 0,
             startX: 0,
             startY: 0,
             selectedCompany: null,
@@ -625,9 +631,12 @@ const OrgChartComponent = (function() {
          * Handle mouse down for panning
          */
         handleMouseDown(e) {
-            if (e.target.closest('.org-node, button')) return;
+            if (e.target.closest('button')) return; // allow buttons, but NOT org-node
 
             state.isDragging = true;
+            state.hasDragged = false;
+            state.dragStartX = e.clientX;
+            state.dragStartY = e.clientY;
             state.startX = e.clientX - state.translateX;
             state.startY = e.clientY - state.translateY;
 
@@ -641,6 +650,12 @@ const OrgChartComponent = (function() {
         handleMouseMove(e) {
             if (!state.isDragging) return;
 
+            const dx = Math.abs(e.clientX - state.dragStartX);
+            const dy = Math.abs(e.clientY - state.dragStartY);
+            if (dx > 5 || dy > 5) {
+                state.hasDragged = true;
+            }
+
             state.translateX = e.clientX - state.startX;
             state.translateY = e.clientY - state.startY;
             this.updateTransform();
@@ -651,6 +666,8 @@ const OrgChartComponent = (function() {
          */
         handleMouseUp() {
             state.isDragging = false;
+            // Reset hasDragged after a microtask so the click handler can check it
+            setTimeout(() => { state.hasDragged = false; }, 0);
             const canvas = document.getElementById('org-chart-canvas');
             if (canvas) canvas.style.cursor = 'grab';
         },
@@ -688,6 +705,7 @@ const OrgChartComponent = (function() {
          */
         handleTouchEnd() {
             state.isDragging = false;
+            setTimeout(() => { state.hasDragged = false; }, 0);
         },
 
         /**
@@ -919,17 +937,40 @@ const OrgChartComponent = (function() {
          * Handle node click
          */
         handleNodeClick(employeeId) {
+            // Ignore clicks that were actually drags
+            if (state.hasDragged) return;
+
             const currentUser = AppState.get('currentUser');
 
-            if (employeeId === currentUser?.employeeId) {
-                Router.navigate('profile');
-            } else if (typeof RBAC !== 'undefined' && RBAC.canViewEmployee(employeeId)) {
-                Router.navigate('profile', { id: employeeId });
-            } else {
+            if (typeof RBAC !== 'undefined' && !RBAC.canViewEmployee(employeeId) && employeeId !== currentUser?.employeeId) {
                 ToastComponent.info(i18n.isThai()
                     ? 'คุณไม่มีสิทธิ์ดูข้อมูลพนักงานนี้'
                     : 'You do not have permission to view this employee');
+                return;
             }
+
+            this.openSidePanel(employeeId);
+        },
+
+        /**
+         * Open the side panel for an employee (placeholder for Task 4)
+         */
+        openSidePanel(employeeId) {
+            // Side panel rendering will be implemented in a later task.
+            // For now, navigate to the profile as a fallback.
+            const currentUser = AppState.get('currentUser');
+            if (employeeId === currentUser?.employeeId) {
+                Router.navigate('profile');
+            } else {
+                Router.navigate('profile', { id: employeeId });
+            }
+        },
+
+        /**
+         * Close the side panel (placeholder for Task 4)
+         */
+        closeSidePanel() {
+            // Will be implemented in a later task
         },
 
         /**
