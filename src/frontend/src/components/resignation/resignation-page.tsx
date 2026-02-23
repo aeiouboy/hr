@@ -13,8 +13,17 @@ import { formatCurrency } from '@/lib/date';
 
 export function ResignationPage() {
   const t = useTranslations('resignation');
-  const { record, loading, updateClearanceItem, clearanceProgress } = useResignation();
+  const { record, loading, updateClearanceItem, clearanceProgress, submitResignation } = useResignation();
   const [activeTab, setActiveTab] = useState('recording');
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({ lastWorkingDate: '', reason: '', handoverNotes: '' });
+
+  const handleSubmitResignation = async () => {
+    if (!formData.lastWorkingDate || !formData.reason) return;
+    await submitResignation(formData);
+    setShowForm(false);
+    setFormData({ lastWorkingDate: '', reason: '', handoverNotes: '' });
+  };
 
   const tabs = [
     { key: 'recording', label: t('tabRecording') },
@@ -32,14 +41,66 @@ export function ResignationPage() {
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
         </div>
-        <Card>
-          <CardContent className="py-16 text-center">
-            <FileX className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-cg-dark mb-2">{t('noResignation')}</h2>
-            <p className="text-gray-500 mb-4">{t('noResignationDesc')}</p>
-            <Button>{t('startResignation')}</Button>
-          </CardContent>
-        </Card>
+        {showForm ? (
+          <Card>
+            <CardHeader><CardTitle>Start Resignation Process</CardTitle></CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <label htmlFor="lastWorkingDate" className="block text-sm font-medium text-gray-700">
+                    Last Working Date <span className="text-cg-error ml-0.5">*</span>
+                  </label>
+                  <input
+                    id="lastWorkingDate"
+                    type="date"
+                    value={formData.lastWorkingDate}
+                    onChange={(e) => setFormData((p) => ({ ...p, lastWorkingDate: e.target.value }))}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="reason" className="block text-sm font-medium text-gray-700">
+                    Reason <span className="text-cg-error ml-0.5">*</span>
+                  </label>
+                  <textarea
+                    id="reason"
+                    value={formData.reason}
+                    onChange={(e) => setFormData((p) => ({ ...p, reason: e.target.value }))}
+                    rows={3}
+                    placeholder="Please provide your reason for resignation..."
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="handoverNotes" className="block text-sm font-medium text-gray-700">Handover Notes</label>
+                  <textarea
+                    id="handoverNotes"
+                    value={formData.handoverNotes}
+                    onChange={(e) => setFormData((p) => ({ ...p, handoverNotes: e.target.value }))}
+                    rows={3}
+                    placeholder="Notes about knowledge transfer and pending tasks..."
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-3 mt-6">
+                <Button variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
+                <Button onClick={handleSubmitResignation} disabled={!formData.lastWorkingDate || !formData.reason}>
+                  Submit Resignation
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardContent className="py-16 text-center">
+              <FileX className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <h2 className="text-lg font-semibold text-cg-dark mb-2">{t('noResignation')}</h2>
+              <p className="text-gray-500 mb-4">{t('noResignationDesc')}</p>
+              <Button onClick={() => setShowForm(true)}>{t('startResignation')}</Button>
+            </CardContent>
+          </Card>
+        )}
       </>
     );
   }

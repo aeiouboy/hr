@@ -237,6 +237,7 @@ export default function PayslipPage() {
   const [showAmounts, setShowAmounts] = useState(false);
   const [selectedYear, setSelectedYear] = useState<YearFilter>('all');
   const [expandedPayslip, setExpandedPayslip] = useState<string | null>(null);
+  const [showConfirmReveal, setShowConfirmReveal] = useState(false);
 
   const tabs = [
     { key: 'payslips', label: t('payslipList') },
@@ -254,16 +255,25 @@ export default function PayslipPage() {
 
   const handleToggleAmounts = () => {
     if (!showAmounts) {
-      const confirmed = window.confirm(t('confirmShowAmounts'));
-      if (!confirmed) return;
+      setShowConfirmReveal(true);
+      return;
     }
-    setShowAmounts((prev) => !prev);
+    setShowAmounts(false);
+  };
+
+  const confirmRevealAmounts = () => {
+    setShowAmounts(true);
+    setShowConfirmReveal(false);
+  };
+
+  const cancelRevealAmounts = () => {
+    setShowConfirmReveal(false);
   };
 
   const displayAmount = (amount: number) =>
     showAmounts ? formatCurrency(amount) : maskCurrency();
 
-  const downloadPayslipTxt = (payslip: PayslipRecord) => {
+  const downloadPayslip = (payslip: PayslipRecord) => {
     const totalEarnings =
       payslip.earnings.baseSalary +
       payslip.earnings.positionAllowance +
@@ -277,60 +287,106 @@ export default function PayslipPage() {
       payslip.deductions.loans +
       payslip.deductions.other;
 
-    const lines = [
-      '='.repeat(50),
-      '              PAYSLIP',
-      '='.repeat(50),
-      '',
-      `Employee:       Somchai Jaidee`,
-      `Employee ID:    EMP-001`,
-      `Pay Period:     ${payslip.period}`,
-      `Pay Date:       ${payslip.payDate}`,
-      '',
-      '-'.repeat(50),
-      'EARNINGS',
-      '-'.repeat(50),
-      `Base Salary:              ${formatCurrency(payslip.earnings.baseSalary)}`,
-      `Position Allowance:       ${formatCurrency(payslip.earnings.positionAllowance)}`,
-      `Cost of Living Allowance: ${formatCurrency(payslip.earnings.colAllowance)}`,
-      ...(payslip.earnings.overtime > 0
-        ? [`Overtime:                 ${formatCurrency(payslip.earnings.overtime)}`]
-        : []),
-      ...(payslip.earnings.other > 0
-        ? [`Other Earnings:           ${formatCurrency(payslip.earnings.other)}`]
-        : []),
-      `                          ${'─'.repeat(20)}`,
-      `Total Earnings:           ${formatCurrency(totalEarnings)}`,
-      '',
-      '-'.repeat(50),
-      'DEDUCTIONS',
-      '-'.repeat(50),
-      `Income Tax:               ${formatCurrency(payslip.deductions.incomeTax)}`,
-      `Social Security:          ${formatCurrency(payslip.deductions.socialSecurity)}`,
-      `Provident Fund:           ${formatCurrency(payslip.deductions.providentFund)}`,
-      ...(payslip.deductions.loans > 0
-        ? [`Loans:                    ${formatCurrency(payslip.deductions.loans)}`]
-        : []),
-      ...(payslip.deductions.other > 0
-        ? [`Other Deductions:         ${formatCurrency(payslip.deductions.other)}`]
-        : []),
-      `                          ${'─'.repeat(20)}`,
-      `Total Deductions:         ${formatCurrency(totalDeductions)}`,
-      '',
-      '='.repeat(50),
-      `GROSS PAY:                ${formatCurrency(payslip.gross)}`,
-      `NET PAY:                  ${formatCurrency(payslip.net)}`,
-      '='.repeat(50),
-      '',
-      `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
-    ];
+    const fmtRow = (label: string, amount: number, isDeduction = false) =>
+      `<tr><td>${label}</td><td class="amount${isDeduction ? ' deduction' : ''}">${isDeduction ? '(' : ''}${formatCurrency(amount)}${isDeduction ? ')' : ''}</td></tr>`;
 
-    const content = lines.join('\n');
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payslip - ${payslip.period}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 30px; color: #333; background: #fff; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #C8102E; padding-bottom: 16px; margin-bottom: 24px; }
+    .company h1 { font-size: 20px; color: #C8102E; font-weight: 700; }
+    .company p { font-size: 12px; color: #666; margin-top: 2px; }
+    .doc-title { text-align: right; }
+    .doc-title h2 { font-size: 18px; color: #1a1a1a; text-transform: uppercase; letter-spacing: 2px; }
+    .doc-title p { font-size: 12px; color: #888; margin-top: 4px; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; margin-bottom: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .info-grid .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .info-grid .value { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .column h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; margin-bottom: 0; }
+    .column.earnings h3 { background: #ecfdf5; color: #065f46; border-left: 3px solid #10b981; }
+    .column.deductions h3 { background: #fef2f2; color: #991b1b; border-left: 3px solid #ef4444; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 8px 12px; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
+    td.amount { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+    td.deduction { color: #dc2626; }
+    tr.total td { border-top: 2px solid #d1d5db; font-weight: 700; font-size: 14px; padding-top: 10px; }
+    tr.total td.amount { color: #065f46; }
+    tr.total.ded td.amount { color: #dc2626; }
+    .net-pay { margin-top: 0; padding: 20px; background: linear-gradient(135deg, #1a1a1a, #333); color: #fff; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .net-pay .label { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #ccc; }
+    .net-pay .gross { font-size: 13px; color: #aaa; margin-top: 4px; }
+    .net-pay .amount-lg { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #aaa; text-align: center; }
+    @media print { body { padding: 20px; } .net-pay { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="company">
+      <h1>Central Group Co., Ltd.</h1>
+      <p>Human Resources Department</p>
+    </div>
+    <div class="doc-title">
+      <h2>Payslip</h2>
+      <p>${payslip.id}</p>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div><p class="label">Employee Name</p><p class="value">Somchai Jaidee</p></div>
+    <div><p class="label">Employee ID</p><p class="value">EMP-001</p></div>
+    <div><p class="label">Pay Period</p><p class="value">${payslip.period}</p></div>
+    <div><p class="label">Pay Date</p><p class="value">${payslip.payDate}</p></div>
+  </div>
+
+  <div class="columns">
+    <div class="column earnings">
+      <h3>Earnings</h3>
+      <table>
+        ${fmtRow('Base Salary', payslip.earnings.baseSalary)}
+        ${fmtRow('Position Allowance', payslip.earnings.positionAllowance)}
+        ${fmtRow('Cost of Living Allowance', payslip.earnings.colAllowance)}
+        ${payslip.earnings.overtime > 0 ? fmtRow('Overtime', payslip.earnings.overtime) : ''}
+        ${payslip.earnings.other > 0 ? fmtRow('Other Earnings', payslip.earnings.other) : ''}
+        <tr class="total"><td>Total Earnings</td><td class="amount">${formatCurrency(totalEarnings)}</td></tr>
+      </table>
+    </div>
+    <div class="column deductions">
+      <h3>Deductions</h3>
+      <table>
+        ${fmtRow('Income Tax', payslip.deductions.incomeTax, true)}
+        ${fmtRow('Social Security', payslip.deductions.socialSecurity, true)}
+        ${fmtRow('Provident Fund', payslip.deductions.providentFund, true)}
+        ${payslip.deductions.loans > 0 ? fmtRow('Loans', payslip.deductions.loans, true) : ''}
+        ${payslip.deductions.other > 0 ? fmtRow('Other Deductions', payslip.deductions.other, true) : ''}
+        <tr class="total ded"><td>Total Deductions</td><td class="amount deduction">(${formatCurrency(totalDeductions)})</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="net-pay">
+    <div>
+      <p class="label">Net Pay</p>
+      <p class="gross">Gross: ${formatCurrency(payslip.gross)}</p>
+    </div>
+    <div class="amount-lg">${formatCurrency(payslip.net)}</div>
+  </div>
+
+  <p class="footer">Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}. This is a computer-generated document. Central Group Co., Ltd. - HR Department.</p>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `payslip-${String(payslip.month).padStart(2, '0')}-${payslip.year}.txt`;
+    a.download = `payslip-${String(payslip.month).padStart(2, '0')}-${payslip.year}.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -379,7 +435,7 @@ export default function PayslipPage() {
     window.open(url, '_blank');
   };
 
-  const downloadTaxDocumentTxt = (doc: TaxDocument) => {
+  const downloadTaxDocument = (doc: TaxDocument) => {
     const docTypeLabels: Record<string, string> = {
       withholdingCert: 'Withholding Tax Certificate (50 Tawi)',
       socialSecurityStatement: 'Social Security Statement',
@@ -394,40 +450,63 @@ export default function PayslipPage() {
     };
     const fileNamePart = docTypeFileNames[doc.type] || doc.type;
 
-    const lines = [
-      '='.repeat(50),
-      `  ${docLabel}`,
-      '='.repeat(50),
-      '',
-      `Document ID:    ${doc.id}`,
-      `Document Type:  ${docLabel}`,
-      `Tax Year:       ${doc.year}`,
-      `Issue Date:     ${doc.issueDate}`,
-      '',
-      '-'.repeat(50),
-      'EMPLOYEE INFORMATION',
-      '-'.repeat(50),
-      `Employee Name:  Somchai Jaidee`,
-      `Employee ID:    EMP-001`,
-      `Company:        Central Group Co., Ltd.`,
-      '',
-      '-'.repeat(50),
-      'DOCUMENT STATUS',
-      '-'.repeat(50),
-      `Status:         Issued`,
-      `Issued By:      HR Department`,
-      '',
-      '='.repeat(50),
-      '',
-      `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
-    ];
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${docLabel} - ${doc.year}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 40px 30px; color: #333; background: #fff; }
+    .header { border-bottom: 3px solid #C8102E; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .company h1 { font-size: 20px; color: #C8102E; font-weight: 700; }
+    .company p { font-size: 12px; color: #666; margin-top: 2px; }
+    .doc-badge { background: #C8102E; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    h2 { font-size: 18px; color: #1a1a1a; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+    th { background: #f9fafb; font-weight: 600; color: #555; width: 40%; font-size: 13px; }
+    td { color: #1a1a1a; }
+    .status-badge { display: inline-block; background: #ecfdf5; color: #065f46; padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #aaa; text-align: center; line-height: 1.6; }
+    @media print { body { padding: 20px; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="company">
+      <h1>Central Group Co., Ltd.</h1>
+      <p>Human Resources Department</p>
+    </div>
+    <div class="doc-badge">Official Document</div>
+  </div>
 
-    const content = lines.join('\n');
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  <h2>${docLabel}</h2>
+
+  <table>
+    <tr><th>Document ID</th><td>${doc.id}</td></tr>
+    <tr><th>Document Type</th><td>${docLabel}</td></tr>
+    <tr><th>Tax Year</th><td>${doc.year}</td></tr>
+    <tr><th>Issue Date</th><td>${doc.issueDate}</td></tr>
+    <tr><th>Employee Name</th><td>Somchai Jaidee</td></tr>
+    <tr><th>Employee ID</th><td>EMP-001</td></tr>
+    <tr><th>Company</th><td>Central Group Co., Ltd.</td></tr>
+    <tr><th>Status</th><td><span class="status-badge">Issued</span></td></tr>
+    <tr><th>Issued By</th><td>HR Department</td></tr>
+  </table>
+
+  <p class="footer">
+    This is an official document issued by Central Group Co., Ltd. - Human Resources Department.<br>
+    Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.
+  </p>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${fileNamePart}-${doc.year}.txt`;
+    a.download = `${fileNamePart}-${doc.year}.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -475,6 +554,21 @@ export default function PayslipPage() {
           )}
         </Button>
       </div>
+
+      {/* Inline confirmation for revealing amounts */}
+      {showConfirmReveal && (
+        <div className="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm">
+          <span className="text-amber-800 font-medium">{t('confirmShowAmounts')}</span>
+          <div className="flex gap-2 ml-auto">
+            <Button size="sm" variant="outline" onClick={cancelRevealAmounts}>
+              {tCommon('cancel')}
+            </Button>
+            <Button size="sm" onClick={confirmRevealAmounts}>
+              {tCommon('confirm')}
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Payslip list */}
       {filteredPayslips.length === 0 ? (
@@ -672,7 +766,7 @@ export default function PayslipPage() {
                       variant="outline"
                       size="sm"
                       className="flex items-center gap-2 self-start sm:self-auto"
-                      onClick={() => downloadPayslipTxt(payslip)}
+                      onClick={() => downloadPayslip(payslip)}
                     >
                       <Download className="h-4 w-4" />
                       {t('downloadPdf')}
@@ -737,7 +831,7 @@ export default function PayslipPage() {
                     variant="default"
                     size="sm"
                     className="flex items-center gap-2"
-                    onClick={() => downloadTaxDocumentTxt(doc)}
+                    onClick={() => downloadTaxDocument(doc)}
                   >
                     <Download className="h-4 w-4" />
                     {t('downloadPdf')}

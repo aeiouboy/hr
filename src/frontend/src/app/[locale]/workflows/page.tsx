@@ -17,10 +17,12 @@ import { Tabs } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Modal } from '@/components/ui/modal';
+import { FormField } from '@/components/ui/form-field';
 import { WorkflowList } from '@/components/workflows/workflow-list';
 import { WorkflowDetailModal } from '@/components/workflows/workflow-detail-modal';
 import { useWorkflows } from '@/hooks/use-workflows';
-import type { WorkflowItem } from '@/hooks/use-workflows';
+import type { WorkflowItem, WorkflowType } from '@/hooks/use-workflows';
 
 type TabKey = 'forApproval' | 'sentBack' | 'approved' | 'rejected';
 
@@ -62,9 +64,43 @@ export default function WorkflowsPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('forApproval');
   const [selectedWorkflow, setSelectedWorkflow] = useState<WorkflowItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [newRequest, setNewRequest] = useState({ type: 'leave' as WorkflowType, description: '' });
 
-  const { pending, sentBack, approved, rejected, loading, approveWorkflow, rejectWorkflow, sendBackWorkflow } =
+  const { workflows, pending, sentBack, approved, rejected, loading, approveWorkflow, rejectWorkflow, sendBackWorkflow, createWorkflow } =
     useWorkflows();
+
+  const handleCreateRequest = async () => {
+    if (!newRequest.description.trim()) return;
+    const typeLabels: Record<string, string> = {
+      leave: 'Leave Request',
+      overtime: 'Overtime Request',
+      payroll_change: 'Expense Request',
+      personal_info: 'Change Request',
+    };
+    const newWorkflow: WorkflowItem = {
+      id: `WF-${String(workflows.length + 1).padStart(3, '0')}`,
+      type: newRequest.type,
+      typeLabel: typeLabels[newRequest.type] || newRequest.type,
+      requesterName: 'Current User',
+      requesterId: 'EMP000',
+      department: 'My Department',
+      description: newRequest.description,
+      submittedDate: new Date().toISOString(),
+      urgency: 'normal',
+      status: 'pending',
+      currentStep: 1,
+      totalSteps: 2,
+      steps: [
+        { step: 1, approverName: 'Manager', approverId: 'MGR001', status: 'pending' },
+        { step: 2, approverName: 'HR', approverId: 'HR001', status: 'pending' },
+      ],
+    };
+    await createWorkflow(newWorkflow);
+    setCreateModalOpen(false);
+    setNewRequest({ type: 'leave', description: '' });
+    setActiveTab('forApproval');
+  };
 
   const tabs = [
     { key: 'forApproval', label: `${t('forApproval')} (${pending.length})` },
@@ -155,7 +191,7 @@ export default function WorkflowsPage() {
                   Review and action pending workflow requests
                 </p>
               </div>
-              <Button className="mt-4 sm:mt-0" size="sm">
+              <Button className="mt-4 sm:mt-0" size="sm" onClick={() => setCreateModalOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 {t('createRequest')}
               </Button>
@@ -208,6 +244,38 @@ export default function WorkflowsPage() {
         onReject={isPendingTab ? handleReject : undefined}
         onSendBack={isPendingTab ? handleSendBack : undefined}
       />
+
+      {/* Create Request modal */}
+      <Modal open={createModalOpen} onClose={() => setCreateModalOpen(false)} title="Create New Request">
+        <div className="space-y-4">
+          <FormField
+            label="Request Type"
+            name="requestType"
+            type="select"
+            value={newRequest.type}
+            onChange={(v) => setNewRequest((p) => ({ ...p, type: v as WorkflowType }))}
+            options={[
+              { value: 'leave', label: 'Leave' },
+              { value: 'payroll_change', label: 'Expense' },
+              { value: 'overtime', label: 'Overtime' },
+              { value: 'personal_info', label: 'Change Request' },
+            ]}
+          />
+          <FormField
+            label="Description"
+            name="requestDesc"
+            type="textarea"
+            value={newRequest.description}
+            onChange={(v) => setNewRequest((p) => ({ ...p, description: v }))}
+            placeholder="Describe your request..."
+            required
+          />
+        </div>
+        <div className="flex justify-end gap-3 mt-6">
+          <Button variant="outline" onClick={() => setCreateModalOpen(false)}>Cancel</Button>
+          <Button onClick={handleCreateRequest} disabled={!newRequest.description.trim()}>Submit Request</Button>
+        </div>
+      </Modal>
     </div>
   );
 }

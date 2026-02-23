@@ -17,6 +17,7 @@ export function RecruitmentPage() {
   const { jobs, candidates, stats, loading, updateCandidateStatus } = useRecruitment();
   const [activeTab, setActiveTab] = useState('jobBoard');
   const [selectedCandidate, setSelectedCandidate] = useState<typeof candidates[0] | null>(null);
+  const [selectedJob, setSelectedJob] = useState<typeof jobs[0] | null>(null);
 
   const tabs = [
     { key: 'jobBoard', label: t('jobBoard') },
@@ -69,7 +70,7 @@ export function RecruitmentPage() {
                   <div className="text-right">
                     <p className="text-sm text-gray-400">{t('closingDate')}: {job.closingDate}</p>
                     <p className="text-sm text-gray-500 mt-1">{job.applicationCount} applications</p>
-                    <Button size="sm" className="mt-2">{t('viewDetails')}</Button>
+                    <Button size="sm" className="mt-2" onClick={() => setSelectedJob(job)}>{t('viewDetails')}</Button>
                   </div>
                 </div>
               </CardContent>
@@ -106,7 +107,7 @@ export function RecruitmentPage() {
                       <td className="py-3 px-4 text-gray-600">{c.appliedDate}</td>
                       <td className="py-3 px-4 text-gray-600">{c.source}</td>
                       <td className="py-3 px-4"><Badge variant={STATUS_VARIANT[c.status]}>{c.status}</Badge></td>
-                      <td className="py-3 px-4 text-center"><Button size="sm" variant="ghost">{t('viewDetails')}</Button></td>
+                      <td className="py-3 px-4 text-center"><Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); setSelectedCandidate(c); }}>{t('viewDetails')}</Button></td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,6 +137,40 @@ export function RecruitmentPage() {
           ))}
         </div>
       )}
+
+      {/* Job Detail Modal */}
+      <Modal open={!!selectedJob} onClose={() => setSelectedJob(null)} title={selectedJob?.titleEn || ''} className="max-w-2xl">
+        {selectedJob && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Badge variant={selectedJob.status === 'open' ? 'success' : 'neutral'}>{selectedJob.status}</Badge>
+              {selectedJob.urgent && <Badge variant="error">{t('urgent')}</Badge>}
+              <span className="text-sm text-gray-500">{selectedJob.department} - {selectedJob.location}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div><span className="text-gray-400">Employment Type</span><p className="font-medium">{selectedJob.employmentType}</p></div>
+              <div><span className="text-gray-400">Salary Range</span><p className="font-medium">{formatCurrency(selectedJob.salaryMin)} - {formatCurrency(selectedJob.salaryMax)}</p></div>
+              <div><span className="text-gray-400">Openings</span><p className="font-medium">{selectedJob.openings}</p></div>
+              <div><span className="text-gray-400">{t('closingDate')}</span><p className="font-medium">{selectedJob.closingDate}</p></div>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-1">Description</h4>
+              <p className="text-sm text-gray-600">{selectedJob.description}</p>
+            </div>
+            {selectedJob.requirements && selectedJob.requirements.length > 0 && (
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 mb-1">Requirements</h4>
+                <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                  {selectedJob.requirements.map((req, i) => <li key={i}>{req}</li>)}
+                </ul>
+              </div>
+            )}
+            <div className="pt-4 border-t">
+              <Button onClick={() => setSelectedJob(null)}>Apply Now</Button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
       {/* Candidate Detail Modal */}
       <Modal open={!!selectedCandidate} onClose={() => setSelectedCandidate(null)} title={t('applicationDetails')} className="max-w-2xl">

@@ -332,6 +332,11 @@ export function useWorkflows() {
     );
   }, []);
 
+  const createWorkflow = useCallback(async (item: WorkflowItem) => {
+    await new Promise((r) => setTimeout(r, 300));
+    setWorkflows((prev) => [item, ...prev]);
+  }, []);
+
   const pending = workflows.filter((w) => w.status === 'pending');
   const sentBack = workflows.filter((w) => w.status === 'sent_back');
   const approved = workflows.filter((w) => w.status === 'approved');
@@ -348,5 +353,6 @@ export function useWorkflows() {
     approveWorkflow,
     rejectWorkflow,
     sendBackWorkflow,
+    createWorkflow,
   };
 }

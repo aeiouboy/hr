@@ -2,13 +2,79 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { GraduationCap, Search, Star, Clock, Award } from 'lucide-react';
+import { GraduationCap, Search, Star, Clock, Award, Download } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLearning } from '@/hooks/use-learning';
+
+function generateCertificateHtml(course: { nameEn: string; code: string; score?: number; hours: number; credits: number; completionDate?: string }) {
+  const completionDate = course.completionDate
+    ? new Date(course.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate - ${course.nameEn}</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #f0ede8; }
+    .frame { border: 8px solid #C8102E; padding: 12px; background: white; box-shadow: 0 8px 40px rgba(0,0,0,0.15); }
+    .inner-frame { border: 2px solid #d4af37; padding: 60px 80px; text-align: center; max-width: 800px; position: relative; }
+    .corner { position: absolute; width: 40px; height: 40px; border-color: #d4af37; }
+    .corner.tl { top: 8px; left: 8px; border-top: 3px solid; border-left: 3px solid; }
+    .corner.tr { top: 8px; right: 8px; border-top: 3px solid; border-right: 3px solid; }
+    .corner.bl { bottom: 8px; left: 8px; border-bottom: 3px solid; border-left: 3px solid; }
+    .corner.br { bottom: 8px; right: 8px; border-bottom: 3px solid; border-right: 3px solid; }
+    .company { font-size: 13px; color: #C8102E; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { color: #C8102E; font-size: 36px; margin: 0 0 8px 0; font-weight: 400; }
+    .subtitle { color: #666; font-size: 16px; font-weight: normal; margin-bottom: 30px; }
+    .employee-name { font-size: 32px; color: #1a1a1a; font-weight: 700; margin: 16px 0 8px; font-style: italic; }
+    .divider { width: 200px; border-top: 2px solid #C8102E; margin: 24px auto; }
+    .label { color: #888; font-size: 13px; margin-bottom: 4px; }
+    .course-name { font-size: 24px; color: #1a1a1a; font-weight: bold; margin: 8px 0 20px; }
+    .details { color: #666; font-size: 14px; margin-top: 8px; }
+    .score { font-size: 20px; color: #C8102E; font-weight: bold; margin-top: 12px; }
+    .date { color: #888; font-size: 13px; margin-top: 24px; }
+    .signatures { display: flex; justify-content: space-around; margin-top: 48px; }
+    .sig { text-align: center; }
+    .sig-line { width: 180px; border-bottom: 1px solid #999; margin-bottom: 8px; min-height: 32px; }
+    .sig-label { font-size: 12px; color: #888; }
+    @media print { body { background: white; } .frame { box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="inner-frame">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+      <p class="company">Central Group Co., Ltd.</p>
+      <h1>Certificate of Completion</h1>
+      <p class="subtitle">This is to certify that</p>
+      <p class="employee-name">Somchai Jaidee</p>
+      <p class="label">Employee ID: EMP-001</p>
+      <div class="divider"></div>
+      <p class="label">has successfully completed</p>
+      <p class="course-name">${course.nameEn}</p>
+      <p class="details">Course Code: ${course.code}</p>
+      ${course.score ? `<p class="score">Score: ${course.score}%</p>` : ''}
+      <p class="details">${course.hours} Hours | ${course.credits} Credits</p>
+      <div class="divider"></div>
+      <p class="date">Completed on ${completionDate}</p>
+      <div class="signatures">
+        <div class="sig"><div class="sig-line"></div><p class="sig-label">Instructor</p></div>
+        <div class="sig"><div class="sig-line"></div><p class="sig-label">HR Director</p></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+}
 
 export function LearningPage() {
   const t = useTranslations('learning');
@@ -63,43 +129,26 @@ export function LearningPage() {
               if (course.certificateUrl) {
                 window.open(course.certificateUrl, '_blank');
               } else {
+                const certHtml = generateCertificateHtml(course);
                 const certWindow = window.open('', '_blank');
                 if (certWindow) {
-                  certWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                      <title>Certificate - ${course.nameEn}</title>
-                      <style>
-                        body { font-family: Georgia, serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #f5f5f5; }
-                        .certificate { background: white; border: 3px double #C8102E; padding: 60px 80px; text-align: center; max-width: 800px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
-                        .certificate h1 { color: #C8102E; font-size: 32px; margin-bottom: 8px; }
-                        .certificate h2 { color: #333; font-size: 20px; font-weight: normal; margin-bottom: 40px; }
-                        .certificate .course-name { font-size: 28px; color: #1a1a1a; font-weight: bold; margin: 20px 0; }
-                        .certificate .details { color: #666; font-size: 14px; margin-top: 30px; }
-                        .certificate .score { font-size: 18px; color: #C8102E; font-weight: bold; margin-top: 12px; }
-                        .certificate .divider { width: 200px; border-top: 2px solid #C8102E; margin: 30px auto; }
-                      </style>
-                    </head>
-                    <body>
-                      <div class="certificate">
-                        <h1>Certificate of Completion</h1>
-                        <h2>This is to certify that</h2>
-                        <div class="divider"></div>
-                        <p class="course-name">${course.nameEn}</p>
-                        <p class="details">Course Code: ${course.code}</p>
-                        <p class="score">Score: ${course.score}%</p>
-                        <p class="details">${course.hours} Hours | ${course.credits} Credits</p>
-                        <div class="divider"></div>
-                        <p class="details">Issued on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                      </div>
-                    </body>
-                    </html>
-                  `);
+                  certWindow.document.write(certHtml);
                   certWindow.document.close();
                 }
               }
             }}>{t('certificate')}</Button>
+            <Button size="sm" variant="outline" onClick={() => {
+              const certHtml = generateCertificateHtml(course);
+              const blob = new Blob([certHtml], { type: 'text/html;charset=utf-8' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `certificate-${course.code}.html`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }}><Download className="h-3.5 w-3.5 mr-1" />{t('download')}</Button>
           </div>
         )}
       </CardContent>

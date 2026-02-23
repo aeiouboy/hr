@@ -43,6 +43,16 @@ export function SettingsPage() {
   }
 
   const handleSave = async (section: string) => {
+    const sectionMap: Record<string, keyof typeof settings> = {
+      company: 'company',
+      payroll: 'payroll',
+      notifications: 'notifications',
+      system: 'general',
+    };
+    const key = sectionMap[section];
+    if (key) {
+      await updateSettings(key, settings[key] as never);
+    }
     toast('success', t('settings.saved'));
   };
 

@@ -130,11 +130,63 @@ export function PerformancePage() {
       )}
 
       {activeTab === 'history' && (
-        <Card>
-          <CardContent className="py-12 text-center text-gray-500">
-            {t('noHistory')}
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          {[
+            {
+              period: 'Annual Review 2025',
+              rating: 4.2,
+              reviewer: 'Rungrote Amnuaysopon',
+              summary: 'Exceeded expectations in project delivery and team collaboration. Consistently met KPIs with strong initiative.',
+              date: '2025-12-15',
+            },
+            {
+              period: 'Mid-Year Review 2025',
+              rating: 3.8,
+              reviewer: 'Rungrote Amnuaysopon',
+              summary: 'Solid performance across all areas. Recommended to focus on leadership development and cross-functional skills.',
+              date: '2025-06-30',
+            },
+            {
+              period: 'Annual Review 2024',
+              rating: 3.5,
+              reviewer: 'Kamolwan Srisuk',
+              summary: 'Met expectations consistently. Showed improvement in technical skills and stakeholder communication.',
+              date: '2024-12-20',
+            },
+            {
+              period: 'Mid-Year Review 2024',
+              rating: 3.2,
+              reviewer: 'Kamolwan Srisuk',
+              summary: 'Good progress on assigned goals. Areas for improvement include time management and documentation.',
+              date: '2024-06-28',
+            },
+          ].map((review, idx) => (
+            <Card key={idx}>
+              <CardContent className="p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="font-semibold text-cg-dark">{review.period}</h3>
+                      <Badge variant={review.rating >= 4 ? 'success' : review.rating >= 3 ? 'info' : 'warning'}>
+                        {review.rating.toFixed(1)} / 5.0
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-2">{review.summary}</p>
+                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                      <span>Reviewer: {review.reviewer}</span>
+                      <span>Date: {review.date}</span>
+                    </div>
+                  </div>
+                  <div className="text-center shrink-0">
+                    <div className="w-14 h-14 rounded-full bg-cg-red/10 flex items-center justify-center">
+                      <span className="text-lg font-bold text-cg-red">{review.rating.toFixed(1)}</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       )}
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)} title={t('createGoal')}>

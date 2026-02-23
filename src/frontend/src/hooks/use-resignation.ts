@@ -82,9 +82,32 @@ export function useResignation() {
     });
   }, []);
 
+  const submitResignation = useCallback(async (data: { lastWorkingDate: string; reason: string; handoverNotes: string }) => {
+    await new Promise((r) => setTimeout(r, 300));
+    const newRecord: ResignationRecord = {
+      id: `RES${Date.now()}`,
+      employeeId: 'EMP000',
+      employeeName: 'Current User',
+      resignationDate: new Date().toISOString().split('T')[0],
+      lastWorkingDate: data.lastWorkingDate,
+      reasonType: 'personal',
+      reasonDetails: data.reason,
+      noticePeriod: 30,
+      status: 'submitted',
+      submittedDate: new Date().toISOString().split('T')[0],
+      clearanceItems: [
+        { id: 'CLR001', title: 'Return Laptop & Equipment', responsibleParty: 'IT Department', status: 'pending' },
+        { id: 'CLR002', title: 'Return Access Card & Keys', responsibleParty: 'Admin', status: 'pending' },
+        { id: 'CLR003', title: 'Knowledge Transfer', responsibleParty: 'Manager', status: 'pending' },
+        { id: 'CLR004', title: 'Outstanding Leave Settlement', responsibleParty: 'HR', status: 'pending' },
+      ],
+    };
+    setRecord(newRecord);
+  }, []);
+
   const clearanceProgress = record
     ? Math.round((record.clearanceItems.filter((i) => i.status === 'completed').length / record.clearanceItems.length) * 100)
     : 0;
 
-  return { record, loading, updateClearanceItem, clearanceProgress };
+  return { record, loading, updateClearanceItem, clearanceProgress, submitResignation };
 }

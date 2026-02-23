@@ -24,6 +24,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { usePayroll } from '@/hooks/use-payroll';
+import { useToast } from '@/components/ui/toast';
 import { formatCurrency } from '@/lib/date';
 
 type Step = 'period' | 'calculate' | 'review' | 'approve';
@@ -51,6 +52,7 @@ export default function PayrollProcessingPage() {
   const [approving, setApproving] = useState(false);
   const [approvalComment, setApprovalComment] = useState('');
 
+  const { toast } = useToast();
   const { payslips, runSummary, payrollRuns, loading, calculating, runCalculation, approvePayroll } = usePayroll();
 
   const selectedPeriod = `${MONTHS[selectedMonth]} ${selectedYear}`;
@@ -467,7 +469,10 @@ export default function PayrollProcessingPage() {
               </>
             )}
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => {
+            toast('success', 'Payroll draft saved successfully');
+            setCurrentStep('period');
+          }}>
             {t('saveAsDraft')}
           </Button>
         </div>
