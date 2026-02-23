@@ -244,6 +244,30 @@ exports.Prisma.PolicyCheckScalarFieldEnum = {
   checked_at: 'checked_at'
 };
 
+exports.Prisma.HospitalReferralScalarFieldEnum = {
+  id: 'id',
+  employee_id: 'employee_id',
+  employee_name: 'employee_name',
+  hospital_name: 'hospital_name',
+  hospital_branch: 'hospital_branch',
+  reason: 'reason',
+  preferred_date: 'preferred_date',
+  valid_from: 'valid_from',
+  valid_until: 'valid_until',
+  status: 'status',
+  workflow_id: 'workflow_id',
+  referral_number: 'referral_number',
+  approved_by: 'approved_by',
+  approved_at: 'approved_at',
+  issued_by: 'issued_by',
+  issued_at: 'issued_at',
+  rejected_by: 'rejected_by',
+  rejected_reason: 'rejected_reason',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -268,7 +292,8 @@ exports.Prisma.ModelName = {
   ClaimRequest: 'ClaimRequest',
   OCRResult: 'OCRResult',
   PolicyRule: 'PolicyRule',
-  PolicyCheck: 'PolicyCheck'
+  PolicyCheck: 'PolicyCheck',
+  HospitalReferral: 'HospitalReferral'
 };
 
 /**

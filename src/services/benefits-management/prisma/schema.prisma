@@ -152,3 +152,34 @@ model PolicyCheck {
   claim             ClaimRequest  @relation(fields: [claim_id], references: [id])
   @@map("policy_checks")
 }
+
+// ── Hospital Referral ───────────────────────────────────────────────
+
+model HospitalReferral {
+  id              String    @id @default(uuid())
+  employee_id     String
+  employee_name   String
+  hospital_name   String
+  hospital_branch String?
+  reason          String
+  preferred_date  DateTime
+  valid_from      DateTime?
+  valid_until     DateTime?
+  status          String    @default("draft")
+  workflow_id     String?
+  referral_number String?   @unique
+  approved_by     String?
+  approved_at     DateTime?
+  issued_by       String?
+  issued_at       DateTime?
+  rejected_by     String?
+  rejected_reason String?
+  notes           String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@index([employee_id])
+  @@index([status])
+  @@index([referral_number])
+  @@map("hospital_referrals")
+}

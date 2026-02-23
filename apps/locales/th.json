@@ -2815,5 +2815,38 @@
         "unsavedChangesMessage": "คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ต้องการออกหรือไม่?",
         "discardChanges": "ยกเลิกการเปลี่ยนแปลง",
         "featureComingSoon": "ฟีเจอร์นี้กำลังพัฒนา"
+    },
+    "hospitalReferral": {
+        "title": "หนังสือส่งตัว",
+        "newRequest": "ส่งคำขอใหม่",
+        "myReferrals": "คำขอของฉัน",
+        "selectHospital": "เลือกโรงพยาบาล",
+        "reasonForVisit": "เหตุผลในการพบแพทย์",
+        "preferredDate": "วันที่ต้องการนัด",
+        "urgencyLevel": "ระดับความเร่งด่วน",
+        "urgency": {
+            "routine": "ปกติ",
+            "urgent": "เร่งด่วน",
+            "emergency": "ฉุกเฉิน"
+        },
+        "additionalNotes": "หมายเหตุเพิ่มเติม",
+        "submitRequest": "ส่งคำขอ",
+        "status": {
+            "pending": "รอดำเนินการ",
+            "approved": "อนุมัติแล้ว",
+            "rejected": "ไม่อนุมัติ",
+            "completed": "เสร็จสิ้น"
+        },
+        "hospital": "โรงพยาบาล",
+        "date": "วันที่",
+        "submittedOn": "วันที่ส่งคำขอ",
+        "noReferrals": "ไม่พบคำขอหนังสือส่งตัว",
+        "createFirst": "ส่งคำขอแรกของคุณผ่านแท็บส่งคำขอใหม่",
+        "successMessage": "ส่งคำขอหนังสือส่งตัวเรียบร้อยแล้ว",
+        "errorRequired": "กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน",
+        "referralId": "รหัสคำขอ",
+        "notes": "หมายเหตุ",
+        "requestedBy": "ผู้ขอ",
+        "viewDetails": "ดูรายละเอียด"
     }
 }

@@ -50,7 +50,8 @@
         "timePayroll": "Time & Payroll",
         "organization": "Organization",
         "talentDevelopment": "Talent Development",
-        "recruitment": "Recruitment"
+        "recruitment": "Recruitment",
+        "hospitalReferral": "Hospital Referral"
     },
     "profile": {
         "title": "Profile",
@@ -3025,6 +3026,58 @@
             "creating": "Creating...",
             "cancel": "Cancel",
             "revoke": "Revoke"
+        }
+    },
+    "hospitalReferral": {
+        "title": "Hospital Referral",
+        "newRequest": "New Referral Request",
+        "myReferrals": "My Referrals",
+        "referralLetter": "Referral Letter",
+        "selectHospital": "Select Hospital",
+        "hospitalBranch": "Hospital Branch",
+        "reason": "Reason for Visit",
+        "preferredDate": "Preferred Date",
+        "validFrom": "Valid From",
+        "validUntil": "Valid Until",
+        "referralNumber": "Referral Number",
+        "notes": "Additional Notes",
+        "createRequest": "Create Request",
+        "submitRequest": "Submit Request",
+        "cancelRequest": "Cancel Request",
+        "viewLetter": "View Letter",
+        "printLetter": "Print Letter",
+        "downloadLetter": "Download Letter",
+        "letterTitle": "Hospital Referral Letter",
+        "letterSubtitle": "Cashless Medical Treatment Authorization",
+        "companyName": "Central Group",
+        "issuedTo": "Issued To",
+        "authorizedHospital": "Authorized Hospital",
+        "validPeriod": "Valid Period",
+        "issuedBy": "Issued By",
+        "approvedBy": "Approved By",
+        "noReferrals": "No referral requests found",
+        "createFirst": "Create your first hospital referral request",
+        "confirmSubmit": "Are you sure you want to submit this referral request?",
+        "confirmCancel": "Are you sure you want to cancel this referral request?",
+        "submitSuccess": "Referral request submitted successfully",
+        "cancelSuccess": "Referral request cancelled",
+        "reasonMinLength": "Reason must be at least 10 characters",
+        "dateMustBeFuture": "Preferred date must be in the future",
+        "createdDate": "Created Date",
+        "hospital": "Hospital",
+        "statusLabel": "Status",
+        "view": "View",
+        "rejectionReason": "Rejection Reason",
+        "timeline": "Approval Timeline",
+        "status": {
+            "draft": "Draft",
+            "submitted": "Submitted",
+            "pending_manager": "Pending Manager",
+            "pending_hr": "Pending HR",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "cancelled": "Cancelled",
+            "letter_issued": "Letter Issued"
         }
     }
 }

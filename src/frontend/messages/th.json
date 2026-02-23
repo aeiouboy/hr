@@ -50,7 +50,8 @@
         "timePayroll": "เวลาและเงินเดือน",
         "organization": "องค์กร",
         "talentDevelopment": "พัฒนาบุคลากร",
-        "recruitment": "สรรหาบุคลากร"
+        "recruitment": "สรรหาบุคลากร",
+        "hospitalReferral": "หนังสือส่งตัว"
     },
     "profile": {
         "title": "โปรไฟล์",
@@ -2966,6 +2967,58 @@
             "creating": "กำลังสร้าง...",
             "cancel": "ยกเลิก",
             "revoke": "ยกเลิกการมอบหมาย"
+        }
+    },
+    "hospitalReferral": {
+        "title": "หนังสือส่งตัว",
+        "newRequest": "สร้างใบส่งตัวใหม่",
+        "myReferrals": "ใบส่งตัวของฉัน",
+        "referralLetter": "หนังสือส่งตัว",
+        "selectHospital": "เลือกโรงพยาบาล",
+        "hospitalBranch": "สาขาโรงพยาบาล",
+        "reason": "เหตุผลในการรักษา",
+        "preferredDate": "วันที่ต้องการ",
+        "validFrom": "ใช้ได้ตั้งแต่",
+        "validUntil": "ใช้ได้ถึง",
+        "referralNumber": "เลขที่ใบส่งตัว",
+        "notes": "หมายเหตุเพิ่มเติม",
+        "createRequest": "สร้างคำขอ",
+        "submitRequest": "ส่งคำขอ",
+        "cancelRequest": "ยกเลิกคำขอ",
+        "viewLetter": "ดูหนังสือ",
+        "printLetter": "พิมพ์หนังสือ",
+        "downloadLetter": "ดาวน์โหลดหนังสือ",
+        "letterTitle": "หนังสือส่งตัวรักษาพยาบาล",
+        "letterSubtitle": "หนังสือรับรองการรักษาพยาบาลแบบไม่ต้องสำรองจ่าย",
+        "companyName": "เซ็นทรัล กรุ๊ป",
+        "issuedTo": "ออกให้แก่",
+        "authorizedHospital": "โรงพยาบาลที่ได้รับอนุญาต",
+        "validPeriod": "ระยะเวลาที่ใช้ได้",
+        "issuedBy": "ออกโดย",
+        "approvedBy": "อนุมัติโดย",
+        "noReferrals": "ไม่พบคำขอใบส่งตัว",
+        "createFirst": "สร้างคำขอใบส่งตัวใบแรกของคุณ",
+        "confirmSubmit": "คุณแน่ใจหรือไม่ว่าต้องการส่งคำขอใบส่งตัวนี้?",
+        "confirmCancel": "คุณแน่ใจหรือไม่ว่าต้องการยกเลิกคำขอใบส่งตัวนี้?",
+        "submitSuccess": "ส่งคำขอใบส่งตัวเรียบร้อยแล้ว",
+        "cancelSuccess": "ยกเลิกคำขอใบส่งตัวเรียบร้อยแล้ว",
+        "reasonMinLength": "เหตุผลต้องมีอย่างน้อย 10 ตัวอักษร",
+        "dateMustBeFuture": "วันที่ต้องเป็นวันที่ในอนาคต",
+        "createdDate": "วันที่สร้าง",
+        "hospital": "โรงพยาบาล",
+        "statusLabel": "สถานะ",
+        "view": "ดู",
+        "rejectionReason": "เหตุผลที่ปฏิเสธ",
+        "timeline": "ไทม์ไลน์การอนุมัติ",
+        "status": {
+            "draft": "แบบร่าง",
+            "submitted": "ส่งแล้ว",
+            "pending_manager": "รอผู้จัดการอนุมัติ",
+            "pending_hr": "รอ HR อนุมัติ",
+            "approved": "อนุมัติแล้ว",
+            "rejected": "ปฏิเสธ",
+            "cancelled": "ยกเลิก",
+            "letter_issued": "ออกหนังสือแล้ว"
         }
     }
 }

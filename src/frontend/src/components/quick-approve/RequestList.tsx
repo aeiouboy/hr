@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Search, Filter, Calendar, Clock } from 'lucide-react';
+import { Search, Filter, Calendar, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { UrgencyBadge } from './UrgencyBadge';
 import type { PendingRequest, Urgency, RequestType } from '@/lib/quick-approve-api';
 
 const MAX_SELECTION = 50;
 
-const typeIcons: Record<string, string> = {
-  leave: '🏖️',
-  overtime: '⏰',
-  claim: '🧾',
-  transfer: '🔄',
-  change_request: '📝',
+const typeIcons: Record<string, ReactNode> = {
+  leave: <Palmtree className="h-4 w-4" />,
+  overtime: <Clock className="h-4 w-4" />,
+  claim: <Receipt className="h-4 w-4" />,
+  transfer: <ArrowLeftRight className="h-4 w-4" />,
+  change_request: <FilePen className="h-4 w-4" />,
 };
 
 const TYPE_OPTIONS: RequestType[] = ['leave', 'overtime', 'claim', 'transfer', 'change_request'];
@@ -92,7 +92,7 @@ export function RequestList({
             <option value="">{t('filters.allTypes')}</option>
             {TYPE_OPTIONS.map((type) => (
               <option key={type} value={type}>
-                {typeIcons[type]} {type} {counts[type] ? `(${counts[type]})` : ''}
+                {type} {counts[type] ? `(${counts[type]})` : ''}
               </option>
             ))}
           </select>
@@ -147,7 +147,7 @@ export function RequestList({
                   : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
               }`}
             >
-              <span>{typeIcons[type] ?? '📋'}</span>
+              <span>{typeIcons[type] ?? <ClipboardList className="h-4 w-4" />}</span>
               <span>{type}</span>
               <span className="bg-white/20 rounded-full px-1.5 text-[10px]">{count}</span>
             </button>
@@ -210,8 +210,8 @@ export function RequestList({
                       />
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-lg" title={req.type}>
-                        {typeIcons[req.type] ?? '📋'}
+                      <span className="text-gray-600" title={req.type}>
+                        {typeIcons[req.type] ?? <ClipboardList className="h-4 w-4" />}
                       </span>
                     </td>
                     <td className="px-4 py-3">

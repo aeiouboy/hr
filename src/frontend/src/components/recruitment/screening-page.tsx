@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { ArrowRight, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -63,12 +64,12 @@ export function ScreeningPage() {
                         <div className="flex gap-1">
                           {nextStage && (
                             <Button size="sm" variant="outline" className="text-xs flex-1" onClick={() => updateCandidateStatus(candidate.id, nextStage)}>
-                              → {nextStage}
+                              <ArrowRight className="h-3 w-3" /> {nextStage}
                             </Button>
                           )}
                           {stage !== 'hired' && (
                             <Button size="sm" variant="ghost" className="text-xs text-red-500" onClick={() => updateCandidateStatus(candidate.id, 'rejected')}>
-                              ✕
+                              <X className="h-3 w-3" />
                             </Button>
                           )}
                         </div>

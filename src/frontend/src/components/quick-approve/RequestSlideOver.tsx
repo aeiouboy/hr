@@ -1,7 +1,8 @@
 'use client';
 
+import { type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { X, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { X, CheckCircle2, XCircle, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { UrgencyBadge } from './UrgencyBadge';
@@ -16,12 +17,12 @@ interface RequestSlideOverProps {
   onReject: (id: string) => void;
 }
 
-const typeIcons: Record<string, string> = {
-  leave: '🏖️',
-  overtime: '⏰',
-  claim: '🧾',
-  transfer: '🔄',
-  change_request: '📝',
+const typeIcons: Record<string, ReactNode> = {
+  leave: <Palmtree className="h-5 w-5" />,
+  overtime: <Clock className="h-5 w-5" />,
+  claim: <Receipt className="h-5 w-5" />,
+  transfer: <ArrowLeftRight className="h-5 w-5" />,
+  change_request: <FilePen className="h-5 w-5" />,
 };
 
 function ApprovalTimeline({ steps }: { steps: ApprovalStep[] }) {
@@ -170,7 +171,7 @@ export function RequestSlideOver({
             {/* Header */}
             <div className="flex items-center justify-between border-b px-6 py-4">
               <div className="flex items-center gap-3">
-                <span className="text-xl">{typeIcons[request.type] ?? '📋'}</span>
+                <span className="text-gray-600">{typeIcons[request.type] ?? <ClipboardList className="h-5 w-5" />}</span>
                 <div>
                   <h2 className="text-lg font-semibold text-cg-dark">
                     {request.requester.name}

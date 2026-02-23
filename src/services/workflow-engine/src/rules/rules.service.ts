@@ -47,6 +47,7 @@ export class RulesService {
     'dependent_delete',
     'advanced_info_change',
     'leave_request_extended',
+    'hospital_referral',
   ]);
 
   // Three-level (Manager + HR Admin + HR Manager)

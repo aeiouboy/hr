@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { FileText } from 'lucide-react';
 import { LEAVE_TYPE_COLORS } from './leave-balance';
 import type { LeaveRequest, LeaveStatus, LeaveType } from '@/hooks/use-leave';
 
@@ -154,7 +155,7 @@ export function LeaveHistory({ requests, loading, onViewDetail, onCancel }: Leav
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-2 min-w-0">
                         <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0', colors.bg)}>
-                          {LEAVE_TYPE_COLORS[req.type as LeaveType]?.icon || '📋'}
+                          {LEAVE_TYPE_COLORS[req.type as LeaveType]?.icon || <FileText className="h-4 w-4" />}
                         </div>
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-gray-900 truncate">{req.typeNameEn}</p>

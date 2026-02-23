@@ -30,6 +30,7 @@ import {
   Shield,
   Filter,
   Receipt,
+  FileHeart,
 } from 'lucide-react';
 import { useUIStore } from '@/stores/ui-store';
 import { useAuthStore } from '@/stores/auth-store';
@@ -62,6 +63,7 @@ export function Sidebar() {
     { href: '/training-records', label: t('training.title'), icon: <Award className="h-5 w-5" />, module: 'training-records' },
     { href: '/workflows', label: t('nav.workflows'), icon: <ClipboardList className="h-5 w-5" />, module: 'workflows' },
     { href: '/smart-claims', label: t('smartClaims.title'), icon: <Receipt className="h-5 w-5" />, module: 'smart-claims' },
+    { href: '/hospital-referral', label: t('nav.hospitalReferral'), icon: <FileHeart size={20} />, module: 'hospital-referral' },
   ];
 
   const hrAdminItems: MenuItem[] = [

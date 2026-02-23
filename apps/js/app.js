@@ -190,6 +190,12 @@ const App = (function() {
             onEnter: () => SettingsPage.init()
         });
 
+        // Hospital Referral page
+        Router.register('hospital-referral', {
+            render: () => HospitalReferralPage.render(),
+            onEnter: () => HospitalReferralPage.init()
+        });
+
         // Error pages
         Router.register('404', {
             render: (params) => ErrorPage.render404(params),

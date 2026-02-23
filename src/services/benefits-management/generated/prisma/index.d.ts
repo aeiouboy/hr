@@ -53,6 +53,11 @@ export type PolicyRule = $Result.DefaultSelection<Prisma.$PolicyRulePayload>
  * 
  */
 export type PolicyCheck = $Result.DefaultSelection<Prisma.$PolicyCheckPayload>
+/**
+ * Model HospitalReferral
+ * 
+ */
+export type HospitalReferral = $Result.DefaultSelection<Prisma.$HospitalReferralPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -251,6 +256,16 @@ export class PrismaClient<
     * ```
     */
   get policyCheck(): Prisma.PolicyCheckDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.hospitalReferral`: Exposes CRUD operations for the **HospitalReferral** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HospitalReferrals
+    * const hospitalReferrals = await prisma.hospitalReferral.findMany()
+    * ```
+    */
+  get hospitalReferral(): Prisma.HospitalReferralDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -699,7 +714,8 @@ export namespace Prisma {
     ClaimRequest: 'ClaimRequest',
     OCRResult: 'OCRResult',
     PolicyRule: 'PolicyRule',
-    PolicyCheck: 'PolicyCheck'
+    PolicyCheck: 'PolicyCheck',
+    HospitalReferral: 'HospitalReferral'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -718,7 +734,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "benefitPlan" | "benefitEnrollment" | "benefitDependent" | "benefitClaim" | "claimRequest" | "oCRResult" | "policyRule" | "policyCheck"
+      modelProps: "benefitPlan" | "benefitEnrollment" | "benefitDependent" | "benefitClaim" | "claimRequest" | "oCRResult" | "policyRule" | "policyCheck" | "hospitalReferral"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1314,6 +1330,80 @@ export namespace Prisma {
           }
         }
       }
+      HospitalReferral: {
+        payload: Prisma.$HospitalReferralPayload<ExtArgs>
+        fields: Prisma.HospitalReferralFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HospitalReferralFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HospitalReferralFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>
+          }
+          findFirst: {
+            args: Prisma.HospitalReferralFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HospitalReferralFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>
+          }
+          findMany: {
+            args: Prisma.HospitalReferralFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>[]
+          }
+          create: {
+            args: Prisma.HospitalReferralCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>
+          }
+          createMany: {
+            args: Prisma.HospitalReferralCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HospitalReferralCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>[]
+          }
+          delete: {
+            args: Prisma.HospitalReferralDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>
+          }
+          update: {
+            args: Prisma.HospitalReferralUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>
+          }
+          deleteMany: {
+            args: Prisma.HospitalReferralDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HospitalReferralUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HospitalReferralUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>[]
+          }
+          upsert: {
+            args: Prisma.HospitalReferralUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HospitalReferralPayload>
+          }
+          aggregate: {
+            args: Prisma.HospitalReferralAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHospitalReferral>
+          }
+          groupBy: {
+            args: Prisma.HospitalReferralGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HospitalReferralGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HospitalReferralCountArgs<ExtArgs>
+            result: $Utils.Optional<HospitalReferralCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1418,6 +1508,7 @@ export namespace Prisma {
     oCRResult?: OCRResultOmit
     policyRule?: PolicyRuleOmit
     policyCheck?: PolicyCheckOmit
+    hospitalReferral?: HospitalReferralOmit
   }
 
   /* Types for Logging */
@@ -10986,6 +11077,1209 @@ export namespace Prisma {
 
 
   /**
+   * Model HospitalReferral
+   */
+
+  export type AggregateHospitalReferral = {
+    _count: HospitalReferralCountAggregateOutputType | null
+    _min: HospitalReferralMinAggregateOutputType | null
+    _max: HospitalReferralMaxAggregateOutputType | null
+  }
+
+  export type HospitalReferralMinAggregateOutputType = {
+    id: string | null
+    employee_id: string | null
+    employee_name: string | null
+    hospital_name: string | null
+    hospital_branch: string | null
+    reason: string | null
+    preferred_date: Date | null
+    valid_from: Date | null
+    valid_until: Date | null
+    status: string | null
+    workflow_id: string | null
+    referral_number: string | null
+    approved_by: string | null
+    approved_at: Date | null
+    issued_by: string | null
+    issued_at: Date | null
+    rejected_by: string | null
+    rejected_reason: string | null
+    notes: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type HospitalReferralMaxAggregateOutputType = {
+    id: string | null
+    employee_id: string | null
+    employee_name: string | null
+    hospital_name: string | null
+    hospital_branch: string | null
+    reason: string | null
+    preferred_date: Date | null
+    valid_from: Date | null
+    valid_until: Date | null
+    status: string | null
+    workflow_id: string | null
+    referral_number: string | null
+    approved_by: string | null
+    approved_at: Date | null
+    issued_by: string | null
+    issued_at: Date | null
+    rejected_by: string | null
+    rejected_reason: string | null
+    notes: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type HospitalReferralCountAggregateOutputType = {
+    id: number
+    employee_id: number
+    employee_name: number
+    hospital_name: number
+    hospital_branch: number
+    reason: number
+    preferred_date: number
+    valid_from: number
+    valid_until: number
+    status: number
+    workflow_id: number
+    referral_number: number
+    approved_by: number
+    approved_at: number
+    issued_by: number
+    issued_at: number
+    rejected_by: number
+    rejected_reason: number
+    notes: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type HospitalReferralMinAggregateInputType = {
+    id?: true
+    employee_id?: true
+    employee_name?: true
+    hospital_name?: true
+    hospital_branch?: true
+    reason?: true
+    preferred_date?: true
+    valid_from?: true
+    valid_until?: true
+    status?: true
+    workflow_id?: true
+    referral_number?: true
+    approved_by?: true
+    approved_at?: true
+    issued_by?: true
+    issued_at?: true
+    rejected_by?: true
+    rejected_reason?: true
+    notes?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type HospitalReferralMaxAggregateInputType = {
+    id?: true
+    employee_id?: true
+    employee_name?: true
+    hospital_name?: true
+    hospital_branch?: true
+    reason?: true
+    preferred_date?: true
+    valid_from?: true
+    valid_until?: true
+    status?: true
+    workflow_id?: true
+    referral_number?: true
+    approved_by?: true
+    approved_at?: true
+    issued_by?: true
+    issued_at?: true
+    rejected_by?: true
+    rejected_reason?: true
+    notes?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type HospitalReferralCountAggregateInputType = {
+    id?: true
+    employee_id?: true
+    employee_name?: true
+    hospital_name?: true
+    hospital_branch?: true
+    reason?: true
+    preferred_date?: true
+    valid_from?: true
+    valid_until?: true
+    status?: true
+    workflow_id?: true
+    referral_number?: true
+    approved_by?: true
+    approved_at?: true
+    issued_by?: true
+    issued_at?: true
+    rejected_by?: true
+    rejected_reason?: true
+    notes?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type HospitalReferralAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HospitalReferral to aggregate.
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HospitalReferrals to fetch.
+     */
+    orderBy?: HospitalReferralOrderByWithRelationInput | HospitalReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HospitalReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HospitalReferrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HospitalReferrals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HospitalReferrals
+    **/
+    _count?: true | HospitalReferralCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HospitalReferralMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HospitalReferralMaxAggregateInputType
+  }
+
+  export type GetHospitalReferralAggregateType<T extends HospitalReferralAggregateArgs> = {
+        [P in keyof T & keyof AggregateHospitalReferral]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHospitalReferral[P]>
+      : GetScalarType<T[P], AggregateHospitalReferral[P]>
+  }
+
+
+
+
+  export type HospitalReferralGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HospitalReferralWhereInput
+    orderBy?: HospitalReferralOrderByWithAggregationInput | HospitalReferralOrderByWithAggregationInput[]
+    by: HospitalReferralScalarFieldEnum[] | HospitalReferralScalarFieldEnum
+    having?: HospitalReferralScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HospitalReferralCountAggregateInputType | true
+    _min?: HospitalReferralMinAggregateInputType
+    _max?: HospitalReferralMaxAggregateInputType
+  }
+
+  export type HospitalReferralGroupByOutputType = {
+    id: string
+    employee_id: string
+    employee_name: string
+    hospital_name: string
+    hospital_branch: string | null
+    reason: string
+    preferred_date: Date
+    valid_from: Date | null
+    valid_until: Date | null
+    status: string
+    workflow_id: string | null
+    referral_number: string | null
+    approved_by: string | null
+    approved_at: Date | null
+    issued_by: string | null
+    issued_at: Date | null
+    rejected_by: string | null
+    rejected_reason: string | null
+    notes: string | null
+    created_at: Date
+    updated_at: Date
+    _count: HospitalReferralCountAggregateOutputType | null
+    _min: HospitalReferralMinAggregateOutputType | null
+    _max: HospitalReferralMaxAggregateOutputType | null
+  }
+
+  type GetHospitalReferralGroupByPayload<T extends HospitalReferralGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HospitalReferralGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HospitalReferralGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HospitalReferralGroupByOutputType[P]>
+            : GetScalarType<T[P], HospitalReferralGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HospitalReferralSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employee_id?: boolean
+    employee_name?: boolean
+    hospital_name?: boolean
+    hospital_branch?: boolean
+    reason?: boolean
+    preferred_date?: boolean
+    valid_from?: boolean
+    valid_until?: boolean
+    status?: boolean
+    workflow_id?: boolean
+    referral_number?: boolean
+    approved_by?: boolean
+    approved_at?: boolean
+    issued_by?: boolean
+    issued_at?: boolean
+    rejected_by?: boolean
+    rejected_reason?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["hospitalReferral"]>
+
+  export type HospitalReferralSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employee_id?: boolean
+    employee_name?: boolean
+    hospital_name?: boolean
+    hospital_branch?: boolean
+    reason?: boolean
+    preferred_date?: boolean
+    valid_from?: boolean
+    valid_until?: boolean
+    status?: boolean
+    workflow_id?: boolean
+    referral_number?: boolean
+    approved_by?: boolean
+    approved_at?: boolean
+    issued_by?: boolean
+    issued_at?: boolean
+    rejected_by?: boolean
+    rejected_reason?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["hospitalReferral"]>
+
+  export type HospitalReferralSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employee_id?: boolean
+    employee_name?: boolean
+    hospital_name?: boolean
+    hospital_branch?: boolean
+    reason?: boolean
+    preferred_date?: boolean
+    valid_from?: boolean
+    valid_until?: boolean
+    status?: boolean
+    workflow_id?: boolean
+    referral_number?: boolean
+    approved_by?: boolean
+    approved_at?: boolean
+    issued_by?: boolean
+    issued_at?: boolean
+    rejected_by?: boolean
+    rejected_reason?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["hospitalReferral"]>
+
+  export type HospitalReferralSelectScalar = {
+    id?: boolean
+    employee_id?: boolean
+    employee_name?: boolean
+    hospital_name?: boolean
+    hospital_branch?: boolean
+    reason?: boolean
+    preferred_date?: boolean
+    valid_from?: boolean
+    valid_until?: boolean
+    status?: boolean
+    workflow_id?: boolean
+    referral_number?: boolean
+    approved_by?: boolean
+    approved_at?: boolean
+    issued_by?: boolean
+    issued_at?: boolean
+    rejected_by?: boolean
+    rejected_reason?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type HospitalReferralOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employee_id" | "employee_name" | "hospital_name" | "hospital_branch" | "reason" | "preferred_date" | "valid_from" | "valid_until" | "status" | "workflow_id" | "referral_number" | "approved_by" | "approved_at" | "issued_by" | "issued_at" | "rejected_by" | "rejected_reason" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["hospitalReferral"]>
+
+  export type $HospitalReferralPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HospitalReferral"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employee_id: string
+      employee_name: string
+      hospital_name: string
+      hospital_branch: string | null
+      reason: string
+      preferred_date: Date
+      valid_from: Date | null
+      valid_until: Date | null
+      status: string
+      workflow_id: string | null
+      referral_number: string | null
+      approved_by: string | null
+      approved_at: Date | null
+      issued_by: string | null
+      issued_at: Date | null
+      rejected_by: string | null
+      rejected_reason: string | null
+      notes: string | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["hospitalReferral"]>
+    composites: {}
+  }
+
+  type HospitalReferralGetPayload<S extends boolean | null | undefined | HospitalReferralDefaultArgs> = $Result.GetResult<Prisma.$HospitalReferralPayload, S>
+
+  type HospitalReferralCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HospitalReferralFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HospitalReferralCountAggregateInputType | true
+    }
+
+  export interface HospitalReferralDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HospitalReferral'], meta: { name: 'HospitalReferral' } }
+    /**
+     * Find zero or one HospitalReferral that matches the filter.
+     * @param {HospitalReferralFindUniqueArgs} args - Arguments to find a HospitalReferral
+     * @example
+     * // Get one HospitalReferral
+     * const hospitalReferral = await prisma.hospitalReferral.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HospitalReferralFindUniqueArgs>(args: SelectSubset<T, HospitalReferralFindUniqueArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HospitalReferral that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HospitalReferralFindUniqueOrThrowArgs} args - Arguments to find a HospitalReferral
+     * @example
+     * // Get one HospitalReferral
+     * const hospitalReferral = await prisma.hospitalReferral.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HospitalReferralFindUniqueOrThrowArgs>(args: SelectSubset<T, HospitalReferralFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HospitalReferral that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralFindFirstArgs} args - Arguments to find a HospitalReferral
+     * @example
+     * // Get one HospitalReferral
+     * const hospitalReferral = await prisma.hospitalReferral.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HospitalReferralFindFirstArgs>(args?: SelectSubset<T, HospitalReferralFindFirstArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HospitalReferral that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralFindFirstOrThrowArgs} args - Arguments to find a HospitalReferral
+     * @example
+     * // Get one HospitalReferral
+     * const hospitalReferral = await prisma.hospitalReferral.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HospitalReferralFindFirstOrThrowArgs>(args?: SelectSubset<T, HospitalReferralFindFirstOrThrowArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HospitalReferrals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HospitalReferrals
+     * const hospitalReferrals = await prisma.hospitalReferral.findMany()
+     * 
+     * // Get first 10 HospitalReferrals
+     * const hospitalReferrals = await prisma.hospitalReferral.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const hospitalReferralWithIdOnly = await prisma.hospitalReferral.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HospitalReferralFindManyArgs>(args?: SelectSubset<T, HospitalReferralFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HospitalReferral.
+     * @param {HospitalReferralCreateArgs} args - Arguments to create a HospitalReferral.
+     * @example
+     * // Create one HospitalReferral
+     * const HospitalReferral = await prisma.hospitalReferral.create({
+     *   data: {
+     *     // ... data to create a HospitalReferral
+     *   }
+     * })
+     * 
+     */
+    create<T extends HospitalReferralCreateArgs>(args: SelectSubset<T, HospitalReferralCreateArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HospitalReferrals.
+     * @param {HospitalReferralCreateManyArgs} args - Arguments to create many HospitalReferrals.
+     * @example
+     * // Create many HospitalReferrals
+     * const hospitalReferral = await prisma.hospitalReferral.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HospitalReferralCreateManyArgs>(args?: SelectSubset<T, HospitalReferralCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HospitalReferrals and returns the data saved in the database.
+     * @param {HospitalReferralCreateManyAndReturnArgs} args - Arguments to create many HospitalReferrals.
+     * @example
+     * // Create many HospitalReferrals
+     * const hospitalReferral = await prisma.hospitalReferral.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HospitalReferrals and only return the `id`
+     * const hospitalReferralWithIdOnly = await prisma.hospitalReferral.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HospitalReferralCreateManyAndReturnArgs>(args?: SelectSubset<T, HospitalReferralCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HospitalReferral.
+     * @param {HospitalReferralDeleteArgs} args - Arguments to delete one HospitalReferral.
+     * @example
+     * // Delete one HospitalReferral
+     * const HospitalReferral = await prisma.hospitalReferral.delete({
+     *   where: {
+     *     // ... filter to delete one HospitalReferral
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HospitalReferralDeleteArgs>(args: SelectSubset<T, HospitalReferralDeleteArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HospitalReferral.
+     * @param {HospitalReferralUpdateArgs} args - Arguments to update one HospitalReferral.
+     * @example
+     * // Update one HospitalReferral
+     * const hospitalReferral = await prisma.hospitalReferral.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HospitalReferralUpdateArgs>(args: SelectSubset<T, HospitalReferralUpdateArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HospitalReferrals.
+     * @param {HospitalReferralDeleteManyArgs} args - Arguments to filter HospitalReferrals to delete.
+     * @example
+     * // Delete a few HospitalReferrals
+     * const { count } = await prisma.hospitalReferral.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HospitalReferralDeleteManyArgs>(args?: SelectSubset<T, HospitalReferralDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HospitalReferrals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HospitalReferrals
+     * const hospitalReferral = await prisma.hospitalReferral.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HospitalReferralUpdateManyArgs>(args: SelectSubset<T, HospitalReferralUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HospitalReferrals and returns the data updated in the database.
+     * @param {HospitalReferralUpdateManyAndReturnArgs} args - Arguments to update many HospitalReferrals.
+     * @example
+     * // Update many HospitalReferrals
+     * const hospitalReferral = await prisma.hospitalReferral.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HospitalReferrals and only return the `id`
+     * const hospitalReferralWithIdOnly = await prisma.hospitalReferral.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HospitalReferralUpdateManyAndReturnArgs>(args: SelectSubset<T, HospitalReferralUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HospitalReferral.
+     * @param {HospitalReferralUpsertArgs} args - Arguments to update or create a HospitalReferral.
+     * @example
+     * // Update or create a HospitalReferral
+     * const hospitalReferral = await prisma.hospitalReferral.upsert({
+     *   create: {
+     *     // ... data to create a HospitalReferral
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HospitalReferral we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HospitalReferralUpsertArgs>(args: SelectSubset<T, HospitalReferralUpsertArgs<ExtArgs>>): Prisma__HospitalReferralClient<$Result.GetResult<Prisma.$HospitalReferralPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HospitalReferrals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralCountArgs} args - Arguments to filter HospitalReferrals to count.
+     * @example
+     * // Count the number of HospitalReferrals
+     * const count = await prisma.hospitalReferral.count({
+     *   where: {
+     *     // ... the filter for the HospitalReferrals we want to count
+     *   }
+     * })
+    **/
+    count<T extends HospitalReferralCountArgs>(
+      args?: Subset<T, HospitalReferralCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HospitalReferralCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HospitalReferral.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HospitalReferralAggregateArgs>(args: Subset<T, HospitalReferralAggregateArgs>): Prisma.PrismaPromise<GetHospitalReferralAggregateType<T>>
+
+    /**
+     * Group by HospitalReferral.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HospitalReferralGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HospitalReferralGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HospitalReferralGroupByArgs['orderBy'] }
+        : { orderBy?: HospitalReferralGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HospitalReferralGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHospitalReferralGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HospitalReferral model
+   */
+  readonly fields: HospitalReferralFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HospitalReferral.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HospitalReferralClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HospitalReferral model
+   */
+  interface HospitalReferralFieldRefs {
+    readonly id: FieldRef<"HospitalReferral", 'String'>
+    readonly employee_id: FieldRef<"HospitalReferral", 'String'>
+    readonly employee_name: FieldRef<"HospitalReferral", 'String'>
+    readonly hospital_name: FieldRef<"HospitalReferral", 'String'>
+    readonly hospital_branch: FieldRef<"HospitalReferral", 'String'>
+    readonly reason: FieldRef<"HospitalReferral", 'String'>
+    readonly preferred_date: FieldRef<"HospitalReferral", 'DateTime'>
+    readonly valid_from: FieldRef<"HospitalReferral", 'DateTime'>
+    readonly valid_until: FieldRef<"HospitalReferral", 'DateTime'>
+    readonly status: FieldRef<"HospitalReferral", 'String'>
+    readonly workflow_id: FieldRef<"HospitalReferral", 'String'>
+    readonly referral_number: FieldRef<"HospitalReferral", 'String'>
+    readonly approved_by: FieldRef<"HospitalReferral", 'String'>
+    readonly approved_at: FieldRef<"HospitalReferral", 'DateTime'>
+    readonly issued_by: FieldRef<"HospitalReferral", 'String'>
+    readonly issued_at: FieldRef<"HospitalReferral", 'DateTime'>
+    readonly rejected_by: FieldRef<"HospitalReferral", 'String'>
+    readonly rejected_reason: FieldRef<"HospitalReferral", 'String'>
+    readonly notes: FieldRef<"HospitalReferral", 'String'>
+    readonly created_at: FieldRef<"HospitalReferral", 'DateTime'>
+    readonly updated_at: FieldRef<"HospitalReferral", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HospitalReferral findUnique
+   */
+  export type HospitalReferralFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * Filter, which HospitalReferral to fetch.
+     */
+    where: HospitalReferralWhereUniqueInput
+  }
+
+  /**
+   * HospitalReferral findUniqueOrThrow
+   */
+  export type HospitalReferralFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * Filter, which HospitalReferral to fetch.
+     */
+    where: HospitalReferralWhereUniqueInput
+  }
+
+  /**
+   * HospitalReferral findFirst
+   */
+  export type HospitalReferralFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * Filter, which HospitalReferral to fetch.
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HospitalReferrals to fetch.
+     */
+    orderBy?: HospitalReferralOrderByWithRelationInput | HospitalReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HospitalReferrals.
+     */
+    cursor?: HospitalReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HospitalReferrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HospitalReferrals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HospitalReferrals.
+     */
+    distinct?: HospitalReferralScalarFieldEnum | HospitalReferralScalarFieldEnum[]
+  }
+
+  /**
+   * HospitalReferral findFirstOrThrow
+   */
+  export type HospitalReferralFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * Filter, which HospitalReferral to fetch.
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HospitalReferrals to fetch.
+     */
+    orderBy?: HospitalReferralOrderByWithRelationInput | HospitalReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HospitalReferrals.
+     */
+    cursor?: HospitalReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HospitalReferrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HospitalReferrals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HospitalReferrals.
+     */
+    distinct?: HospitalReferralScalarFieldEnum | HospitalReferralScalarFieldEnum[]
+  }
+
+  /**
+   * HospitalReferral findMany
+   */
+  export type HospitalReferralFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * Filter, which HospitalReferrals to fetch.
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HospitalReferrals to fetch.
+     */
+    orderBy?: HospitalReferralOrderByWithRelationInput | HospitalReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HospitalReferrals.
+     */
+    cursor?: HospitalReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HospitalReferrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HospitalReferrals.
+     */
+    skip?: number
+    distinct?: HospitalReferralScalarFieldEnum | HospitalReferralScalarFieldEnum[]
+  }
+
+  /**
+   * HospitalReferral create
+   */
+  export type HospitalReferralCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * The data needed to create a HospitalReferral.
+     */
+    data: XOR<HospitalReferralCreateInput, HospitalReferralUncheckedCreateInput>
+  }
+
+  /**
+   * HospitalReferral createMany
+   */
+  export type HospitalReferralCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HospitalReferrals.
+     */
+    data: HospitalReferralCreateManyInput | HospitalReferralCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HospitalReferral createManyAndReturn
+   */
+  export type HospitalReferralCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * The data used to create many HospitalReferrals.
+     */
+    data: HospitalReferralCreateManyInput | HospitalReferralCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HospitalReferral update
+   */
+  export type HospitalReferralUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * The data needed to update a HospitalReferral.
+     */
+    data: XOR<HospitalReferralUpdateInput, HospitalReferralUncheckedUpdateInput>
+    /**
+     * Choose, which HospitalReferral to update.
+     */
+    where: HospitalReferralWhereUniqueInput
+  }
+
+  /**
+   * HospitalReferral updateMany
+   */
+  export type HospitalReferralUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HospitalReferrals.
+     */
+    data: XOR<HospitalReferralUpdateManyMutationInput, HospitalReferralUncheckedUpdateManyInput>
+    /**
+     * Filter which HospitalReferrals to update
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * Limit how many HospitalReferrals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HospitalReferral updateManyAndReturn
+   */
+  export type HospitalReferralUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * The data used to update HospitalReferrals.
+     */
+    data: XOR<HospitalReferralUpdateManyMutationInput, HospitalReferralUncheckedUpdateManyInput>
+    /**
+     * Filter which HospitalReferrals to update
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * Limit how many HospitalReferrals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HospitalReferral upsert
+   */
+  export type HospitalReferralUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * The filter to search for the HospitalReferral to update in case it exists.
+     */
+    where: HospitalReferralWhereUniqueInput
+    /**
+     * In case the HospitalReferral found by the `where` argument doesn't exist, create a new HospitalReferral with this data.
+     */
+    create: XOR<HospitalReferralCreateInput, HospitalReferralUncheckedCreateInput>
+    /**
+     * In case the HospitalReferral was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HospitalReferralUpdateInput, HospitalReferralUncheckedUpdateInput>
+  }
+
+  /**
+   * HospitalReferral delete
+   */
+  export type HospitalReferralDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+    /**
+     * Filter which HospitalReferral to delete.
+     */
+    where: HospitalReferralWhereUniqueInput
+  }
+
+  /**
+   * HospitalReferral deleteMany
+   */
+  export type HospitalReferralDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HospitalReferrals to delete
+     */
+    where?: HospitalReferralWhereInput
+    /**
+     * Limit how many HospitalReferrals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HospitalReferral without action
+   */
+  export type HospitalReferralDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HospitalReferral
+     */
+    select?: HospitalReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HospitalReferral
+     */
+    omit?: HospitalReferralOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11144,6 +12438,33 @@ export namespace Prisma {
   };
 
   export type PolicyCheckScalarFieldEnum = (typeof PolicyCheckScalarFieldEnum)[keyof typeof PolicyCheckScalarFieldEnum]
+
+
+  export const HospitalReferralScalarFieldEnum: {
+    id: 'id',
+    employee_id: 'employee_id',
+    employee_name: 'employee_name',
+    hospital_name: 'hospital_name',
+    hospital_branch: 'hospital_branch',
+    reason: 'reason',
+    preferred_date: 'preferred_date',
+    valid_from: 'valid_from',
+    valid_until: 'valid_until',
+    status: 'status',
+    workflow_id: 'workflow_id',
+    referral_number: 'referral_number',
+    approved_by: 'approved_by',
+    approved_at: 'approved_at',
+    issued_by: 'issued_by',
+    issued_at: 'issued_at',
+    rejected_by: 'rejected_by',
+    rejected_reason: 'rejected_reason',
+    notes: 'notes',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type HospitalReferralScalarFieldEnum = (typeof HospitalReferralScalarFieldEnum)[keyof typeof HospitalReferralScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11997,6 +13318,138 @@ export namespace Prisma {
     passed?: BoolWithAggregatesFilter<"PolicyCheck"> | boolean
     message?: StringNullableWithAggregatesFilter<"PolicyCheck"> | string | null
     checked_at?: DateTimeWithAggregatesFilter<"PolicyCheck"> | Date | string
+  }
+
+  export type HospitalReferralWhereInput = {
+    AND?: HospitalReferralWhereInput | HospitalReferralWhereInput[]
+    OR?: HospitalReferralWhereInput[]
+    NOT?: HospitalReferralWhereInput | HospitalReferralWhereInput[]
+    id?: StringFilter<"HospitalReferral"> | string
+    employee_id?: StringFilter<"HospitalReferral"> | string
+    employee_name?: StringFilter<"HospitalReferral"> | string
+    hospital_name?: StringFilter<"HospitalReferral"> | string
+    hospital_branch?: StringNullableFilter<"HospitalReferral"> | string | null
+    reason?: StringFilter<"HospitalReferral"> | string
+    preferred_date?: DateTimeFilter<"HospitalReferral"> | Date | string
+    valid_from?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    valid_until?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    status?: StringFilter<"HospitalReferral"> | string
+    workflow_id?: StringNullableFilter<"HospitalReferral"> | string | null
+    referral_number?: StringNullableFilter<"HospitalReferral"> | string | null
+    approved_by?: StringNullableFilter<"HospitalReferral"> | string | null
+    approved_at?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    issued_by?: StringNullableFilter<"HospitalReferral"> | string | null
+    issued_at?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    rejected_by?: StringNullableFilter<"HospitalReferral"> | string | null
+    rejected_reason?: StringNullableFilter<"HospitalReferral"> | string | null
+    notes?: StringNullableFilter<"HospitalReferral"> | string | null
+    created_at?: DateTimeFilter<"HospitalReferral"> | Date | string
+    updated_at?: DateTimeFilter<"HospitalReferral"> | Date | string
+  }
+
+  export type HospitalReferralOrderByWithRelationInput = {
+    id?: SortOrder
+    employee_id?: SortOrder
+    employee_name?: SortOrder
+    hospital_name?: SortOrder
+    hospital_branch?: SortOrderInput | SortOrder
+    reason?: SortOrder
+    preferred_date?: SortOrder
+    valid_from?: SortOrderInput | SortOrder
+    valid_until?: SortOrderInput | SortOrder
+    status?: SortOrder
+    workflow_id?: SortOrderInput | SortOrder
+    referral_number?: SortOrderInput | SortOrder
+    approved_by?: SortOrderInput | SortOrder
+    approved_at?: SortOrderInput | SortOrder
+    issued_by?: SortOrderInput | SortOrder
+    issued_at?: SortOrderInput | SortOrder
+    rejected_by?: SortOrderInput | SortOrder
+    rejected_reason?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type HospitalReferralWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    referral_number?: string
+    AND?: HospitalReferralWhereInput | HospitalReferralWhereInput[]
+    OR?: HospitalReferralWhereInput[]
+    NOT?: HospitalReferralWhereInput | HospitalReferralWhereInput[]
+    employee_id?: StringFilter<"HospitalReferral"> | string
+    employee_name?: StringFilter<"HospitalReferral"> | string
+    hospital_name?: StringFilter<"HospitalReferral"> | string
+    hospital_branch?: StringNullableFilter<"HospitalReferral"> | string | null
+    reason?: StringFilter<"HospitalReferral"> | string
+    preferred_date?: DateTimeFilter<"HospitalReferral"> | Date | string
+    valid_from?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    valid_until?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    status?: StringFilter<"HospitalReferral"> | string
+    workflow_id?: StringNullableFilter<"HospitalReferral"> | string | null
+    approved_by?: StringNullableFilter<"HospitalReferral"> | string | null
+    approved_at?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    issued_by?: StringNullableFilter<"HospitalReferral"> | string | null
+    issued_at?: DateTimeNullableFilter<"HospitalReferral"> | Date | string | null
+    rejected_by?: StringNullableFilter<"HospitalReferral"> | string | null
+    rejected_reason?: StringNullableFilter<"HospitalReferral"> | string | null
+    notes?: StringNullableFilter<"HospitalReferral"> | string | null
+    created_at?: DateTimeFilter<"HospitalReferral"> | Date | string
+    updated_at?: DateTimeFilter<"HospitalReferral"> | Date | string
+  }, "id" | "referral_number">
+
+  export type HospitalReferralOrderByWithAggregationInput = {
+    id?: SortOrder
+    employee_id?: SortOrder
+    employee_name?: SortOrder
+    hospital_name?: SortOrder
+    hospital_branch?: SortOrderInput | SortOrder
+    reason?: SortOrder
+    preferred_date?: SortOrder
+    valid_from?: SortOrderInput | SortOrder
+    valid_until?: SortOrderInput | SortOrder
+    status?: SortOrder
+    workflow_id?: SortOrderInput | SortOrder
+    referral_number?: SortOrderInput | SortOrder
+    approved_by?: SortOrderInput | SortOrder
+    approved_at?: SortOrderInput | SortOrder
+    issued_by?: SortOrderInput | SortOrder
+    issued_at?: SortOrderInput | SortOrder
+    rejected_by?: SortOrderInput | SortOrder
+    rejected_reason?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: HospitalReferralCountOrderByAggregateInput
+    _max?: HospitalReferralMaxOrderByAggregateInput
+    _min?: HospitalReferralMinOrderByAggregateInput
+  }
+
+  export type HospitalReferralScalarWhereWithAggregatesInput = {
+    AND?: HospitalReferralScalarWhereWithAggregatesInput | HospitalReferralScalarWhereWithAggregatesInput[]
+    OR?: HospitalReferralScalarWhereWithAggregatesInput[]
+    NOT?: HospitalReferralScalarWhereWithAggregatesInput | HospitalReferralScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HospitalReferral"> | string
+    employee_id?: StringWithAggregatesFilter<"HospitalReferral"> | string
+    employee_name?: StringWithAggregatesFilter<"HospitalReferral"> | string
+    hospital_name?: StringWithAggregatesFilter<"HospitalReferral"> | string
+    hospital_branch?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    reason?: StringWithAggregatesFilter<"HospitalReferral"> | string
+    preferred_date?: DateTimeWithAggregatesFilter<"HospitalReferral"> | Date | string
+    valid_from?: DateTimeNullableWithAggregatesFilter<"HospitalReferral"> | Date | string | null
+    valid_until?: DateTimeNullableWithAggregatesFilter<"HospitalReferral"> | Date | string | null
+    status?: StringWithAggregatesFilter<"HospitalReferral"> | string
+    workflow_id?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    referral_number?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    approved_by?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    approved_at?: DateTimeNullableWithAggregatesFilter<"HospitalReferral"> | Date | string | null
+    issued_by?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    issued_at?: DateTimeNullableWithAggregatesFilter<"HospitalReferral"> | Date | string | null
+    rejected_by?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    rejected_reason?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"HospitalReferral"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"HospitalReferral"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"HospitalReferral"> | Date | string
   }
 
   export type BenefitPlanCreateInput = {
@@ -12872,6 +14325,174 @@ export namespace Prisma {
     checked_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type HospitalReferralCreateInput = {
+    id?: string
+    employee_id: string
+    employee_name: string
+    hospital_name: string
+    hospital_branch?: string | null
+    reason: string
+    preferred_date: Date | string
+    valid_from?: Date | string | null
+    valid_until?: Date | string | null
+    status?: string
+    workflow_id?: string | null
+    referral_number?: string | null
+    approved_by?: string | null
+    approved_at?: Date | string | null
+    issued_by?: string | null
+    issued_at?: Date | string | null
+    rejected_by?: string | null
+    rejected_reason?: string | null
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type HospitalReferralUncheckedCreateInput = {
+    id?: string
+    employee_id: string
+    employee_name: string
+    hospital_name: string
+    hospital_branch?: string | null
+    reason: string
+    preferred_date: Date | string
+    valid_from?: Date | string | null
+    valid_until?: Date | string | null
+    status?: string
+    workflow_id?: string | null
+    referral_number?: string | null
+    approved_by?: string | null
+    approved_at?: Date | string | null
+    issued_by?: string | null
+    issued_at?: Date | string | null
+    rejected_by?: string | null
+    rejected_reason?: string | null
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type HospitalReferralUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    employee_name?: StringFieldUpdateOperationsInput | string
+    hospital_name?: StringFieldUpdateOperationsInput | string
+    hospital_branch?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    preferred_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    valid_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    valid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflow_id?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_number?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    issued_by?: NullableStringFieldUpdateOperationsInput | string | null
+    issued_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejected_by?: NullableStringFieldUpdateOperationsInput | string | null
+    rejected_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HospitalReferralUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    employee_name?: StringFieldUpdateOperationsInput | string
+    hospital_name?: StringFieldUpdateOperationsInput | string
+    hospital_branch?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    preferred_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    valid_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    valid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflow_id?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_number?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    issued_by?: NullableStringFieldUpdateOperationsInput | string | null
+    issued_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejected_by?: NullableStringFieldUpdateOperationsInput | string | null
+    rejected_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HospitalReferralCreateManyInput = {
+    id?: string
+    employee_id: string
+    employee_name: string
+    hospital_name: string
+    hospital_branch?: string | null
+    reason: string
+    preferred_date: Date | string
+    valid_from?: Date | string | null
+    valid_until?: Date | string | null
+    status?: string
+    workflow_id?: string | null
+    referral_number?: string | null
+    approved_by?: string | null
+    approved_at?: Date | string | null
+    issued_by?: string | null
+    issued_at?: Date | string | null
+    rejected_by?: string | null
+    rejected_reason?: string | null
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type HospitalReferralUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    employee_name?: StringFieldUpdateOperationsInput | string
+    hospital_name?: StringFieldUpdateOperationsInput | string
+    hospital_branch?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    preferred_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    valid_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    valid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflow_id?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_number?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    issued_by?: NullableStringFieldUpdateOperationsInput | string | null
+    issued_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejected_by?: NullableStringFieldUpdateOperationsInput | string | null
+    rejected_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HospitalReferralUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    employee_name?: StringFieldUpdateOperationsInput | string
+    hospital_name?: StringFieldUpdateOperationsInput | string
+    hospital_branch?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    preferred_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    valid_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    valid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflow_id?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_number?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    issued_by?: NullableStringFieldUpdateOperationsInput | string | null
+    issued_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejected_by?: NullableStringFieldUpdateOperationsInput | string | null
+    rejected_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -13615,6 +15236,78 @@ export namespace Prisma {
     passed?: SortOrder
     message?: SortOrder
     checked_at?: SortOrder
+  }
+
+  export type HospitalReferralCountOrderByAggregateInput = {
+    id?: SortOrder
+    employee_id?: SortOrder
+    employee_name?: SortOrder
+    hospital_name?: SortOrder
+    hospital_branch?: SortOrder
+    reason?: SortOrder
+    preferred_date?: SortOrder
+    valid_from?: SortOrder
+    valid_until?: SortOrder
+    status?: SortOrder
+    workflow_id?: SortOrder
+    referral_number?: SortOrder
+    approved_by?: SortOrder
+    approved_at?: SortOrder
+    issued_by?: SortOrder
+    issued_at?: SortOrder
+    rejected_by?: SortOrder
+    rejected_reason?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type HospitalReferralMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employee_id?: SortOrder
+    employee_name?: SortOrder
+    hospital_name?: SortOrder
+    hospital_branch?: SortOrder
+    reason?: SortOrder
+    preferred_date?: SortOrder
+    valid_from?: SortOrder
+    valid_until?: SortOrder
+    status?: SortOrder
+    workflow_id?: SortOrder
+    referral_number?: SortOrder
+    approved_by?: SortOrder
+    approved_at?: SortOrder
+    issued_by?: SortOrder
+    issued_at?: SortOrder
+    rejected_by?: SortOrder
+    rejected_reason?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type HospitalReferralMinOrderByAggregateInput = {
+    id?: SortOrder
+    employee_id?: SortOrder
+    employee_name?: SortOrder
+    hospital_name?: SortOrder
+    hospital_branch?: SortOrder
+    reason?: SortOrder
+    preferred_date?: SortOrder
+    valid_from?: SortOrder
+    valid_until?: SortOrder
+    status?: SortOrder
+    workflow_id?: SortOrder
+    referral_number?: SortOrder
+    approved_by?: SortOrder
+    approved_at?: SortOrder
+    issued_by?: SortOrder
+    issued_at?: SortOrder
+    rejected_by?: SortOrder
+    rejected_reason?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type BenefitEnrollmentCreateNestedManyWithoutPlanInput = {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { CheckCircle, AlertTriangle, ArrowLeft, ArrowRight, Download } from 'lucide-react';
+import { CheckCircle, AlertTriangle, ArrowLeft, ArrowRight, Download, ChevronUp, ChevronDown } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { FormField } from '@/components/ui/form-field';
 import { Button } from '@/components/ui/button';
@@ -226,7 +226,7 @@ export function PayrollProcessing() {
                           onClick={() => handleSort(col.key)}
                         >
                           {col.label}
-                          {sortField === col.key && (sortAsc ? ' ↑' : ' ↓')}
+                          {sortField === col.key && (sortAsc ? <ChevronUp className="h-3 w-3 inline" /> : <ChevronDown className="h-3 w-3 inline" />)}
                         </th>
                       ))}
                     </tr>

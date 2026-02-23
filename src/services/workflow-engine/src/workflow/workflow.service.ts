@@ -38,6 +38,7 @@ const APPROVAL_ROUTES: Record<string, { levels: number; approvers: string[] }> =
   leave_request_extended: { levels: 2, approvers: ['manager', 'hr_admin'] },
   dependent_add: { levels: 2, approvers: ['manager', 'hr_admin'] },
   dependent_edit: { levels: 2, approvers: ['manager', 'hr_admin'] },
+  hospital_referral: { levels: 2, approvers: ['manager', 'hr_admin'] },
 
   // 3-level: Manager + HR Admin + HR Manager
   bank_account_change: { levels: 3, approvers: ['manager', 'hr_admin', 'hr_manager'] },

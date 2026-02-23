@@ -37,6 +37,7 @@ const MODULE_ACCESS: Record<string, Role[]> = {
   overtime: ['hr_admin', 'hr_manager'],
   'smart-claims': ['employee', 'manager', 'hr_admin', 'hr_manager'],
   'quick-approve': ['manager', 'hr_admin', 'hr_manager'],
+  'hospital-referral': ['employee', 'manager', 'hr_admin', 'hr_manager'],
 };
 
 export function hasRole(userRoles: Role[], required: Role): boolean {

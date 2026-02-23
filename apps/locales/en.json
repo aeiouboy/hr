@@ -2812,5 +2812,38 @@
         "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave?",
         "discardChanges": "Discard Changes",
         "featureComingSoon": "This feature is coming soon"
+    },
+    "hospitalReferral": {
+        "title": "Hospital Referral",
+        "newRequest": "New Referral Request",
+        "myReferrals": "My Referrals",
+        "selectHospital": "Select Hospital",
+        "reasonForVisit": "Reason for Visit",
+        "preferredDate": "Preferred Date",
+        "urgencyLevel": "Urgency Level",
+        "urgency": {
+            "routine": "Routine",
+            "urgent": "Urgent",
+            "emergency": "Emergency"
+        },
+        "additionalNotes": "Additional Notes",
+        "submitRequest": "Submit Request",
+        "status": {
+            "pending": "Pending",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "completed": "Completed"
+        },
+        "hospital": "Hospital",
+        "date": "Date",
+        "submittedOn": "Submitted On",
+        "noReferrals": "No referral requests found",
+        "createFirst": "Submit your first referral request using the New Referral Request tab",
+        "successMessage": "Referral request submitted successfully",
+        "errorRequired": "Please fill in all required fields",
+        "referralId": "Referral ID",
+        "notes": "Notes",
+        "requestedBy": "Requested By",
+        "viewDetails": "View Details"
     }
 }

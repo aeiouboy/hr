@@ -1,10 +1,11 @@
 'use client';
 
+import { type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UrgencyBadge } from '@/components/quick-approve/UrgencyBadge';
-import { CheckCircle2, XCircle, ArrowRight, Clock } from 'lucide-react';
+import { CheckCircle2, XCircle, ArrowRight, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
 import type { PendingRequest } from '@/lib/quick-approve-api';
 
 interface PendingApprovalsPanelProps {
@@ -14,12 +15,12 @@ interface PendingApprovalsPanelProps {
   loading?: boolean;
 }
 
-const typeIcons: Record<string, string> = {
-  leave: '🏖️',
-  overtime: '⏰',
-  claim: '🧾',
-  transfer: '🔄',
-  change_request: '📝',
+const typeIcons: Record<string, ReactNode> = {
+  leave: <Palmtree className="h-5 w-5" />,
+  overtime: <Clock className="h-5 w-5" />,
+  claim: <Receipt className="h-5 w-5" />,
+  transfer: <ArrowLeftRight className="h-5 w-5" />,
+  change_request: <FilePen className="h-5 w-5" />,
 };
 
 export function PendingApprovalsPanel({
@@ -60,7 +61,7 @@ export function PendingApprovalsPanel({
           <ul className="divide-y">
             {top5.map((req) => (
               <li key={req.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-                <span className="text-lg">{typeIcons[req.type] ?? '📋'}</span>
+                <span className="text-gray-600">{typeIcons[req.type] ?? <ClipboardList className="h-5 w-5" />}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-cg-dark truncate">
                     {req.requester.name}

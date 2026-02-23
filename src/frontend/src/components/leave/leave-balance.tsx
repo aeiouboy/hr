@@ -1,20 +1,22 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { Sun, Stethoscope, User, Baby, Users, Sparkles, Shield, FileText } from 'lucide-react';
 import type { LeaveBalance as LeaveBalanceType, LeaveType } from '@/hooks/use-leave';
 
-const LEAVE_TYPE_COLORS: Record<LeaveType, { bg: string; text: string; bar: string; icon: string }> = {
-  annual: { bg: 'bg-blue-50', text: 'text-blue-600', bar: 'bg-blue-500', icon: '🏖️' },
-  sick: { bg: 'bg-orange-50', text: 'text-orange-600', bar: 'bg-orange-500', icon: '🏥' },
-  personal: { bg: 'bg-purple-50', text: 'text-purple-600', bar: 'bg-purple-500', icon: '👤' },
-  maternity: { bg: 'bg-pink-50', text: 'text-pink-600', bar: 'bg-pink-500', icon: '👶' },
-  paternity: { bg: 'bg-teal-50', text: 'text-teal-600', bar: 'bg-teal-500', icon: '👨‍👶' },
-  ordination: { bg: 'bg-amber-50', text: 'text-amber-600', bar: 'bg-amber-500', icon: '🙏' },
-  military: { bg: 'bg-gray-50', text: 'text-gray-600', bar: 'bg-gray-500', icon: '🎖️' },
-  unpaid: { bg: 'bg-red-50', text: 'text-red-600', bar: 'bg-red-400', icon: '📋' },
+const LEAVE_TYPE_COLORS: Record<LeaveType, { bg: string; text: string; bar: string; icon: ReactNode }> = {
+  annual: { bg: 'bg-blue-50', text: 'text-blue-600', bar: 'bg-blue-500', icon: <Sun className="h-5 w-5" /> },
+  sick: { bg: 'bg-orange-50', text: 'text-orange-600', bar: 'bg-orange-500', icon: <Stethoscope className="h-5 w-5" /> },
+  personal: { bg: 'bg-purple-50', text: 'text-purple-600', bar: 'bg-purple-500', icon: <User className="h-5 w-5" /> },
+  maternity: { bg: 'bg-pink-50', text: 'text-pink-600', bar: 'bg-pink-500', icon: <Baby className="h-5 w-5" /> },
+  paternity: { bg: 'bg-teal-50', text: 'text-teal-600', bar: 'bg-teal-500', icon: <Users className="h-5 w-5" /> },
+  ordination: { bg: 'bg-amber-50', text: 'text-amber-600', bar: 'bg-amber-500', icon: <Sparkles className="h-5 w-5" /> },
+  military: { bg: 'bg-gray-50', text: 'text-gray-600', bar: 'bg-gray-500', icon: <Shield className="h-5 w-5" /> },
+  unpaid: { bg: 'bg-red-50', text: 'text-red-600', bar: 'bg-red-400', icon: <FileText className="h-5 w-5" /> },
 };
 
 interface LeaveBalanceProps {

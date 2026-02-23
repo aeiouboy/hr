@@ -59,7 +59,47 @@ export function LearningPage() {
           <div className="flex items-center gap-2 mt-2">
             <Badge variant="success">{t('completed')}</Badge>
             <span className="text-sm text-gray-500">{t('score')}: {course.score}%</span>
-            {course.certificateUrl && <Button size="sm" variant="outline">{t('certificate')}</Button>}
+            <Button size="sm" variant="outline" onClick={() => {
+              if (course.certificateUrl) {
+                window.open(course.certificateUrl, '_blank');
+              } else {
+                const certWindow = window.open('', '_blank');
+                if (certWindow) {
+                  certWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                      <title>Certificate - ${course.nameEn}</title>
+                      <style>
+                        body { font-family: Georgia, serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #f5f5f5; }
+                        .certificate { background: white; border: 3px double #C8102E; padding: 60px 80px; text-align: center; max-width: 800px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+                        .certificate h1 { color: #C8102E; font-size: 32px; margin-bottom: 8px; }
+                        .certificate h2 { color: #333; font-size: 20px; font-weight: normal; margin-bottom: 40px; }
+                        .certificate .course-name { font-size: 28px; color: #1a1a1a; font-weight: bold; margin: 20px 0; }
+                        .certificate .details { color: #666; font-size: 14px; margin-top: 30px; }
+                        .certificate .score { font-size: 18px; color: #C8102E; font-weight: bold; margin-top: 12px; }
+                        .certificate .divider { width: 200px; border-top: 2px solid #C8102E; margin: 30px auto; }
+                      </style>
+                    </head>
+                    <body>
+                      <div class="certificate">
+                        <h1>Certificate of Completion</h1>
+                        <h2>This is to certify that</h2>
+                        <div class="divider"></div>
+                        <p class="course-name">${course.nameEn}</p>
+                        <p class="details">Course Code: ${course.code}</p>
+                        <p class="score">Score: ${course.score}%</p>
+                        <p class="details">${course.hours} Hours | ${course.credits} Credits</p>
+                        <div class="divider"></div>
+                        <p class="details">Issued on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                      </div>
+                    </body>
+                    </html>
+                  `);
+                  certWindow.document.close();
+                }
+              }
+            }}>{t('certificate')}</Button>
           </div>
         )}
       </CardContent>

@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Upload, FileText, Camera, CheckCircle, AlertTriangle, AlertCircle,
-  Info, Clock, DollarSign, Receipt, Send, Save, X, Loader2,
+  Info, Clock, DollarSign, Receipt, Send, Save, X, Loader2, Check,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -54,6 +54,7 @@ export function SmartClaimsPage() {
   const [fileError, setFileError] = useState('');
   const [detailClaim, setDetailClaim] = useState<ClaimRequest | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const tabs = [
     { key: 'new', label: 'New Claim' },
@@ -226,7 +227,7 @@ export function SmartClaimsPage() {
                       <Button onClick={() => fileInputRef.current?.click()}>
                         <FileText className="h-4 w-4 mr-2" /> Choose File
                       </Button>
-                      <Button variant="outline">
+                      <Button variant="outline" onClick={() => cameraInputRef.current?.click()}>
                         <Camera className="h-4 w-4 mr-2" /> Camera
                       </Button>
                     </div>
@@ -234,6 +235,14 @@ export function SmartClaimsPage() {
                       ref={fileInputRef}
                       type="file"
                       accept=".jpg,.jpeg,.png,.pdf"
+                      className="hidden"
+                      onChange={(e) => { const file = e.target.files?.[0]; if (file) handleFileSelect(file); }}
+                    />
+                    <input
+                      ref={cameraInputRef}
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
                       className="hidden"
                       onChange={(e) => { const file = e.target.files?.[0]; if (file) handleFileSelect(file); }}
                     />
@@ -600,7 +609,7 @@ export function SmartClaimsPage() {
                         isRejected ? 'bg-red-100 text-red-600' :
                         reached ? 'bg-cg-red text-white' : 'bg-gray-200 text-gray-400'
                       }`}>
-                        {isRejected ? '✕' : reached ? '✓' : i + 1}
+                        {isRejected ? <X className="h-3 w-3" /> : reached ? <Check className="h-3 w-3" /> : i + 1}
                       </div>
                       <span className="text-[10px] ml-1 text-gray-500 capitalize">{isRejected ? 'Rejected' : s}</span>
                       {i < 3 && <div className={`w-8 h-0.5 mx-1 ${reached && !isRejected ? 'bg-cg-red' : 'bg-gray-200'}`} />}
