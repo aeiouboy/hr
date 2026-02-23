@@ -103,6 +103,19 @@ const MOCK_ORG: OrgNode = {
   })),
 };
 
+// Races a promise against a timeout; rejects if the timeout fires first.
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('API timeout')), ms)
+    ),
+  ]);
+}
+
+// How long to wait for the backend before falling back to mock data (ms).
+const API_TIMEOUT = 3000;
+
 export function useManagerDashboard() {
   const [team, setTeam] = useState<TeamMember[]>([]);
   const [approvals, setApprovals] = useState<PendingApproval[]>([]);
@@ -118,10 +131,10 @@ export function useManagerDashboard() {
       setLoading(true);
       try {
         const [summaryRes, membersRes, alertsRes, orgRes] = await Promise.allSettled([
-          managerDashboardApi.getTeamSummary(),
-          managerDashboardApi.getTeamMembers(),
-          managerDashboardApi.getUrgentAlerts(),
-          managerDashboardApi.getOrgChart(),
+          withTimeout(managerDashboardApi.getTeamSummary(), API_TIMEOUT),
+          withTimeout(managerDashboardApi.getTeamMembers(), API_TIMEOUT),
+          withTimeout(managerDashboardApi.getUrgentAlerts(), API_TIMEOUT),
+          withTimeout(managerDashboardApi.getOrgChart(), API_TIMEOUT),
         ]);
 
         if (membersRes.status === 'fulfilled') {
@@ -174,7 +187,10 @@ export function useManagerDashboard() {
   // Fetch calendar on month change
   const fetchCalendar = useCallback(async () => {
     try {
-      const res = await managerDashboardApi.getTeamCalendar(calMonth, calYear);
+      const res = await withTimeout(
+        managerDashboardApi.getTeamCalendar(calMonth, calYear),
+        API_TIMEOUT
+      );
       setCalendarEvents(res.events.map((e, i) => ({
         id: `CE-${i}`,
         date: e.date,
