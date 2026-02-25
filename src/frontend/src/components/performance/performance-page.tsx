@@ -73,7 +73,7 @@ export function PerformancePage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="font-semibold text-cg-dark">{goal.nameEn}</h3>
-                        <Badge variant={STATUS_VARIANT[goal.status]}>{t(`status${goal.status.charAt(0).toUpperCase() + goal.status.slice(1).replace('_', '')}` as never)}</Badge>
+                        <Badge variant={STATUS_VARIANT[goal.status]}>{t(`status${goal.status.split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}` as never)}</Badge>
                         <Badge variant="neutral">{t(`category${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)}` as never)}</Badge>
                       </div>
                       <p className="text-sm text-gray-500 mb-3">{goal.descriptionEn}</p>

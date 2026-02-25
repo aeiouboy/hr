@@ -71,7 +71,7 @@ export function RequestList({
       <div className="bg-white rounded-xl border p-4 space-y-3">
         <div className="flex flex-wrap items-center gap-3">
           {/* Search */}
-          <div className="relative flex-1 min-w-[200px]">
+          <div className="relative flex-1 min-w-0 w-full md:min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="text"
@@ -157,7 +157,8 @@ export function RequestList({
 
       {/* Table */}
       <div className="bg-white rounded-xl border overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Desktop table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm" role="grid">
             <thead>
               <tr className="bg-gray-50 border-b">
@@ -172,7 +173,7 @@ export function RequestList({
                 </th>
                 <th className="px-4 py-3 text-left font-medium text-gray-600">{t('table.type')}</th>
                 <th className="px-4 py-3 text-left font-medium text-gray-600">{t('table.requester')}</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600 hidden md:table-cell">
+                <th className="px-4 py-3 text-left font-medium text-gray-600">
                   {t('table.description')}
                 </th>
                 <th className="px-4 py-3 text-left font-medium text-gray-600 hidden lg:table-cell">
@@ -220,7 +221,7 @@ export function RequestList({
                         <p className="text-xs text-gray-400">{req.requester.position}</p>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 hidden md:table-cell max-w-xs truncate">
+                    <td className="px-4 py-3 text-gray-600 max-w-xs truncate">
                       {req.description}
                     </td>
                     <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">
@@ -237,6 +238,55 @@ export function RequestList({
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile card view */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {requests.length === 0 ? (
+            <div className="px-4 py-12 text-center text-gray-400">
+              {t('noRequests')}
+            </div>
+          ) : (
+            requests.map((req) => (
+              <div
+                key={req.id}
+                className="p-4 hover:bg-gray-50 transition cursor-pointer"
+                onClick={() => onRowClick(req)}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(req.id)}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      handleToggle(req.id);
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="mt-1 h-5 w-5 rounded border-gray-300 text-cg-red focus:ring-cg-red"
+                    aria-label={`Select ${req.requester.name}`}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-gray-600 flex-shrink-0" title={req.type}>
+                          {typeIcons[req.type] ?? <ClipboardList className="h-4 w-4" />}
+                        </span>
+                        <p className="text-sm font-medium text-cg-dark truncate">{req.requester.name}</p>
+                      </div>
+                      <UrgencyBadge urgency={req.urgency} />
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">{req.description}</p>
+                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-400">
+                      <Clock className="h-3 w-3" />
+                      {new Date(req.submittedAt).toLocaleDateString()}
+                      <span className="ml-1 text-gray-300">·</span>
+                      <span className="text-gray-400">{req.requester.position}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -105,7 +105,6 @@ export function Header() {
     { label: 'Profile', href: `/${currentLocale}/profile` },
     { label: 'Leave Management', href: `/${currentLocale}/leave` },
     { label: 'Payslip', href: `/${currentLocale}/payslip` },
-    { label: 'Performance', href: `/${currentLocale}/performance` },
     { label: 'Workflows', href: `/${currentLocale}/workflows` },
     { label: 'Organization Chart', href: `/${currentLocale}/org-chart` },
     { label: 'Settings', href: `/${currentLocale}/settings` },
@@ -113,7 +112,6 @@ export function Header() {
     { label: 'Payroll', href: `/${currentLocale}/payroll-processing` },
     { label: 'Recruitment', href: `/${currentLocale}/recruitment` },
     { label: 'Training Records', href: `/${currentLocale}/training-records` },
-    { label: 'Learning', href: `/${currentLocale}/learning` },
     { label: 'Onboarding', href: `/${currentLocale}/onboarding` },
   ], [currentLocale]);
 
@@ -127,7 +125,6 @@ export function Header() {
     { href: '/home', label: t('nav.home'), module: 'home' },
     { href: '/leave', label: t('leave.title'), module: 'leave' },
     { href: '/payslip', label: t('payslip.title'), module: 'payslip' },
-    { href: '/performance', label: t('performance.title'), module: 'performance' },
     { href: '/profile', label: t('nav.profile'), module: 'profile' },
     { href: '/workflows', label: t('nav.workflows'), module: 'workflows' },
   ];
@@ -154,7 +151,6 @@ export function Header() {
 
   const talentItems: NavItem[] = [
     { href: '/talent-management', label: t('talent.title'), module: 'talent-management' },
-    { href: '/learning', label: t('learning.title'), module: 'learning' },
     { href: '/idp', label: t('idp.title'), module: 'idp' },
     { href: '/training-records', label: t('training.title'), module: 'training-records' },
     { href: '/succession-planning', label: t('succession.title'), module: 'succession-planning' },

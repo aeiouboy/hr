@@ -867,7 +867,7 @@ export default function PayslipPage() {
       <MobileMenu />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 sm:p-6">
           <div className="max-w-5xl mx-auto">
             {/* Page header */}
             <div className="mb-6">

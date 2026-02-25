@@ -22,7 +22,7 @@ export function Tabs({ tabs, activeTab, onTabChange, className }: TabsProps) {
         {tabs.map((tab) => {
           const isActive = tab.key === activeTab;
           const baseClasses =
-            'whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors';
+            'whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors min-h-[44px]';
           const activeClasses = 'border-cg-red text-cg-red';
           const inactiveClasses =
             'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700';

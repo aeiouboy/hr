@@ -84,7 +84,7 @@ function LeaveBalanceCard({
         </div>
 
         {/* Progress bar */}
-        <div className="mb-3">
+        <div className="hidden sm:block mb-3">
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
             <div
               className={cn('h-full rounded-full transition-all duration-300', barColor)}

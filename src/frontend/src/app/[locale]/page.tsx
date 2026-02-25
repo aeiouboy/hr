@@ -36,28 +36,28 @@ export default function HomePage() {
       title: t('home.viewMyProfile'),
       description: t('home.viewMyProfileDesc'),
       href: '/profile',
-      icon: <User className="h-6 w-6" />,
+      icon: <User className="h-5 w-5 sm:h-6 sm:w-6" />,
       color: 'text-blue-600 bg-blue-50',
     },
     {
       title: t('leave.title'),
       description: t('leave.request'),
       href: '/leave',
-      icon: <Calendar className="h-6 w-6" />,
+      icon: <Calendar className="h-5 w-5 sm:h-6 sm:w-6" />,
       color: 'text-green-600 bg-green-50',
     },
     {
       title: t('payslip.title'),
       description: t('payslip.viewDetails'),
       href: '/payslip',
-      icon: <FileText className="h-6 w-6" />,
+      icon: <FileText className="h-5 w-5 sm:h-6 sm:w-6" />,
       color: 'text-purple-600 bg-purple-50',
     },
     {
       title: t('home.viewPendingWorkflows'),
       description: t('home.viewPendingWorkflowsDesc'),
       href: '/workflows',
-      icon: <ClipboardList className="h-6 w-6" />,
+      icon: <ClipboardList className="h-5 w-5 sm:h-6 sm:w-6" />,
       color: 'text-orange-600 bg-orange-50',
     },
   ];
@@ -67,7 +67,7 @@ export default function HomePage() {
       title: t('home.teamSummary'),
       description: t('home.directReports'),
       href: '/manager-dashboard',
-      icon: <Users className="h-6 w-6" />,
+      icon: <Users className="h-5 w-5 sm:h-6 sm:w-6" />,
       color: 'text-cg-red bg-red-50',
     },
   ];
@@ -77,7 +77,7 @@ export default function HomePage() {
       title: t('payroll.title'),
       description: t('payroll.subtitle'),
       href: '/payroll-processing',
-      icon: <Calculator className="h-6 w-6" />,
+      icon: <Calculator className="h-5 w-5 sm:h-6 sm:w-6" />,
       color: 'text-indigo-600 bg-indigo-50',
     },
   ];
@@ -94,8 +94,8 @@ export default function HomePage() {
       <MobileMenu />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-6">
-          <div className="mb-8">
+        <main className="flex-1 p-4 sm:p-6">
+          <div className="mb-4 sm:mb-8">
             <h1 className="text-2xl font-bold text-cg-dark">
               {t('home.welcome')}, {username || 'User'}
             </h1>
@@ -111,13 +111,13 @@ export default function HomePage() {
                 <a key={action.href} href={`/${locale}${action.href}`}>
                   <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                     <CardHeader className="pb-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${action.color}`}>
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center ${action.color}`}>
                         {action.icon}
                       </div>
                     </CardHeader>
                     <CardContent>
                       <CardTitle className="text-base mb-1">{action.title}</CardTitle>
-                      <p className="text-sm text-gray-500">{action.description}</p>
+                      <p className="text-sm text-gray-500 hidden sm:block">{action.description}</p>
                     </CardContent>
                   </Card>
                 </a>

@@ -198,7 +198,7 @@ export function SmartClaimsPage() {
                   <span className="text-xs ml-1.5 text-gray-500">
                     {s === 1 ? 'Upload Receipt' : s === 2 ? 'OCR Result' : 'Claim Details'}
                   </span>
-                  {s < 3 && <div className={`w-12 h-0.5 mx-2 ${step > s ? 'bg-cg-red' : 'bg-gray-200'}`} />}
+                  {s < 3 && <div className={`w-8 sm:w-12 h-0.5 mx-2 ${step > s ? 'bg-cg-red' : 'bg-gray-200'}`} />}
                 </div>
               ))}
             </div>
@@ -209,14 +209,14 @@ export function SmartClaimsPage() {
                 <CardHeader><CardTitle className="flex items-center gap-2"><Upload className="h-5 w-5" /> Step 1: Upload Receipt</CardTitle></CardHeader>
                 <CardContent>
                   <div
-                    className={`border-2 border-dashed rounded-xl p-12 text-center transition-colors ${
+                    className={`border-2 border-dashed rounded-xl p-6 sm:p-12 text-center transition-colors ${
                       dragOver ? 'border-cg-red bg-red-50' : 'border-gray-300 hover:border-gray-400'
                     }`}
                     onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                     onDragLeave={() => setDragOver(false)}
                     onDrop={handleDrop}
                   >
-                    <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <Upload className="h-8 w-8 sm:h-12 sm:w-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-lg font-medium text-cg-dark mb-2">
                       Drag & drop your receipt here
                     </p>
@@ -452,7 +452,9 @@ export function SmartClaimsPage() {
             {claims.length === 0 ? (
               <p className="text-sm text-gray-500 text-center py-12">No claims found</p>
             ) : (
-              <div className="overflow-x-auto">
+              <>
+              {/* Desktop table */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b bg-gray-50">
@@ -491,6 +493,33 @@ export function SmartClaimsPage() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile card view */}
+              <div className="md:hidden divide-y divide-gray-100">
+                {claims.map((claim) => (
+                  <div key={claim.id} className="p-4 hover:bg-gray-50 transition cursor-pointer" onClick={() => setDetailClaim(claim)}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Badge variant="neutral">{CLAIM_TYPE_LABELS[claim.claimType]}</Badge>
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">{claim.merchant || '-'}</p>
+                        </div>
+                      </div>
+                      <Badge variant={STATUS_VARIANT[claim.status]}>{STATUS_LABEL[claim.status]}</Badge>
+                    </div>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-gray-400">{formatDate(claim.receiptDate, 'short')}</span>
+                      <span className="text-sm font-semibold text-cg-dark">{formatCurrency(claim.amount)}</span>
+                    </div>
+                    {claim.status === 'draft' && (
+                      <div className="mt-2 flex justify-end">
+                        <Button size="sm" variant="ghost" className="text-cg-red text-xs" onClick={(e) => { e.stopPropagation(); submitClaim(claim.id); }}>Submit</Button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              </>
             )}
           </CardContent>
         </Card>

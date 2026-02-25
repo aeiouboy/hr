@@ -144,7 +144,7 @@ export function WorkflowList({
                     </Badge>
                   </div>
 
-                  <p className="text-sm text-gray-600 mb-2 line-clamp-1">{workflow.description}</p>
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-1 sm:line-clamp-none">{workflow.description}</p>
 
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
                     <span>
@@ -205,11 +205,11 @@ export function WorkflowList({
 
               {/* Action buttons for pending items */}
               {showActions && isPending && (onApprove || onReject || onSendBack) && (
-                <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t">
                   {onApprove && (
                     <Button
                       size="sm"
-                      className="bg-green-600 hover:bg-green-700 text-white focus-visible:ring-green-600"
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white focus-visible:ring-green-600"
                       onClick={() => onApprove(workflow.id)}
                     >
                       <CheckCircle className="h-3.5 w-3.5 mr-1.5" />
@@ -219,7 +219,7 @@ export function WorkflowList({
                   {onSendBack && (
                     <Button
                       size="sm"
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500"
+                      className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500"
                       onClick={() => onSendBack(workflow.id)}
                     >
                       <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
@@ -230,6 +230,7 @@ export function WorkflowList({
                     <Button
                       size="sm"
                       variant="destructive"
+                      className="w-full sm:w-auto"
                       onClick={() => onReject(workflow.id)}
                     >
                       <XCircle className="h-3.5 w-3.5 mr-1.5" />
@@ -240,7 +241,7 @@ export function WorkflowList({
                     size="sm"
                     variant="outline"
                     onClick={() => onViewDetail(workflow)}
-                    className="ml-auto"
+                    className="w-full sm:w-auto sm:ml-auto"
                   >
                     {t('viewDetails')}
                   </Button>

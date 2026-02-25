@@ -22,7 +22,7 @@ export default function LeaveHistoryPage() {
       <MobileMenu />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 sm:p-6">
           <div className="max-w-7xl mx-auto">
             <h1 className="text-2xl font-bold text-cg-dark mb-6">{t('history')}</h1>
             <LeaveHistory

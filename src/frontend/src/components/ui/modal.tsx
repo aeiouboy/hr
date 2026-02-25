@@ -48,15 +48,29 @@ export function Modal({ open, onClose, title, children, footer, className }: Mod
   return (
     <dialog
       ref={dialogRef}
-      className="fixed inset-0 z-50 m-0 h-full w-full max-h-full max-w-full bg-transparent backdrop:bg-black/50"
+      className="fixed inset-0 z-50 m-0 h-full w-full max-h-full max-w-full bg-transparent backdrop:bg-black/50 animate-[fade-in_0.2s_ease-out]"
       onKeyDown={handleKeyDown}
       onClick={handleBackdropClick}
     >
-      <div className="flex min-h-full items-center justify-center p-4">
+      {/* Mobile: bottom-aligned container / Desktop: centered container */}
+      <div className="flex min-h-full items-end md:items-center justify-center md:p-4">
         <div
           ref={contentRef}
-          className={cn('relative w-full max-w-lg rounded-xl bg-white shadow-xl', className)}
+          className={cn(
+            'bg-white w-full overflow-y-auto shadow-xl',
+            // Mobile bottom sheet
+            'fixed bottom-0 inset-x-0 rounded-t-2xl max-h-[85vh]',
+            'animate-[slide-up_0.3s_ease-out]',
+            // Desktop centered dialog
+            'md:static md:rounded-xl md:max-w-lg md:max-h-none',
+            'md:animate-none md:mx-auto',
+            className
+          )}
         >
+          {/* Mobile drag indicator */}
+          <div className="md:hidden flex justify-center pt-3 pb-1">
+            <div className="w-10 h-1 bg-gray-300 rounded-full" />
+          </div>
           {title && (
             <div className="flex items-center justify-between border-b px-6 py-4">
               <h2 className="text-lg font-semibold text-cg-dark">{title}</h2>

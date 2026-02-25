@@ -92,9 +92,9 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
                 {location}
               </span>
               {contact?.businessEmail && (
-                <span className="flex items-center gap-1">
-                  <Mail className="h-3.5 w-3.5" />
-                  {contact.businessEmail}
+                <span className="flex items-center gap-1 min-w-0">
+                  <Mail className="h-3.5 w-3.5 flex-shrink-0" />
+                  <span className="truncate max-w-[200px]">{contact.businessEmail}</span>
                 </span>
               )}
               {contact?.businessPhone && (
@@ -107,20 +107,20 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
           </div>
 
           {/* Right side: Employee ID + Actions */}
-          <div className="flex flex-col items-end gap-2 shrink-0">
-            <div className="text-right">
+          <div className="flex flex-col items-stretch sm:items-end gap-2 shrink-0 w-full sm:w-auto">
+            <div className="text-right hidden sm:block">
               <span className="text-xs text-gray-400">{t('profile.employeeId')}</span>
               <p className="font-mono font-semibold text-cg-dark">{employee.employeeId as string}</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full sm:w-auto">
               {isHR(roles) && onEditProfile && (
-                <Button variant="outline" size="sm" onClick={onEditProfile}>
+                <Button variant="outline" size="sm" onClick={onEditProfile} className="flex-1 sm:flex-none">
                   <Edit className="mr-1.5 h-4 w-4" />
                   {t('common.edit')}
                 </Button>
               )}
               {onViewOrgChart && (
-                <Button variant="ghost" size="sm" onClick={onViewOrgChart}>
+                <Button variant="ghost" size="sm" onClick={onViewOrgChart} className="flex-1 sm:flex-none">
                   <Network className="mr-1.5 h-4 w-4" />
                   {t('employment.orgChart')}
                 </Button>
