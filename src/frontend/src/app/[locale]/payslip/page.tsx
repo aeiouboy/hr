@@ -234,10 +234,10 @@ export default function PayslipPage() {
   const tCommon = useTranslations('common');
 
   const [activeTab, setActiveTab] = useState<TabKey>('payslips');
-  const [showAmounts, setShowAmounts] = useState(false);
+  const [revealedPayslips, setRevealedPayslips] = useState<Set<string>>(new Set());
   const [selectedYear, setSelectedYear] = useState<YearFilter>('all');
   const [expandedPayslip, setExpandedPayslip] = useState<string | null>(null);
-  const [showConfirmReveal, setShowConfirmReveal] = useState(false);
+  const [confirmingReveal, setConfirmingReveal] = useState<string | null>(null);
 
   const tabs = [
     { key: 'payslips', label: t('payslipList') },
@@ -253,25 +253,31 @@ export default function PayslipPage() {
     setExpandedPayslip(expandedPayslip === id ? null : id);
   };
 
-  const handleToggleAmounts = () => {
-    if (!showAmounts) {
-      setShowConfirmReveal(true);
+  const handleToggleAmounts = (id: string) => {
+    if (revealedPayslips.has(id)) {
+      setRevealedPayslips((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
       return;
     }
-    setShowAmounts(false);
+    setConfirmingReveal(id);
   };
 
   const confirmRevealAmounts = () => {
-    setShowAmounts(true);
-    setShowConfirmReveal(false);
+    if (confirmingReveal) {
+      setRevealedPayslips((prev) => new Set(prev).add(confirmingReveal));
+    }
+    setConfirmingReveal(null);
   };
 
   const cancelRevealAmounts = () => {
-    setShowConfirmReveal(false);
+    setConfirmingReveal(null);
   };
 
-  const displayAmount = (amount: number) =>
-    showAmounts ? formatCurrency(amount) : maskCurrency();
+  const displayAmount = (amount: number, payslipId: string) =>
+    revealedPayslips.has(payslipId) ? formatCurrency(amount) : maskCurrency();
 
   const downloadPayslip = (payslip: PayslipRecord) => {
     const totalEarnings =
@@ -516,59 +522,21 @@ export default function PayslipPage() {
   const renderPayslipsTab = () => (
     <div className="space-y-4">
       {/* Controls row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        {/* Year filter */}
-        <div className="flex items-center gap-2">
-          <label htmlFor="year-filter" className="text-sm text-gray-600 whitespace-nowrap">
-            {t('filterByYear')}:
-          </label>
-          <select
-            id="year-filter"
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
-            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-cg-red"
-          >
-            <option value="all">{t('allYears')}</option>
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-          </select>
-        </div>
-
-        {/* Show/hide toggle */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleToggleAmounts}
-          className="flex items-center gap-2"
+      <div className="flex items-center gap-2">
+        <label htmlFor="year-filter" className="text-sm text-gray-600 whitespace-nowrap">
+          {t('filterByYear')}:
+        </label>
+        <select
+          id="year-filter"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-cg-red"
         >
-          {showAmounts ? (
-            <>
-              <EyeOff className="h-4 w-4" />
-              {t('hideAmounts')}
-            </>
-          ) : (
-            <>
-              <Eye className="h-4 w-4" />
-              {t('showAmounts')}
-            </>
-          )}
-        </Button>
+          <option value="all">{t('allYears')}</option>
+          <option value="2026">2026</option>
+          <option value="2025">2025</option>
+        </select>
       </div>
-
-      {/* Inline confirmation for revealing amounts */}
-      {showConfirmReveal && (
-        <div className="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm">
-          <span className="text-amber-800 font-medium">{t('confirmShowAmounts')}</span>
-          <div className="flex gap-2 ml-auto">
-            <Button size="sm" variant="outline" onClick={cancelRevealAmounts}>
-              {tCommon('cancel')}
-            </Button>
-            <Button size="sm" onClick={confirmRevealAmounts}>
-              {tCommon('confirm')}
-            </Button>
-          </div>
-        </div>
-      )}
 
       {/* Payslip list */}
       {filteredPayslips.length === 0 ? (
@@ -596,40 +564,54 @@ export default function PayslipPage() {
 
           return (
             <Card key={payslip.id} className="overflow-hidden">
-              {/* Card summary row */}
+              {/* Card summary */}
               <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-cg-red/10 rounded-lg flex items-center justify-center">
-                      <Receipt className="h-5 w-5 text-cg-red" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-base">{payslip.period}</CardTitle>
-                      <p className="text-sm text-gray-500 mt-0.5">
-                        {t('payDate')}: {payslip.payDate}
-                      </p>
-                    </div>
-                    {payslip.hasOT && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                        OT
-                      </span>
-                    )}
+                {/* Row 1: Title + OT badge */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 sm:w-10 sm:h-10 bg-cg-red/10 rounded-lg flex items-center justify-center shrink-0">
+                    <Receipt className="h-5 w-5 text-cg-red" />
                   </div>
-
-                  <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <CardTitle className="text-base">{payslip.period}</CardTitle>
+                      {payslip.hasOT && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                          OT
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-500 mt-0.5">
+                      {t('payDate')}: {payslip.payDate}
+                    </p>
+                  </div>
+                  {/* Desktop: inline amounts */}
+                  <div className="hidden sm:flex items-center gap-6">
                     <div className="text-right">
                       <p className="text-xs text-gray-500">{t('grossPay')}</p>
                       <p className="font-semibold text-cg-dark tabular-nums">
-                        {displayAmount(payslip.gross)}
+                        {displayAmount(payslip.gross, payslip.id)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-500">{t('netPay')}</p>
                       <p className="font-semibold text-cg-success tabular-nums">
-                        {displayAmount(payslip.net)}
+                        {displayAmount(payslip.net, payslip.id)}
                       </p>
                     </div>
                     <div className="flex gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleToggleAmounts(payslip.id)}
+                        className="flex items-center gap-1 text-gray-500"
+                        title={revealedPayslips.has(payslip.id) ? t('hideAmounts') : t('showAmounts')}
+                      >
+                        {revealedPayslips.has(payslip.id) ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
@@ -647,7 +629,76 @@ export default function PayslipPage() {
                     </div>
                   </div>
                 </div>
+
+                {/* Mobile: amounts + actions stacked below */}
+                <div className="sm:hidden mt-3 space-y-3">
+                  {/* Amounts row */}
+                  <div className="flex items-end justify-between bg-gray-50 rounded-lg p-3 -mx-1">
+                    <div>
+                      <p className="text-xs text-gray-500">{t('grossPay')}</p>
+                      <p className="text-sm font-semibold text-cg-dark tabular-nums mt-0.5">
+                        {displayAmount(payslip.gross, payslip.id)}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500">{t('netPay')}</p>
+                      <p className="text-lg font-bold text-cg-success tabular-nums">
+                        {displayAmount(payslip.net, payslip.id)}
+                      </p>
+                    </div>
+                  </div>
+                  {/* Action buttons */}
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleToggleAmounts(payslip.id)}
+                      className="flex items-center gap-1.5 text-gray-600 min-h-[40px]"
+                    >
+                      {revealedPayslips.has(payslip.id) ? (
+                        <>
+                          <EyeOff className="h-4 w-4" />
+                          {t('hideAmounts')}
+                        </>
+                      ) : (
+                        <>
+                          <Eye className="h-4 w-4" />
+                          {t('showAmounts')}
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleExpand(payslip.id)}
+                      aria-expanded={isExpanded}
+                      className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px]"
+                    >
+                      {t('viewDetails')}
+                      {isExpanded ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
               </CardHeader>
+
+              {/* Inline confirmation for this payslip */}
+              {confirmingReveal === payslip.id && (
+                <div className="mx-4 sm:mx-6 mb-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm">
+                  <span className="text-amber-800 font-medium">{t('confirmShowAmounts')}</span>
+                  <div className="flex gap-2 sm:ml-auto">
+                    <Button size="sm" variant="outline" onClick={cancelRevealAmounts}>
+                      {tCommon('cancel')}
+                    </Button>
+                    <Button size="sm" onClick={confirmRevealAmounts}>
+                      {tCommon('confirm')}
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               {/* Expanded detail section */}
               {isExpanded && (
@@ -663,26 +714,26 @@ export default function PayslipPage() {
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('baseSalary')}</span>
                           <span className="tabular-nums font-medium">
-                            {displayAmount(payslip.earnings.baseSalary)}
+                            {displayAmount(payslip.earnings.baseSalary, payslip.id)}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('positionAllowance')}</span>
                           <span className="tabular-nums font-medium">
-                            {displayAmount(payslip.earnings.positionAllowance)}
+                            {displayAmount(payslip.earnings.positionAllowance, payslip.id)}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('colAllowance')}</span>
                           <span className="tabular-nums font-medium">
-                            {displayAmount(payslip.earnings.colAllowance)}
+                            {displayAmount(payslip.earnings.colAllowance, payslip.id)}
                           </span>
                         </div>
                         {payslip.earnings.overtime > 0 && (
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">{t('overtime')}</span>
                             <span className="tabular-nums font-medium text-amber-700">
-                              {displayAmount(payslip.earnings.overtime)}
+                              {displayAmount(payslip.earnings.overtime, payslip.id)}
                             </span>
                           </div>
                         )}
@@ -690,14 +741,14 @@ export default function PayslipPage() {
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">{t('otherEarnings')}</span>
                             <span className="tabular-nums font-medium">
-                              {displayAmount(payslip.earnings.other)}
+                              {displayAmount(payslip.earnings.other, payslip.id)}
                             </span>
                           </div>
                         )}
                         <div className="flex justify-between text-sm font-semibold border-t pt-2 mt-2">
                           <span className="text-cg-dark">{t('totalEarnings')}</span>
                           <span className="tabular-nums text-cg-success">
-                            {displayAmount(totalEarnings)}
+                            {displayAmount(totalEarnings, payslip.id)}
                           </span>
                         </div>
                       </div>
@@ -713,26 +764,26 @@ export default function PayslipPage() {
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('incomeTax')}</span>
                           <span className="tabular-nums font-medium text-cg-error">
-                            ({displayAmount(payslip.deductions.incomeTax)})
+                            ({displayAmount(payslip.deductions.incomeTax, payslip.id)})
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('socialSecurity')}</span>
                           <span className="tabular-nums font-medium text-cg-error">
-                            ({displayAmount(payslip.deductions.socialSecurity)})
+                            ({displayAmount(payslip.deductions.socialSecurity, payslip.id)})
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('providentFund')}</span>
                           <span className="tabular-nums font-medium text-cg-error">
-                            ({displayAmount(payslip.deductions.providentFund)})
+                            ({displayAmount(payslip.deductions.providentFund, payslip.id)})
                           </span>
                         </div>
                         {payslip.deductions.loans > 0 && (
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">{t('loans')}</span>
                             <span className="tabular-nums font-medium text-cg-error">
-                              ({displayAmount(payslip.deductions.loans)})
+                              ({displayAmount(payslip.deductions.loans, payslip.id)})
                             </span>
                           </div>
                         )}
@@ -740,14 +791,14 @@ export default function PayslipPage() {
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">{t('otherDeductions')}</span>
                             <span className="tabular-nums font-medium text-cg-error">
-                              ({displayAmount(payslip.deductions.other)})
+                              ({displayAmount(payslip.deductions.other, payslip.id)})
                             </span>
                           </div>
                         )}
                         <div className="flex justify-between text-sm font-semibold border-t pt-2 mt-2">
                           <span className="text-cg-dark">{t('totalDeductions')}</span>
                           <span className="tabular-nums text-cg-error">
-                            ({displayAmount(totalDeductions)})
+                            ({displayAmount(totalDeductions, payslip.id)})
                           </span>
                         </div>
                       </div>
@@ -759,7 +810,7 @@ export default function PayslipPage() {
                     <div>
                       <p className="text-xs text-gray-500">{t('netPay')}</p>
                       <p className="text-2xl font-bold text-cg-dark tabular-nums">
-                        {displayAmount(payslip.net)}
+                        {displayAmount(payslip.net, payslip.id)}
                       </p>
                     </div>
                     <Button
