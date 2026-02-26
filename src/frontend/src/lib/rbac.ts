@@ -35,7 +35,7 @@ const MODULE_ACCESS: Record<string, Role[]> = {
   'transfer-request': ['hr_admin', 'hr_manager'],
   locations: ['hr_admin', 'hr_manager'],
   overtime: ['hr_admin', 'hr_manager'],
-  'smart-claims': ['employee', 'manager', 'hr_admin', 'hr_manager'],
+  'benefits': ['employee', 'manager', 'hr_admin', 'hr_manager'],
   'quick-approve': ['manager', 'hr_admin', 'hr_manager'],
   'hospital-referral': ['employee', 'manager', 'hr_admin', 'hr_manager'],
 };

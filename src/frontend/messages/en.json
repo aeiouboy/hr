@@ -2884,66 +2884,107 @@
         "period": "Period",
         "approvePayroll": "Approve Payroll"
     },
-    "smartClaims": {
-        "title": "Smart Claims",
-        "subtitle": "Submit and track expense claims",
-        "steps": {
-            "upload": "Upload Receipt",
-            "ocrResults": "Review OCR Results",
-            "claimDetails": "Claim Details"
+    "medicalClaims": {
+        "title": "Medical Benefits",
+        "subtitle": "Retroactive medical claim (without referral letter)",
+        "tabs": {
+            "overview": "Overview",
+            "newClaim": "New Claim",
+            "history": "Claim History"
         },
-        "upload": {
-            "dragDrop": "Drag and drop your receipt here",
-            "orBrowse": "or browse files",
-            "maxSize": "Maximum file size: 10MB",
-            "acceptedFormats": "Accepted: JPG, PNG, PDF",
-            "processReceipt": "Process Receipt"
-        },
-        "ocr": {
-            "title": "OCR Results",
-            "vendor": "Vendor",
-            "amount": "Amount",
-            "date": "Date",
-            "category": "Category",
-            "confidence": "Confidence",
-            "highConfidence": "High confidence",
-            "lowConfidence": "Low confidence — please verify"
+        "overview": {
+            "planType": "Plan Type",
+            "annualLimit": "Annual Limit",
+            "used": "Used",
+            "remaining": "Remaining",
+            "recentClaims": "Recent Claims"
         },
         "form": {
-            "category": "Category",
-            "amount": "Amount (THB)",
-            "description": "Description",
+            "stepInfo": "Claim Information",
+            "stepDocuments": "Upload Documents",
+            "stepReview": "Review & Submit",
+            "diseaseCategory": "Disease Category",
+            "diseaseDetails": "Disease Details",
+            "hospitalName": "Hospital / Clinic Name",
+            "treatmentDate": "Treatment Date",
+            "receiptAmount": "Receipt Amount (THB)",
+            "claimAmount": "Claim Amount (THB)",
+            "remarks": "Remarks",
+            "selectCategory": "Select disease category",
+            "enterHospital": "e.g. Bangkok Hospital",
+            "enterDetails": "Describe illness or treatment",
+            "enterRemarks": "Additional notes (optional)",
+            "next": "Next",
+            "back": "Back",
             "saveDraft": "Save Draft",
             "submitClaim": "Submit Claim"
         },
-        "policy": {
-            "title": "Policy Check",
-            "passed": "All checks passed",
-            "failed": "Policy violation — cannot submit",
-            "warning": "Warning — justification may be required"
+        "upload": {
+            "receipt": "Receipt",
+            "receiptTh": "(ใบเสร็จ)",
+            "medicalCert": "Medical Certificate",
+            "medicalCertTh": "(ใบรับรองแพทย์)",
+            "additionalDocs": "Additional Documents",
+            "dragDrop": "Drag & drop or click to upload",
+            "maxSize": "Max 10MB per file (JPG, PNG, PDF)",
+            "required": "Required",
+            "optional": "Optional",
+            "remove": "Remove"
+        },
+        "review": {
+            "title": "Review Your Claim",
+            "claimInfo": "Claim Information",
+            "attachedDocs": "Attached Documents",
+            "policyCheck": "Policy Check",
+            "withinLimit": "Within annual limit",
+            "exceedsLimit": "Exceeds annual limit",
+            "confirmSubmit": "By submitting, you confirm the information is accurate. Please bring original documents to HR.",
+            "originalDocsReminder": "Remember to submit original documents to HR Department"
         },
         "history": {
             "title": "Claim History",
-            "ytdSpending": "Year-to-Date Spending",
-            "totalSpent": "Total Spent",
-            "byCategory": "By Category"
+            "filterAll": "All",
+            "filterPending": "Pending",
+            "filterApproved": "Approved",
+            "filterRejected": "Rejected",
+            "noClaims": "No claims found",
+            "createFirst": "Submit your first medical claim to get started",
+            "viewDetail": "View Details"
         },
         "status": {
             "draft": "Draft",
             "submitted": "Submitted",
+            "pending_manager": "Pending Manager",
+            "pending_hr": "Pending HR",
             "processing": "Processing",
             "approved": "Approved",
             "rejected": "Rejected"
         },
-        "categories": {
-            "medical": "Medical",
-            "dental": "Dental",
-            "travel": "Travel",
-            "meals": "Meals",
-            "meal": "Meals",
-            "office_supplies": "Office Supplies",
-            "training": "Training",
-            "other": "Other"
+        "detail": {
+            "claimId": "Claim ID",
+            "status": "Status",
+            "treatmentDate": "Treatment Date",
+            "hospital": "Hospital / Clinic",
+            "disease": "Disease / Illness",
+            "receiptAmount": "Receipt Amount",
+            "claimAmount": "Claim Amount",
+            "remarks": "Remarks",
+            "documents": "Documents",
+            "approvalTimeline": "Approval Timeline",
+            "rejectionReason": "Rejection Reason",
+            "submittedDate": "Submitted Date",
+            "approvedDate": "Approved Date"
+        },
+        "startClaim": "Start a Claim",
+        "validation": {
+            "hospitalRequired": "Hospital name is required",
+            "diseaseRequired": "Disease category is required",
+            "amountRequired": "Receipt amount is required",
+            "amountPositive": "Amount must be greater than 0",
+            "receiptRequired": "Receipt document is required",
+            "medicalCertRequired": "Medical certificate is required",
+            "treatmentDateRequired": "Treatment date is required",
+            "treatmentDatePast": "Treatment date must be in the past"
         }
     },
     "quickApprove": {

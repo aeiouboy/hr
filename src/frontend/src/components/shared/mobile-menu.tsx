@@ -79,7 +79,7 @@ export function MobileMenu() {
     { href: '/idp', label: t('idp.title'), icon: <BookOpen className="h-5 w-5" />, module: 'idp' },
     { href: '/training-records', label: t('training.title'), icon: <Award className="h-5 w-5" />, module: 'training-records' },
     { href: '/workflows', label: t('nav.workflows'), icon: <ClipboardList className="h-5 w-5" />, module: 'workflows' },
-    { href: '/smart-claims', label: t('smartClaims.title'), icon: <Receipt className="h-5 w-5" />, module: 'smart-claims' },
+    { href: '/benefits', label: t('medicalClaims.title'), icon: <Receipt className="h-5 w-5" />, module: 'benefits' },
     { href: '/hospital-referral', label: t('nav.hospitalReferral'), icon: <FileHeart className="h-5 w-5" />, module: 'hospital-referral' },
   ];
 

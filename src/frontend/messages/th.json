@@ -2820,71 +2820,107 @@
         "discardChanges": "ยกเลิกการเปลี่ยนแปลง",
         "featureComingSoon": "ฟีเจอร์นี้กำลังพัฒนา"
     },
-    "smartClaims": {
-        "title": "เบิกค่าใช้จ่าย",
-        "subtitle": "ยื่นและติดตามการเบิกค่าใช้จ่าย",
-        "steps": {
-            "upload": "อัปโหลดใบเสร็จ",
-            "ocrResults": "ตรวจสอบผล OCR",
-            "claimDetails": "รายละเอียดการเบิก"
+    "medicalClaims": {
+        "title": "สิทธิประโยชน์ด้านการรักษาพยาบาล",
+        "subtitle": "เบิกค่ารักษาพยาบาลแบบย้อนหลัง (ไม่มีใบส่งตัว)",
+        "tabs": {
+            "overview": "ภาพรวม",
+            "newClaim": "เบิกค่ารักษา",
+            "history": "ประวัติการเบิก"
         },
-        "upload": {
-            "dragDrop": "ลากและวางใบเสร็จที่นี่",
-            "orBrowse": "หรือเลือกไฟล์",
-            "maxSize": "ขนาดไฟล์สูงสุด: 10MB",
-            "acceptedFormats": "รองรับ: JPG, PNG, PDF",
-            "processReceipt": "ประมวลผลใบเสร็จ"
-        },
-        "ocr": {
-            "title": "ผลลัพธ์ OCR",
-            "vendor": "ร้านค้า",
-            "amount": "จำนวนเงิน",
-            "date": "วันที่",
-            "category": "หมวดหมู่",
-            "confidence": "ความเชื่อมั่น",
-            "highConfidence": "ความเชื่อมั่นสูง",
-            "lowConfidence": "ความเชื่อมั่นต่ำ — กรุณาตรวจสอบ"
+        "overview": {
+            "planType": "ประเภทแผน",
+            "annualLimit": "วงเงินต่อปี",
+            "used": "ใช้ไปแล้ว",
+            "remaining": "คงเหลือ",
+            "recentClaims": "การเบิกล่าสุด"
         },
         "form": {
-            "category": "หมวดหมู่",
-            "amount": "จำนวนเงิน (บาท)",
-            "description": "รายละเอียด",
-            "saveDraft": "บันทึกร่าง",
-            "submitClaim": "ยื่นเบิก"
+            "stepInfo": "ข้อมูลการเบิก",
+            "stepDocuments": "อัปโหลดเอกสาร",
+            "stepReview": "ตรวจสอบและส่ง",
+            "diseaseCategory": "ประเภทโรค/การรักษา",
+            "diseaseDetails": "รายละเอียดโรค/อาการ",
+            "hospitalName": "ชื่อโรงพยาบาล / คลินิก",
+            "treatmentDate": "วันที่รักษา",
+            "receiptAmount": "จำนวนเงินตามใบเสร็จ (บาท)",
+            "claimAmount": "จำนวนเงินที่ขอเบิก (บาท)",
+            "remarks": "หมายเหตุ",
+            "selectCategory": "เลือกประเภทโรค",
+            "enterHospital": "เช่น โรงพยาบาลกรุงเทพ",
+            "enterDetails": "อธิบายอาการเจ็บป่วยหรือการรักษา",
+            "enterRemarks": "หมายเหตุเพิ่มเติม (ถ้ามี)",
+            "next": "ถัดไป",
+            "back": "ย้อนกลับ",
+            "saveDraft": "บันทึกแบบร่าง",
+            "submitClaim": "ส่งเบิก"
         },
-        "policy": {
-            "title": "ตรวจสอบนโยบาย",
-            "passed": "ผ่านการตรวจสอบทั้งหมด",
-            "failed": "ละเมิดนโยบาย — ไม่สามารถยื่นได้",
-            "warning": "คำเตือน — อาจต้องมีเหตุผลประกอบ"
+        "upload": {
+            "receipt": "ใบเสร็จรับเงิน",
+            "receiptTh": "",
+            "medicalCert": "ใบรับรองแพทย์",
+            "medicalCertTh": "",
+            "additionalDocs": "เอกสารเพิ่มเติม",
+            "dragDrop": "ลากไฟล์มาวางหรือคลิกเพื่ออัปโหลด",
+            "maxSize": "ขนาดไฟล์ไม่เกิน 10MB (JPG, PNG, PDF)",
+            "required": "จำเป็น",
+            "optional": "ไม่บังคับ",
+            "remove": "ลบ"
+        },
+        "review": {
+            "title": "ตรวจสอบข้อมูลการเบิก",
+            "claimInfo": "ข้อมูลการเบิก",
+            "attachedDocs": "เอกสารแนบ",
+            "policyCheck": "ตรวจสอบสิทธิ์",
+            "withinLimit": "อยู่ในวงเงินที่เบิกได้",
+            "exceedsLimit": "เกินวงเงินที่เบิกได้",
+            "confirmSubmit": "เมื่อส่งเบิกแล้ว ข้อมูลจะถูกส่งไปยังผู้อนุมัติ กรุณานำเอกสารตัวจริงมายื่นที่ฝ่ายบุคคล",
+            "originalDocsReminder": "อย่าลืมนำเอกสารตัวจริงมายื่นที่ฝ่ายทรัพยากรบุคคล"
         },
         "history": {
-            "title": "ประวัติการเบิก",
-            "ytdSpending": "ยอดใช้จ่ายสะสมปีนี้",
-            "totalSpent": "ยอดใช้จ่ายรวม",
-            "byCategory": "แยกตามหมวดหมู่"
+            "title": "ประวัติการเบิกค่ารักษาพยาบาล",
+            "filterAll": "ทั้งหมด",
+            "filterPending": "รอดำเนินการ",
+            "filterApproved": "อนุมัติแล้ว",
+            "filterRejected": "ไม่อนุมัติ",
+            "noClaims": "ยังไม่มีรายการเบิก",
+            "createFirst": "เริ่มเบิกค่ารักษาพยาบาลรายการแรกของคุณ",
+            "viewDetail": "ดูรายละเอียด"
         },
         "status": {
-            "draft": "ร่าง",
-            "submitted": "ยื่นแล้ว",
+            "draft": "แบบร่าง",
+            "submitted": "ส่งแล้ว",
+            "pending_manager": "รอผู้จัดการอนุมัติ",
+            "pending_hr": "รอ HR อนุมัติ",
             "processing": "กำลังดำเนินการ",
-            "approved": "อนุมัติ",
-            "rejected": "ปฏิเสธ"
+            "approved": "อนุมัติแล้ว",
+            "rejected": "ไม่อนุมัติ"
         },
-        "newClaim": "เบิกค่าใช้จ่ายใหม่",
-        "claimId": "รหัสเบิก",
-        "merchant": "ร้านค้า",
-        "receiptDate": "วันที่ใบเสร็จ",
-        "notes": "หมายเหตุ",
-        "categories": {
-            "medical": "ค่ารักษาพยาบาล",
-            "dental": "ทันตกรรม",
-            "travel": "ค่าเดินทาง",
-            "meals": "ค่าอาหาร",
-            "meal": "ค่าอาหาร",
-            "office_supplies": "อุปกรณ์สำนักงาน",
-            "training": "ฝึกอบรม",
-            "other": "อื่นๆ"
+        "detail": {
+            "claimId": "รหัสการเบิก",
+            "status": "สถานะ",
+            "treatmentDate": "วันที่รักษา",
+            "hospital": "โรงพยาบาล / คลินิก",
+            "disease": "โรค / อาการ",
+            "receiptAmount": "จำนวนเงินตามใบเสร็จ",
+            "claimAmount": "จำนวนเงินที่เบิก",
+            "remarks": "หมายเหตุ",
+            "documents": "เอกสารแนบ",
+            "approvalTimeline": "ลำดับการอนุมัติ",
+            "rejectionReason": "เหตุผลที่ไม่อนุมัติ",
+            "submittedDate": "วันที่ส่งเบิก",
+            "approvedDate": "วันที่อนุมัติ"
+        },
+        "startClaim": "เริ่มเบิกค่ารักษา",
+        "validation": {
+            "hospitalRequired": "กรุณาระบุชื่อโรงพยาบาล",
+            "diseaseRequired": "กรุณาเลือกประเภทโรค",
+            "amountRequired": "กรุณาระบุจำนวนเงิน",
+            "amountPositive": "จำนวนเงินต้องมากกว่า 0",
+            "receiptRequired": "กรุณาแนบใบเสร็จรับเงิน",
+            "medicalCertRequired": "กรุณาแนบใบรับรองแพทย์",
+            "treatmentDateRequired": "กรุณาระบุวันที่รักษา",
+            "treatmentDatePast": "วันที่รักษาต้องเป็นวันที่ผ่านมาแล้ว"
         }
     },
     "quickApprove": {
