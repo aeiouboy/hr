@@ -2897,7 +2897,11 @@
             "annualLimit": "Annual Limit",
             "used": "Used",
             "remaining": "Remaining",
-            "recentClaims": "Recent Claims"
+            "recentClaims": "Recent Claims",
+            "noClaims": "No recent claims",
+            "remainingLabel": "Remaining",
+            "startClaim": "Start a Claim",
+            "usageProgress": "Annual Usage"
         },
         "form": {
             "stepInfo": "Claim Information",
@@ -2905,11 +2909,13 @@
             "stepReview": "Review & Submit",
             "diseaseCategory": "Disease Category",
             "diseaseDetails": "Disease Details",
+            "diseaseDetailsPlaceholder": "Describe illness or symptoms",
             "hospitalName": "Hospital / Clinic Name",
             "treatmentDate": "Treatment Date",
             "receiptAmount": "Receipt Amount (THB)",
             "claimAmount": "Claim Amount (THB)",
             "remarks": "Remarks",
+            "remarksPlaceholder": "Additional notes (optional)",
             "selectCategory": "Select disease category",
             "enterHospital": "e.g. Bangkok Hospital",
             "enterDetails": "Describe illness or treatment",
@@ -2917,7 +2923,19 @@
             "next": "Next",
             "back": "Back",
             "saveDraft": "Save Draft",
-            "submitClaim": "Submit Claim"
+            "submitClaim": "Submit Claim",
+            "receipt": "Receipt",
+            "medicalCert": "Medical Certificate",
+            "otherDocuments": "Other Documents",
+            "dragDrop": "Drag & drop or click to upload",
+            "browse": "Browse",
+            "camera": "Camera",
+            "reviewTitle": "Review & Submit Claim",
+            "attachedDocuments": "Attached Documents",
+            "withinLimit": "Within annual benefit limit",
+            "exceedsLimit": "Exceeds annual benefit limit",
+            "remainingBalance": "Remaining Balance",
+            "bringOriginals": "Please bring original documents to HR Department when submitting your claim"
         },
         "upload": {
             "receipt": "Receipt",
@@ -2970,6 +2988,8 @@
             "rejected": "Rejected"
         },
         "detail": {
+            "title": "Claim Details",
+            "details": "Details",
             "claimId": "Claim ID",
             "status": "Status",
             "treatmentDate": "Treatment Date",
@@ -2983,6 +3003,17 @@
             "rejectionReason": "Rejection Reason",
             "submittedDate": "Submitted Date",
             "approvedDate": "Approved Date"
+        },
+        "approval": {
+            "approved": "Approved",
+            "pending": "Pending",
+            "rejected": "Rejected"
+        },
+        "toast": {
+            "submitSuccess": "Claim submitted successfully",
+            "submitError": "Failed to submit claim. Please try again.",
+            "draftSaved": "Draft saved successfully",
+            "saveError": "Failed to save draft. Please try again."
         },
         "startClaim": "Start a Claim",
         "validation": {

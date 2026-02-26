@@ -2833,7 +2833,11 @@
             "annualLimit": "วงเงินต่อปี",
             "used": "ใช้ไปแล้ว",
             "remaining": "คงเหลือ",
-            "recentClaims": "การเบิกล่าสุด"
+            "recentClaims": "การเบิกล่าสุด",
+            "noClaims": "ยังไม่มีรายการเบิกล่าสุด",
+            "remainingLabel": "คงเหลือ",
+            "startClaim": "เริ่มเบิก",
+            "usageProgress": "การใช้สิทธิ์ประจำปี"
         },
         "form": {
             "stepInfo": "ข้อมูลการเบิก",
@@ -2841,11 +2845,13 @@
             "stepReview": "ตรวจสอบและส่ง",
             "diseaseCategory": "ประเภทโรค/การรักษา",
             "diseaseDetails": "รายละเอียดโรค/อาการ",
+            "diseaseDetailsPlaceholder": "อธิบายอาการหรืออาการเจ็บป่วย",
             "hospitalName": "ชื่อโรงพยาบาล / คลินิก",
             "treatmentDate": "วันที่รักษา",
             "receiptAmount": "จำนวนเงินตามใบเสร็จ (บาท)",
             "claimAmount": "จำนวนเงินที่ขอเบิก (บาท)",
             "remarks": "หมายเหตุ",
+            "remarksPlaceholder": "หมายเหตุเพิ่มเติม (ถ้ามี)",
             "selectCategory": "เลือกประเภทโรค",
             "enterHospital": "เช่น โรงพยาบาลกรุงเทพ",
             "enterDetails": "อธิบายอาการเจ็บป่วยหรือการรักษา",
@@ -2853,7 +2859,19 @@
             "next": "ถัดไป",
             "back": "ย้อนกลับ",
             "saveDraft": "บันทึกแบบร่าง",
-            "submitClaim": "ส่งเบิก"
+            "submitClaim": "ส่งเบิก",
+            "receipt": "ใบเสร็จรับเงิน",
+            "medicalCert": "ใบรับรองแพทย์",
+            "otherDocuments": "เอกสารอื่นๆ",
+            "dragDrop": "ลากไฟล์มาวางหรือคลิกเพื่ออัปโหลด",
+            "browse": "เลือกไฟล์",
+            "camera": "กล้อง",
+            "reviewTitle": "ตรวจสอบและส่งเบิก",
+            "attachedDocuments": "เอกสารแนบ",
+            "withinLimit": "อยู่ในวงเงินสิทธิ์ประจำปี",
+            "exceedsLimit": "เกินวงเงินสิทธิ์ประจำปี",
+            "remainingBalance": "วงเงินคงเหลือ",
+            "bringOriginals": "กรุณานำเอกสารตัวจริงมายื่นที่ฝ่ายทรัพยากรบุคคลเมื่อส่งเบิก"
         },
         "upload": {
             "receipt": "ใบเสร็จรับเงิน",
@@ -2906,6 +2924,8 @@
             "rejected": "ไม่อนุมัติ"
         },
         "detail": {
+            "title": "รายละเอียดการเบิก",
+            "details": "รายละเอียด",
             "claimId": "รหัสการเบิก",
             "status": "สถานะ",
             "treatmentDate": "วันที่รักษา",
@@ -2919,6 +2939,17 @@
             "rejectionReason": "เหตุผลที่ไม่อนุมัติ",
             "submittedDate": "วันที่ส่งเบิก",
             "approvedDate": "วันที่อนุมัติ"
+        },
+        "approval": {
+            "approved": "อนุมัติแล้ว",
+            "pending": "รอดำเนินการ",
+            "rejected": "ไม่อนุมัติ"
+        },
+        "toast": {
+            "submitSuccess": "ส่งเบิกค่ารักษาพยาบาลเรียบร้อยแล้ว",
+            "submitError": "ไม่สามารถส่งเบิกได้ กรุณาลองใหม่",
+            "draftSaved": "บันทึกแบบร่างเรียบร้อยแล้ว",
+            "saveError": "ไม่สามารถบันทึกแบบร่างได้ กรุณาลองใหม่"
         },
         "startClaim": "เริ่มเบิกค่ารักษา",
         "validation": {
