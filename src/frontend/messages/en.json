@@ -2949,7 +2949,16 @@
             "filterRejected": "Rejected",
             "noClaims": "No claims found",
             "createFirst": "Submit your first medical claim to get started",
-            "viewDetail": "View Details"
+            "viewDetail": "View Details",
+            "empty": "No claims found",
+            "id": "Claim ID",
+            "disease": "Disease",
+            "hospital": "Hospital",
+            "date": "Date",
+            "amount": "Amount",
+            "status": "Status",
+            "action": "Action",
+            "viewDetails": "View Details"
         },
         "status": {
             "draft": "Draft",
