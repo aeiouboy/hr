@@ -54,7 +54,7 @@ export function OvertimePage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
-          <p className="text-gray-500 mt-1">{t('subtitle')}</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <Button onClick={() => setShowCreateModal(true)} className="mt-4 sm:mt-0">
           <Plus className="h-4 w-4 mr-2" />{t('newRequest')}
@@ -66,12 +66,12 @@ export function OvertimePage() {
       {activeTab === 'summary' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card><CardContent className="p-6 text-center"><p className="text-2xl font-bold text-cg-dark">{stats.weeklyHours}h</p><p className="text-xs text-gray-400">{t('totalHours')} (week)</p></CardContent></Card>
-            <Card><CardContent className="p-6 text-center"><p className="text-2xl font-bold text-yellow-600">{stats.pendingCount}</p><p className="text-xs text-gray-400">{t('pendingRequests')}</p></CardContent></Card>
-            <Card><CardContent className="p-6 text-center"><p className="text-2xl font-bold text-green-600">{stats.approvedCount}</p><p className="text-xs text-gray-400">{t('approvedRequests')}</p></CardContent></Card>
-            <Card><CardContent className="p-6 text-center">
+            <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-cg-dark">{stats.weeklyHours}h</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHours')} (week)</p></CardContent></Card>
+            <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-yellow-600">{stats.pendingCount}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('pendingRequests')}</p></CardContent></Card>
+            <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{stats.approvedCount}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('approvedRequests')}</p></CardContent></Card>
+            <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
               <p className="text-2xl font-bold text-cg-dark">{stats.maxWeeklyHours - stats.weeklyHours}h</p>
-              <p className="text-xs text-gray-400">{t('remainingHours')}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">{t('remainingHours')}</p>
               {stats.weeklyHours > stats.maxWeeklyHours * 0.8 && (
                 <div className="flex items-center justify-center gap-1 mt-1 text-xs text-yellow-600">
                   <AlertTriangle className="h-3 w-3" /> Near limit
@@ -85,7 +85,7 @@ export function OvertimePage() {
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {(['weekday', 'weekend', 'holiday', 'night'] as OTType[]).map((type) => (
-                  <div key={type} className="p-3 bg-gray-50 rounded-lg">
+                  <div key={type} className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                     <p className="text-sm font-medium">{t(`type.${type}` as never)}</p>
                   </div>
                 ))}
@@ -97,18 +97,18 @@ export function OvertimePage() {
             <CardHeader><CardTitle>{t('recentRequests')}</CardTitle></CardHeader>
             <CardContent>
               {requests.length === 0 ? (
-                <p className="text-sm text-gray-500 text-center py-8">{t('noRequests')}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">{t('noRequests')}</p>
               ) : (
                 <div className="space-y-2">
                   {requests.slice(0, 5).map((req) => (
-                    <div key={req.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div key={req.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                       <div>
                         <p className="text-sm font-medium">{req.date} ({req.startTime} - {req.endTime})</p>
-                        <p className="text-xs text-gray-500">{req.reason}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{req.reason}</p>
                       </div>
                       <div className="text-right">
                         <Badge variant={STATUS_VARIANT[req.status]}>{t(`status.${req.status}` as never)}</Badge>
-                        <p className="text-xs text-gray-500 mt-1">{req.totalHours}h | {formatCurrency(req.estimatedAmount)}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{req.totalHours}h | {formatCurrency(req.estimatedAmount)}</p>
                       </div>
                     </div>
                   ))}
@@ -125,7 +125,7 @@ export function OvertimePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50">
+                  <tr className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                     <th className="text-left py-3 px-4 text-xs font-medium text-gray-400 uppercase">{t('date')}</th>
                     <th className="text-center py-3 px-4 text-xs font-medium text-gray-400 uppercase">{t('time')}</th>
                     <th className="text-center py-3 px-4 text-xs font-medium text-gray-400 uppercase">{t('totalHours')}</th>
@@ -137,7 +137,7 @@ export function OvertimePage() {
                 </thead>
                 <tbody>
                   {requests.map((req) => (
-                    <tr key={req.id} className="border-b last:border-0 hover:bg-gray-50">
+                    <tr key={req.id} className="border-b dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700/30">
                       <td className="py-3 px-4">{req.date}</td>
                       <td className="py-3 px-4 text-center">{req.startTime} - {req.endTime}</td>
                       <td className="py-3 px-4 text-center">{req.totalHours}h</td>
@@ -158,8 +158,22 @@ export function OvertimePage() {
 
       {activeTab === 'request' && (
         <Card>
-          <CardContent className="py-12 text-center">
-            <Button onClick={() => setShowCreateModal(true)}><Plus className="h-4 w-4 mr-2" />{t('newRequest')}</Button>
+          <CardHeader><CardTitle>{t('newRequest')}</CardTitle></CardHeader>
+          <CardContent>
+            <div className="max-w-2xl space-y-4">
+              <FormField label={t('date')} name="otDate" type="date" value={form.date} onChange={(v) => setForm((p) => ({ ...p, date: v }))} required />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField label={t('startTime')} name="startTime" value={form.startTime} onChange={(v) => setForm((p) => ({ ...p, startTime: v }))} required />
+                <FormField label={t('endTime')} name="endTime" value={form.endTime} onChange={(v) => setForm((p) => ({ ...p, endTime: v }))} required />
+              </div>
+              <FormField label="Type" name="otType" type="select" value={form.type} onChange={(v) => setForm((p) => ({ ...p, type: v as OTType }))}
+                options={[{ value: 'weekday', label: t('type.weekday') }, { value: 'weekend', label: t('type.weekend') }, { value: 'holiday', label: t('type.holiday') }]} />
+              <FormField label={t('reason')} name="reason" type="textarea" value={form.reason} onChange={(v) => setForm((p) => ({ ...p, reason: v }))} required />
+              <div className="flex justify-end gap-3 pt-2">
+                <Button variant="outline" onClick={() => setActiveTab('summary')}>{tCommon('cancel')}</Button>
+                <Button onClick={handleSubmit} disabled={!form.date || !form.reason}>{t('submit')}</Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       )}

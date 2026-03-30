@@ -22,7 +22,7 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
     return (
       <div className="space-y-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-white rounded-xl border p-6">
+          <div key={i} className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6">
             <Skeleton className="h-6 w-40 mb-4" />
             <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((j) => (
@@ -85,18 +85,18 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
       <SectionCard title={t('personal.address')} icon={<MapPin className="h-5 w-5" />} collapsible>
         <div className="space-y-4">
           {addresses?.map((addr) => (
-            <div key={addr.id} className="p-4 bg-gray-50 rounded-lg">
-              <h4 className="text-sm font-medium text-gray-700 mb-2">
+            <div key={addr.id} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {addr.addressType === 'permanent' ? t('personal.permanentAddress') : t('personal.currentAddress')}
               </h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {addr.addressLine1}
                 {addr.addressLine2 && <>, {addr.addressLine2}</>}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {addr.subDistrict}, {addr.district}, {addr.province} {addr.postalCode}
               </p>
-              <p className="text-sm text-gray-500">{addr.country}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{addr.country}</p>
             </div>
           ))}
         </div>
@@ -106,10 +106,10 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
       <SectionCard title={t('personal.emergencyContacts')} icon={<AlertTriangle className="h-5 w-5" />} collapsible>
         <div className="space-y-3">
           {emergencyContacts?.map((ec) => (
-            <div key={ec.id as string} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div key={ec.id as string} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               <div>
-                <p className="font-medium text-gray-900">{ec.name as string}</p>
-                <p className="text-sm text-gray-500">
+                <p className="font-medium text-gray-900 dark:text-gray-100">{ec.name as string}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   {t(`relationship.${ec.relationship as string}`)} &middot; {ec.phone as string}
                 </p>
               </div>
@@ -127,10 +127,10 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
       <SectionCard title={t('personal.dependents')} icon={<Users className="h-5 w-5" />} collapsible>
         <div className="space-y-3">
           {dependents?.map((dep) => (
-            <div key={dep.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div key={dep.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               <div>
-                <p className="font-medium text-gray-900">{dep.name}</p>
-                <p className="text-sm text-gray-500">
+                <p className="font-medium text-gray-900 dark:text-gray-100">{dep.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   {t(`relationship.${dep.relationship}`)} &middot; {formatDate(dep.dateOfBirth, 'medium', locale)}
                 </p>
               </div>

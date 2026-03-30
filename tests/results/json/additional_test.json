@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-02-22T15:42:56.073Z",
+  "baseUrl": "http://localhost:8080",
+  "totalTests": 5,
+  "passed": 5,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "Location Management",
+      "route": "#/locations",
+      "description": "Location hierarchy and Thai provinces management",
+      "status": "passed",
+      "errors": [],
+      "screenshot": "01_locations.png",
+      "timestamp": "2026-02-22T15:42:56.863Z",
+      "foundKeywords": [
+        "Location Management"
+      ]
+    },
+    {
+      "name": "Resignation",
+      "route": "#/resignation",
+      "description": "Resignation recording and clearance checklist",
+      "status": "passed",
+      "errors": [],
+      "screenshot": "02_resignation.png",
+      "timestamp": "2026-02-22T15:42:59.845Z",
+      "foundKeywords": [
+        "Resignation"
+      ]
+    },
+    {
+      "name": "Overtime",
+      "route": "#/overtime",
+      "description": "OT request form with Thai labor law rates",
+      "status": "passed",
+      "errors": [],
+      "screenshot": "03_overtime.png",
+      "timestamp": "2026-02-22T15:43:01.930Z",
+      "foundKeywords": [
+        "Overtime"
+      ]
+    },
+    {
+      "name": "Individual Development Plan",
+      "route": "#/idp",
+      "description": "Competency gap analysis and development plan",
+      "status": "passed",
+      "errors": [],
+      "screenshot": "04_idp.png",
+      "timestamp": "2026-02-22T15:43:04.008Z",
+      "foundKeywords": [
+        "Development"
+      ]
+    },
+    {
+      "name": "Training Records",
+      "route": "#/training-records",
+      "description": "Training history and certificates",
+      "status": "passed",
+      "errors": [],
+      "screenshot": "05_training_records.png",
+      "timestamp": "2026-02-22T15:43:06.089Z",
+      "foundKeywords": [
+        "Training"
+      ]
+    }
+  ]
+}

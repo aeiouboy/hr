@@ -31,6 +31,7 @@ const STATUS_VARIANTS: Record<WorkflowStatus, 'warning' | 'success' | 'error' | 
 const TYPE_ICONS: Record<WorkflowType, React.ReactNode> = {
   leave: <Calendar className="h-5 w-5" />,
   overtime: <Clock className="h-5 w-5" />,
+  time_correction: <Clock className="h-5 w-5" />,
   transfer: <ArrowRightLeft className="h-5 w-5" />,
   payroll_change: <DollarSign className="h-5 w-5" />,
   personal_info: <FileText className="h-5 w-5" />,
@@ -40,6 +41,7 @@ const TYPE_ICONS: Record<WorkflowType, React.ReactNode> = {
 const TYPE_COLORS: Record<WorkflowType, string> = {
   leave: 'text-green-600 bg-green-50',
   overtime: 'text-orange-600 bg-orange-50',
+  time_correction: 'text-cyan-600 bg-cyan-50',
   transfer: 'text-blue-600 bg-blue-50',
   payroll_change: 'text-purple-600 bg-purple-50',
   personal_info: 'text-indigo-600 bg-indigo-50',
@@ -60,7 +62,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
       case 'sent_back':
         return <RotateCcw className="h-5 w-5 text-yellow-500" />;
       case 'skipped':
-        return <div className="h-5 w-5 rounded-full border-2 border-gray-200 bg-white" />;
+        return <div className="h-5 w-5 rounded-full border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800" />;
       default:
         return <Clock className="h-5 w-5 text-gray-400" />;
     }
@@ -101,7 +103,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
               >
                 {stepStatusIcon(step.status)}
               </div>
-              {!isLast && <div className="w-0.5 flex-1 min-h-[2rem] bg-gray-200 my-1" />}
+              {!isLast && <div className="w-0.5 flex-1 min-h-[2rem] bg-gray-200 dark:bg-gray-700 my-1" />}
             </div>
 
             <div className="pb-5 flex-1 min-w-0">
@@ -114,7 +116,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
                 </Badge>
               </div>
               {step.actionDate && (
-                <p className="text-xs text-gray-400 mb-1">
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
                   {formatDate(step.actionDate, 'medium', locale)}{' '}
                   {new Date(step.actionDate).toLocaleTimeString(locale === 'th' ? 'th-TH' : 'en-US', {
                     timeStyle: 'short',
@@ -122,7 +124,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
                 </p>
               )}
               {step.comment && (
-                <p className="text-xs text-gray-600 bg-gray-50 rounded-lg px-3 py-2 italic border-l-2 border-gray-200">
+                <p className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-lg px-3 py-2 italic border-l-2 border-gray-200 dark:border-gray-600">
                   &ldquo;{step.comment}&rdquo;
                 </p>
               )}
@@ -209,12 +211,12 @@ export function WorkflowDetailModal({
   const footer = actionMode ? (
     <div className="space-y-3">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
           {t('reason')}
           {actionMode !== 'approve' && <span className="text-red-500 ml-1">*</span>}
         </label>
         <textarea
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cg-red focus:border-transparent resize-none"
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cg-red focus:border-transparent resize-none dark:bg-gray-800 dark:text-gray-100"
           rows={3}
           placeholder={`Enter reason for ${actionLabels[actionMode].toLowerCase()}...`}
           value={reason}
@@ -301,7 +303,7 @@ export function WorkflowDetailModal({
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-cg-dark">{workflow.typeLabel}</h3>
-            <p className="text-sm text-gray-500">{workflow.department}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{workflow.department}</p>
           </div>
           <Badge variant={STATUS_VARIANTS[workflow.status]}>
             {getStatusLabel(workflow.status)}
@@ -311,12 +313,12 @@ export function WorkflowDetailModal({
         {/* Core fields */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-xs text-gray-400 mb-0.5">{t('requestedBy')}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{t('requestedBy')}</p>
             <p className="font-medium text-cg-dark">{workflow.requesterName}</p>
             <p className="text-xs text-gray-500">{workflow.requesterId}</p>
           </div>
           <div>
-            <p className="text-xs text-gray-400 mb-0.5">{t('requestDate')}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{t('requestDate')}</p>
             <p className="font-medium text-cg-dark">
               {formatDate(workflow.submittedDate, 'medium', locale)}
             </p>
@@ -330,7 +332,7 @@ export function WorkflowDetailModal({
             </div>
           )}
           <div>
-            <p className="text-xs text-gray-400 mb-0.5">{t('currentStep')}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{t('currentStep')}</p>
             <p className="font-medium text-cg-dark">
               {workflow.currentStep} / {workflow.totalSteps}
             </p>
@@ -340,14 +342,14 @@ export function WorkflowDetailModal({
         {/* Description */}
         <div>
           <p className="text-xs text-gray-400 mb-1">{t('description')}</p>
-          <p className="text-sm bg-gray-50 rounded-lg px-4 py-3 border">{workflow.description}</p>
+          <p className="text-sm bg-gray-50 dark:bg-gray-800/50 rounded-lg px-4 py-3 border dark:border-gray-700">{workflow.description}</p>
         </div>
 
         {/* Additional details */}
         {workflow.details && Object.keys(workflow.details).length > 0 && (
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Details</p>
-            <div className="grid grid-cols-2 gap-3 p-4 bg-gray-50 rounded-lg border">
+            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Details</p>
+            <div className="grid grid-cols-2 gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border dark:border-gray-700">
               {Object.entries(workflow.details).map(([key, val]) => (
                 <div key={key}>
                   <p className="text-xs text-gray-400 capitalize mb-0.5">
@@ -363,25 +365,25 @@ export function WorkflowDetailModal({
         {/* Change details (old → new) */}
         {workflow.changes && workflow.changes.length > 0 && (
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
               Changes
             </p>
-            <div className="rounded-lg border overflow-hidden">
+            <div className="rounded-lg border dark:border-gray-700 overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-gray-50 border-b">
-                    <th className="text-left px-4 py-2 text-xs font-medium text-gray-500">Field</th>
-                    <th className="text-left px-4 py-2 text-xs font-medium text-gray-500">Before</th>
+                  <tr className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
+                    <th className="text-left px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-400">Field</th>
+                    <th className="text-left px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-400">Before</th>
                     <th className="w-6 px-1 py-2" />
-                    <th className="text-left px-4 py-2 text-xs font-medium text-gray-500">After</th>
+                    <th className="text-left px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-400">After</th>
                   </tr>
                 </thead>
                 <tbody>
                   {workflow.changes.map((change, idx) => (
-                    <tr key={idx} className="border-b last:border-0">
-                      <td className="px-4 py-2.5 font-medium text-gray-700">{change.field}</td>
-                      <td className="px-4 py-2.5 text-gray-500 line-through">{change.oldValue}</td>
-                      <td className="px-1 py-2.5 text-gray-300">
+                    <tr key={idx} className="border-b dark:border-gray-700 last:border-0">
+                      <td className="px-4 py-2.5 font-medium text-gray-700 dark:text-gray-300">{change.field}</td>
+                      <td className="px-4 py-2.5 text-gray-500 dark:text-gray-400 line-through">{change.oldValue}</td>
+                      <td className="px-1 py-2.5 text-gray-300 dark:text-gray-600">
                         <ArrowRight className="h-3.5 w-3.5" />
                       </td>
                       <td className="px-4 py-2.5 text-cg-dark font-medium">{change.newValue}</td>

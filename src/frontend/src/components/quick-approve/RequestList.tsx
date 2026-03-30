@@ -68,17 +68,17 @@ export function RequestList({
   return (
     <div className="space-y-4">
       {/* Filter Bar */}
-      <div className="bg-white rounded-xl border p-4 space-y-3">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-4 space-y-3">
         <div className="flex flex-wrap items-center gap-3">
           {/* Search */}
           <div className="relative flex-1 min-w-0 w-full md:min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               value={filters.search ?? ''}
               onChange={(e) => onFilterChange({ ...filters, search: e.target.value })}
               placeholder={t('filters.searchPlaceholder')}
-              className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
             />
           </div>
 
@@ -86,7 +86,7 @@ export function RequestList({
           <select
             value={filters.type ?? ''}
             onChange={(e) => onFilterChange({ ...filters, type: e.target.value || undefined })}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.type')}
           >
             <option value="">{t('filters.allTypes')}</option>
@@ -103,7 +103,7 @@ export function RequestList({
             onChange={(e) =>
               onFilterChange({ ...filters, urgency: (e.target.value as Urgency) || undefined })
             }
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.urgency')}
           >
             <option value="">{t('filters.allUrgency')}</option>
@@ -119,7 +119,7 @@ export function RequestList({
             type="date"
             value={filters.dateFrom ?? ''}
             onChange={(e) => onFilterChange({ ...filters, dateFrom: e.target.value || undefined })}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.dateFrom')}
           />
 
@@ -128,7 +128,7 @@ export function RequestList({
             type="date"
             value={filters.dateTo ?? ''}
             onChange={(e) => onFilterChange({ ...filters, dateTo: e.target.value || undefined })}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.dateTo')}
           />
         </div>
@@ -144,7 +144,7 @@ export function RequestList({
               className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border transition ${
                 filters.type === type
                   ? 'bg-cg-red text-white border-cg-red'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-gray-400'
               }`}
             >
               <span>{typeIcons[type] ?? <ClipboardList className="h-4 w-4" />}</span>
@@ -156,36 +156,36 @@ export function RequestList({
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 overflow-hidden">
         {/* Desktop table */}
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm" role="grid">
             <thead>
-              <tr className="bg-gray-50 border-b">
+              <tr className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
                 <th className="w-10 px-4 py-3">
                   <input
                     type="checkbox"
                     checked={allSelected}
                     onChange={handleSelectAll}
-                    className="rounded border-gray-300 text-cg-red focus:ring-cg-red"
+                    className="rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
                     aria-label={t('filters.selectAll')}
                   />
                 </th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">{t('table.type')}</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">{t('table.requester')}</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">
+                <th className="px-4 py-3 text-left font-medium text-gray-600 dark:text-gray-400">{t('table.type')}</th>
+                <th className="px-4 py-3 text-left font-medium text-gray-600 dark:text-gray-400">{t('table.requester')}</th>
+                <th className="px-4 py-3 text-left font-medium text-gray-600 dark:text-gray-400">
                   {t('table.description')}
                 </th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600 hidden lg:table-cell">
+                <th className="px-4 py-3 text-left font-medium text-gray-600 dark:text-gray-400 hidden lg:table-cell">
                   {t('table.submitted')}
                 </th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">{t('table.urgency')}</th>
+                <th className="px-4 py-3 text-left font-medium text-gray-600 dark:text-gray-400">{t('table.urgency')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y dark:divide-gray-700">
               {requests.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-12 text-center text-gray-400">
+                  <td colSpan={6} className="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
                     {t('noRequests')}
                   </td>
                 </tr>
@@ -194,7 +194,7 @@ export function RequestList({
                   <tr
                     key={req.id}
                     onClick={() => onRowClick(req)}
-                    className="hover:bg-gray-50 cursor-pointer transition"
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700/30 cursor-pointer transition"
                     role="row"
                   >
                     <td className="px-4 py-3">
@@ -206,25 +206,25 @@ export function RequestList({
                           handleToggle(req.id);
                         }}
                         onClick={(e) => e.stopPropagation()}
-                        className="rounded border-gray-300 text-cg-red focus:ring-cg-red"
+                        className="rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
                         aria-label={`Select ${req.requester.name}`}
                       />
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-gray-600" title={req.type}>
+                      <span className="text-gray-600 dark:text-gray-400" title={req.type}>
                         {typeIcons[req.type] ?? <ClipboardList className="h-4 w-4" />}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div>
                         <p className="font-medium text-cg-dark">{req.requester.name}</p>
-                        <p className="text-xs text-gray-400">{req.requester.position}</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500">{req.requester.position}</p>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 max-w-xs truncate">
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400 max-w-xs truncate">
                       {req.description}
                     </td>
-                    <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">
+                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400 hidden lg:table-cell">
                       <span className="flex items-center gap-1">
                         <Clock className="h-3.5 w-3.5" />
                         {new Date(req.submittedAt).toLocaleDateString()}
@@ -241,16 +241,16 @@ export function RequestList({
         </div>
 
         {/* Mobile card view */}
-        <div className="md:hidden divide-y divide-gray-100">
+        <div className="md:hidden divide-y divide-gray-100 dark:divide-gray-700">
           {requests.length === 0 ? (
-            <div className="px-4 py-12 text-center text-gray-400">
+            <div className="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
               {t('noRequests')}
             </div>
           ) : (
             requests.map((req) => (
               <div
                 key={req.id}
-                className="p-4 hover:bg-gray-50 transition cursor-pointer"
+                className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition cursor-pointer"
                 onClick={() => onRowClick(req)}
               >
                 <div className="flex items-start gap-3">
@@ -262,25 +262,25 @@ export function RequestList({
                       handleToggle(req.id);
                     }}
                     onClick={(e) => e.stopPropagation()}
-                    className="mt-1 h-5 w-5 rounded border-gray-300 text-cg-red focus:ring-cg-red"
+                    className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
                     aria-label={`Select ${req.requester.name}`}
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-gray-600 flex-shrink-0" title={req.type}>
+                        <span className="text-gray-600 dark:text-gray-400 flex-shrink-0" title={req.type}>
                           {typeIcons[req.type] ?? <ClipboardList className="h-4 w-4" />}
                         </span>
                         <p className="text-sm font-medium text-cg-dark truncate">{req.requester.name}</p>
                       </div>
                       <UrgencyBadge urgency={req.urgency} />
                     </div>
-                    <p className="text-xs text-gray-500 mt-0.5 truncate">{req.description}</p>
-                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">{req.description}</p>
+                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-400 dark:text-gray-500">
                       <Clock className="h-3 w-3" />
                       {new Date(req.submittedAt).toLocaleDateString()}
-                      <span className="ml-1 text-gray-300">·</span>
-                      <span className="text-gray-400">{req.requester.position}</span>
+                      <span className="ml-1 text-gray-300 dark:text-gray-600">·</span>
+                      <span className="text-gray-400 dark:text-gray-500">{req.requester.position}</span>
                     </div>
                   </div>
                 </div>

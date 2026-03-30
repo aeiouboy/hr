@@ -1,0 +1,104 @@
+{
+  "test_name": "RIS HR System - Phase 5 Features",
+  "status": "passed",
+  "screenshots": [
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/01_home_page.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/02_recruitment_main.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/03_job_postings.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/04_create_job.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/05_job_board.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/06_application_form.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/07_candidate_screening.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/08_screening_results.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/09_interview_scheduling.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/10_candidate_evaluation.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/11_onboarding_main.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/12_onboarding_checklist.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/13_day_one_tasks.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/14_probation_setup.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase5/img/phase5/15_language_toggle.png"
+  ],
+  "steps_executed": [
+    {
+      "step": 1,
+      "name": "Navigate to Home Page",
+      "status": "passed"
+    },
+    {
+      "step": 2,
+      "name": "Test Recruitment Module",
+      "status": "passed"
+    },
+    {
+      "step": 3,
+      "name": "Test Job Postings",
+      "status": "passed"
+    },
+    {
+      "step": 4,
+      "name": "Test Create Job Posting",
+      "status": "passed"
+    },
+    {
+      "step": 5,
+      "name": "Test Job Board View",
+      "status": "passed"
+    },
+    {
+      "step": 6,
+      "name": "Test Application Form",
+      "status": "passed"
+    },
+    {
+      "step": 7,
+      "name": "Test Candidate Screening Module",
+      "status": "passed"
+    },
+    {
+      "step": 8,
+      "name": "Test Screening Results",
+      "status": "passed"
+    },
+    {
+      "step": 9,
+      "name": "Test Interview Scheduling",
+      "status": "passed"
+    },
+    {
+      "step": 10,
+      "name": "Test Candidate Evaluation",
+      "status": "passed"
+    },
+    {
+      "step": 11,
+      "name": "Test Onboarding Module",
+      "status": "passed"
+    },
+    {
+      "step": 12,
+      "name": "Test Onboarding Checklist",
+      "status": "passed"
+    },
+    {
+      "step": 13,
+      "name": "Test Day-One Tasks",
+      "status": "passed"
+    },
+    {
+      "step": 14,
+      "name": "Test Probation Setup",
+      "status": "passed"
+    },
+    {
+      "step": 15,
+      "name": "Test Language Toggle",
+      "status": "passed"
+    },
+    {
+      "step": 16,
+      "name": "Check for Console Errors",
+      "status": "passed"
+    }
+  ],
+  "error": null
+}

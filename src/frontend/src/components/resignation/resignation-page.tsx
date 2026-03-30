@@ -47,7 +47,7 @@ export function ResignationPage() {
             <CardContent>
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <label htmlFor="lastWorkingDate" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="lastWorkingDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Last Working Date <span className="text-cg-error ml-0.5">*</span>
                   </label>
                   <input
@@ -55,11 +55,11 @@ export function ResignationPage() {
                     type="date"
                     value={formData.lastWorkingDate}
                     onChange={(e) => setFormData((p) => ({ ...p, lastWorkingDate: e.target.value }))}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label htmlFor="reason" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="reason" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Reason <span className="text-cg-error ml-0.5">*</span>
                   </label>
                   <textarea
@@ -68,18 +68,18 @@ export function ResignationPage() {
                     onChange={(e) => setFormData((p) => ({ ...p, reason: e.target.value }))}
                     rows={3}
                     placeholder="Please provide your reason for resignation..."
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label htmlFor="handoverNotes" className="block text-sm font-medium text-gray-700">Handover Notes</label>
+                  <label htmlFor="handoverNotes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Handover Notes</label>
                   <textarea
                     id="handoverNotes"
                     value={formData.handoverNotes}
                     onChange={(e) => setFormData((p) => ({ ...p, handoverNotes: e.target.value }))}
                     rows={3}
                     placeholder="Notes about knowledge transfer and pending tasks..."
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
                   />
                 </div>
               </div>
@@ -94,9 +94,9 @@ export function ResignationPage() {
         ) : (
           <Card>
             <CardContent className="py-16 text-center">
-              <FileX className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <FileX className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
               <h2 className="text-lg font-semibold text-cg-dark mb-2">{t('noResignation')}</h2>
-              <p className="text-gray-500 mb-4">{t('noResignationDesc')}</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">{t('noResignationDesc')}</p>
               <Button onClick={() => setShowForm(true)}>{t('startResignation')}</Button>
             </CardContent>
           </Card>
@@ -109,7 +109,7 @@ export function ResignationPage() {
     <>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
-        <p className="text-gray-500 mt-1">{t('subtitle')}</p>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
@@ -120,16 +120,16 @@ export function ResignationPage() {
             <CardHeader><CardTitle>{t('resignationDetails')}</CardTitle></CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                <div><span className="text-gray-400">{t('resignationDate')}</span><p className="font-medium">{record.resignationDate}</p></div>
-                <div><span className="text-gray-400">{t('lastWorkingDate')}</span><p className="font-medium">{record.lastWorkingDate}</p></div>
-                <div><span className="text-gray-400">{t('reasonType')}</span><p className="font-medium capitalize">{record.reasonType}</p></div>
-                <div><span className="text-gray-400">{t('noticePeriod')}</span><p className="font-medium">{record.noticePeriod} {t('days')}</p></div>
-                <div><span className="text-gray-400">{t('status')}</span><Badge variant={record.status === 'completed' ? 'success' : 'warning'}>{record.status}</Badge></div>
-                <div><span className="text-gray-400">{t('exitInterview')}</span><p className="font-medium">{record.exitInterviewDate || t('notScheduled')}</p></div>
+                <div><span className="text-gray-400 dark:text-gray-500">{t('resignationDate')}</span><p className="font-medium">{record.resignationDate}</p></div>
+                <div><span className="text-gray-400 dark:text-gray-500">{t('lastWorkingDate')}</span><p className="font-medium">{record.lastWorkingDate}</p></div>
+                <div><span className="text-gray-400 dark:text-gray-500">{t('reasonType')}</span><p className="font-medium capitalize">{record.reasonType}</p></div>
+                <div><span className="text-gray-400 dark:text-gray-500">{t('noticePeriod')}</span><p className="font-medium">{record.noticePeriod} {t('days')}</p></div>
+                <div><span className="text-gray-400 dark:text-gray-500">{t('status')}</span><Badge variant={record.status === 'completed' ? 'success' : 'warning'}>{record.status}</Badge></div>
+                <div><span className="text-gray-400 dark:text-gray-500">{t('exitInterview')}</span><p className="font-medium">{record.exitInterviewDate || t('notScheduled')}</p></div>
               </div>
               {record.reasonDetails && (
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600">{record.reasonDetails}</p>
+                <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{record.reasonDetails}</p>
                 </div>
               )}
             </CardContent>
@@ -137,17 +137,17 @@ export function ResignationPage() {
 
           {/* Status timeline */}
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-5 sm:p-6 lg:p-8">
               <div className="flex items-center justify-between">
                 {['submitted', 'in_progress', 'completed'].map((step, i) => (
                   <div key={step} className="flex items-center flex-1">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                      ['submitted', 'in_progress', 'completed'].indexOf(record.status) >= i ? 'bg-cg-red text-white' : 'bg-gray-200 text-gray-500'
+                      ['submitted', 'in_progress', 'completed'].indexOf(record.status) >= i ? 'bg-cg-red text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                     }`}>
                       {i + 1}
                     </div>
                     <span className="text-xs ml-2 capitalize">{step.replace('_', ' ')}</span>
-                    {i < 2 && <div className={`flex-1 h-0.5 mx-2 ${['submitted', 'in_progress', 'completed'].indexOf(record.status) > i ? 'bg-cg-red' : 'bg-gray-200'}`} />}
+                    {i < 2 && <div className={`flex-1 h-0.5 mx-2 ${['submitted', 'in_progress', 'completed'].indexOf(record.status) > i ? 'bg-cg-red' : 'bg-gray-200 dark:bg-gray-700'}`} />}
                   </div>
                 ))}
               </div>
@@ -163,15 +163,15 @@ export function ResignationPage() {
               <CardTitle>{t('clearanceProgress')}</CardTitle>
               <span className="text-sm font-bold text-cg-dark">{clearanceProgress}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
               <div className="bg-cg-red h-2.5 rounded-full transition-all" style={{ width: `${clearanceProgress}%` }} />
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {record.clearanceItems.map((item) => (
-                <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  {item.status === 'completed' ? <CheckCircle className="h-5 w-5 text-green-500" /> : item.status === 'in_progress' ? <Clock className="h-5 w-5 text-yellow-500" /> : <Circle className="h-5 w-5 text-gray-300" />}
+                <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                  {item.status === 'completed' ? <CheckCircle className="h-5 w-5 text-green-500" /> : item.status === 'in_progress' ? <Clock className="h-5 w-5 text-yellow-500" /> : <Circle className="h-5 w-5 text-gray-300 dark:text-gray-600" />}
                   <div className="flex-1">
                     <p className="text-sm font-medium">{item.title}</p>
                     <p className="text-xs text-gray-500">{t('responsibleParty')}: {item.responsibleParty}</p>

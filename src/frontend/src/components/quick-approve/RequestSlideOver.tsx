@@ -30,7 +30,7 @@ function ApprovalTimeline({ steps }: { steps: ApprovalStep[] }) {
   return (
     <div className="space-y-3">
       <h4 className="text-sm font-medium text-cg-dark">{t('slideOver.approvalTimeline')}</h4>
-      <ol className="relative border-l border-gray-200 ml-3">
+      <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-3">
         {steps.map((step) => (
           <li key={step.step} className="mb-4 ml-4">
             <div
@@ -58,11 +58,11 @@ function ApprovalTimeline({ steps }: { steps: ApprovalStep[] }) {
               </Badge>
             </div>
             {step.date && (
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                 {new Date(step.date).toLocaleDateString()}
               </p>
             )}
-            {step.comment && <p className="text-xs text-gray-500 mt-1">{step.comment}</p>}
+            {step.comment && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{step.comment}</p>}
           </li>
         ))}
       </ol>
@@ -126,7 +126,7 @@ function DetailSection({ request }: { request: PendingRequest }) {
           (f) =>
             f.value !== undefined && (
               <div key={f.label}>
-                <dt className="text-gray-500">{f.label}</dt>
+                <dt className="text-gray-500 dark:text-gray-400">{f.label}</dt>
                 <dd className="font-medium text-cg-dark">{String(f.value)}</dd>
               </div>
             )
@@ -159,7 +159,7 @@ export function RequestSlideOver({
       {/* Panel */}
       <div
         className={cn(
-          'fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] bg-white shadow-xl transform transition-transform duration-300 flex flex-col',
+          'fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] bg-white dark:bg-gray-800 shadow-xl transform transition-transform duration-300 flex flex-col',
           open ? 'translate-x-0' : 'translate-x-full'
         )}
         role="dialog"
@@ -169,24 +169,24 @@ export function RequestSlideOver({
         {request && (
           <>
             {/* Header */}
-            <div className="flex items-center justify-between border-b px-6 py-4">
+            <div className="flex items-center justify-between border-b dark:border-gray-700 px-6 py-4">
               <div className="flex items-center gap-3">
-                <span className="text-gray-600">{typeIcons[request.type] ?? <ClipboardList className="h-5 w-5" />}</span>
+                <span className="text-gray-600 dark:text-gray-400">{typeIcons[request.type] ?? <ClipboardList className="h-5 w-5" />}</span>
                 <div>
                   <h2 className="text-lg font-semibold text-cg-dark">
                     {request.requester.name}
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     {request.requester.position} &middot; {request.requester.department}
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="rounded-lg p-1.5 hover:bg-gray-100 transition-colors"
+                className="rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 aria-label={t('slideOver.close')}
               >
-                <X className="h-5 w-5 text-gray-400" />
+                <X className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </button>
             </div>
 
@@ -196,13 +196,13 @@ export function RequestSlideOver({
               <div className="flex items-center gap-3 flex-wrap">
                 <UrgencyBadge urgency={request.urgency} />
                 <Badge variant="info">{request.type}</Badge>
-                <span className="text-xs text-gray-400 flex items-center gap-1">
+                <span className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1">
                   <Clock className="h-3 w-3" />
                   {new Date(request.submittedAt).toLocaleDateString()}
                 </span>
               </div>
 
-              <p className="text-sm text-gray-700">{request.description}</p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">{request.description}</p>
 
               <DetailSection request={request} />
 
@@ -212,7 +212,7 @@ export function RequestSlideOver({
             </div>
 
             {/* Footer */}
-            <div className="border-t px-6 py-4 flex items-center gap-3">
+            <div className="border-t dark:border-gray-700 px-6 py-4 flex items-center gap-3">
               <Button
                 className="flex-1 bg-green-600 hover:bg-green-700 focus-visible:ring-green-600"
                 onClick={() => onApprove(request.id)}

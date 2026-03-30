@@ -17,7 +17,7 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="bg-white rounded-xl border p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6">
           <Skeleton className="h-6 w-40 mb-4" />
           <Skeleton className="h-40 w-full" />
         </div>
@@ -38,34 +38,34 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
 
   // Determine 9-Box badge color
   const nineBoxColor: Record<string, string> = {
-    Star: 'bg-green-100 text-green-800',
-    'Future Star': 'bg-blue-100 text-blue-800',
-    'Consistent Star': 'bg-green-100 text-green-800',
-    'High Potential': 'bg-blue-100 text-blue-800',
-    'Core Player': 'bg-yellow-100 text-yellow-800',
-    'Trusted Professional': 'bg-blue-100 text-blue-800',
+    Star: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    'Future Star': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+    'Consistent Star': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    'High Potential': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+    'Core Player': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+    'Trusted Professional': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
   };
 
   return (
     <div className="space-y-6">
       {/* Overall Rating */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border p-6 text-center">
-          <p className="text-xs text-gray-400 uppercase tracking-wider">{t('scorecard.overallRating')}</p>
+        <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
+          <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('scorecard.overallRating')}</p>
           <p className="text-2xl font-bold text-cg-red mt-2">{overallRating || '-'}</p>
         </div>
-        <div className="bg-white rounded-xl border p-6 text-center">
-          <p className="text-xs text-gray-400 uppercase tracking-wider">{t('scorecard.potentialRating')}</p>
+        <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
+          <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('scorecard.potentialRating')}</p>
           <p className="text-2xl font-bold text-cg-info mt-2">{potentialRating || '-'}</p>
         </div>
-        <div className="bg-white rounded-xl border p-6 text-center">
-          <p className="text-xs text-gray-400 uppercase tracking-wider">9-Box Position</p>
+        <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
+          <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">9-Box Position</p>
           {nineBoxPosition ? (
-            <span className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold ${nineBoxColor[nineBoxPosition] || 'bg-gray-100 text-gray-800'}`}>
+            <span className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold ${nineBoxColor[nineBoxPosition] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}>
               {nineBoxPosition}
             </span>
           ) : (
-            <p className="text-2xl font-bold text-gray-300 mt-2">-</p>
+            <p className="text-2xl font-bold text-gray-300 dark:text-gray-600 mt-2">-</p>
           )}
         </div>
       </div>
@@ -73,7 +73,7 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
       {/* CG Competencies */}
       <SectionCard title={t('scorecard.cgCompetency')} icon={<BarChart3 className="h-5 w-5" />}>
         {competencies.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-8">{t('scorecard.noCompetencies')}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">{t('scorecard.noCompetencies')}</p>
         ) : (
           <div className="space-y-4">
             {competencies.map((comp, i) => {
@@ -82,10 +82,10 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
               return (
                 <div key={i}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-gray-700">{comp.name as string}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{comp.name as string}</span>
                     <span className="text-sm font-bold text-cg-dark">{rating}/{maxRating}</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
                     <div
                       className="bg-cg-red h-2.5 rounded-full transition-all"
                       style={{ width: `${pct}%` }}
@@ -101,21 +101,21 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
       {/* Assessment History */}
       <SectionCard title="Assessment History" icon={<History className="h-5 w-5" />}>
         {assessmentHistory.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-8">No assessment history available</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">No assessment history available</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 px-2 text-xs font-medium text-gray-400 uppercase">Period</th>
-                  <th className="text-center py-2 px-2 text-xs font-medium text-gray-400 uppercase">Rating</th>
-                  <th className="text-center py-2 px-2 text-xs font-medium text-gray-400 uppercase">Potential</th>
-                  <th className="text-left py-2 px-2 text-xs font-medium text-gray-400 uppercase">Status</th>
+                <tr className="border-b dark:border-gray-700">
+                  <th className="text-left py-2 px-2 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase">Period</th>
+                  <th className="text-center py-2 px-2 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase">Rating</th>
+                  <th className="text-center py-2 px-2 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase">Potential</th>
+                  <th className="text-left py-2 px-2 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {assessmentHistory.map((h, i) => (
-                  <tr key={i} className="border-b last:border-0">
+                  <tr key={i} className="border-b dark:border-gray-700 last:border-0">
                     <td className="py-2 px-2 font-medium">{h.period as string}</td>
                     <td className="py-2 px-2 text-center">{h.rating as string}</td>
                     <td className="py-2 px-2 text-center">{h.potential as string}</td>

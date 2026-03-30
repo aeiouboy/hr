@@ -17,16 +17,16 @@ export function PageLayout({ children, module }: PageLayoutProps) {
 
   if (module && !canAccessModule(roles, module)) {
     return (
-      <div className="min-h-screen bg-cg-light">
+      <div className="min-h-screen bg-surface-secondary dark:bg-gray-950">
         <Header />
         <MobileMenu />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-4 sm:p-6">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
             <div className="max-w-lg mx-auto mt-20 text-center">
-              <ShieldOff className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h1 className="text-xl font-semibold text-cg-dark mb-2">Access Denied</h1>
-              <p className="text-gray-500">You do not have permission to access this module.</p>
+              <ShieldOff className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <h1 className="text-xl font-semibold text-cg-dark dark:text-gray-100 mb-2">Access Denied</h1>
+              <p className="text-gray-500 dark:text-gray-400">You do not have permission to access this module.</p>
             </div>
           </main>
         </div>
@@ -35,13 +35,13 @@ export function PageLayout({ children, module }: PageLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-surface-secondary dark:bg-gray-950">
       <Header />
       <MobileMenu />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="max-w-7xl mx-auto">{children}</div>
+        <main className="flex-1 px-4 sm:px-8 lg:px-12 pt-6 sm:pt-8 lg:pt-10 pb-8 min-w-0">
+          {children}
         </main>
       </div>
     </div>

@@ -40,19 +40,19 @@ function SummaryCard({ label, count, icon, colorClass, badgeVariant, active, onC
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left transition-all rounded-xl border shadow-sm bg-white hover:shadow-md ${
-        active ? 'ring-2 ring-cg-red ring-offset-1' : ''
+      className={`w-full text-left transition-all rounded-xl border bg-white hover:shadow-sm ${
+        active ? 'ring-2 ring-cg-red ring-offset-1 shadow-sm' : ''
       }`}
     >
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-3">
-          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass}`}>
+      <div className="px-4 py-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${colorClass}`}>
             {icon}
           </div>
           <Badge variant={badgeVariant}>{count}</Badge>
         </div>
         <p className="text-sm font-medium text-cg-dark">{label}</p>
-      </CardContent>
+      </div>
     </button>
   );
 }
@@ -75,6 +75,7 @@ export default function WorkflowsPage() {
     const typeLabels: Record<string, string> = {
       leave: 'Leave Request',
       overtime: 'Overtime Request',
+      time_correction: 'Time Correction Request',
       payroll_change: 'Expense Request',
       personal_info: 'Change Request',
     };
@@ -198,7 +199,7 @@ export default function WorkflowsPage() {
             </div>
 
             {/* Summary cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
               {summaryCards.map((card) => (
                 <SummaryCard
                   key={card.key}
@@ -258,6 +259,7 @@ export default function WorkflowsPage() {
               { value: 'leave', label: 'Leave' },
               { value: 'payroll_change', label: 'Expense' },
               { value: 'overtime', label: 'Overtime' },
+              { value: 'time_correction', label: 'Time Correction' },
               { value: 'personal_info', label: 'Change Request' },
             ]}
           />

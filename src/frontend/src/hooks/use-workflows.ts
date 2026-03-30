@@ -2,7 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-export type WorkflowType = 'leave' | 'transfer' | 'personal_info' | 'payroll_change' | 'resignation' | 'overtime';
+export type WorkflowType =
+  | 'leave'
+  | 'transfer'
+  | 'personal_info'
+  | 'payroll_change'
+  | 'resignation'
+  | 'overtime'
+  | 'time_correction';
 export type WorkflowStatus = 'pending' | 'approved' | 'rejected' | 'sent_back';
 export type WorkflowUrgency = 'low' | 'normal' | 'high' | 'critical';
 
@@ -32,6 +39,36 @@ export interface WorkflowItem {
   steps: WorkflowStep[];
   details?: Record<string, string>;
   changes?: { field: string; oldValue: string; newValue: string }[];
+}
+
+function buildDefaultWorkflowSteps(type: WorkflowType, hasDocument = false): WorkflowStep[] {
+  switch (type) {
+    case 'leave':
+      return [
+        { step: 1, approverName: 'Rungrote Amnuaysopon', approverId: 'MGR001', status: 'pending' },
+        {
+          step: 2,
+          approverName: hasDocument ? 'Anchalee Thammarat' : 'Kamolwan Srisuk',
+          approverId: hasDocument ? 'HRBP001' : 'HR001',
+          status: 'pending',
+        },
+      ];
+    case 'overtime':
+      return [
+        { step: 1, approverName: 'Rungrote Amnuaysopon', approverId: 'MGR001', status: 'pending' },
+        { step: 2, approverName: 'Kamolwan Srisuk', approverId: 'HR001', status: 'pending' },
+      ];
+    case 'time_correction':
+      return [{ step: 1, approverName: 'Rungrote Amnuaysopon', approverId: 'MGR001', status: 'pending' }];
+    case 'transfer':
+      return [
+        { step: 1, approverName: 'Rungrote Amnuaysopon', approverId: 'MGR001', status: 'pending' },
+        { step: 2, approverName: 'Kamolwan Srisuk', approverId: 'HR001', status: 'pending' },
+        { step: 3, approverName: 'Thanaporn Kittisak', approverId: 'HRMGR001', status: 'pending' },
+      ];
+    default:
+      return [{ step: 1, approverName: 'Kamolwan Srisuk', approverId: 'HR001', status: 'pending' }];
+  }
 }
 
 const MOCK_WORKFLOWS: WorkflowItem[] = [
@@ -258,6 +295,23 @@ const MOCK_WORKFLOWS: WorkflowItem[] = [
     ],
     details: { bank: 'Kasikorn Bank', reason: 'Bank account closed by bank' },
   },
+  {
+    id: 'WF-009',
+    type: 'time_correction',
+    typeLabel: 'Time Correction Request',
+    requesterName: 'Kittipong Siriphan',
+    requesterId: 'EMP009',
+    department: 'Retail Operations',
+    description: 'Missing check-in correction for Mar 3, 2026',
+    submittedDate: '2026-03-04T11:20:00Z',
+    effectiveDate: '2026-03-03',
+    urgency: 'normal',
+    status: 'pending',
+    currentStep: 1,
+    totalSteps: 1,
+    steps: [{ step: 1, approverName: 'Rungrote Amnuaysopon', approverId: 'MGR001', status: 'pending' }],
+    details: { date: '2026-03-03', type: 'missing-checkin', correctedTime: '09:00', reason: 'Fingerprint scanner unavailable' },
+  },
 ];
 
 export function useWorkflows() {
@@ -334,7 +388,23 @@ export function useWorkflows() {
 
   const createWorkflow = useCallback(async (item: WorkflowItem) => {
     await new Promise((r) => setTimeout(r, 300));
-    setWorkflows((prev) => [item, ...prev]);
+    const hasDocument = item.type === 'leave' && item.details?.hasDocument === 'true';
+    const shouldForceDefault = item.type === 'time_correction' || (item.type === 'leave' && hasDocument);
+    const normalizedSteps =
+      shouldForceDefault
+        ? buildDefaultWorkflowSteps(item.type, hasDocument)
+        : item.steps.length > 0
+          ? item.steps
+          : buildDefaultWorkflowSteps(item.type);
+
+    const workflowToInsert: WorkflowItem = {
+      ...item,
+      steps: normalizedSteps,
+      totalSteps: normalizedSteps.length,
+      currentStep: Math.min(Math.max(item.currentStep, 1), normalizedSteps.length),
+    };
+
+    setWorkflows((prev) => [workflowToInsert, ...prev]);
   }, []);
 
   const pending = workflows.filter((w) => w.status === 'pending');

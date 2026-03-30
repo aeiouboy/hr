@@ -131,3 +131,4 @@ ADW outputs are saved to `agents/{adw_id}/` with raw JSONL, parsed JSON, and sum
 - i18n keys follow dot notation: `nav.home`, `profile.personalInfo`, `common.save`
 - Thai Buddhist Era dates: use `apps/js/utils/date.js` helpers
 - Sensitive fields (bank accounts, national IDs) use `apps/js/utils/mask.js`
+- All implememnt task must follow same code pattern

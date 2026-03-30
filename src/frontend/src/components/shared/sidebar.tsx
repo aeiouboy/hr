@@ -14,6 +14,7 @@ import {
   Calculator,
   BarChart3,
   Users,
+  Database,
   Building,
   TrendingUp,
   BookOpen,
@@ -74,6 +75,8 @@ export function Sidebar() {
 
   const managerItems: MenuItem[] = [
     { href: '/manager-dashboard', label: t('managerDashboard.title'), icon: <Users className="h-5 w-5" />, module: 'manager-dashboard' },
+    { href: '/spd-management', label: t('spd.title'), icon: <Database className="h-5 w-5" />, module: 'spd-management' },
+    { href: '/hrbp-reports', label: t('hrbpReports.title'), icon: <BarChart3 className="h-5 w-5" />, module: 'hrbp-reports' },
     { href: '/quick-approve', label: 'Quick Approve', icon: <CheckSquare className="h-5 w-5" />, module: 'quick-approve' },
     { href: '/org-chart', label: t('orgChart.title'), icon: <Building className="h-5 w-5" />, module: 'org-chart' },
     { href: '/talent-management', label: t('talent.title'), icon: <TrendingUp className="h-5 w-5" />, module: 'talent-management' },
@@ -91,7 +94,7 @@ export function Sidebar() {
     return (
       <div className="mb-4">
         {sidebarOpen && (
-          <h3 className="px-4 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          <h3 className="px-4 mb-1 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
             {title}
           </h3>
         )}
@@ -106,7 +109,7 @@ export function Sidebar() {
                     'flex items-center gap-3 px-4 py-2.5 rounded-lg transition text-sm',
                     isActive
                       ? 'bg-cg-red/10 text-cg-red font-medium'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                   )}
                   title={!sidebarOpen ? item.label : undefined}
                 >
@@ -124,7 +127,7 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'hidden lg:flex flex-col bg-white border-r h-[calc(100vh-56px)] sticky top-14 transition-all duration-200',
+        'hidden lg:flex flex-col bg-white dark:bg-gray-900 border-r dark:border-gray-700 h-[calc(100vh-56px)] sticky top-14 transition-all duration-200',
         sidebarOpen ? 'w-60' : 'w-16'
       )}
     >
@@ -136,7 +139,7 @@ export function Sidebar() {
 
       <button
         onClick={toggleSidebar}
-        className="flex items-center justify-center py-3 border-t hover:bg-gray-50 transition"
+        className="flex items-center justify-center py-3 border-t dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
         aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
       >
         {sidebarOpen ? (

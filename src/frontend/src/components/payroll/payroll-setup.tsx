@@ -28,7 +28,7 @@ export function PayrollSetup() {
   if (!canAccessModule(roles, 'payroll-setup')) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">{t('common.noData')}</p>
+        <p className="text-gray-500 dark:text-gray-400">{t('common.noData')}</p>
       </div>
     );
   }
@@ -118,7 +118,7 @@ export function PayrollSetup() {
               onChange={setPfRate}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
             {t('payrollSetup.ssoMaxBase')}: {config.ssoMaxBase.toLocaleString()} THB
           </p>
         </CardContent>
@@ -134,18 +134,18 @@ export function PayrollSetup() {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-500 mb-3">{t('payrollSetup.thaiPIT2026')}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('payrollSetup.thaiPIT2026')}</p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 px-3 font-medium text-gray-500">{t('payrollSetup.incomeRange')}</th>
-                  <th className="text-right py-2 px-3 font-medium text-gray-500">{t('payrollSetup.taxRate')}</th>
+                <tr className="border-b dark:border-gray-700">
+                  <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('payrollSetup.incomeRange')}</th>
+                  <th className="text-right py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('payrollSetup.taxRate')}</th>
                 </tr>
               </thead>
               <tbody>
                 {taxBrackets.map((b, i) => (
-                  <tr key={i} className="border-b last:border-0">
+                  <tr key={i} className="border-b dark:border-gray-700 last:border-0">
                     <td className="py-2 px-3">
                       {b.min.toLocaleString()} — {b.max ? b.max.toLocaleString() : '∞'} THB
                     </td>
@@ -171,7 +171,7 @@ export function PayrollSetup() {
             <Badge variant={config.bankTransferEnabled ? 'success' : 'neutral'}>
               {config.bankTransferEnabled ? t('payrollSetup.enabled') : t('payrollSetup.disabled')}
             </Badge>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {t('payrollSetup.defaultBank')}: {config.defaultBank}
             </span>
           </div>

@@ -11,12 +11,21 @@ import { Tabs } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form-field';
+import { GeofencingConfig } from '@/components/settings/geofencing-config';
+import { WorkflowConfig } from '@/components/settings/workflow-config';
 import { useSettings } from '@/hooks/use-settings';
 import { useAuthStore } from '@/stores/auth-store';
 import { isHR } from '@/lib/rbac';
 import type { GeneralSettings, CompanySettings, NotificationSettings } from '@/hooks/use-settings';
 
-type TabKey = 'general' | 'company' | 'leavePolicy' | 'payroll' | 'notifications';
+type TabKey =
+  | 'general'
+  | 'company'
+  | 'leavePolicy'
+  | 'payroll'
+  | 'notifications'
+  | 'geofencing'
+  | 'workflowConfig';
 
 interface SaveState {
   saving: boolean;
@@ -48,6 +57,8 @@ export default function SettingsPage() {
     ...(hrUser ? [{ key: 'company', label: t('company') }] : []),
     ...(hrUser ? [{ key: 'leavePolicy', label: t('leavePolicy') }] : []),
     ...(hrUser ? [{ key: 'payroll', label: t('payroll') }] : []),
+    ...(hrUser ? [{ key: 'geofencing', label: t('geofencing') }] : []),
+    ...(hrUser ? [{ key: 'workflowConfig', label: t('workflowConfig') }] : []),
     { key: 'notifications', label: t('notifications') },
   ];
 
@@ -437,6 +448,18 @@ export default function SettingsPage() {
     </div>
   );
 
+  const renderGeofencingTab = () => (
+    <div className="space-y-6">
+      <GeofencingConfig />
+    </div>
+  );
+
+  const renderWorkflowConfigTab = () => (
+    <div className="space-y-6">
+      <WorkflowConfig />
+    </div>
+  );
+
   const renderTabContent = () => {
     if (loading) {
       return (
@@ -457,6 +480,10 @@ export default function SettingsPage() {
         return hrUser ? renderLeavePolicyTab() : null;
       case 'payroll':
         return hrUser ? renderPayrollTab() : null;
+      case 'geofencing':
+        return hrUser ? renderGeofencingTab() : null;
+      case 'workflowConfig':
+        return hrUser ? renderWorkflowConfigTab() : null;
       case 'notifications':
         return renderNotificationsTab();
       default:
@@ -470,7 +497,7 @@ export default function SettingsPage() {
       <MobileMenu />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-4 md:p-6">
+        <main className="flex-1 p-4 sm:p-6">
           <div className="max-w-4xl mx-auto">
             {/* Page header */}
             <div className="mb-6">

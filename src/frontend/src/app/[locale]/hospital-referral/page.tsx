@@ -28,6 +28,7 @@ export default function HospitalReferralPage() {
   const {
     referrals,
     hospitals,
+    provinces,
     loading,
     submitting,
     createReferral,
@@ -79,6 +80,7 @@ export default function HospitalReferralPage() {
         return (
           <ReferralRequestForm
             hospitals={hospitals}
+            provinces={provinces}
             submitting={submitting}
             onSubmit={handleSubmitReferral}
             onCancel={() => setActiveTab('myReferrals')}

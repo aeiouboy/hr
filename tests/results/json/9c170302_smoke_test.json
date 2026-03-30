@@ -1,0 +1,28 @@
+{
+  "test_name": "RIS HR System Smoke Test",
+  "status": "failed",
+  "timestamp": "2026-01-10T15:18:00+07:00",
+  "adw_id": "9c170302",
+  "agent_name": "test_e2e",
+  "application_url": "http://localhost:8080",
+  "screenshots": [
+    "/Users/tachongrak/Projects/RIS HR System/agents/9c170302/test_e2e/img/smoke_test/01_home_page.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/9c170302/test_e2e/img/smoke_test/02_employee_profile.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/9c170302/test_e2e/img/smoke_test/03_employment_tab.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/9c170302/test_e2e/img/smoke_test/04_compensation_tab.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/9c170302/test_e2e/img/smoke_test/05_thai_language.png"
+  ],
+  "steps_executed": [
+    { "step": 1, "name": "Navigate to Home Page", "status": "passed" },
+    { "step": 2, "name": "Verify header elements (logo, navigation, search, notifications, language toggle, user menu)", "status": "passed" },
+    { "step": 3, "name": "Navigate to Employee Profile EMP001", "status": "passed" },
+    { "step": 4, "name": "Verify employee header (name, title, ID, company, location, stats)", "status": "passed" },
+    { "step": 5, "name": "Verify tab navigation (6 tabs present)", "status": "passed" },
+    { "step": 6, "name": "Click Employment tab", "status": "failed", "error": "JavaScript error: i18n.getCurrentLanguage is not a function at employment.js:180" },
+    { "step": 7, "name": "Click Compensation tab", "status": "passed" },
+    { "step": 8, "name": "Test language switching (EN to TH)", "status": "passed" },
+    { "step": 9, "name": "Verify Thai translations applied", "status": "passed" },
+    { "step": 10, "name": "Check JavaScript console for errors", "status": "failed", "error": "1 error found" }
+  ],
+  "error": "JavaScript error in employment.js:180 - TypeError: i18n.getCurrentLanguage is not a function. The renderRelationshipCard function calls i18n.getCurrentLanguage() but this method does not exist in the i18n module."
+}

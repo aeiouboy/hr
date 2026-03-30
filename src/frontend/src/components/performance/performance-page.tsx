@@ -52,7 +52,7 @@ export function PerformancePage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
-          <p className="text-gray-500 mt-1">{t('weightCurrentTotal')}: {totalWeight}% / 100%</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">{t('weightCurrentTotal')}: {totalWeight}% / 100%</p>
         </div>
         <Button onClick={() => setShowCreateModal(true)} className="mt-4 sm:mt-0">
           <Plus className="h-4 w-4 mr-2" />{t('createGoal')}
@@ -64,11 +64,11 @@ export function PerformancePage() {
       {activeTab === 'goals' && (
         <div className="space-y-4">
           {goals.length === 0 ? (
-            <Card><CardContent className="py-12 text-center text-gray-500">{t('noGoals')}</CardContent></Card>
+            <Card><CardContent className="py-12 text-center text-gray-500 dark:text-gray-400">{t('noGoals')}</CardContent></Card>
           ) : (
             goals.map((goal) => (
               <Card key={goal.id}>
-                <CardContent className="p-6">
+                <CardContent className="p-5 sm:p-6 lg:p-8">
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -76,14 +76,14 @@ export function PerformancePage() {
                         <Badge variant={STATUS_VARIANT[goal.status]}>{t(`status${goal.status.split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}` as never)}</Badge>
                         <Badge variant="neutral">{t(`category${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)}` as never)}</Badge>
                       </div>
-                      <p className="text-sm text-gray-500 mb-3">{goal.descriptionEn}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{goal.descriptionEn}</p>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-                        <div><span className="text-gray-400">{t('weight')}</span><p className="font-medium">{goal.weight}%</p></div>
-                        <div><span className="text-gray-400">{t('target')}</span><p className="font-medium">{goal.targetValue}</p></div>
-                        <div><span className="text-gray-400">{t('actual')}</span><p className="font-medium">{goal.actualValue}</p></div>
-                        <div><span className="text-gray-400">{t('progress')}</span><p className="font-medium">{goal.targetValue > 0 ? Math.round((goal.actualValue / goal.targetValue) * 100) : 0}%</p></div>
+                        <div><span className="text-gray-400 dark:text-gray-500">{t('weight')}</span><p className="font-medium">{goal.weight}%</p></div>
+                        <div><span className="text-gray-400 dark:text-gray-500">{t('target')}</span><p className="font-medium">{goal.targetValue}</p></div>
+                        <div><span className="text-gray-400 dark:text-gray-500">{t('actual')}</span><p className="font-medium">{goal.actualValue}</p></div>
+                        <div><span className="text-gray-400 dark:text-gray-500">{t('progress')}</span><p className="font-medium">{goal.targetValue > 0 ? Math.round((goal.actualValue / goal.targetValue) * 100) : 0}%</p></div>
                       </div>
-                      <div className="mt-3 w-full bg-gray-200 rounded-full h-2">
+                      <div className="mt-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                         <div className="bg-cg-red h-2 rounded-full transition-all" style={{ width: `${Math.min(100, goal.targetValue > 0 ? (goal.actualValue / goal.targetValue) * 100 : 0)}%` }} />
                       </div>
                     </div>
@@ -107,7 +107,7 @@ export function PerformancePage() {
         <div className="space-y-4">
           {evaluations.map((eval_) => (
             <Card key={eval_.id}>
-              <CardContent className="p-6">
+              <CardContent className="p-5 sm:p-6 lg:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <h3 className="font-semibold text-cg-dark">{eval_.period} {eval_.year}</h3>
@@ -117,12 +117,12 @@ export function PerformancePage() {
                   </div>
                   {eval_.finalRating && (
                     <div className="text-center">
-                      <p className="text-xs text-gray-400">{tEval('rating.finalRating')}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{tEval('rating.finalRating')}</p>
                       <p className="text-2xl font-bold text-cg-red">{eval_.finalRating}</p>
                     </div>
                   )}
                 </div>
-                <p className="text-sm text-gray-500">{tEval(`statusDescription.${eval_.status}` as never)}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{tEval(`statusDescription.${eval_.status}` as never)}</p>
               </CardContent>
             </Card>
           ))}
@@ -162,7 +162,7 @@ export function PerformancePage() {
             },
           ].map((review, idx) => (
             <Card key={idx}>
-              <CardContent className="p-6">
+              <CardContent className="p-5 sm:p-6 lg:p-8">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
@@ -171,8 +171,8 @@ export function PerformancePage() {
                         {review.rating.toFixed(1)} / 5.0
                       </Badge>
                     </div>
-                    <p className="text-sm text-gray-500 mb-2">{review.summary}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{review.summary}</p>
+                    <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
                       <span>Reviewer: {review.reviewer}</span>
                       <span>Date: {review.date}</span>
                     </div>

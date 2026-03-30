@@ -55,7 +55,7 @@ test.describe('Accessibility', () => {
     const liveRegion = page.locator(
       '[aria-live], [role="alert"], [role="status"]',
     ).first();
-    if (await liveRegion.isAttached({ timeout: 3000 }).catch(() => false)) {
+    if ((await liveRegion.count()) > 0) {
       await expect(liveRegion).toBeAttached();
     }
   });

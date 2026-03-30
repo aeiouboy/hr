@@ -180,5 +180,561 @@
       "is_interrupt": false,
       "logged_at": "2026-02-22T22:20:03.274542"
     }
+  },
+  {
+    "timestamp": "2026-02-22T22:47:28.792663",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01NrwTNQEBNA3Jqm75EZ97U2",
+    "tool_input": {
+      "command": "npx playwright test 2>&1",
+      "timeout": 300000,
+      "description": "Run Playwright E2E tests"
+    },
+    "error": "Exit code 1\n\u001b[2m[WebServer] \u001b[22m\u001b[33m\u001b[1m\u26a0\u001b[22m\u001b[39m Warning: Next.js inferred your workspace root, but it may not be correct.\n\u001b[2m[WebServer] \u001b[22m We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n\u001b[2m[WebServer] \u001b[22m To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n\u001b[2m[WebServer] \u001b[22m   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n\u001b[2m[WebServer] \u001b[22m Detected additional lockfiles: \n\u001b[2m[WebServer] \u001b[22m   * /Users/tachongrak/Projects/hr/package-lock.json\n\u001b[2m[WebServer] \u001b[22m\nError: Timed out waiting 120000ms from config.webServer.\n\n\n\u001b[2m[WebServer] \u001b[22m\u001b[33m\u001b[1m\u26a0\u001b[22m\u001b[39m Warning: Next.js inferred your workspace root, but it may not be correct.\n\u001b[2m[WebServer] \u001b[22m We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n\u001b[2m[WebServer] \u001b[22m To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n\u001b[2m[WebServer] \u001b[22m   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n\u001b[2m[WebServer] \u001b[22m Detected additional lockfiles: \n\u001b[2m[WebServer] \u001b[22m   * /Users/tachongrak/Projects/hr/package-lock.json\n\u001b[2m[WebServer] \u001b[22m\nError: Timed out waiting 120000ms from config.webServer.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "npx playwright test 2>&1",
+        "timeout": 300000,
+        "description": "Run Playwright E2E tests"
+      },
+      "tool_use_id": "toolu_01NrwTNQEBNA3Jqm75EZ97U2",
+      "error": "Exit code 1\n\u001b[2m[WebServer] \u001b[22m\u001b[33m\u001b[1m\u26a0\u001b[22m\u001b[39m Warning: Next.js inferred your workspace root, but it may not be correct.\n\u001b[2m[WebServer] \u001b[22m We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n\u001b[2m[WebServer] \u001b[22m To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n\u001b[2m[WebServer] \u001b[22m   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n\u001b[2m[WebServer] \u001b[22m Detected additional lockfiles: \n\u001b[2m[WebServer] \u001b[22m   * /Users/tachongrak/Projects/hr/package-lock.json\n\u001b[2m[WebServer] \u001b[22m\nError: Timed out waiting 120000ms from config.webServer.\n\n\n\u001b[2m[WebServer] \u001b[22m\u001b[33m\u001b[1m\u26a0\u001b[22m\u001b[39m Warning: Next.js inferred your workspace root, but it may not be correct.\n\u001b[2m[WebServer] \u001b[22m We detected multiple lockfiles and selected the directory of /Users/tachongrak/Projects/package-lock.json as the root directory.\n\u001b[2m[WebServer] \u001b[22m To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.\n\u001b[2m[WebServer] \u001b[22m   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.\n\u001b[2m[WebServer] \u001b[22m Detected additional lockfiles: \n\u001b[2m[WebServer] \u001b[22m   * /Users/tachongrak/Projects/hr/package-lock.json\n\u001b[2m[WebServer] \u001b[22m\nError: Timed out waiting 120000ms from config.webServer.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T22:47:28.792663"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T22:47:58.678700",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01SRf9y6xnXjSZpca89MjUSu",
+    "tool_input": {
+      "command": "npx playwright test --reporter=list 2>&1",
+      "timeout": 300000,
+      "description": "Run Playwright E2E tests with existing server"
+    },
+    "error": "Exit code 1\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1\n\n\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "npx playwright test --reporter=list 2>&1",
+        "timeout": 300000,
+        "description": "Run Playwright E2E tests with existing server"
+      },
+      "tool_use_id": "toolu_01SRf9y6xnXjSZpca89MjUSu",
+      "error": "Exit code 1\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1\n\n\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T22:47:58.678700"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T22:48:05.785510",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01RsBCRAE8BXKiEMyvg9tb2x",
+    "tool_input": {
+      "command": "npx playwright test --reporter=list 2>&1",
+      "timeout": 300000,
+      "description": "Run Playwright from frontend directory"
+    },
+    "error": "Exit code 1\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1\n\n\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "npx playwright test --reporter=list 2>&1",
+        "timeout": 300000,
+        "description": "Run Playwright from frontend directory"
+      },
+      "tool_use_id": "toolu_01RsBCRAE8BXKiEMyvg9tb2x",
+      "error": "Exit code 1\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1\n\n\n\u001b[2m[WebServer] \u001b[22m\u001b[31m\u001b[1m\u2a2f\u001b[22m\u001b[39m Failed to start server\n\u001b[2m[WebServer] \u001b[22mError: listen EADDRINUSE: address already in use :::3000\n\u001b[2m[WebServer] \u001b[22m    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)\n\u001b[2m[WebServer] \u001b[22m    at new Promise (<anonymous>) {\n\u001b[2m[WebServer] \u001b[22m  code: \u001b[32m'EADDRINUSE'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  errno: \u001b[33m-48\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  syscall: \u001b[32m'listen'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  address: \u001b[32m'::'\u001b[39m,\n\u001b[2m[WebServer] \u001b[22m  port: \u001b[33m3000\u001b[39m\n\u001b[2m[WebServer] \u001b[22m}\n\u001b[2m[WebServer] \u001b[22mnpm error Lifecycle script `dev` failed with error:\n\u001b[2m[WebServer] \u001b[22mnpm error code 1\n\u001b[2m[WebServer] \u001b[22mnpm error path /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error workspace hrms-frontend@1.0.0\n\u001b[2m[WebServer] \u001b[22mnpm error location /Users/tachongrak/Projects/hr/src/frontend\n\u001b[2m[WebServer] \u001b[22mnpm error command failed\n\u001b[2m[WebServer] \u001b[22mnpm error command sh -c next dev --port 3000\nError: Process from config.webServer was not able to start. Exit code: 1",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T22:48:05.785510"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:00:32.699703",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01HEFnoNj4zKuiKVQ1tJV9Wv",
+    "tool_input": {
+      "command": "cat .playwright-mcp/console-2026-02-22T15-59-50-385Z.log",
+      "description": "Read full console errors"
+    },
+    "error": "Exit code 1\ncat: .playwright-mcp/console-2026-02-22T15-59-50-385Z.log: No such file or directory\n\ncat: .playwright-mcp/console-2026-02-22T15-59-50-385Z.log: No such file or directory",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "cat .playwright-mcp/console-2026-02-22T15-59-50-385Z.log",
+        "description": "Read full console errors"
+      },
+      "tool_use_id": "toolu_01HEFnoNj4zKuiKVQ1tJV9Wv",
+      "error": "Exit code 1\ncat: .playwright-mcp/console-2026-02-22T15-59-50-385Z.log: No such file or directory\n\ncat: .playwright-mcp/console-2026-02-22T15-59-50-385Z.log: No such file or directory",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:00:32.699703"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:02:42.610929",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "mcp__playwright__browser_resize",
+    "tool_use_id": "toolu_01QpVw7DXDviVNchdhbPqYBX",
+    "tool_input": {
+      "width": "1440",
+      "height": "900"
+    },
+    "error": "### Result\n[\n  {\n    \"expected\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"width\"\n    ],\n    \"message\": \"Invalid input: expected number, received string\"\n  },\n  {\n    \"expected\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"height\"\n    ],\n    \"message\": \"Invalid input: expected number, received string\"\n  }\n]",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "mcp__playwright__browser_resize",
+      "tool_input": {
+        "width": "1440",
+        "height": "900"
+      },
+      "tool_use_id": "toolu_01QpVw7DXDviVNchdhbPqYBX",
+      "error": "### Result\n[\n  {\n    \"expected\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"width\"\n    ],\n    \"message\": \"Invalid input: expected number, received string\"\n  },\n  {\n    \"expected\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"height\"\n    ],\n    \"message\": \"Invalid input: expected number, received string\"\n  }\n]",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:02:42.610929"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:06:12.734294",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01DWYWwpMUo4NUgbgzQupvuQ",
+    "tool_input": {
+      "command": "git diff --stat src/frontend/",
+      "description": "Show changed files"
+    },
+    "error": "Exit code 128\nfatal: ambiguous argument 'src/frontend/': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n\nfatal: ambiguous argument 'src/frontend/': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "git diff --stat src/frontend/",
+        "description": "Show changed files"
+      },
+      "tool_use_id": "toolu_01DWYWwpMUo4NUgbgzQupvuQ",
+      "error": "Exit code 128\nfatal: ambiguous argument 'src/frontend/': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n\nfatal: ambiguous argument 'src/frontend/': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:06:12.734294"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:06:32.059909",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01WtHHBBpGMzRaH1Zh6uAwLx",
+    "tool_input": {
+      "command": "git add src/frontend/src/app/api/auth/\\[...nextauth\\]/route.ts src/frontend/src/lib/auth-provider.tsx src/frontend/src/stores/auth-store.ts src/frontend/src/app/layout.tsx \"src/frontend/src/app/[locale]/layout.tsx\" \"src/frontend/src/app/[locale]/page.tsx\"",
+      "description": "Stage only the fix files"
+    },
+    "error": "Exit code 128\nwarning: could not open directory 'src/frontend/src/frontend/src/': No such file or directory\nfatal: pathspec 'src/frontend/src/app/api/auth/[...nextauth]/route.ts' did not match any files\n\nwarning: could not open directory 'src/frontend/src/frontend/src/': No such file or directory\nfatal: pathspec 'src/frontend/src/app/api/auth/[...nextauth]/route.ts' did not match any files",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "git add src/frontend/src/app/api/auth/\\[...nextauth\\]/route.ts src/frontend/src/lib/auth-provider.tsx src/frontend/src/stores/auth-store.ts src/frontend/src/app/layout.tsx \"src/frontend/src/app/[locale]/layout.tsx\" \"src/frontend/src/app/[locale]/page.tsx\"",
+        "description": "Stage only the fix files"
+      },
+      "tool_use_id": "toolu_01WtHHBBpGMzRaH1Zh6uAwLx",
+      "error": "Exit code 128\nwarning: could not open directory 'src/frontend/src/frontend/src/': No such file or directory\nfatal: pathspec 'src/frontend/src/app/api/auth/[...nextauth]/route.ts' did not match any files\n\nwarning: could not open directory 'src/frontend/src/frontend/src/': No such file or directory\nfatal: pathspec 'src/frontend/src/app/api/auth/[...nextauth]/route.ts' did not match any files",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:06:32.059909"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:06:36.840750",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01HmtHmKqpK1rmEbzc3yRU6T",
+    "tool_input": {
+      "command": "pwd && ls src/frontend/src/app/api/auth/ 2>/dev/null",
+      "description": "Check current directory and path"
+    },
+    "error": "Exit code 1\n/Users/tachongrak/Projects/hr/src/frontend\n\n/Users/tachongrak/Projects/hr/src/frontend",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "pwd && ls src/frontend/src/app/api/auth/ 2>/dev/null",
+        "description": "Check current directory and path"
+      },
+      "tool_use_id": "toolu_01HmtHmKqpK1rmEbzc3yRU6T",
+      "error": "Exit code 1\n/Users/tachongrak/Projects/hr/src/frontend\n\n/Users/tachongrak/Projects/hr/src/frontend",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:06:36.840750"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:09:18.975947",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01QFE5QrRQG4koag859boHHQ",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/apps/locales/en.json"
+    },
+    "error": "File content (31636 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/apps/locales/en.json"
+      },
+      "tool_use_id": "toolu_01QFE5QrRQG4koag859boHHQ",
+      "error": "File content (31636 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:09:18.975947"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:09:19.405723",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01C6fzK1R3rx8qbn99E3ueSE",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/apps/locales/th.json"
+    },
+    "error": "File content (58606 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/apps/locales/th.json"
+      },
+      "tool_use_id": "toolu_01C6fzK1R3rx8qbn99E3ueSE",
+      "error": "File content (58606 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:09:19.405723"
+    }
+  },
+  {
+    "timestamp": "2026-02-22T23:17:09.305250",
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01RTMj5WJY7JSyyxJx6mNhg8",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/.claude/plans/twinkly-sniffing-jellyfish.md"
+    },
+    "error": "File does not exist. Note: your current working directory is /Users/tachongrak/Projects/hr/src/frontend.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "raw_input": {
+      "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/.claude/plans/twinkly-sniffing-jellyfish.md"
+      },
+      "tool_use_id": "toolu_01RTMj5WJY7JSyyxJx6mNhg8",
+      "error": "File does not exist. Note: your current working directory is /Users/tachongrak/Projects/hr/src/frontend.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-22T23:17:09.305250"
+    }
+  },
+  {
+    "timestamp": "2026-02-23T13:17:50.251779",
+    "session_id": "5ac4eaa9-4f16-4183-965d-18bdd04af3d2",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "mcp__playwright__browser_click",
+    "tool_use_id": "toolu_01NnuC8T7S2n824LQEVTN12s",
+    "tool_input": {
+      "element": "Leave Balances tab",
+      "ref": "e240"
+    },
+    "error": "### Error\nTimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('aria-ref=e240')\u001b[22m\n\u001b[2m    - locator resolved to <button aria-current=\"page\" class=\"whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors border-cg-red text-cg-red\">Leave Balances</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - performing click action\u001b[22m\n\u001b[2m    - navigated to \"http://localhost:3000/en/payslip\"\u001b[22m",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/5ac4eaa9-4f16-4183-965d-18bdd04af3d2.jsonl",
+    "raw_input": {
+      "session_id": "5ac4eaa9-4f16-4183-965d-18bdd04af3d2",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/5ac4eaa9-4f16-4183-965d-18bdd04af3d2.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "mcp__playwright__browser_click",
+      "tool_input": {
+        "element": "Leave Balances tab",
+        "ref": "e240"
+      },
+      "tool_use_id": "toolu_01NnuC8T7S2n824LQEVTN12s",
+      "error": "### Error\nTimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('aria-ref=e240')\u001b[22m\n\u001b[2m    - locator resolved to <button aria-current=\"page\" class=\"whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors border-cg-red text-cg-red\">Leave Balances</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - performing click action\u001b[22m\n\u001b[2m    - navigated to \"http://localhost:3000/en/payslip\"\u001b[22m",
+      "is_interrupt": false,
+      "logged_at": "2026-02-23T13:17:50.251779"
+    }
+  },
+  {
+    "timestamp": "2026-02-23T13:19:40.659875",
+    "session_id": "5ac4eaa9-4f16-4183-965d-18bdd04af3d2",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "mcp__playwright__browser_click",
+    "tool_use_id": "toolu_01M8HkfX2MYsG2haEry29Mz4",
+    "tool_input": {
+      "element": "Leave Balances tab",
+      "ref": "e240"
+    },
+    "error": "### Error\nTimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('aria-ref=e240')\u001b[22m\n\u001b[2m    - locator resolved to <button aria-current=\"page\" class=\"whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors border-cg-red text-cg-red\">Leave Balances</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - performing click action\u001b[22m",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/5ac4eaa9-4f16-4183-965d-18bdd04af3d2.jsonl",
+    "raw_input": {
+      "session_id": "5ac4eaa9-4f16-4183-965d-18bdd04af3d2",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/5ac4eaa9-4f16-4183-965d-18bdd04af3d2.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "mcp__playwright__browser_click",
+      "tool_input": {
+        "element": "Leave Balances tab",
+        "ref": "e240"
+      },
+      "tool_use_id": "toolu_01M8HkfX2MYsG2haEry29Mz4",
+      "error": "### Error\nTimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('aria-ref=e240')\u001b[22m\n\u001b[2m    - locator resolved to <button aria-current=\"page\" class=\"whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors border-cg-red text-cg-red\">Leave Balances</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - performing click action\u001b[22m",
+      "is_interrupt": false,
+      "logged_at": "2026-02-23T13:19:40.659875"
+    }
+  },
+  {
+    "timestamp": "2026-02-25T22:40:01.264135",
+    "session_id": "a4e87224-8885-4445-a634-e254f824306f",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01VLjWef9oGMNqsnPsqZuFuH",
+    "tool_input": {
+      "command": "mv /Users/tachongrak/Projects/hr/src/frontend/01_home_mobile.png /Users/tachongrak/Projects/hr/agents/mobile-ui/phase6/01_home_mobile.png",
+      "description": "Move home screenshot to target directory"
+    },
+    "error": "Exit code 1\nmv: rename /Users/tachongrak/Projects/hr/src/frontend/01_home_mobile.png to /Users/tachongrak/Projects/hr/agents/mobile-ui/phase6/01_home_mobile.png: No such file or directory\n\nmv: rename /Users/tachongrak/Projects/hr/src/frontend/01_home_mobile.png to /Users/tachongrak/Projects/hr/agents/mobile-ui/phase6/01_home_mobile.png: No such file or directory",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a4e87224-8885-4445-a634-e254f824306f.jsonl",
+    "raw_input": {
+      "session_id": "a4e87224-8885-4445-a634-e254f824306f",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/a4e87224-8885-4445-a634-e254f824306f.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "mv /Users/tachongrak/Projects/hr/src/frontend/01_home_mobile.png /Users/tachongrak/Projects/hr/agents/mobile-ui/phase6/01_home_mobile.png",
+        "description": "Move home screenshot to target directory"
+      },
+      "tool_use_id": "toolu_01VLjWef9oGMNqsnPsqZuFuH",
+      "error": "Exit code 1\nmv: rename /Users/tachongrak/Projects/hr/src/frontend/01_home_mobile.png to /Users/tachongrak/Projects/hr/agents/mobile-ui/phase6/01_home_mobile.png: No such file or directory\n\nmv: rename /Users/tachongrak/Projects/hr/src/frontend/01_home_mobile.png to /Users/tachongrak/Projects/hr/agents/mobile-ui/phase6/01_home_mobile.png: No such file or directory",
+      "is_interrupt": false,
+      "logged_at": "2026-02-25T22:40:01.264135"
+    }
+  },
+  {
+    "timestamp": "2026-02-26T11:42:47.749472",
+    "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Read",
+    "tool_use_id": "toolu_01CzjcCy6Dpv9yJ2jbKak4Xo",
+    "tool_input": {
+      "file_path": "/Users/tachongrak/Projects/hr/src/frontend/messages/en.json"
+    },
+    "error": "File content (34431 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+    "raw_input": {
+      "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Read",
+      "tool_input": {
+        "file_path": "/Users/tachongrak/Projects/hr/src/frontend/messages/en.json"
+      },
+      "tool_use_id": "toolu_01CzjcCy6Dpv9yJ2jbKak4Xo",
+      "error": "File content (34431 tokens) exceeds maximum allowed tokens (25000). Please use offset and limit parameters to read specific portions of the file, or use the GrepTool to search for specific content.",
+      "is_interrupt": false,
+      "logged_at": "2026-02-26T11:42:47.749472"
+    }
+  },
+  {
+    "timestamp": "2026-02-26T11:48:50.786139",
+    "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01JmTEr8mimeUmWqFKHEcyzh",
+    "tool_input": {
+      "command": "cd src/frontend && npx tsc --noEmit 2>&1 | grep \"medical-claims-page\" | head -20",
+      "description": "Check new component for TS errors"
+    },
+    "error": "Exit code 1\n(eval):cd:1: no such file or directory: src/frontend\n\n(eval):cd:1: no such file or directory: src/frontend",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+    "raw_input": {
+      "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "cd src/frontend && npx tsc --noEmit 2>&1 | grep \"medical-claims-page\" | head -20",
+        "description": "Check new component for TS errors"
+      },
+      "tool_use_id": "toolu_01JmTEr8mimeUmWqFKHEcyzh",
+      "error": "Exit code 1\n(eval):cd:1: no such file or directory: src/frontend\n\n(eval):cd:1: no such file or directory: src/frontend",
+      "is_interrupt": false,
+      "logged_at": "2026-02-26T11:48:50.786139"
+    }
+  },
+  {
+    "timestamp": "2026-02-26T11:49:01.144172",
+    "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_019wdS7YPSeT2ynJZHLhAfKt",
+    "tool_input": {
+      "command": "ls src/frontend/src/components/claims/",
+      "description": "List claims components"
+    },
+    "error": "Exit code 1\nls: src/frontend/src/components/claims/: No such file or directory\n\nls: src/frontend/src/components/claims/: No such file or directory",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+    "raw_input": {
+      "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "ls src/frontend/src/components/claims/",
+        "description": "List claims components"
+      },
+      "tool_use_id": "toolu_019wdS7YPSeT2ynJZHLhAfKt",
+      "error": "Exit code 1\nls: src/frontend/src/components/claims/: No such file or directory\n\nls: src/frontend/src/components/claims/: No such file or directory",
+      "is_interrupt": false,
+      "logged_at": "2026-02-26T11:49:01.144172"
+    }
+  },
+  {
+    "timestamp": "2026-03-05T16:55:02.074769",
+    "session_id": "05864b98-1258-4525-b3db-dcbdf6097a24",
+    "hook_event_name": "PostToolUseFailure",
+    "tool_name": "Bash",
+    "tool_use_id": "toolu_01XfEG3b2jLz9HEexPGvc5gm",
+    "tool_input": {
+      "command": "lsof -ti :3002 | xargs kill -9 2>/dev/null; npx next dev --port 3002 &>/dev/null & sleep 5 && echo \"Frontend restarted on port 3002\"",
+      "description": "Restart Next.js dev server on port 3002"
+    },
+    "error": "Exit code 1\n(eval):1: parse error near `&'\n\n(eval):1: parse error near `&'",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "permission_mode": "bypassPermissions",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/05864b98-1258-4525-b3db-dcbdf6097a24.jsonl",
+    "raw_input": {
+      "session_id": "05864b98-1258-4525-b3db-dcbdf6097a24",
+      "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/05864b98-1258-4525-b3db-dcbdf6097a24.jsonl",
+      "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+      "permission_mode": "bypassPermissions",
+      "hook_event_name": "PostToolUseFailure",
+      "tool_name": "Bash",
+      "tool_input": {
+        "command": "lsof -ti :3002 | xargs kill -9 2>/dev/null; npx next dev --port 3002 &>/dev/null & sleep 5 && echo \"Frontend restarted on port 3002\"",
+        "description": "Restart Next.js dev server on port 3002"
+      },
+      "tool_use_id": "toolu_01XfEG3b2jLz9HEexPGvc5gm",
+      "error": "Exit code 1\n(eval):1: parse error near `&'\n\n(eval):1: parse error near `&'",
+      "is_interrupt": false,
+      "logged_at": "2026-03-05T16:55:02.074769"
+    }
   }
 ]

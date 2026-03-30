@@ -1,0 +1,44 @@
+{
+  "test_name": "RIS HR System - Smoke Test",
+  "status": "passed",
+  "screenshots": [
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_smoke/img/smoke_test/01_home_page.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_smoke/img/smoke_test/02_employee_profile.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_smoke/img/smoke_test/03_personal_info_tab.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_smoke/img/smoke_test/04_language_toggle.png"
+  ],
+  "steps_executed": [
+    {
+      "step": 1,
+      "name": "Navigate to Home Page",
+      "status": "passed"
+    },
+    {
+      "step": 2,
+      "name": "Check Header Elements",
+      "status": "passed"
+    },
+    {
+      "step": 3,
+      "name": "Navigate to Employee Profile",
+      "status": "passed"
+    },
+    {
+      "step": 4,
+      "name": "Test Tab Navigation",
+      "status": "passed"
+    },
+    {
+      "step": 5,
+      "name": "Test Language Toggle",
+      "status": "passed"
+    },
+    {
+      "step": 6,
+      "name": "Check for Console Errors",
+      "status": "passed",
+      "note": "No critical errors"
+    }
+  ],
+  "error": null
+}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Building, Calendar, DollarSign, Bell, Shield } from 'lucide-react';
+import { Building, Calendar, DollarSign, Bell, Shield, Palette } from 'lucide-react';
 import { Tabs } from '@/components/ui/tabs';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { FormField } from '@/components/ui/form-field';
@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
 import { useSettings } from '@/hooks/use-settings';
+import { useTheme } from '@/hooks/use-theme';
 import { useAuthStore } from '@/stores/auth-store';
 import { isHR, getHighestRole } from '@/lib/rbac';
 
@@ -19,6 +20,7 @@ export function SettingsPage() {
   const { toast } = useToast();
   const { roles } = useAuthStore();
   const { settings, loading, updateSettings } = useSettings();
+  const { theme, setTheme } = useTheme();
   const highestRole = getHighestRole(roles);
   const isHRUser = isHR(roles);
   const isHRManager = highestRole === 'hr_manager';
@@ -27,6 +29,7 @@ export function SettingsPage() {
     ...(isHRUser ? [{ key: 'company', label: t('settings.company') }] : []),
     ...(isHRManager ? [{ key: 'leave', label: t('settings.leavePolicies') }] : []),
     ...(isHRManager ? [{ key: 'payroll', label: t('settings.payrollSettings') }] : []),
+    { key: 'appearance', label: t('settings.theme') },
     { key: 'notifications', label: t('settings.notifications') },
     ...(isHRManager ? [{ key: 'system', label: t('settings.system') }] : []),
   ];
@@ -124,16 +127,16 @@ export function SettingsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="text-left py-2 px-3 font-medium text-gray-500">{t('settings.leaveType')}</th>
-                    <th className="text-right py-2 px-3 font-medium text-gray-500">{t('settings.maxDays')}</th>
-                    <th className="text-center py-2 px-3 font-medium text-gray-500">{t('settings.carryForward')}</th>
-                    <th className="text-right py-2 px-3 font-medium text-gray-500">{t('settings.maxCarryDays')}</th>
+                  <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                    <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('settings.leaveType')}</th>
+                    <th className="text-right py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('settings.maxDays')}</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('settings.carryForward')}</th>
+                    <th className="text-right py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('settings.maxCarryDays')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {settings.leavePolicies.map((policy, idx) => (
-                    <tr key={policy.type} className="border-b">
+                    <tr key={policy.type} className="border-b dark:border-gray-700">
                       <td className="py-2 px-3 font-medium">{policy.nameEn}</td>
                       <td className="py-2 px-3 text-right">{policy.maxDays}</td>
                       <td className="py-2 px-3 text-center">
@@ -199,6 +202,34 @@ export function SettingsPage() {
         </Card>
       )}
 
+      {/* Appearance / Theme */}
+      {activeTab === 'appearance' && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Palette className="h-5 w-5 text-cg-red" />
+              <CardTitle>{t('settings.theme')}</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                label={t('settings.theme')}
+                name="theme"
+                type="select"
+                value={theme}
+                onChange={(v) => setTheme(v as 'light' | 'dark' | 'system')}
+                options={[
+                  { value: 'light', label: t('settings.themeLight') },
+                  { value: 'dark', label: t('settings.themeDark') },
+                  { value: 'system', label: t('settings.themeSystem') },
+                ]}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Notifications */}
       {activeTab === 'notifications' && (
         <Card>
@@ -218,15 +249,15 @@ export function SettingsPage() {
                 { key: 'workflowUpdates', label: t('settings.workflowNotif') },
                 { key: 'documentExpiry', label: t('settings.documentExpiryNotif') },
               ].map((item) => (
-                <label key={item.key} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50">
-                  <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                <label key={item.key} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{item.label}</span>
                   <input
                     type="checkbox"
                     checked={settings.notifications[item.key as keyof typeof settings.notifications]}
                     onChange={(e) =>
                       updateSettings('notifications', { [item.key]: e.target.checked })
                     }
-                    className="h-4 w-4 rounded border-gray-300 text-cg-red focus:ring-cg-red"
+                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
                   />
                 </label>
               ))}
@@ -249,7 +280,7 @@ export function SettingsPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <p className="text-sm text-gray-500">{t('settings.systemDesc')}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings.systemDesc')}</p>
               <FormField
                 label={t('settings.language')}
                 name="language"

@@ -1,0 +1,49 @@
+{
+  "name": "central-hrms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Central Retail Next-Gen HRMS - Monorepo",
+  "workspaces": [
+    "src/frontend",
+    "src/services/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"docker compose up -d\" \"echo 'Services starting...'\"",
+    "test": "node tests/scripts/verification-test.js",
+    "test:verification": "node tests/scripts/verification-test.js",
+    "test:additional": "node tests/scripts/test-additional-modules.js",
+    "test:profile": "node tests/scripts/test-profile-details.js",
+    "test:scorecard": "node tests/scripts/test-scorecard-tab.js",
+    "test:benefits": "node tests/scripts/test-benefits-tab-node.js",
+    "test:all": "npm run test:verification && npm run test:additional && npm run test:profile && npm run test:scorecard && npm run test:benefits",
+    "test:services": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "seed": "ts-node src/infra/seed/index.ts",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "db:migrate": "bash src/infra/migrations/migrate-all.sh dev",
+    "db:migrate:deploy": "bash src/infra/migrations/migrate-all.sh deploy",
+    "db:migrate:reset": "bash src/infra/migrations/migrate-all.sh reset",
+    "db:migrate:status": "bash src/infra/migrations/migrate-all.sh status",
+    "db:generate": "bash src/infra/migrations/generate-all.sh",
+    "db:seed": "cd src/infra/seed && ts-node seed-all.ts",
+    "db:validate": "bash src/infra/migrations/check-schemas.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "playwright": "^1.57.0",
+    "prettier": "^3.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

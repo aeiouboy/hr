@@ -50,7 +50,7 @@ export default function ProfilePage() {
       <MobileMenu />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1">
+        <main className="flex-1 p-4 sm:p-6">
           <ProfileHeader
             employee={employee}
             loading={loading}

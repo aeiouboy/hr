@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-01-11T15:16:03.123Z",
+  "baseUrl": "http://localhost:8080",
+  "testTarget": "Profile Scorecard Tab",
+  "totalTests": 15,
+  "passed": 15,
+  "failed": 1,
+  "warnings": 1,
+  "tests": [
+    {
+      "name": "JavaScript Console Error",
+      "status": "failed",
+      "error": "Failed to load resource: the server responded with a status of 404 (File not found)",
+      "timestamp": "2026-01-11T15:16:03.877Z"
+    },
+    {
+      "name": "Navigate to Profile Page",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:03.576Z",
+      "duration": 2998,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_01_profile_page.png"
+      },
+      "screenshot": "scorecard_01_profile_page.png"
+    },
+    {
+      "name": "Switch to Scorecard Tab",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:06.574Z",
+      "duration": 3271,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_02_tab_loaded.png"
+      },
+      "screenshot": "scorecard_02_tab_loaded.png"
+    },
+    {
+      "name": "CG Competency Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:09.845Z",
+      "duration": 90,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_03_competencies.png"
+      },
+      "screenshot": "scorecard_03_competencies.png"
+    },
+    {
+      "name": "Assessment History Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:09.935Z",
+      "duration": 560,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_04_assessment_history.png"
+      },
+      "screenshot": "scorecard_04_assessment_history.png"
+    },
+    {
+      "name": "Assessment Summary Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:10.495Z",
+      "duration": 569,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_05_assessment_summary.png"
+      },
+      "screenshot": "scorecard_05_assessment_summary.png"
+    },
+    {
+      "name": "Key Successes Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:11.064Z",
+      "duration": 571,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_06_key_successes.png"
+      },
+      "screenshot": "scorecard_06_key_successes.png"
+    },
+    {
+      "name": "Strengths & Development Areas",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:11.635Z",
+      "duration": 567,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_07_strengths_development.png"
+      },
+      "screenshot": "scorecard_07_strengths_development.png"
+    },
+    {
+      "name": "Career Aspirations Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:12.202Z",
+      "duration": 560,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_08_career_aspirations.png"
+      },
+      "screenshot": "scorecard_08_career_aspirations.png"
+    },
+    {
+      "name": "Development Objectives Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:12.762Z",
+      "duration": 568,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_09_development_objectives.png"
+      },
+      "screenshot": "scorecard_09_development_objectives.png"
+    },
+    {
+      "name": "Talent Reference Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:13.330Z",
+      "duration": 566,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_10_talent_reference.png"
+      },
+      "screenshot": "scorecard_10_talent_reference.png"
+    },
+    {
+      "name": "Performance-Potential Matrix",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:13.896Z",
+      "duration": 568,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_11_9box_matrix.png"
+      },
+      "screenshot": "scorecard_11_9box_matrix.png"
+    },
+    {
+      "name": "Final Calibration Section",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:14.464Z",
+      "duration": 566,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_12_final_calibration.png"
+      },
+      "screenshot": "scorecard_12_final_calibration.png"
+    },
+    {
+      "name": "Full Page Undefined Check",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:15.030Z",
+      "duration": 727,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_13_full_page.png"
+      },
+      "screenshot": "scorecard_13_full_page.png"
+    },
+    {
+      "name": "Translation Completeness",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:15.757Z",
+      "duration": 55,
+      "result": {
+        "success": true,
+        "screenshot": "scorecard_14_translation_check.png"
+      },
+      "screenshot": "scorecard_14_translation_check.png"
+    },
+    {
+      "name": "UI Responsiveness",
+      "status": "passed",
+      "timestamp": "2026-01-11T15:16:15.812Z",
+      "duration": 3142,
+      "result": {
+        "success": true,
+        "screenshots": [
+          "scorecard_15_mobile.png",
+          "scorecard_15_tablet.png"
+        ]
+      },
+      "screenshots": [
+        "scorecard_15_mobile.png",
+        "scorecard_15_tablet.png"
+      ]
+    }
+  ],
+  "screenshots": []
+}

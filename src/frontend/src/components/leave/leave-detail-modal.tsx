@@ -47,7 +47,7 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
     >
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">{t('selectType')}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('selectType')}</span>
           <span className="text-sm font-medium">{locale === 'th' ? request.typeNameTh : request.typeNameEn}</span>
         </div>
         <div className="flex items-center justify-between">
@@ -56,15 +56,15 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
         </div>
         <hr />
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">{t('startDate')}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('startDate')}</span>
           <span className="text-sm">{formatDate(request.startDate, 'long', locale)}</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">{t('endDate')}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('endDate')}</span>
           <span className="text-sm">{formatDate(request.endDate, 'long', locale)}</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">{t('duration')}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('duration')}</span>
           <span className="text-sm font-medium">
             {request.days} {t('workingDays')}
             {request.halfDay ? ` (${request.halfDay === 'morning' ? t('morning') : t('afternoon')})` : ''}
@@ -73,11 +73,11 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
         <hr />
         <div>
           <span className="text-sm text-gray-500 block mb-1">{t('reason')}</span>
-          <p className="text-sm text-gray-900">{request.reason}</p>
+          <p className="text-sm text-gray-900 dark:text-gray-100">{request.reason}</p>
         </div>
         {request.substitutePersonName && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">{t('substitute')}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{t('substitute')}</span>
             <span className="text-sm">{request.substitutePersonName}</span>
           </div>
         )}
@@ -85,12 +85,12 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
           <>
             <hr />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-500">{t('approvedBy')}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{t('approvedBy')}</span>
               <span className="text-sm">{request.approvedByName}</span>
             </div>
             {request.approvedDate && (
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">{t('approvedDate')}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t('approvedDate')}</span>
                 <span className="text-sm">{formatDate(request.approvedDate.split('T')[0], 'medium', locale)}</span>
               </div>
             )}
@@ -102,7 +102,7 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
             <p className="text-sm text-red-800">{request.rejectionReason}</p>
           </div>
         )}
-        <div className="flex items-center justify-between text-xs text-gray-400 pt-2">
+        <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 pt-2">
           <span>{t('submittedDate')}</span>
           <span>{formatDate(request.submittedAt.split('T')[0], 'medium', locale)}</span>
         </div>

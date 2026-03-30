@@ -411,7 +411,7 @@ export function MedicalClaimsPage() {
                 </div>
                 <span
                   className={`mt-1 text-xs ${
-                    isActive ? 'text-cg-red font-medium' : 'text-gray-400'
+                    isActive ? 'text-cg-red font-medium' : 'text-gray-400 dark:text-gray-500'
                   }`}
                 >
                   {s.label}
@@ -420,7 +420,7 @@ export function MedicalClaimsPage() {
               {i < steps.length - 1 && (
                 <div
                   className={`mx-2 h-0.5 w-12 sm:w-20 ${
-                    step > s.num ? 'bg-cg-red' : 'bg-gray-200'
+                    step > s.num ? 'bg-cg-red' : 'bg-gray-200 dark:bg-gray-600'
                   }`}
                 />
               )}
@@ -447,7 +447,7 @@ export function MedicalClaimsPage() {
 
     return (
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
           {required && <span className="ml-0.5 text-cg-error">*</span>}
         </label>
@@ -457,8 +457,8 @@ export function MedicalClaimsPage() {
           <div className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-3">
             <div className="flex items-center gap-2 min-w-0">
               <FileText className="h-4 w-4 text-green-600 shrink-0" />
-              <span className="text-sm text-gray-700 truncate">{file.name}</span>
-              <span className="text-xs text-gray-400 shrink-0">{formatFileSize(file.size)}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300 truncate">{file.name}</span>
+              <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0">{formatFileSize(file.size)}</span>
             </div>
             <button
               onClick={() => removeFile(zone)}
@@ -473,11 +473,11 @@ export function MedicalClaimsPage() {
         {zone === 'other' && otherFiles.length > 0 && (
           <div className="space-y-2">
             {otherFiles.map((f, i) => (
-              <div key={i} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3">
+              <div key={i} className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-3">
                 <div className="flex items-center gap-2 min-w-0">
-                  <FileText className="h-4 w-4 text-gray-500 shrink-0" />
-                  <span className="text-sm text-gray-700 truncate">{f.name}</span>
-                  <span className="text-xs text-gray-400 shrink-0">{formatFileSize(f.size)}</span>
+                  <FileText className="h-4 w-4 text-gray-500 dark:text-gray-400 shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300 truncate">{f.name}</span>
+                  <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0">{formatFileSize(f.size)}</span>
                 </div>
                 <button
                   onClick={() => removeFile('other', i)}
@@ -500,14 +500,14 @@ export function MedicalClaimsPage() {
             className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors ${
               isDragActive
                 ? 'border-cg-red bg-red-50'
-                : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50'
             }`}
           >
-            <Upload className="mb-2 h-6 w-6 text-gray-400" />
-            <p className="text-sm text-gray-500">
+            <Upload className="mb-2 h-6 w-6 text-gray-400 dark:text-gray-500" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {t('medicalClaims.form.dragDrop')}
             </p>
-            <p className="mt-1 text-xs text-gray-400">JPG, PNG, PDF (max 10MB)</p>
+            <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">JPG, PNG, PDF (max 10MB)</p>
             <div className="mt-3 flex gap-2">
               <Button variant="outline" size="sm" type="button" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
                 <FileText className="mr-1 h-4 w-4" />
@@ -546,55 +546,55 @@ export function MedicalClaimsPage() {
   const renderOverview = () => (
     <div className="space-y-6">
       {/* Benefit summary cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-5">
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Heart className="h-4 w-4 text-cg-red" />
-              <span className="text-xs text-gray-500">{t('medicalClaims.overview.planType')}</span>
+          <CardContent className="p-5 sm:p-6 lg:p-8">
+            <div className="flex items-center gap-2 mb-3">
+              <Heart className="h-4 w-4 lg:h-5 lg:w-5 text-cg-red" />
+              <span className="text-xs lg:text-sm text-gray-500 dark:text-gray-400">{t('medicalClaims.overview.planType')}</span>
             </div>
-            <p className="text-lg font-semibold">{summary.planType}</p>
+            <p className="text-lg lg:text-xl font-semibold">{summary.planType}</p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <DollarSign className="h-4 w-4 text-green-500" />
-              <span className="text-xs text-gray-500">{t('medicalClaims.overview.annualLimit')}</span>
+          <CardContent className="p-5 sm:p-6 lg:p-8">
+            <div className="flex items-center gap-2 mb-3">
+              <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-green-500" />
+              <span className="text-xs lg:text-sm text-gray-500 dark:text-gray-400">{t('medicalClaims.overview.annualLimit')}</span>
             </div>
-            <p className="text-lg font-semibold">{formatCurrency(summary.annualLimit)}</p>
+            <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.annualLimit)}</p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Receipt className="h-4 w-4 text-yellow-500" />
-              <span className="text-xs text-gray-500">{t('medicalClaims.overview.used')}</span>
+          <CardContent className="p-5 sm:p-6 lg:p-8">
+            <div className="flex items-center gap-2 mb-3">
+              <Receipt className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500" />
+              <span className="text-xs lg:text-sm text-gray-500 dark:text-gray-400">{t('medicalClaims.overview.used')}</span>
             </div>
-            <p className="text-lg font-semibold">{formatCurrency(summary.usedAmount)}</p>
+            <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.usedAmount)}</p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <DollarSign className="h-4 w-4 text-blue-500" />
-              <span className="text-xs text-gray-500">{t('medicalClaims.overview.remaining')}</span>
+          <CardContent className="p-5 sm:p-6 lg:p-8">
+            <div className="flex items-center gap-2 mb-3">
+              <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-blue-500" />
+              <span className="text-xs lg:text-sm text-gray-500 dark:text-gray-400">{t('medicalClaims.overview.remaining')}</span>
             </div>
-            <p className="text-lg font-semibold">{formatCurrency(summary.remainingAmount)}</p>
+            <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.remainingAmount)}</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Progress bar */}
       <Card>
-        <CardContent className="p-4">
+        <CardContent className="p-5 sm:p-6 lg:p-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {t('medicalClaims.overview.usageProgress')}
             </span>
-            <span className="text-sm text-gray-500">{usagePercent}%</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{usagePercent}%</span>
           </div>
-          <div className="h-3 w-full rounded-full bg-gray-100 overflow-hidden">
+          <div className="h-3 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
             <div
               className={`h-full rounded-full transition-all ${
                 usagePercent > 80 ? 'bg-cg-error' : usagePercent > 50 ? 'bg-yellow-400' : 'bg-green-500'
@@ -602,7 +602,7 @@ export function MedicalClaimsPage() {
               style={{ width: `${usagePercent}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-gray-500">
+          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
             {formatCurrency(summary.remainingAmount)} {t('medicalClaims.overview.remainingLabel')}
           </p>
         </CardContent>
@@ -618,7 +618,7 @@ export function MedicalClaimsPage() {
         </CardHeader>
         <CardContent>
           {claims.length === 0 ? (
-            <p className="text-sm text-gray-500 py-4 text-center">
+            <p className="text-sm text-gray-500 dark:text-gray-400 py-4 text-center">
               {t('medicalClaims.overview.noClaims')}
             </p>
           ) : (
@@ -626,7 +626,7 @@ export function MedicalClaimsPage() {
               {claims.slice(0, 3).map((claim) => (
                 <div
                   key={claim.id}
-                  className="flex items-center justify-between rounded-lg border p-3 hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="flex items-center justify-between rounded-lg border dark:border-gray-700 p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors"
                   onClick={() => setDetailClaim(claim)}
                 >
                   <div className="min-w-0 flex-1">
@@ -636,7 +636,7 @@ export function MedicalClaimsPage() {
                         {t(`medicalClaims.status.${claim.status}`)}
                       </Badge>
                     </div>
-                    <p className="text-xs text-gray-500 mt-0.5">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                       {getCategoryLabel(claim.diseaseCategory)} - {formatCurrency(claim.claimAmount)}
                     </p>
                   </div>
@@ -780,28 +780,28 @@ export function MedicalClaimsPage() {
           <CardContent>
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
               <div>
-                <dt className="text-xs text-gray-500">{t('medicalClaims.form.diseaseCategory')}</dt>
+                <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.form.diseaseCategory')}</dt>
                 <dd className="text-sm font-medium">{getCategoryLabel(form.diseaseCategory as DiseaseCategory)}</dd>
               </div>
               <div>
-                <dt className="text-xs text-gray-500">{t('medicalClaims.form.hospitalName')}</dt>
+                <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.form.hospitalName')}</dt>
                 <dd className="text-sm font-medium">{form.hospitalName}</dd>
               </div>
               <div>
-                <dt className="text-xs text-gray-500">{t('medicalClaims.form.treatmentDate')}</dt>
+                <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.form.treatmentDate')}</dt>
                 <dd className="text-sm font-medium">{formatDate(form.treatmentDate)}</dd>
               </div>
               <div>
-                <dt className="text-xs text-gray-500">{t('medicalClaims.form.receiptAmount')}</dt>
+                <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.form.receiptAmount')}</dt>
                 <dd className="text-sm font-medium">{formatCurrency(parseFloat(form.receiptAmount) || 0)}</dd>
               </div>
               <div>
-                <dt className="text-xs text-gray-500">{t('medicalClaims.form.claimAmount')}</dt>
+                <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.form.claimAmount')}</dt>
                 <dd className="text-sm font-medium">{formatCurrency(parseFloat(form.claimAmount) || 0)}</dd>
               </div>
               {form.remarks && (
                 <div className="sm:col-span-2">
-                  <dt className="text-xs text-gray-500">{t('medicalClaims.form.remarks')}</dt>
+                  <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.form.remarks')}</dt>
                   <dd className="text-sm font-medium">{form.remarks}</dd>
                 </div>
               )}
@@ -845,7 +845,7 @@ export function MedicalClaimsPage() {
                 ? t('medicalClaims.form.withinLimit')
                 : t('medicalClaims.form.exceedsLimit')}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               {t('medicalClaims.form.remainingBalance')}: {formatCurrency(summary.remainingAmount)}
             </p>
           </div>
@@ -881,7 +881,7 @@ export function MedicalClaimsPage() {
     <div>
       {renderStepIndicator()}
       <Card>
-        <CardContent className="p-4 sm:p-6">
+        <CardContent className="p-5 sm:p-6 lg:p-8">
           {step === 1 && renderStep1()}
           {step === 2 && renderStep2()}
           {step === 3 && renderStep3()}
@@ -893,10 +893,10 @@ export function MedicalClaimsPage() {
   // --- Render: History Tab ---
 
   const filterPills: { key: StatusFilter; label: string }[] = [
-    { key: 'all', label: t('medicalClaims.history.all') },
-    { key: 'pending', label: t('medicalClaims.history.pending') },
-    { key: 'approved', label: t('medicalClaims.history.approved') },
-    { key: 'rejected', label: t('medicalClaims.history.rejected') },
+    { key: 'all', label: t('medicalClaims.history.filterAll') },
+    { key: 'pending', label: t('medicalClaims.history.filterPending') },
+    { key: 'approved', label: t('medicalClaims.history.filterApproved') },
+    { key: 'rejected', label: t('medicalClaims.history.filterRejected') },
   ];
 
   const renderHistory = () => (
@@ -910,7 +910,7 @@ export function MedicalClaimsPage() {
             className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
               statusFilter === pill.key
                 ? 'bg-cg-red text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             {pill.label}
@@ -920,8 +920,8 @@ export function MedicalClaimsPage() {
 
       {filteredClaims.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
-          <FileText className="h-12 w-12 text-gray-300 mb-3" />
-          <p className="text-sm text-gray-500">{t('medicalClaims.history.empty')}</p>
+          <FileText className="h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" />
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('medicalClaims.history.empty')}</p>
         </div>
       ) : (
         <>
@@ -931,19 +931,19 @@ export function MedicalClaimsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b bg-gray-50 text-left">
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.id')}</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.disease')}</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.hospital')}</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.date')}</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.amount')}</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.status')}</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">{t('medicalClaims.history.action')}</th>
+                    <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-left">
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.id')}</th>
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.disease')}</th>
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.hospital')}</th>
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.date')}</th>
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.amount')}</th>
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.status')}</th>
+                      <th className="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{t('medicalClaims.history.action')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredClaims.map((claim) => (
-                      <tr key={claim.id} className="border-b hover:bg-gray-50 transition-colors">
+                      <tr key={claim.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
                         <td className="px-4 py-3 font-mono text-xs">{claim.id}</td>
                         <td className="px-4 py-3">{getCategoryLabel(claim.diseaseCategory)}</td>
                         <td className="px-4 py-3">{claim.hospitalName}</td>
@@ -976,14 +976,14 @@ export function MedicalClaimsPage() {
                 className="cursor-pointer hover:shadow-md transition-shadow"
                 onClick={() => setDetailClaim(claim)}
               >
-                <CardContent className="p-4">
+                <CardContent className="p-5 sm:p-6 lg:p-8">
                   <div className="flex items-start justify-between">
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium truncate">{claim.hospitalName}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                         {getCategoryLabel(claim.diseaseCategory)} - {formatCurrency(claim.claimAmount)}
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">{formatDate(claim.treatmentDate)}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{formatDate(claim.treatmentDate)}</p>
                     </div>
                     <Badge variant={STATUS_VARIANT[claim.status]}>
                       {t(`medicalClaims.status.${claim.status}`)}
@@ -1049,7 +1049,7 @@ export function MedicalClaimsPage() {
             </div>
             {detailClaim.remarks && (
               <div className="sm:col-span-2">
-                <dt className="text-xs text-gray-500">{t('medicalClaims.detail.remarks')}</dt>
+                <dt className="text-xs text-gray-500 dark:text-gray-400">{t('medicalClaims.detail.remarks')}</dt>
                 <dd className="text-sm font-medium">{detailClaim.remarks}</dd>
               </div>
             )}
@@ -1058,15 +1058,15 @@ export function MedicalClaimsPage() {
           {/* Documents */}
           {detailClaim.documents.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-2">
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {t('medicalClaims.detail.documents')}
               </h4>
               <ul className="space-y-2">
                 {detailClaim.documents.map((doc) => (
-                  <li key={doc.id} className="flex items-center gap-2 rounded-lg border p-2">
-                    <FileText className="h-4 w-4 text-gray-400 shrink-0" />
+                  <li key={doc.id} className="flex items-center gap-2 rounded-lg border dark:border-gray-700 p-2">
+                    <FileText className="h-4 w-4 text-gray-400 dark:text-gray-500 shrink-0" />
                     <span className="text-sm truncate flex-1">{doc.fileName}</span>
-                    <span className="text-xs text-gray-400">{formatFileSize(doc.fileSize)}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500">{formatFileSize(doc.fileSize)}</span>
                   </li>
                 ))}
               </ul>
@@ -1076,7 +1076,7 @@ export function MedicalClaimsPage() {
           {/* Approval Timeline */}
           {detailClaim.approvalSteps.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-3">
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                 {t('medicalClaims.detail.approvalTimeline')}
               </h4>
               <div className="relative ml-3">
@@ -1100,7 +1100,7 @@ export function MedicalClaimsPage() {
                     <div key={as.step} className="relative flex gap-4 pb-6">
                       {/* Vertical line */}
                       {!isLast && (
-                        <div className="absolute left-[9px] top-5 h-full w-0.5 bg-gray-200" />
+                        <div className="absolute left-[9px] top-5 h-full w-0.5 bg-gray-200 dark:bg-gray-700" />
                       )}
                       {/* Dot */}
                       <div
@@ -1124,12 +1124,12 @@ export function MedicalClaimsPage() {
                             {t(`medicalClaims.approval.${as.status}`)}
                           </Badge>
                         </div>
-                        <p className="text-xs text-gray-500">{as.approverName}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{as.approverName}</p>
                         {as.date && (
-                          <p className="text-xs text-gray-400 mt-0.5">{formatDate(as.date)}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{formatDate(as.date)}</p>
                         )}
                         {as.comment && (
-                          <p className="text-xs text-gray-600 mt-1 italic">{as.comment}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 italic">{as.comment}</p>
                         )}
                       </div>
                     </div>

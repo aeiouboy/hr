@@ -161,7 +161,7 @@ export function QuickApprovePage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-cg-dark">Quick Approve</h1>
-          <p className="text-sm text-gray-500 mt-1">Review and process pending approvals</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Review and process pending approvals</p>
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="error">{stats.urgent} urgent</Badge>
@@ -201,7 +201,7 @@ export function QuickApprovePage() {
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 placeholder="Search by name or description..."
-                className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
+                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -210,7 +210,7 @@ export function QuickApprovePage() {
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm focus:border-cg-red outline-none"
+                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red outline-none"
                 aria-label="Date from"
               />
               <span className="text-gray-400 text-xs">to</span>
@@ -218,7 +218,7 @@ export function QuickApprovePage() {
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm focus:border-cg-red outline-none"
+                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red outline-none"
                 aria-label="Date to"
               />
             </div>
@@ -234,14 +234,14 @@ export function QuickApprovePage() {
                     key={type}
                     onClick={() => setTypeFilter(type)}
                     className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
-                      typeFilter === type ? 'bg-cg-red text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      typeFilter === type ? 'bg-cg-red text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                     )}
                   >
                     {TYPE_LABELS[type]}
                   </button>
                 ))}
               </div>
-              <div className="h-4 w-px bg-gray-200 mx-1" />
+              <div className="h-4 w-px bg-gray-200 dark:bg-gray-700 mx-1" />
               <div className="flex gap-1">
                 {(['all', 'urgent', 'normal', 'low'] as UrgencyLevel[]).map((level) => (
                   <button
@@ -250,7 +250,7 @@ export function QuickApprovePage() {
                     className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
                       urgencyFilter === level
                         ? level === 'urgent' ? 'bg-red-600 text-white' : level === 'low' ? 'bg-green-600 text-white' : 'bg-cg-red text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                     )}
                   >
                     {level === 'all' ? 'All' : level.charAt(0).toUpperCase() + level.slice(1)}
@@ -269,14 +269,14 @@ export function QuickApprovePage() {
               </button>
               {selectedIds.size > 0 && (
                 <>
-                  <span className="text-xs text-gray-500">{selectedIds.size} selected</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{selectedIds.size} selected</span>
                   <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
                     <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
                   </Button>
                   <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
                     <XCircle className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkReject')}
                   </Button>
-                  <button onClick={clearSelection} className="p-1 rounded hover:bg-gray-100"><X className="h-4 w-4 text-gray-400" /></button>
+                  <button onClick={clearSelection} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"><X className="h-4 w-4 text-gray-400 dark:text-gray-500" /></button>
                 </>
               )}
             </div>
@@ -299,7 +299,7 @@ export function QuickApprovePage() {
               <div
                 key={item.id}
                 className={cn(
-                  'p-4 rounded-xl border bg-white transition cursor-pointer hover:shadow-sm',
+                  'p-4 rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 transition cursor-pointer hover:shadow-sm',
                   item.urgent && 'border-red-200',
                   selectedIds.has(item.id) && 'ring-2 ring-cg-red/30 bg-cg-red/5',
                   previewItem?.id === item.id && 'ring-2 ring-blue-400'
@@ -316,7 +316,7 @@ export function QuickApprovePage() {
                   />
 
                   {/* Avatar */}
-                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm font-medium text-gray-600 dark:text-gray-400 shrink-0">
                     {item.employeeAvatar}
                   </div>
 
@@ -332,20 +332,20 @@ export function QuickApprovePage() {
                       </span>
                       {item.attachments.length > 0 && <Paperclip className="h-3.5 w-3.5 text-gray-400" />}
                     </div>
-                    <p className="text-sm font-medium text-gray-900 truncate">{item.summary}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{item.summary}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                       {item.employeeName} &middot; {item.department}
                       {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
                       {item.dates && <> &middot; {item.dates}</>}
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">
                       <Clock className="h-3 w-3" />{new Date(item.submittedAt).toLocaleDateString()}
                     </p>
                   </div>
 
                   {/* Actions */}
                   <div className="flex items-center gap-1 shrink-0">
-                    <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-lg hover:bg-gray-100" aria-label="Preview"><ChevronRight className="h-4 w-4 text-gray-400" /></button>
+                    <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Preview"><ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" /></button>
                     <button onClick={() => handleSingleAction(item.id, 'approve')} className="p-1.5 rounded-lg hover:bg-green-100 text-green-600" aria-label="Approve"><CheckCircle2 className="h-5 w-5" /></button>
                     <button onClick={() => handleSingleAction(item.id, 'reject')} className="p-1.5 rounded-lg hover:bg-red-100 text-red-600" aria-label="Reject"><XCircle className="h-5 w-5" /></button>
                   </div>
@@ -362,16 +362,16 @@ export function QuickApprovePage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Request Details</CardTitle>
-                  <button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-gray-100" aria-label="Close"><X className="h-4 w-4 text-gray-400" /></button>
+                  <button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Close"><X className="h-4 w-4 text-gray-400 dark:text-gray-500" /></button>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Employee */}
-                <div className="flex items-center gap-3 pb-4 border-b">
-                  <div className="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center text-lg font-medium text-gray-600">{previewItem.employeeAvatar}</div>
+                <div className="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
+                  <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-lg font-medium text-gray-600 dark:text-gray-400">{previewItem.employeeAvatar}</div>
                   <div>
-                    <p className="font-medium text-gray-900">{previewItem.employeeName}</p>
-                    <p className="text-xs text-gray-500">{previewItem.employeeId} &middot; {previewItem.department}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{previewItem.employeeName}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{previewItem.employeeId} &middot; {previewItem.department}</p>
                   </div>
                 </div>
 
@@ -385,35 +385,35 @@ export function QuickApprovePage() {
 
                 {/* Summary */}
                 <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Summary</p>
-                  <p className="text-sm font-medium text-gray-900">{previewItem.summary}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Summary</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{previewItem.summary}</p>
                 </div>
 
                 {/* Detail */}
                 <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Details</p>
-                  <p className="text-sm text-gray-600">{previewItem.detail}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Details</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{previewItem.detail}</p>
                 </div>
 
                 {/* Amount / Dates */}
                 {previewItem.amount && (
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Amount</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Amount</p>
                     <p className="text-lg font-bold text-cg-dark">฿{previewItem.amount.toLocaleString()}</p>
                   </div>
                 )}
                 {previewItem.dates && (
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Dates</p>
-                    <p className="text-sm text-gray-600">{previewItem.dates}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Dates</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{previewItem.dates}</p>
                   </div>
                 )}
 
                 {/* Approval Timeline */}
                 {previewItem.approvalTimeline && previewItem.approvalTimeline.length > 0 && (
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Approval Timeline</p>
-                    <ol className="relative border-l border-gray-200 ml-2">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Approval Timeline</p>
+                    <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">
                       {previewItem.approvalTimeline.map((step) => (
                         <li key={step.step} className="mb-3 ml-4">
                           <div className={cn('absolute -left-1.5 w-3 h-3 rounded-full border-2 border-white',
@@ -425,7 +425,7 @@ export function QuickApprovePage() {
                               {step.status}
                             </Badge>
                           </div>
-                          {step.date && <p className="text-[10px] text-gray-400">{new Date(step.date).toLocaleDateString()}</p>}
+                          {step.date && <p className="text-[10px] text-gray-400 dark:text-gray-500">{new Date(step.date).toLocaleDateString()}</p>}
                         </li>
                       ))}
                     </ol>
@@ -435,7 +435,7 @@ export function QuickApprovePage() {
                 {/* Attachments */}
                 {previewItem.attachments.length > 0 && (
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Attachments</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Attachments</p>
                     <div className="space-y-1">
                       {previewItem.attachments.map((a) => (
                         <div key={a} className="flex items-center gap-2 text-sm text-blue-600">
@@ -448,20 +448,20 @@ export function QuickApprovePage() {
 
                 {/* Submitted */}
                 <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Submitted</p>
-                  <p className="text-sm text-gray-600">{new Date(previewItem.submittedAt).toLocaleString()}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Submitted</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{new Date(previewItem.submittedAt).toLocaleString()}</p>
                 </div>
 
                 {/* Notes */}
                 {previewItem.notes && (
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Notes</p>
-                    <p className="text-sm text-gray-600">{previewItem.notes}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Notes</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{previewItem.notes}</p>
                   </div>
                 )}
 
                 {/* Actions */}
-                <div className="flex gap-3 pt-4 border-t">
+                <div className="flex gap-3 pt-4 border-t dark:border-gray-700">
                   <Button className="flex-1 bg-green-600 hover:bg-green-700" onClick={() => handleSingleAction(previewItem.id, 'approve')}>
                     <CheckCircle2 className="h-4 w-4 mr-2" />{t('actions.approve')}
                   </Button>
@@ -477,7 +477,7 @@ export function QuickApprovePage() {
 
       {/* Sticky Bulk Action Bar */}
       {selectedIds.size > 0 && (
-        <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t shadow-lg">
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
             <span className="text-sm font-medium text-cg-dark">{selectedIds.size} items selected</span>
             <div className="flex items-center gap-3">
@@ -487,7 +487,7 @@ export function QuickApprovePage() {
               <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
                 <XCircle className="h-4 w-4 mr-1.5" />Reject All
               </Button>
-              <button onClick={clearSelection} className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1">
+              <button onClick={clearSelection} className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1">
                 <X className="h-3.5 w-3.5" />Clear
               </button>
             </div>
@@ -515,7 +515,7 @@ export function QuickApprovePage() {
         }
       >
         <div className="space-y-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {confirmModal?.count === 1
               ? (confirmModal.action === 'approve' ? t('messages.confirmApprove') : t('messages.confirmReject'))
               : (confirmModal?.action === 'approve'
@@ -524,14 +524,14 @@ export function QuickApprovePage() {
               )}
           </p>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               {confirmModal?.action === 'approve' ? 'Comment (optional)' : 'Reason (required)'}
             </label>
             <textarea
               value={confirmReason}
               onChange={(e) => setConfirmReason(e.target.value)}
               rows={3}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none resize-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none resize-none"
               placeholder={confirmModal?.action === 'approve' ? 'Optional comment...' : 'Please provide a reason...'}
             />
           </div>
@@ -549,14 +549,14 @@ export function QuickApprovePage() {
           <div>
             <h4 className="text-sm font-medium text-cg-dark mb-2">Active Delegations</h4>
             {delegations.length === 0 ? (
-              <p className="text-sm text-gray-400">No active delegations</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">No active delegations</p>
             ) : (
               <ul className="space-y-2">
                 {delegations.map((d) => (
-                  <li key={d.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <li key={d.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                     <div>
                       <p className="text-sm font-medium text-cg-dark">{d.delegateTo.name}</p>
-                      <p className="text-xs text-gray-500">{d.startDate} — {d.endDate}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{d.startDate} — {d.endDate}</p>
                       <div className="flex gap-1 mt-1 flex-wrap">
                         {d.workflowTypes.map((wt) => <Badge key={wt} variant="info">{wt}</Badge>)}
                       </div>
@@ -572,27 +572,27 @@ export function QuickApprovePage() {
             )}
           </div>
 
-          <div className="border rounded-lg p-4 space-y-3">
+          <div className="border dark:border-gray-700 rounded-lg p-4 space-y-3">
             <h4 className="text-sm font-medium text-cg-dark">Create New Delegation</h4>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Delegate To (Employee ID)</label>
-              <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none" />
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Delegate To (Employee ID)</label>
+              <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Start Date</label>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Start Date</label>
                 <input type="date" value={delegateForm.start} onChange={(e) => setDelegateForm((p) => ({ ...p, start: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">End Date</label>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">End Date</label>
                 <input type="date" value={delegateForm.end} onChange={(e) => setDelegateForm((p) => ({ ...p, end: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none" />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Workflow Types</label>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Workflow Types</label>
               <div className="flex flex-wrap gap-2">
                 {WORKFLOW_TYPES.map((wt) => (
-                  <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ? 'bg-cg-red text-white border-cg-red' : 'bg-white text-gray-600 border-gray-300 hover:border-cg-red'}`}>
+                  <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ? 'bg-cg-red text-white border-cg-red' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-cg-red'}`}>
                     {wt}
                   </button>
                 ))}

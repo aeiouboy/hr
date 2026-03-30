@@ -14,12 +14,14 @@ import { LeaveCalendar } from '@/components/leave/leave-calendar';
 import { LeaveHistory } from '@/components/leave/leave-history';
 import { LeaveDetail } from '@/components/leave/leave-detail';
 import { useLeave } from '@/hooks/use-leave';
+import { useToast } from '@/components/ui/toast';
 import type { LeaveType, LeaveRequest } from '@/hooks/use-leave';
 
 type TabKey = 'balances' | 'request' | 'history' | 'calendar';
 
 export default function LeavePage() {
   const t = useTranslations('leave');
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<TabKey>('balances');
   const [preselectedType, setPreselectedType] = useState<LeaveType | undefined>();
   const [selectedRequest, setSelectedRequest] = useState<LeaveRequest | null>(null);
@@ -35,6 +37,7 @@ export default function LeavePage() {
     submitting,
     submitRequest,
     cancelRequest,
+    cancelApprovedLeave,
   } = useLeave();
 
   const tabs = [
@@ -56,6 +59,11 @@ export default function LeavePage() {
 
   const handleCancelRequest = async (requestId: string) => {
     await cancelRequest(requestId);
+  };
+
+  const handleRequestCancellation = async (requestId: string, reason: string) => {
+    await cancelApprovedLeave(requestId, reason);
+    toast('success', t('cancellationRequestSubmitted'));
   };
 
   const handleCalendarDateClick = (date: string) => {
@@ -93,7 +101,8 @@ export default function LeavePage() {
             requests={requests}
             loading={loading}
             onViewDetail={handleViewDetail}
-            onCancel={handleCancelRequest}
+            onCancelPending={handleCancelRequest}
+            onRequestCancellation={handleRequestCancellation}
           />
         );
       case 'calendar':

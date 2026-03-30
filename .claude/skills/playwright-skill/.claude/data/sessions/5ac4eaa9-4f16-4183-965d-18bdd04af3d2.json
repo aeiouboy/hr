@@ -1,0 +1,11 @@
+{
+  "session_id": "5ac4eaa9-4f16-4183-965d-18bdd04af3d2",
+  "prompts": [
+    "start from http://localhost:3000/",
+    "\u0e41\u0e01\u0e49\u0e1e\u0e27\u0e01\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48 ok",
+    "<task-notification>\n<task-id>bd04754</task-id>\n<tool-use-id>toolu_01WtfZp6XuCvw99qzjkVzWRT</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bd04754.output</output-file>\n<status>completed</status>\n<summary>Background command \"Start Next.js dev server\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bd04754.output",
+    "<task-notification>\n<task-id>b93f059</task-id>\n<tool-use-id>toolu_01KKzcVyDFEVSDnugdkoXpaz</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/b93f059.output</output-file>\n<status>completed</status>\n<summary>Background command \"Restart Next.js dev server to pick up config change\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/b93f059.output",
+    "<task-notification>\n<task-id>bd42ac8</task-id>\n<tool-use-id>toolu_01G2eytUm5N3rBrKoWsy17Bu</tool-use-id>\n<output-file>/private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bd42ac8.output</output-file>\n<status>completed</status>\n<summary>Background command \"Start Next.js dev server with clean cache\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-tachongrak-Projects-hr/tasks/bd42ac8.output",
+    "commit \u0e41\u0e25\u0e49\u0e27 push \u0e02\u0e36\u0e49\u0e19 remote"
+  ]
+}

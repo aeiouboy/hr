@@ -1,0 +1,27 @@
+{
+  "test_name": "RIS HR System Smoke Test",
+  "status": "passed",
+  "timestamp": "2026-01-10T15:35:00+07:00",
+  "adw_id": "acdc3b4b",
+  "agent_name": "test_e2e",
+  "application_url": "http://localhost:8080",
+  "screenshots": [
+    "/Users/tachongrak/Projects/RIS HR System/agents/acdc3b4b/test_e2e/img/smoke_test/01_home_page.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/acdc3b4b/test_e2e/img/smoke_test/02_employee_profile.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/acdc3b4b/test_e2e/img/smoke_test/03_employment_tab.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/acdc3b4b/test_e2e/img/smoke_test/04_language_toggle.png"
+  ],
+  "steps_executed": [
+    { "step": 1, "name": "Navigate to Home Page", "status": "passed" },
+    { "step": 2, "name": "Check Header Elements (logo, navigation, search, notifications, language toggle, user menu)", "status": "passed" },
+    { "step": 3, "name": "Navigate to Employee Profile EMP001", "status": "passed" },
+    { "step": 4, "name": "Verify employee header and tab navigation (6 tabs present)", "status": "passed" },
+    { "step": 5, "name": "Click Employment tab", "status": "passed" },
+    { "step": 6, "name": "Verify Job Relationships section renders correctly", "status": "passed" },
+    { "step": 7, "name": "Test language switching (TH to EN)", "status": "passed" },
+    { "step": 8, "name": "Verify English translations applied", "status": "passed" },
+    { "step": 9, "name": "Check JavaScript console for errors", "status": "passed" }
+  ],
+  "error": null,
+  "notes": "Fix verified: i18n.getCurrentLanguage() error in employment.js has been resolved. Employment tab now loads successfully and Job Relationships section displays correctly in both Thai and English."
+}

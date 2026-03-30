@@ -19,7 +19,7 @@ export function CompensationTab({ employee, loading }: CompensationTabProps) {
     return (
       <div className="space-y-6">
         {[1, 2].map((i) => (
-          <div key={i} className="bg-white rounded-xl border p-6">
+          <div key={i} className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6">
             <Skeleton className="h-6 w-40 mb-4" />
             <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((j) => (
@@ -58,12 +58,12 @@ export function CompensationTab({ employee, loading }: CompensationTabProps) {
       {/* Payroll Summary */}
       {payroll && (
         <SectionCard title={t('compensation.payroll')} icon={<Receipt className="h-5 w-5" />}>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-400 uppercase tracking-wider">{t('compensation.grossAmount')}</p>
+          <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('compensation.grossAmount')}</p>
             <p className="text-2xl font-bold text-cg-dark mt-1">
               {formatCurrency(payroll.grossAmount as number, (payroll.currency as string) || 'THB')}
             </p>
-            <p className="text-xs text-gray-400 mt-1">{t('compensation.payType')}: Monthly</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('compensation.payType')}: Monthly</p>
           </div>
         </SectionCard>
       )}

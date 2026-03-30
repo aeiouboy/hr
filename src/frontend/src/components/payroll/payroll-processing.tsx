@@ -28,17 +28,17 @@ function Stepper({ currentStage, stages, t }: { currentStage: PayrollStage; stag
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                   isComplete ? 'bg-green-500 text-white' :
-                  isCurrent ? 'bg-cg-red text-white' : 'bg-gray-200 text-gray-500'
+                  isCurrent ? 'bg-cg-red text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                 }`}
               >
                 {isComplete ? <CheckCircle className="h-4 w-4" /> : idx + 1}
               </div>
-              <span className={`text-xs mt-1 ${isCurrent ? 'text-cg-red font-medium' : 'text-gray-500'}`}>
+              <span className={`text-xs mt-1 ${isCurrent ? 'text-cg-red font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
                 {t(`payrollProcessing.stages.${stage}`)}
               </span>
             </div>
             {idx < stages.length - 1 && (
-              <div className={`flex-1 h-0.5 mx-2 ${idx < currentIndex ? 'bg-green-500' : 'bg-gray-200'}`} />
+              <div className={`flex-1 h-0.5 mx-2 ${idx < currentIndex ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
             )}
           </div>
         );
@@ -60,7 +60,7 @@ export function PayrollProcessing() {
   const [sortAsc, setSortAsc] = useState(true);
 
   if (!canAccessModule(roles, 'payroll-processing')) {
-    return <div className="text-center py-12"><p className="text-gray-500">{t('common.noData')}</p></div>;
+    return <div className="text-center py-12"><p className="text-gray-500 dark:text-gray-400">{t('common.noData')}</p></div>;
   }
 
   const handleNext = async () => {
@@ -160,7 +160,7 @@ export function PayrollProcessing() {
         <Card>
           <CardContent className="py-12 text-center">
             <Skeleton className="h-4 w-64 mx-auto mb-4" />
-            <p className="text-gray-500">{t('payrollProcessing.calculating')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('payrollProcessing.calculating')}</p>
           </CardContent>
         </Card>
       )}
@@ -171,25 +171,25 @@ export function PayrollProcessing() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Card>
               <CardContent className="pt-6">
-                <p className="text-xs text-gray-400">{t('payrollProcessing.totalEmployees')}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{t('payrollProcessing.totalEmployees')}</p>
                 <p className="text-2xl font-bold text-cg-dark">{runSummary.totalEmployees}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-6">
-                <p className="text-xs text-gray-400">{t('payrollProcessing.totalGross')}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{t('payrollProcessing.totalGross')}</p>
                 <p className="text-2xl font-bold text-green-600">{fmt(runSummary.totalGross)}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-6">
-                <p className="text-xs text-gray-400">{t('payrollProcessing.totalDeductions')}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{t('payrollProcessing.totalDeductions')}</p>
                 <p className="text-2xl font-bold text-red-600">{fmt(runSummary.totalDeductions)}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-6">
-                <p className="text-xs text-gray-400">{t('payrollProcessing.totalNet')}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{t('payrollProcessing.totalNet')}</p>
                 <p className="text-2xl font-bold text-cg-dark">{fmt(runSummary.totalNet)}</p>
               </CardContent>
             </Card>
@@ -209,7 +209,7 @@ export function PayrollProcessing() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b bg-gray-50">
+                    <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
                       {[
                         { key: 'employeeName', label: t('payrollProcessing.employee') },
                         { key: 'department', label: t('payrollProcessing.department') },
@@ -222,7 +222,7 @@ export function PayrollProcessing() {
                       ].map((col) => (
                         <th
                           key={col.key}
-                          className="text-left py-2 px-3 font-medium text-gray-500 cursor-pointer hover:text-cg-dark"
+                          className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer hover:text-cg-dark"
                           onClick={() => handleSort(col.key)}
                         >
                           {col.label}
@@ -233,7 +233,7 @@ export function PayrollProcessing() {
                   </thead>
                   <tbody>
                     {sortedPayslips.map((ps) => (
-                      <tr key={ps.employeeId} className="border-b hover:bg-gray-50">
+                      <tr key={ps.employeeId} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30">
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2">
                             {ps.employeeName}
@@ -284,12 +284,12 @@ export function PayrollProcessing() {
                 <>
                   <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-cg-dark">{t('payrollProcessing.payrollApproved')}</h3>
-                  <p className="text-gray-500 mt-1">{t('payrollProcessing.payrollApprovedDesc')}</p>
+                  <p className="text-gray-500 dark:text-gray-400 mt-1">{t('payrollProcessing.payrollApprovedDesc')}</p>
                 </>
               ) : (
                 <>
-                  <p className="text-gray-500 mb-2">{t('payrollProcessing.period')}: {runSummary.period}</p>
-                  <p className="text-gray-500 mb-2">{t('payrollProcessing.totalEmployees')}: {runSummary.totalEmployees}</p>
+                  <p className="text-gray-500 dark:text-gray-400 mb-2">{t('payrollProcessing.period')}: {runSummary.period}</p>
+                  <p className="text-gray-500 dark:text-gray-400 mb-2">{t('payrollProcessing.totalEmployees')}: {runSummary.totalEmployees}</p>
                   <p className="text-2xl font-bold text-cg-dark mb-6">
                     {t('payrollProcessing.totalNet')}: {fmt(runSummary.totalNet)} THB
                   </p>

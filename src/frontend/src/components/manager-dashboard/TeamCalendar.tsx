@@ -79,7 +79,7 @@ export function TeamCalendar({
           <div className="flex items-center gap-2">
             <button
               onClick={prevMonth}
-              className="p-1 rounded hover:bg-gray-100 transition"
+              className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
               aria-label="Previous month"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -89,7 +89,7 @@ export function TeamCalendar({
             </span>
             <button
               onClick={nextMonth}
-              className="p-1 rounded hover:bg-gray-100 transition"
+              className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
               aria-label="Next month"
             >
               <ChevronRight className="h-4 w-4" />
@@ -99,7 +99,7 @@ export function TeamCalendar({
       </CardHeader>
       <CardContent>
         {loading ? (
-          <div className="h-64 bg-gray-100 rounded-lg animate-pulse" />
+          <div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse" />
         ) : (
           <>
             {/* Day headers */}
@@ -107,7 +107,7 @@ export function TeamCalendar({
               {DAYS.map((d) => (
                 <div
                   key={d}
-                  className="text-center text-xs font-medium text-gray-400 py-1"
+                  className="text-center text-xs font-medium text-gray-400 dark:text-gray-500 py-1"
                 >
                   {d}
                 </div>
@@ -115,10 +115,10 @@ export function TeamCalendar({
             </div>
 
             {/* Calendar grid */}
-            <div className="grid grid-cols-7 gap-px bg-gray-100 rounded-lg overflow-hidden">
+            <div className="grid grid-cols-7 gap-px bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
               {/* Empty cells before first day */}
               {Array.from({ length: startDay }).map((_, i) => (
-                <div key={`empty-${i}`} className="bg-white p-1 min-h-[56px]" />
+                <div key={`empty-${i}`} className="bg-white dark:bg-gray-800 p-1 min-h-[56px]" />
               ))}
 
               {/* Days */}
@@ -129,14 +129,14 @@ export function TeamCalendar({
                   <div
                     key={day}
                     className={cn(
-                      'bg-white p-1 min-h-[56px]',
+                      'bg-white dark:bg-gray-800 p-1 min-h-[56px]',
                       isToday(day) && 'ring-2 ring-inset ring-cg-red'
                     )}
                   >
                     <span
                       className={cn(
                         'text-xs',
-                        isToday(day) ? 'font-bold text-cg-red' : 'text-gray-600'
+                        isToday(day) ? 'font-bold text-cg-red' : 'text-gray-600 dark:text-gray-400'
                       )}
                     >
                       {day}
@@ -150,7 +150,7 @@ export function TeamCalendar({
                         />
                       ))}
                       {dayEvents.length > 3 && (
-                        <span className="text-[9px] text-gray-400">+{dayEvents.length - 3}</span>
+                        <span className="text-[9px] text-gray-400 dark:text-gray-500">+{dayEvents.length - 3}</span>
                       )}
                     </div>
                   </div>
@@ -159,7 +159,7 @@ export function TeamCalendar({
             </div>
 
             {/* Legend */}
-            <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500">
+            <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500 dark:text-gray-400">
               {Object.entries(EVENT_COLORS).map(([type, color]) => (
                 <div key={type} className="flex items-center gap-1">
                   <span className={cn('w-2.5 h-2.5 rounded-full', color)} />

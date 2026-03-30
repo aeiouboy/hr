@@ -18,9 +18,13 @@ import {
   CheckCircle,
   FileText,
   ClipboardList,
+  Sun,
+  Moon,
+  Monitor,
 } from 'lucide-react';
 import { useUIStore } from '@/stores/ui-store';
 import { useAuthStore } from '@/stores/auth-store';
+import { useTheme } from '@/hooks/use-theme';
 import { isManager, isHR, canAccessModule, type Role } from '@/lib/rbac';
 
 interface NavItem {
@@ -49,6 +53,18 @@ export function Header() {
   const pathname = usePathname();
   const { toggleMobileMenu } = useUIStore();
   const { username, roles } = useAuthStore();
+  const { theme, setTheme } = useTheme();
+
+  const themeIcon = theme === 'dark' ? Moon : theme === 'system' ? Monitor : Sun;
+  const ThemeIcon = themeIcon;
+  const themeLabel = theme === 'dark' ? t('settings.themeDark') : theme === 'system' ? t('settings.themeSystem') : t('settings.themeLight');
+
+  const cycleTheme = () => {
+    const order: Array<'light' | 'dark' | 'system'> = ['light', 'dark', 'system'];
+    const currentIndex = order.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % order.length;
+    setTheme(order[nextIndex]);
+  };
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
@@ -224,11 +240,11 @@ export function Header() {
   const renderSearchResults = () => {
     if (!searchResultsOpen || filteredSearchResults.length === 0) return null;
     return (
-      <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-lg shadow-lg border py-1 z-50 max-h-64 overflow-y-auto">
+      <div className="absolute left-0 right-0 top-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 py-1 z-50 max-h-64 overflow-y-auto">
         {filteredSearchResults.map((item) => (
           <button
             key={item.href}
-            className="w-full text-left flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-sm text-gray-700"
+            className="w-full text-left flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300"
             onClick={() => handleSearchSelect(item.href)}
           >
             <Search className="h-3 w-3 text-gray-400" />
@@ -246,22 +262,22 @@ export function Header() {
       onMouseLeave={handleDropdownLeave}
     >
       <button
-        className="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 rounded-lg transition min-h-[44px]"
+        className="flex items-center gap-1 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition min-h-[44px]"
         aria-haspopup="true"
         aria-expanded={activeDropdown === id}
       >
-        <span className="text-gray-700 text-sm">{label}</span>
+        <span className="text-gray-700 dark:text-gray-300 text-sm">{label}</span>
         <ChevronDown className="h-4 w-4 text-gray-500" />
       </button>
       {activeDropdown === id && (
-        <div className="absolute left-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border py-1 z-50">
+        <div className="absolute left-0 top-full mt-1 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 py-1 z-50">
           {items
             .filter((item) => !item.module || canAccessModule(roles, item.module))
             .map((item) => (
               <a
                 key={item.href}
                 href={`/${currentLocale}${item.href}`}
-                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-sm"
+                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm dark:text-gray-200"
               >
                 {item.label}
               </a>
@@ -273,11 +289,11 @@ export function Header() {
 
   return (
     <>
-      <header className="bg-white shadow-md sticky top-0 z-40">
+      <header className="bg-white dark:bg-gray-900 shadow-md dark:shadow-gray-900/50 sticky top-0 z-40">
         <div className="flex items-center justify-between px-4 py-2">
           <div className="flex items-center gap-4">
             <button
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg min-h-[44px] min-w-[44px]"
+              className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg min-h-[44px] min-w-[44px]"
               onClick={toggleMobileMenu}
               aria-label={t('accessibility.openMenu')}
             >
@@ -287,7 +303,7 @@ export function Header() {
             <a href={`/${currentLocale}/`} className="flex items-center gap-2">
               <div className="text-xl font-bold">
                 <span className="text-cg-red">CENTRAL</span>
-                <span className="text-gray-800">GROUP</span>
+                <span className="text-gray-800 dark:text-gray-200">GROUP</span>
               </div>
             </a>
 
@@ -308,7 +324,7 @@ export function Header() {
               <input
                 type="text"
                 placeholder={t('nav.searchPlaceholder')}
-                className="w-full pl-10 pr-4 py-2 border rounded-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-cg-info focus:bg-white transition"
+                className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cg-info focus:bg-white dark:focus:bg-gray-800 transition"
                 aria-label={t('common.search')}
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
@@ -322,32 +338,32 @@ export function Header() {
 
           <div className="flex items-center gap-1">
             <button
-              className="md:hidden p-2 hover:bg-gray-100 rounded-full min-h-[44px] min-w-[44px]"
+              className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px] min-w-[44px]"
               onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
               aria-label={t('common.search')}
             >
-              <Search className="h-5 w-5 text-gray-600" />
+              <Search className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
 
             {/* Notifications */}
             <div className="relative" ref={notificationsRef}>
               <button
-                className="p-2 hover:bg-gray-100 rounded-full min-h-[44px] min-w-[44px] relative"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px] min-w-[44px] relative"
                 aria-label={t('accessibility.notifications')}
                 onClick={() => {
                   setNotificationsOpen(!notificationsOpen);
                   setHelpOpen(false);
                 }}
               >
-                <Bell className="h-5 w-5 text-gray-600" />
+                <Bell className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                 <span className="absolute top-1 right-1 h-4 w-4 bg-cg-red text-white text-[10px] rounded-full flex items-center justify-center">
                   3
                 </span>
               </button>
               {notificationsOpen && (
-                <div className="absolute right-0 top-full mt-1 w-80 bg-white rounded-lg shadow-lg border py-1 z-50">
-                  <div className="px-4 py-2 border-b flex items-center justify-between">
-                    <p className="font-medium text-gray-900 text-sm">Notifications</p>
+                <div className="absolute right-0 top-full mt-1 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 py-1 z-50">
+                  <div className="px-4 py-2 border-b dark:border-gray-700 flex items-center justify-between">
+                    <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">Notifications</p>
                     <button
                       className="text-xs text-cg-info hover:underline"
                       onClick={() => setNotificationsOpen(false)}
@@ -358,21 +374,21 @@ export function Header() {
                   {notifications.map((n) => (
                     <div
                       key={n.id}
-                      className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer ${
-                        !n.read ? 'bg-blue-50/50' : ''
+                      className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer ${
+                        !n.read ? 'bg-blue-50/50 dark:bg-blue-900/20' : ''
                       }`}
                     >
                       <div className="mt-0.5">{n.icon}</div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm text-gray-800">{n.title}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">{n.time}</p>
+                        <p className="text-sm text-gray-800 dark:text-gray-200">{n.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{n.time}</p>
                       </div>
                       {!n.read && (
                         <div className="mt-1.5 h-2 w-2 bg-cg-info rounded-full flex-shrink-0" />
                       )}
                     </div>
                   ))}
-                  <div className="px-4 py-2 border-t">
+                  <div className="px-4 py-2 border-t dark:border-gray-700">
                     <button
                       className="w-full text-center text-sm text-cg-info hover:underline"
                       onClick={() => {
@@ -390,29 +406,29 @@ export function Header() {
             {/* Help */}
             <div className="relative hidden sm:block" ref={helpRef}>
               <button
-                className="p-2 hover:bg-gray-100 rounded-full min-h-[44px] min-w-[44px]"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px] min-w-[44px]"
                 aria-label={t('nav.help')}
                 onClick={() => {
                   setHelpOpen(!helpOpen);
                   setNotificationsOpen(false);
                 }}
               >
-                <HelpCircle className="h-5 w-5 text-gray-600" />
+                <HelpCircle className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               </button>
               {helpOpen && (
-                <div className="absolute right-0 top-full mt-1 w-72 bg-white rounded-lg shadow-lg border py-1 z-50">
-                  <div className="px-4 py-2 border-b">
-                    <p className="font-medium text-gray-900 text-sm">Help & Support</p>
+                <div className="absolute right-0 top-full mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 py-1 z-50">
+                  <div className="px-4 py-2 border-b dark:border-gray-700">
+                    <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">Help & Support</p>
                   </div>
                   <div className="px-4 py-3 space-y-3">
                     <div className="flex items-start gap-3">
                       <Keyboard className="h-4 w-4 text-gray-500 mt-0.5" />
                       <div>
-                        <p className="text-sm font-medium text-gray-800">Keyboard Shortcuts</p>
-                        <div className="text-xs text-gray-500 mt-1 space-y-0.5">
-                          <p><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[10px]">Ctrl+K</kbd> Quick search</p>
-                          <p><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[10px]">Ctrl+/</kbd> Show shortcuts</p>
-                          <p><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[10px]">Esc</kbd> Close dialogs</p>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Keyboard Shortcuts</p>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 space-y-0.5">
+                          <p><kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-[10px]">Ctrl+K</kbd> Quick search</p>
+                          <p><kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-[10px]">Ctrl+/</kbd> Show shortcuts</p>
+                          <p><kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-[10px]">Esc</kbd> Close dialogs</p>
                         </div>
                       </div>
                     </div>
@@ -420,15 +436,15 @@ export function Header() {
                     <div className="flex items-start gap-3">
                       <Mail className="h-4 w-4 text-gray-500 mt-0.5" />
                       <div>
-                        <p className="text-sm font-medium text-gray-800">Contact Support</p>
-                        <p className="text-xs text-gray-500 mt-0.5">hr-support@centralgroup.com</p>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Contact Support</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">hr-support@centralgroup.com</p>
                       </div>
                     </div>
                     <hr />
                     <div className="flex items-start gap-3">
                       <BookOpen className="h-4 w-4 text-gray-500 mt-0.5" />
                       <div>
-                        <p className="text-sm font-medium text-gray-800">Documentation</p>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Documentation</p>
                         <a
                           href="#"
                           className="text-xs text-cg-info hover:underline mt-0.5 block"
@@ -448,19 +464,29 @@ export function Header() {
 
             {/* Settings */}
             <button
-              className="hidden sm:block p-2 hover:bg-gray-100 rounded-full min-h-[44px] min-w-[44px]"
+              className="hidden sm:block p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px] min-w-[44px]"
               aria-label={t('nav.settings')}
               onClick={handleSettingsClick}
             >
-              <Settings className="h-5 w-5 text-gray-600" />
+              <Settings className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+            </button>
+
+            {/* Theme Toggle */}
+            <button
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px] min-w-[44px]"
+              onClick={cycleTheme}
+              aria-label={t('settings.theme')}
+              title={themeLabel}
+            >
+              <ThemeIcon className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
 
             <button
-              className="p-2 hover:bg-gray-100 rounded-full min-h-[44px] min-w-[44px]"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px] min-w-[44px]"
               onClick={toggleLanguage}
               aria-label={currentLocale === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
             >
-              <span className="text-sm font-medium text-gray-600">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 {currentLocale === 'th' ? 'EN' : 'TH'}
               </span>
             </button>
@@ -472,7 +498,7 @@ export function Header() {
               onMouseLeave={() => setUserDropdownOpen(false)}
             >
               <button
-                className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded-full min-h-[44px]"
+                className="flex items-center gap-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full min-h-[44px]"
                 aria-label={t('accessibility.userMenu')}
                 aria-haspopup="true"
                 aria-expanded={userDropdownOpen}
@@ -483,28 +509,28 @@ export function Header() {
                 <ChevronDown className="h-4 w-4 text-gray-500 hidden sm:block" />
               </button>
               {userDropdownOpen && (
-                <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border py-1 z-50">
-                  <div className="px-4 py-2 border-b">
-                    <p className="font-medium text-gray-900">{username || 'User'}</p>
-                    <p className="text-sm text-gray-500">{roles[0] || 'Employee'}</p>
+                <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 py-1 z-50">
+                  <div className="px-4 py-2 border-b dark:border-gray-700">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{username || 'User'}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{roles[0] || 'Employee'}</p>
                   </div>
                   <a
                     href={`/${currentLocale}/profile`}
-                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50"
+                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200"
                   >
                     <User className="h-4 w-4 text-gray-500" />
                     <span>{t('nav.profile')}</span>
                   </a>
                   <a
                     href={`/${currentLocale}/settings`}
-                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50"
+                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200"
                   >
                     <Settings className="h-4 w-4 text-gray-500" />
                     <span>{t('nav.settings')}</span>
                   </a>
-                  <hr className="my-1" />
+                  <hr className="my-1 dark:border-gray-700" />
                   <button
-                    className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-red-600"
+                    className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600"
                     onClick={() => {
                       setLogoutConfirmOpen(true);
                       setUserDropdownOpen(false);
@@ -527,7 +553,7 @@ export function Header() {
               <input
                 type="text"
                 placeholder={t('nav.searchPlaceholder')}
-                className="w-full pl-10 pr-4 py-2 border rounded-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-cg-info"
+                className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cg-info"
                 aria-label={t('common.search')}
                 autoFocus
                 value={searchQuery}
@@ -542,19 +568,19 @@ export function Header() {
       {/* Logout confirmation dialog */}
       {logoutConfirmOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-sm mx-4 p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-sm mx-4 p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-red-100 rounded-full">
+              <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-full">
                 <LogOut className="h-5 w-5 text-red-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">Confirm Logout</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Confirm Logout</h3>
             </div>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
               Are you sure you want to log out? You will need to sign in again to access the system.
             </p>
             <div className="flex gap-3 justify-end">
               <button
-                className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
+                className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
                 onClick={() => setLogoutConfirmOpen(false)}
               >
                 Cancel

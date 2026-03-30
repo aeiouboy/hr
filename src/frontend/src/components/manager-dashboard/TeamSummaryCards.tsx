@@ -52,17 +52,17 @@ export function TeamSummaryCards({ summary, loading }: TeamSummaryCardsProps) {
             key={card.label}
             className={`hover:shadow-md transition-shadow ${card.href ? 'cursor-pointer' : ''}`}
           >
-            <CardContent className="p-5 flex items-start gap-4">
+            <CardContent className="p-5 sm:p-6 lg:p-8 flex items-start gap-4">
               <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${card.color}`}>
                 {card.icon}
               </div>
               <div className="min-w-0">
-                <p className="text-sm text-gray-500">{card.label}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{card.label}</p>
                 <p className="text-2xl font-bold text-cg-dark mt-0.5">
                   {loading ? '...' : card.value}
                 </p>
                 {card.subtitle && (
-                  <p className="text-xs text-gray-400 mt-0.5 truncate">{card.subtitle}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 truncate">{card.subtitle}</p>
                 )}
               </div>
             </CardContent>

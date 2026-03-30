@@ -38,6 +38,10 @@ const MODULE_ACCESS: Record<string, Role[]> = {
   'benefits': ['employee', 'manager', 'hr_admin', 'hr_manager'],
   'quick-approve': ['manager', 'hr_admin', 'hr_manager'],
   'hospital-referral': ['employee', 'manager', 'hr_admin', 'hr_manager'],
+  'spd-management': ['manager', 'hr_admin', 'hr_manager'],
+  'hrbp-reports': ['hr_admin', 'hr_manager'],
+  'geofencing-config': ['hr_admin', 'hr_manager'],
+  'workflow-config': ['hr_admin', 'hr_manager'],
 };
 
 export function hasRole(userRoles: Role[], required: Role): boolean {

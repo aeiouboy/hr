@@ -25,17 +25,17 @@ export function UrgentAlertBanner({ alerts }: UrgentAlertBannerProps) {
       {visible.map((alert) => (
         <div
           key={alert.id}
-          className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3"
+          className="flex items-start gap-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3"
           role="alert"
         >
           <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-red-800">{alert.title}</p>
-            <p className="text-xs text-red-600 mt-0.5">{alert.message}</p>
+            <p className="text-sm font-medium text-red-800 dark:text-red-300">{alert.title}</p>
+            <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">{alert.message}</p>
           </div>
           <button
             onClick={() => dismiss(alert.id)}
-            className="p-1 rounded hover:bg-red-100 transition"
+            className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30 transition"
             aria-label={t('dismiss') ?? 'Dismiss'}
           >
             <X className="h-4 w-4 text-red-400" />

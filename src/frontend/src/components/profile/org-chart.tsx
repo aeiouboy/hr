@@ -42,25 +42,25 @@ function NodeCard({
         'flex items-center gap-3 p-3 rounded-lg border transition-all text-left w-full',
         highlight
           ? 'border-cg-red bg-cg-red/5 ring-1 ring-cg-red/20'
-          : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm',
+          : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm',
         searchMatch && 'border-yellow-400 bg-yellow-50 ring-1 ring-yellow-300',
         dimmed && 'opacity-30'
       )}
     >
-      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 shrink-0">
+      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0">
         {node.photo ? (
           <img src={node.photo} alt={node.name} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-sm font-medium text-gray-500">
+          <div className="w-full h-full flex items-center justify-center text-sm font-medium text-gray-500 dark:text-gray-400">
             {node.name.substring(0, 2).toUpperCase()}
           </div>
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-gray-900 truncate">{node.name}</p>
-        <p className="text-xs text-gray-500 truncate">{node.title}</p>
+        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{node.name}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{node.title}</p>
         {node.department && (
-          <p className="text-xs text-gray-400 truncate">{node.department}</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{node.department}</p>
         )}
       </div>
     </button>
@@ -93,7 +93,7 @@ function CollapsibleReports({
     <div>
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700 mb-2"
+        className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 mb-2"
       >
         {expanded ? (
           <ChevronDown className="h-3.5 w-3.5" />
@@ -142,7 +142,7 @@ export function OrgChart({ supervisor, current, directReports = [], onNodeClick,
               onClick={() => onNodeClick?.(supervisor.id)}
             />
           </div>
-          <div className="w-px h-6 bg-gray-300" />
+          <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
         </>
       )}
 
@@ -159,7 +159,7 @@ export function OrgChart({ supervisor, current, directReports = [], onNodeClick,
       {/* Direct Reports */}
       {directReports.length > 0 && (
         <>
-          <div className="w-px h-6 bg-gray-300" />
+          <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
           <CollapsibleReports reports={directReports} onNodeClick={onNodeClick} searchQuery={searchQuery} />
         </>
       )}

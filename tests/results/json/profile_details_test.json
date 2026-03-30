@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-02-22T15:43:08.914Z",
+  "baseUrl": "http://localhost:8080",
+  "route": "#/profile",
+  "tab": "Profile",
+  "status": "passed",
+  "errors": [],
+  "warnings": [],
+  "sections": [
+    {
+      "name": "Education",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Previous Employment",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Languages",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Certifications",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "E-Letter",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Learning History",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "OHS Certificate",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "OHS Document",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Awards",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Mobility",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    },
+    {
+      "name": "Individual Documents",
+      "found": true,
+      "visible": true,
+      "hasContent": true,
+      "issues": []
+    }
+  ],
+  "screenshots": [
+    "01_profile_initial.png",
+    "02_page_loaded.png",
+    "03_profile_details_tab.png",
+    "04_education.png",
+    "05_previous_employment.png",
+    "06_languages.png",
+    "07_certifications.png",
+    "08_e-letter.png",
+    "09_learning_history.png",
+    "10_ohs_certificate.png",
+    "11_ohs_document.png",
+    "12_awards.png",
+    "13_mobility.png",
+    "14_individual_documents.png",
+    "ZZ_full_page.png"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "language": "en"
+}

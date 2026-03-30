@@ -15,14 +15,14 @@ import {
 import type { HospitalReferral, TimelineEvent, ReferralStatus } from '@/hooks/use-hospital-referral';
 
 const STATUS_CLASSES: Record<ReferralStatus, string> = {
-  draft: 'bg-gray-100 text-gray-800',
-  submitted: 'bg-blue-100 text-blue-800',
-  pending_manager: 'bg-yellow-100 text-yellow-800',
-  pending_hr: 'bg-orange-100 text-orange-800',
-  approved: 'bg-green-100 text-green-800',
-  rejected: 'bg-red-100 text-red-800',
-  cancelled: 'bg-gray-100 text-gray-500',
-  letter_issued: 'bg-purple-100 text-purple-800',
+  draft: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+  submitted: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+  pending_manager: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+  pending_hr: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
+  approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+  rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+  cancelled: 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400',
+  letter_issued: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
 };
 
 function getTimelineIcon(action: string) {
@@ -78,18 +78,18 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent; isLast: boolean
         >
           {getTimelineIcon(event.action)}
         </div>
-        {!isLast && <div className="w-px flex-1 bg-gray-200 min-h-[16px] mt-1" />}
+        {!isLast && <div className="w-px flex-1 bg-gray-200 dark:bg-gray-700 min-h-[16px] mt-1" />}
       </div>
       <div className={cn('pb-4', isLast && 'pb-0')}>
-        <p className="text-sm font-medium text-gray-900">
+        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
           {formatActionLabel(event.action, event.actorName)}
         </p>
-        <p className="text-xs text-gray-500 mt-0.5">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
           {new Date(event.date).toLocaleDateString('en-US', { dateStyle: 'medium' })}{' '}
           {new Date(event.date).toLocaleTimeString('en-US', { timeStyle: 'short' })}
         </p>
         {event.note && (
-          <p className="text-xs text-gray-600 mt-1 bg-gray-50 rounded p-2">{event.note}</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 bg-gray-50 dark:bg-gray-800/50 rounded p-2">{event.note}</p>
         )}
       </div>
     </div>
@@ -167,7 +167,7 @@ export function ReferralDetail({
           >
             {t(`status.${referral.status}`)}
           </span>
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-gray-400 dark:text-gray-500">
             {referral.referralNumber ? referral.referralNumber : `ID: ${referral.id}`}
           </span>
         </div>
@@ -175,30 +175,36 @@ export function ReferralDetail({
         {/* Details grid */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-gray-500">{t('hospital')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('hospital')}</p>
             <p className="font-medium">{referral.hospitalName}</p>
             {referral.hospitalBranch && (
               <p className="text-xs text-gray-500">{referral.hospitalBranch}</p>
             )}
           </div>
           <div>
-            <p className="text-gray-500">{t('preferredDate')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('preferredDate')}</p>
             <p className="font-medium">{referral.preferredDate}</p>
           </div>
+          {referral.amount && (
+            <div>
+              <p className="text-gray-500 dark:text-gray-400">{t('amount')}</p>
+              <p className="font-medium">{referral.amount.toLocaleString()} THB</p>
+            </div>
+          )}
           {referral.validFrom && (
             <div>
-              <p className="text-gray-500">{t('validFrom')}</p>
+              <p className="text-gray-500 dark:text-gray-400">{t('validFrom')}</p>
               <p className="font-medium">{referral.validFrom}</p>
             </div>
           )}
           {referral.validUntil && (
             <div>
-              <p className="text-gray-500">{t('validUntil')}</p>
+              <p className="text-gray-500 dark:text-gray-400">{t('validUntil')}</p>
               <p className="font-medium">{referral.validUntil}</p>
             </div>
           )}
           <div>
-            <p className="text-gray-500">{t('createdDate')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('createdDate')}</p>
             <p className="font-medium">
               {new Date(referral.createdAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}
             </p>
@@ -208,14 +214,14 @@ export function ReferralDetail({
         {/* Reason */}
         <div>
           <p className="text-sm text-gray-500 mb-1">{t('reason')}</p>
-          <p className="p-3 bg-gray-50 rounded-lg text-sm">{referral.reason}</p>
+          <p className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg text-sm">{referral.reason}</p>
         </div>
 
         {/* Notes */}
         {referral.notes && (
           <div>
             <p className="text-sm text-gray-500 mb-1">{t('notes')}</p>
-            <p className="p-3 bg-gray-50 rounded-lg text-sm">{referral.notes}</p>
+            <p className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg text-sm">{referral.notes}</p>
           </div>
         )}
 
@@ -229,8 +235,8 @@ export function ReferralDetail({
 
         {/* Timeline */}
         {referral.timeline.length > 0 && (
-          <div className="border-t pt-4">
-            <p className="text-sm font-medium text-gray-900 mb-3">{t('timeline')}</p>
+          <div className="border-t dark:border-gray-700 pt-4">
+            <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">{t('timeline')}</p>
             <div>
               {referral.timeline.map((event, index) => (
                 <TimelineItem

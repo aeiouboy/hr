@@ -80,17 +80,17 @@ export function DelegationModal({
         <div>
           <h4 className="text-sm font-medium text-cg-dark mb-2">{t('activeDelegations')}</h4>
           {delegations.length === 0 ? (
-            <p className="text-sm text-gray-400">{t('noDelegations')}</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">{t('noDelegations')}</p>
           ) : (
             <ul className="space-y-2">
               {delegations.map((d) => (
                 <li
                   key={d.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg"
                 >
                   <div>
                     <p className="text-sm font-medium text-cg-dark">{d.delegateTo.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {d.startDate} — {d.endDate}
                     </p>
                     <div className="flex gap-1 mt-1 flex-wrap">
@@ -118,11 +118,11 @@ export function DelegationModal({
 
         {/* Create form */}
         {showForm ? (
-          <div className="border rounded-lg p-4 space-y-3">
+          <div className="border dark:border-gray-700 rounded-lg p-4 space-y-3">
             <h4 className="text-sm font-medium text-cg-dark">{t('createNew')}</h4>
 
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
                 {t('delegateTo')}
               </label>
               <input
@@ -130,37 +130,37 @@ export function DelegationModal({
                 value={delegateTo}
                 onChange={(e) => setDelegateTo(e.target.value)}
                 placeholder={t('delegateToPlaceholder')}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
+                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
                   {t('startDate')}
                 </label>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
                   {t('endDate')}
                 </label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
                 {t('workflowTypes')}
               </label>
               <div className="flex flex-wrap gap-2">
@@ -172,7 +172,7 @@ export function DelegationModal({
                     className={`px-3 py-1 rounded-full text-xs font-medium border transition ${
                       selectedTypes.includes(wt)
                         ? 'bg-cg-red text-white border-cg-red'
-                        : 'bg-white text-gray-600 border-gray-300 hover:border-cg-red'
+                        : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-cg-red'
                     }`}
                   >
                     {wt}

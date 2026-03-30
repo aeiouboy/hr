@@ -29,6 +29,7 @@ const STATUS_VARIANTS: Record<WorkflowStatus, 'warning' | 'success' | 'error' | 
 const TYPE_ICONS: Record<WorkflowType, React.ReactNode> = {
   leave: <Calendar className="h-5 w-5" />,
   overtime: <Clock className="h-5 w-5" />,
+  time_correction: <Clock className="h-5 w-5" />,
   transfer: <ArrowRightLeft className="h-5 w-5" />,
   payroll_change: <DollarSign className="h-5 w-5" />,
   personal_info: <FileText className="h-5 w-5" />,
@@ -38,6 +39,7 @@ const TYPE_ICONS: Record<WorkflowType, React.ReactNode> = {
 const TYPE_COLORS: Record<WorkflowType, string> = {
   leave: 'text-green-600 bg-green-50',
   overtime: 'text-orange-600 bg-orange-50',
+  time_correction: 'text-cyan-600 bg-cyan-50',
   transfer: 'text-blue-600 bg-blue-50',
   payroll_change: 'text-purple-600 bg-purple-50',
   personal_info: 'text-indigo-600 bg-indigo-50',
@@ -56,15 +58,15 @@ interface WorkflowListProps {
 
 function WorkflowCardSkeleton() {
   return (
-    <div className="bg-white rounded-xl border shadow-sm p-5 animate-pulse">
+    <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 shadow-sm p-5 animate-pulse">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 bg-gray-200 rounded-lg flex-shrink-0" />
+        <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0" />
         <div className="flex-1 space-y-2">
-          <div className="h-4 bg-gray-200 rounded w-1/3" />
-          <div className="h-3 bg-gray-100 rounded w-1/2" />
-          <div className="h-3 bg-gray-100 rounded w-2/3" />
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3" />
+          <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded w-1/2" />
+          <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded w-2/3" />
         </div>
-        <div className="h-6 bg-gray-200 rounded-full w-20" />
+        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-20" />
       </div>
     </div>
   );
@@ -96,10 +98,10 @@ export function WorkflowList({
   if (workflows.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-          <FileText className="h-8 w-8 text-gray-400" />
+        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+          <FileText className="h-8 w-8 text-gray-400 dark:text-gray-500" />
         </div>
-        <p className="text-gray-500 text-sm">{t('noRequests')}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">{t('noRequests')}</p>
       </div>
     );
   }
@@ -124,13 +126,13 @@ export function WorkflowList({
         return (
           <div
             key={workflow.id}
-            className="bg-white rounded-xl border shadow-sm hover:shadow-md transition-shadow"
+            className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="p-5">
-              <div className="flex items-start gap-4">
+            <div className="px-4 py-3.5 sm:px-5 sm:py-4">
+              <div className="flex items-start gap-3">
                 {/* Type icon */}
                 <div
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass}`}
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass}`}
                 >
                   {icon}
                 </div>
@@ -144,15 +146,15 @@ export function WorkflowList({
                     </Badge>
                   </div>
 
-                  <p className="text-sm text-gray-600 mb-2 line-clamp-1 sm:line-clamp-none">{workflow.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1.5 line-clamp-1 sm:line-clamp-none">{workflow.description}</p>
 
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
                     <span>
-                      <span className="font-medium text-gray-700">{t('requestedBy')}:</span>{' '}
+                      <span className="font-medium text-gray-700 dark:text-gray-300">{t('requestedBy')}:</span>{' '}
                       {workflow.requesterName}
                     </span>
                     <span>
-                      <span className="font-medium text-gray-700">{t('requestDate')}:</span>{' '}
+                      <span className="font-medium text-gray-700 dark:text-gray-300">{t('requestDate')}:</span>{' '}
                       {formatDate(workflow.submittedDate, 'medium', locale)}
                     </span>
                     {workflow.effectiveDate && (
@@ -164,7 +166,7 @@ export function WorkflowList({
                   </div>
 
                   {/* Progress indicator */}
-                  <div className="flex items-center gap-2 mt-3">
+                  <div className="flex items-center gap-2 mt-2">
                     <div className="flex gap-1">
                       {Array.from({ length: workflow.totalSteps }).map((_, idx) => {
                         const step = workflow.steps[idx];
@@ -181,13 +183,13 @@ export function WorkflowList({
                                   ? 'bg-red-400'
                                   : isCurrent && isPending
                                     ? 'bg-yellow-400'
-                                    : 'bg-gray-200'
+                                    : 'bg-gray-200 dark:bg-gray-600'
                             }`}
                           />
                         );
                       })}
                     </div>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-400 dark:text-gray-500">
                       {t('currentStep')} {workflow.currentStep}/{workflow.totalSteps}
                     </span>
                   </div>
@@ -196,16 +198,16 @@ export function WorkflowList({
                 {/* View detail arrow */}
                 <button
                   onClick={() => onViewDetail(workflow)}
-                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0 mt-0.5"
+                  className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex-shrink-0 mt-0.5"
                   aria-label={t('viewDetails')}
                 >
-                  <ChevronRight className="h-4 w-4 text-gray-400" />
+                  <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </button>
               </div>
 
               {/* Action buttons for pending items */}
               {showActions && isPending && (onApprove || onReject || onSendBack) && (
-                <div className="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row gap-2 mt-3 pt-3 border-t dark:border-gray-700">
                   {onApprove && (
                     <Button
                       size="sm"

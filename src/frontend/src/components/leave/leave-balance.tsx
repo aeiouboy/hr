@@ -40,7 +40,7 @@ export function LeaveBalanceDisplay({ balances, loading, onRequestLeave }: Leave
 
   if (balances.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-12 text-gray-500 dark:text-gray-400">
         <p className="text-lg">{t('noBalanceData')}</p>
       </div>
     );
@@ -72,20 +72,20 @@ function LeaveBalanceCard({
 
   return (
     <Card className="hover:shadow-md transition-shadow">
-      <CardContent className="p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center text-lg', colors.bg)}>
+      <CardContent className="p-4 sm:p-5 lg:p-6">
+        <div className="flex items-center gap-2 mb-2">
+          <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center shrink-0', colors.bg)}>
             {colors.icon}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-medium text-gray-900 text-sm truncate">{balance.nameEn}</h3>
-            <p className="text-xs text-gray-500">{balance.nameTh}</p>
+            <h3 className="font-medium text-gray-900 dark:text-gray-100 text-sm truncate">{balance.nameEn}</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{balance.nameTh}</p>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="hidden sm:block mb-3">
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="hidden sm:block mb-2">
+          <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
             <div
               className={cn('h-full rounded-full transition-all duration-300', barColor)}
               style={{ width: `${Math.min(percentage, 100)}%` }}
@@ -94,21 +94,21 @@ function LeaveBalanceCard({
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-1 text-center text-xs mb-3">
+        <div className="grid grid-cols-4 gap-1 text-center text-xs mb-2">
           <div>
-            <p className="text-gray-400">{t('entitled')}</p>
-            <p className="font-semibold text-gray-900">{balance.entitled}</p>
+            <p className="text-gray-400 dark:text-gray-500">{t('entitled')}</p>
+            <p className="font-semibold text-gray-900 dark:text-gray-100">{balance.entitled}</p>
           </div>
           <div>
-            <p className="text-gray-400">{t('used')}</p>
-            <p className="font-semibold text-gray-900">{balance.used}</p>
+            <p className="text-gray-400 dark:text-gray-500">{t('used')}</p>
+            <p className="font-semibold text-gray-900 dark:text-gray-100">{balance.used}</p>
           </div>
           <div>
-            <p className="text-gray-400">{t('pending')}</p>
+            <p className="text-gray-400 dark:text-gray-500">{t('pending')}</p>
             <p className="font-semibold text-yellow-600">{balance.pending}</p>
           </div>
           <div>
-            <p className="text-gray-400">{t('remaining')}</p>
+            <p className="text-gray-400 dark:text-gray-500">{t('remaining')}</p>
             <p className={cn('font-semibold', colors.text)}>{balance.remaining}</p>
           </div>
         </div>
@@ -120,7 +120,7 @@ function LeaveBalanceCard({
             className={cn(
               'w-full py-2 text-xs font-medium rounded-lg transition',
               balance.remaining <= 0 && balance.type !== 'unpaid'
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                 : cn(colors.bg, colors.text, 'hover:opacity-80')
             )}
           >

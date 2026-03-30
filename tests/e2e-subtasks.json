@@ -1,0 +1,47 @@
+{
+  "description": "Comprehensive E2E testing for RIS HR System",
+  "tasks": [
+    {
+      "id": "task-01-verify",
+      "description": "Run verification-test.js E2E test script. Start HTTP server on port 8080, execute the test, analyze results. If any tests fail, identify the root cause, fix the source code, and re-run until all tests pass.",
+      "subagent_type": "implementer",
+      "dependencies": [],
+      "estimated_tokens": 20000
+    },
+    {
+      "id": "task-02-additional",
+      "description": "Run test-additional-modules.js E2E test script. Execute the test, analyze results. If any tests fail, identify the root cause, fix the source code, and re-run until all tests pass.",
+      "subagent_type": "implementer",
+      "dependencies": ["task-01-verify"],
+      "estimated_tokens": 20000
+    },
+    {
+      "id": "task-03-profile",
+      "description": "Run test-profile-details.js E2E test script. Execute the test, analyze results. If any tests fail, identify the root cause, fix the source code, and re-run until all tests pass.",
+      "subagent_type": "implementer",
+      "dependencies": ["task-02-additional"],
+      "estimated_tokens": 20000
+    },
+    {
+      "id": "task-04-scorecard",
+      "description": "Run test-scorecard-tab.js E2E test script. Execute the test, analyze results. If any tests fail, identify the root cause, fix the source code, and re-run until all tests pass.",
+      "subagent_type": "implementer",
+      "dependencies": ["task-03-profile"],
+      "estimated_tokens": 20000
+    },
+    {
+      "id": "task-05-benefits",
+      "description": "Run test-benefits-tab.js E2E test script. Execute the test, analyze results. If any tests fail, identify the root cause, fix the source code, and re-run until all tests pass.",
+      "subagent_type": "implementer",
+      "dependencies": ["task-04-scorecard"],
+      "estimated_tokens": 20000
+    },
+    {
+      "id": "task-06-review",
+      "description": "Review all E2E test results. Verify that all 5 test suites passed with 100% success rate. Generate a summary report of all fixes made.",
+      "subagent_type": "reviewer",
+      "dependencies": ["task-05-benefits"],
+      "estimated_tokens": 5000
+    }
+  ]
+}

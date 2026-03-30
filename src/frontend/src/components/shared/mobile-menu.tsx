@@ -124,31 +124,31 @@ export function MobileMenu() {
       />
 
       <nav
-        className="fixed inset-y-0 left-0 w-72 bg-white shadow-xl z-50 lg:hidden flex flex-col"
+        className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-gray-900 shadow-xl z-50 lg:hidden flex flex-col"
         aria-label={t('accessibility.mainNavigation')}
       >
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
           <div className="text-lg font-bold">
             <span className="text-cg-red">CENTRAL</span>
-            <span className="text-gray-800">GROUP</span>
+            <span className="text-gray-800 dark:text-gray-200">GROUP</span>
           </div>
           <button
             onClick={() => setMobileMenuOpen(false)}
-            className="p-2 hover:bg-gray-100 rounded-lg min-h-[44px] min-w-[44px]"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg min-h-[44px] min-w-[44px]"
             aria-label={t('accessibility.closeMenu')}
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="px-4 py-3 border-b bg-gray-50">
+        <div className="px-4 py-3 border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-cg-red rounded-full flex items-center justify-center text-white font-medium">
               {userInitials}
             </div>
             <div>
-              <p className="font-medium text-gray-900">{username}</p>
-              <p className="text-xs text-gray-500">{roles[0]}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">{username}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{roles[0]}</p>
             </div>
           </div>
         </div>
@@ -160,7 +160,7 @@ export function MobileMenu() {
 
             return (
               <div key={group.title}>
-                <h3 className="px-4 pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                <h3 className="px-4 pt-4 pb-1 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                   {group.title}
                 </h3>
                 <ul>
@@ -174,7 +174,7 @@ export function MobileMenu() {
                             'flex items-center gap-3 px-4 py-3 transition text-sm',
                             isActive
                               ? 'bg-cg-red/10 text-cg-red font-medium border-r-2 border-cg-red'
-                              : 'text-gray-600 hover:bg-gray-50'
+                              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                           )}
                         >
                           {item.icon}
@@ -189,13 +189,13 @@ export function MobileMenu() {
           })}
         </div>
 
-        <div className="border-t mt-2 pt-2 pb-4">
+        <div className="border-t dark:border-gray-700 mt-2 pt-2 pb-4">
           <button
             onClick={() => {
               setMobileMenuOpen(false);
               clearUser();
             }}
-            className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 transition text-sm"
+            className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-sm"
           >
             <LogOut className="h-5 w-5" />
             <span>{t('nav.logout')}</span>

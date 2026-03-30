@@ -46,7 +46,7 @@ function TimelineStep({
             completed && 'bg-green-100',
             rejected && 'bg-red-100',
             active && !completed && !rejected && 'bg-yellow-100',
-            !completed && !rejected && !active && 'bg-gray-100'
+            !completed && !rejected && !active && 'bg-gray-100 dark:bg-gray-700'
           )}
         >
           {completed ? (
@@ -56,15 +56,15 @@ function TimelineStep({
           ) : active ? (
             <Clock className="h-4 w-4 text-yellow-600" />
           ) : (
-            <div className="w-2 h-2 rounded-full bg-gray-300" />
+            <div className="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600" />
           )}
         </div>
-        <div className="w-px h-full bg-gray-200 min-h-[16px]" />
+        <div className="w-px h-full bg-gray-200 dark:bg-gray-700 min-h-[16px]" />
       </div>
       <div className="pb-4">
-        <p className="text-sm font-medium text-gray-900">{label}</p>
-        {date && <p className="text-xs text-gray-500">{new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })} {new Date(date).toLocaleTimeString('en-US', { timeStyle: 'short' })}</p>}
-        {detail && <p className="text-xs text-gray-600 mt-1 bg-gray-50 rounded p-2">{detail}</p>}
+        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{label}</p>
+        {date && <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })} {new Date(date).toLocaleTimeString('en-US', { timeStyle: 'short' })}</p>}
+        {detail && <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 bg-gray-50 dark:bg-gray-800/50 rounded p-2">{detail}</p>}
       </div>
     </div>
   );
@@ -106,42 +106,42 @@ export function LeaveDetail({ request, open, onClose, onCancel }: LeaveDetailPro
         {/* Status badge */}
         <div className="flex items-center justify-between">
           <Badge variant={STATUS_VARIANTS[request.status]}>{t(`status.${request.status}`)}</Badge>
-          <span className="text-xs text-gray-400">ID: {request.id}</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">ID: {request.id}</span>
         </div>
 
         {/* Details grid */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-gray-500">{t('startDate')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('startDate')}</p>
             <p className="font-medium">{request.startDate}</p>
           </div>
           <div>
-            <p className="text-gray-500">{t('endDate')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('endDate')}</p>
             <p className="font-medium">{request.endDate}</p>
           </div>
           <div>
-            <p className="text-gray-500">{t('duration')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('duration')}</p>
             <p className="font-medium">
               {request.days} {t('days')}
               {request.halfDay && ` (${request.halfDay === 'morning' ? t('morning') : t('afternoon')})`}
             </p>
           </div>
           <div>
-            <p className="text-gray-500">{t('submittedDate')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('submittedDate')}</p>
             <p className="font-medium">{new Date(request.submittedAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}</p>
           </div>
         </div>
 
         {/* Reason */}
         <div>
-          <p className="text-sm text-gray-500 mb-1">{t('reason')}</p>
-          <p className="p-3 bg-gray-50 rounded-lg text-sm">{request.reason}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('reason')}</p>
+          <p className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg text-sm">{request.reason}</p>
         </div>
 
         {/* Substitute */}
         {request.substitutePersonName && (
           <div className="text-sm">
-            <p className="text-gray-500">{t('substitute')}</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('substitute')}</p>
             <p className="font-medium">{request.substitutePersonName}</p>
           </div>
         )}
@@ -155,8 +155,8 @@ export function LeaveDetail({ request, open, onClose, onCancel }: LeaveDetailPro
         )}
 
         {/* Status Timeline */}
-        <div className="border-t pt-4">
-          <p className="text-sm font-medium text-gray-900 mb-3">Status Timeline</p>
+        <div className="border-t dark:border-gray-700 pt-4">
+          <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Status Timeline</p>
           <div>
             <TimelineStep
               label="Request Created"

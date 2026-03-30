@@ -1,0 +1,77 @@
+{
+  "test_name": "RIS HR System - Phase 2 Features",
+  "status": "failed",
+  "screenshots": [
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/01_home_page.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/02_time_management.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/03_shift_config.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/04_attendance_summary.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/05_payroll_setup.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/06_tax_config.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/07_payroll_processing.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/08_government_reports.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/09_report_generation.png",
+    "/Users/tachongrak/Projects/RIS HR System/agents/e2e_phase2/img/phase2/10_language_toggle.png"
+  ],
+  "steps_executed": [
+    {
+      "step": 1,
+      "name": "Navigate to Home Page",
+      "status": "passed"
+    },
+    {
+      "step": 2,
+      "name": "Test Time Management Module",
+      "status": "passed"
+    },
+    {
+      "step": 3,
+      "name": "Test Shift Configuration",
+      "status": "passed"
+    },
+    {
+      "step": 4,
+      "name": "Test Attendance Summary",
+      "status": "passed"
+    },
+    {
+      "step": 5,
+      "name": "Test Payroll Setup Module",
+      "status": "failed",
+      "error": "Page title does not contain \"ค่าตอบแทน\" or \"Payroll\""
+    },
+    {
+      "step": 6,
+      "name": "Test Tax Configuration",
+      "status": "passed"
+    },
+    {
+      "step": 7,
+      "name": "Test Payroll Processing Module",
+      "status": "passed"
+    },
+    {
+      "step": 8,
+      "name": "Test Government Reports Module",
+      "status": "passed"
+    },
+    {
+      "step": 9,
+      "name": "Test Report Generation",
+      "status": "failed",
+      "error": "Report types not found"
+    },
+    {
+      "step": 10,
+      "name": "Test Language Toggle on Phase 2 Pages",
+      "status": "failed",
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has-text(\"TH\"), button:has-text(\"EN\")').first()\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"mobile-menu-btn\" aria-expanded=\"false\" aria-label=\"Open menu\" onclick=\"MobileMenuComponent.toggle()\" class=\"lg:hidden p-2 hover:bg-gray-100 rounded-lg min-h-[44px] min-w-[44px]\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    56 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+    },
+    {
+      "step": 11,
+      "name": "Check for Console Errors",
+      "status": "passed"
+    }
+  ],
+  "error": null
+}

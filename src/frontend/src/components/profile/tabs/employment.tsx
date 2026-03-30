@@ -29,7 +29,7 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
     return (
       <div className="space-y-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-white rounded-xl border p-6">
+          <div key={i} className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6">
             <Skeleton className="h-6 w-40 mb-4" />
             <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((j) => (
@@ -127,19 +127,19 @@ function OrgChartMini({ orgChart }: { orgChart: Record<string, unknown> }) {
   const directReports = orgChart.directReports as OrgChartNode[] | undefined;
 
   const renderNode = (node: OrgChartNode, highlight = false) => (
-    <div className={`flex items-center gap-3 p-3 rounded-lg border ${highlight ? 'border-cg-red bg-cg-red/5' : 'border-gray-200 bg-white'}`}>
-      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 shrink-0">
+    <div className={`flex items-center gap-3 p-3 rounded-lg border ${highlight ? 'border-cg-red bg-cg-red/5' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'}`}>
+      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0">
         {node.photo ? (
           <img src={node.photo} alt={node.name} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-sm font-medium text-gray-500">
+          <div className="w-full h-full flex items-center justify-center text-sm font-medium text-gray-500 dark:text-gray-400">
             {node.name.substring(0, 2).toUpperCase()}
           </div>
         )}
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-gray-900 truncate">{node.name}</p>
-        <p className="text-xs text-gray-500 truncate">{node.title}</p>
+        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{node.name}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{node.title}</p>
       </div>
     </div>
   );

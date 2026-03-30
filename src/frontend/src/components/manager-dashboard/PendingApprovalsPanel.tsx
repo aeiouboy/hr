@@ -50,23 +50,23 @@ export function PendingApprovalsPanel({
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-gray-100 rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : top5.length === 0 ? (
-          <p className="text-sm text-gray-400 py-6 text-center">
+          <p className="text-sm text-gray-400 dark:text-gray-500 py-6 text-center">
             {t('approvals.noApprovals')}
           </p>
         ) : (
           <ul className="divide-y">
             {top5.map((req) => (
               <li key={req.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-                <span className="text-gray-600">{typeIcons[req.type] ?? <ClipboardList className="h-5 w-5" />}</span>
+                <span className="text-gray-600 dark:text-gray-400">{typeIcons[req.type] ?? <ClipboardList className="h-5 w-5" />}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-cg-dark truncate">
                     {req.requester.name}
                   </p>
-                  <p className="text-xs text-gray-400 truncate">{req.description}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{req.description}</p>
                 </div>
                 <UrgencyBadge urgency={req.urgency} />
                 <div className="flex gap-1 shrink-0">

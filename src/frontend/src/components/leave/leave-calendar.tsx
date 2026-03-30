@@ -102,7 +102,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
             <Button variant="ghost" size="sm" onClick={goToPrevMonth}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <button onClick={goToToday} className="text-sm font-medium text-gray-900 min-w-[160px] text-center hover:text-cg-red transition">
+            <button onClick={goToToday} className="text-sm font-medium text-gray-900 dark:text-gray-100 min-w-[160px] text-center hover:text-cg-red transition">
               {monthName}
             </button>
             <Button variant="ghost" size="sm" onClick={goToNextMonth}>
@@ -115,7 +115,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
         {/* Weekday headers */}
         <div className="grid grid-cols-7 mb-1">
           {WEEKDAYS.map((day) => (
-            <div key={day} className={cn('text-center text-xs font-medium py-2', day === 'Sun' || day === 'Sat' ? 'text-red-400' : 'text-gray-500')}>
+            <div key={day} className={cn('text-center text-xs font-medium py-2', day === 'Sun' || day === 'Sat' ? 'text-red-400' : 'text-gray-500 dark:text-gray-400')}>
               {day}
             </div>
           ))}
@@ -125,7 +125,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
         <div className="grid grid-cols-7">
           {/* Empty cells for first week offset */}
           {Array.from({ length: firstDay }).map((_, i) => (
-            <div key={`empty-${i}`} className="min-h-[60px] md:min-h-[80px] border-t border-gray-100" />
+            <div key={`empty-${i}`} className="min-h-[60px] md:min-h-[80px] border-t border-gray-100 dark:border-gray-700" />
           ))}
 
           {/* Day cells */}
@@ -143,9 +143,9 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
                 key={day}
                 onClick={() => onDateClick?.(dateKey)}
                 className={cn(
-                  'min-h-[60px] md:min-h-[80px] border-t border-gray-100 p-1 cursor-pointer hover:bg-gray-50 transition',
-                  isWeekend && 'bg-gray-50/50',
-                  holiday && 'bg-red-50/50'
+                  'min-h-[60px] md:min-h-[80px] border-t border-gray-100 dark:border-gray-700 p-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition',
+                  isWeekend && 'bg-gray-50/50 dark:bg-gray-800/50',
+                  holiday && 'bg-red-50/50 dark:bg-red-900/20'
                 )}
               >
                 <div className="flex items-start justify-between">
@@ -154,7 +154,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
                       'text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full',
                       isToday && 'bg-cg-red text-white',
                       isWeekend && !isToday && 'text-red-400',
-                      !isWeekend && !isToday && 'text-gray-700'
+                      !isWeekend && !isToday && 'text-gray-700 dark:text-gray-300'
                     )}
                   >
                     {day}
@@ -186,7 +186,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
                     );
                   })}
                   {dayEvents.length > 2 && (
-                    <span className="text-[10px] text-gray-400">+{dayEvents.length - 2} more</span>
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500">+{dayEvents.length - 2} more</span>
                   )}
                 </div>
               </div>
@@ -195,18 +195,18 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
         </div>
 
         {/* Legend */}
-        <div className="mt-4 pt-3 border-t flex flex-wrap gap-3">
+        <div className="mt-4 pt-3 border-t dark:border-gray-700 flex flex-wrap gap-3">
           {Object.entries(LEAVE_TYPE_COLORS)
             .filter(([key]) => events.some((e) => e.type === key))
             .map(([key, colors]) => (
               <div key={key} className="flex items-center gap-1.5">
                 <div className={cn('w-3 h-3 rounded', colors.bar)} />
-                <span className="text-xs text-gray-500 capitalize">{key}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{key}</span>
               </div>
             ))}
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded bg-red-200" />
-            <span className="text-xs text-gray-500">Holiday</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">Holiday</span>
           </div>
         </div>
       </CardContent>

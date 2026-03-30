@@ -37,7 +37,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
               <div className={`flex-shrink-0 ${isCurrent ? 'ring-2 ring-cg-red ring-offset-2 rounded-full' : ''}`}>
                 {STEP_ICON[step.status]}
               </div>
-              {!isLast && <div className="w-0.5 h-8 bg-gray-200" />}
+              {!isLast && <div className="w-0.5 h-8 bg-gray-200 dark:bg-gray-700" />}
             </div>
             <div className="pb-6">
               <p className="text-sm font-medium text-cg-dark">
@@ -54,13 +54,13 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
                   {step.status.replace('_', ' ')}
                 </Badge>
                 {step.actionDate && (
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-gray-400 dark:text-gray-500">
                     {new Date(step.actionDate).toLocaleString()}
                   </span>
                 )}
               </div>
               {step.comment && (
-                <p className="text-sm text-gray-500 mt-1 italic">&ldquo;{step.comment}&rdquo;</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 italic">&ldquo;{step.comment}&rdquo;</p>
               )}
             </div>
           </div>
@@ -93,15 +93,15 @@ export function WorkflowDetail({ workflow, open, onClose, onApprove, onReject, o
         {/* Header info */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <span className="text-xs text-gray-400">{t('workflows.requester')}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">{t('workflows.requester')}</span>
             <p className="text-sm font-medium">{workflow.requesterName}</p>
           </div>
           <div>
-            <span className="text-xs text-gray-400">{t('workflows.submittedDate')}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">{t('workflows.submittedDate')}</span>
             <p className="text-sm font-medium">{new Date(workflow.submittedDate).toLocaleDateString()}</p>
           </div>
           <div>
-            <span className="text-xs text-gray-400">{t('workflows.status')}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">{t('workflows.status')}</span>
             <div className="mt-0.5">
               <Badge
                 variant={
@@ -115,7 +115,7 @@ export function WorkflowDetail({ workflow, open, onClose, onApprove, onReject, o
             </div>
           </div>
           <div>
-            <span className="text-xs text-gray-400">{t('workflows.urgency')}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">{t('workflows.urgency')}</span>
             <p className="text-sm font-medium capitalize">{workflow.urgency}</p>
           </div>
         </div>
@@ -130,10 +130,10 @@ export function WorkflowDetail({ workflow, open, onClose, onApprove, onReject, o
         {workflow.details && Object.keys(workflow.details).length > 0 && (
           <div>
             <h4 className="text-xs text-gray-400 uppercase tracking-wider mb-2">{t('workflows.details')}</h4>
-            <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg">
+            <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               {Object.entries(workflow.details).map(([key, val]) => (
                 <div key={key}>
-                  <span className="text-xs text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                  <span className="text-xs text-gray-400 dark:text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
                   <p className="text-sm font-medium">{val}</p>
                 </div>
               ))}

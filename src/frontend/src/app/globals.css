@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@variant dark (.dark &);
+
 @theme {
   --color-cg-red: #C8102E;
   --color-cg-dark: #333333;
@@ -8,7 +10,36 @@
   --color-cg-warning: #FFC107;
   --color-cg-error: #DC3545;
   --color-cg-info: #17A2B8;
+  --color-border: #f0f0f0;
   --font-sans: 'Roboto', 'Noto Sans Thai', sans-serif;
+
+  /* Semantic dark theme tokens */
+  --color-surface-primary: #FFFFFF;
+  --color-surface-secondary: #F5F5F5;
+  --color-surface-tertiary: #F9FAFB;
+  --color-text-primary: #333333;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-border-default: #f0f0f0;
+  --color-border-strong: #D1D5DB;
+  --color-cg-red-hover: #a80d26;
+}
+
+@layer base {
+  .dark {
+    --color-surface-primary: #1a1a2e;
+    --color-surface-secondary: #16213e;
+    --color-surface-tertiary: #1e2a47;
+    --color-text-primary: #e4e4e7;
+    --color-text-secondary: #a1a1aa;
+    --color-text-muted: #71717a;
+    --color-border-default: #2d3748;
+    --color-border-strong: #4a5568;
+    --color-cg-red-hover: #e0334a;
+    /* Override legacy color tokens so bg-cg-light / text-cg-dark work in dark mode */
+    --color-cg-light: #1a1a2e;
+    --color-cg-dark: #e4e4e7;
+  }
 }
 
 @keyframes slide-up {

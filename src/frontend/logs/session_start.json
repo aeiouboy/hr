@@ -22,5 +22,29 @@
     "hook_event_name": "SessionStart",
     "source": "compact",
     "model": "claude-opus-4-6"
+  },
+  {
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
+  },
+  {
+    "session_id": "5ac4eaa9-4f16-4183-965d-18bdd04af3d2",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/5ac4eaa9-4f16-4183-965d-18bdd04af3d2.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
+  },
+  {
+    "session_id": "05864b98-1258-4525-b3db-dcbdf6097a24",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/05864b98-1258-4525-b3db-dcbdf6097a24.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionStart",
+    "source": "compact",
+    "model": "claude-opus-4-6"
   }
 ]

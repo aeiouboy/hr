@@ -22,13 +22,13 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
         {hasChildren ? (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-0.5 rounded hover:bg-gray-100 transition"
+            className="p-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             aria-label={expanded ? 'Collapse' : 'Expand'}
           >
             {expanded ? (
-              <ChevronDown className="h-4 w-4 text-gray-400" />
+              <ChevronDown className="h-4 w-4 text-gray-400 dark:text-gray-500" />
             ) : (
-              <ChevronRight className="h-4 w-4 text-gray-400" />
+              <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" />
             )}
           </button>
         ) : (
@@ -37,9 +37,9 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
 
         <a
           href={`/profile?id=${node.id}`}
-          className="flex items-center gap-2 hover:bg-gray-50 rounded-lg px-2 py-1 -mx-1 transition"
+          className="flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1 -mx-1 transition"
         >
-          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center shrink-0">
             {node.avatar ? (
               <img
                 src={node.avatar}
@@ -47,12 +47,12 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
                 className="w-8 h-8 rounded-full object-cover"
               />
             ) : (
-              <User className="h-4 w-4 text-gray-400" />
+              <User className="h-4 w-4 text-gray-400 dark:text-gray-500" />
             )}
           </div>
           <div>
             <p className="text-sm font-medium text-cg-dark">{node.name}</p>
-            <p className="text-xs text-gray-400">{node.position}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500">{node.position}</p>
           </div>
         </a>
       </div>
@@ -80,13 +80,13 @@ export function MiniOrgChart({ root, loading }: MiniOrgChartProps) {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-10 bg-gray-100 rounded-lg animate-pulse" />
+              <div key={i} className="h-10 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : root ? (
           <OrgNodeItem node={root} />
         ) : (
-          <p className="text-sm text-gray-400 py-4 text-center">No data</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 py-4 text-center">No data</p>
         )}
       </CardContent>
     </Card>

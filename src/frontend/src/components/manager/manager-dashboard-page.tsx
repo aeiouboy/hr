@@ -79,16 +79,16 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
     <div className={cn(depth > 0 && 'ml-4 border-l pl-3')}>
       <div className="flex items-center gap-2 py-1.5">
         {hasChildren ? (
-          <button onClick={() => setExpanded(!expanded)} className="p-0.5 rounded hover:bg-gray-100" aria-label={expanded ? 'Collapse' : 'Expand'}>
+          <button onClick={() => setExpanded(!expanded)} className="p-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700" aria-label={expanded ? 'Collapse' : 'Expand'}>
             {expanded ? <ChevronLeft className="h-3.5 w-3.5 text-gray-400 rotate-90" /> : <ChevronRight className="h-3.5 w-3.5 text-gray-400" />}
           </button>
         ) : <span className="w-4" />}
-        <div className="h-7 w-7 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 shrink-0">
+        <div className="h-7 w-7 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-600 shrink-0">
           {node.avatar ? <img src={node.avatar} alt="" className="h-7 w-7 rounded-full object-cover" /> : <User className="h-3.5 w-3.5 text-gray-400" />}
         </div>
         <div className="min-w-0">
           <p className="text-xs font-medium text-cg-dark truncate">{node.name}</p>
-          <p className="text-[10px] text-gray-400 truncate">{node.position}</p>
+          <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate">{node.position}</p>
         </div>
       </div>
       {expanded && hasChildren && node.children!.map((child: OrgNode) => <OrgNodeItem key={child.id} node={child} depth={depth + 1} />)}
@@ -189,7 +189,7 @@ export function ManagerDashboardPage() {
       ].map((stat) => {
         const card = (
           <div key={stat.label} className={cn('rounded-xl border p-4', stat.bg, stat.href && 'cursor-pointer hover:shadow-md transition')}>
-            <div className="flex items-center gap-2 mb-2">{stat.icon}<span className="text-xs text-gray-500 uppercase tracking-wider">{stat.label}</span></div>
+            <div className="flex items-center gap-2 mb-2">{stat.icon}<span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">{stat.label}</span></div>
             <p className="text-2xl font-bold text-cg-dark">{stat.value}</p>
           </div>
         );
@@ -231,8 +231,8 @@ export function ManagerDashboardPage() {
                   <div className="flex items-start gap-3">
                     {ALERT_ICONS[alert.type]}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">{alert.title}</p>
-                      <p className="text-xs text-gray-600 mt-0.5">{alert.description}</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{alert.title}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{alert.description}</p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <Badge variant={alert.severity === 'critical' ? 'error' : alert.severity === 'high' ? 'warning' : 'info'}>
@@ -261,16 +261,16 @@ export function ManagerDashboardPage() {
           </CardHeader>
           <CardContent>
             {approvals.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-6">{t('approvals.noApprovals')}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-6">{t('approvals.noApprovals')}</p>
             ) : (
               <div className="space-y-2">
                 {approvals.slice(0, 5).map((a) => (
-                  <div key={a.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 border">
+                  <div key={a.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/30 border dark:border-gray-700">
                     <div className="flex items-center gap-3 min-w-0">
                       {a.urgent && <span className="h-2 w-2 rounded-full bg-red-500 shrink-0" />}
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{a.summary}</p>
-                        <p className="text-xs text-gray-500">{a.employeeName}</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{a.summary}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{a.employeeName}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
@@ -301,12 +301,12 @@ export function ManagerDashboardPage() {
                   <p className="text-sm font-semibold text-cg-red">You (Manager)</p>
                   <p className="text-xs text-gray-500">IT Department</p>
                 </div>
-                <div className="flex justify-center"><div className="w-px h-4 bg-gray-300" /></div>
+                <div className="flex justify-center"><div className="w-px h-4 bg-gray-300 dark:bg-gray-600" /></div>
                 <div className="grid grid-cols-2 gap-2">
                   {team.slice(0, 6).map((m) => (
-                    <a key={m.id} href={`/profile?id=${m.id}`} className="p-2 rounded-lg border text-center hover:bg-gray-50 transition">
-                      <div className="h-8 w-8 rounded-full bg-gray-200 mx-auto flex items-center justify-center text-xs font-medium text-gray-600">{m.avatar}</div>
-                      <p className="text-xs font-medium text-gray-900 mt-1 truncate">{m.name.split(' ')[0]}</p>
+                    <a key={m.id} href={`/profile?id=${m.id}`} className="p-2 rounded-lg border dark:border-gray-700 text-center hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                      <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 mx-auto flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400">{m.avatar}</div>
+                      <p className="text-xs font-medium text-gray-900 dark:text-gray-100 mt-1 truncate">{m.name.split(' ')[0]}</p>
                       <span className={cn('inline-block mt-0.5 h-1.5 w-1.5 rounded-full', m.status === 'active' ? 'bg-green-500' : m.status === 'on-leave' ? 'bg-yellow-500' : 'bg-blue-500')} />
                     </a>
                   ))}
@@ -326,7 +326,7 @@ export function ManagerDashboardPage() {
           <CardTitle>{t('teamMembers')} ({filteredTeam.length})</CardTitle>
           <div className="flex gap-2">
             {['all', 'active', 'on-leave', 'probation'].map((f) => (
-              <button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ? 'bg-cg-red text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200')}>
+              <button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ? 'bg-cg-red text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600')}>
                 {f === 'all' ? t('filters.all') : f === 'active' ? t('filters.active') : f === 'on-leave' ? t('filters.onLeave') : t('filters.probation')}
               </button>
             ))}
@@ -337,11 +337,11 @@ export function ManagerDashboardPage() {
         {/* Grid view */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {filteredTeam.map((m) => (
-            <a key={m.id} href={`/profile?id=${m.id}`} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition">
-              <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 shrink-0">{m.avatar}</div>
+            <a key={m.id} href={`/profile?id=${m.id}`} className="flex items-center gap-3 p-3 rounded-lg border dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+              <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm font-medium text-gray-600 dark:text-gray-400 shrink-0">{m.avatar}</div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-cg-dark truncate">{m.name}</p>
-                <p className="text-xs text-gray-400 truncate">{m.position}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{m.position}</p>
               </div>
               <Badge variant={STATUS_BADGE[m.status]?.variant ?? 'neutral'}>{STATUS_BADGE[m.status]?.label ?? m.status}</Badge>
             </a>
@@ -363,7 +363,7 @@ export function ManagerDashboardPage() {
       </CardHeader>
       <CardContent>
         {approvals.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-8">{t('approvals.noApprovals')}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">{t('approvals.noApprovals')}</p>
         ) : (
           <div className="space-y-3">
             {approvals.map((a) => (
@@ -402,11 +402,11 @@ export function ManagerDashboardPage() {
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-blue-500" />{t('teamCalendar')}</CardTitle>
           <div className="flex items-center gap-2">
-            <button onClick={prevMonth} className="p-1 rounded hover:bg-gray-100 transition" aria-label="Previous month">
+            <button onClick={prevMonth} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" aria-label="Previous month">
               <ChevronLeft className="h-4 w-4" />
             </button>
             <span className="text-sm font-medium min-w-[120px] text-center">{MONTHS[calMonth - 1]} {calYear}</span>
-            <button onClick={nextMonth} className="p-1 rounded hover:bg-gray-100 transition" aria-label="Next month">
+            <button onClick={nextMonth} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" aria-label="Next month">
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
@@ -416,21 +416,21 @@ export function ManagerDashboardPage() {
         {/* Day headers */}
         <div className="grid grid-cols-7 mb-1">
           {DAYS.map((d) => (
-            <div key={d} className="text-center text-xs font-medium text-gray-400 py-1">{d}</div>
+            <div key={d} className="text-center text-xs font-medium text-gray-400 dark:text-gray-500 py-1">{d}</div>
           ))}
         </div>
 
         {/* Calendar grid */}
-        <div className="grid grid-cols-7 gap-px bg-gray-100 rounded-lg overflow-hidden">
+        <div className="grid grid-cols-7 gap-px bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
           {Array.from({ length: calStartDay }).map((_, i) => (
-            <div key={`empty-${i}`} className="bg-white p-1 min-h-[64px]" />
+            <div key={`empty-${i}`} className="bg-white dark:bg-gray-800 p-1 min-h-[64px]" />
           ))}
           {Array.from({ length: calDays }).map((_, i) => {
             const day = i + 1;
             const dayEvents = eventsByDate.get(day) ?? [];
             return (
-              <div key={day} className={cn('bg-white p-1 min-h-[64px]', isToday(day) && 'ring-2 ring-inset ring-cg-red')}>
-                <span className={cn('text-xs', isToday(day) ? 'font-bold text-cg-red' : 'text-gray-600')}>{day}</span>
+              <div key={day} className={cn('bg-white dark:bg-gray-800 p-1 min-h-[64px]', isToday(day) && 'ring-2 ring-inset ring-cg-red')}>
+                <span className={cn('text-xs', isToday(day) ? 'font-bold text-cg-red' : 'text-gray-600 dark:text-gray-400')}>{day}</span>
                 <div className="mt-0.5 space-y-0.5">
                   {dayEvents.slice(0, 2).map((ev) => (
                     <div key={ev.id} className={cn('text-[9px] px-1 py-0.5 rounded truncate text-white', EVENT_COLORS[ev.type] ?? 'bg-gray-400')} title={`${ev.employeeName}: ${ev.label}`}>
@@ -438,7 +438,7 @@ export function ManagerDashboardPage() {
                     </div>
                   ))}
                   {dayEvents.length > 2 && (
-                    <span className="text-[9px] text-gray-400 px-1">+{dayEvents.length - 2}</span>
+                    <span className="text-[9px] text-gray-400 dark:text-gray-500 px-1">+{dayEvents.length - 2}</span>
                   )}
                 </div>
               </div>
@@ -447,7 +447,7 @@ export function ManagerDashboardPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500">
+        <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500 dark:text-gray-400">
           {Object.entries(EVENT_COLORS).map(([type, color]) => (
             <div key={type} className="flex items-center gap-1">
               <span className={cn('w-2.5 h-2.5 rounded-full', color)} />
@@ -463,7 +463,7 @@ export function ManagerDashboardPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
-        <p className="text-sm text-gray-500 mt-1">{t('subtitle')}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       {/* Urgent Alerts Banner */}
@@ -496,7 +496,7 @@ export function ManagerDashboardPage() {
           </div>
         }
       >
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {confirmAction?.action === 'approve' ? t('messages.confirmApprove') : t('messages.confirmReject')}
         </p>
       </Modal>

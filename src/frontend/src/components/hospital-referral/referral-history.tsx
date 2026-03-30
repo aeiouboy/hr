@@ -8,14 +8,14 @@ import { ClipboardList } from 'lucide-react';
 import type { HospitalReferral, ReferralStatus } from '@/hooks/use-hospital-referral';
 
 const STATUS_CLASSES: Record<ReferralStatus, string> = {
-  draft: 'bg-gray-100 text-gray-800',
-  submitted: 'bg-blue-100 text-blue-800',
-  pending_manager: 'bg-yellow-100 text-yellow-800',
-  pending_hr: 'bg-orange-100 text-orange-800',
-  approved: 'bg-green-100 text-green-800',
-  rejected: 'bg-red-100 text-red-800',
-  cancelled: 'bg-gray-100 text-gray-500',
-  letter_issued: 'bg-purple-100 text-purple-800',
+  draft: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+  submitted: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+  pending_manager: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+  pending_hr: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
+  approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+  rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+  cancelled: 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400',
+  letter_issued: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
 };
 
 interface ReferralHistoryProps {
@@ -44,10 +44,10 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
       </CardHeader>
       <CardContent className="p-0">
         {referrals.length === 0 ? (
-          <div className="flex flex-col items-center py-16 text-gray-400">
-            <ClipboardList className="h-12 w-12 mb-3 text-gray-300" />
-            <p className="text-sm font-medium text-gray-500">{t('noReferrals')}</p>
-            <p className="text-xs text-gray-400 mt-1">{t('createFirst')}</p>
+          <div className="flex flex-col items-center py-16 text-gray-400 dark:text-gray-500">
+            <ClipboardList className="h-12 w-12 mb-3 text-gray-300 dark:text-gray-600" />
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('noReferrals')}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('createFirst')}</p>
           </div>
         ) : (
           <>
@@ -55,14 +55,14 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="text-left text-xs font-medium text-gray-500 px-6 py-3">
+                  <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 px-6 py-3">
                       {t('createdDate')}
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 px-6 py-3">
                       {t('hospital')}
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 px-6 py-3">
                       {t('reason')}
                     </th>
                     <th className="text-center text-xs font-medium text-gray-500 px-6 py-3">
@@ -72,25 +72,25 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                   {referrals.map((referral) => (
                     <tr
                       key={referral.id}
-                      className="hover:bg-gray-50 transition cursor-pointer"
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition cursor-pointer"
                       onClick={() => onViewDetail(referral)}
                     >
-                      <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">
+                      <td className="px-6 py-3 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
                         {new Date(referral.createdAt).toLocaleDateString('en-US', {
                           dateStyle: 'medium',
                         })}
                       </td>
-                      <td className="px-6 py-3 text-sm text-gray-900">
+                      <td className="px-6 py-3 text-sm text-gray-900 dark:text-gray-100">
                         <p className="font-medium">{referral.hospitalName}</p>
                         {referral.hospitalBranch && (
-                          <p className="text-xs text-gray-500">{referral.hospitalBranch}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{referral.hospitalBranch}</p>
                         )}
                       </td>
-                      <td className="px-6 py-3 text-sm text-gray-600 max-w-xs">
+                      <td className="px-6 py-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs">
                         <p className="truncate">{referral.reason}</p>
                       </td>
                       <td className="px-6 py-3 text-center">
@@ -121,20 +121,20 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
             </div>
 
             {/* Mobile list */}
-            <div className="md:hidden divide-y divide-gray-100">
+            <div className="md:hidden divide-y divide-gray-100 dark:divide-gray-700">
               {referrals.map((referral) => (
                 <div
                   key={referral.id}
-                  className="p-4 hover:bg-gray-50 transition cursor-pointer"
+                  className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition cursor-pointer"
                   onClick={() => onViewDetail(referral)}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                         {referral.hospitalName}
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{referral.reason}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">{referral.reason}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                         {new Date(referral.createdAt).toLocaleDateString('en-US', {
                           dateStyle: 'medium',
                         })}

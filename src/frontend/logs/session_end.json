@@ -62,5 +62,29 @@
     "hook_event_name": "SessionEnd",
     "reason": "other",
     "logged_at": "2026-02-22T22:23:21.002735"
+  },
+  {
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "clear",
+    "logged_at": "2026-02-23T08:58:35.427852"
+  },
+  {
+    "session_id": "076ba5a2-c1da-4172-a2b6-5f3c749c87fc",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/076ba5a2-c1da-4172-a2b6-5f3c749c87fc.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-02-26T13:13:08.684727"
+  },
+  {
+    "session_id": "2d2a9478-791f-4204-8935-279d88c7d952",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/2d2a9478-791f-4204-8935-279d88c7d952.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/frontend",
+    "hook_event_name": "SessionEnd",
+    "reason": "other",
+    "logged_at": "2026-03-27T21:45:29.126231"
   }
 ]

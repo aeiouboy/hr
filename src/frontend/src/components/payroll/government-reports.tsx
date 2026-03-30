@@ -33,7 +33,7 @@ export function GovernmentReports() {
   const [generating, setGenerating] = useState(false);
 
   if (!canAccessModule(roles, 'government-reports')) {
-    return <div className="text-center py-12"><p className="text-gray-500">{t('common.noData')}</p></div>;
+    return <div className="text-center py-12"><p className="text-gray-500 dark:text-gray-400">{t('common.noData')}</p></div>;
   }
 
   if (loading) {
@@ -117,18 +117,18 @@ export function GovernmentReports() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="text-left py-2 px-3 font-medium text-gray-500">{t('govReports.type')}</th>
-                    <th className="text-left py-2 px-3 font-medium text-gray-500">{t('govReports.period')}</th>
-                    <th className="text-left py-2 px-3 font-medium text-gray-500">{t('govReports.generatedDate')}</th>
-                    <th className="text-left py-2 px-3 font-medium text-gray-500">{t('govReports.records')}</th>
-                    <th className="text-left py-2 px-3 font-medium text-gray-500">{t('govReports.status')}</th>
-                    <th className="text-right py-2 px-3 font-medium text-gray-500">{t('common.actions')}</th>
+                  <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                    <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('govReports.type')}</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('govReports.period')}</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('govReports.generatedDate')}</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('govReports.records')}</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('govReports.status')}</th>
+                    <th className="text-right py-2 px-3 font-medium text-gray-500 dark:text-gray-400">{t('common.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {reportHistory.map((report) => (
-                    <tr key={report.id} className="border-b hover:bg-gray-50">
+                    <tr key={report.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30">
                       <td className="py-2 px-3">{report.typeLabel}</td>
                       <td className="py-2 px-3">{report.period}</td>
                       <td className="py-2 px-3">{report.generatedDate}</td>

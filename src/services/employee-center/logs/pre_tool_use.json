@@ -599,5 +599,19 @@
       "description": "Show which benefits test suites passed/failed"
     },
     "tool_use_id": "toolu_01UUijpfqcnLeG56WAn51yrx"
+  },
+  {
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/employee-center",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/workflow-engine && npx jest --no-cache 2>&1 | tail -15",
+      "timeout": 120000,
+      "description": "Run workflow-engine tests"
+    },
+    "tool_use_id": "toolu_01RVdgu8NUoM5Zoako5suSMi"
   }
 ]

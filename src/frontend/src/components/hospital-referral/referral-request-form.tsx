@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormField } from '@/components/ui/form-field';
 import { useToast } from '@/components/ui/toast';
-import type { Hospital } from '@/hooks/use-hospital-referral';
+import type { Hospital, Province } from '@/hooks/use-hospital-referral';
 
 interface ReferralRequestFormProps {
   hospitals: Hospital[];
+  provinces: Province[];
   submitting?: boolean;
   onSubmit: (data: {
     hospitalName: string;
@@ -23,6 +24,7 @@ interface ReferralRequestFormProps {
 
 export function ReferralRequestForm({
   hospitals,
+  provinces,
   submitting,
   onSubmit,
   onCancel,
@@ -31,8 +33,8 @@ export function ReferralRequestForm({
   const tc = useTranslations('common');
   const { toast } = useToast();
 
+  const [provinceId, setProvinceId] = useState('');
   const [hospitalId, setHospitalId] = useState('');
-  const [hospitalBranch, setHospitalBranch] = useState('');
   const [reason, setReason] = useState('');
   const [preferredDate, setPreferredDate] = useState('');
   const [notes, setNotes] = useState('');
@@ -40,10 +42,25 @@ export function ReferralRequestForm({
 
   const today = new Date().toISOString().split('T')[0];
 
-  const hospitalOptions = hospitals.map((h) => ({
-    value: h.id,
-    label: h.nameEn,
+  const provinceOptions = provinces.map((p) => ({
+    value: p.id,
+    label: p.nameEn,
   }));
+
+  const filteredHospitals = provinceId
+    ? hospitals.filter((h) => h.province === provinceId)
+    : hospitals;
+
+  const hospitalOptions = filteredHospitals.map((h) => ({
+    value: h.id,
+    label: h.branch ? `${h.nameEn} (${h.branch})` : h.nameEn,
+    searchLabel: h.branch ? `${h.nameTh} (${h.branch})` : h.nameTh,
+  }));
+
+  const handleProvinceChange = (val: string) => {
+    setProvinceId(val);
+    setHospitalId('');
+  };
 
   const validate = useCallback(() => {
     const errs: Record<string, string> = {};
@@ -72,14 +89,14 @@ export function ReferralRequestForm({
     try {
       await onSubmit({
         hospitalName: selectedHospital.nameEn,
-        hospitalBranch: hospitalBranch || selectedHospital.branch,
+        hospitalBranch: selectedHospital.branch,
         reason,
         preferredDate,
         notes: notes || undefined,
       });
       toast('success', t('submitSuccess'));
+      setProvinceId('');
       setHospitalId('');
-      setHospitalBranch('');
       setReason('');
       setPreferredDate('');
       setNotes('');
@@ -98,24 +115,28 @@ export function ReferralRequestForm({
           </CardHeader>
           <CardContent className="space-y-4">
             <FormField
+              label={t('province')}
+              name="provinceId"
+              type="select"
+              value={provinceId}
+              onChange={handleProvinceChange}
+              options={provinceOptions}
+              required
+              error={errors.provinceId}
+              placeholder={t('selectProvince')}
+            />
+
+            <FormField
               label={t('selectHospital')}
               name="hospitalId"
-              type="select"
+              type="combobox"
               value={hospitalId}
               onChange={setHospitalId}
               options={hospitalOptions}
               required
               error={errors.hospitalId}
               placeholder={t('selectHospital')}
-            />
-
-            <FormField
-              label={t('hospitalBranch')}
-              name="hospitalBranch"
-              type="text"
-              value={hospitalBranch}
-              onChange={setHospitalBranch}
-              placeholder="e.g. Sukhumvit Branch (optional)"
+              disabled={!provinceId}
             />
 
             <FormField

@@ -33,6 +33,10 @@
         "--api-key",
         "ctx7sk-296354c0-bdef-4a93-9f3f-b653e1bb4217"
       ]
+    },
+    "notebooklm": {
+      "command": "/Users/tachongrak/.local/bin/notebooklm-mcp",
+      "args": []
     }
   }
 }

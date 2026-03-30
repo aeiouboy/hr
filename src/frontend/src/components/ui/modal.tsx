@@ -57,7 +57,7 @@ export function Modal({ open, onClose, title, children, footer, className }: Mod
         <div
           ref={contentRef}
           className={cn(
-            'bg-white w-full overflow-y-auto shadow-xl',
+            'bg-white w-full overflow-y-auto shadow-xl dark:bg-gray-800',
             // Mobile bottom sheet
             'fixed bottom-0 inset-x-0 rounded-t-2xl max-h-[85vh]',
             'animate-[slide-up_0.3s_ease-out]',
@@ -69,22 +69,22 @@ export function Modal({ open, onClose, title, children, footer, className }: Mod
         >
           {/* Mobile drag indicator */}
           <div className="md:hidden flex justify-center pt-3 pb-1">
-            <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            <div className="w-10 h-1 bg-gray-300 rounded-full dark:bg-gray-600" />
           </div>
           {title && (
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2 className="text-lg font-semibold text-cg-dark">{title}</h2>
+            <div className="flex items-center justify-between border-b px-6 py-4 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-cg-dark dark:text-gray-100">{title}</h2>
               <button
                 onClick={onClose}
-                className="rounded-lg p-1 hover:bg-gray-100 transition-colors"
+                className="rounded-lg p-1 hover:bg-gray-100 transition-colors dark:hover:bg-gray-700"
                 aria-label="Close"
               >
-                <X className="h-5 w-5 text-gray-400" />
+                <X className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </button>
             </div>
           )}
           <div className="p-6">{children}</div>
-          {footer && <div className="border-t px-6 py-4">{footer}</div>}
+          {footer && <div className="border-t px-6 py-4 dark:border-gray-700">{footer}</div>}
         </div>
       </div>
     </dialog>

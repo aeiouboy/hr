@@ -21,6 +21,13 @@ export interface Hospital {
   nameTh: string;
   branch?: string;
   address?: string;
+  province: string;
+}
+
+export interface Province {
+  id: string;
+  nameEn: string;
+  nameTh: string;
 }
 
 export interface TimelineEvent {
@@ -50,12 +57,20 @@ export interface HospitalReferral {
   rejectedBy?: string;
   rejectedReason?: string;
   notes?: string;
+  amount?: number;
   createdAt: string;
   updatedAt: string;
   timeline: TimelineEvent[];
 }
 
 // --- Mock Data ---
+
+const MOCK_PROVINCES: Province[] = [
+  { id: 'bangkok', nameEn: 'Bangkok', nameTh: 'กรุงเทพมหานคร' },
+  { id: 'nonthaburi', nameEn: 'Nonthaburi', nameTh: 'นนทบุรี' },
+  { id: 'pathum_thani', nameEn: 'Pathum Thani', nameTh: 'ปทุมธานี' },
+  { id: 'samut_prakan', nameEn: 'Samut Prakan', nameTh: 'สมุทรปราการ' },
+];
 
 const MOCK_HOSPITALS: Hospital[] = [
   {
@@ -65,6 +80,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameTh: 'โรงพยาบาลกรุงเทพ',
     branch: 'Headquarters',
     address: '2 Soi Soonvijai 7, New Petchburi Rd, Bangkok 10310',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-002',
@@ -72,6 +88,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'Bumrungrad International Hospital',
     nameTh: 'โรงพยาบาลบำรุงราษฎร์',
     address: '33 Sukhumvit 3, Wattana, Bangkok 10110',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-003',
@@ -79,6 +96,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'BNH Hospital',
     nameTh: 'โรงพยาบาล BNH',
     address: '9/1 Convent Rd, Silom, Bangkok 10500',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-004',
@@ -87,6 +105,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameTh: 'โรงพยาบาลสมิติเวช สุขุมวิท',
     branch: 'Sukhumvit',
     address: '133 Sukhumvit 49, Khlong Toei Nua, Bangkok 10110',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-005',
@@ -94,6 +113,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'Phyathai 2 Hospital',
     nameTh: 'โรงพยาบาลพญาไท 2',
     address: '943 Phahonyothin Rd, Phaya Thai, Bangkok 10400',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-006',
@@ -101,6 +121,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'Ramathibodi Hospital',
     nameTh: 'โรงพยาบาลรามาธิบดี',
     address: '270 Rama VI Rd, Ratchathewi, Bangkok 10400',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-007',
@@ -108,6 +129,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'Siriraj Hospital',
     nameTh: 'โรงพยาบาลศิริราช',
     address: '2 Wang Lang Rd, Bangkok Noi, Bangkok 10700',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-008',
@@ -116,6 +138,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameTh: 'โรงพยาบาลเปาโล พหลโยธิน',
     branch: 'Phaholyothin',
     address: '1317/44 Phaholyothin Rd, Chatuchak, Bangkok 10900',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-009',
@@ -123,6 +146,7 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'Kasemrad Hospital',
     nameTh: 'โรงพยาบาลเกษมราษฎร์',
     address: '1502 Lat Phrao Rd, Wang Thonglang, Bangkok 10310',
+    province: 'bangkok',
   },
   {
     id: 'HOSP-010',
@@ -130,6 +154,82 @@ const MOCK_HOSPITALS: Hospital[] = [
     nameEn: 'Vibhavadi Hospital',
     nameTh: 'โรงพยาบาลวิภาวดี',
     address: '1 Vibhavadi Rangsit Rd, Chatuchak, Bangkok 10900',
+    province: 'bangkok',
+  },
+  // Nonthaburi
+  {
+    id: 'HOSP-011',
+    name: 'Nonthaburi Hospital',
+    nameEn: 'Nonthaburi Hospital',
+    nameTh: 'โรงพยาบาลนนทบุรี',
+    province: 'nonthaburi',
+    address: '29 Moo 1, Nonthaburi Rd, Nonthaburi 11000',
+  },
+  {
+    id: 'HOSP-012',
+    name: 'Central General Hospital',
+    nameEn: 'Central General Hospital',
+    nameTh: 'โรงพยาบาลเซ็นทรัลเยนเนอรัล',
+    province: 'nonthaburi',
+    address: '290 Chaengwattana Rd, Pak Kret, Nonthaburi 11120',
+  },
+  {
+    id: 'HOSP-013',
+    name: 'Mongkutwattana General Hospital',
+    nameEn: 'Mongkutwattana General Hospital',
+    nameTh: 'โรงพยาบาลมงกุฎวัฒนะ',
+    province: 'nonthaburi',
+    address: '34/1 Chaengwattana Rd, Pak Kret, Nonthaburi 11120',
+  },
+  // Pathum Thani
+  {
+    id: 'HOSP-014',
+    name: 'Thammasat University Hospital',
+    nameEn: 'Thammasat University Hospital',
+    nameTh: 'โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ',
+    province: 'pathum_thani',
+    address: '95 Moo 8, Khlong Nueng, Khlong Luang, Pathum Thani 12120',
+  },
+  {
+    id: 'HOSP-015',
+    name: 'Pathum Thani Hospital',
+    nameEn: 'Pathum Thani Hospital',
+    nameTh: 'โรงพยาบาลปทุมธานี',
+    province: 'pathum_thani',
+    address: '7 Prachathipat Rd, Pathum Thani 12000',
+  },
+  {
+    id: 'HOSP-016',
+    name: 'Rangsit Hospital',
+    nameEn: 'Rangsit Hospital',
+    nameTh: 'โรงพยาบาลรังสิต',
+    province: 'pathum_thani',
+    address: '80 Rangsit-Nakhon Nayok Rd, Pathum Thani 12130',
+  },
+  // Samut Prakan
+  {
+    id: 'HOSP-017',
+    name: 'Samut Prakan Hospital',
+    nameEn: 'Samut Prakan Hospital',
+    nameTh: 'โรงพยาบาลสมุทรปราการ',
+    province: 'samut_prakan',
+    address: '71 Jed Tanin Rd, Pak Nam, Samut Prakan 10270',
+  },
+  {
+    id: 'HOSP-018',
+    name: 'Sikarin Hospital',
+    nameEn: 'Sikarin Hospital',
+    nameTh: 'โรงพยาบาลศิครินทร์',
+    province: 'samut_prakan',
+    address: '976 Lasalle Rd, Bang Na, Samut Prakan 10540',
+  },
+  {
+    id: 'HOSP-019',
+    name: 'Bangna General Hospital',
+    nameEn: 'Bangna General Hospital',
+    nameTh: 'โรงพยาบาลบางนา',
+    province: 'samut_prakan',
+    address: '362/1 Srinakarin Rd, Bang Na, Samut Prakan 10260',
   },
 ];
 
@@ -149,6 +249,7 @@ const MOCK_REFERRALS: HospitalReferral[] = [
     approvedAt: '2026-01-10T10:00:00Z',
     issuedBy: 'EMP_HR001',
     issuedAt: '2026-01-12T14:30:00Z',
+    amount: 15000,
     createdAt: '2026-01-08T09:00:00Z',
     updatedAt: '2026-01-12T14:30:00Z',
     timeline: [
@@ -285,6 +386,7 @@ const MOCK_REFERRALS: HospitalReferral[] = [
 export function useHospitalReferral(employeeId?: string) {
   const [referrals, setReferrals] = useState<HospitalReferral[]>([]);
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
+  const [provinces] = useState<Province[]>(MOCK_PROVINCES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -296,7 +398,10 @@ export function useHospitalReferral(employeeId?: string) {
       try {
         // TODO: Replace with real API calls
         await new Promise((r) => setTimeout(r, 400));
-        setReferrals(MOCK_REFERRALS);
+        const sortedReferrals = [...MOCK_REFERRALS].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setReferrals(sortedReferrals);
         setHospitals(MOCK_HOSPITALS);
       } catch {
         setError('Failed to load hospital referral data');
@@ -398,6 +503,7 @@ export function useHospitalReferral(employeeId?: string) {
   return {
     referrals,
     hospitals,
+    provinces,
     loading,
     error,
     submitting,

@@ -2805,5 +2805,26 @@
       "request_id": "shutdown-1771772215021@builder-backend"
     },
     "tool_use_id": "toolu_01U6uj8hgCwkyxfBKMHKNMzJ"
+  },
+  {
+    "session_id": "09efa539-ed47-40c9-aeaa-1897abd94c77",
+    "transcript_path": "/Users/tachongrak/.claude/projects/-Users-tachongrak-Projects-hr/09efa539-ed47-40c9-aeaa-1897abd94c77.jsonl",
+    "cwd": "/Users/tachongrak/Projects/hr/src/services/workflow-engine",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/tachongrak/Projects/hr/src/services/workflow-engine && npx jest --no-cache 2>&1 | tail -15",
+      "timeout": 120000,
+      "description": "Run workflow-engine tests"
+    },
+    "tool_response": {
+      "stdout": "      119 | Using the example below you can still execute your query with Prisma, but please note that it is vulnerable to SQL injection attacks and requires you to take care of input sanitization.\n\n      at r (generated/prisma/runtime/library.js:116:2770)\n      at Proxy.onModuleInit (src/prisma/prisma.service.ts:7:5)\n          at async Promise.all (index 0)\n      at callModuleInitHook (../../../node_modules/@nestjs/core/hooks/on-module-init.hook.js:43:5)\n      at Proxy.callInitHook (../../../node_modules/@nestjs/core/nest-application-context.js:252:13)\n      at Proxy.init (../../../node_modules/@nestjs/core/nest-application.js:103:9)\n      at Object.<anonymous> (test/integration/workflow.integration.spec.ts:21:5)\n\nTest Suites: 1 failed, 7 passed, 8 total\nTests:       8 failed, 193 passed, 201 total\nSnapshots:   0 total\nTime:        6.727 s\nRan all test suites.",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false
+    },
+    "tool_use_id": "toolu_01RVdgu8NUoM5Zoako5suSMi"
   }
 ]

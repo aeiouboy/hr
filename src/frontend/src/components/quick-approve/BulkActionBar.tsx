@@ -17,7 +17,7 @@ export function BulkActionBar({ count, onApprove, onReject, onClear }: BulkActio
   if (count === 0) return null;
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t shadow-lg">
+    <div className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
         <span className="text-sm font-medium text-cg-dark">
           {t('bulkBar.selected', { count })}
@@ -39,7 +39,7 @@ export function BulkActionBar({ count, onApprove, onReject, onClear }: BulkActio
           </Button>
           <button
             onClick={onClear}
-            className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1"
           >
             <X className="h-3.5 w-3.5" />
             {t('bulkBar.clearSelection')}

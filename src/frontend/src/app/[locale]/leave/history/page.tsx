@@ -8,11 +8,13 @@ import { MobileMenu } from '@/components/shared/mobile-menu';
 import { LeaveHistory } from '@/components/leave/leave-history';
 import { LeaveDetail } from '@/components/leave/leave-detail';
 import { useLeave } from '@/hooks/use-leave';
+import { useToast } from '@/components/ui/toast';
 import type { LeaveRequest } from '@/hooks/use-leave';
 
 export default function LeaveHistoryPage() {
   const t = useTranslations('leave');
-  const { requests, loading, cancelRequest } = useLeave();
+  const { toast } = useToast();
+  const { requests, loading, cancelRequest, cancelApprovedLeave } = useLeave();
   const [selectedRequest, setSelectedRequest] = useState<LeaveRequest | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
@@ -29,7 +31,11 @@ export default function LeaveHistoryPage() {
               requests={requests}
               loading={loading}
               onViewDetail={(req) => { setSelectedRequest(req); setDetailOpen(true); }}
-              onCancel={cancelRequest}
+              onCancelPending={cancelRequest}
+              onRequestCancellation={async (requestId, reason) => {
+                await cancelApprovedLeave(requestId, reason);
+                toast('success', t('cancellationRequestSubmitted'));
+              }}
             />
           </div>
         </main>

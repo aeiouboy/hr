@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import type { WorkflowItem, WorkflowStep } from '@/hooks/use-workflows';
 
 // --- Types ---
 
@@ -50,6 +51,11 @@ export interface LeaveRequest {
   rejectedByName?: string;
   rejectedDate?: string;
   rejectionReason?: string;
+  hasDocument?: boolean;
+  cancellationRequested?: boolean;
+  cancellationRequestedAt?: string;
+  cancellationReason?: string;
+  cancellationWorkflowId?: string;
 }
 
 export interface CalendarEvent {
@@ -98,6 +104,7 @@ const MOCK_REQUESTS: LeaveRequest[] = [
     submittedAt: '2026-02-15T09:00:00Z',
     approvedByName: 'Rungrote Amnuaysopon',
     approvedDate: '2026-02-16T10:30:00Z',
+    hasDocument: false,
   },
   {
     id: 'LR-002',
@@ -112,6 +119,7 @@ const MOCK_REQUESTS: LeaveRequest[] = [
     submittedAt: '2026-02-05T07:30:00Z',
     approvedByName: 'Rungrote Amnuaysopon',
     approvedDate: '2026-02-05T08:00:00Z',
+    hasDocument: false,
   },
   {
     id: 'LR-003',
@@ -125,6 +133,7 @@ const MOCK_REQUESTS: LeaveRequest[] = [
     reason: 'Personal errand',
     status: 'pending',
     submittedAt: '2026-02-20T14:00:00Z',
+    hasDocument: false,
   },
   {
     id: 'LR-004',
@@ -140,6 +149,7 @@ const MOCK_REQUESTS: LeaveRequest[] = [
     rejectedByName: 'Rungrote Amnuaysopon',
     rejectedDate: '2025-12-29T09:00:00Z',
     rejectionReason: 'Team understaffed on that date',
+    hasDocument: false,
   },
   {
     id: 'LR-005',
@@ -155,6 +165,7 @@ const MOCK_REQUESTS: LeaveRequest[] = [
     submittedAt: '2026-01-20T08:00:00Z',
     approvedByName: 'Rungrote Amnuaysopon',
     approvedDate: '2026-01-20T09:15:00Z',
+    hasDocument: true,
   },
 ];
 
@@ -182,6 +193,18 @@ const MOCK_SUBSTITUTE_EMPLOYEES = [
   { id: 'EMP_SUP001', nameEn: 'Rungrote Amnuaysopon', nameTh: 'รุ่งโรจน์ อำนวยโสภณ' },
 ];
 
+function buildLeaveCancellationSteps(hasDocument: boolean): WorkflowStep[] {
+  return [
+    { step: 1, approverName: 'Rungrote Amnuaysopon', approverId: 'MGR001', status: 'pending' },
+    {
+      step: 2,
+      approverName: hasDocument ? 'Anchalee Thammarat' : 'Kamolwan Srisuk',
+      approverId: hasDocument ? 'HRBP001' : 'HR001',
+      status: 'pending',
+    },
+  ];
+}
+
 // --- Hook ---
 
 export function useLeave(employeeId?: string) {
@@ -191,6 +214,7 @@ export function useLeave(employeeId?: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [cancellationWorkflows, setCancellationWorkflows] = useState<WorkflowItem[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -264,6 +288,62 @@ export function useLeave(employeeId?: string) {
     );
   }, []);
 
+  const cancelApprovedLeave = useCallback(async (leaveId: string, reason: string) => {
+    await new Promise((r) => setTimeout(r, 350));
+
+    const target = requests.find((request) => request.id === leaveId);
+    if (!target || target.status !== 'approved') {
+      throw new Error('Only approved leave can be submitted for cancellation workflow');
+    }
+
+    const hasDocument = Boolean(target.hasDocument || target.attachmentUrl);
+    const steps = buildLeaveCancellationSteps(hasDocument);
+    const workflowId = `WF-CXL-${Date.now()}`;
+
+    const workflow: WorkflowItem = {
+      id: workflowId,
+      type: 'leave',
+      typeLabel: 'Leave Cancellation Request',
+      requesterName: 'Somchai Jaidee',
+      requesterId: employeeId ?? 'EMP001',
+      department: 'Retail Operations',
+      description: 'Cancel Approved Leave',
+      submittedDate: new Date().toISOString(),
+      effectiveDate: target.startDate,
+      urgency: 'normal',
+      status: 'pending',
+      currentStep: 1,
+      totalSteps: steps.length,
+      steps,
+      details: {
+        leaveId: target.id,
+        leaveType: target.typeNameEn,
+        startDate: target.startDate,
+        endDate: target.endDate,
+        days: String(target.days),
+        hasDocument: hasDocument ? 'true' : 'false',
+        reason,
+      },
+    };
+
+    setCancellationWorkflows((prev) => [workflow, ...prev]);
+    setRequests((prev) =>
+      prev.map((request) =>
+        request.id === leaveId
+          ? {
+              ...request,
+              cancellationRequested: true,
+              cancellationRequestedAt: workflow.submittedDate,
+              cancellationReason: reason,
+              cancellationWorkflowId: workflowId,
+            }
+          : request
+      )
+    );
+
+    return workflow;
+  }, [employeeId, requests]);
+
   const calendarEvents: CalendarEvent[] = requests
     .filter((r) => r.status === 'approved' || r.status === 'pending')
     .map((r) => ({
@@ -287,5 +367,7 @@ export function useLeave(employeeId?: string) {
     submitting,
     submitRequest,
     cancelRequest,
+    cancelApprovedLeave,
+    cancellationWorkflows,
   };
 }

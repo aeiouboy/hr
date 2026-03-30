@@ -10,12 +10,12 @@ import { useRecruitment, type ApplicationStatus } from '@/hooks/use-recruitment'
 
 const STAGES: ApplicationStatus[] = ['applied', 'screening', 'interview', 'offer', 'hired'];
 const STAGE_COLORS: Record<ApplicationStatus, string> = {
-  applied: 'bg-gray-100 border-gray-300',
-  screening: 'bg-blue-50 border-blue-300',
-  interview: 'bg-yellow-50 border-yellow-300',
-  offer: 'bg-purple-50 border-purple-300',
-  hired: 'bg-green-50 border-green-300',
-  rejected: 'bg-red-50 border-red-300',
+  applied: 'bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600',
+  screening: 'bg-blue-50 border-blue-300 dark:bg-blue-900/20 dark:border-blue-700',
+  interview: 'bg-yellow-50 border-yellow-300 dark:bg-yellow-900/20 dark:border-yellow-700',
+  offer: 'bg-purple-50 border-purple-300 dark:bg-purple-900/20 dark:border-purple-700',
+  hired: 'bg-green-50 border-green-300 dark:bg-green-900/20 dark:border-green-700',
+  rejected: 'bg-red-50 border-red-300 dark:bg-red-900/20 dark:border-red-700',
 };
 
 export function ScreeningPage() {
@@ -32,7 +32,7 @@ export function ScreeningPage() {
     <>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-cg-dark">Candidate Screening</h1>
-        <p className="text-gray-500 mt-1">Pipeline view of all candidates</p>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Pipeline view of all candidates</p>
       </div>
 
       <div className="flex gap-4 overflow-x-auto pb-4">
@@ -50,12 +50,12 @@ export function ScreeningPage() {
                   const nextStage = nextStageIdx < STAGES.length ? STAGES[nextStageIdx] : null;
                   return (
                     <Card key={candidate.id} className="cursor-pointer hover:shadow-md transition-shadow">
-                      <CardContent className="p-3">
+                      <CardContent className="p-4 lg:p-5">
                         <div className="flex items-center gap-2 mb-2">
                           {candidate.photo && <img src={candidate.photo} alt="" className="w-7 h-7 rounded-full" />}
                           <div className="min-w-0">
                             <p className="text-sm font-medium truncate">{candidate.name}</p>
-                            <p className="text-xs text-gray-500 truncate">{candidate.position}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{candidate.position}</p>
                           </div>
                         </div>
                         <div className="flex flex-wrap gap-1 mb-2">
@@ -77,7 +77,7 @@ export function ScreeningPage() {
                     </Card>
                   );
                 })}
-                {stageCandidates.length === 0 && <p className="text-xs text-gray-400 text-center py-4">No candidates</p>}
+                {stageCandidates.length === 0 && <p className="text-xs text-gray-400 dark:text-gray-500 text-center py-4">No candidates</p>}
               </div>
             </div>
           );
