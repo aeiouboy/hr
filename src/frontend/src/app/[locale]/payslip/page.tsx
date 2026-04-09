@@ -852,8 +852,8 @@ export default function PayslipPage() {
  <CardContent className="p-5">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
  <div className="flex items-center gap-3">
- <div className="w-10 h-10 bg-blue-50 rounded-md flex items-center justify-center">
- <FileText className="h-5 w-5 text-blue-600" />
+ <div className="w-10 h-10 bg-accent-tint rounded-md flex items-center justify-center">
+ <FileText className="h-5 w-5 text-accent" />
  </div>
  <div>
  <p className="font-semibold text-ink text-sm">{t(doc.type)}</p>

@@ -128,8 +128,8 @@ export default function PayrollProcessingPage() {
  </div>
  </div>
 
- <div className="mt-4 p-3 bg-blue-50 rounded-md flex items-start gap-3">
- <Users className="h-5 w-5 text-blue-500 mt-0.5 shrink-0" />
+ <div className="mt-4 p-3 bg-accent-tint rounded-md flex items-start gap-3">
+ <Users className="h-5 w-5 text-accent mt-0.5 shrink-0" />
  <div>
  <p className="text-sm font-medium text-blue-900">Selected Period: {selectedPeriod}</p>
  <p className="text-xs text-blue-700 mt-0.5">
@@ -211,15 +211,15 @@ export default function PayrollProcessingPage() {
  t('providentFund'),
  ].map((item) => (
  <li key={item} className="flex items-center gap-2 text-sm text-ink-soft">
- <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+ <CheckCircle className="h-4 w-4 text-success shrink-0" />
  {item}
  </li>
  ))}
  </ul>
  </div>
 
- <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-md mb-6">
- <Calendar className="h-5 w-5 text-blue-500 shrink-0" />
+ <div className="flex items-center gap-3 p-3 bg-accent-tint rounded-md mb-6">
+ <Calendar className="h-5 w-5 text-accent shrink-0" />
  <div>
  <p className="text-sm font-medium text-blue-900">{t('payrollPeriod')}: {selectedPeriod}</p>
  <p className="text-xs text-blue-700">152 employees in scope</p>
@@ -289,7 +289,7 @@ export default function PayrollProcessingPage() {
  <Banknote className="h-4 w-4" />
  <p className="text-xs uppercase tracking-wide">{t('totalNet')}</p>
  </div>
- <p className="text-2xl font-bold text-green-600">{formatCurrency(runSummary.totalNet,'THB')}</p>
+ <p className="text-2xl font-bold text-success">{formatCurrency(runSummary.totalNet,'THB')}</p>
  </CardContent>
  </Card>
  </div>
@@ -323,7 +323,7 @@ export default function PayrollProcessingPage() {
  <td className="px-3 py-2.5 text-ink-muted hidden md:table-cell">{ps.department}</td>
  <td className="px-3 py-2.5 text-right text-ink">{formatCurrency(ps.totalGross,'THB')}</td>
  <td className="px-3 py-2.5 text-right text-brand hidden sm:table-cell">{formatCurrency(ps.totalDeductions,'THB')}</td>
- <td className="px-3 py-2.5 text-right font-semibold text-green-600">{formatCurrency(ps.netPay,'THB')}</td>
+ <td className="px-3 py-2.5 text-right font-semibold text-success">{formatCurrency(ps.netPay,'THB')}</td>
  <td className="px-3 py-2.5 text-center hidden lg:table-cell">
  {ps.anomaly && (
  <span title={ps.anomaly}>
@@ -366,8 +366,8 @@ export default function PayrollProcessingPage() {
  if (approved) {
  return (
  <div className="flex flex-col items-center justify-center py-16 gap-4">
- <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
- <CheckCircle className="h-10 w-10 text-green-600" />
+ <div className="w-20 h-20 rounded-full bg-success-tint flex items-center justify-center">
+ <CheckCircle className="h-10 w-10 text-success" />
  </div>
  <h3 className="text-xl font-bold text-ink">{t('submitSuccess')}</h3>
  <p className="text-ink-muted text-center max-w-sm">
@@ -404,7 +404,7 @@ export default function PayrollProcessingPage() {
  </div>
  <div className="flex justify-between py-2 font-semibold text-base">
  <span className="text-ink">{t('totalNet')}</span>
- <span className="text-green-600">{formatCurrency(runSummary.totalNet,'THB')}</span>
+ <span className="text-success">{formatCurrency(runSummary.totalNet,'THB')}</span>
  </div>
  </div>
  </CardContent>
@@ -522,7 +522,7 @@ export default function PayrollProcessingPage() {
  <div
  className={[
 'w-10 h-10 rounded-full flex items-center justify-center transition-colors',
- isCompleted ?'bg-green-500 text-white' :
+ isCompleted ?'bg-success-tint0 text-white' :
  isActive ?'bg-brand text-white' :
 'bg-surface-raised text-ink-muted',
  ].join(' ')}
@@ -535,7 +535,7 @@ export default function PayrollProcessingPage() {
  </div>
  <span className={[
 'mt-2 text-xs font-medium whitespace-nowrap hidden sm:block',
- isActive ?'text-brand' : isCompleted ?'text-green-600' :'text-ink-muted',
+ isActive ?'text-brand' : isCompleted ?'text-success' :'text-ink-muted',
  ].join(' ')}>
  {step.label}
  </span>

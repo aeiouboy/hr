@@ -18,7 +18,7 @@ export function TeamSummaryCards({ summary, loading }: TeamSummaryCardsProps) {
  label: t('totalMembers'),
  value: summary?.totalMembers ??'—',
  icon: <Users className="h-6 w-6" />,
- color:'text-blue-600 bg-blue-50',
+ color:'text-accent bg-accent-tint',
  },
  {
  label: t('activeToday'),
@@ -26,21 +26,21 @@ export function TeamSummaryCards({ summary, loading }: TeamSummaryCardsProps) {
  ? `${summary.presentToday} (${summary.presentPercentage}%)`
  :'—',
  icon: <UserCheck className="h-6 w-6" />,
- color:'text-green-600 bg-green-50',
+ color:'text-success bg-success-tint',
  },
  {
  label: t('onLeaveToday'),
  value: summary?.onLeaveToday ??'—',
  subtitle: summary?.onLeaveNames?.join(','),
  icon: <CalendarOff className="h-6 w-6" />,
- color:'text-orange-600 bg-orange-50',
+ color:'text-warning bg-warning-tint',
  },
  {
  label: t('pending'),
  value: summary?.pendingApprovals ??'—',
  href:'/quick-approve',
  icon: <ClipboardList className="h-6 w-6" />,
- color:'text-brand bg-red-50',
+ color:'text-brand bg-danger-tint',
  },
  ];
 

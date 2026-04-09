@@ -11,11 +11,11 @@ import { useRecruitment, type ApplicationStatus } from '@/hooks/use-recruitment'
 const STAGES: ApplicationStatus[] = ['applied','screening','interview','offer','hired'];
 const STAGE_COLORS: Record<ApplicationStatus, string> = {
  applied:'bg-surface-raised border-hairline border-hairline',
- screening:'bg-blue-50 border-blue-300 dark:bg-blue-900/20 dark:border-blue-700',
- interview:'bg-yellow-50 border-yellow-300 dark:bg-yellow-900/20 dark:border-yellow-700',
- offer:'bg-purple-50 border-purple-300 dark:bg-purple-900/20 dark:border-purple-700',
- hired:'bg-green-50 border-green-300 dark:bg-green-900/20 dark:border-green-700',
- rejected:'bg-red-50 border-red-300 dark:bg-red-900/20 dark:border-red-700',
+ screening:'bg-accent-tint border-blue-300 dark:bg-blue-900/20 dark:border-blue-700',
+ interview:'bg-warning-tint border-yellow-300 dark:bg-yellow-900/20 dark:border-yellow-700',
+ offer:'bg-accent-tint border-purple-300 dark:bg-purple-900/20 dark:border-purple-700',
+ hired:'bg-success-tint border-green-300 dark:bg-green-900/20 dark:border-green-700',
+ rejected:'bg-danger-tint border-red-300 dark:bg-red-900/20 dark:border-red-700',
 };
 
 export function ScreeningPage() {
@@ -68,7 +68,7 @@ export function ScreeningPage() {
  </Button>
  )}
  {stage !=='hired' && (
- <Button size="sm" variant="ghost" className="text-xs text-red-500" onClick={() => updateCandidateStatus(candidate.id,'rejected')}>
+ <Button size="sm" variant="ghost" className="text-xs text-danger" onClick={() => updateCandidateStatus(candidate.id,'rejected')}>
  <X className="h-3 w-3" />
  </Button>
  )}

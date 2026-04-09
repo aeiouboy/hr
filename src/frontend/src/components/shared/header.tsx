@@ -97,21 +97,21 @@ export function Header() {
  title:'Leave request approved',
  time:'2 hours ago',
  read: false,
- icon: <CheckCircle className="h-4 w-4 text-green-500" />,
+ icon: <CheckCircle className="h-4 w-4 text-success" />,
  },
  {
  id: 2,
  title:'New payslip available',
  time:'1 day ago',
  read: false,
- icon: <FileText className="h-4 w-4 text-blue-500" />,
+ icon: <FileText className="h-4 w-4 text-accent" />,
  },
  {
  id: 3,
  title:'Performance review reminder',
  time:'3 days ago',
  read: true,
- icon: <ClipboardList className="h-4 w-4 text-orange-500" />,
+ icon: <ClipboardList className="h-4 w-4 text-warning" />,
  },
  ];
 
@@ -375,7 +375,7 @@ export function Header() {
  <div
  key={n.id}
  className={`flex items-start gap-3 px-4 py-3 hover:bg-surface-raised cursor-pointer ${
- !n.read ?'bg-blue-50/50 dark:bg-blue-900/20' :''
+ !n.read ?'bg-accent-tint/50 dark:bg-blue-900/20' :''
  }`}
  >
  <div className="mt-0.5">{n.icon}</div>
@@ -530,7 +530,7 @@ export function Header() {
  </a>
  <hr className="my-1 border-hairline" />
  <button
- className="w-full flex items-center gap-2 px-4 py-2 hover:bg-surface-raised text-red-600"
+ className="w-full flex items-center gap-2 px-4 py-2 hover:bg-surface-raised text-danger"
  onClick={() => {
  setLogoutConfirmOpen(true);
  setUserDropdownOpen(false);
@@ -570,8 +570,8 @@ export function Header() {
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
  <div className="bg-surface rounded-md shadow-xl w-full max-w-sm mx-4 p-6">
  <div className="flex items-center gap-3 mb-4">
- <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-full">
- <LogOut className="h-5 w-5 text-red-600" />
+ <div className="p-2 bg-danger-tint dark:bg-red-900/30 rounded-full">
+ <LogOut className="h-5 w-5 text-danger" />
  </div>
  <h3 className="text-lg font-semibold text-ink">Confirm Logout</h3>
  </div>
@@ -586,7 +586,7 @@ export function Header() {
  Cancel
  </button>
  <button
- className="px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 rounded-md transition"
+ className="px-4 py-2 text-sm text-white bg-danger hover:bg-danger/90 rounded-md transition"
  onClick={handleLogout}
  >
  Log out

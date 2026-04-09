@@ -65,7 +65,7 @@ export default function PayrollSetupPage() {
  <Card>
  <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('earnings.active')}</p>
- <p className="text-3xl font-bold text-green-600 mt-1">{activeCount}</p>
+ <p className="text-3xl font-bold text-success mt-1">{activeCount}</p>
  </CardContent>
  </Card>
  <Card className="col-span-2 sm:col-span-1">
@@ -143,7 +143,7 @@ export default function PayrollSetupPage() {
  <Card>
  <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('deductions.active')}</p>
- <p className="text-3xl font-bold text-green-600 mt-1">{activeCount}</p>
+ <p className="text-3xl font-bold text-success mt-1">{activeCount}</p>
  </CardContent>
  </Card>
  <Card className="col-span-2 sm:col-span-1">
@@ -287,7 +287,7 @@ export default function PayrollSetupPage() {
  <Card>
  <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('banks.active')}</p>
- <p className="text-3xl font-bold text-green-600 mt-1">{activeCount}</p>
+ <p className="text-3xl font-bold text-success mt-1">{activeCount}</p>
  </CardContent>
  </Card>
  </div>

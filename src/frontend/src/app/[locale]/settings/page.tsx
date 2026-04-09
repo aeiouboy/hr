@@ -111,13 +111,13 @@ export default function SettingsPage() {
  const renderSaveBar = (onSave: () => void) => (
  <div className="flex items-center justify-between mt-6 pt-4 border-t">
  {saveState.error && (
- <p className="text-sm text-red-600 flex items-center gap-1">
+ <p className="text-sm text-danger flex items-center gap-1">
  <AlertCircle className="h-4 w-4" />
  {saveState.error}
  </p>
  )}
  {saveState.saved && (
- <p className="text-sm text-green-600 flex items-center gap-1">
+ <p className="text-sm text-success flex items-center gap-1">
  <Check className="h-4 w-4" />
  {t('saveGeneral').replace('General','')} saved successfully
  </p>
@@ -300,7 +300,7 @@ export default function SettingsPage() {
  </div>
  </td>
  <td className="px-4 py-3">
- <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+ <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-tint text-accent">
  {policy.maxDays} days
  </span>
  </td>
@@ -308,7 +308,7 @@ export default function SettingsPage() {
  <span
  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
  policy.carryForward
- ?'bg-green-100 text-green-800'
+ ?'bg-success-tint text-success'
  :'bg-surface-raised text-ink-muted'
  }`}
  >

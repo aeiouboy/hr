@@ -126,7 +126,7 @@ function ComboboxField({
  autoComplete="off"
  />
  {isOpen && filtered.length > 0 && (
- <ul className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-hairline bg-surface shadow-2 border-hairline">
+ <ul className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-surface shadow-card shadow-2 border-hairline">
  {filtered.map((opt, idx) => (
  <li
  key={opt.value}
@@ -149,7 +149,7 @@ function ComboboxField({
  </ul>
  )}
  {isOpen && filtered.length === 0 && searchText && (
- <div className="absolute z-50 mt-1 w-full rounded-md border border-hairline bg-surface p-3 text-sm text-ink-muted shadow-2 border-hairline">
+ <div className="absolute z-50 mt-1 w-full rounded-md bg-surface shadow-card p-3 text-sm text-ink-muted shadow-2 border-hairline">
  No results found
  </div>
  )}

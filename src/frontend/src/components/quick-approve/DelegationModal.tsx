@@ -104,7 +104,7 @@ export function DelegationModal({
  {d.status ==='active' && (
  <button
  onClick={() => onRevokeDelegation(d.id)}
- className="p-1.5 rounded hover:bg-red-50 text-red-500 transition"
+ className="p-1.5 rounded hover:bg-danger-tint text-danger transition"
  aria-label={t('revoke')}
  >
  <Trash2 className="h-4 w-4" />

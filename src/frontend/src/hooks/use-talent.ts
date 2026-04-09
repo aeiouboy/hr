@@ -42,9 +42,9 @@ function getNineBoxGrid(employees: TalentEmployee[]): NineBoxCell[] {
  ['Underperformer','Core Player','Trusted Professional'],
  ];
  const colors = [
- ['bg-yellow-50','bg-blue-50','bg-green-50'],
- ['bg-yellow-50','bg-blue-50','bg-green-50'],
- ['bg-red-50','bg-yellow-50','bg-blue-50'],
+ ['bg-warning-tint','bg-accent-tint','bg-success-tint'],
+ ['bg-warning-tint','bg-accent-tint','bg-success-tint'],
+ ['bg-danger-tint','bg-warning-tint','bg-accent-tint'],
  ];
 
  const cells: NineBoxCell[] = [];

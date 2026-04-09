@@ -26,9 +26,9 @@ export function TalentPage() {
 
  const stats = [
  { label: t('dashboard.totalHiPo'), value: hiPoList.length, desc: t('dashboard.ofWorkforce'), icon: <Star className="h-5 w-5 text-yellow-500" /> },
- { label: t('dashboard.stars'), value: employees.filter((e) => e.nineBoxPosition ==='Star').length, desc: t('dashboard.topPerformers'), icon: <TrendingUp className="h-5 w-5 text-green-500" /> },
- { label: t('dashboard.atRisk'), value: employees.filter((e) => e.riskOfLoss ==='high').length, desc: t('dashboard.retentionRisk'), icon: <AlertTriangle className="h-5 w-5 text-red-500" /> },
- { label: t('dashboard.readyNow'), value: hiPoList.filter((e) => e.performanceRating >= 4).length, desc: t('dashboard.promotionReady'), icon: <Users className="h-5 w-5 text-blue-500" /> },
+ { label: t('dashboard.stars'), value: employees.filter((e) => e.nineBoxPosition ==='Star').length, desc: t('dashboard.topPerformers'), icon: <TrendingUp className="h-5 w-5 text-success" /> },
+ { label: t('dashboard.atRisk'), value: employees.filter((e) => e.riskOfLoss ==='high').length, desc: t('dashboard.retentionRisk'), icon: <AlertTriangle className="h-5 w-5 text-danger" /> },
+ { label: t('dashboard.readyNow'), value: hiPoList.filter((e) => e.performanceRating >= 4).length, desc: t('dashboard.promotionReady'), icon: <Users className="h-5 w-5 text-accent" /> },
  ];
 
  return (

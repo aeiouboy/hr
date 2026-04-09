@@ -37,21 +37,21 @@ export default function PayrollLandingPage() {
  description: t('payrollSetup.description'),
  href: `/${locale}/payroll/setup`,
  icon: <DollarSign className="h-6 w-6" />,
- color:'text-blue-600 bg-blue-50',
+ color:'text-accent bg-accent-tint',
  },
  {
  title: t('payrollProcessing.title'),
  description: t('payrollProcessing.description'),
  href: `/${locale}/payroll/processing`,
  icon: <Calculator className="h-6 w-6" />,
- color:'text-purple-600 bg-purple-50',
+ color:'text-accent bg-accent-tint',
  },
  {
  title: t('govReports.title'),
  description: t('govReports.description'),
  href: `/${locale}/payroll/reports`,
  icon: <BarChart3 className="h-6 w-6" />,
- color:'text-green-600 bg-green-50',
+ color:'text-success bg-success-tint',
  },
  ];
 

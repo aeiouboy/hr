@@ -454,17 +454,17 @@ export function MedicalClaimsPage() {
 
  {/* Show file if uploaded (single) */}
  {zone !=='other' && file && (
- <div className="flex items-center justify-between rounded-md border border-green-200 bg-green-50 p-3">
+ <div className="flex items-center justify-between rounded-md border border-green-200 bg-success-tint p-3">
  <div className="flex items-center gap-2 min-w-0">
- <FileText className="h-4 w-4 text-green-600 shrink-0" />
+ <FileText className="h-4 w-4 text-success shrink-0" />
  <span className="text-sm text-ink-soft truncate">{file.name}</span>
  <span className="text-xs text-ink-muted shrink-0">{formatFileSize(file.size)}</span>
  </div>
  <button
  onClick={() => removeFile(zone)}
- className="rounded p-1 hover:bg-red-100 transition-colors shrink-0"
+ className="rounded p-1 hover:bg-danger-tint transition-colors shrink-0"
  >
- <X className="h-4 w-4 text-red-500" />
+ <X className="h-4 w-4 text-danger" />
  </button>
  </div>
  )}
@@ -481,9 +481,9 @@ export function MedicalClaimsPage() {
  </div>
  <button
  onClick={() => removeFile('other', i)}
- className="rounded p-1 hover:bg-red-100 transition-colors shrink-0"
+ className="rounded p-1 hover:bg-danger-tint transition-colors shrink-0"
  >
- <X className="h-4 w-4 text-red-500" />
+ <X className="h-4 w-4 text-danger" />
  </button>
  </div>
  ))}
@@ -499,7 +499,7 @@ export function MedicalClaimsPage() {
  onClick={() => inputRef.current?.click()}
  className={`flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-6 transition-colors ${
  isDragActive
- ?'border-brand bg-red-50'
+ ?'border-brand bg-danger-tint'
  :'border-hairline border-hairline hover:border-gray-400 hover:bg-surface-raised/50'
  }`}
  >
@@ -559,7 +559,7 @@ export function MedicalClaimsPage() {
  <Card>
  <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-2 mb-3">
- <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-green-500" />
+ <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-success" />
  <span className="text-xs lg:text-sm text-ink-muted">{t('medicalClaims.overview.annualLimit')}</span>
  </div>
  <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.annualLimit)}</p>
@@ -577,7 +577,7 @@ export function MedicalClaimsPage() {
  <Card>
  <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-2 mb-3">
- <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-blue-500" />
+ <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-accent" />
  <span className="text-xs lg:text-sm text-ink-muted">{t('medicalClaims.overview.remaining')}</span>
  </div>
  <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.remainingAmount)}</p>
@@ -597,7 +597,7 @@ export function MedicalClaimsPage() {
  <div className="h-3 w-full rounded-full bg-surface-raised overflow-hidden">
  <div
  className={`h-full rounded-full transition-all ${
- usagePercent > 80 ?'bg-danger' : usagePercent > 50 ?'bg-yellow-400' :'bg-green-500'
+ usagePercent > 80 ?'bg-danger' : usagePercent > 50 ?'bg-yellow-400' :'bg-success-tint0'
  }`}
  style={{ width: `${usagePercent}%` }}
  />
@@ -831,16 +831,16 @@ export function MedicalClaimsPage() {
  {/* Policy check */}
  <div
  className={`flex items-start gap-3 rounded-md border p-4 ${
- withinLimit ?'border-green-200 bg-green-50' :'border-red-200 bg-red-50'
+ withinLimit ?'border-green-200 bg-success-tint' :'border-red-200 bg-danger-tint'
  }`}
  >
  {withinLimit ? (
- <CheckCircle className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+ <CheckCircle className="h-5 w-5 text-success shrink-0 mt-0.5" />
  ) : (
- <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+ <AlertCircle className="h-5 w-5 text-danger shrink-0 mt-0.5" />
  )}
  <div>
- <p className={`text-sm font-medium ${withinLimit ?'text-green-800' :'text-red-800'}`}>
+ <p className={`text-sm font-medium ${withinLimit ?'text-success' :'text-danger'}`}>
  {withinLimit
  ? t('medicalClaims.form.withinLimit')
  : t('medicalClaims.form.exceedsLimit')}
@@ -852,9 +852,9 @@ export function MedicalClaimsPage() {
  </div>
 
  {/* Warning about originals */}
- <div className="flex items-start gap-3 rounded-md border border-yellow-200 bg-yellow-50 p-4">
- <AlertTriangle className="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" />
- <p className="text-sm text-yellow-800">{t('medicalClaims.form.bringOriginals')}</p>
+ <div className="flex items-start gap-3 rounded-md border border-yellow-200 bg-warning-tint p-4">
+ <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
+ <p className="text-sm text-warning">{t('medicalClaims.form.bringOriginals')}</p>
  </div>
 
  {/* Actions */}
@@ -1086,13 +1086,13 @@ export function MedicalClaimsPage() {
  let icon = null;
 
  if (as.status ==='approved') {
- dotColor ='bg-green-500';
+ dotColor ='bg-success-tint0';
  icon = <Check className="h-3 w-3 text-white" />;
  } else if (as.status ==='pending') {
  dotColor ='bg-yellow-400';
  icon = <Clock className="h-3 w-3 text-white" />;
  } else if (as.status ==='rejected') {
- dotColor ='bg-red-500';
+ dotColor ='bg-danger-tint0';
  icon = <X className="h-3 w-3 text-white" />;
  }
 
@@ -1141,10 +1141,10 @@ export function MedicalClaimsPage() {
 
  {/* Rejection reason */}
  {detailClaim.rejectionReason && (
- <div className="flex items-start gap-3 rounded-md border border-red-200 bg-red-50 p-4">
- <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+ <div className="flex items-start gap-3 rounded-md border border-red-200 bg-danger-tint p-4">
+ <AlertCircle className="h-5 w-5 text-danger shrink-0 mt-0.5" />
  <div>
- <p className="text-sm font-medium text-red-800">
+ <p className="text-sm font-medium text-danger">
  {t('medicalClaims.detail.rejectionReason')}
  </p>
  <p className="text-sm text-red-700 mt-1">{detailClaim.rejectionReason}</p>

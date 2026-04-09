@@ -67,13 +67,13 @@ export function OvertimePage() {
  <div className="space-y-6">
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.weeklyHours}h</p><p className="text-xs text-ink-muted">{t('totalHours')} (week)</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-yellow-600">{stats.pendingCount}</p><p className="text-xs text-ink-muted">{t('pendingRequests')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{stats.approvedCount}</p><p className="text-xs text-ink-muted">{t('approvedRequests')}</p></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-warning">{stats.pendingCount}</p><p className="text-xs text-ink-muted">{t('pendingRequests')}</p></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{stats.approvedCount}</p><p className="text-xs text-ink-muted">{t('approvedRequests')}</p></CardContent></Card>
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
  <p className="text-2xl font-bold text-ink">{stats.maxWeeklyHours - stats.weeklyHours}h</p>
  <p className="text-xs text-ink-muted">{t('remainingHours')}</p>
  {stats.weeklyHours > stats.maxWeeklyHours * 0.8 && (
- <div className="flex items-center justify-center gap-1 mt-1 text-xs text-yellow-600">
+ <div className="flex items-center justify-center gap-1 mt-1 text-xs text-warning">
  <AlertTriangle className="h-3 w-3" /> Near limit
  </div>
  )}
@@ -145,7 +145,7 @@ export function OvertimePage() {
  <td className="py-3 px-4 text-right">{formatCurrency(req.estimatedAmount)}</td>
  <td className="py-3 px-4 text-center"><Badge variant={STATUS_VARIANT[req.status]}>{t(`status.${req.status}` as never)}</Badge></td>
  <td className="py-3 px-4 text-center">
- {req.status ==='pending' && <Button size="sm" variant="ghost" className="text-red-500" onClick={() => cancelRequest(req.id)}>{t('cancelRequest')}</Button>}
+ {req.status ==='pending' && <Button size="sm" variant="ghost" className="text-danger" onClick={() => cancelRequest(req.id)}>{t('cancelRequest')}</Button>}
  </td>
  </tr>
  ))}

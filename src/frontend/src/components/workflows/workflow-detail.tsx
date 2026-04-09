@@ -17,8 +17,8 @@ interface WorkflowDetailProps {
 }
 
 const STEP_ICON: Record<string, React.ReactNode> = {
- approved: <CheckCircle className="h-5 w-5 text-green-500" />,
- rejected: <XCircle className="h-5 w-5 text-red-500" />,
+ approved: <CheckCircle className="h-5 w-5 text-success" />,
+ rejected: <XCircle className="h-5 w-5 text-danger" />,
  sent_back: <RotateCcw className="h-5 w-5 text-yellow-500" />,
  pending: <Clock className="h-5 w-5 text-ink-muted" />,
  skipped: <Clock className="h-5 w-5 text-gray-300" />,

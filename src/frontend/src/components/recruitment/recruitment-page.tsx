@@ -42,8 +42,8 @@ export function RecruitmentPage() {
 
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Briefcase className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{stats.openPositions}</p><p className="text-xs text-ink-muted">{t('openPositions')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold">{stats.totalApplications}</p><p className="text-xs text-ink-muted">{t('totalApplications')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><UserPlus className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold">{stats.newApplications}</p><p className="text-xs text-ink-muted">{t('newApplications')}</p></div></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold">{stats.totalApplications}</p><p className="text-xs text-ink-muted">{t('totalApplications')}</p></div></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><UserPlus className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold">{stats.newApplications}</p><p className="text-xs text-ink-muted">{t('newApplications')}</p></div></CardContent></Card>
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-yellow-500" /><div><p className="text-2xl font-bold">{stats.inInterview}</p><p className="text-xs text-ink-muted">{t('inInterview')}</p></div></CardContent></Card>
  </div>
 

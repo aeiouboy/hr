@@ -254,10 +254,10 @@ export default function OrgChartPage() {
  onClick={() => handleNodeClick(CEO_NODE.id)}
  className={`flex items-center gap-3 p-3 rounded-md border text-left w-full transition-all ${
  selectedNodeId === CEO_NODE.id
- ?'border-blue-400 ring-2 ring-blue-200 bg-blue-50'
+ ?'border-blue-400 ring-2 ring-blue-200 bg-accent-tint'
  : matchesSearch(CEO_NODE)
  ? searchQuery.trim()
- ?'border-yellow-400 bg-yellow-50 ring-1 ring-yellow-300'
+ ?'border-yellow-400 bg-warning-tint ring-1 ring-yellow-300'
  :'border-hairline bg-surface hover:border-hairline hover:shadow-sm'
  :'border-hairline bg-surface opacity-30'
  }`}
@@ -298,9 +298,9 @@ export default function OrgChartPage() {
  onClick={() => handleNodeClick(vp.id)}
  className={`flex items-center gap-2 p-2.5 rounded-md border text-left w-full transition-all ${
  isSelected
- ?'border-blue-400 ring-2 ring-blue-200 bg-blue-50'
+ ?'border-blue-400 ring-2 ring-blue-200 bg-accent-tint'
  : isMatch && searchQuery.trim()
- ?'border-yellow-400 bg-yellow-50 ring-1 ring-yellow-300'
+ ?'border-yellow-400 bg-warning-tint ring-1 ring-yellow-300'
  : vp.id === VP_PRODUCT_NODE.id
  ? `border-brand/30 bg-brand/5${!isMatch && searchQuery.trim() ?' opacity-30' :''}`
  : `border-hairline bg-surface hover:border-hairline hover:shadow-sm${!isMatch && searchQuery.trim() ?' opacity-30' :''}`

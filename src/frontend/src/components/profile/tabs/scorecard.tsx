@@ -2,8 +2,10 @@
 
 import { useTranslations } from 'next-intl';
 import { BarChart3, History } from 'lucide-react';
-import { SectionCard } from '../section-card';
+import { FieldGroup } from '@/components/ui/field-group';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { EmptyValue } from '@/components/ui/empty-value';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface ScorecardTabProps {
@@ -36,44 +38,34 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
 
  const maxRating = 5;
 
- // Determine 9-Box badge color
- const nineBoxColor: Record<string, string> = {
- Star:'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-'Future Star':'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-'Consistent Star':'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-'High Potential':'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-'Core Player':'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-'Trusted Professional':'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
- };
-
  return (
  <div className="space-y-6">
  {/* Overall Rating */}
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
- <div className="bg-surface rounded-md border border-hairline p-6 text-center">
- <p className="text-xs text-ink-muted uppercase tracking-wider">{t('scorecard.overallRating')}</p>
- <p className="text-2xl font-bold text-brand mt-2">{overallRating ||'-'}</p>
- </div>
- <div className="bg-surface rounded-md border border-hairline p-6 text-center">
- <p className="text-xs text-ink-muted uppercase tracking-wider">{t('scorecard.potentialRating')}</p>
- <p className="text-2xl font-bold text-info mt-2">{potentialRating ||'-'}</p>
- </div>
- <div className="bg-surface rounded-md border border-hairline p-6 text-center">
- <p className="text-xs text-ink-muted uppercase tracking-wider">9-Box Position</p>
+ <Card className="p-6 text-center">
+ <p className="text-xs text-ink-muted">{t('scorecard.overallRating')}</p>
+ <p className="text-2xl font-bold text-brand mt-2">{overallRating || <EmptyValue />}</p>
+ </Card>
+ <Card className="p-6 text-center">
+ <p className="text-xs text-ink-muted">{t('scorecard.potentialRating')}</p>
+ <p className="text-2xl font-bold text-info mt-2">{potentialRating || <EmptyValue />}</p>
+ </Card>
+ <Card className="p-6 text-center">
+ <p className="text-xs text-ink-muted">9-Box Position</p>
  {nineBoxPosition ? (
- <span className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold ${nineBoxColor[nineBoxPosition] ||'bg-surface-raised text-ink '}`}>
+ <span className="inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold bg-accent-tint text-accent">
  {nineBoxPosition}
  </span>
  ) : (
- <p className="text-2xl font-bold text-gray-300 mt-2">-</p>
+ <div className="mt-2"><EmptyValue /></div>
  )}
- </div>
+ </Card>
  </div>
 
  {/* CG Competencies */}
- <SectionCard title={t('scorecard.cgCompetency')} icon={<BarChart3 className="h-5 w-5" />}>
+ <FieldGroup title={t('scorecard.cgCompetency')} icon={<BarChart3 className="h-5 w-5" />} columns={1}>
  {competencies.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-8">{t('scorecard.noCompetencies')}</p>
+ <div className="text-center py-8"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="space-y-4">
  {competencies.map((comp, i) => {
@@ -96,21 +88,21 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
  })}
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
 
  {/* Assessment History */}
- <SectionCard title="Assessment History" icon={<History className="h-5 w-5" />}>
+ <FieldGroup title="Assessment History" icon={<History className="h-5 w-5" />} columns={1}>
  {assessmentHistory.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-8">No assessment history available</p>
+ <div className="text-center py-8"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
  <tr className="border-b border-hairline">
- <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted uppercase">Period</th>
- <th className="text-center py-2 px-2 text-xs font-medium text-ink-muted uppercase">Rating</th>
- <th className="text-center py-2 px-2 text-xs font-medium text-ink-muted uppercase">Potential</th>
- <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted uppercase">Status</th>
+ <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted">Period</th>
+ <th className="text-center py-2 px-2 text-xs font-medium text-ink-muted">Rating</th>
+ <th className="text-center py-2 px-2 text-xs font-medium text-ink-muted">Potential</th>
+ <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted">Status</th>
  </tr>
  </thead>
  <tbody>
@@ -126,7 +118,7 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
  </table>
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
  </div>
  );
 }

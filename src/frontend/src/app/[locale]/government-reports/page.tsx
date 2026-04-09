@@ -44,7 +44,7 @@ function formatDate(iso: string): string {
 function StatusBadge({ status }: { status: GovReport['status'] }) {
  if (status ==='submitted') {
  return (
- <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+ <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-tint text-success">
  <CheckCircle className="h-3 w-3" />
  Submitted
  </span>
@@ -52,7 +52,7 @@ function StatusBadge({ status }: { status: GovReport['status'] }) {
  }
  if (status ==='generated') {
  return (
- <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+ <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-tint text-accent">
  <FileText className="h-3 w-3" />
  Generated
  </span>
@@ -180,7 +180,7 @@ export default function GovernmentReportsPage() {
  <span
  className={`inline-block mt-1.5 text-[10px] font-medium px-1.5 py-0.5 rounded uppercase tracking-wide ${
  info.frequency ==='monthly'
- ?'bg-blue-100 text-blue-700'
+ ?'bg-accent-tint text-blue-700'
  :'bg-purple-100 text-purple-700'
  }`}
  >
@@ -223,14 +223,14 @@ export default function GovernmentReportsPage() {
 
  {/* Feedback messages */}
  {generateError && (
- <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-md">
- <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
+ <div className="flex items-start gap-2 p-3 bg-danger-tint border border-red-200 rounded-md">
+ <AlertCircle className="h-4 w-4 text-danger mt-0.5 flex-shrink-0" />
  <p className="text-xs text-red-700">{generateError}</p>
  </div>
  )}
  {generateSuccess && (
- <div className="flex items-start gap-2 p-3 bg-green-50 border border-green-200 rounded-md">
- <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+ <div className="flex items-start gap-2 p-3 bg-success-tint border border-green-200 rounded-md">
+ <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
  <p className="text-xs text-green-700">{generateSuccess}</p>
  </div>
  )}
@@ -335,8 +335,8 @@ export default function GovernmentReportsPage() {
  <span
  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium uppercase ${
  report.format ==='excel'
- ?'bg-green-100 text-green-700'
- :'bg-red-100 text-red-700'
+ ?'bg-success-tint text-green-700'
+ :'bg-danger-tint text-red-700'
  }`}
  >
  {report.format ==='excel' ? (
@@ -394,7 +394,7 @@ export default function GovernmentReportsPage() {
  {report.period} •{''}
  <span
  className={`font-medium uppercase ${
- report.format ==='excel' ?'text-green-600' :'text-red-600'
+ report.format ==='excel' ?'text-success' :'text-danger'
  }`}
  >
  {report.format}

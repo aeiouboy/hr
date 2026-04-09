@@ -145,7 +145,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
  className={cn(
 'min-h-[60px] md:min-h-[80px] border-t border-gray-100 border-hairline p-1 cursor-pointer hover:bg-surface-raised/50 transition',
  isWeekend &&'bg-surface-raised/50 ',
- holiday &&'bg-red-50/50 dark:bg-red-900/20'
+ holiday &&'bg-danger-tint/50 dark:bg-red-900/20'
  )}
  >
  <div className="flex items-start justify-between">
@@ -163,7 +163,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
 
  {holiday && (
  <div className="mt-0.5">
- <span className="text-[10px] leading-tight text-red-500 line-clamp-1">{holiday.nameEn}</span>
+ <span className="text-[10px] leading-tight text-danger line-clamp-1">{holiday.nameEn}</span>
  </div>
  )}
 

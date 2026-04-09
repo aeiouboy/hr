@@ -27,7 +27,7 @@ function Stepper({ currentStage, stages, t }: { currentStage: PayrollStage; stag
  <div className="flex flex-col items-center">
  <div
  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
- isComplete ?'bg-green-500 text-white' :
+ isComplete ?'bg-success-tint0 text-white' :
  isCurrent ?'bg-brand text-white' :'bg-surface-raised text-ink-muted'
  }`}
  >
@@ -38,7 +38,7 @@ function Stepper({ currentStage, stages, t }: { currentStage: PayrollStage; stag
  </span>
  </div>
  {idx < stages.length - 1 && (
- <div className={`flex-1 h-0.5 mx-2 ${idx < currentIndex ?'bg-green-500' :'bg-surface-raised '}`} />
+ <div className={`flex-1 h-0.5 mx-2 ${idx < currentIndex ?'bg-success-tint0' :'bg-surface-raised '}`} />
  )}
  </div>
  );
@@ -178,13 +178,13 @@ export function PayrollProcessing() {
  <Card>
  <CardContent className="pt-6">
  <p className="text-xs text-ink-muted">{t('payrollProcessing.totalGross')}</p>
- <p className="text-2xl font-bold text-green-600">{fmt(runSummary.totalGross)}</p>
+ <p className="text-2xl font-bold text-success">{fmt(runSummary.totalGross)}</p>
  </CardContent>
  </Card>
  <Card>
  <CardContent className="pt-6">
  <p className="text-xs text-ink-muted">{t('payrollProcessing.totalDeductions')}</p>
- <p className="text-2xl font-bold text-red-600">{fmt(runSummary.totalDeductions)}</p>
+ <p className="text-2xl font-bold text-danger">{fmt(runSummary.totalDeductions)}</p>
  </CardContent>
  </Card>
  <Card>
@@ -282,7 +282,7 @@ export function PayrollProcessing() {
  <div className="text-center py-8">
  {runSummary.status ==='approved' ? (
  <>
- <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+ <CheckCircle className="h-16 w-16 text-success mx-auto mb-4" />
  <h3 className="text-lg font-semibold text-ink">{t('payrollProcessing.payrollApproved')}</h3>
  <p className="text-ink-muted mt-1">{t('payrollProcessing.payrollApprovedDesc')}</p>
  </>

@@ -28,7 +28,7 @@ export function BulkActionBar({ count, onApprove, onReject, onClear }: BulkActio
  variant="default"
  size="sm"
  onClick={onApprove}
- className="bg-green-600 hover:bg-green-700 focus-visible:ring-green-600"
+ className="bg-success hover:bg-success/90 focus-visible:ring-success"
  >
  <CheckCircle2 className="h-4 w-4 mr-1.5" />
  {t('bulkBar.approveAll')}

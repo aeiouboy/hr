@@ -115,7 +115,7 @@ function WeeklyHeatmap({ attendance }: { attendance: AttendanceRecord[] }) {
  switch (status) {
  case'present': return'bg-emerald-500';
  case'late': return'bg-amber-400';
- case'absent': return'bg-red-500';
+ case'absent': return'bg-danger-tint0';
  case'leave': return'bg-sky-400';
  case'weekend': case'holiday': return'bg-surface-raised ';
  default: return'bg-surface-raised border border-dashed border-hairline border-hairline';
@@ -245,7 +245,7 @@ export function TimePage() {
  <CheckCircle className="h-2.5 w-2.5" /> In Zone
  </span>
  ) : (
- <span className="inline-flex items-center gap-0.5 ml-2 px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-medium">
+ <span className="inline-flex items-center gap-0.5 ml-2 px-1.5 py-0.5 rounded-full bg-danger-tint0/20 text-red-400 text-[10px] font-medium">
  <XCircle className="h-2.5 w-2.5" /> Out of Zone
  </span>
  )}
@@ -328,7 +328,7 @@ export function TimePage() {
  <div className="flex items-center gap-3 text-[10px] text-ink-muted">
  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> On Time</span>
  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-amber-400" /> Late</span>
- <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-red-500" /> Absent</span>
+ <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-danger-tint0" /> Absent</span>
  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-sky-400" /> Leave</span>
  </div>
  </div>
@@ -412,7 +412,7 @@ export function TimePage() {
  <div className={`flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center ${
  rec.status ==='present' ?'bg-emerald-50 text-emerald-600' :
  rec.status ==='late' ?'bg-amber-50 text-amber-600' :
- rec.status ==='absent' ?'bg-red-50 text-red-600' :
+ rec.status ==='absent' ?'bg-danger-tint text-danger' :
  rec.status ==='leave' ?'bg-sky-50 text-sky-600' :
 'bg-surface-raised text-ink-muted'
  }`}>
@@ -433,7 +433,7 @@ export function TimePage() {
  )}
  </div>
  {rec.overtimeHours > 0 && (
- <span className="text-xs font-medium text-brand bg-red-50 px-2 py-0.5 rounded-full">
+ <span className="text-xs font-medium text-brand bg-danger-tint px-2 py-0.5 rounded-full">
  +{rec.overtimeHours}h OT
  </span>
  )}
@@ -561,7 +561,7 @@ export function TimePage() {
  <div className="flex flex-wrap gap-3 px-1">
  {[
  { icon: Sun, label:'Regular (09-18)', color:'text-amber-500' },
- { icon: Coffee, label:'Morning (06-15)', color:'text-orange-500' },
+ { icon: Coffee, label:'Morning (06-15)', color:'text-warning' },
  { icon: Moon, label:'Night (22-07)', color:'text-indigo-500' },
  ].map(({ icon: Icon, label, color }) => (
  <span key={label} className="flex items-center gap-1.5 text-xs text-ink-muted">
@@ -590,7 +590,7 @@ export function TimePage() {
  <p className="text-[10px] text-ink-muted mt-0.5">Late Days</p>
  </div>
  <div className="bg-surface border border-hairline border-hairline rounded-md p-4">
- <p className="text-2xl font-bold text-red-500">{summary.absentDays}</p>
+ <p className="text-2xl font-bold text-danger">{summary.absentDays}</p>
  <p className="text-[10px] text-ink-muted mt-0.5">Absent Days</p>
  </div>
  <div className="bg-surface border border-hairline border-hairline rounded-md p-4">
@@ -709,7 +709,7 @@ export function TimePage() {
  >
  <div className={`flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center ${
  req.status ==='approved' ?'bg-emerald-100 text-emerald-600' :
- req.status ==='rejected' ?'bg-red-100 text-red-600' :
+ req.status ==='rejected' ?'bg-danger-tint text-danger' :
 'bg-amber-100 text-amber-600'
  }`}>
  {req.status ==='approved' ? <CheckCircle className="h-5 w-5" /> :

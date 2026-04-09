@@ -16,27 +16,27 @@ import type { HospitalReferral, TimelineEvent, ReferralStatus } from '@/hooks/us
 
 const STATUS_CLASSES: Record<ReferralStatus, string> = {
  draft:'bg-surface-raised text-ink ',
- submitted:'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
- pending_manager:'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+ submitted:'bg-accent-tint text-accent dark:bg-blue-900/30 dark:text-blue-300',
+ pending_manager:'bg-warning-tint text-warning dark:bg-yellow-900/30 dark:text-yellow-300',
  pending_hr:'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
- approved:'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
- rejected:'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+ approved:'bg-success-tint text-success dark:bg-green-900/30 dark:text-green-300',
+ rejected:'bg-danger-tint text-danger dark:bg-red-900/30 dark:text-red-300',
  cancelled:'bg-surface-raised text-ink-muted ',
  letter_issued:'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
 };
 
 function getTimelineIcon(action: string) {
  if (action ==='approved_by_manager' || action ==='approved_by_hr') {
- return <CheckCircle className="h-4 w-4 text-green-600" />;
+ return <CheckCircle className="h-4 w-4 text-success" />;
  }
  if (action ==='rejected') {
- return <XCircle className="h-4 w-4 text-red-600" />;
+ return <XCircle className="h-4 w-4 text-danger" />;
  }
  if (action ==='submitted') {
- return <Send className="h-4 w-4 text-blue-600" />;
+ return <Send className="h-4 w-4 text-accent" />;
  }
  if (action ==='letter_issued') {
- return <FileText className="h-4 w-4 text-purple-600" />;
+ return <FileText className="h-4 w-4 text-accent" />;
  }
  if (action ==='cancelled') {
  return <AlertCircle className="h-4 w-4 text-ink-muted" />;
@@ -45,9 +45,9 @@ function getTimelineIcon(action: string) {
 }
 
 function getTimelineIconBg(action: string) {
- if (action ==='approved_by_manager' || action ==='approved_by_hr') return'bg-green-100';
- if (action ==='rejected') return'bg-red-100';
- if (action ==='submitted') return'bg-blue-100';
+ if (action ==='approved_by_manager' || action ==='approved_by_hr') return'bg-success-tint';
+ if (action ==='rejected') return'bg-danger-tint';
+ if (action ==='submitted') return'bg-accent-tint';
  if (action ==='letter_issued') return'bg-purple-100';
  if (action ==='cancelled') return'bg-surface-raised';
  return'bg-surface-raised';
@@ -227,8 +227,8 @@ export function ReferralDetail({
 
  {/* Rejection reason */}
  {referral.status ==='rejected' && referral.rejectedReason && (
- <div className="p-3 bg-red-50 border border-red-100 rounded-md">
- <p className="text-xs font-medium text-red-800 mb-1">{t('rejectionReason')}</p>
+ <div className="p-3 bg-danger-tint border border-red-100 rounded-md">
+ <p className="text-xs font-medium text-danger mb-1">{t('rejectionReason')}</p>
  <p className="text-sm text-red-700">{referral.rejectedReason}</p>
  </div>
  )}

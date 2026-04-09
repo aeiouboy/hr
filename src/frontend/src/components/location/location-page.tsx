@@ -61,8 +61,8 @@ export function LocationPage() {
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{totalHeadcount.toLocaleString()}</p><p className="text-xs text-ink-muted">{t('totalHeadcount')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><MapPin className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold">{totalLocations}</p><p className="text-xs text-ink-muted">{t('totalLocations')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Building className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold">{totalBranches}</p><p className="text-xs text-ink-muted">{t('totalBranches')}</p></div></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><MapPin className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold">{totalLocations}</p><p className="text-xs text-ink-muted">{t('totalLocations')}</p></div></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Building className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold">{totalBranches}</p><p className="text-xs text-ink-muted">{t('totalBranches')}</p></div></CardContent></Card>
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

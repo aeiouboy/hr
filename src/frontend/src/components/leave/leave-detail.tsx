@@ -43,18 +43,18 @@ function TimelineStep({
  <div
  className={cn(
 'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0',
- completed &&'bg-green-100',
- rejected &&'bg-red-100',
- active && !completed && !rejected &&'bg-yellow-100',
+ completed &&'bg-success-tint',
+ rejected &&'bg-danger-tint',
+ active && !completed && !rejected &&'bg-warning-tint',
  !completed && !rejected && !active &&'bg-surface-raised'
  )}
  >
  {completed ? (
- <CheckCircle className="h-4 w-4 text-green-600" />
+ <CheckCircle className="h-4 w-4 text-success" />
  ) : rejected ? (
- <XCircle className="h-4 w-4 text-red-600" />
+ <XCircle className="h-4 w-4 text-danger" />
  ) : active ? (
- <Clock className="h-4 w-4 text-yellow-600" />
+ <Clock className="h-4 w-4 text-warning" />
  ) : (
  <div className="w-2 h-2 rounded-full bg-gray-300" />
  )}
@@ -148,7 +148,7 @@ export function LeaveDetail({ request, open, onClose, onCancel }: LeaveDetailPro
 
  {/* Attachment */}
  {request.attachmentUrl && (
- <div className="flex items-center gap-2 text-sm text-blue-600">
+ <div className="flex items-center gap-2 text-sm text-accent">
  <FileText className="h-4 w-4" />
  <span>{t('medicalCert')}</span>
  </div>

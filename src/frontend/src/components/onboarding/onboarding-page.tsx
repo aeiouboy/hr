@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useOnboarding, type ItemStatus } from '@/hooks/use-onboarding';
 
 const STATUS_ICON: Record<ItemStatus, React.ReactNode> = {
- completed: <CheckCircle className="h-4 w-4 text-green-500" />,
+ completed: <CheckCircle className="h-4 w-4 text-success" />,
  in_progress: <Clock className="h-4 w-4 text-yellow-500" />,
  pending: <Circle className="h-4 w-4 text-gray-300" />,
  not_applicable: <Circle className="h-4 w-4 text-gray-200" />,
@@ -102,7 +102,7 @@ export function OnboardingPage() {
  <p className="text-xs text-ink-muted mt-0.5">{t('assignedTo')}: {item.assignedTo} | {t('dueDate')}: {item.dueDate}</p>
  </div>
  {item.status ==='completed' && item.completedDate && (
- <span className="text-xs text-green-600">{t('completedOn')} {item.completedDate}</span>
+ <span className="text-xs text-success">{t('completedOn')} {item.completedDate}</span>
  )}
  {item.status !=='completed' && item.status !=='not_applicable' && (
  <Button size="sm" variant="outline" onClick={() => markItemComplete(selectedRecord.id, item.id)}>

@@ -171,11 +171,11 @@ export function ResignationPage() {
  <div className="space-y-3">
  {record.clearanceItems.map((item) => (
  <div key={item.id} className="flex items-center gap-3 p-3 bg-surface-raised rounded-md">
- {item.status ==='completed' ? <CheckCircle className="h-5 w-5 text-green-500" /> : item.status ==='in_progress' ? <Clock className="h-5 w-5 text-yellow-500" /> : <Circle className="h-5 w-5 text-gray-300" />}
+ {item.status ==='completed' ? <CheckCircle className="h-5 w-5 text-success" /> : item.status ==='in_progress' ? <Clock className="h-5 w-5 text-yellow-500" /> : <Circle className="h-5 w-5 text-gray-300" />}
  <div className="flex-1">
  <p className="text-sm font-medium">{item.title}</p>
  <p className="text-xs text-ink-muted">{t('responsibleParty')}: {item.responsibleParty}</p>
- {item.signedOffDate && <p className="text-xs text-green-600">{t('signedOffOn')} {item.signedOffDate}</p>}
+ {item.signedOffDate && <p className="text-xs text-success">{t('signedOffOn')} {item.signedOffDate}</p>}
  </div>
  {item.status !=='completed' && (
  <Button size="sm" variant="outline" onClick={() => updateClearanceItem(item.id,'completed')}>{t('updateStatus')}</Button>
@@ -207,7 +207,7 @@ export function ResignationPage() {
  <div>
  <h4 className="text-sm font-semibold text-ink-soft mb-2">{t('deductions')}</h4>
  <div className="space-y-1 text-sm">
- <div className="flex justify-between"><span>{t('loansAdvances')}</span><span className="text-red-600">-{formatCurrency(record.settlement.loanDeductions)}</span></div>
+ <div className="flex justify-between"><span>{t('loansAdvances')}</span><span className="text-danger">-{formatCurrency(record.settlement.loanDeductions)}</span></div>
  </div>
  </div>
  <div className="border-t pt-3">
@@ -216,7 +216,7 @@ export function ResignationPage() {
  <span>{formatCurrency(record.settlement.netPayable)}</span>
  </div>
  </div>
- <div className="bg-blue-50 rounded-md p-3 text-sm text-blue-800">
+ <div className="bg-accent-tint rounded-md p-3 text-sm text-accent">
  <p className="font-medium">{t('providentFund')}</p>
  <p>{t('pfBalance')}: {formatCurrency(record.settlement.pfBalance)}</p>
  <p className="text-xs mt-1">{t('pfNote')}</p>

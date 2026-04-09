@@ -29,7 +29,7 @@ type OTFilter = {
 };
 
 const SHIFT_COLORS: Record<ShiftDay['shift'], string> = {
- regular:'bg-blue-50 text-blue-700 border-blue-200',
+ regular:'bg-accent-tint text-blue-700 border-blue-200',
  morning:'bg-emerald-50 text-emerald-700 border-emerald-200',
  evening:'bg-violet-50 text-violet-700 border-violet-200',
  off:'bg-surface-raised text-ink-muted border-hairline',
@@ -261,7 +261,7 @@ export function SPDManagementPage() {
  <td className="px-4 py-3">{record.employeeName}</td>
  <td className="px-4 py-3">{record.date}</td>
  <td className="px-4 py-3">{record.shift}</td>
- <td className={cn('px-4 py-3', record.status ==='late' &&'text-red-600 font-medium')}>
+ <td className={cn('px-4 py-3', record.status ==='late' &&'text-danger font-medium')}>
  {isEditing ? (
  <input
  className="w-full rounded border px-2 py-1"
@@ -358,7 +358,7 @@ export function SPDManagementPage() {
  <Badge variant={STATUS_BADGE[record.status]}>{record.status.replace('_','')}</Badge>
  </div>
  <p className="text-xs text-ink-muted mt-1">{record.date}</p>
- <p className={cn('text-sm mt-2', record.status ==='late' &&'text-red-600')}>
+ <p className={cn('text-sm mt-2', record.status ==='late' &&'text-danger')}>
  {t('columns.clockIn')}: {record.clockIn}
  </p>
  <p className={cn('text-sm', record.status ==='early_departure' &&'text-amber-600')}>

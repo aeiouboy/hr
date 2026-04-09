@@ -9,14 +9,14 @@ import { Sun, Stethoscope, User, Baby, Users, Sparkles, Shield, FileText } from 
 import type { LeaveBalance as LeaveBalanceType, LeaveType } from '@/hooks/use-leave';
 
 const LEAVE_TYPE_COLORS: Record<LeaveType, { bg: string; text: string; bar: string; icon: ReactNode }> = {
- annual: { bg:'bg-blue-50', text:'text-blue-600', bar:'bg-blue-500', icon: <Sun className="h-5 w-5" /> },
- sick: { bg:'bg-orange-50', text:'text-orange-600', bar:'bg-orange-500', icon: <Stethoscope className="h-5 w-5" /> },
- personal: { bg:'bg-purple-50', text:'text-purple-600', bar:'bg-purple-500', icon: <User className="h-5 w-5" /> },
+ annual: { bg:'bg-accent-tint', text:'text-accent', bar:'bg-accent-tint0', icon: <Sun className="h-5 w-5" /> },
+ sick: { bg:'bg-warning-tint', text:'text-warning', bar:'bg-orange-500', icon: <Stethoscope className="h-5 w-5" /> },
+ personal: { bg:'bg-accent-tint', text:'text-accent', bar:'bg-accent-tint0', icon: <User className="h-5 w-5" /> },
  maternity: { bg:'bg-pink-50', text:'text-pink-600', bar:'bg-pink-500', icon: <Baby className="h-5 w-5" /> },
  paternity: { bg:'bg-teal-50', text:'text-teal-600', bar:'bg-teal-500', icon: <Users className="h-5 w-5" /> },
  ordination: { bg:'bg-amber-50', text:'text-amber-600', bar:'bg-amber-500', icon: <Sparkles className="h-5 w-5" /> },
  military: { bg:'bg-surface-raised', text:'text-ink-muted', bar:'bg-gray-500', icon: <Shield className="h-5 w-5" /> },
- unpaid: { bg:'bg-red-50', text:'text-red-600', bar:'bg-red-400', icon: <FileText className="h-5 w-5" /> },
+ unpaid: { bg:'bg-danger-tint', text:'text-danger', bar:'bg-red-400', icon: <FileText className="h-5 w-5" /> },
 };
 
 interface LeaveBalanceProps {
@@ -66,9 +66,9 @@ function LeaveBalanceCard({
  const colors = LEAVE_TYPE_COLORS[balance.type] || LEAVE_TYPE_COLORS.annual;
  const percentage = balance.entitled > 0 ? (balance.remaining / balance.entitled) * 100 : 0;
 
- let barColor ='bg-green-500';
- if (percentage <= 25) barColor ='bg-red-500';
- else if (percentage <= 50) barColor ='bg-yellow-500';
+ let barColor ='bg-success-tint0';
+ if (percentage <= 25) barColor ='bg-danger-tint0';
+ else if (percentage <= 50) barColor ='bg-warning-tint0';
 
  return (
  <Card className="hover:shadow-1 transition-shadow">
@@ -105,7 +105,7 @@ function LeaveBalanceCard({
  </div>
  <div>
  <p className="text-ink-muted">{t('pending')}</p>
- <p className="font-semibold text-yellow-600">{balance.pending}</p>
+ <p className="font-semibold text-warning">{balance.pending}</p>
  </div>
  <div>
  <p className="text-ink-muted">{t('remaining')}</p>

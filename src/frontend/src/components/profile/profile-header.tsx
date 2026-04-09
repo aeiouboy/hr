@@ -62,7 +62,7 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
  {/* Avatar */}
- <div className="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center text-white text-2xl font-bold shrink-0 ring-2 ring-hairline">
+ <div className="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center text-white text-2xl font-bold shrink-0">
  {photo ? (
  <img src={photo} alt={fullNameEn} className="w-full h-full object-cover" />
  ) : (
@@ -73,7 +73,7 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
  {/* Info */}
  <div className="flex-1 min-w-0">
  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
- <h1 className="text-2xl font-bold text-ink truncate">{fullNameEn}</h1>
+ <h1 className="text-3xl font-bold text-ink truncate">{fullNameEn}</h1>
  <Badge variant={STATUS_VARIANT[status as keyof typeof STATUS_VARIANT] ??'neutral'}>
  {status}
  </Badge>

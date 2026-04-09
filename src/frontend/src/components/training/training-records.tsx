@@ -26,8 +26,8 @@ export function TrainingRecordsPage() {
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold text-ink">{totalHours}</p><p className="text-xs text-ink-muted">{t('totalHours')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Award className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold text-ink">{completedCount}</p><p className="text-xs text-ink-muted">{t('completedCourses')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><FileText className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold text-ink">{records.filter((r) => r.status ==='in_progress').length}</p><p className="text-xs text-ink-muted">{t('inProgress')}</p></div></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Award className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold text-ink">{completedCount}</p><p className="text-xs text-ink-muted">{t('completedCourses')}</p></div></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><FileText className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold text-ink">{records.filter((r) => r.status ==='in_progress').length}</p><p className="text-xs text-ink-muted">{t('inProgress')}</p></div></CardContent></Card>
  </div>
 
  <div className="flex flex-wrap gap-3 mb-6">

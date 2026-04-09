@@ -23,17 +23,17 @@ export function useToast() {
 }
 
 const ICONS: Record<ToastType, React.ReactNode> = {
- success: <CheckCircle className="h-5 w-5 text-green-500" />,
- error: <AlertCircle className="h-5 w-5 text-red-500" />,
+ success: <CheckCircle className="h-5 w-5 text-success" />,
+ error: <AlertCircle className="h-5 w-5 text-danger" />,
  warning: <AlertTriangle className="h-5 w-5 text-yellow-500" />,
- info: <Info className="h-5 w-5 text-blue-500" />,
+ info: <Info className="h-5 w-5 text-accent" />,
 };
 
 const BG: Record<ToastType, string> = {
- success:'bg-green-50 border-green-200 dark:bg-green-900/30 dark:border-green-800',
- error:'bg-red-50 border-red-200 dark:bg-red-900/30 dark:border-red-800',
- warning:'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/30 dark:border-yellow-800',
- info:'bg-blue-50 border-blue-200 dark:bg-blue-900/30 dark:border-blue-800',
+ success:'bg-success-tint border-green-200 dark:bg-green-900/30 dark:border-green-800',
+ error:'bg-danger-tint border-red-200 dark:bg-red-900/30 dark:border-red-800',
+ warning:'bg-warning-tint border-yellow-200 dark:bg-yellow-900/30 dark:border-yellow-800',
+ info:'bg-accent-tint border-blue-200 dark:bg-blue-900/30 dark:border-blue-800',
 };
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {

@@ -100,7 +100,7 @@ export function LeaveHistory({
  e.stopPropagation();
  void onCancelPending(request.id);
  }}
- className={cn('text-red-500 border-red-200 hover:bg-red-50', isMobile &&'text-xs')}
+ className={cn('text-danger border-red-200 hover:bg-danger-tint', isMobile &&'text-xs')}
  >
  {t('cancelRequest')}
  </Button>

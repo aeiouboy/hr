@@ -39,13 +39,13 @@ const TYPE_ICONS: Record<WorkflowType, React.ReactNode> = {
 };
 
 const TYPE_COLORS: Record<WorkflowType, string> = {
- leave:'text-green-600 bg-green-50',
- overtime:'text-orange-600 bg-orange-50',
- time_correction:'text-cyan-600 bg-cyan-50',
- transfer:'text-blue-600 bg-blue-50',
- payroll_change:'text-purple-600 bg-purple-50',
- personal_info:'text-indigo-600 bg-indigo-50',
- resignation:'text-red-600 bg-red-50',
+ leave:'text-success bg-success-tint',
+ overtime:'text-warning bg-warning-tint',
+ time_correction:'text-info bg-info-tint',
+ transfer:'text-accent bg-accent-tint',
+ payroll_change:'text-accent bg-accent-tint',
+ personal_info:'text-accent bg-accent-tint',
+ resignation:'text-danger bg-danger-tint',
 };
 
 function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentStep: number }) {
@@ -56,9 +56,9 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
  const stepStatusIcon = (status: WorkflowStep['status']) => {
  switch (status) {
  case'approved':
- return <CheckCircle className="h-5 w-5 text-green-500" />;
+ return <CheckCircle className="h-5 w-5 text-success" />;
  case'rejected':
- return <XCircle className="h-5 w-5 text-red-500" />;
+ return <XCircle className="h-5 w-5 text-danger" />;
  case'sent_back':
  return <RotateCcw className="h-5 w-5 text-yellow-500" />;
  case'skipped':
@@ -213,7 +213,7 @@ export function WorkflowDetailModal({
  <div>
  <label className="block text-sm font-medium text-ink-soft mb-1.5">
  {t('reason')}
- {actionMode !=='approve' && <span className="text-red-500 ml-1">*</span>}
+ {actionMode !=='approve' && <span className="text-danger ml-1">*</span>}
  </label>
  <textarea
  className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent resize-none"
@@ -238,9 +238,9 @@ export function WorkflowDetailModal({
  disabled={submitting || (actionMode !=='approve' && !reason.trim())}
  className={
  actionMode ==='approve'
- ?'bg-green-600 hover:bg-green-700 text-white focus-visible:ring-green-600'
+ ?'bg-success hover:bg-success/90 text-white focus-visible:ring-success'
  : actionMode ==='sendBack'
- ?'bg-yellow-500 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500'
+ ?'bg-warning-tint0 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500'
  : undefined
  }
  variant={actionMode ==='reject' ?'destructive' :'default'}
@@ -255,7 +255,7 @@ export function WorkflowDetailModal({
  {onSendBack && (
  <Button
  size="sm"
- className="bg-yellow-500 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500"
+ className="bg-warning-tint0 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500"
  onClick={() => setActionMode('sendBack')}
  >
  <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
@@ -271,7 +271,7 @@ export function WorkflowDetailModal({
  {onApprove && (
  <Button
  size="sm"
- className="bg-green-600 hover:bg-green-700 text-white focus-visible:ring-green-600"
+ className="bg-success hover:bg-success/90 text-white focus-visible:ring-success"
  onClick={() => setActionMode('approve')}
  >
  <CheckCircle className="h-3.5 w-3.5 mr-1.5" />

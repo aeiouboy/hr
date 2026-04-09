@@ -96,7 +96,7 @@ export function WorkflowConfig() {
  <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
  {template.steps.map((step, index) => (
  <div key={`${template.id}-${step.step}`} className="flex items-center gap-2">
- <span className="rounded-md border border-hairline bg-surface-raised px-2 py-1">
+ <span className="rounded-md bg-surface shadow-card-raised px-2 py-1">
  Step {step.step}: {approverLabel(step.approverRole)}
  </span>
  {index < template.steps.length - 1 && <ArrowRight className="h-3.5 w-3.5 text-ink-muted" />}

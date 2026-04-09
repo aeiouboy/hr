@@ -30,7 +30,7 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
  return (
  <div className="space-y-6">
  {[1, 2, 3].map((i) => (
- <div key={i} className="rounded-md border border-hairline bg-surface p-6">
+ <div key={i} className="rounded-md bg-surface shadow-card p-6">
  <Skeleton className="h-6 w-40 mb-4" />
  <div className="grid grid-cols-2 gap-4">
  {[1, 2, 3, 4].map((j) => (

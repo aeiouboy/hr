@@ -195,7 +195,7 @@ export function MobileMenu() {
  setMobileMenuOpen(false);
  clearUser();
  }}
- className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-sm"
+ className="flex items-center gap-3 px-4 py-3 w-full text-danger hover:bg-danger-tint dark:hover:bg-red-900/20 transition text-sm"
  >
  <LogOut className="h-5 w-5" />
  <span>{t('nav.logout')}</span>

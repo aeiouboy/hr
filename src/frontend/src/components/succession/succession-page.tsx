@@ -30,7 +30,7 @@ export function SuccessionPage() {
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.totalPositions}</p><p className="text-xs text-ink-muted">{t('criticalPositions')}</p></CardContent></Card>
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-brand">{stats.highRisk}</p><p className="text-xs text-ink-muted">{t('highRisk')}</p></CardContent></Card>
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-info">{stats.coverageRatio}%</p><p className="text-xs text-ink-muted">{t('coverageRatio')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{stats.readyNowRatio}%</p><p className="text-xs text-ink-muted">{t('readyNowRatio')}</p></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{stats.readyNowRatio}%</p><p className="text-xs text-ink-muted">{t('readyNowRatio')}</p></CardContent></Card>
  </div>
 
  <div className="space-y-6">

@@ -72,14 +72,14 @@ export function PendingApprovalsPanel({
  <div className="flex gap-1 shrink-0">
  <button
  onClick={() => onApprove(req.id)}
- className="p-1.5 rounded-md hover:bg-green-50 text-green-600 transition"
+ className="p-1.5 rounded-md hover:bg-success-tint text-success transition"
  aria-label={t('actions.approve')}
  >
  <CheckCircle2 className="h-4 w-4" />
  </button>
  <button
  onClick={() => onReject(req.id)}
- className="p-1.5 rounded-md hover:bg-red-50 text-red-500 transition"
+ className="p-1.5 rounded-md hover:bg-danger-tint text-danger transition"
  aria-label={t('actions.reject')}
  >
  <XCircle className="h-4 w-4" />

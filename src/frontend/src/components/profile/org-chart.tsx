@@ -42,8 +42,8 @@ function NodeCard({
 'flex items-center gap-3 p-3 rounded-md border transition-all text-left w-full',
  highlight
  ?'border-brand bg-brand/5 ring-1 ring-brand/20'
- :'border-hairline border-hairline bg-surface hover:border-hairline dark:hover:border-gray-600 hover:shadow-sm',
- searchMatch &&'border-yellow-400 bg-yellow-50 ring-1 ring-yellow-300',
+ :'border-hairline bg-surface hover:border-hairline hover:shadow-sm',
+ searchMatch &&'border-warning bg-warning-tint ring-1 ring-warning/30',
  dimmed &&'opacity-30'
  )}
  >
@@ -142,7 +142,7 @@ export function OrgChart({ supervisor, current, directReports = [], onNodeClick,
  onClick={() => onNodeClick?.(supervisor.id)}
  />
  </div>
- <div className="w-px h-6 bg-gray-300" />
+ <div className="w-px h-6 bg-hairline" />
  </>
  )}
 
@@ -159,7 +159,7 @@ export function OrgChart({ supervisor, current, directReports = [], onNodeClick,
  {/* Direct Reports */}
  {directReports.length > 0 && (
  <>
- <div className="w-px h-6 bg-gray-300" />
+ <div className="w-px h-6 bg-hairline" />
  <CollapsibleReports reports={directReports} onNodeClick={onNodeClick} searchQuery={searchQuery} />
  </>
  )}

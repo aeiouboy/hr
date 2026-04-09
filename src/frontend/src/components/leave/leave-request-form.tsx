@@ -196,7 +196,7 @@ export function LeaveRequestForm({
  <div className="flex items-end pb-1">
  <div className="w-full p-3 bg-surface-raised rounded-md">
  <p className="text-xs text-ink-muted">{t('remaining')}</p>
- <p className={cn('text-xl font-bold', selectedBalance.remaining > 0 ?'text-green-600' :'text-red-600')}>
+ <p className={cn('text-xl font-bold', selectedBalance.remaining > 0 ?'text-success' :'text-danger')}>
  {selectedBalance.remaining} <span className="text-sm font-normal text-ink-muted">{t('days')}</span>
  </p>
  </div>
@@ -285,10 +285,10 @@ export function LeaveRequestForm({
 
  {/* Medical cert note for sick leave */}
  {leaveType ==='sick' && workingDays > 3 && (
- <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md flex items-start gap-3">
- <AlertTriangle className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+ <div className="p-4 bg-warning-tint border border-yellow-200 rounded-md flex items-start gap-3">
+ <AlertTriangle className="h-5 w-5 text-warning flex-shrink-0 mt-0.5" />
  <div>
- <p className="text-sm font-medium text-yellow-800">{t('medicalCert')}</p>
+ <p className="text-sm font-medium text-warning">{t('medicalCert')}</p>
  <p className="text-sm text-yellow-700">{t('medicalCertRequired')}</p>
  </div>
  </div>
@@ -320,11 +320,11 @@ export function LeaveRequestForm({
  {validations.map((v, i) => (
  <div key={i} className="flex items-start gap-2">
  {v.type ==='success' ? (
- <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+ <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
  ) : v.type ==='warning' ? (
  <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
  ) : (
- <XCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
+ <XCircle className="h-4 w-4 text-danger mt-0.5 flex-shrink-0" />
  )}
  <span className="text-sm text-ink-soft">{v.label}</span>
  </div>
@@ -350,12 +350,12 @@ export function LeaveRequestForm({
  </div>
  <div className="flex justify-between">
  <span className="text-ink-muted">{t('pending')}</span>
- <span className="font-medium text-yellow-600">{selectedBalance.pending}</span>
+ <span className="font-medium text-warning">{selectedBalance.pending}</span>
  </div>
  <hr />
  <div className="flex justify-between">
  <span className="text-ink-muted font-medium">{t('remaining')}</span>
- <span className="font-bold text-lg text-green-600">{selectedBalance.remaining}</span>
+ <span className="font-bold text-lg text-success">{selectedBalance.remaining}</span>
  </div>
  {workingDays > 0 && (
  <>

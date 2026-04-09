@@ -23,7 +23,7 @@ export function BenefitsTab({ employee, loading }: BenefitsTabProps) {
 
  if (loading) {
  return (
- <div className="rounded-md border border-hairline bg-surface p-6">
+ <div className="rounded-md bg-surface shadow-card p-6">
  <Skeleton className="h-6 w-40 mb-4" />
  {[1, 2, 3].map((i) => <Skeleton key={i} className="h-16 w-full mb-3" />)}
  </div>

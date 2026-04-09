@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useIdp, type ActionStatus } from '@/hooks/use-idp';
 
 const ACTION_ICON: Record<ActionStatus, React.ReactNode> = {
- completed: <CheckCircle className="h-4 w-4 text-green-500" />,
+ completed: <CheckCircle className="h-4 w-4 text-success" />,
  in_progress: <Clock className="h-4 w-4 text-yellow-500" />,
  not_started: <Circle className="h-4 w-4 text-gray-300" />,
 };
@@ -41,12 +41,12 @@ export function IdpPage() {
  {plan && (
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{plan.overallProgress}%</p><p className="text-xs text-ink-muted">{t('overallProgress')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{plan.actions.filter((a) => a.status ==='completed').length}/{plan.actions.length}</p><p className="text-xs text-ink-muted">{t('completedActions')}</p></CardContent></Card>
+ <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{plan.actions.filter((a) => a.status ==='completed').length}/{plan.actions.length}</p><p className="text-xs text-ink-muted">{t('completedActions')}</p></CardContent></Card>
  <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
  <div className="flex items-center justify-center gap-2">
- {plan.employeeSignOff ? <CheckCircle className="h-4 w-4 text-green-500" /> : <Circle className="h-4 w-4 text-gray-300" />}
+ {plan.employeeSignOff ? <CheckCircle className="h-4 w-4 text-success" /> : <Circle className="h-4 w-4 text-gray-300" />}
  <span className="text-xs">{t('employeeSignOff')}</span>
- {plan.managerSignOff ? <CheckCircle className="h-4 w-4 text-green-500" /> : <Circle className="h-4 w-4 text-gray-300" />}
+ {plan.managerSignOff ? <CheckCircle className="h-4 w-4 text-success" /> : <Circle className="h-4 w-4 text-gray-300" />}
  <span className="text-xs">{t('managerSignOff')}</span>
  </div>
  </CardContent></Card>

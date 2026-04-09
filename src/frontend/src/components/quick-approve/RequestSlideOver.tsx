@@ -37,9 +37,9 @@ function ApprovalTimeline({ steps }: { steps: ApprovalStep[] }) {
  className={cn(
 'absolute -left-2 w-4 h-4 rounded-full border-2 border-white',
  step.status ==='approved'
- ?'bg-green-500'
+ ?'bg-success-tint0'
  : step.status ==='rejected'
- ?'bg-red-500'
+ ?'bg-danger-tint0'
  :'bg-gray-300'
  )}
  />
@@ -214,7 +214,7 @@ export function RequestSlideOver({
  {/* Footer */}
  <div className="border-t border-hairline px-6 py-4 flex items-center gap-3">
  <Button
- className="flex-1 bg-green-600 hover:bg-green-700 focus-visible:ring-green-600"
+ className="flex-1 bg-success hover:bg-success/90 focus-visible:ring-success"
  onClick={() => onApprove(request.id)}
  >
  <CheckCircle2 className="h-4 w-4 mr-1.5" />

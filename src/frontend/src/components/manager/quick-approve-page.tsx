@@ -49,9 +49,9 @@ const TYPE_BADGE_VARIANT: Record<string,'info' |'warning' |'success' |'neutral' 
 };
 
 const URGENCY_STYLES: Record<string, string> = {
- urgent:'bg-red-100 text-red-800',
- normal:'bg-yellow-100 text-yellow-800',
- low:'bg-green-100 text-green-800',
+ urgent:'bg-danger-tint text-danger',
+ normal:'bg-warning-tint text-warning',
+ low:'bg-success-tint text-success',
 };
 
 const WORKFLOW_TYPES = ['leave','overtime','claim','transfer','change_request'];
@@ -176,9 +176,9 @@ export function QuickApprovePage() {
  {/* Stats Strip */}
  <div className="flex flex-wrap gap-2">
  {[
- { label:'Leave', count: stats.leave, color:'bg-blue-100 text-blue-800' },
- { label:'Expense', count: stats.expense, color:'bg-yellow-100 text-yellow-800' },
- { label:'Overtime', count: stats.overtime, color:'bg-green-100 text-green-800' },
+ { label:'Leave', count: stats.leave, color:'bg-accent-tint text-accent' },
+ { label:'Expense', count: stats.expense, color:'bg-warning-tint text-warning' },
+ { label:'Overtime', count: stats.overtime, color:'bg-success-tint text-success' },
  { label:'Claim', count: stats.claim, color:'bg-orange-100 text-orange-800' },
  { label:'Transfer', count: stats.transfer, color:'bg-purple-100 text-purple-800' },
  { label:'Changes', count: stats.changeRequest, color:'bg-surface-raised text-ink' },
@@ -249,7 +249,7 @@ export function QuickApprovePage() {
  onClick={() => setUrgencyFilter(level)}
  className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
  urgencyFilter === level
- ? level ==='urgent' ?'bg-red-600 text-white' : level ==='low' ?'bg-green-600 text-white' :'bg-brand text-white'
+ ? level ==='urgent' ?'bg-danger text-white' : level ==='low' ?'bg-success text-white' :'bg-brand text-white'
  :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised'
  )}
  >
@@ -270,7 +270,7 @@ export function QuickApprovePage() {
  {selectedIds.size > 0 && (
  <>
  <span className="text-xs text-ink-muted">{selectedIds.size} selected</span>
- <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
+ <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
  <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
  </Button>
  <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
@@ -299,7 +299,7 @@ export function QuickApprovePage() {
  <div
  key={item.id}
  className={cn(
-'p-4 rounded-md border border-hairline bg-surface transition cursor-pointer hover:shadow-sm',
+'p-4 rounded-md bg-surface shadow-card transition cursor-pointer hover:shadow-sm',
  item.urgent &&'border-red-200',
  selectedIds.has(item.id) &&'ring-2 ring-brand/30 bg-brand/5',
  previewItem?.id === item.id &&'ring-2 ring-blue-400'
@@ -346,8 +346,8 @@ export function QuickApprovePage() {
  {/* Actions */}
  <div className="flex items-center gap-1 shrink-0">
  <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised hover:bg-surface-raised" aria-label="Preview"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
- <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-green-100 text-green-600" aria-label="Approve"><CheckCircle2 className="h-5 w-5" /></button>
- <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-red-100 text-red-600" aria-label="Reject"><XCircle className="h-5 w-5" /></button>
+ <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-success-tint text-success" aria-label="Approve"><CheckCircle2 className="h-5 w-5" /></button>
+ <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-danger-tint text-danger" aria-label="Reject"><XCircle className="h-5 w-5" /></button>
  </div>
  </div>
  </div>
@@ -417,7 +417,7 @@ export function QuickApprovePage() {
  {previewItem.approvalTimeline.map((step) => (
  <li key={step.step} className="mb-3 ml-4">
  <div className={cn('absolute -left-1.5 w-3 h-3 rounded-full border-2 border-white',
- step.status ==='approved' ?'bg-green-500' : step.status ==='rejected' ?'bg-red-500' :'bg-gray-300'
+ step.status ==='approved' ?'bg-success-tint0' : step.status ==='rejected' ?'bg-danger-tint0' :'bg-gray-300'
  )} />
  <div className="flex items-center gap-2">
  <span className="text-xs font-medium">{step.approver}</span>
@@ -438,7 +438,7 @@ export function QuickApprovePage() {
  <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Attachments</p>
  <div className="space-y-1">
  {previewItem.attachments.map((a) => (
- <div key={a} className="flex items-center gap-2 text-sm text-blue-600">
+ <div key={a} className="flex items-center gap-2 text-sm text-accent">
  <FileText className="h-4 w-4" />{a}
  </div>
  ))}
@@ -462,7 +462,7 @@ export function QuickApprovePage() {
 
  {/* Actions */}
  <div className="flex gap-3 pt-4 border-t border-hairline">
- <Button className="flex-1 bg-green-600 hover:bg-green-700" onClick={() => handleSingleAction(previewItem.id,'approve')}>
+ <Button className="flex-1 bg-success hover:bg-success/90" onClick={() => handleSingleAction(previewItem.id,'approve')}>
  <CheckCircle2 className="h-4 w-4 mr-2" />{t('actions.approve')}
  </Button>
  <Button variant="destructive" className="flex-1" onClick={() => handleSingleAction(previewItem.id,'reject')}>
@@ -481,7 +481,7 @@ export function QuickApprovePage() {
  <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
  <span className="text-sm font-medium text-ink">{selectedIds.size} items selected</span>
  <div className="flex items-center gap-3">
- <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
+ <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
  <CheckCircle2 className="h-4 w-4 mr-1.5" />Approve All
  </Button>
  <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
@@ -505,7 +505,7 @@ export function QuickApprovePage() {
  <Button variant="outline" onClick={() => setConfirmModal(null)}>Cancel</Button>
  <Button
  variant={confirmModal?.action ==='reject' ?'destructive' :'default'}
- className={confirmModal?.action ==='approve' ?'bg-green-600 hover:bg-green-700' :''}
+ className={confirmModal?.action ==='approve' ?'bg-success hover:bg-success/90' :''}
  onClick={handleConfirm}
  disabled={actionLoading || (confirmModal?.action ==='reject' && !confirmReason.trim())}
  >
@@ -562,7 +562,7 @@ export function QuickApprovePage() {
  </div>
  </div>
  {d.status ==='active' && (
- <button onClick={() => revokeDelegation(d.id)} className="p-1.5 rounded hover:bg-red-50 text-red-500" aria-label="Revoke">
+ <button onClick={() => revokeDelegation(d.id)} className="p-1.5 rounded hover:bg-danger-tint text-danger" aria-label="Revoke">
  <Trash2 className="h-4 w-4" />
  </button>
  )}

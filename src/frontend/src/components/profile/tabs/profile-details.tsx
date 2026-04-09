@@ -3,7 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { GraduationCap, Briefcase, Languages, Award, MapPin } from 'lucide-react';
-import { SectionCard } from '../section-card';
+import { FieldGroup } from '@/components/ui/field-group';
+import { EmptyValue } from '@/components/ui/empty-value';
 import { formatDate } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -43,15 +44,15 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  return (
  <div className="space-y-6">
  {/* Education */}
- <SectionCard title={t('profileDetails.education')} icon={<GraduationCap className="h-5 w-5" />} collapsible>
+ <FieldGroup title={t('profileDetails.education')} icon={<GraduationCap className="h-5 w-5" />} collapsible columns={1}>
  {education.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-4">{t('common.noData')}</p>
+ <div className="text-center py-4"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="space-y-3">
  {education.map((edu, i) => (
  <div key={i} className="flex items-start gap-4 p-4 bg-surface-raised rounded-md">
- <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md shrink-0">
- <GraduationCap className="h-5 w-5 text-blue-600" />
+ <div className="p-2 bg-accent-tint rounded-md shrink-0">
+ <GraduationCap className="h-5 w-5 text-accent" />
  </div>
  <div>
  <h4 className="font-medium text-ink">{edu.degree as string}</h4>
@@ -63,18 +64,18 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  ))}
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
 
  {/* Previous Employment */}
- <SectionCard title={t('profileDetails.previousEmployment')} icon={<Briefcase className="h-5 w-5" />} collapsible>
+ <FieldGroup title={t('profileDetails.previousEmployment')} icon={<Briefcase className="h-5 w-5" />} collapsible columns={1}>
  {prevEmployment.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-4">{t('common.noData')}</p>
+ <div className="text-center py-4"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="space-y-3">
  {prevEmployment.map((job, i) => (
  <div key={i} className="flex items-start gap-4 p-4 bg-surface-raised rounded-md">
- <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-md shrink-0">
- <Briefcase className="h-5 w-5 text-purple-600" />
+ <div className="p-2 bg-info-tint rounded-md shrink-0">
+ <Briefcase className="h-5 w-5 text-info" />
  </div>
  <div>
  <h4 className="font-medium text-ink">{job.jobTitle}</h4>
@@ -87,21 +88,21 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  ))}
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
 
  {/* Languages */}
- <SectionCard title={t('profileDetails.languages')} icon={<Languages className="h-5 w-5" />} collapsible>
+ <FieldGroup title={t('profileDetails.languages')} icon={<Languages className="h-5 w-5" />} collapsible columns={1}>
  {languages.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-4">{t('common.noData')}</p>
+ <div className="text-center py-4"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
  <tr className="border-b border-hairline">
- <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted uppercase">{t('profileDetails.language')}</th>
- <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted uppercase">{t('profileDetails.reading')}</th>
- <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted uppercase">{t('profileDetails.writing')}</th>
- <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted uppercase">{t('profileDetails.speaking')}</th>
+ <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted">{t('profileDetails.language')}</th>
+ <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted">{t('profileDetails.reading')}</th>
+ <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted">{t('profileDetails.writing')}</th>
+ <th className="text-left py-2 px-2 text-xs font-medium text-ink-muted">{t('profileDetails.speaking')}</th>
  </tr>
  </thead>
  <tbody>
@@ -117,12 +118,12 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  </table>
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
 
  {/* Certifications */}
- <SectionCard title={t('profileDetails.certifications')} collapsible>
+ <FieldGroup title={t('profileDetails.certifications')} collapsible columns={1}>
  {certifications.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-4">{t('common.noData')}</p>
+ <div className="text-center py-4"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="space-y-3">
  {certifications.map((cert, i) => (
@@ -136,18 +137,18 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  ))}
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
 
  {/* Awards */}
- <SectionCard title={t('profileDetails.awards')} icon={<Award className="h-5 w-5" />} collapsible>
+ <FieldGroup title={t('profileDetails.awards')} icon={<Award className="h-5 w-5" />} collapsible columns={1}>
  {awards.length === 0 ? (
- <p className="text-sm text-ink-muted text-center py-4">{t('common.noData')}</p>
+ <div className="text-center py-4"><EmptyValue kind="not-applicable" /></div>
  ) : (
  <div className="space-y-3">
  {awards.map((award, i) => (
  <div key={i} className="flex items-center gap-4 p-4 bg-surface-raised rounded-md">
- <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-md shrink-0">
- <Award className="h-5 w-5 text-yellow-600" />
+ <div className="p-2 bg-warning-tint rounded-md shrink-0">
+ <Award className="h-5 w-5 text-warning" />
  </div>
  <div>
  <h4 className="font-medium text-ink">{award.awardName}</h4>
@@ -157,14 +158,14 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  ))}
  </div>
  )}
- </SectionCard>
+ </FieldGroup>
 
  {/* Mobility */}
  {mobility && (
- <SectionCard title={t('profileDetails.mobility')} icon={<MapPin className="h-5 w-5" />} collapsible defaultOpen={false}>
+ <FieldGroup title={t('profileDetails.mobility')} icon={<MapPin className="h-5 w-5" />} collapsible defaultOpen={false} columns={1}>
  <div className="space-y-2">
  <p className="text-sm">
- <span className="text-ink-muted">{t('profileDetails.willingToRelocate')}:</span>{''}
+ <span className="text-ink-muted">{t('profileDetails.willingToRelocate')}:</span>{' '}
  <span className="font-medium">{mobility.willingToRelocate ? t('common.yes') : t('common.no')}</span>
  </p>
  {(mobility.preferredLocations as string[])?.length > 0 && (
@@ -178,7 +179,7 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  </div>
  )}
  </div>
- </SectionCard>
+ </FieldGroup>
  )}
  </div>
  );

@@ -35,17 +35,17 @@ import { cn } from '@/lib/utils';
 type TabKey ='overview' |'team' |'approvals' |'calendar';
 
 const SEVERITY_STYLES: Record<string, string> = {
- critical:'border-l-4 border-l-red-500 bg-red-50',
- high:'border-l-4 border-l-yellow-500 bg-yellow-50',
- normal:'border-l-4 border-l-blue-500 bg-blue-50',
+ critical:'border-l-4 border-l-red-500 bg-danger-tint',
+ high:'border-l-4 border-l-yellow-500 bg-warning-tint',
+ normal:'border-l-4 border-l-blue-500 bg-accent-tint',
 };
 
 const ALERT_ICONS: Record<string, React.ReactNode> = {
- probation: <Shield className="h-4 w-4 text-yellow-600" />,
-'work-permit': <AlertTriangle className="h-4 w-4 text-red-600" />,
- training: <GraduationCap className="h-4 w-4 text-orange-600" />,
+ probation: <Shield className="h-4 w-4 text-warning" />,
+'work-permit': <AlertTriangle className="h-4 w-4 text-danger" />,
+ training: <GraduationCap className="h-4 w-4 text-warning" />,
  birthday: <Gift className="h-4 w-4 text-pink-600" />,
- anniversary: <Award className="h-4 w-4 text-blue-600" />,
+ anniversary: <Award className="h-4 w-4 text-accent" />,
 };
 
 const STATUS_BADGE: Record<string, { variant:'success' |'warning' |'info' |'neutral'; label: string }> = {
@@ -181,11 +181,11 @@ export function ManagerDashboardPage() {
  const renderStatCards = () => (
  <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
  {[
- { label: t('quickStats.totalMembers'), value: stats.totalMembers, icon: <Users className="h-5 w-5 text-blue-600" />, bg:'bg-blue-50' },
- { label: t('quickStats.activeToday'), value: stats.activeToday, icon: <UserCheck className="h-5 w-5 text-green-600" />, bg:'bg-green-50' },
- { label: t('quickStats.onLeaveToday'), value: stats.onLeaveToday, icon: <CalendarOff className="h-5 w-5 text-yellow-600" />, bg:'bg-yellow-50' },
- { label: t('quickStats.pending'), value: stats.pendingApprovals, icon: <Clock className="h-5 w-5 text-red-600" />, bg:'bg-red-50', href:'/quick-approve' },
- { label: t('quickStats.inProbation'), value: stats.inProbation, icon: <Shield className="h-5 w-5 text-purple-600" />, bg:'bg-purple-50' },
+ { label: t('quickStats.totalMembers'), value: stats.totalMembers, icon: <Users className="h-5 w-5 text-accent" />, bg:'bg-accent-tint' },
+ { label: t('quickStats.activeToday'), value: stats.activeToday, icon: <UserCheck className="h-5 w-5 text-success" />, bg:'bg-success-tint' },
+ { label: t('quickStats.onLeaveToday'), value: stats.onLeaveToday, icon: <CalendarOff className="h-5 w-5 text-warning" />, bg:'bg-warning-tint' },
+ { label: t('quickStats.pending'), value: stats.pendingApprovals, icon: <Clock className="h-5 w-5 text-danger" />, bg:'bg-danger-tint', href:'/quick-approve' },
+ { label: t('quickStats.inProbation'), value: stats.inProbation, icon: <Shield className="h-5 w-5 text-accent" />, bg:'bg-accent-tint' },
  ].map((stat) => {
  const card = (
  <div key={stat.label} className={cn('rounded-md border p-4', stat.bg, stat.href &&'cursor-pointer hover:shadow-1 transition')}>
@@ -203,13 +203,13 @@ export function ManagerDashboardPage() {
  return (
  <div className="space-y-2">
  {visibleAlerts.filter((a) => a.severity ==='critical').map((alert) => (
- <div key={alert.id} className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-md px-4 py-3" role="alert">
- <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+ <div key={alert.id} className="flex items-start gap-3 bg-danger-tint border border-red-200 rounded-md px-4 py-3" role="alert">
+ <AlertTriangle className="h-5 w-5 text-danger shrink-0 mt-0.5" />
  <div className="flex-1 min-w-0">
- <p className="text-sm font-medium text-red-800">{alert.title}</p>
- <p className="text-xs text-red-600 mt-0.5">{alert.description}</p>
+ <p className="text-sm font-medium text-danger">{alert.title}</p>
+ <p className="text-xs text-danger mt-0.5">{alert.description}</p>
  </div>
- <button onClick={() => dismissAlert(alert.id)} className="p-1 rounded hover:bg-red-100 transition" aria-label="Dismiss">
+ <button onClick={() => dismissAlert(alert.id)} className="p-1 rounded hover:bg-danger-tint transition" aria-label="Dismiss">
  <X className="h-4 w-4 text-red-400" />
  </button>
  </div>
@@ -223,7 +223,7 @@ export function ManagerDashboardPage() {
  {/* Urgent Alerts + Pending Approvals */}
  <div className="lg:col-span-2 space-y-4">
  <Card>
- <CardHeader><CardTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-orange-500" />{t('alerts.importantAlerts')}</CardTitle></CardHeader>
+ <CardHeader><CardTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-warning" />{t('alerts.importantAlerts')}</CardTitle></CardHeader>
  <CardContent>
  <div className="space-y-3">
  {visibleAlerts.map((alert) => (
@@ -253,7 +253,7 @@ export function ManagerDashboardPage() {
  <Card>
  <CardHeader>
  <div className="flex items-center justify-between">
- <CardTitle className="flex items-center gap-2"><Clock className="h-5 w-5 text-red-500" />{t('pendingApprovals')}</CardTitle>
+ <CardTitle className="flex items-center gap-2"><Clock className="h-5 w-5 text-danger" />{t('pendingApprovals')}</CardTitle>
  <a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">
  View All <ChevronRight className="h-4 w-4" />
  </a>
@@ -267,7 +267,7 @@ export function ManagerDashboardPage() {
  {approvals.slice(0, 5).map((a) => (
  <div key={a.id} className="flex items-center justify-between p-3 rounded-md hover:bg-surface-raised/30 border border-hairline">
  <div className="flex items-center gap-3 min-w-0">
- {a.urgent && <span className="h-2 w-2 rounded-full bg-red-500 shrink-0" />}
+ {a.urgent && <span className="h-2 w-2 rounded-full bg-danger-tint0 shrink-0" />}
  <div className="min-w-0">
  <p className="text-sm font-medium text-ink truncate">{a.summary}</p>
  <p className="text-xs text-ink-muted">{a.employeeName}</p>
@@ -277,8 +277,8 @@ export function ManagerDashboardPage() {
  <Badge variant={a.type ==='leave' ?'info' : a.type ==='expense' ?'warning' : a.type ==='overtime' ?'success' :'neutral'}>
  {a.type}
  </Badge>
- <button onClick={() => setConfirmAction({ id: a.id, action:'approve' })} className="p-1 rounded hover:bg-green-100 text-green-600" aria-label="Approve"><CheckCircle2 className="h-4 w-4" /></button>
- <button onClick={() => setConfirmAction({ id: a.id, action:'reject' })} className="p-1 rounded hover:bg-red-100 text-red-600" aria-label="Reject"><XCircle className="h-4 w-4" /></button>
+ <button onClick={() => setConfirmAction({ id: a.id, action:'approve' })} className="p-1 rounded hover:bg-success-tint text-success" aria-label="Approve"><CheckCircle2 className="h-4 w-4" /></button>
+ <button onClick={() => setConfirmAction({ id: a.id, action:'reject' })} className="p-1 rounded hover:bg-danger-tint text-danger" aria-label="Reject"><XCircle className="h-4 w-4" /></button>
  </div>
  </div>
  ))}
@@ -307,7 +307,7 @@ export function ManagerDashboardPage() {
  <a key={m.id} href={`/profile?id=${m.id}`} className="p-2 rounded-md border border-hairline text-center hover:bg-surface-raised/50 transition">
  <div className="h-8 w-8 rounded-full bg-surface-raised mx-auto flex items-center justify-center text-xs font-medium text-ink-muted">{m.avatar}</div>
  <p className="text-xs font-medium text-ink mt-1 truncate">{m.name.split('')[0]}</p>
- <span className={cn('inline-block mt-0.5 h-1.5 w-1.5 rounded-full', m.status ==='active' ?'bg-green-500' : m.status ==='on-leave' ?'bg-yellow-500' :'bg-blue-500')} />
+ <span className={cn('inline-block mt-0.5 h-1.5 w-1.5 rounded-full', m.status ==='active' ?'bg-success-tint0' : m.status ==='on-leave' ?'bg-warning-tint0' :'bg-accent-tint0')} />
  </a>
  ))}
  </div>
@@ -367,7 +367,7 @@ export function ManagerDashboardPage() {
  ) : (
  <div className="space-y-3">
  {approvals.map((a) => (
- <div key={a.id} className={cn('p-4 rounded-md border', a.urgent &&'border-red-200 bg-red-50/50')}>
+ <div key={a.id} className={cn('p-4 rounded-md border', a.urgent &&'border-red-200 bg-danger-tint/50')}>
  <div className="flex items-start justify-between gap-3">
  <div className="min-w-0">
  <div className="flex items-center gap-2 mb-1">
@@ -380,7 +380,7 @@ export function ManagerDashboardPage() {
  {a.dates && <p className="text-xs text-ink-muted">Dates: {a.dates}</p>}
  </div>
  <div className="flex gap-2 shrink-0">
- <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => setConfirmAction({ id: a.id, action:'approve' })}>
+ <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => setConfirmAction({ id: a.id, action:'approve' })}>
  <CheckCircle2 className="h-4 w-4 mr-1" />{t('actions.approve')}
  </Button>
  <Button variant="outline" size="sm" onClick={() => setConfirmAction({ id: a.id, action:'reject' })}>
@@ -400,7 +400,7 @@ export function ManagerDashboardPage() {
  <Card>
  <CardHeader>
  <div className="flex items-center justify-between">
- <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-blue-500" />{t('teamCalendar')}</CardTitle>
+ <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-accent" />{t('teamCalendar')}</CardTitle>
  <div className="flex items-center gap-2">
  <button onClick={prevMonth} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised transition" aria-label="Previous month">
  <ChevronLeft className="h-4 w-4" />
@@ -488,7 +488,7 @@ export function ManagerDashboardPage() {
  <Button variant="outline" onClick={() => setConfirmAction(null)}>Cancel</Button>
  <Button
  variant={confirmAction?.action ==='reject' ?'destructive' :'default'}
- className={confirmAction?.action ==='approve' ?'bg-green-600 hover:bg-green-700' :''}
+ className={confirmAction?.action ==='approve' ?'bg-success hover:bg-success/90' :''}
  onClick={handleConfirmAction}
  >
  {confirmAction?.action ==='approve' ? t('actions.approve') : t('actions.reject')}
