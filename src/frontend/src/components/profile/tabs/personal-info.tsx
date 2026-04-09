@@ -114,7 +114,7 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
                 </p>
               </div>
               {ec.isPrimary ? (
-                <span className="text-xs bg-cg-red/10 text-cg-red px-2 py-1 rounded-full font-medium">
+                <span className="text-xs bg-brand/10 text-brand px-2 py-1 rounded-full font-medium">
                   {t('personal.primary')}
                 </span>
               ) : null}

@@ -10,14 +10,14 @@ export default function PayrollProcessingPage() {
   const t = useTranslations();
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-4 sm:p-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-cg-dark">{t('payrollProcessing.title')}</h1>
+            <h1 className="text-2xl font-bold text-ink">{t('payrollProcessing.title')}</h1>
             <p className="text-gray-500 mt-1">{t('payrollProcessing.description')}</p>
           </div>
           <PayrollProcessing />

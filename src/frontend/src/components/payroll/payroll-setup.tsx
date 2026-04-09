@@ -64,7 +64,7 @@ export function PayrollSetup() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5 text-cg-red" />
+            <DollarSign className="h-5 w-5 text-brand" />
             <CardTitle>{t('payrollSetup.payPeriod')}</CardTitle>
           </div>
         </CardHeader>
@@ -97,7 +97,7 @@ export function PayrollSetup() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Building className="h-5 w-5 text-cg-red" />
+            <Building className="h-5 w-5 text-brand" />
             <CardTitle>{t('payrollSetup.contributionRates')}</CardTitle>
           </div>
         </CardHeader>
@@ -128,7 +128,7 @@ export function PayrollSetup() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Landmark className="h-5 w-5 text-cg-red" />
+            <Landmark className="h-5 w-5 text-brand" />
             <CardTitle>{t('payrollSetup.taxBrackets')}</CardTitle>
             <Badge variant="info">{t('payrollSetup.readOnly')}</Badge>
           </div>
@@ -162,7 +162,7 @@ export function PayrollSetup() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Landmark className="h-5 w-5 text-cg-red" />
+            <Landmark className="h-5 w-5 text-brand" />
             <CardTitle>{t('payrollSetup.bankTransfer')}</CardTitle>
           </div>
         </CardHeader>

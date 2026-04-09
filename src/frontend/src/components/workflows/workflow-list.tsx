@@ -140,7 +140,7 @@ export function WorkflowList({
                 {/* Main content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="font-semibold text-cg-dark text-sm">{workflow.typeLabel}</span>
+                    <span className="font-semibold text-ink text-sm">{workflow.typeLabel}</span>
                     <Badge variant={STATUS_VARIANTS[workflow.status]}>
                       {getStatusLabel(workflow.status)}
                     </Badge>

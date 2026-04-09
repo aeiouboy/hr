@@ -133,7 +133,7 @@ function ComboboxField({
               className={cn(
                 'cursor-pointer px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200',
                 idx === highlightIndex && 'bg-gray-100 dark:bg-gray-700',
-                opt.value === value && 'font-medium text-cg-red'
+                opt.value === value && 'font-medium text-brand'
               )}
               onMouseDown={(e) => {
                 e.preventDefault();
@@ -172,9 +172,9 @@ export function FormField({
 }: FormFieldProps) {
   const inputClasses = cn(
     'w-full rounded-lg border px-3 py-2 text-sm transition-colors',
-    'focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red',
+    'focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand',
     'dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:placeholder-gray-500',
-    error ? 'border-cg-error' : 'border-gray-300',
+    error ? 'border-danger' : 'border-gray-300',
     disabled && 'bg-gray-50 text-gray-500 cursor-not-allowed dark:bg-gray-900 dark:text-gray-500'
   );
 
@@ -248,10 +248,10 @@ export function FormField({
     <div className={cn('space-y-1', className)}>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 dark:text-gray-300">
         {label}
-        {required && <span className="ml-0.5 text-cg-error">*</span>}
+        {required && <span className="ml-0.5 text-danger">*</span>}
       </label>
       {renderInput()}
-      {error && <p className="text-xs text-cg-error">{error}</p>}
+      {error && <p className="text-xs text-danger">{error}</p>}
     </div>
   );
 }

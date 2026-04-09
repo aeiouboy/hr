@@ -87,7 +87,7 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
           {node.avatar ? <img src={node.avatar} alt="" className="h-7 w-7 rounded-full object-cover" /> : <User className="h-3.5 w-3.5 text-gray-400" />}
         </div>
         <div className="min-w-0">
-          <p className="text-xs font-medium text-cg-dark truncate">{node.name}</p>
+          <p className="text-xs font-medium text-ink truncate">{node.name}</p>
           <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate">{node.position}</p>
         </div>
       </div>
@@ -190,7 +190,7 @@ export function ManagerDashboardPage() {
         const card = (
           <div key={stat.label} className={cn('rounded-xl border p-4', stat.bg, stat.href && 'cursor-pointer hover:shadow-md transition')}>
             <div className="flex items-center gap-2 mb-2">{stat.icon}<span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">{stat.label}</span></div>
-            <p className="text-2xl font-bold text-cg-dark">{stat.value}</p>
+            <p className="text-2xl font-bold text-ink">{stat.value}</p>
           </div>
         );
         return stat.href ? <a key={stat.label} href={stat.href}>{card}</a> : <div key={stat.label}>{card}</div>;
@@ -254,7 +254,7 @@ export function ManagerDashboardPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2"><Clock className="h-5 w-5 text-red-500" />{t('pendingApprovals')}</CardTitle>
-              <a href="/quick-approve" className="text-sm text-cg-red hover:underline flex items-center gap-1">
+              <a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">
                 View All <ChevronRight className="h-4 w-4" />
               </a>
             </div>
@@ -297,8 +297,8 @@ export function ManagerDashboardPage() {
               <OrgNodeItem node={orgChart} />
             ) : (
               <div className="space-y-3">
-                <div className="text-center p-3 bg-cg-red/10 rounded-lg border border-cg-red/20">
-                  <p className="text-sm font-semibold text-cg-red">You (Manager)</p>
+                <div className="text-center p-3 bg-brand/10 rounded-lg border border-brand/20">
+                  <p className="text-sm font-semibold text-brand">You (Manager)</p>
                   <p className="text-xs text-gray-500">IT Department</p>
                 </div>
                 <div className="flex justify-center"><div className="w-px h-4 bg-gray-300 dark:bg-gray-600" /></div>
@@ -326,7 +326,7 @@ export function ManagerDashboardPage() {
           <CardTitle>{t('teamMembers')} ({filteredTeam.length})</CardTitle>
           <div className="flex gap-2">
             {['all', 'active', 'on-leave', 'probation'].map((f) => (
-              <button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ? 'bg-cg-red text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600')}>
+              <button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ? 'bg-brand text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600')}>
                 {f === 'all' ? t('filters.all') : f === 'active' ? t('filters.active') : f === 'on-leave' ? t('filters.onLeave') : t('filters.probation')}
               </button>
             ))}
@@ -340,7 +340,7 @@ export function ManagerDashboardPage() {
             <a key={m.id} href={`/profile?id=${m.id}`} className="flex items-center gap-3 p-3 rounded-lg border dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
               <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm font-medium text-gray-600 dark:text-gray-400 shrink-0">{m.avatar}</div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-cg-dark truncate">{m.name}</p>
+                <p className="text-sm font-medium text-ink truncate">{m.name}</p>
                 <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{m.position}</p>
               </div>
               <Badge variant={STATUS_BADGE[m.status]?.variant ?? 'neutral'}>{STATUS_BADGE[m.status]?.label ?? m.status}</Badge>
@@ -356,7 +356,7 @@ export function ManagerDashboardPage() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{t('pendingApprovals')} ({approvals.length})</CardTitle>
-          <a href="/quick-approve" className="text-sm text-cg-red hover:underline flex items-center gap-1">
+          <a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">
             Open Quick Approve <ChevronRight className="h-4 w-4" />
           </a>
         </div>
@@ -429,8 +429,8 @@ export function ManagerDashboardPage() {
             const day = i + 1;
             const dayEvents = eventsByDate.get(day) ?? [];
             return (
-              <div key={day} className={cn('bg-white dark:bg-gray-800 p-1 min-h-[64px]', isToday(day) && 'ring-2 ring-inset ring-cg-red')}>
-                <span className={cn('text-xs', isToday(day) ? 'font-bold text-cg-red' : 'text-gray-600 dark:text-gray-400')}>{day}</span>
+              <div key={day} className={cn('bg-white dark:bg-gray-800 p-1 min-h-[64px]', isToday(day) && 'ring-2 ring-inset ring-brand')}>
+                <span className={cn('text-xs', isToday(day) ? 'font-bold text-brand' : 'text-gray-600 dark:text-gray-400')}>{day}</span>
                 <div className="mt-0.5 space-y-0.5">
                   {dayEvents.slice(0, 2).map((ev) => (
                     <div key={ev.id} className={cn('text-[9px] px-1 py-0.5 rounded truncate text-white', EVENT_COLORS[ev.type] ?? 'bg-gray-400')} title={`${ev.employeeName}: ${ev.label}`}>
@@ -462,7 +462,7 @@ export function ManagerDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 

@@ -40,7 +40,7 @@ export function TeamSummaryCards({ summary, loading }: TeamSummaryCardsProps) {
       value: summary?.pendingApprovals ?? '—',
       href: '/quick-approve',
       icon: <ClipboardList className="h-6 w-6" />,
-      color: 'text-cg-red bg-red-50',
+      color: 'text-brand bg-red-50',
     },
   ];
 
@@ -58,7 +58,7 @@ export function TeamSummaryCards({ summary, loading }: TeamSummaryCardsProps) {
               </div>
               <div className="min-w-0">
                 <p className="text-sm text-gray-500 dark:text-gray-400">{card.label}</p>
-                <p className="text-2xl font-bold text-cg-dark mt-0.5">
+                <p className="text-2xl font-bold text-ink mt-0.5">
                   {loading ? '...' : card.value}
                 </p>
                 {card.subtitle && (

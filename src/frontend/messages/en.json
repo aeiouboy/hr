@@ -3182,5 +3182,9 @@
         "addStep": "Add Step",
         "approverRole": "Approver Role",
         "condition": "Condition"
+    },
+    "permissions": {
+        "title": "Permission Configuration",
+        "description": "POC — schema-driven HR permission setup using rjsf. Edit the form on the left, see the JSON config on the right."
     }
 }

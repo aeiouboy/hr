@@ -41,15 +41,15 @@ export function BenefitsTab({ employee, loading }: BenefitsTabProps) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
             <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Plan Type</p>
-            <p className="text-lg font-bold text-cg-dark mt-2">{planDetails.type as string || '-'}</p>
+            <p className="text-lg font-bold text-ink mt-2">{planDetails.type as string || '-'}</p>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
             <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Annual Limit</p>
-            <p className="text-lg font-bold text-cg-dark mt-2">{planDetails.annualLimit as string || '-'}</p>
+            <p className="text-lg font-bold text-ink mt-2">{planDetails.annualLimit as string || '-'}</p>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
             <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Used / Remaining</p>
-            <p className="text-lg font-bold text-cg-dark mt-2">{planDetails.used as string || '0'} / {planDetails.remaining as string || '-'}</p>
+            <p className="text-lg font-bold text-ink mt-2">{planDetails.used as string || '0'} / {planDetails.remaining as string || '-'}</p>
           </div>
         </div>
       )}

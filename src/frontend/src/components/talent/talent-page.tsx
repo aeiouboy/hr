@@ -34,7 +34,7 @@ export function TalentPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
@@ -42,7 +42,7 @@ export function TalentPage() {
         <select
           value={departmentFilter}
           onChange={(e) => setDepartmentFilter(e.target.value)}
-          className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red"
+          className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand"
         >
           <option value="all">{t('allDepartments')}</option>
           {departments.map((d) => <option key={d} value={d}>{d}</option>)}
@@ -60,7 +60,7 @@ export function TalentPage() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-800/50 flex items-center justify-center">{s.icon}</div>
                     <div>
-                      <p className="text-2xl font-bold text-cg-dark">{s.value}</p>
+                      <p className="text-2xl font-bold text-ink">{s.value}</p>
                       <p className="text-xs text-gray-400 dark:text-gray-500">{s.label}</p>
                     </div>
                   </div>
@@ -124,7 +124,7 @@ export function TalentPage() {
               {nineBoxGrid.map((cell) => (
                 <div key={`${cell.row}-${cell.col}`} className={`${cell.color} rounded-lg p-3 min-h-[120px] border`}>
                   <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">{cell.label}</p>
-                  <p className="text-lg font-bold text-cg-dark">{cell.employees.length}</p>
+                  <p className="text-lg font-bold text-ink">{cell.employees.length}</p>
                   <div className="mt-1 space-y-1">
                     {cell.employees.slice(0, 3).map((emp) => (
                       <div key={emp.id} className="flex items-center gap-1">
@@ -149,7 +149,7 @@ export function TalentPage() {
                 <div className="flex items-center gap-3 mb-3">
                   {emp.photo && <img src={emp.photo} alt="" className="w-10 h-10 rounded-full" />}
                   <div>
-                    <p className="font-semibold text-cg-dark">{emp.name}</p>
+                    <p className="font-semibold text-ink">{emp.name}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">{emp.position}</p>
                   </div>
                   {emp.isHiPo && <Badge variant="success" className="ml-auto">{t('hiPo')}</Badge>}

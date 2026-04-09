@@ -78,7 +78,7 @@ export function RequestList({
               value={filters.search ?? ''}
               onChange={(e) => onFilterChange({ ...filters, search: e.target.value })}
               placeholder={t('filters.searchPlaceholder')}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none dark:bg-gray-800 dark:text-gray-100"
             />
           </div>
 
@@ -86,7 +86,7 @@ export function RequestList({
           <select
             value={filters.type ?? ''}
             onChange={(e) => onFilterChange({ ...filters, type: e.target.value || undefined })}
-            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.type')}
           >
             <option value="">{t('filters.allTypes')}</option>
@@ -103,7 +103,7 @@ export function RequestList({
             onChange={(e) =>
               onFilterChange({ ...filters, urgency: (e.target.value as Urgency) || undefined })
             }
-            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.urgency')}
           >
             <option value="">{t('filters.allUrgency')}</option>
@@ -119,7 +119,7 @@ export function RequestList({
             type="date"
             value={filters.dateFrom ?? ''}
             onChange={(e) => onFilterChange({ ...filters, dateFrom: e.target.value || undefined })}
-            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.dateFrom')}
           />
 
@@ -128,7 +128,7 @@ export function RequestList({
             type="date"
             value={filters.dateTo ?? ''}
             onChange={(e) => onFilterChange({ ...filters, dateTo: e.target.value || undefined })}
-            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand outline-none dark:bg-gray-800 dark:text-gray-100"
             aria-label={t('filters.dateTo')}
           />
         </div>
@@ -143,7 +143,7 @@ export function RequestList({
               }
               className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border transition ${
                 filters.type === type
-                  ? 'bg-cg-red text-white border-cg-red'
+                  ? 'bg-brand text-white border-brand'
                   : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-gray-400'
               }`}
             >
@@ -167,7 +167,7 @@ export function RequestList({
                     type="checkbox"
                     checked={allSelected}
                     onChange={handleSelectAll}
-                    className="rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
+                    className="rounded border-gray-300 dark:border-gray-600 text-brand focus:ring-brand"
                     aria-label={t('filters.selectAll')}
                   />
                 </th>
@@ -206,7 +206,7 @@ export function RequestList({
                           handleToggle(req.id);
                         }}
                         onClick={(e) => e.stopPropagation()}
-                        className="rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
+                        className="rounded border-gray-300 dark:border-gray-600 text-brand focus:ring-brand"
                         aria-label={`Select ${req.requester.name}`}
                       />
                     </td>
@@ -217,7 +217,7 @@ export function RequestList({
                     </td>
                     <td className="px-4 py-3">
                       <div>
-                        <p className="font-medium text-cg-dark">{req.requester.name}</p>
+                        <p className="font-medium text-ink">{req.requester.name}</p>
                         <p className="text-xs text-gray-400 dark:text-gray-500">{req.requester.position}</p>
                       </div>
                     </td>
@@ -262,7 +262,7 @@ export function RequestList({
                       handleToggle(req.id);
                     }}
                     onClick={(e) => e.stopPropagation()}
-                    className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
+                    className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-brand focus:ring-brand"
                     aria-label={`Select ${req.requester.name}`}
                   />
                   <div className="flex-1 min-w-0">
@@ -271,7 +271,7 @@ export function RequestList({
                         <span className="text-gray-600 dark:text-gray-400 flex-shrink-0" title={req.type}>
                           {typeIcons[req.type] ?? <ClipboardList className="h-4 w-4" />}
                         </span>
-                        <p className="text-sm font-medium text-cg-dark truncate">{req.requester.name}</p>
+                        <p className="text-sm font-medium text-ink truncate">{req.requester.name}</p>
                       </div>
                       <UrgencyBadge urgency={req.urgency} />
                     </div>

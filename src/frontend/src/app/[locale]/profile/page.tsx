@@ -45,7 +45,7 @@ export default function ProfilePage() {
   const orgChart = employee?.orgChart as Record<string, unknown> | undefined;
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">

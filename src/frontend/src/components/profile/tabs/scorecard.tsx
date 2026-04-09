@@ -52,11 +52,11 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
           <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('scorecard.overallRating')}</p>
-          <p className="text-2xl font-bold text-cg-red mt-2">{overallRating || '-'}</p>
+          <p className="text-2xl font-bold text-brand mt-2">{overallRating || '-'}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
           <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('scorecard.potentialRating')}</p>
-          <p className="text-2xl font-bold text-cg-info mt-2">{potentialRating || '-'}</p>
+          <p className="text-2xl font-bold text-info mt-2">{potentialRating || '-'}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 text-center">
           <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">9-Box Position</p>
@@ -83,11 +83,11 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
                 <div key={i}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{comp.name as string}</span>
-                    <span className="text-sm font-bold text-cg-dark">{rating}/{maxRating}</span>
+                    <span className="text-sm font-bold text-ink">{rating}/{maxRating}</span>
                   </div>
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
                     <div
-                      className="bg-cg-red h-2.5 rounded-full transition-all"
+                      className="bg-brand h-2.5 rounded-full transition-all"
                       style={{ width: `${pct}%` }}
                     />
                   </div>

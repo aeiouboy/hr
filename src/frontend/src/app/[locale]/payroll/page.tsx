@@ -18,7 +18,7 @@ export default function PayrollLandingPage() {
 
   if (!canAccessModule(roles, 'payroll-processing')) {
     return (
-      <div className="min-h-screen bg-cg-light">
+      <div className="min-h-screen bg-canvas">
         <Header />
         <MobileMenu />
         <div className="flex">
@@ -56,14 +56,14 @@ export default function PayrollLandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-4 sm:p-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-cg-dark">{t('payroll.title')}</h1>
+            <h1 className="text-2xl font-bold text-ink">{t('payroll.title')}</h1>
             <p className="text-gray-500 mt-1">{t('payroll.subtitle')}</p>
           </div>
 
@@ -75,7 +75,7 @@ export default function PayrollLandingPage() {
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="text-xs text-gray-400">{t('payroll.lastRun')}</p>
-                    <p className="font-semibold text-cg-dark">Jan 25, 2026</p>
+                    <p className="font-semibold text-ink">Jan 25, 2026</p>
                   </div>
                 </div>
               </CardContent>
@@ -86,7 +86,7 @@ export default function PayrollLandingPage() {
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="text-xs text-gray-400">{t('payroll.nextRun')}</p>
-                    <p className="font-semibold text-cg-dark">Feb 25, 2026</p>
+                    <p className="font-semibold text-ink">Feb 25, 2026</p>
                   </div>
                 </div>
               </CardContent>
@@ -97,7 +97,7 @@ export default function PayrollLandingPage() {
                   <Calculator className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="text-xs text-gray-400">{t('payroll.employeesOnPayroll')}</p>
-                    <p className="font-semibold text-cg-dark">152</p>
+                    <p className="font-semibold text-ink">152</p>
                   </div>
                 </div>
               </CardContent>

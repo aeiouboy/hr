@@ -3115,5 +3115,9 @@
         "addStep": "เพิ่มขั้นตอน",
         "approverRole": "บทบาทผู้อนุมัติ",
         "condition": "เงื่อนไข"
+    },
+    "permissions": {
+        "title": "ตั้งค่าสิทธิ์การเข้าถึง",
+        "description": "POC — ตั้งค่าสิทธิ์ HR แบบ schema-driven ด้วย rjsf แก้ฟอร์มซ้าย ดู JSON config ขวา"
     }
 }

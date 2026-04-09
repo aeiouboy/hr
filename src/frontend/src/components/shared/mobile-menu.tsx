@@ -129,7 +129,7 @@ export function MobileMenu() {
       >
         <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
           <div className="text-lg font-bold">
-            <span className="text-cg-red">CENTRAL</span>
+            <span className="text-brand">CENTRAL</span>
             <span className="text-gray-800 dark:text-gray-200">GROUP</span>
           </div>
           <button
@@ -143,7 +143,7 @@ export function MobileMenu() {
 
         <div className="px-4 py-3 border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-cg-red rounded-full flex items-center justify-center text-white font-medium">
+            <div className="w-10 h-10 bg-brand rounded-full flex items-center justify-center text-white font-medium">
               {userInitials}
             </div>
             <div>
@@ -173,7 +173,7 @@ export function MobileMenu() {
                           className={cn(
                             'flex items-center gap-3 px-4 py-3 transition text-sm',
                             isActive
-                              ? 'bg-cg-red/10 text-cg-red font-medium border-r-2 border-cg-red'
+                              ? 'bg-brand/10 text-brand font-medium border-r-2 border-brand'
                               : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                           )}
                         >

@@ -22,14 +22,14 @@ export function SuccessionPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-cg-dark">{stats.totalPositions}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('criticalPositions')}</p></CardContent></Card>
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-cg-red">{stats.highRisk}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('highRisk')}</p></CardContent></Card>
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-cg-info">{stats.coverageRatio}%</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('coverageRatio')}</p></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.totalPositions}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('criticalPositions')}</p></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-brand">{stats.highRisk}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('highRisk')}</p></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-info">{stats.coverageRatio}%</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('coverageRatio')}</p></CardContent></Card>
         <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{stats.readyNowRatio}%</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('readyNowRatio')}</p></CardContent></Card>
       </div>
 
@@ -41,9 +41,9 @@ export function SuccessionPage() {
                 {/* Position & Incumbent */}
                 <div className="lg:w-1/3">
                   <div className="flex items-center gap-3 mb-3">
-                    <Shield className="h-5 w-5 text-cg-dark" />
+                    <Shield className="h-5 w-5 text-ink" />
                     <div>
-                      <h3 className="font-semibold text-cg-dark">{plan.positionTitle}</h3>
+                      <h3 className="font-semibold text-ink">{plan.positionTitle}</h3>
                       <p className="text-xs text-gray-500 dark:text-gray-400">{plan.department}</p>
                     </div>
                   </div>

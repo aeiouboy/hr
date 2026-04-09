@@ -51,7 +51,7 @@ export function PerformancePage() {
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{t('weightCurrentTotal')}: {totalWeight}% / 100%</p>
         </div>
         <Button onClick={() => setShowCreateModal(true)} className="mt-4 sm:mt-0">
@@ -72,7 +72,7 @@ export function PerformancePage() {
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-semibold text-cg-dark">{goal.nameEn}</h3>
+                        <h3 className="font-semibold text-ink">{goal.nameEn}</h3>
                         <Badge variant={STATUS_VARIANT[goal.status]}>{t(`status${goal.status.split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}` as never)}</Badge>
                         <Badge variant="neutral">{t(`category${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)}` as never)}</Badge>
                       </div>
@@ -84,7 +84,7 @@ export function PerformancePage() {
                         <div><span className="text-gray-400 dark:text-gray-500">{t('progress')}</span><p className="font-medium">{goal.targetValue > 0 ? Math.round((goal.actualValue / goal.targetValue) * 100) : 0}%</p></div>
                       </div>
                       <div className="mt-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-cg-red h-2 rounded-full transition-all" style={{ width: `${Math.min(100, goal.targetValue > 0 ? (goal.actualValue / goal.targetValue) * 100 : 0)}%` }} />
+                        <div className="bg-brand h-2 rounded-full transition-all" style={{ width: `${Math.min(100, goal.targetValue > 0 ? (goal.actualValue / goal.targetValue) * 100 : 0)}%` }} />
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -110,7 +110,7 @@ export function PerformancePage() {
               <CardContent className="p-5 sm:p-6 lg:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="font-semibold text-cg-dark">{eval_.period} {eval_.year}</h3>
+                    <h3 className="font-semibold text-ink">{eval_.period} {eval_.year}</h3>
                     <Badge variant={eval_.status === 'acknowledged' ? 'success' : 'info'}>
                       {tEval(`status.${eval_.status}` as never)}
                     </Badge>
@@ -118,7 +118,7 @@ export function PerformancePage() {
                   {eval_.finalRating && (
                     <div className="text-center">
                       <p className="text-xs text-gray-400 dark:text-gray-500">{tEval('rating.finalRating')}</p>
-                      <p className="text-2xl font-bold text-cg-red">{eval_.finalRating}</p>
+                      <p className="text-2xl font-bold text-brand">{eval_.finalRating}</p>
                     </div>
                   )}
                 </div>
@@ -166,7 +166,7 @@ export function PerformancePage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-cg-dark">{review.period}</h3>
+                      <h3 className="font-semibold text-ink">{review.period}</h3>
                       <Badge variant={review.rating >= 4 ? 'success' : review.rating >= 3 ? 'info' : 'warning'}>
                         {review.rating.toFixed(1)} / 5.0
                       </Badge>
@@ -178,8 +178,8 @@ export function PerformancePage() {
                     </div>
                   </div>
                   <div className="text-center shrink-0">
-                    <div className="w-14 h-14 rounded-full bg-cg-red/10 flex items-center justify-center">
-                      <span className="text-lg font-bold text-cg-red">{review.rating.toFixed(1)}</span>
+                    <div className="w-14 h-14 rounded-full bg-brand/10 flex items-center justify-center">
+                      <span className="text-lg font-bold text-brand">{review.rating.toFixed(1)}</span>
                     </div>
                   </div>
                 </div>

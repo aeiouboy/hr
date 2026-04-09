@@ -34,13 +34,13 @@ export function IdpPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       {plan && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-cg-dark">{plan.overallProgress}%</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('overallProgress')}</p></CardContent></Card>
+          <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{plan.overallProgress}%</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('overallProgress')}</p></CardContent></Card>
           <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{plan.actions.filter((a) => a.status === 'completed').length}/{plan.actions.length}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('completedActions')}</p></CardContent></Card>
           <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
             <div className="flex items-center justify-center gap-2">
@@ -73,7 +73,7 @@ export function IdpPage() {
                         {gap.gap > 0 && <Badge variant={gap.priority === 'high' ? 'error' : gap.priority === 'medium' ? 'warning' : 'success'}>{t('gap')}: {gap.gap}</Badge>}
                       </div>
                       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative">
-                        <div className="bg-cg-red h-2 rounded-full" style={{ width: `${(gap.currentLevel / 5) * 100}%` }} />
+                        <div className="bg-brand h-2 rounded-full" style={{ width: `${(gap.currentLevel / 5) * 100}%` }} />
                         <div className="absolute top-0 h-2 border-r-2 border-dashed border-blue-400" style={{ left: `${(gap.requiredLevel / 5) * 100}%` }} />
                       </div>
                     </div>
@@ -94,7 +94,7 @@ export function IdpPage() {
                   {ACTION_ICON[action.status]}
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-semibold text-cg-dark">{action.title}</h4>
+                      <h4 className="text-sm font-semibold text-ink">{action.title}</h4>
                       <Badge variant="neutral">{action.actionType}</Badge>
                     </div>
                     <p className="text-xs text-gray-500 mt-1">{action.description}</p>
@@ -103,7 +103,7 @@ export function IdpPage() {
                       <span>{action.startDate} - {action.endDate}</span>
                     </div>
                     <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                      <div className="bg-cg-red h-1.5 rounded-full transition-all" style={{ width: `${action.progress}%` }} />
+                      <div className="bg-brand h-1.5 rounded-full transition-all" style={{ width: `${action.progress}%` }} />
                     </div>
                   </div>
                   <div className="flex gap-1">
@@ -136,7 +136,7 @@ export function IdpPage() {
                       <span className="text-sm text-gray-500 dark:text-gray-400">{avgProgress}% ({actions.filter((a) => a.status === 'completed').length}/{actions.length} {t('completed')})</span>
                     </div>
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                      <div className="bg-cg-red h-2.5 rounded-full transition-all" style={{ width: `${avgProgress}%` }} />
+                      <div className="bg-brand h-2.5 rounded-full transition-all" style={{ width: `${avgProgress}%` }} />
                     </div>
                   </div>
                 );

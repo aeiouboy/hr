@@ -28,12 +28,12 @@ function Stepper({ currentStage, stages, t }: { currentStage: PayrollStage; stag
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                   isComplete ? 'bg-green-500 text-white' :
-                  isCurrent ? 'bg-cg-red text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                  isCurrent ? 'bg-brand text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                 }`}
               >
                 {isComplete ? <CheckCircle className="h-4 w-4" /> : idx + 1}
               </div>
-              <span className={`text-xs mt-1 ${isCurrent ? 'text-cg-red font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
+              <span className={`text-xs mt-1 ${isCurrent ? 'text-brand font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
                 {t(`payrollProcessing.stages.${stage}`)}
               </span>
             </div>
@@ -172,7 +172,7 @@ export function PayrollProcessing() {
             <Card>
               <CardContent className="pt-6">
                 <p className="text-xs text-gray-400 dark:text-gray-500">{t('payrollProcessing.totalEmployees')}</p>
-                <p className="text-2xl font-bold text-cg-dark">{runSummary.totalEmployees}</p>
+                <p className="text-2xl font-bold text-ink">{runSummary.totalEmployees}</p>
               </CardContent>
             </Card>
             <Card>
@@ -190,7 +190,7 @@ export function PayrollProcessing() {
             <Card>
               <CardContent className="pt-6">
                 <p className="text-xs text-gray-400 dark:text-gray-500">{t('payrollProcessing.totalNet')}</p>
-                <p className="text-2xl font-bold text-cg-dark">{fmt(runSummary.totalNet)}</p>
+                <p className="text-2xl font-bold text-ink">{fmt(runSummary.totalNet)}</p>
               </CardContent>
             </Card>
           </div>
@@ -222,7 +222,7 @@ export function PayrollProcessing() {
                       ].map((col) => (
                         <th
                           key={col.key}
-                          className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer hover:text-cg-dark"
+                          className="text-left py-2 px-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer hover:text-ink"
                           onClick={() => handleSort(col.key)}
                         >
                           {col.label}
@@ -283,14 +283,14 @@ export function PayrollProcessing() {
               {runSummary.status === 'approved' ? (
                 <>
                   <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-cg-dark">{t('payrollProcessing.payrollApproved')}</h3>
+                  <h3 className="text-lg font-semibold text-ink">{t('payrollProcessing.payrollApproved')}</h3>
                   <p className="text-gray-500 dark:text-gray-400 mt-1">{t('payrollProcessing.payrollApprovedDesc')}</p>
                 </>
               ) : (
                 <>
                   <p className="text-gray-500 dark:text-gray-400 mb-2">{t('payrollProcessing.period')}: {runSummary.period}</p>
                   <p className="text-gray-500 dark:text-gray-400 mb-2">{t('payrollProcessing.totalEmployees')}: {runSummary.totalEmployees}</p>
-                  <p className="text-2xl font-bold text-cg-dark mb-6">
+                  <p className="text-2xl font-bold text-ink mb-6">
                     {t('payrollProcessing.totalNet')}: {fmt(runSummary.totalNet)} THB
                   </p>
                   <div className="flex justify-center gap-3">

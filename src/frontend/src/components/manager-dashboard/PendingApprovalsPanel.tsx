@@ -39,7 +39,7 @@ export function PendingApprovalsPanel({
           <CardTitle>{t('pendingApprovals')}</CardTitle>
           <a
             href="/quick-approve"
-            className="text-sm text-cg-red hover:underline flex items-center gap-1"
+            className="text-sm text-brand hover:underline flex items-center gap-1"
           >
             {t('actions.viewDetails')}
             <ArrowRight className="h-3.5 w-3.5" />
@@ -63,7 +63,7 @@ export function PendingApprovalsPanel({
               <li key={req.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
                 <span className="text-gray-600 dark:text-gray-400">{typeIcons[req.type] ?? <ClipboardList className="h-5 w-5" />}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-cg-dark truncate">
+                  <p className="text-sm font-medium text-ink truncate">
                     {req.requester.name}
                   </p>
                   <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{req.description}</p>

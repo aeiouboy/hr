@@ -160,7 +160,7 @@ export function QuickApprovePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-cg-dark">Quick Approve</h1>
+          <h1 className="text-2xl font-bold text-ink">Quick Approve</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Review and process pending approvals</p>
         </div>
         <div className="flex items-center gap-3">
@@ -201,7 +201,7 @@ export function QuickApprovePage() {
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 placeholder="Search by name or description..."
-                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none"
+                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -210,7 +210,7 @@ export function QuickApprovePage() {
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red outline-none"
+                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand outline-none"
                 aria-label="Date from"
               />
               <span className="text-gray-400 text-xs">to</span>
@@ -218,7 +218,7 @@ export function QuickApprovePage() {
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red outline-none"
+                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand outline-none"
                 aria-label="Date to"
               />
             </div>
@@ -234,7 +234,7 @@ export function QuickApprovePage() {
                     key={type}
                     onClick={() => setTypeFilter(type)}
                     className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
-                      typeFilter === type ? 'bg-cg-red text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      typeFilter === type ? 'bg-brand text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                     )}
                   >
                     {TYPE_LABELS[type]}
@@ -249,7 +249,7 @@ export function QuickApprovePage() {
                     onClick={() => setUrgencyFilter(level)}
                     className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
                       urgencyFilter === level
-                        ? level === 'urgent' ? 'bg-red-600 text-white' : level === 'low' ? 'bg-green-600 text-white' : 'bg-cg-red text-white'
+                        ? level === 'urgent' ? 'bg-red-600 text-white' : level === 'low' ? 'bg-green-600 text-white' : 'bg-brand text-white'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                     )}
                   >
@@ -263,7 +263,7 @@ export function QuickApprovePage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={selectAll}
-                className="text-xs text-cg-red hover:underline font-medium"
+                className="text-xs text-brand hover:underline font-medium"
               >
                 {selectedIds.size === items.length && items.length > 0 ? 'Deselect All' : 'Select All'}
               </button>
@@ -301,7 +301,7 @@ export function QuickApprovePage() {
                 className={cn(
                   'p-4 rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 transition cursor-pointer hover:shadow-sm',
                   item.urgent && 'border-red-200',
-                  selectedIds.has(item.id) && 'ring-2 ring-cg-red/30 bg-cg-red/5',
+                  selectedIds.has(item.id) && 'ring-2 ring-brand/30 bg-brand/5',
                   previewItem?.id === item.id && 'ring-2 ring-blue-400'
                 )}
               >
@@ -311,7 +311,7 @@ export function QuickApprovePage() {
                     type="checkbox"
                     checked={selectedIds.has(item.id)}
                     onChange={() => toggleSelect(item.id)}
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-cg-red focus:ring-cg-red"
+                    className="mt-1 h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand"
                     aria-label={`Select ${item.employeeName}`}
                   />
 
@@ -399,7 +399,7 @@ export function QuickApprovePage() {
                 {previewItem.amount && (
                   <div>
                     <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Amount</p>
-                    <p className="text-lg font-bold text-cg-dark">฿{previewItem.amount.toLocaleString()}</p>
+                    <p className="text-lg font-bold text-ink">฿{previewItem.amount.toLocaleString()}</p>
                   </div>
                 )}
                 {previewItem.dates && (
@@ -479,7 +479,7 @@ export function QuickApprovePage() {
       {selectedIds.size > 0 && (
         <div className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
-            <span className="text-sm font-medium text-cg-dark">{selectedIds.size} items selected</span>
+            <span className="text-sm font-medium text-ink">{selectedIds.size} items selected</span>
             <div className="flex items-center gap-3">
               <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
                 <CheckCircle2 className="h-4 w-4 mr-1.5" />Approve All
@@ -531,7 +531,7 @@ export function QuickApprovePage() {
               value={confirmReason}
               onChange={(e) => setConfirmReason(e.target.value)}
               rows={3}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none resize-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none resize-none"
               placeholder={confirmModal?.action === 'approve' ? 'Optional comment...' : 'Please provide a reason...'}
             />
           </div>
@@ -547,7 +547,7 @@ export function QuickApprovePage() {
       >
         <div className="space-y-5">
           <div>
-            <h4 className="text-sm font-medium text-cg-dark mb-2">Active Delegations</h4>
+            <h4 className="text-sm font-medium text-ink mb-2">Active Delegations</h4>
             {delegations.length === 0 ? (
               <p className="text-sm text-gray-400 dark:text-gray-500">No active delegations</p>
             ) : (
@@ -555,7 +555,7 @@ export function QuickApprovePage() {
                 {delegations.map((d) => (
                   <li key={d.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                     <div>
-                      <p className="text-sm font-medium text-cg-dark">{d.delegateTo.name}</p>
+                      <p className="text-sm font-medium text-ink">{d.delegateTo.name}</p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">{d.startDate} — {d.endDate}</p>
                       <div className="flex gap-1 mt-1 flex-wrap">
                         {d.workflowTypes.map((wt) => <Badge key={wt} variant="info">{wt}</Badge>)}
@@ -573,26 +573,26 @@ export function QuickApprovePage() {
           </div>
 
           <div className="border dark:border-gray-700 rounded-lg p-4 space-y-3">
-            <h4 className="text-sm font-medium text-cg-dark">Create New Delegation</h4>
+            <h4 className="text-sm font-medium text-ink">Create New Delegation</h4>
             <div>
               <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Delegate To (Employee ID)</label>
-              <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none" />
+              <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Start Date</label>
-                <input type="date" value={delegateForm.start} onChange={(e) => setDelegateForm((p) => ({ ...p, start: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none" />
+                <input type="date" value={delegateForm.start} onChange={(e) => setDelegateForm((p) => ({ ...p, start: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand outline-none" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">End Date</label>
-                <input type="date" value={delegateForm.end} onChange={(e) => setDelegateForm((p) => ({ ...p, end: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-cg-red outline-none" />
+                <input type="date" value={delegateForm.end} onChange={(e) => setDelegateForm((p) => ({ ...p, end: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand outline-none" />
               </div>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Workflow Types</label>
               <div className="flex flex-wrap gap-2">
                 {WORKFLOW_TYPES.map((wt) => (
-                  <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ? 'bg-cg-red text-white border-cg-red' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-cg-red'}`}>
+                  <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ? 'bg-brand text-white border-brand' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-brand'}`}>
                     {wt}
                   </button>
                 ))}

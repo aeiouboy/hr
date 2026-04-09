@@ -108,7 +108,7 @@ export function Sidebar() {
                   className={cn(
                     'flex items-center gap-3 px-4 py-2.5 rounded-lg transition text-sm',
                     isActive
-                      ? 'bg-cg-red/10 text-cg-red font-medium'
+                      ? 'bg-brand/10 text-brand font-medium'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                   )}
                   title={!sidebarOpen ? item.label : undefined}

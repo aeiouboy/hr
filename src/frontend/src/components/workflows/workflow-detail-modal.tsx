@@ -98,7 +98,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
             <div className="flex flex-col items-center">
               <div
                 className={`flex-shrink-0 ${
-                  isCurrent ? 'ring-2 ring-cg-red ring-offset-2 rounded-full' : ''
+                  isCurrent ? 'ring-2 ring-brand ring-offset-2 rounded-full' : ''
                 }`}
               >
                 {stepStatusIcon(step.status)}
@@ -108,7 +108,7 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
 
             <div className="pb-5 flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-0.5">
-                <p className="text-sm font-medium text-cg-dark">
+                <p className="text-sm font-medium text-ink">
                   {t('step')} {step.step}: {step.approverName}
                 </p>
                 <Badge variant={stepBadgeVariant(step.status)}>
@@ -216,7 +216,7 @@ export function WorkflowDetailModal({
           {actionMode !== 'approve' && <span className="text-red-500 ml-1">*</span>}
         </label>
         <textarea
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cg-red focus:border-transparent resize-none dark:bg-gray-800 dark:text-gray-100"
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent resize-none dark:bg-gray-800 dark:text-gray-100"
           rows={3}
           placeholder={`Enter reason for ${actionLabels[actionMode].toLowerCase()}...`}
           value={reason}
@@ -302,7 +302,7 @@ export function WorkflowDetailModal({
             {icon}
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-cg-dark">{workflow.typeLabel}</h3>
+            <h3 className="font-semibold text-ink">{workflow.typeLabel}</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">{workflow.department}</p>
           </div>
           <Badge variant={STATUS_VARIANTS[workflow.status]}>
@@ -314,26 +314,26 @@ export function WorkflowDetailModal({
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{t('requestedBy')}</p>
-            <p className="font-medium text-cg-dark">{workflow.requesterName}</p>
+            <p className="font-medium text-ink">{workflow.requesterName}</p>
             <p className="text-xs text-gray-500">{workflow.requesterId}</p>
           </div>
           <div>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{t('requestDate')}</p>
-            <p className="font-medium text-cg-dark">
+            <p className="font-medium text-ink">
               {formatDate(workflow.submittedDate, 'medium', locale)}
             </p>
           </div>
           {workflow.effectiveDate && (
             <div>
               <p className="text-xs text-gray-400 mb-0.5">Effective Date</p>
-              <p className="font-medium text-cg-dark">
+              <p className="font-medium text-ink">
                 {formatDate(workflow.effectiveDate, 'medium', locale)}
               </p>
             </div>
           )}
           <div>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{t('currentStep')}</p>
-            <p className="font-medium text-cg-dark">
+            <p className="font-medium text-ink">
               {workflow.currentStep} / {workflow.totalSteps}
             </p>
           </div>
@@ -355,7 +355,7 @@ export function WorkflowDetailModal({
                   <p className="text-xs text-gray-400 capitalize mb-0.5">
                     {key.replace(/([A-Z])/g, ' $1').trim()}
                   </p>
-                  <p className="text-sm font-medium text-cg-dark">{val}</p>
+                  <p className="text-sm font-medium text-ink">{val}</p>
                 </div>
               ))}
             </div>
@@ -386,7 +386,7 @@ export function WorkflowDetailModal({
                       <td className="px-1 py-2.5 text-gray-300 dark:text-gray-600">
                         <ArrowRight className="h-3.5 w-3.5" />
                       </td>
-                      <td className="px-4 py-2.5 text-cg-dark font-medium">{change.newValue}</td>
+                      <td className="px-4 py-2.5 text-ink font-medium">{change.newValue}</td>
                     </tr>
                   ))}
                 </tbody>

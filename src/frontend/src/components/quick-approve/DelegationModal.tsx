@@ -78,7 +78,7 @@ export function DelegationModal({
       <div className="space-y-5">
         {/* Active delegations */}
         <div>
-          <h4 className="text-sm font-medium text-cg-dark mb-2">{t('activeDelegations')}</h4>
+          <h4 className="text-sm font-medium text-ink mb-2">{t('activeDelegations')}</h4>
           {delegations.length === 0 ? (
             <p className="text-sm text-gray-400 dark:text-gray-500">{t('noDelegations')}</p>
           ) : (
@@ -89,7 +89,7 @@ export function DelegationModal({
                   className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg"
                 >
                   <div>
-                    <p className="text-sm font-medium text-cg-dark">{d.delegateTo.name}</p>
+                    <p className="text-sm font-medium text-ink">{d.delegateTo.name}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       {d.startDate} — {d.endDate}
                     </p>
@@ -119,7 +119,7 @@ export function DelegationModal({
         {/* Create form */}
         {showForm ? (
           <div className="border dark:border-gray-700 rounded-lg p-4 space-y-3">
-            <h4 className="text-sm font-medium text-cg-dark">{t('createNew')}</h4>
+            <h4 className="text-sm font-medium text-ink">{t('createNew')}</h4>
 
             <div>
               <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
@@ -130,7 +130,7 @@ export function DelegationModal({
                 value={delegateTo}
                 onChange={(e) => setDelegateTo(e.target.value)}
                 placeholder={t('delegateToPlaceholder')}
-                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none dark:bg-gray-800 dark:text-gray-100"
               />
             </div>
 
@@ -143,7 +143,7 @@ export function DelegationModal({
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
               <div>
@@ -154,7 +154,7 @@ export function DelegationModal({
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red outline-none dark:bg-gray-800 dark:text-gray-100"
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
             </div>
@@ -171,8 +171,8 @@ export function DelegationModal({
                     onClick={() => toggleType(wt)}
                     className={`px-3 py-1 rounded-full text-xs font-medium border transition ${
                       selectedTypes.includes(wt)
-                        ? 'bg-cg-red text-white border-cg-red'
-                        : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-cg-red'
+                        ? 'bg-brand text-white border-brand'
+                        : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-brand'
                     }`}
                   >
                     {wt}

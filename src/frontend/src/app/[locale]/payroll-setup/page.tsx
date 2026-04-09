@@ -59,7 +59,7 @@ export default function PayrollSetupPage() {
           <Card>
             <CardContent className="pt-6">
               <p className="text-xs text-gray-500 uppercase tracking-wide">{t('earnings.totalTypes')}</p>
-              <p className="text-3xl font-bold text-cg-dark mt-1">{earningTypes.length}</p>
+              <p className="text-3xl font-bold text-ink mt-1">{earningTypes.length}</p>
             </CardContent>
           </Card>
           <Card>
@@ -137,7 +137,7 @@ export default function PayrollSetupPage() {
           <Card>
             <CardContent className="pt-6">
               <p className="text-xs text-gray-500 uppercase tracking-wide">{t('deductions.totalTypes')}</p>
-              <p className="text-3xl font-bold text-cg-dark mt-1">{deductionTypes.length}</p>
+              <p className="text-3xl font-bold text-ink mt-1">{deductionTypes.length}</p>
             </CardContent>
           </Card>
           <Card>
@@ -149,7 +149,7 @@ export default function PayrollSetupPage() {
           <Card className="col-span-2 sm:col-span-1">
             <CardContent className="pt-6">
               <p className="text-xs text-gray-500 uppercase tracking-wide">{t('deductions.mandatory')}</p>
-              <p className="text-3xl font-bold text-cg-red mt-1">{mandatoryCount}</p>
+              <p className="text-3xl font-bold text-brand mt-1">{mandatoryCount}</p>
             </CardContent>
           </Card>
         </div>
@@ -183,7 +183,7 @@ export default function PayrollSetupPage() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         {dt.mandatory ? (
-                          <CheckCircle2 className="h-4 w-4 text-cg-red mx-auto" />
+                          <CheckCircle2 className="h-4 w-4 text-brand mx-auto" />
                         ) : (
                           <XCircle className="h-4 w-4 text-gray-300 mx-auto" />
                         )}
@@ -281,7 +281,7 @@ export default function PayrollSetupPage() {
           <Card>
             <CardContent className="pt-6">
               <p className="text-xs text-gray-500 uppercase tracking-wide">{t('banks.totalBanks')}</p>
-              <p className="text-3xl font-bold text-cg-dark mt-1">{banks.length}</p>
+              <p className="text-3xl font-bold text-ink mt-1">{banks.length}</p>
             </CardContent>
           </Card>
           <Card>
@@ -344,7 +344,7 @@ export default function PayrollSetupPage() {
     if (loading) {
       return (
         <div className="flex items-center justify-center py-16">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cg-red" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand" />
         </div>
       );
     }
@@ -370,7 +370,7 @@ export default function PayrollSetupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
@@ -379,7 +379,7 @@ export default function PayrollSetupPage() {
           <div className="max-w-5xl mx-auto">
             {/* Page header */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+              <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
               <p className="text-gray-500 mt-1 text-sm">{t('subtitle')}</p>
             </div>
 

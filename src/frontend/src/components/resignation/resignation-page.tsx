@@ -39,7 +39,7 @@ export function ResignationPage() {
     return (
       <>
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         </div>
         {showForm ? (
           <Card>
@@ -48,19 +48,19 @@ export function ResignationPage() {
               <div className="space-y-4">
                 <div className="space-y-1">
                   <label htmlFor="lastWorkingDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Last Working Date <span className="text-cg-error ml-0.5">*</span>
+                    Last Working Date <span className="text-danger ml-0.5">*</span>
                   </label>
                   <input
                     id="lastWorkingDate"
                     type="date"
                     value={formData.lastWorkingDate}
                     onChange={(e) => setFormData((p) => ({ ...p, lastWorkingDate: e.target.value }))}
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                   />
                 </div>
                 <div className="space-y-1">
                   <label htmlFor="reason" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Reason <span className="text-cg-error ml-0.5">*</span>
+                    Reason <span className="text-danger ml-0.5">*</span>
                   </label>
                   <textarea
                     id="reason"
@@ -68,7 +68,7 @@ export function ResignationPage() {
                     onChange={(e) => setFormData((p) => ({ ...p, reason: e.target.value }))}
                     rows={3}
                     placeholder="Please provide your reason for resignation..."
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y min-h-[80px]"
                   />
                 </div>
                 <div className="space-y-1">
@@ -79,7 +79,7 @@ export function ResignationPage() {
                     onChange={(e) => setFormData((p) => ({ ...p, handoverNotes: e.target.value }))}
                     rows={3}
                     placeholder="Notes about knowledge transfer and pending tasks..."
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:outline-none focus:ring-1 focus:ring-cg-red resize-y min-h-[80px]"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y min-h-[80px]"
                   />
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function ResignationPage() {
           <Card>
             <CardContent className="py-16 text-center">
               <FileX className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-              <h2 className="text-lg font-semibold text-cg-dark mb-2">{t('noResignation')}</h2>
+              <h2 className="text-lg font-semibold text-ink mb-2">{t('noResignation')}</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-4">{t('noResignationDesc')}</p>
               <Button onClick={() => setShowForm(true)}>{t('startResignation')}</Button>
             </CardContent>
@@ -108,7 +108,7 @@ export function ResignationPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
@@ -142,12 +142,12 @@ export function ResignationPage() {
                 {['submitted', 'in_progress', 'completed'].map((step, i) => (
                   <div key={step} className="flex items-center flex-1">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                      ['submitted', 'in_progress', 'completed'].indexOf(record.status) >= i ? 'bg-cg-red text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                      ['submitted', 'in_progress', 'completed'].indexOf(record.status) >= i ? 'bg-brand text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                     }`}>
                       {i + 1}
                     </div>
                     <span className="text-xs ml-2 capitalize">{step.replace('_', ' ')}</span>
-                    {i < 2 && <div className={`flex-1 h-0.5 mx-2 ${['submitted', 'in_progress', 'completed'].indexOf(record.status) > i ? 'bg-cg-red' : 'bg-gray-200 dark:bg-gray-700'}`} />}
+                    {i < 2 && <div className={`flex-1 h-0.5 mx-2 ${['submitted', 'in_progress', 'completed'].indexOf(record.status) > i ? 'bg-brand' : 'bg-gray-200 dark:bg-gray-700'}`} />}
                   </div>
                 ))}
               </div>
@@ -161,10 +161,10 @@ export function ResignationPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>{t('clearanceProgress')}</CardTitle>
-              <span className="text-sm font-bold text-cg-dark">{clearanceProgress}%</span>
+              <span className="text-sm font-bold text-ink">{clearanceProgress}%</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
-              <div className="bg-cg-red h-2.5 rounded-full transition-all" style={{ width: `${clearanceProgress}%` }} />
+              <div className="bg-brand h-2.5 rounded-full transition-all" style={{ width: `${clearanceProgress}%` }} />
             </div>
           </CardHeader>
           <CardContent>
@@ -211,7 +211,7 @@ export function ResignationPage() {
                 </div>
               </div>
               <div className="border-t pt-3">
-                <div className="flex justify-between text-lg font-bold text-cg-dark">
+                <div className="flex justify-between text-lg font-bold text-ink">
                   <span>{t('netPayable')}</span>
                   <span>{formatCurrency(record.settlement.netPayable)}</span>
                 </div>

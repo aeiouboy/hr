@@ -73,7 +73,7 @@ export function Modal({ open, onClose, title, children, footer, className }: Mod
           </div>
           {title && (
             <div className="flex items-center justify-between border-b px-6 py-4 dark:border-gray-700">
-              <h2 className="text-lg font-semibold text-cg-dark dark:text-gray-100">{title}</h2>
+              <h2 className="text-lg font-semibold text-ink dark:text-gray-100">{title}</h2>
               <button
                 onClick={onClose}
                 className="rounded-lg p-1 hover:bg-gray-100 transition-colors dark:hover:bg-gray-700"

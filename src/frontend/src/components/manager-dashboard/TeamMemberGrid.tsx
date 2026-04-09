@@ -62,7 +62,7 @@ export function TeamMemberGrid({ members, loading }: TeamMemberGridProps) {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-cg-dark truncate">{member.name}</p>
+                  <p className="text-sm font-medium text-ink truncate">{member.name}</p>
                   <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{member.position}</p>
                 </div>
                 <Badge variant={statusVariant[member.status] ?? 'neutral'}>

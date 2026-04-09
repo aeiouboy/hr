@@ -241,7 +241,7 @@ export function LeaveRequestForm({
                         className={cn(
                           'px-4 py-2 rounded-lg text-sm font-medium border transition',
                           halfDayOption === option
-                            ? 'border-cg-red bg-cg-red/5 text-cg-red'
+                            ? 'border-brand bg-brand/5 text-brand'
                             : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                         )}
                       >
@@ -256,7 +256,7 @@ export function LeaveRequestForm({
               {workingDays > 0 && (
                 <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                   <p className="text-sm text-gray-500 dark:text-gray-400">{t('duration')}</p>
-                  <p className="text-2xl font-bold text-cg-red">
+                  <p className="text-2xl font-bold text-brand">
                     {workingDays} {t('workingDays')}
                   </p>
                 </div>
@@ -359,7 +359,7 @@ export function LeaveRequestForm({
                   </div>
                   {workingDays > 0 && (
                     <>
-                      <div className="flex justify-between text-cg-red">
+                      <div className="flex justify-between text-brand">
                         <span>This request</span>
                         <span className="font-medium">-{workingDays}</span>
                       </div>

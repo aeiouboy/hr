@@ -100,7 +100,7 @@ export default function HospitalReferralPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
@@ -109,7 +109,7 @@ export default function HospitalReferralPage() {
           <div className="max-w-7xl mx-auto">
             {/* Page header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+              <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
               <Button
                 onClick={() => setActiveTab('newRequest')}
                 className="mt-4 sm:mt-0"

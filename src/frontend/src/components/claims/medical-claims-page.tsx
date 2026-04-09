@@ -403,7 +403,7 @@ export function MedicalClaimsPage() {
                 <div
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
                     isActive
-                      ? 'bg-cg-red text-white'
+                      ? 'bg-brand text-white'
                       : 'bg-gray-200 text-gray-500'
                   }`}
                 >
@@ -411,7 +411,7 @@ export function MedicalClaimsPage() {
                 </div>
                 <span
                   className={`mt-1 text-xs ${
-                    isActive ? 'text-cg-red font-medium' : 'text-gray-400 dark:text-gray-500'
+                    isActive ? 'text-brand font-medium' : 'text-gray-400 dark:text-gray-500'
                   }`}
                 >
                   {s.label}
@@ -420,7 +420,7 @@ export function MedicalClaimsPage() {
               {i < steps.length - 1 && (
                 <div
                   className={`mx-2 h-0.5 w-12 sm:w-20 ${
-                    step > s.num ? 'bg-cg-red' : 'bg-gray-200 dark:bg-gray-600'
+                    step > s.num ? 'bg-brand' : 'bg-gray-200 dark:bg-gray-600'
                   }`}
                 />
               )}
@@ -449,7 +449,7 @@ export function MedicalClaimsPage() {
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
-          {required && <span className="ml-0.5 text-cg-error">*</span>}
+          {required && <span className="ml-0.5 text-danger">*</span>}
         </label>
 
         {/* Show file if uploaded (single) */}
@@ -499,7 +499,7 @@ export function MedicalClaimsPage() {
             onClick={() => inputRef.current?.click()}
             className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors ${
               isDragActive
-                ? 'border-cg-red bg-red-50'
+                ? 'border-brand bg-red-50'
                 : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50'
             }`}
           >
@@ -532,7 +532,7 @@ export function MedicalClaimsPage() {
         )}
 
         {error && (
-          <p className="text-xs text-cg-error flex items-center gap-1">
+          <p className="text-xs text-danger flex items-center gap-1">
             <AlertCircle className="h-3 w-3" />
             {error}
           </p>
@@ -550,7 +550,7 @@ export function MedicalClaimsPage() {
         <Card>
           <CardContent className="p-5 sm:p-6 lg:p-8">
             <div className="flex items-center gap-2 mb-3">
-              <Heart className="h-4 w-4 lg:h-5 lg:w-5 text-cg-red" />
+              <Heart className="h-4 w-4 lg:h-5 lg:w-5 text-brand" />
               <span className="text-xs lg:text-sm text-gray-500 dark:text-gray-400">{t('medicalClaims.overview.planType')}</span>
             </div>
             <p className="text-lg lg:text-xl font-semibold">{summary.planType}</p>
@@ -597,7 +597,7 @@ export function MedicalClaimsPage() {
           <div className="h-3 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
             <div
               className={`h-full rounded-full transition-all ${
-                usagePercent > 80 ? 'bg-cg-error' : usagePercent > 50 ? 'bg-yellow-400' : 'bg-green-500'
+                usagePercent > 80 ? 'bg-danger' : usagePercent > 50 ? 'bg-yellow-400' : 'bg-green-500'
               }`}
               style={{ width: `${usagePercent}%` }}
             />
@@ -773,7 +773,7 @@ export function MedicalClaimsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileCheck className="h-5 w-5 text-cg-red" />
+              <FileCheck className="h-5 w-5 text-brand" />
               {t('medicalClaims.form.reviewTitle')}
             </CardTitle>
           </CardHeader>
@@ -909,7 +909,7 @@ export function MedicalClaimsPage() {
             onClick={() => setStatusFilter(pill.key)}
             className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
               statusFilter === pill.key
-                ? 'bg-cg-red text-white'
+                ? 'bg-brand text-white'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
@@ -1016,7 +1016,7 @@ export function MedicalClaimsPage() {
             <Badge variant={STATUS_VARIANT[detailClaim.status]}>
               {t(`medicalClaims.status.${detailClaim.status}`)}
             </Badge>
-            <p className="text-2xl font-bold text-cg-dark">
+            <p className="text-2xl font-bold text-ink">
               {formatCurrency(detailClaim.claimAmount)}
             </p>
           </div>
@@ -1161,8 +1161,8 @@ export function MedicalClaimsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Heart className="h-6 w-6 text-cg-red" />
-        <h1 className="text-xl font-bold text-cg-dark sm:text-2xl">
+        <Heart className="h-6 w-6 text-brand" />
+        <h1 className="text-xl font-bold text-ink sm:text-2xl">
           {t('medicalClaims.title')}
         </h1>
       </div>

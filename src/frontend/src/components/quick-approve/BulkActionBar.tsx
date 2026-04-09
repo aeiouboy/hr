@@ -19,7 +19,7 @@ export function BulkActionBar({ count, onApprove, onReject, onClear }: BulkActio
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
-        <span className="text-sm font-medium text-cg-dark">
+        <span className="text-sm font-medium text-ink">
           {t('bulkBar.selected', { count })}
         </span>
 

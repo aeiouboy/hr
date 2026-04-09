@@ -36,12 +36,12 @@ export function RecruitmentPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Briefcase className="h-8 w-8 text-cg-red" /><div><p className="text-2xl font-bold">{stats.openPositions}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('openPositions')}</p></div></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Briefcase className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{stats.openPositions}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('openPositions')}</p></div></CardContent></Card>
         <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold">{stats.totalApplications}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalApplications')}</p></div></CardContent></Card>
         <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><UserPlus className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold">{stats.newApplications}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('newApplications')}</p></div></CardContent></Card>
         <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-yellow-500" /><div><p className="text-2xl font-bold">{stats.inInterview}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('inInterview')}</p></div></CardContent></Card>
@@ -57,7 +57,7 @@ export function RecruitmentPage() {
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-cg-dark text-lg">{job.titleEn}</h3>
+                      <h3 className="font-semibold text-ink text-lg">{job.titleEn}</h3>
                       {job.urgent && <Badge variant="error">{t('urgent')}</Badge>}
                     </div>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{job.department} - {job.location}</p>
@@ -124,7 +124,7 @@ export function RecruitmentPage() {
               <CardContent className="p-5 sm:p-6 lg:p-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-semibold text-cg-dark">{job.titleEn}</h3>
+                    <h3 className="font-semibold text-ink">{job.titleEn}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{job.department}</p>
                   </div>
                   <div className="flex items-center gap-3">

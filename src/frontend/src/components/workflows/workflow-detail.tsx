@@ -34,13 +34,13 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
         return (
           <div key={step.step} className="flex gap-3">
             <div className="flex flex-col items-center">
-              <div className={`flex-shrink-0 ${isCurrent ? 'ring-2 ring-cg-red ring-offset-2 rounded-full' : ''}`}>
+              <div className={`flex-shrink-0 ${isCurrent ? 'ring-2 ring-brand ring-offset-2 rounded-full' : ''}`}>
                 {STEP_ICON[step.status]}
               </div>
               {!isLast && <div className="w-0.5 h-8 bg-gray-200 dark:bg-gray-700" />}
             </div>
             <div className="pb-6">
-              <p className="text-sm font-medium text-cg-dark">
+              <p className="text-sm font-medium text-ink">
                 Step {step.step}: {step.approverName}
               </p>
               <div className="flex items-center gap-2 mt-0.5">

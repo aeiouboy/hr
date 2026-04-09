@@ -2,52 +2,103 @@
 
 @variant dark (.dark &);
 
-@theme {
-  --color-cg-red: #C8102E;
-  --color-cg-dark: #333333;
-  --color-cg-light: #F5F5F5;
-  --color-cg-success: #28A745;
-  --color-cg-warning: #FFC107;
-  --color-cg-error: #DC3545;
-  --color-cg-info: #17A2B8;
-  --color-border: #f0f0f0;
-  --font-sans: 'Roboto', 'Noto Sans Thai', sans-serif;
+/* ════════════════════════════════════════════════════════════
+   Precision Cool — HR Design System
+   Synthesized from aeiouboy/stark#1180 brainstorm (5 lenses) +
+   Forge Lead decision matrix (comment #4211704682).
 
-  /* Semantic dark theme tokens */
-  --color-surface-primary: #FFFFFF;
-  --color-surface-secondary: #F5F5F5;
-  --color-surface-tertiary: #F9FAFB;
-  --color-text-primary: #333333;
-  --color-text-secondary: #6B7280;
-  --color-text-muted: #9CA3AF;
-  --color-border-default: #f0f0f0;
-  --color-border-strong: #D1D5DB;
-  --color-cg-red-hover: #a80d26;
+   Kills: Atelier warm-stone palette, serif display, token drift
+          (cg-* legacy aliases, duplicate max-width, mixed radii).
+
+   Decisions:
+   - Accent:  cobalt #1D6FE8  (focus rings + active states only)
+   - Fonts:   Anuphan (display+body+Thai) + Geist Mono (numerics)
+   - Radius:  6px locked, no scale
+   - Borders: 1px hairline discipline everywhere
+   - Elevation: via background shift, not box-shadow by default
+   ════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Palette: cool neutral ───────────────────────── */
+  --color-canvas:         #F5F7FA;
+  --color-surface:        #FFFFFF;
+  --color-surface-raised: #EDF0F5;
+  --color-ink:            #0D1117;   /* never pure #000 */
+  --color-ink-soft:       #5B6B7C;
+  --color-ink-muted:      #8795A8;
+  --color-hairline:       #D8E0EA;   /* 1px ONLY — single divider token */
+
+  /* ── Brand (preserved, non-negotiable) ───────────── */
+  --color-brand:          #C8102E;   /* brand — brand mark + destructive only */
+  --color-brand-tint:     #FDF1F3;
+  --color-brand-hover:    #A80D26;
+
+  /* ── Accent (interactive signal) ─────────────────── */
+  --color-accent:         #1D6FE8;   /* cobalt — focus rings, active states */
+  --color-accent-tint:    #EBF2FE;
+
+  /* ── Semantic status ─────────────────────────────── */
+  --color-success:        #16A34A;
+  --color-success-tint:   #DCFCE7;
+  --color-warning:        #D97706;
+  --color-warning-tint:   #FEF3C7;
+  --color-danger:         #DC2626;
+  --color-danger-tint:    #FEE2E2;
+  --color-info:           #0284C7;
+  --color-info-tint:      #E0F2FE;
+
+  /* ── Typography ──────────────────────────────────── */
+  /* --font-anuphan + --font-geist-mono set by next/font on <html> */
+  --font-sans: var(--font-anuphan), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'Courier New', monospace;
+
+  /* ── Layout: single canonical width ──────────────── */
+  /* --max-width-page is the ONLY page-width token — generates max-w-page utility */
+  --max-width-page: 1280px;
+
+  /* ── Spacing rhythm (4-step: 8 / 16 / 24 / 32) ───── */
+  /* Enforced by convention: use only space-2 / space-4 / space-6 / space-8.
+     Arbitrary p-[13px] etc. should be lint-banned in follow-up pass. */
+
+  /* ── Radius: locked at 6px, no scale ─────────────── */
+  --radius-md: 6px;
+
+  /* ── Shadows: hairline only, elevation via bg-shift ── */
+  --shadow-1: 0 1px 2px rgba(13, 17, 23, 0.04);
+  --shadow-2: 0 2px 8px rgba(13, 17, 23, 0.06);
+
+  /* ── Motion ──────────────────────────────────────── */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 380ms;
 }
 
+/* ── Dark mode: cool neutral, deeper ─────────────── */
 @layer base {
   .dark {
-    --color-surface-primary: #1a1a2e;
-    --color-surface-secondary: #16213e;
-    --color-surface-tertiary: #1e2a47;
-    --color-text-primary: #e4e4e7;
-    --color-text-secondary: #a1a1aa;
-    --color-text-muted: #71717a;
-    --color-border-default: #2d3748;
-    --color-border-strong: #4a5568;
-    --color-cg-red-hover: #e0334a;
-    /* Override legacy color tokens so bg-cg-light / text-cg-dark work in dark mode */
-    --color-cg-light: #1a1a2e;
-    --color-cg-dark: #e4e4e7;
+    --color-canvas:         #0A0E14;
+    --color-surface:        #11161F;
+    --color-surface-raised: #18202C;
+    --color-ink:            #E6EDF3;
+    --color-ink-soft:       #9DA7B4;
+    --color-ink-muted:      #6B7583;
+    --color-hairline:       #22303F;
+    --color-brand-tint:     #3B1419;
+    --color-accent-tint:    #0C2240;
+    --color-success-tint:   #052E17;
+    --color-warning-tint:   #3A2506;
+    --color-danger-tint:    #3B0D0D;
+    --color-info-tint:      #0B2233;
   }
 }
 
 @keyframes slide-up {
   from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  to   { transform: translateY(0); }
 }
 
 @keyframes fade-in {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }

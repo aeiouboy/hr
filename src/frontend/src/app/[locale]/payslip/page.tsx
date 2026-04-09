@@ -530,7 +530,7 @@ export default function PayslipPage() {
           id="year-filter"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
-          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-cg-red"
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand"
         >
           <option value="all">{t('allYears')}</option>
           <option value="2026">2026</option>
@@ -568,8 +568,8 @@ export default function PayslipPage() {
               <CardHeader className="pb-3">
                 {/* Row 1: Title + OT badge */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 sm:w-10 sm:h-10 bg-cg-red/10 rounded-lg flex items-center justify-center shrink-0">
-                    <Receipt className="h-5 w-5 text-cg-red" />
+                  <div className="w-10 h-10 sm:w-10 sm:h-10 bg-brand/10 rounded-lg flex items-center justify-center shrink-0">
+                    <Receipt className="h-5 w-5 text-brand" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
@@ -588,13 +588,13 @@ export default function PayslipPage() {
                   <div className="hidden sm:flex items-center gap-6">
                     <div className="text-right">
                       <p className="text-xs text-gray-500">{t('grossPay')}</p>
-                      <p className="font-semibold text-cg-dark tabular-nums">
+                      <p className="font-semibold text-ink tabular-nums">
                         {displayAmount(payslip.gross, payslip.id)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-500">{t('netPay')}</p>
-                      <p className="font-semibold text-cg-success tabular-nums">
+                      <p className="font-semibold text-success tabular-nums">
                         {displayAmount(payslip.net, payslip.id)}
                       </p>
                     </div>
@@ -636,13 +636,13 @@ export default function PayslipPage() {
                   <div className="flex items-end justify-between bg-gray-50 rounded-lg p-3 -mx-1">
                     <div>
                       <p className="text-xs text-gray-500">{t('grossPay')}</p>
-                      <p className="text-sm font-semibold text-cg-dark tabular-nums mt-0.5">
+                      <p className="text-sm font-semibold text-ink tabular-nums mt-0.5">
                         {displayAmount(payslip.gross, payslip.id)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-500">{t('netPay')}</p>
-                      <p className="text-lg font-bold text-cg-success tabular-nums">
+                      <p className="text-lg font-bold text-success tabular-nums">
                         {displayAmount(payslip.net, payslip.id)}
                       </p>
                     </div>
@@ -706,8 +706,8 @@ export default function PayslipPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Earnings */}
                     <div>
-                      <h4 className="text-sm font-semibold text-cg-dark mb-3 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-cg-success inline-block" />
+                      <h4 className="text-sm font-semibold text-ink mb-3 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-success inline-block" />
                         {t('earnings')}
                       </h4>
                       <div className="space-y-2">
@@ -746,8 +746,8 @@ export default function PayslipPage() {
                           </div>
                         )}
                         <div className="flex justify-between text-sm font-semibold border-t pt-2 mt-2">
-                          <span className="text-cg-dark">{t('totalEarnings')}</span>
-                          <span className="tabular-nums text-cg-success">
+                          <span className="text-ink">{t('totalEarnings')}</span>
+                          <span className="tabular-nums text-success">
                             {displayAmount(totalEarnings, payslip.id)}
                           </span>
                         </div>
@@ -756,33 +756,33 @@ export default function PayslipPage() {
 
                     {/* Deductions */}
                     <div>
-                      <h4 className="text-sm font-semibold text-cg-dark mb-3 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-cg-red inline-block" />
+                      <h4 className="text-sm font-semibold text-ink mb-3 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-brand inline-block" />
                         {t('deductions')}
                       </h4>
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('incomeTax')}</span>
-                          <span className="tabular-nums font-medium text-cg-error">
+                          <span className="tabular-nums font-medium text-danger">
                             ({displayAmount(payslip.deductions.incomeTax, payslip.id)})
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('socialSecurity')}</span>
-                          <span className="tabular-nums font-medium text-cg-error">
+                          <span className="tabular-nums font-medium text-danger">
                             ({displayAmount(payslip.deductions.socialSecurity, payslip.id)})
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">{t('providentFund')}</span>
-                          <span className="tabular-nums font-medium text-cg-error">
+                          <span className="tabular-nums font-medium text-danger">
                             ({displayAmount(payslip.deductions.providentFund, payslip.id)})
                           </span>
                         </div>
                         {payslip.deductions.loans > 0 && (
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">{t('loans')}</span>
-                            <span className="tabular-nums font-medium text-cg-error">
+                            <span className="tabular-nums font-medium text-danger">
                               ({displayAmount(payslip.deductions.loans, payslip.id)})
                             </span>
                           </div>
@@ -790,14 +790,14 @@ export default function PayslipPage() {
                         {payslip.deductions.other > 0 && (
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">{t('otherDeductions')}</span>
-                            <span className="tabular-nums font-medium text-cg-error">
+                            <span className="tabular-nums font-medium text-danger">
                               ({displayAmount(payslip.deductions.other, payslip.id)})
                             </span>
                           </div>
                         )}
                         <div className="flex justify-between text-sm font-semibold border-t pt-2 mt-2">
-                          <span className="text-cg-dark">{t('totalDeductions')}</span>
-                          <span className="tabular-nums text-cg-error">
+                          <span className="text-ink">{t('totalDeductions')}</span>
+                          <span className="tabular-nums text-danger">
                             ({displayAmount(totalDeductions, payslip.id)})
                           </span>
                         </div>
@@ -809,7 +809,7 @@ export default function PayslipPage() {
                   <div className="mt-6 p-4 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <p className="text-xs text-gray-500">{t('netPay')}</p>
-                      <p className="text-2xl font-bold text-cg-dark tabular-nums">
+                      <p className="text-2xl font-bold text-ink tabular-nums">
                         {displayAmount(payslip.net, payslip.id)}
                       </p>
                     </div>
@@ -856,7 +856,7 @@ export default function PayslipPage() {
                     <FileText className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="font-semibold text-cg-dark text-sm">{t(doc.type)}</p>
+                    <p className="font-semibold text-ink text-sm">{t(doc.type)}</p>
                     <div className="flex gap-4 mt-1">
                       <p className="text-xs text-gray-500">
                         {t('year')}: <span className="font-medium text-gray-700">{doc.year}</span>
@@ -913,7 +913,7 @@ export default function PayslipPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
@@ -922,7 +922,7 @@ export default function PayslipPage() {
           <div className="max-w-5xl mx-auto">
             {/* Page header */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+              <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
             </div>
 
             {/* Tabs */}

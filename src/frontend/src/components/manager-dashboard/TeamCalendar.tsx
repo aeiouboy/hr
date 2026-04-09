@@ -130,13 +130,13 @@ export function TeamCalendar({
                     key={day}
                     className={cn(
                       'bg-white dark:bg-gray-800 p-1 min-h-[56px]',
-                      isToday(day) && 'ring-2 ring-inset ring-cg-red'
+                      isToday(day) && 'ring-2 ring-inset ring-brand'
                     )}
                   >
                     <span
                       className={cn(
                         'text-xs',
-                        isToday(day) ? 'font-bold text-cg-red' : 'text-gray-600 dark:text-gray-400'
+                        isToday(day) ? 'font-bold text-brand' : 'text-gray-600 dark:text-gray-400'
                       )}
                     >
                       {day}

@@ -97,7 +97,7 @@ export function LearningPage() {
         <div className="flex items-start justify-between mb-3">
           <div>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">{course.code}</p>
-            <h3 className="font-semibold text-cg-dark">{course.nameEn}</h3>
+            <h3 className="font-semibold text-ink">{course.nameEn}</h3>
           </div>
           {course.mandatory && <Badge variant="error">{t('mandatory')}</Badge>}
         </div>
@@ -158,7 +158,7 @@ export function LearningPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
@@ -172,11 +172,11 @@ export function LearningPage() {
               <input
                 type="text" value={search} onChange={(e) => setSearch(e.target.value)}
                 placeholder={t('searchCourses')}
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 text-sm focus:border-brand focus:ring-1 focus:ring-brand"
               />
             </div>
             <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}
-              className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red">
+              className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand">
               <option value="all">{t('category')}: All</option>
               {categories.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>

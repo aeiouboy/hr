@@ -41,7 +41,7 @@ function SummaryCard({ label, count, icon, colorClass, badgeVariant, active, onC
     <button
       onClick={onClick}
       className={`w-full text-left transition-all rounded-xl border bg-white hover:shadow-sm ${
-        active ? 'ring-2 ring-cg-red ring-offset-1 shadow-sm' : ''
+        active ? 'ring-2 ring-brand ring-offset-1 shadow-sm' : ''
       }`}
     >
       <div className="px-4 py-3">
@@ -51,7 +51,7 @@ function SummaryCard({ label, count, icon, colorClass, badgeVariant, active, onC
           </div>
           <Badge variant={badgeVariant}>{count}</Badge>
         </div>
-        <p className="text-sm font-medium text-cg-dark">{label}</p>
+        <p className="text-sm font-medium text-ink">{label}</p>
       </div>
     </button>
   );
@@ -177,7 +177,7 @@ export default function WorkflowsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
@@ -187,7 +187,7 @@ export default function WorkflowsPage() {
             {/* Page header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
               <div>
-                <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+                <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
                 <p className="text-gray-500 mt-1 text-sm">
                   Review and action pending workflow requests
                 </p>

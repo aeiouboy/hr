@@ -60,7 +60,7 @@ export function CompensationTab({ employee, loading }: CompensationTabProps) {
         <SectionCard title={t('compensation.payroll')} icon={<Receipt className="h-5 w-5" />}>
           <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
             <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('compensation.grossAmount')}</p>
-            <p className="text-2xl font-bold text-cg-dark mt-1">
+            <p className="text-2xl font-bold text-ink mt-1">
               {formatCurrency(payroll.grossAmount as number, (payroll.currency as string) || 'THB')}
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('compensation.payType')}: Monthly</p>

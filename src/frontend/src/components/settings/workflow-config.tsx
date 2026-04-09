@@ -79,7 +79,7 @@ export function WorkflowConfig() {
           <div key={template.id} className="rounded-xl border dark:border-gray-700 p-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <p className="font-semibold text-cg-dark">{template.name}</p>
+                <p className="font-semibold text-ink">{template.name}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5">{template.type}</p>
               </div>
               <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export function WorkflowConfig() {
       <Modal open={!!editingTemplate} onClose={() => setEditingTemplate(null)} title={editingTemplate?.name || t('title')}>
         <div className="space-y-4">
           <div className="rounded-lg border dark:border-gray-700 p-3">
-            <p className="text-sm font-medium text-cg-dark">{t('steps')}</p>
+            <p className="text-sm font-medium text-ink">{t('steps')}</p>
             <div className="mt-3 space-y-2">
               {draft?.steps.map((step, index) => (
                 <div key={`${step.step}-${index}`} className="rounded-lg border dark:border-gray-700 p-3">
@@ -153,7 +153,7 @@ export function WorkflowConfig() {
                           type="checkbox"
                           checked={step.isRequired}
                           onChange={(event) => handleDraftStepChange(index, 'isRequired', event.target.checked)}
-                          className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
+                          className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-brand focus:ring-brand"
                         />
                         Yes
                       </label>

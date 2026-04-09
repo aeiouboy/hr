@@ -30,7 +30,7 @@ export function OnboardingPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
@@ -39,23 +39,23 @@ export function OnboardingPage() {
         {records.map((rec) => (
           <Card
             key={rec.id}
-            className={`cursor-pointer transition-shadow hover:shadow-md ${selectedRecord?.id === rec.id ? 'ring-2 ring-cg-red' : ''}`}
+            className={`cursor-pointer transition-shadow hover:shadow-md ${selectedRecord?.id === rec.id ? 'ring-2 ring-brand' : ''}`}
             onClick={() => setSelectedRecordId(rec.id)}
           >
             <CardContent className="p-5 sm:p-6 lg:p-8">
               <div className="flex items-center gap-3 mb-2">
                 {rec.photo && <img src={rec.photo} alt="" className="w-10 h-10 rounded-full" />}
                 <div>
-                  <p className="font-semibold text-cg-dark">{rec.employeeName}</p>
+                  <p className="font-semibold text-ink">{rec.employeeName}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">{rec.position} - {rec.department}</p>
                 </div>
               </div>
               <div className="flex items-center justify-between mt-3">
                 <Badge variant={rec.phase === 'completed' ? 'success' : 'info'}>{t(`status.${rec.phase}` as never)}</Badge>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-cg-dark">{rec.overallProgress}%</p>
+                  <p className="text-sm font-bold text-ink">{rec.overallProgress}%</p>
                   <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mt-1">
-                    <div className="bg-cg-red h-1.5 rounded-full" style={{ width: `${rec.overallProgress}%` }} />
+                    <div className="bg-brand h-1.5 rounded-full" style={{ width: `${rec.overallProgress}%` }} />
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@ export function OnboardingPage() {
                 <span className="text-sm font-bold">{selectedRecord.overallProgress}%</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                <div className="bg-cg-red h-2.5 rounded-full transition-all" style={{ width: `${selectedRecord.overallProgress}%` }} />
+                <div className="bg-brand h-2.5 rounded-full transition-all" style={{ width: `${selectedRecord.overallProgress}%` }} />
               </div>
             </div>
 

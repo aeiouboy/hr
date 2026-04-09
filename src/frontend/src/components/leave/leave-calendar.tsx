@@ -102,7 +102,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
             <Button variant="ghost" size="sm" onClick={goToPrevMonth}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <button onClick={goToToday} className="text-sm font-medium text-gray-900 dark:text-gray-100 min-w-[160px] text-center hover:text-cg-red transition">
+            <button onClick={goToToday} className="text-sm font-medium text-gray-900 dark:text-gray-100 min-w-[160px] text-center hover:text-brand transition">
               {monthName}
             </button>
             <Button variant="ghost" size="sm" onClick={goToNextMonth}>
@@ -152,7 +152,7 @@ export function LeaveCalendar({ events, holidays, onDateClick }: LeaveCalendarPr
                   <span
                     className={cn(
                       'text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full',
-                      isToday && 'bg-cg-red text-white',
+                      isToday && 'bg-brand text-white',
                       isWeekend && !isToday && 'text-red-400',
                       !isWeekend && !isToday && 'text-gray-700 dark:text-gray-300'
                     )}

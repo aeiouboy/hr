@@ -1,7 +1,24 @@
 import type { Metadata } from 'next';
+import { Anuphan, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/lib/auth-provider';
 import { ThemeProvider } from '@/components/shared/theme-provider';
+
+// Precision Cool — Anuphan (display+body+Thai) + Geist Mono (numerics only).
+// Ref: aeiouboy/stark#1180 Forge Lead decision matrix.
+const anuphan = Anuphan({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['thai', 'latin'],
+  variable: '--font-anuphan',
+  display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+  weight: ['400', '500', '600'],
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Central Retail HRMS',
@@ -14,7 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${anuphan.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -30,12 +51,8 @@ export default function RootLayout({
 `,
           }}
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Noto+Sans+Thai:wght@300;400;500;700&display=swap"
-          rel="stylesheet"
-        />
       </head>
-      <body className="font-sans antialiased bg-cg-light dark:bg-gray-950 text-cg-dark dark:text-gray-100">
+      <body className="font-sans antialiased bg-canvas text-ink">
         <ThemeProvider>
           <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>

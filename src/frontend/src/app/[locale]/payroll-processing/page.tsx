@@ -107,7 +107,7 @@ export default function PayrollProcessingPage() {
                 <select
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cg-red bg-white"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand bg-white"
                 >
                   {MONTHS.map((m, idx) => (
                     <option key={m} value={idx}>{m}</option>
@@ -119,7 +119,7 @@ export default function PayrollProcessingPage() {
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(Number(e.target.value))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cg-red bg-white"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand bg-white"
                 >
                   {YEARS.map((y) => (
                     <option key={y} value={y}>{y}</option>
@@ -228,7 +228,7 @@ export default function PayrollProcessingPage() {
 
           {calculating ? (
             <div className="flex flex-col items-center justify-center py-8 gap-3">
-              <Loader2 className="h-10 w-10 text-cg-red animate-spin" />
+              <Loader2 className="h-10 w-10 text-brand animate-spin" />
               <p className="font-medium text-gray-900">{t('processing')}</p>
               <p className="text-sm text-gray-500 text-center">{t('processingDesc')}</p>
             </div>
@@ -280,7 +280,7 @@ export default function PayrollProcessingPage() {
                 <TrendingDown className="h-4 w-4" />
                 <p className="text-xs uppercase tracking-wide">{t('totalDeductions')}</p>
               </div>
-              <p className="text-2xl font-bold text-cg-red">{formatCurrency(runSummary.totalDeductions, 'THB')}</p>
+              <p className="text-2xl font-bold text-brand">{formatCurrency(runSummary.totalDeductions, 'THB')}</p>
             </CardContent>
           </Card>
           <Card>
@@ -322,7 +322,7 @@ export default function PayrollProcessingPage() {
                       </td>
                       <td className="px-3 py-2.5 text-gray-600 hidden md:table-cell">{ps.department}</td>
                       <td className="px-3 py-2.5 text-right text-gray-900">{formatCurrency(ps.totalGross, 'THB')}</td>
-                      <td className="px-3 py-2.5 text-right text-cg-red hidden sm:table-cell">{formatCurrency(ps.totalDeductions, 'THB')}</td>
+                      <td className="px-3 py-2.5 text-right text-brand hidden sm:table-cell">{formatCurrency(ps.totalDeductions, 'THB')}</td>
                       <td className="px-3 py-2.5 text-right font-semibold text-green-600">{formatCurrency(ps.netPay, 'THB')}</td>
                       <td className="px-3 py-2.5 text-center hidden lg:table-cell">
                         {ps.anomaly && (
@@ -400,7 +400,7 @@ export default function PayrollProcessingPage() {
                 </div>
                 <div className="flex justify-between py-2 border-b">
                   <span className="text-gray-600">{t('totalDeductions')}</span>
-                  <span className="font-medium text-cg-red">{formatCurrency(runSummary.totalDeductions, 'THB')}</span>
+                  <span className="font-medium text-brand">{formatCurrency(runSummary.totalDeductions, 'THB')}</span>
                 </div>
                 <div className="flex justify-between py-2 font-semibold text-base">
                   <span className="text-gray-900">{t('totalNet')}</span>
@@ -417,7 +417,7 @@ export default function PayrollProcessingPage() {
             <h3 className="font-semibold text-gray-900 mb-4">{t('approvalChain')}</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <div className="w-8 h-8 rounded-full bg-cg-red text-white flex items-center justify-center text-xs font-bold">1</div>
+                <div className="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center text-xs font-bold">1</div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">{t('level1Approval')}</p>
                   <p className="text-xs text-gray-500">HR Manager</p>
@@ -445,7 +445,7 @@ export default function PayrollProcessingPage() {
               onChange={(e) => setApprovalComment(e.target.value)}
               rows={3}
               placeholder="Optional notes for this payroll approval..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cg-red resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand resize-none"
             />
           </CardContent>
         </Card>
@@ -494,7 +494,7 @@ export default function PayrollProcessingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
@@ -503,7 +503,7 @@ export default function PayrollProcessingPage() {
           <div className="max-w-4xl mx-auto">
             {/* Page header */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+              <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
               <p className="text-gray-500 mt-1 text-sm">{t('subtitle')}</p>
             </div>
 
@@ -523,7 +523,7 @@ export default function PayrollProcessingPage() {
                           className={[
                             'w-10 h-10 rounded-full flex items-center justify-center transition-colors',
                             isCompleted ? 'bg-green-500 text-white' :
-                            isActive ? 'bg-cg-red text-white' :
+                            isActive ? 'bg-brand text-white' :
                             'bg-gray-200 text-gray-500',
                           ].join(' ')}
                         >
@@ -535,7 +535,7 @@ export default function PayrollProcessingPage() {
                         </div>
                         <span className={[
                           'mt-2 text-xs font-medium whitespace-nowrap hidden sm:block',
-                          isActive ? 'text-cg-red' : isCompleted ? 'text-green-600' : 'text-gray-400',
+                          isActive ? 'text-brand' : isCompleted ? 'text-green-600' : 'text-gray-400',
                         ].join(' ')}>
                           {step.label}
                         </span>
@@ -555,7 +555,7 @@ export default function PayrollProcessingPage() {
             {/* Step content */}
             {loading ? (
               <div className="flex items-center justify-center py-16">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cg-red" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand" />
               </div>
             ) : (
               renderStepContent()

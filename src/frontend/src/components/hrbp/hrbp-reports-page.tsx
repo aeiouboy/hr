@@ -79,7 +79,7 @@ export function HRBPReportsPage() {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="w-full md:w-60">
@@ -102,7 +102,7 @@ export function HRBPReportsPage() {
         <Card>
           <CardContent className="p-5 sm:p-6 lg:p-8">
             <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">{t('metrics.avgAttendance')}</p>
-            <p className="text-3xl font-bold text-cg-dark mt-2">{summaryMetrics.avgAttendanceRate.toFixed(1)}%</p>
+            <p className="text-3xl font-bold text-ink mt-2">{summaryMetrics.avgAttendanceRate.toFixed(1)}%</p>
           </CardContent>
         </Card>
         <Card>
@@ -120,7 +120,7 @@ export function HRBPReportsPage() {
         <Card>
           <CardContent className="p-5 sm:p-6 lg:p-8">
             <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">{t('metrics.monthlyOTCost')}</p>
-            <p className="text-3xl font-bold text-cg-dark mt-2">THB {Math.round(summaryMetrics.monthlyOTCost).toLocaleString()}</p>
+            <p className="text-3xl font-bold text-ink mt-2">THB {Math.round(summaryMetrics.monthlyOTCost).toLocaleString()}</p>
           </CardContent>
         </Card>
       </div>
@@ -167,7 +167,7 @@ export function HRBPReportsPage() {
             {latestAttendanceByDepartment.map((report) => (
               <Card key={`latest-${report.department}`}>
                 <CardContent className="p-5 sm:p-6 lg:p-8">
-                  <p className="text-sm font-medium text-cg-dark">{report.department}</p>
+                  <p className="text-sm font-medium text-ink">{report.department}</p>
                   <p className="text-2xl font-bold mt-2">{report.avgAttendanceRate.toFixed(1)}%</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{formatPeriod(report.period)}</p>
                 </CardContent>
@@ -278,7 +278,7 @@ export function HRBPReportsPage() {
             <CardContent className="p-5 sm:p-6 lg:p-8 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="rounded-lg border dark:border-gray-700 p-4">
-                  <p className="text-sm font-medium text-cg-dark">Executive Summary</p>
+                  <p className="text-sm font-medium text-ink">Executive Summary</p>
                   <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li>Average attendance is {summaryMetrics.avgAttendanceRate.toFixed(1)}% across selected scope.</li>
                     <li>Average leave utilization is {summaryMetrics.leaveUtilization.toFixed(1)}%.</li>
@@ -286,7 +286,7 @@ export function HRBPReportsPage() {
                   </ul>
                 </div>
                 <div className="rounded-lg border dark:border-gray-700 p-4">
-                  <p className="text-sm font-medium text-cg-dark">Compliance Indicators</p>
+                  <p className="text-sm font-medium text-ink">Compliance Indicators</p>
                   <div className="mt-2 flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600 dark:text-gray-400">Late Rate</span>
@@ -315,7 +315,7 @@ export function HRBPReportsPage() {
                 {latestAttendanceByDepartment.map((report) => (
                   <div key={`headcount-${report.department}`} className="rounded-lg border dark:border-gray-700 p-4">
                     <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{report.department}</p>
-                    <p className="text-3xl font-bold text-cg-dark mt-2">{report.headcount}</p>
+                    <p className="text-3xl font-bold text-ink mt-2">{report.headcount}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">headcount in {formatPeriod(report.period)}</p>
                   </div>
                 ))}
@@ -332,7 +332,7 @@ export function HRBPReportsPage() {
                 {overtimeByMonth.map((item) => (
                   <div key={item.period} className="rounded-lg border dark:border-gray-700 p-4">
                     <p className="text-sm text-gray-500 dark:text-gray-400">{formatPeriod(item.period)}</p>
-                    <p className="text-xl font-semibold text-cg-dark mt-1">THB {item.amount.toLocaleString()}</p>
+                    <p className="text-xl font-semibold text-ink mt-1">THB {item.amount.toLocaleString()}</p>
                   </div>
                 ))}
               </div>

@@ -123,7 +123,7 @@ export default function GovernmentReportsPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
@@ -132,7 +132,7 @@ export default function GovernmentReportsPage() {
           <div className="max-w-6xl mx-auto">
             {/* Page header */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+              <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
               <p className="text-gray-500 text-sm mt-1">{t('subtitle')}</p>
             </div>
 
@@ -158,14 +158,14 @@ export default function GovernmentReportsPage() {
                           }}
                           className={`w-full text-left rounded-lg border-2 p-4 transition-all ${
                             isSelected
-                              ? 'border-cg-red bg-cg-red/5'
+                              ? 'border-brand bg-brand/5'
                               : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                           }`}
                         >
                           <div className="flex items-start gap-3">
                             <div
                               className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center font-bold text-xs ${
-                                isSelected ? 'bg-cg-red text-white' : 'bg-gray-100 text-gray-600'
+                                isSelected ? 'bg-brand text-white' : 'bg-gray-100 text-gray-600'
                               }`}
                             >
                               {reportTypeLabels[info.type]}
@@ -358,7 +358,7 @@ export default function GovernmentReportsPage() {
                                       <a
                                         href={report.fileUrl}
                                         download={report.fileName}
-                                        className="inline-flex items-center gap-1 text-cg-red hover:text-cg-red/80 text-xs font-medium"
+                                        className="inline-flex items-center gap-1 text-brand hover:text-brand/80 text-xs font-medium"
                                       >
                                         <Download className="h-3.5 w-3.5" />
                                         Download
@@ -404,7 +404,7 @@ export default function GovernmentReportsPage() {
                                   <a
                                     href={report.fileUrl}
                                     download={report.fileName}
-                                    className="inline-flex items-center gap-1 text-cg-red font-medium"
+                                    className="inline-flex items-center gap-1 text-brand font-medium"
                                   >
                                     <Download className="h-3.5 w-3.5" />
                                     Download

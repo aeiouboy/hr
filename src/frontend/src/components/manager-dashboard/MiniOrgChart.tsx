@@ -51,7 +51,7 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
             )}
           </div>
           <div>
-            <p className="text-sm font-medium text-cg-dark">{node.name}</p>
+            <p className="text-sm font-medium text-ink">{node.name}</p>
             <p className="text-xs text-gray-400 dark:text-gray-500">{node.position}</p>
           </div>
         </a>

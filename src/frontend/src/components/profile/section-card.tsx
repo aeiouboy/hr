@@ -34,7 +34,7 @@ export function SectionCard({
       >
         <div className="flex items-center gap-3">
           {icon && <span className="text-gray-400 dark:text-gray-500">{icon}</span>}
-          <h3 className="text-base font-semibold text-cg-dark">{title}</h3>
+          <h3 className="text-base font-semibold text-ink">{title}</h3>
         </div>
         <div className="flex items-center gap-2">
           {action && <div onClick={(e) => e.stopPropagation()}>{action}</div>}

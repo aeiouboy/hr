@@ -20,24 +20,24 @@ export function TrainingRecordsPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-cg-red" /><div><p className="text-2xl font-bold text-cg-dark">{totalHours}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHours')}</p></div></CardContent></Card>
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Award className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold text-cg-dark">{completedCount}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('completedCourses')}</p></div></CardContent></Card>
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><FileText className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold text-cg-dark">{records.filter((r) => r.status === 'in_progress').length}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('inProgress')}</p></div></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold text-ink">{totalHours}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHours')}</p></div></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Award className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold text-ink">{completedCount}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('completedCourses')}</p></div></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><FileText className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold text-ink">{records.filter((r) => r.status === 'in_progress').length}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('inProgress')}</p></div></CardContent></Card>
       </div>
 
       <div className="flex flex-wrap gap-3 mb-6">
         <select value={yearFilter} onChange={(e) => setYearFilter(e.target.value)}
-          className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red">
+          className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand">
           <option value="all">{t('filterByYear')}</option>
           {years.map((y) => <option key={y} value={y}>{y}</option>)}
         </select>
         <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}
-          className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-cg-red focus:ring-1 focus:ring-cg-red">
+          className="rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand">
           <option value="all">{t('filterByCategory')}</option>
           {categories.map((c) => <option key={c} value={c}>{c}</option>)}
         </select>

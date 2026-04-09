@@ -41,7 +41,7 @@ function NodeCard({
       className={cn(
         'flex items-center gap-3 p-3 rounded-lg border transition-all text-left w-full',
         highlight
-          ? 'border-cg-red bg-cg-red/5 ring-1 ring-cg-red/20'
+          ? 'border-brand bg-brand/5 ring-1 ring-brand/20'
           : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm',
         searchMatch && 'border-yellow-400 bg-yellow-50 ring-1 ring-yellow-300',
         dimmed && 'opacity-30'

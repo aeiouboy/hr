@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Save, AlertCircle, Check } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
+import { PageShell } from '@/components/shared/page-shell';
 import { Tabs } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -158,8 +156,8 @@ export default function SettingsPage() {
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-cg-red focus:ring-offset-2 ${
-          checked ? 'bg-cg-red' : 'bg-gray-200'
+        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 ${
+          checked ? 'bg-brand' : 'bg-gray-200'
         }`}
       >
         <span
@@ -492,35 +490,23 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cg-light">
-      <Header />
-      <MobileMenu />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="max-w-4xl mx-auto">
-            {/* Page header */}
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
-              <p className="text-gray-500 text-sm mt-1">{t('description')}</p>
-            </div>
+    <PageShell
+      title={t('title')}
+      description={t('description')}
+    >
+      {/* Tabs */}
+      <Tabs
+        tabs={allTabs}
+        activeTab={activeTab}
+        onTabChange={(key) => {
+          setActiveTab(key as TabKey);
+          setSaveState({ saving: false, saved: false, error: null });
+        }}
+        className="mb-6"
+      />
 
-            {/* Tabs */}
-            <Tabs
-              tabs={allTabs}
-              activeTab={activeTab}
-              onTabChange={(key) => {
-                setActiveTab(key as TabKey);
-                setSaveState({ saving: false, saved: false, error: null });
-              }}
-              className="mb-6"
-            />
-
-            {/* Tab content */}
-            {renderTabContent()}
-          </div>
-        </main>
-      </div>
-    </div>
+      {/* Tab content */}
+      {renderTabContent()}
+    </PageShell>
   );
 }

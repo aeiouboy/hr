@@ -302,7 +302,7 @@ export function Header() {
 
             <a href={`/${currentLocale}/`} className="flex items-center gap-2">
               <div className="text-xl font-bold">
-                <span className="text-cg-red">CENTRAL</span>
+                <span className="text-brand">CENTRAL</span>
                 <span className="text-gray-800 dark:text-gray-200">GROUP</span>
               </div>
             </a>
@@ -324,7 +324,7 @@ export function Header() {
               <input
                 type="text"
                 placeholder={t('nav.searchPlaceholder')}
-                className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cg-info focus:bg-white dark:focus:bg-gray-800 transition"
+                className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-info focus:bg-white dark:focus:bg-gray-800 transition"
                 aria-label={t('common.search')}
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
@@ -356,7 +356,7 @@ export function Header() {
                 }}
               >
                 <Bell className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-                <span className="absolute top-1 right-1 h-4 w-4 bg-cg-red text-white text-[10px] rounded-full flex items-center justify-center">
+                <span className="absolute top-1 right-1 h-4 w-4 bg-brand text-white text-[10px] rounded-full flex items-center justify-center">
                   3
                 </span>
               </button>
@@ -365,7 +365,7 @@ export function Header() {
                   <div className="px-4 py-2 border-b dark:border-gray-700 flex items-center justify-between">
                     <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">Notifications</p>
                     <button
-                      className="text-xs text-cg-info hover:underline"
+                      className="text-xs text-info hover:underline"
                       onClick={() => setNotificationsOpen(false)}
                     >
                       Mark all as read
@@ -384,13 +384,13 @@ export function Header() {
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{n.time}</p>
                       </div>
                       {!n.read && (
-                        <div className="mt-1.5 h-2 w-2 bg-cg-info rounded-full flex-shrink-0" />
+                        <div className="mt-1.5 h-2 w-2 bg-info rounded-full flex-shrink-0" />
                       )}
                     </div>
                   ))}
                   <div className="px-4 py-2 border-t dark:border-gray-700">
                     <button
-                      className="w-full text-center text-sm text-cg-info hover:underline"
+                      className="w-full text-center text-sm text-info hover:underline"
                       onClick={() => {
                         setNotificationsOpen(false);
                         router.push(`/${currentLocale}/workflows`);
@@ -447,7 +447,7 @@ export function Header() {
                         <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Documentation</p>
                         <a
                           href="#"
-                          className="text-xs text-cg-info hover:underline mt-0.5 block"
+                          className="text-xs text-info hover:underline mt-0.5 block"
                           onClick={(e) => {
                             e.preventDefault();
                             setHelpOpen(false);
@@ -503,7 +503,7 @@ export function Header() {
                 aria-haspopup="true"
                 aria-expanded={userDropdownOpen}
               >
-                <div className="w-8 h-8 bg-cg-red rounded-full flex items-center justify-center text-white font-medium text-sm">
+                <div className="w-8 h-8 bg-brand rounded-full flex items-center justify-center text-white font-medium text-sm">
                   {(username || 'U').substring(0, 2).toUpperCase()}
                 </div>
                 <ChevronDown className="h-4 w-4 text-gray-500 hidden sm:block" />
@@ -553,7 +553,7 @@ export function Header() {
               <input
                 type="text"
                 placeholder={t('nav.searchPlaceholder')}
-                className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cg-info"
+                className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-info"
                 aria-label={t('common.search')}
                 autoFocus
                 value={searchQuery}

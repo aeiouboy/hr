@@ -98,7 +98,7 @@ function ShiftProgress({ clockIn, shiftStart, shiftEnd, breakStart, breakEnd }: 
         )}
         {/* Current time indicator */}
         <div
-          className="absolute -top-0.5 w-4 h-4 rounded-full bg-white border-2 border-cg-red shadow-md"
+          className="absolute -top-0.5 w-4 h-4 rounded-full bg-white border-2 border-brand shadow-md"
           style={{ left: `calc(${pct}% - 8px)` }}
         />
       </div>
@@ -129,9 +129,9 @@ function WeeklyHeatmap({ attendance }: { attendance: AttendanceRecord[] }) {
         const isToday = rec?.date === '2026-03-05';
         return (
           <div key={day} className="flex-1 text-center">
-            <p className={`text-[10px] mb-1 ${isToday ? 'font-bold text-cg-red' : 'text-gray-400'}`}>{day}</p>
+            <p className={`text-[10px] mb-1 ${isToday ? 'font-bold text-brand' : 'text-gray-400'}`}>{day}</p>
             <div
-              className={`h-8 sm:h-10 rounded-lg ${getColor(rec?.status)} ${isToday ? 'ring-2 ring-cg-red ring-offset-1' : ''} transition-all`}
+              className={`h-8 sm:h-10 rounded-lg ${getColor(rec?.status)} ${isToday ? 'ring-2 ring-brand ring-offset-1' : ''} transition-all`}
               title={rec ? `${rec.date}: ${rec.status}` : 'No data'}
             />
             {rec?.workHours ? (
@@ -207,7 +207,7 @@ export function TimePage() {
     <div className="w-full">
       {/* ===== HEADER WITH LIVE CLOCK ===== */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-sm text-gray-400 dark:text-gray-500 dark:text-gray-500 mt-0.5">
           {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
@@ -224,15 +224,15 @@ export function TimePage() {
         {/* Decorative background elements */}
         {clockStatus.isClockedIn && (
           <>
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cg-red/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cg-red/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand/5 rounded-full translate-y-1/2 -translate-x-1/2" />
           </>
         )}
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           {/* Left: Time & Status */}
           <div>
-            <div className={clockStatus.isClockedIn ? 'text-white' : 'text-cg-dark'}>
+            <div className={clockStatus.isClockedIn ? 'text-white' : 'text-ink'}>
               <LiveClock />
             </div>
 
@@ -263,7 +263,7 @@ export function TimePage() {
                 <>
                   <ArrowRight className="h-3 w-3 text-gray-500" />
                   <span className="flex items-center gap-1.5">
-                    <LogOut className="h-3.5 w-3.5 text-cg-red" />
+                    <LogOut className="h-3.5 w-3.5 text-brand" />
                     <span className="font-mono font-medium">{clockStatus.clockOutTime}</span>
                   </span>
                 </>
@@ -280,7 +280,7 @@ export function TimePage() {
                 transition-all duration-300 active:scale-95
                 ${clockAnimating ? 'scale-110' : ''}
                 ${clockStatus.isClockedIn
-                  ? 'bg-gradient-to-br from-cg-red to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40'
+                  ? 'bg-gradient-to-br from-brand to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40'
                   : 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-lg shadow-emerald-900/20 hover:shadow-xl hover:shadow-emerald-900/30'
                 }
               `}
@@ -299,7 +299,7 @@ export function TimePage() {
                 )}
               </div>
               {/* Pulse ring */}
-              <div className={`absolute inset-0 rounded-2xl ${clockStatus.isClockedIn ? 'bg-cg-red' : 'bg-emerald-500'} animate-ping opacity-20`} />
+              <div className={`absolute inset-0 rounded-2xl ${clockStatus.isClockedIn ? 'bg-brand' : 'bg-emerald-500'} animate-ping opacity-20`} />
             </button>
           </div>
         </div>
@@ -324,7 +324,7 @@ export function TimePage() {
         <Card className="lg:col-span-3">
           <CardContent className="p-5 sm:p-6 lg:p-8">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-cg-dark">This Week</h3>
+              <h3 className="text-sm font-semibold text-ink">This Week</h3>
               <div className="flex items-center gap-3 text-[10px] text-gray-400">
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> On Time</span>
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-amber-400" /> Late</span>
@@ -339,7 +339,7 @@ export function TimePage() {
         {/* Quick Stats */}
         <Card>
           <CardContent className="p-5 sm:p-6 lg:p-8">
-            <h3 className="text-sm font-semibold text-cg-dark mb-3">Monthly Stats</h3>
+            <h3 className="text-sm font-semibold text-ink mb-3">Monthly Stats</h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500 dark:text-gray-400">On-time Rate</span>
@@ -350,21 +350,21 @@ export function TimePage() {
               </div>
               <div className="grid grid-cols-2 gap-2 pt-1">
                 <div className="text-center p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                  <p className="text-lg font-bold text-cg-dark">{summary.totalWorkDays}</p>
+                  <p className="text-lg font-bold text-ink">{summary.totalWorkDays}</p>
                   <p className="text-[10px] text-gray-400">{t('workingHours')}</p>
                 </div>
                 <div className="text-center p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                  <p className="text-lg font-bold text-cg-red">{summary.totalOvertimeHours}h</p>
+                  <p className="text-lg font-bold text-brand">{summary.totalOvertimeHours}h</p>
                   <p className="text-[10px] text-gray-400">OT Hours</p>
                 </div>
               </div>
               <div className="flex items-center justify-between pt-1 text-xs">
                 <span className="text-gray-400">Avg Check-in</span>
-                <span className="font-mono font-medium text-cg-dark">{summary.avgCheckIn}</span>
+                <span className="font-mono font-medium text-ink">{summary.avgCheckIn}</span>
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-400">Avg Check-out</span>
-                <span className="font-mono font-medium text-cg-dark">{summary.avgCheckOut}</span>
+                <span className="font-mono font-medium text-ink">{summary.avgCheckOut}</span>
               </div>
             </div>
           </CardContent>
@@ -381,8 +381,8 @@ export function TimePage() {
               flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap
               transition-all duration-200 flex-1 justify-center
               ${activeTab === key
-                ? 'bg-white dark:bg-gray-800 text-cg-dark shadow-sm'
-                : 'text-gray-500 dark:text-gray-400 hover:text-cg-dark hover:bg-white/50 dark:hover:bg-gray-700/50'
+                ? 'bg-white dark:bg-gray-800 text-ink shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-ink hover:bg-white/50 dark:hover:bg-gray-700/50'
               }
             `}
           >
@@ -420,7 +420,7 @@ export function TimePage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-cg-dark">{rec.dayOfWeek}</span>
+                          <span className="text-sm font-medium text-ink">{rec.dayOfWeek}</span>
                           <span className="text-xs text-gray-400 dark:text-gray-500">{rec.date}</span>
                         </div>
                         {rec.checkIn ? (
@@ -433,7 +433,7 @@ export function TimePage() {
                         )}
                       </div>
                       {rec.overtimeHours > 0 && (
-                        <span className="text-xs font-medium text-cg-red bg-red-50 px-2 py-0.5 rounded-full">
+                        <span className="text-xs font-medium text-brand bg-red-50 px-2 py-0.5 rounded-full">
                           +{rec.overtimeHours}h OT
                         </span>
                       )}
@@ -474,7 +474,7 @@ export function TimePage() {
                           <td className="py-3 px-4 text-center">{rec.workHours > 0 ? `${rec.workHours}h` : '-'}</td>
                           <td className="py-3 px-4 text-center">
                             {rec.overtimeHours > 0 ? (
-                              <span className="text-cg-red font-medium">+{rec.overtimeHours}h</span>
+                              <span className="text-brand font-medium">+{rec.overtimeHours}h</span>
                             ) : '-'}
                           </td>
                           <td className="py-3 px-4 text-center">
@@ -510,13 +510,13 @@ export function TimePage() {
                     <div
                       key={shift.id}
                       className={`flex items-center gap-4 px-4 sm:px-6 py-4 transition-colors ${
-                        isToday ? 'bg-cg-red/5 border-l-2 border-cg-red' : 'hover:bg-gray-50/50 dark:hover:bg-gray-700/30'
+                        isToday ? 'bg-brand/5 border-l-2 border-brand' : 'hover:bg-gray-50/50 dark:hover:bg-gray-700/30'
                       }`}
                     >
                       {/* Day */}
                       <div className="flex-shrink-0 w-12 text-center">
-                        <p className={`text-xs ${isToday ? 'text-cg-red font-bold' : 'text-gray-400'}`}>{shift.dayOfWeek}</p>
-                        <p className={`text-lg font-bold ${isToday ? 'text-cg-red' : 'text-cg-dark'}`}>
+                        <p className={`text-xs ${isToday ? 'text-brand font-bold' : 'text-gray-400'}`}>{shift.dayOfWeek}</p>
+                        <p className={`text-lg font-bold ${isToday ? 'text-brand' : 'text-ink'}`}>
                           {shift.date.split('-')[2]}
                         </p>
                       </div>
@@ -524,11 +524,11 @@ export function TimePage() {
                       {/* Shift Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className={`text-sm font-medium ${isOff ? 'text-gray-400' : 'text-cg-dark'}`}>
+                          <span className={`text-sm font-medium ${isOff ? 'text-gray-400' : 'text-ink'}`}>
                             {shift.shiftName}
                           </span>
                           {isToday && (
-                            <span className="text-[10px] font-bold text-cg-red bg-cg-red/10 px-1.5 py-0.5 rounded-full">
+                            <span className="text-[10px] font-bold text-brand bg-brand/10 px-1.5 py-0.5 rounded-full">
                               TODAY
                             </span>
                           )}
@@ -545,7 +545,7 @@ export function TimePage() {
                       {/* Hours */}
                       <div className="flex-shrink-0 text-right">
                         {!isOff ? (
-                          <span className="text-sm font-semibold text-cg-dark">{shift.workHours}h</span>
+                          <span className="text-sm font-semibold text-ink">{shift.workHours}h</span>
                         ) : (
                           <span className="text-xs text-gray-300 dark:text-gray-600">OFF</span>
                         )}
@@ -582,7 +582,7 @@ export function TimePage() {
               <p className="text-[10px] text-gray-400 mt-0.5">{t('totalHours')}</p>
             </div>
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-              <p className="text-2xl font-bold text-cg-dark">{summary.totalWorkDays}</p>
+              <p className="text-2xl font-bold text-ink">{summary.totalWorkDays}</p>
               <p className="text-[10px] text-gray-400 mt-0.5">Work Days</p>
             </div>
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
@@ -598,7 +598,7 @@ export function TimePage() {
               <p className="text-[10px] text-gray-400 mt-0.5">Leave Days</p>
             </div>
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-              <p className="text-2xl font-bold text-cg-red">{summary.totalOvertimeHours}h</p>
+              <p className="text-2xl font-bold text-brand">{summary.totalOvertimeHours}h</p>
               <p className="text-[10px] text-gray-400 mt-0.5">OT Hours</p>
             </div>
           </div>
@@ -661,7 +661,7 @@ export function TimePage() {
                           <td className="py-3 px-4 text-center font-mono text-xs">{rec.checkOut || '-'}</td>
                           <td className="py-3 px-4 text-center">{rec.workHours > 0 ? `${rec.workHours}h` : '-'}</td>
                           <td className="py-3 px-4 text-center">
-                            {rec.overtimeHours > 0 ? <span className="text-cg-red font-medium">+{rec.overtimeHours}h</span> : '-'}
+                            {rec.overtimeHours > 0 ? <span className="text-brand font-medium">+{rec.overtimeHours}h</span> : '-'}
                           </td>
                           <td className="py-3 px-4 text-center text-xs text-gray-400 dark:text-gray-500">{rec.location || '-'}</td>
                           <td className="py-3 px-4 text-center">
@@ -718,7 +718,7 @@ export function TimePage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-sm font-medium text-cg-dark">{req.date}</span>
+                          <span className="text-sm font-medium text-ink">{req.date}</span>
                           <Badge variant={
                             req.status === 'approved' ? 'success' :
                             req.status === 'rejected' ? 'error' : 'warning'

@@ -68,7 +68,7 @@ export default function HomePage() {
       description: t('home.directReports'),
       href: '/manager-dashboard',
       icon: <Users className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-cg-red bg-red-50',
+      color: 'text-brand bg-red-50',
     },
   ];
 
@@ -89,21 +89,21 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-4 sm:p-6">
           <div className="mb-4 sm:mb-8">
-            <h1 className="text-2xl font-bold text-cg-dark">
+            <h1 className="text-2xl font-bold text-ink">
               {t('home.welcome')}, {username || 'User'}
             </h1>
             <p className="text-gray-500 mt-1">{t('home.forYouToday')}</p>
           </div>
 
           <section>
-            <h2 className="text-lg font-semibold text-cg-dark mb-4">
+            <h2 className="text-lg font-semibold text-ink mb-4">
               {t('home.quickActions')}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

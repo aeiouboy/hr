@@ -31,7 +31,7 @@ export function ScreeningPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">Candidate Screening</h1>
+        <h1 className="text-2xl font-bold text-ink">Candidate Screening</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">Pipeline view of all candidates</p>
       </div>
 
@@ -41,7 +41,7 @@ export function ScreeningPage() {
           return (
             <div key={stage} className={`min-w-[260px] flex-1 rounded-lg border-2 ${STAGE_COLORS[stage]} p-3`}>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-sm text-cg-dark capitalize">{stage}</h3>
+                <h3 className="font-semibold text-sm text-ink capitalize">{stage}</h3>
                 <Badge variant="neutral">{stageCandidates.length}</Badge>
               </div>
               <div className="space-y-2">

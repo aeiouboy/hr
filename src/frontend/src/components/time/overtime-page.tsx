@@ -53,7 +53,7 @@ export function OvertimePage() {
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <Button onClick={() => setShowCreateModal(true)} className="mt-4 sm:mt-0">
@@ -66,11 +66,11 @@ export function OvertimePage() {
       {activeTab === 'summary' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-cg-dark">{stats.weeklyHours}h</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHours')} (week)</p></CardContent></Card>
+            <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.weeklyHours}h</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHours')} (week)</p></CardContent></Card>
             <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-yellow-600">{stats.pendingCount}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('pendingRequests')}</p></CardContent></Card>
             <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-green-600">{stats.approvedCount}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('approvedRequests')}</p></CardContent></Card>
             <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
-              <p className="text-2xl font-bold text-cg-dark">{stats.maxWeeklyHours - stats.weeklyHours}h</p>
+              <p className="text-2xl font-bold text-ink">{stats.maxWeeklyHours - stats.weeklyHours}h</p>
               <p className="text-xs text-gray-400 dark:text-gray-500">{t('remainingHours')}</p>
               {stats.weeklyHours > stats.maxWeeklyHours * 0.8 && (
                 <div className="flex items-center justify-center gap-1 mt-1 text-xs text-yellow-600">

@@ -109,7 +109,7 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
                             e.stopPropagation();
                             onViewDetail(referral);
                           }}
-                          className="text-sm text-cg-red hover:underline"
+                          className="text-sm text-brand hover:underline"
                         >
                           {t('view')}
                         </button>

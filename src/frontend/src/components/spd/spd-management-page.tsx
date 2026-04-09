@@ -354,7 +354,7 @@ export function SPDManagementPage() {
           {filteredTimeRecords.map((record) => (
             <div key={record.id} className="rounded-xl border dark:border-gray-700 p-4">
               <div className="flex items-center justify-between">
-                <p className="font-medium text-cg-dark">{record.employeeName}</p>
+                <p className="font-medium text-ink">{record.employeeName}</p>
                 <Badge variant={STATUS_BADGE[record.status]}>{record.status.replace('_', ' ')}</Badge>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{record.date}</p>
@@ -549,7 +549,7 @@ export function SPDManagementPage() {
           <div key={document.id} className="rounded-xl border dark:border-gray-700 p-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <p className="font-medium text-cg-dark">{document.employeeName}</p>
+                <p className="font-medium text-ink">{document.employeeName}</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {document.leaveType}: {document.startDate} - {document.endDate} ({document.days} {t('days')})
                 </p>
@@ -599,7 +599,7 @@ export function SPDManagementPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 

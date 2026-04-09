@@ -29,7 +29,7 @@ function ApprovalTimeline({ steps }: { steps: ApprovalStep[] }) {
   const t = useTranslations('quickApprove');
   return (
     <div className="space-y-3">
-      <h4 className="text-sm font-medium text-cg-dark">{t('slideOver.approvalTimeline')}</h4>
+      <h4 className="text-sm font-medium text-ink">{t('slideOver.approvalTimeline')}</h4>
       <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-3">
         {steps.map((step) => (
           <li key={step.step} className="mb-4 ml-4">
@@ -44,7 +44,7 @@ function ApprovalTimeline({ steps }: { steps: ApprovalStep[] }) {
               )}
             />
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-cg-dark">{step.approver}</span>
+              <span className="text-sm font-medium text-ink">{step.approver}</span>
               <Badge
                 variant={
                   step.status === 'approved'
@@ -120,14 +120,14 @@ function DetailSection({ request }: { request: PendingRequest }) {
 
   return (
     <div className="space-y-3">
-      <h4 className="text-sm font-medium text-cg-dark">{t('slideOver.requestDetails')}</h4>
+      <h4 className="text-sm font-medium text-ink">{t('slideOver.requestDetails')}</h4>
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
         {fields.map(
           (f) =>
             f.value !== undefined && (
               <div key={f.label}>
                 <dt className="text-gray-500 dark:text-gray-400">{f.label}</dt>
-                <dd className="font-medium text-cg-dark">{String(f.value)}</dd>
+                <dd className="font-medium text-ink">{String(f.value)}</dd>
               </div>
             )
         )}
@@ -173,7 +173,7 @@ export function RequestSlideOver({
               <div className="flex items-center gap-3">
                 <span className="text-gray-600 dark:text-gray-400">{typeIcons[request.type] ?? <ClipboardList className="h-5 w-5" />}</span>
                 <div>
-                  <h2 className="text-lg font-semibold text-cg-dark">
+                  <h2 className="text-lg font-semibold text-ink">
                     {request.requester.name}
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">

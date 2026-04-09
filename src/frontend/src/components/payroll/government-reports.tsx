@@ -61,7 +61,7 @@ export function GovernmentReports() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <FileText className="h-5 w-5 text-cg-red" />
+            <FileText className="h-5 w-5 text-brand" />
             <CardTitle>{t('govReports.generateReport')}</CardTitle>
           </div>
         </CardHeader>

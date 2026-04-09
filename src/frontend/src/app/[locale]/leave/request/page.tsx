@@ -16,14 +16,14 @@ export default function LeaveRequestPage() {
   const { balances, substituteEmployees, submitting, submitRequest } = useLeave();
 
   return (
-    <div className="min-h-screen bg-cg-light">
+    <div className="min-h-screen bg-canvas">
       <Header />
       <MobileMenu />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-4 sm:p-6">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-bold text-cg-dark mb-6">{t('newRequest')}</h1>
+            <h1 className="text-2xl font-bold text-ink mb-6">{t('newRequest')}</h1>
             <LeaveRequestForm
               balances={balances}
               substituteEmployees={substituteEmployees}

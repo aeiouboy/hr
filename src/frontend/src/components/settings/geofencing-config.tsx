@@ -109,7 +109,7 @@ export function GeofencingConfig() {
             <div key={zone.id} className="rounded-xl border dark:border-gray-700 p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="font-semibold text-cg-dark">{zone.name}</p>
+                  <p className="font-semibold text-ink">{zone.name}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{zone.address}</p>
                 </div>
                 <Badge variant={zone.isActive ? 'success' : 'neutral'}>{zone.isActive ? 'Active' : 'Inactive'}</Badge>
@@ -169,7 +169,7 @@ export function GeofencingConfig() {
               type="checkbox"
               checked={form.isActive}
               onChange={(event) => setForm((prev) => ({ ...prev, isActive: event.target.checked }))}
-              className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
+              className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-brand focus:ring-brand"
             />
             Active
           </label>

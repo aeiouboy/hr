@@ -127,7 +127,7 @@ function OrgChartMini({ orgChart }: { orgChart: Record<string, unknown> }) {
   const directReports = orgChart.directReports as OrgChartNode[] | undefined;
 
   const renderNode = (node: OrgChartNode, highlight = false) => (
-    <div className={`flex items-center gap-3 p-3 rounded-lg border ${highlight ? 'border-cg-red bg-cg-red/5' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'}`}>
+    <div className={`flex items-center gap-3 p-3 rounded-lg border ${highlight ? 'border-brand bg-brand/5' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'}`}>
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0">
         {node.photo ? (
           <img src={node.photo} alt={node.name} className="w-full h-full object-cover" />

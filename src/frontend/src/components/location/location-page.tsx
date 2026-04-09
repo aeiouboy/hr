@@ -16,7 +16,7 @@ function LocationTreeNode({ node, depth = 0, selectedId, onSelect }: { node: Loc
     <div>
       <div
         className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition hover:bg-gray-100 dark:hover:bg-gray-700 ${
-          selectedId === node.id ? 'bg-cg-red/10 text-cg-red' : ''
+          selectedId === node.id ? 'bg-brand/10 text-brand' : ''
         }`}
         style={{ paddingLeft: `${depth * 20 + 12}px` }}
         onClick={() => onSelect(node)}
@@ -55,12 +55,12 @@ export function LocationPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-cg-dark">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-cg-red" /><div><p className="text-2xl font-bold">{totalHeadcount.toLocaleString()}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHeadcount')}</p></div></CardContent></Card>
+        <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{totalHeadcount.toLocaleString()}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalHeadcount')}</p></div></CardContent></Card>
         <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><MapPin className="h-8 w-8 text-blue-500" /><div><p className="text-2xl font-bold">{totalLocations}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalLocations')}</p></div></CardContent></Card>
         <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Building className="h-8 w-8 text-green-500" /><div><p className="text-2xl font-bold">{totalBranches}</p><p className="text-xs text-gray-400 dark:text-gray-500">{t('totalBranches')}</p></div></CardContent></Card>
       </div>

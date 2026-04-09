@@ -68,7 +68,7 @@ export function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Building className="h-5 w-5 text-cg-red" />
+              <Building className="h-5 w-5 text-brand" />
               <CardTitle>{t('settings.companyInfo')}</CardTitle>
             </div>
           </CardHeader>
@@ -119,7 +119,7 @@ export function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-cg-red" />
+              <Calendar className="h-5 w-5 text-brand" />
               <CardTitle>{t('settings.leavePolicies')}</CardTitle>
             </div>
           </CardHeader>
@@ -159,7 +159,7 @@ export function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-cg-red" />
+              <DollarSign className="h-5 w-5 text-brand" />
               <CardTitle>{t('settings.payrollSettings')}</CardTitle>
             </div>
           </CardHeader>
@@ -207,7 +207,7 @@ export function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Palette className="h-5 w-5 text-cg-red" />
+              <Palette className="h-5 w-5 text-brand" />
               <CardTitle>{t('settings.theme')}</CardTitle>
             </div>
           </CardHeader>
@@ -235,7 +235,7 @@ export function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Bell className="h-5 w-5 text-cg-red" />
+              <Bell className="h-5 w-5 text-brand" />
               <CardTitle>{t('settings.notifications')}</CardTitle>
             </div>
           </CardHeader>
@@ -257,7 +257,7 @@ export function SettingsPage() {
                     onChange={(e) =>
                       updateSettings('notifications', { [item.key]: e.target.checked })
                     }
-                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-cg-red focus:ring-cg-red"
+                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-brand focus:ring-brand"
                   />
                 </label>
               ))}
@@ -274,7 +274,7 @@ export function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-cg-red" />
+              <Shield className="h-5 w-5 text-brand" />
               <CardTitle>{t('settings.system')}</CardTitle>
             </div>
           </CardHeader>
