@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ArrowLeft, CheckCircle, XCircle, Clock, AlertTriangle, Send } from 'lucide-react';
 import { Header } from '@/components/shared/header';
 import { Sidebar } from '@/components/shared/sidebar';
@@ -71,6 +72,7 @@ export default function ProbationDetailPage() {
   const pathname = usePathname();
   const locale = pathname.startsWith('/th') ? 'th' : 'en';
   const { probationCase: c, loading, approve, reject } = useProbationCase(id);
+  const t = useTranslations();
 
   const [comment, setComment] = useState('');
   const [showActions, setShowActions] = useState(false);
@@ -97,7 +99,7 @@ export default function ProbationDetailPage() {
         <div className="flex"><Sidebar />
           <main className="flex-1 p-6">
             <Card className="p-12 text-center">
-              <p className="text-ink-muted">ไม่พบรายการ {id}</p>
+              <p className="text-ink-muted">{t('probation.notFound')} {id}</p>
             </Card>
           </main>
         </div>
@@ -127,7 +129,7 @@ export default function ProbationDetailPage() {
               className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-ink mb-4"
             >
               <ArrowLeft className="h-4 w-4" />
-              กลับไปรายการ Probation
+              {t('probation.backToList')}
             </a>
 
             {/* PersonHero — the employee */}
@@ -136,19 +138,19 @@ export default function ProbationDetailPage() {
               name={{ th: c.fullNameTh, en: c.fullNameEn }}
               employeeId={c.employeeId}
               subtitle={c.position}
-              meta={`${c.department} · เริ่มงาน ${formatDate(c.hireDate, 'medium', locale)}`}
+              meta={`${c.department} · ${t('probation.startedWork')} ${formatDate(c.hireDate, 'medium', locale)}`}
               status={heroStatus}
               statusContext={
                 isPending
-                  ? `ครบกำหนดทดลองงาน ${formatDate(c.probationEndDate, 'long', locale)}`
+                  ? `${t('probation.probationDue')} ${formatDate(c.probationEndDate, 'long', locale)}`
                   : c.status === 'approved'
-                    ? 'ผ่านทดลองงานแล้ว — พนักงานประจำ'
-                    : `ขยาย probation ถึง ${formatDate(c.slaDeadline, 'long', locale)}`
+                    ? t('probation.passedPermanent')
+                    : `${t('probation.extendedUntil')} ${formatDate(c.slaDeadline, 'long', locale)}`
               }
               stats={[
-                { label: 'สถานะ', value: STATUS_LABEL[c.status], tone: c.status === 'approved' ? 'success' : c.status === 'extended' || c.status === 'rejected' ? 'danger' : 'warning' },
-                ...(isPending ? [{ label: 'SLA เหลือ', value: `${slaHours} ชม.`, tone: isUrgent ? 'danger' as const : 'warning' as const }] : []),
-                { label: 'ผู้อนุมัติ', value: c.currentApprover.name },
+                { label: t('probation.statusLabel'), value: STATUS_LABEL[c.status], tone: c.status === 'approved' ? 'success' : c.status === 'extended' || c.status === 'rejected' ? 'danger' : 'warning' },
+                ...(isPending ? [{ label: t('probation.slaRemaining'), value: `${slaHours} ${t('common.hours')}`, tone: isUrgent ? 'danger' as const : 'warning' as const }] : []),
+                { label: t('probation.approver'), value: c.currentApprover.name },
               ]}
               className="mb-6"
             />
@@ -171,25 +173,25 @@ export default function ProbationDetailPage() {
               {/* Right: Info + Actions */}
               <div className="space-y-6">
                 {/* Probation Info */}
-                <FieldGroup title="ข้อมูล Probation" columns={1}>
-                  <Field label="วันเริ่มงาน" value={formatDate(c.hireDate, 'long', locale)} mono />
-                  <Field label="ครบ Probation" value={formatDate(c.probationEndDate, 'long', locale)} mono />
+                <FieldGroup title={t('probation.infoTitle')} columns={1}>
+                  <Field label={t('probation.hireDate')} value={formatDate(c.hireDate, 'long', locale)} mono />
+                  <Field label={t('probation.probationEnd')} value={formatDate(c.probationEndDate, 'long', locale)} mono />
                   <Field label="SLA Deadline" value={formatDate(c.slaDeadline, 'long', locale)} mono />
-                  <Field label="ผู้อนุมัติปัจจุบัน" value={`${c.currentApprover.name} (${c.currentApprover.role})`} />
+                  <Field label={t('probation.currentApprover')} value={`${c.currentApprover.name} (${c.currentApprover.role})`} />
                 </FieldGroup>
 
                 {/* Action panel — only show for pending */}
                 {isPending && (
                   <Card className="overflow-hidden border-t-[3px] border-t-accent">
                     <div className="px-6 py-4">
-                      <h3 className="text-sm font-semibold text-ink mb-3">ดำเนินการ</h3>
+                      <h3 className="text-sm font-semibold text-ink mb-3">{t('probation.takeAction')}</h3>
 
                       {/* Comment */}
-                      <label className="block text-xs text-ink-muted mb-1">ความเห็น</label>
+                      <label className="block text-xs text-ink-muted mb-1">{t('probation.commentLabel')}</label>
                       <textarea
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                        placeholder="ระบุเหตุผล..."
+                        placeholder={t('probation.commentPlaceholder')}
                         rows={3}
                         className="w-full text-sm bg-surface border border-hairline rounded-md px-3 py-2 text-ink outline-none focus:ring-1 focus:ring-accent resize-none mb-4"
                       />
@@ -202,7 +204,7 @@ export default function ProbationDetailPage() {
                           onClick={() => { approve(comment); setComment(''); }}
                         >
                           <CheckCircle className="mr-1.5 h-4 w-4" />
-                          อนุมัติ
+                          {t('probation.approve')}
                         </Button>
                         <Button
                           variant="outline"
@@ -211,7 +213,7 @@ export default function ProbationDetailPage() {
                           onClick={() => { reject(comment); setComment(''); }}
                         >
                           <XCircle className="mr-1.5 h-4 w-4" />
-                          ไม่อนุมัติ
+                          {t('probation.reject')}
                         </Button>
                       </div>
                     </div>
@@ -224,7 +226,7 @@ export default function ProbationDetailPage() {
                     <Badge variant={STATUS_BADGE[c.status]} className="text-base px-4 py-1">
                       {STATUS_LABEL[c.status]}
                     </Badge>
-                    <p className="text-xs text-ink-muted mt-2">Workflow เสร็จสิ้นแล้ว</p>
+                    <p className="text-xs text-ink-muted mt-2">{t('probation.workflowCompleted')}</p>
                   </Card>
                 )}
               </div>

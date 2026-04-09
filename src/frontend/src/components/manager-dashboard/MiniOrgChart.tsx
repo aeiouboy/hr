@@ -17,12 +17,12 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
  const hasChildren = node.children && node.children.length > 0;
 
  return (
- <div className={cn(depth > 0 &&'ml-6 border-l pl-4')}>
+    <div className={cn(depth > 0 && 'ml-5 pl-3 border-l border-hairline')}>
  <div className="flex items-center gap-2 py-2">
  {hasChildren ? (
  <button
  onClick={() => setExpanded(!expanded)}
- className="p-0.5 rounded hover:bg-surface-raised hover:bg-surface-raised transition"
+           className="p-0.5 rounded hover:bg-surface-raised transition"
  aria-label={expanded ?'Collapse' :'Expand'}
  >
  {expanded ? (
@@ -37,7 +37,7 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
 
  <a
  href={`/profile?id=${node.id}`}
- className="flex items-center gap-2 hover:bg-surface-raised/50 rounded-md px-2 py-1 -mx-1 transition"
+             className="flex items-center gap-2 hover:bg-surface-raised rounded-md px-2 py-1 transition"
  >
  <div className="w-8 h-8 rounded-full bg-surface-raised flex items-center justify-center shrink-0">
  {node.avatar ? (

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Clock, CheckCircle, XCircle, AlertTriangle, ChevronRight } from 'lucide-react';
 import { Header } from '@/components/shared/header';
 import { Sidebar } from '@/components/shared/sidebar';
@@ -37,6 +38,7 @@ export default function ProbationListPage() {
   const { cases, loading } = useProbationCases();
   const pathname = usePathname();
   const locale = pathname.startsWith('/th') ? 'th' : 'en';
+  const t = useTranslations();
 
   const filtered = cases.filter((c) => {
     if (filter === 'all') return true;
@@ -49,10 +51,10 @@ export default function ProbationListPage() {
   const pendingCount = cases.filter((c) => c.status === 'pending_manager' || c.status === 'pending_hr').length;
 
   const tabs: { key: FilterTab; label: string; count?: number }[] = [
-    { key: 'all', label: 'ทั้งหมด', count: cases.length },
-    { key: 'pending', label: 'รออนุมัติ', count: pendingCount },
-    { key: 'approved', label: 'ผ่านแล้ว' },
-    { key: 'rejected', label: 'ไม่ผ่าน / ขยาย' },
+    { key: 'all', label: t('probation.allCases'), count: cases.length },
+    { key: 'pending', label: t('probation.pendingApproval'), count: pendingCount },
+    { key: 'approved', label: t('probation.passed') },
+    { key: 'rejected', label: t('probation.failedOrExtended') },
   ];
 
   return (
@@ -112,7 +114,7 @@ export default function ProbationListPage() {
               </div>
             ) : filtered.length === 0 ? (
               <Card className="p-12 text-center">
-                <p className="text-ink-muted">ไม่มีรายการในหมวดนี้</p>
+                <p className="text-ink-muted">{t('probation.noItemsInCategory')}</p>
               </Card>
             ) : (
               <div className="space-y-3">

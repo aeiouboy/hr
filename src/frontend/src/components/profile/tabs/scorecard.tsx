@@ -19,7 +19,7 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
  if (loading) {
  return (
  <div className="space-y-6">
- <div className="bg-surface rounded-md border border-hairline p-6">
+ <div className="rounded-md bg-surface shadow-card p-6">
  <Skeleton className="h-6 w-40 mb-4" />
  <Skeleton className="h-40 w-full" />
  </div>

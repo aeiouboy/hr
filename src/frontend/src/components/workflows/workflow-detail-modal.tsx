@@ -53,19 +53,13 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
  const pathname = usePathname();
  const locale = pathname.startsWith('/th') ?'th' :'en';
 
- const stepStatusIcon = (status: WorkflowStep['status']) => {
- switch (status) {
- case'approved':
- return <CheckCircle className="h-5 w-5 text-success" />;
- case'rejected':
- return <XCircle className="h-5 w-5 text-danger" />;
- case'sent_back':
- return <RotateCcw className="h-5 w-5 text-yellow-500" />;
- case'skipped':
- return <div className="h-5 w-5 rounded-full border-2 border-hairline border-hairline bg-surface" />;
- default:
- return <Clock className="h-5 w-5 text-ink-muted" />;
- }
+ const dotClass = (status: WorkflowStep['status'], isCurrent: boolean) => {
+ if (status ==='approved') return 'bg-success';
+ if (status ==='rejected') return 'bg-danger';
+ if (status ==='sent_back') return 'bg-warning';
+ if (status ==='skipped') return 'bg-hairline';
+ if (isCurrent) return 'bg-brand ring-2 ring-brand ring-offset-2';
+ return 'border-2 border-hairline bg-surface';
  };
 
  const stepBadgeVariant = (status: WorkflowStep['status']):'success' |'error' |'warning' |'neutral' |'info' => {
@@ -96,17 +90,11 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
  return (
  <div key={step.step} className="flex gap-3">
  <div className="flex flex-col items-center">
- <div
- className={`flex-shrink-0 ${
- isCurrent ?'ring-2 ring-brand ring-offset-2 rounded-full' :''
- }`}
- >
- {stepStatusIcon(step.status)}
- </div>
- {!isLast && <div className="w-0.5 flex-1 min-h-[2rem] bg-surface-raised my-1" />}
+ <div className={`w-3 h-3 rounded-full flex-shrink-0 mt-1 ${dotClass(step.status, isCurrent)}`} />
+ {!isLast && <div className="w-px flex-1 min-h-[1.75rem] bg-hairline my-1" />}
  </div>
 
- <div className="pb-5 flex-1 min-w-0">
+ <div className="pb-4 flex-1 min-w-0">
  <div className="flex flex-wrap items-center gap-2 mb-0.5">
  <p className="text-sm font-medium text-ink">
  {t('step')} {step.step}: {step.approverName}
@@ -117,14 +105,14 @@ function StepTimeline({ steps, currentStep }: { steps: WorkflowStep[]; currentSt
  </div>
  {step.actionDate && (
  <p className="text-xs text-ink-muted mb-1">
- {formatDate(step.actionDate,'medium', locale)}{''}
+ {formatDate(step.actionDate,'medium', locale)}{' '}
  {new Date(step.actionDate).toLocaleTimeString(locale ==='th' ?'th-TH' :'en-US', {
  timeStyle:'short',
  })}
  </p>
  )}
  {step.comment && (
- <p className="text-xs text-ink-muted bg-surface-raised rounded-md px-3 py-2 italic border-l-2 border-hairline border-hairline">
+ <p className="text-xs text-ink-muted bg-surface-raised rounded-md px-3 py-2 italic border-l-2 border-warning">
  &ldquo;{step.comment}&rdquo;
  </p>
  )}
@@ -208,6 +196,15 @@ export function WorkflowDetailModal({
  sendBack: t('sendBack'),
  };
 
+ const confirmBtnClass =
+ actionMode ==='approve'
+ ?'bg-success hover:bg-success/90 text-white focus-visible:ring-success'
+ : actionMode ==='sendBack'
+ ?'border border-warning text-warning hover:bg-warning-tint focus-visible:ring-warning'
+ : actionMode ==='reject'
+ ?'border border-danger text-danger hover:bg-danger-tint focus-visible:ring-danger'
+ : undefined;
+
  const footer = actionMode ? (
  <div className="space-y-3">
  <div>
@@ -216,7 +213,7 @@ export function WorkflowDetailModal({
  {actionMode !=='approve' && <span className="text-danger ml-1">*</span>}
  </label>
  <textarea
- className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent resize-none"
+ className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent resize-none"
  rows={3}
  placeholder={`Enter reason for ${actionLabels[actionMode].toLowerCase()}...`}
  value={reason}
@@ -236,14 +233,8 @@ export function WorkflowDetailModal({
  <Button
  size="sm"
  disabled={submitting || (actionMode !=='approve' && !reason.trim())}
- className={
- actionMode ==='approve'
- ?'bg-success hover:bg-success/90 text-white focus-visible:ring-success'
- : actionMode ==='sendBack'
- ?'bg-warning-tint0 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500'
- : undefined
- }
- variant={actionMode ==='reject' ?'destructive' :'default'}
+ className={confirmBtnClass}
+ variant={actionMode ==='approve' ?'default' :'outline'}
  onClick={handleConfirmAction}
  >
  {submitting ?'Processing...' : `Confirm ${actionLabels[actionMode]}`}
@@ -255,7 +246,8 @@ export function WorkflowDetailModal({
  {onSendBack && (
  <Button
  size="sm"
- className="bg-warning-tint0 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500"
+ variant="outline"
+ className="border-warning text-warning hover:bg-warning-tint focus-visible:ring-warning"
  onClick={() => setActionMode('sendBack')}
  >
  <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
@@ -263,7 +255,12 @@ export function WorkflowDetailModal({
  </Button>
  )}
  {onReject && (
- <Button size="sm" variant="destructive" onClick={() => setActionMode('reject')}>
+ <Button
+ size="sm"
+ variant="outline"
+ className="border-danger text-danger hover:bg-danger-tint focus-visible:ring-danger"
+ onClick={() => setActionMode('reject')}
+ >
  <XCircle className="h-3.5 w-3.5 mr-1.5" />
  {t('reject')}
  </Button>
@@ -287,6 +284,13 @@ export function WorkflowDetailModal({
  </div>
  );
 
+ const initials = workflow.requesterName
+ .split(' ')
+ .slice(0, 2)
+ .map((w) => w[0])
+ .join('')
+ .toUpperCase();
+
  return (
  <Modal
  open={open}
@@ -295,14 +299,14 @@ export function WorkflowDetailModal({
  footer={footer}
  className="max-w-2xl"
  >
- <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-1">
+ <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
  {/* Header: type icon + status */}
  <div className="flex items-center gap-3">
- <div className={`w-10 h-10 rounded-md flex items-center justify-center flex-shrink-0 ${colorClass}`}>
+ <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass}`}>
  {icon}
  </div>
- <div className="flex-1">
- <h3 className="font-semibold text-ink">{workflow.typeLabel}</h3>
+ <div className="flex-1 min-w-0">
+ <h3 className="font-semibold text-ink truncate">{workflow.typeLabel}</h3>
  <p className="text-sm text-ink-muted">{workflow.department}</p>
  </div>
  <Badge variant={STATUS_VARIANTS[workflow.status]}>
@@ -310,46 +314,52 @@ export function WorkflowDetailModal({
  </Badge>
  </div>
 
- {/* Core fields */}
- <div className="grid grid-cols-2 gap-4 text-sm">
- <div>
- <p className="text-xs text-ink-muted mb-0.5">{t('requestedBy')}</p>
- <p className="font-medium text-ink">{workflow.requesterName}</p>
- <p className="text-xs text-ink-muted">{workflow.requesterId}</p>
+ {/* Requester + meta — compact inline layout */}
+ <div className="rounded-lg bg-surface p-4" style={{ boxShadow:'var(--shadow-card)' }}>
+ <div className="flex items-center gap-3 mb-3">
+ <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center flex-shrink-0">
+ <span className="text-xs font-semibold text-brand">{initials}</span>
  </div>
+ <div className="min-w-0">
+ <p className="text-sm font-medium text-ink leading-tight">{workflow.requesterName}</p>
+ <p className="text-xs text-ink-muted">{workflow.department} · {workflow.requesterId}</p>
+ </div>
+ </div>
+ <div className="grid grid-cols-3 gap-3 text-sm">
  <div>
  <p className="text-xs text-ink-muted mb-0.5">{t('requestDate')}</p>
- <p className="font-medium text-ink">
+ <p className="font-medium text-ink text-xs">
  {formatDate(workflow.submittedDate,'medium', locale)}
  </p>
  </div>
  {workflow.effectiveDate && (
  <div>
  <p className="text-xs text-ink-muted mb-0.5">Effective Date</p>
- <p className="font-medium text-ink">
+ <p className="font-medium text-ink text-xs">
  {formatDate(workflow.effectiveDate,'medium', locale)}
  </p>
  </div>
  )}
  <div>
  <p className="text-xs text-ink-muted mb-0.5">{t('currentStep')}</p>
- <p className="font-medium text-ink">
+ <p className="font-medium text-ink text-xs">
  {workflow.currentStep} / {workflow.totalSteps}
  </p>
  </div>
  </div>
+ </div>
 
  {/* Description */}
- <div>
- <p className="text-xs text-ink-muted mb-1">{t('description')}</p>
- <p className="text-sm bg-surface-raised rounded-md px-4 py-3 border border-hairline">{workflow.description}</p>
+ <div className="rounded-lg bg-surface p-4" style={{ boxShadow:'var(--shadow-card)' }}>
+ <p className="text-xs text-ink-muted mb-1.5">{t('description')}</p>
+ <p className="text-sm text-ink">{workflow.description}</p>
  </div>
 
  {/* Additional details */}
  {workflow.details && Object.keys(workflow.details).length > 0 && (
- <div>
- <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-2">Details</p>
- <div className="grid grid-cols-2 gap-3 p-4 bg-surface-raised rounded-md border border-hairline">
+ <div className="rounded-lg bg-surface p-4" style={{ boxShadow:'var(--shadow-card)' }}>
+ <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-3">Details</p>
+ <div className="grid grid-cols-2 gap-3">
  {Object.entries(workflow.details).map(([key, val]) => (
  <div key={key}>
  <p className="text-xs text-ink-muted capitalize mb-0.5">
@@ -364,11 +374,8 @@ export function WorkflowDetailModal({
 
  {/* Change details (old → new) */}
  {workflow.changes && workflow.changes.length > 0 && (
- <div>
- <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-2">
- Changes
- </p>
- <div className="rounded-md border border-hairline overflow-hidden">
+ <div className="rounded-lg bg-surface overflow-hidden" style={{ boxShadow:'var(--shadow-card)' }}>
+ <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider px-4 pt-4 pb-2">Changes</p>
  <table className="w-full text-sm">
  <thead>
  <tr className="bg-surface-raised border-b border-hairline">
@@ -383,7 +390,7 @@ export function WorkflowDetailModal({
  <tr key={idx} className="border-b border-hairline last:border-0">
  <td className="px-4 py-2.5 font-medium text-ink-soft">{change.field}</td>
  <td className="px-4 py-2.5 text-ink-muted line-through">{change.oldValue}</td>
- <td className="px-1 py-2.5 text-gray-300">
+ <td className="px-1 py-2.5 text-ink-muted">
  <ArrowRight className="h-3.5 w-3.5" />
  </td>
  <td className="px-4 py-2.5 text-ink font-medium">{change.newValue}</td>
@@ -392,11 +399,10 @@ export function WorkflowDetailModal({
  </tbody>
  </table>
  </div>
- </div>
  )}
 
  {/* Approval flow timeline */}
- <div>
+ <div className="rounded-lg bg-surface p-4" style={{ boxShadow:'var(--shadow-card)' }}>
  <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-3">
  Approval Flow
  </p>

@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { MapPin, Plus, Trash2, Pencil } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -97,7 +98,7 @@ export function GeofencingConfig() {
  <CardTitle>{t('title')}</CardTitle>
  <p className="text-sm text-ink-muted mt-1">{t('zones')}</p>
  </div>
- <Button onClick={openCreateModal}>
+ <Button variant="accent" onClick={openCreateModal}>
  <Plus className="h-4 w-4 mr-1" />
  {t('addZone')}
  </Button>
@@ -106,7 +107,7 @@ export function GeofencingConfig() {
  <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
  {zones.map((zone) => (
- <div key={zone.id} className="rounded-md border border-hairline p-4">
+ <div key={zone.id} className="rounded-xl bg-surface shadow-card p-4">
  <div className="flex items-start justify-between gap-3">
  <div>
  <p className="font-semibold text-ink">{zone.name}</p>
@@ -164,19 +165,26 @@ export function GeofencingConfig() {
  <FormField label={t('employees')} name="assignedEmployees" value={form.assignedEmployeeCount} onChange={(value) => setForm((prev) => ({ ...prev, assignedEmployeeCount: value }))} />
  </div>
 
- <label className="flex items-center gap-2 text-sm font-medium text-ink-soft">
- <input
- type="checkbox"
- checked={form.isActive}
- onChange={(event) => setForm((prev) => ({ ...prev, isActive: event.target.checked }))}
- className="h-4 w-4 rounded border-hairline border-hairline text-brand focus:ring-brand"
- />
- Active
- </label>
+ <div className="flex items-center justify-between py-1">
+ <span className="text-sm font-medium text-ink-soft">Active</span>
+ <button
+ type="button"
+ role="switch"
+ aria-checked={form.isActive}
+ onClick={() => setForm((prev) => ({ ...prev, isActive: !prev.isActive }))}
+ className={cn(
+ 'relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
+ form.isActive ? 'bg-accent' : 'bg-hairline'
+ )}
+ >
+ <span className={cn('inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200', form.isActive ? 'translate-x-[18px]' : 'translate-x-0.5')} />
+ </button>
+ </div>
 
  <div className="flex justify-end gap-2 pt-2">
  <Button variant="outline" onClick={() => setOpenModal(false)}>Cancel</Button>
  <Button
+ variant="accent"
  onClick={() => void handleSave()}
  disabled={!form.name.trim() || !form.address.trim() || !form.latitude || !form.longitude || !form.radius}
  >

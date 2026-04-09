@@ -1,4 +1,5 @@
 import { Lock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 type EmptyKind ='unknown' |'not-applicable' |'restricted' |'pending';
@@ -8,21 +9,22 @@ interface EmptyValueProps {
  className?: string;
 }
 
-const EMPTY_COPY: Record<EmptyKind, { th: string; en: string }> = {
- unknown: { th:'ยังไม่ได้ระบุ', en:'Not provided' },
-'not-applicable': { th:'ไม่มี', en:'N/A' },
- restricted: { th:'ข้อมูลจำกัดสิทธิ์', en:'Restricted' },
- pending: { th:'รอการอนุมัติ', en:'Pending approval' },
+const KIND_KEY: Record<EmptyKind, string> = {
+ unknown: 'emptyValue.unknown',
+'not-applicable': 'emptyValue.notApplicable',
+ restricted: 'emptyValue.restricted',
+ pending: 'emptyValue.pending',
 };
 
 export function EmptyValue({ kind ='unknown', className }: EmptyValueProps) {
- const copy = EMPTY_COPY[kind];
+ const t = useTranslations();
+ const label = t(KIND_KEY[kind]);
 
  if (kind ==='restricted') {
  return (
  <span className={cn('inline-flex items-center gap-1 text-sm italic text-ink-muted', className)}>
  <Lock className="h-3 w-3" />
- <span>{copy.th}</span>
+ <span>{label}</span>
  </span>
  );
  }
@@ -34,14 +36,14 @@ export function EmptyValue({ kind ='unknown', className }: EmptyValueProps) {
 'text-warning bg-warning-tint px-1.5 py-0.5 rounded-md',
  className,
  )}>
- {copy.th}
+ {label}
  </span>
  );
  }
 
  return (
  <span className={cn('text-sm italic text-ink-muted', className)}>
- {copy.th}
+ {label}
  </span>
  );
 }

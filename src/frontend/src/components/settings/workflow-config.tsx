@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ArrowRight, ArrowUp, ArrowDown, Plus, Trash2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -76,7 +77,7 @@ export function WorkflowConfig() {
  </CardHeader>
  <CardContent className="p-5 sm:p-6 lg:p-8 space-y-3">
  {templateList.map((template) => (
- <div key={template.id} className="rounded-md border border-hairline p-4">
+ <div key={template.id} className="rounded-xl bg-surface shadow-card p-4">
  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
  <div>
  <p className="font-semibold text-ink">{template.name}</p>
@@ -109,11 +110,11 @@ export function WorkflowConfig() {
 
  <Modal open={!!editingTemplate} onClose={() => setEditingTemplate(null)} title={editingTemplate?.name || t('title')}>
  <div className="space-y-4">
- <div className="rounded-md border border-hairline p-3">
+ <div className="rounded-xl bg-surface-raised p-3">
  <p className="text-sm font-medium text-ink">{t('steps')}</p>
  <div className="mt-3 space-y-2">
  {draft?.steps.map((step, index) => (
- <div key={`${step.step}-${index}`} className="rounded-md border border-hairline p-3">
+ <div key={`${step.step}-${index}`} className="rounded-lg bg-surface shadow-card p-3">
  <div className="flex flex-col lg:flex-row gap-3">
  <div className="w-full lg:w-40">
  <FormField
@@ -147,16 +148,19 @@ export function WorkflowConfig() {
  />
  </div>
  <div className="w-full lg:w-32">
- <label className="block text-sm font-medium text-ink-soft mb-2">Required</label>
- <label className="flex items-center gap-2 text-sm">
- <input
- type="checkbox"
- checked={step.isRequired}
- onChange={(event) => handleDraftStepChange(index,'isRequired', event.target.checked)}
- className="h-4 w-4 rounded border-hairline border-hairline text-brand focus:ring-brand"
- />
- Yes
- </label>
+ <p className="block text-sm font-medium text-ink-soft mb-2">Required</p>
+ <button
+ type="button"
+ role="switch"
+ aria-checked={step.isRequired}
+ onClick={() => handleDraftStepChange(index, 'isRequired', !step.isRequired)}
+ className={cn(
+ 'relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
+ step.isRequired ? 'bg-accent' : 'bg-hairline'
+ )}
+ >
+ <span className={cn('inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200', step.isRequired ? 'translate-x-[18px]' : 'translate-x-0.5')} />
+ </button>
  </div>
  </div>
 
@@ -265,7 +269,7 @@ export function WorkflowConfig() {
 
  <div className="flex justify-end gap-2">
  <Button variant="outline" onClick={() => setEditingTemplate(null)}>Cancel</Button>
- <Button onClick={() => void handleSaveTemplate()}>Save</Button>
+ <Button variant="accent" onClick={() => void handleSaveTemplate()}>Save</Button>
  </div>
  </div>
  </Modal>

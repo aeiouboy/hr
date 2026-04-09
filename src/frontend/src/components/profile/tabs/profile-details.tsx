@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { GraduationCap, Briefcase, Languages, Award, MapPin } from 'lucide-react';
 import { FieldGroup } from '@/components/ui/field-group';
+import { Field } from '@/components/ui/field';
 import { EmptyValue } from '@/components/ui/empty-value';
 import { formatDate } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -22,7 +23,7 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  return (
  <div className="space-y-6">
  {[1, 2, 3, 4].map((i) => (
- <div key={i} className="bg-surface rounded-md border border-hairline p-6">
+ <div key={i} className="rounded-md bg-surface shadow-card p-6">
  <Skeleton className="h-6 w-40 mb-4" />
  <Skeleton className="h-20 w-full" />
  </div>
@@ -163,22 +164,22 @@ export function ProfileDetailsTab({ employee, loading }: ProfileDetailsTabProps)
  {/* Mobility */}
  {mobility && (
  <FieldGroup title={t('profileDetails.mobility')} icon={<MapPin className="h-5 w-5" />} collapsible defaultOpen={false} columns={1}>
- <div className="space-y-2">
- <p className="text-sm">
- <span className="text-ink-muted">{t('profileDetails.willingToRelocate')}:</span>{' '}
- <span className="font-medium">{mobility.willingToRelocate ? t('common.yes') : t('common.no')}</span>
- </p>
+ <Field
+ label={t('profileDetails.willingToRelocate')}
+ value={mobility.willingToRelocate ? t('common.yes') : t('common.no')}
+ />
  {(mobility.preferredLocations as string[])?.length > 0 && (
- <div>
- <span className="text-sm text-ink-muted">{t('profileDetails.preferredLocations')}:</span>
+ <Field
+ label={t('profileDetails.preferredLocations')}
+ value={
  <div className="flex flex-wrap gap-2 mt-1">
  {(mobility.preferredLocations as string[]).map((loc) => (
  <span key={loc} className="text-xs bg-surface-raised text-ink-soft px-2 py-1 rounded-full">{loc}</span>
  ))}
  </div>
- </div>
+ }
+ />
  )}
- </div>
  </FieldGroup>
  )}
  </div>

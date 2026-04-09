@@ -8,6 +8,7 @@ const buttonVariants = cva(
  variants: {
  variant: {
  default:'bg-brand text-white hover:bg-brand/90 focus-visible:ring-brand',
+ accent:'bg-accent text-white hover:bg-accent/90 focus-visible:ring-accent',
  secondary:'bg-surface-raised text-ink hover:bg-surface-raised focus-visible:ring-gray-400 hover:bg-surface-raised border-hairline',
  outline:'border border-hairline bg-surface hover:bg-surface-raised focus-visible:ring-gray-400 border-hairline dark:bg-transparent hover:bg-surface-raised',
  ghost:'hover:bg-surface-raised focus-visible:ring-gray-400 hover:bg-surface-raised',

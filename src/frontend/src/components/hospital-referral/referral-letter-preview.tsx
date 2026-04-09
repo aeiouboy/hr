@@ -185,7 +185,7 @@ export function ReferralLetterPreview({ referral, open, onClose }: ReferralLette
  <h1 className="text-2xl font-bold text-ink tracking-wide">
  {t('companyName')}
  </h1>
- <p className="text-sm text-ink-muted mt-0.5">เซ็นทรัล กรุ๊ป</p>
+ <p className="text-sm text-ink-muted mt-0.5">{t('companyGroup')}</p>
  <p className="text-xs text-ink-muted mt-1">
  Central Group Holdings Co., Ltd. | Human Resources Department
  </p>
@@ -196,7 +196,7 @@ export function ReferralLetterPreview({ referral, open, onClose }: ReferralLette
  <h2 className="text-lg font-bold text-ink uppercase tracking-widest">
  {t('letterTitle')}
  </h2>
- <p className="text-sm text-ink-muted mt-1">หนังสือส่งตัวรักษาพยาบาล</p>
+ <p className="text-sm text-ink-muted mt-1">{t('letterTitle')}</p>
  <p className="text-xs text-ink-muted mt-0.5 italic">{t('letterSubtitle')}</p>
  </div>
 

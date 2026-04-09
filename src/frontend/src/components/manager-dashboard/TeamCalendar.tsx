@@ -16,11 +16,11 @@ interface TeamCalendarProps {
 }
 
 const EVENT_COLORS: Record<string, string> = {
- shift:'bg-blue-400',
- annual_leave:'bg-green-400',
- sick_leave:'bg-red-400',
- wfh:'bg-purple-400',
- holiday:'bg-yellow-400',
+  shift: 'bg-accent',
+  annual_leave: 'bg-success',
+  sick_leave: 'bg-danger',
+  wfh: 'bg-info',
+  holiday: 'bg-warning',
 };
 
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -79,18 +79,18 @@ export function TeamCalendar({
  <div className="flex items-center gap-2">
  <button
  onClick={prevMonth}
- className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised transition"
- aria-label="Previous month"
- >
- <ChevronLeft className="h-4 w-4" />
- </button>
- <span className="text-sm font-medium min-w-[120px] text-center">
- {MONTHS[month - 1]} {year}
- </span>
- <button
- onClick={nextMonth}
- className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised transition"
- aria-label="Next month"
+               className="p-1 rounded hover:bg-surface-raised transition"
+              aria-label="Previous month"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <span className="text-sm font-medium min-w-[120px] text-center">
+              {MONTHS[month - 1]} {year}
+            </span>
+            <button
+              onClick={nextMonth}
+              className="p-1 rounded hover:bg-surface-raised transition"
+              aria-label="Next month"
  >
  <ChevronRight className="h-4 w-4" />
  </button>
@@ -130,13 +130,13 @@ export function TeamCalendar({
  key={day}
  className={cn(
 'bg-surface p-1 min-h-[56px]',
- isToday(day) &&'ring-2 ring-inset ring-brand'
+          isToday(day) && 'ring-2 ring-inset ring-accent'
  )}
  >
  <span
  className={cn(
 'text-xs',
- isToday(day) ?'font-bold text-brand' :'text-ink-muted'
+            isToday(day) ? 'font-bold text-accent' : 'text-ink-muted'
  )}
  >
  {day}
@@ -145,7 +145,7 @@ export function TeamCalendar({
  {dayEvents.slice(0, 3).map((ev, idx) => (
  <span
  key={idx}
- className={cn('w-2 h-2 rounded-full', EVENT_COLORS[ev.type] ??'bg-gray-300')}
+                    className={cn('w-2 h-2 rounded-full', EVENT_COLORS[ev.type] ?? 'bg-surface-raised')}
  title={`${ev.employeeName}: ${ev.type}`}
  />
  ))}
@@ -162,7 +162,7 @@ export function TeamCalendar({
  <div className="flex flex-wrap gap-3 mt-3 text-xs text-ink-muted">
  {Object.entries(EVENT_COLORS).map(([type, color]) => (
  <div key={type} className="flex items-center gap-1">
- <span className={cn('w-2.5 h-2.5 rounded-full', color)} />
+ <span                    className={cn('w-2.5 h-2.5 rounded-full opacity-80', color)} />
  <span>{type.replace('_','')}</span>
  </div>
  ))}

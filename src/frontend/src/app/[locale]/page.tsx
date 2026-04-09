@@ -121,39 +121,12 @@ const CATEGORY_VARIANT: Record<string, 'info' | 'success' | 'neutral'> = {
 
 /* ─── Quick actions ───────────────────────────────────────────────── */
 
-interface QuickAction {
-  label: string;
-  href: string;
-  Icon: React.ElementType;
-  chipClass: string;
-}
-
-const QUICK_ACTIONS: QuickAction[] = [
-  {
-    label: 'โปรไฟล์',
-    href: '/profile',
-    Icon: User,
-    chipClass: 'bg-accent-tint text-accent',
-  },
-  {
-    label: 'ขอลา',
-    href: '/leave',
-    Icon: Calendar,
-    chipClass: 'bg-success-tint text-success',
-  },
-  {
-    label: 'สลิปเงินเดือน',
-    href: '/payslip',
-    Icon: FileText,
-    chipClass: 'bg-accent-tint text-accent',
-  },
-  {
-    label: 'งานที่รออนุมัติ',
-    href: '/workflows',
-    Icon: ClipboardList,
-    chipClass: 'bg-warning-tint text-warning',
-  },
-];
+const QUICK_ACTION_DEFS = [
+  { key: 'quickProfile', href: '/profile', Icon: User, chipClass: 'bg-accent-tint text-accent' },
+  { key: 'quickLeave', href: '/leave', Icon: Calendar, chipClass: 'bg-success-tint text-success' },
+  { key: 'quickPayslip', href: '/payslip', Icon: FileText, chipClass: 'bg-accent-tint text-accent' },
+  { key: 'quickWorkflows', href: '/workflows', Icon: ClipboardList, chipClass: 'bg-warning-tint text-warning' },
+] as const;
 
 /* ─── Page ────────────────────────────────────────────────────────── */
 
@@ -177,7 +150,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                   <p className="text-xs text-ink-muted mb-0.5 uppercase tracking-wide font-medium">
-                    ยินดีต้อนรับกลับมา
+                    {t('home.welcomeBack')}
                   </p>
                   <h1 className="text-xl sm:text-2xl font-bold text-ink tracking-tight">
                     {username || 'User'}
@@ -187,9 +160,9 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <StatChip label="วันลาคงเหลือ" value="12.5 วัน" tone="success" />
-                  <StatChip label="รออนุมัติ" value="3 รายการ" tone="warning" />
-                  <StatChip label="อายุงาน" value="8 ปี 9 เดือน" tone="cobalt" />
+                  <StatChip label={t('home.leaveBalance')} value={`12.5 ${t('common.days')}`} tone="success" />
+                  <StatChip label={t('home.pendingItems')} value={`3 ${t('common.itemCount')}`} tone="warning" />
+                  <StatChip label={t('home.tenure')} value={`8 ${t('common.years')} 9 ${t('common.months')}`} tone="cobalt" />
                 </div>
               </div>
             </div>
@@ -197,14 +170,14 @@ export default function HomePage() {
 
           {/* ── Quick Action Chips ────────────────────────────────── */}
           <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
-            {QUICK_ACTIONS.map((action) => (
+            {QUICK_ACTION_DEFS.map((action) => (
               <a
                 key={action.href}
                 href={`/${locale}${action.href}`}
                 className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-opacity hover:opacity-80 ${action.chipClass}`}
               >
                 <action.Icon className="h-4 w-4" />
-                {action.label}
+                {t(`home.${action.key}`)}
               </a>
             ))}
           </div>
@@ -220,13 +193,13 @@ export default function HomePage() {
                     <div className="w-7 h-7 rounded-md bg-info-tint flex items-center justify-center">
                       <Bell className="h-4 w-4 text-info" />
                     </div>
-                    <span className="text-sm font-semibold text-ink">ประกาศจากบริษัท</span>
+                    <span className="text-sm font-semibold text-ink">{t('home.announcements')}</span>
                   </div>
                   <a
                     href={`/${locale}/announcements`}
                     className="text-xs text-accent hover:opacity-80 flex items-center gap-0.5"
                   >
-                    ดูทั้งหมด <ChevronRight className="h-3 w-3" />
+                    {t('common.viewAll')} <ChevronRight className="h-3 w-3" />
                   </a>
                 </div>
                 <CardContent className="pt-0 px-5 pb-5">
@@ -259,13 +232,13 @@ export default function HomePage() {
                     <div className="w-7 h-7 rounded-md bg-brand-tint flex items-center justify-center">
                       <Briefcase className="h-4 w-4 text-brand" />
                     </div>
-                    <span className="text-sm font-semibold text-ink">ตำแหน่งงานภายใน</span>
+                    <span className="text-sm font-semibold text-ink">{t('home.jobPostings')}</span>
                   </div>
                   <a
                     href={`/${locale}/jobs`}
                     className="text-xs text-accent hover:opacity-80 flex items-center gap-0.5"
                   >
-                    ดูทั้งหมด <ChevronRight className="h-3 w-3" />
+                    {t('common.viewAll')} <ChevronRight className="h-3 w-3" />
                   </a>
                 </div>
                 <CardContent className="pt-0 px-5 pb-5">
@@ -305,7 +278,7 @@ export default function HomePage() {
                 <div className="w-7 h-7 rounded-md bg-surface-raised flex items-center justify-center">
                   <Clock className="h-4 w-4 text-ink-soft" />
                 </div>
-                <span className="text-sm font-semibold text-ink">กิจกรรมล่าสุด</span>
+                <span className="text-sm font-semibold text-ink">{t('home.recentActivity')}</span>
               </div>
             </div>
             <CardContent className="pt-0 px-5 pb-5">

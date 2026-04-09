@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { Badge } from './badge';
 import { StatChip } from './stat-chip';
@@ -55,12 +56,20 @@ const STATUS_RIBBON: Record<EmployeeStatus, string> = {
  onLeave:'border-t-info',
 };
 
-const STATUS_BADGE: Record<EmployeeStatus, { variant:'success' |'warning' |'error' |'neutral' |'info'; label: string }> = {
- active: { variant:'success', label:'Active' },
- probation: { variant:'warning', label:'ทดลองงาน' },
- inactive: { variant:'neutral', label:'Inactive' },
- terminated: { variant:'error', label:'Terminated' },
- onLeave: { variant:'info', label:'ลางาน' },
+const STATUS_BADGE_VARIANT: Record<EmployeeStatus, 'success' |'warning' |'error' |'neutral' |'info'> = {
+ active: 'success',
+ probation: 'warning',
+ inactive: 'neutral',
+ terminated: 'error',
+ onLeave: 'info',
+};
+
+const STATUS_BADGE_KEY: Record<EmployeeStatus, string> = {
+ active: 'personHero.active',
+ probation: 'personHero.probation',
+ inactive: 'personHero.inactive',
+ terminated: 'personHero.terminated',
+ onLeave: 'personHero.onLeave',
 };
 
 const STATUS_RING: Record<EmployeeStatus, string> = {
@@ -85,7 +94,9 @@ export function PersonHero({
  actions,
  className,
 }: PersonHeroProps) {
- const badgeInfo = STATUS_BADGE[status];
+ const t = useTranslations();
+ const badgeVariant = STATUS_BADGE_VARIANT[status];
+ const badgeLabel = t(STATUS_BADGE_KEY[status]);
  const fallbackText = avatar.fallback ||
  (name.en ? name.en.substring(0, 2).toUpperCase() :'??');
 
@@ -129,7 +140,7 @@ export function PersonHero({
  <h1 className="text-2xl font-bold text-ink tracking-tight leading-tight">
  {name.th || name.en}
  </h1>
- <Badge variant={badgeInfo.variant}>{badgeInfo.label}</Badge>
+ <Badge variant={badgeVariant}>{badgeLabel}</Badge>
  </div>
 
  {/* Secondary name */}
