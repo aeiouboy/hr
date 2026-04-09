@@ -94,7 +94,7 @@ export function Sidebar() {
     return (
       <div className="mb-4">
         {sidebarOpen && (
-          <h3 className="px-4 mb-1 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+          <h3 className="px-4 mb-1 text-[11px] font-medium text-ink-muted uppercase tracking-normal">
             {title}
           </h3>
         )}

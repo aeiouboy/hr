@@ -23,13 +23,16 @@ export function PageShell({ title, description, actions, children }: PageShellPr
         <Sidebar />
         <main className="flex-1 min-w-0">
           <div className="max-w-page mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div className="mb-6 flex items-start justify-between gap-4">
+            <div className="mb-8 flex items-start justify-between gap-4">
               <div>
-                <h1 className="font-sans font-semibold text-2xl tracking-tight text-ink">
+                {/* H1 page title: Anuphan breathes at normal tracking —
+                    tracking-tight was squeezing characters too hard.
+                    text-[28px] + leading-9 = generous hierarchy above body. */}
+                <h1 className="font-sans font-semibold text-[28px] leading-9 text-ink">
                   {title}
                 </h1>
                 {description && (
-                  <p className="text-ink-soft text-sm mt-1">
+                  <p className="text-ink-soft text-sm mt-1.5 leading-relaxed max-w-2xl">
                     {description}
                   </p>
                 )}
