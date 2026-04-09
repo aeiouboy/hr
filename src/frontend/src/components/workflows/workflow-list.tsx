@@ -37,13 +37,13 @@ const TYPE_ICONS: Record<WorkflowType, React.ReactNode> = {
 };
 
 const TYPE_COLORS: Record<WorkflowType, string> = {
- leave:'text-green-600 bg-green-50',
- overtime:'text-orange-600 bg-orange-50',
- time_correction:'text-cyan-600 bg-cyan-50',
- transfer:'text-blue-600 bg-blue-50',
- payroll_change:'text-purple-600 bg-purple-50',
- personal_info:'text-indigo-600 bg-indigo-50',
- resignation:'text-red-600 bg-red-50',
+ leave:'text-success bg-success-tint',
+ overtime:'text-warning bg-warning-tint',
+ time_correction:'text-info bg-info-tint',
+ transfer:'text-accent bg-accent-tint',
+ payroll_change:'text-accent bg-accent-tint',
+ personal_info:'text-accent bg-accent-tint',
+ resignation:'text-danger bg-danger-tint',
 };
 
 interface WorkflowListProps {
@@ -178,11 +178,11 @@ export function WorkflowList({
  key={idx}
  className={`h-1.5 w-6 rounded-full transition-colors ${
  isCompleted
- ?'bg-green-500'
+ ?'bg-success'
  : isRejected
- ?'bg-red-400'
+ ?'bg-danger'
  : isCurrent && isPending
- ?'bg-yellow-400'
+ ?'bg-warning'
  :'bg-surface-raised '
  }`}
  />
@@ -211,7 +211,7 @@ export function WorkflowList({
  {onApprove && (
  <Button
  size="sm"
- className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white focus-visible:ring-green-600"
+ className="w-full sm:w-auto bg-success hover:bg-success/90 text-white"
  onClick={() => onApprove(workflow.id)}
  >
  <CheckCircle className="h-3.5 w-3.5 mr-1.5" />
@@ -221,7 +221,8 @@ export function WorkflowList({
  {onSendBack && (
  <Button
  size="sm"
- className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white focus-visible:ring-yellow-500"
+ variant="outline"
+ className="w-full sm:w-auto border-warning text-warning hover:bg-warning-tint"
  onClick={() => onSendBack(workflow.id)}
  >
  <RotateCcw className="h-3.5 w-3.5 mr-1.5" />

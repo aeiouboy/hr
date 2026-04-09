@@ -41,7 +41,7 @@ function SummaryCard({ label, count, icon, colorClass, badgeVariant, active, onC
  <button
  onClick={onClick}
  className={`w-full text-left transition-all rounded-md border bg-surface hover:shadow-sm ${
- active ?'ring-2 ring-brand ring-offset-1 shadow-sm' :''
+ active ? 'ring-2 ring-accent ring-offset-1 shadow-sm' : ''
  }`}
  >
  <div className="px-4 py-3">
@@ -116,7 +116,7 @@ export default function WorkflowsPage() {
  label: t('forApproval'),
  count: pending.length,
  icon: <Clock className="h-5 w-5" />,
- colorClass:'text-yellow-600 bg-yellow-50',
+ colorClass:'text-warning bg-warning-tint',
  badgeVariant:'warning' as const,
  },
  {
@@ -124,7 +124,7 @@ export default function WorkflowsPage() {
  label: t('sentBack'),
  count: sentBack.length,
  icon: <RotateCcw className="h-5 w-5" />,
- colorClass:'text-blue-600 bg-blue-50',
+ colorClass:'text-info bg-info-tint',
  badgeVariant:'info' as const,
  },
  {
@@ -132,7 +132,7 @@ export default function WorkflowsPage() {
  label: t('approved'),
  count: approved.length,
  icon: <CheckCircle className="h-5 w-5" />,
- colorClass:'text-green-600 bg-green-50',
+ colorClass:'text-success bg-success-tint',
  badgeVariant:'success' as const,
  },
  {
@@ -140,7 +140,7 @@ export default function WorkflowsPage() {
  label: t('rejected'),
  count: rejected.length,
  icon: <ClipboardList className="h-5 w-5" />,
- colorClass:'text-red-600 bg-red-50',
+ colorClass:'text-danger bg-danger-tint',
  badgeVariant:'error' as const,
  },
  ];
