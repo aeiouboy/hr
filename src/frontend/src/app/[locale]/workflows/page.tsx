@@ -124,9 +124,9 @@ export default function WorkflowsPage() {
               workflows={currentWorkflows}
               loading={loading}
               onViewDetail={(wf) => { setSelectedWorkflow(wf); setModalOpen(true); }}
-              onApprove={isPendingTab ? (id, comment) => approveWorkflow(id, comment) : undefined}
-              onReject={isPendingTab ? (id, comment) => rejectWorkflow(id, comment) : undefined}
-              onSendBack={isPendingTab ? (id, comment) => sendBackWorkflow(id, comment) : undefined}
+              onApprove={isPendingTab ? (id: string) => approveWorkflow(id) : undefined}
+              onReject={isPendingTab ? (id: string) => rejectWorkflow(id) : undefined}
+              onSendBack={isPendingTab ? (id: string) => sendBackWorkflow(id) : undefined}
               showActions={isPendingTab}
             />
           </div>
@@ -138,9 +138,9 @@ export default function WorkflowsPage() {
         workflow={selectedWorkflow}
         open={modalOpen}
         onClose={() => { setModalOpen(false); setSelectedWorkflow(null); }}
-        onApprove={isPendingTab ? (id, comment) => approveWorkflow(id, comment) : undefined}
-        onReject={isPendingTab ? (id, comment) => rejectWorkflow(id, comment) : undefined}
-        onSendBack={isPendingTab ? (id, comment) => sendBackWorkflow(id, comment) : undefined}
+        onApprove={isPendingTab ? (id: string, comment?: string) => approveWorkflow(id, comment) : undefined}
+        onReject={isPendingTab ? (id: string, comment?: string) => rejectWorkflow(id, comment) : undefined}
+        onSendBack={isPendingTab ? (id: string, comment?: string) => sendBackWorkflow(id, comment) : undefined}
       />
 
       {/* Create Request modal */}

@@ -76,7 +76,7 @@ export function WorkflowList({
 
   if (loading) {
     return (
-      <div className="bg-surface rounded-md border border-hairline">
+      <div className="bg-surface rounded-md shadow-card">
         {Array.from({ length: 4 }).map((_, i) => (
           <WorkflowCardSkeleton key={i} />
         ))}
@@ -86,7 +86,7 @@ export function WorkflowList({
 
   if (workflows.length === 0) {
     return (
-      <div className="bg-surface rounded-md border border-hairline py-16 text-center">
+      <div className="bg-surface rounded-md shadow-card py-16 text-center">
         <FileText className="h-8 w-8 text-ink-muted mx-auto mb-3" />
         <p className="text-sm text-ink-muted">{t('noRequests')}</p>
       </div>
@@ -104,7 +104,7 @@ export function WorkflowList({
   };
 
   return (
-    <div className="bg-surface rounded-md border border-hairline divide-y divide-hairline">
+    <div className="bg-surface rounded-md shadow-card divide-y divide-hairline">
       {workflows.map((workflow) => {
         const isPending = workflow.status === 'pending';
         const icon = TYPE_ICONS[workflow.type] ?? <FileText className="h-4 w-4" />;

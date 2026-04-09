@@ -13,16 +13,16 @@
    Decisions:
    - Accent:  cobalt #1D6FE8  (focus rings + active states only)
    - Fonts:   Anuphan (display+body+Thai) + Geist Mono (numerics)
-   - Radius:  6px locked, no scale
-   - Borders: 1px hairline discipline everywhere
-   - Elevation: via background shift, not box-shadow by default
+   - Radius:  12px (BordUp-inspired soft cards)
+   - Borders: minimal — cards use shadow, dividers use hairline
+   - Elevation: shadow-based (BordUp ref: borderless cards on tinted canvas)
    ════════════════════════════════════════════════════════════ */
 
 @theme {
   /* ── Palette: cool neutral ───────────────────────── */
-  --color-canvas:         #F5F7FA;
+  --color-canvas:         #F8F9FB;   /* lighter canvas — BordUp style */
   --color-surface:        #FFFFFF;
-  --color-surface-raised: #EDF0F5;
+  --color-surface-raised: #F1F3F8;
   --color-ink:            #0D1117;   /* never pure #000 */
   --color-ink-soft:       #5B6B7C;
   --color-ink-muted:      #8795A8;
@@ -60,12 +60,13 @@
   /* Enforced by convention: use only space-2 / space-4 / space-6 / space-8.
      Arbitrary p-[13px] etc. should be lint-banned in follow-up pass. */
 
-  /* ── Radius: locked at 6px, no scale ─────────────── */
-  --radius-md: 6px;
+  /* ── Radius: 12px soft cards (BordUp-inspired) ────── */
+  --radius-md: 12px;
 
-  /* ── Shadows: hairline only, elevation via bg-shift ── */
-  --shadow-1: 0 1px 2px rgba(13, 17, 23, 0.04);
-  --shadow-2: 0 2px 8px rgba(13, 17, 23, 0.06);
+  /* ── Shadows: primary elevation mechanism ─────────── */
+  --shadow-1: 0 1px 3px rgba(13, 17, 23, 0.06), 0 1px 2px rgba(13, 17, 23, 0.04);
+  --shadow-2: 0 4px 12px rgba(13, 17, 23, 0.08), 0 1px 3px rgba(13, 17, 23, 0.04);
+  --shadow-card: 0 1px 4px rgba(13, 17, 23, 0.06);  /* default card elevation */
 
   /* ── Motion ──────────────────────────────────────── */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);

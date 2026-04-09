@@ -92,7 +92,7 @@ export function PersonHero({
  return (
  <div
  className={cn(
-'bg-surface rounded-md border border-hairline overflow-hidden',
+'bg-surface rounded-md shadow-card overflow-hidden',
 'border-t-[3px]',
  STATUS_RIBBON[status],
  className,
