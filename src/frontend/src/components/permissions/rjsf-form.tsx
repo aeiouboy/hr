@@ -5,6 +5,7 @@ import validator from '@rjsf/validator-ajv8';
 import type { RJSFSchema, UiSchema, IconButtonProps } from '@rjsf/utils';
 import { ArrowUp, ArrowDown, Trash2, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CustomSelectWidget } from './custom-select-widget';
 
 interface RjsfFormProps {
   schema: RJSFSchema;
@@ -82,6 +83,9 @@ export function RjsfForm({
         liveValidate
         showErrorList={false}
         onChange={(e) => onChange(e.formData)}
+        widgets={{
+          SelectWidget: CustomSelectWidget,
+        }}
         templates={{
           ButtonTemplates: {
             MoveUpButton,
@@ -225,21 +229,14 @@ export function RjsfForm({
            item columns — they create height variance (Field col has 2-line
            wrap, Category has none → inputs misalign horizontally). rjsf
            still exposes the text via aria-describedby for screen readers.
-           .field-boolean columns keep their help because they span full width. */
+           .field-boolean columns keep their help because they span full width.
+           With descriptions hidden, natural DOM order (label → widget)
+           already aligns all 3 columns uniformly — no order: hack needed. */
         .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field:not(.field-boolean) > .field-description),
         .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field:not(.field-boolean) > p.field-description),
         .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field:not(.field-boolean) > .help-block),
         .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field:not(.field-boolean) > p.help-block) {
           display: none;
-        }
-        /* Pin label to top, input to bottom — uniform layout per column */
-        .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field > label) {
-          order: 1;
-        }
-        .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field > input),
-        .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field > select) {
-          order: 2;
-          margin-top: auto;
         }
         .rjsf-light :global(.field-array .array-item .field-object > fieldset > .field-boolean) {
           grid-column: 1 / -1;
@@ -294,19 +291,54 @@ export function RjsfForm({
         .rjsf-light :global(.array-item-add) {
           margin-top: 0.5rem;
         }
-        .rjsf-light :global(.checkbox label),
-        .rjsf-light :global(.field-boolean label) {
-          display: inline-flex;
+        /* Checkbox list — multi-select widget wraps as:
+             .checkbox > label > span > (input + span.text)
+           Boolean field wraps as:
+             .field-boolean > .checkbox > label > (input + span.text)
+           Apply flex+gap to BOTH layers so the gap lands regardless. */
+        .rjsf-light :global(.checkbox) {
+          position: relative;
+          padding: 0;
+          margin-bottom: 0.25rem;
+        }
+        .rjsf-light :global(.checkbox label) {
+          display: flex;
           align-items: center;
           gap: 0.5rem;
           font-weight: 400;
+          font-size: 0.875rem;
           color: var(--color-ink);
+          cursor: pointer;
           margin-bottom: 0;
+          line-height: 1.5;
         }
+        /* Inner span (multi-select only) */
+        .rjsf-light :global(.checkbox label > span) {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: inherit;
+        }
+        .rjsf-light :global(.checkbox input[type='checkbox']),
         .rjsf-light :global(input[type='checkbox']) {
           width: 1rem;
           height: 1rem;
+          margin: 0;
+          flex-shrink: 0;
           accent-color: var(--color-accent);
+          cursor: pointer;
+        }
+        /* Multi-select container: vertical rhythm between items */
+        .rjsf-light :global(.checkboxes) {
+          display: flex;
+          flex-direction: column;
+          gap: 0.375rem;
+          padding: 0.25rem 0;
+        }
+        /* Field-boolean: gap between checkbox row and its help text */
+        .rjsf-light :global(.field-boolean .help-block) {
+          margin-top: 0.375rem;
+          margin-left: 1.5rem;
         }
         /* Validation errors */
         .rjsf-light :global(.text-danger),
