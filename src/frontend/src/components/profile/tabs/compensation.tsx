@@ -2,71 +2,73 @@
 
 import { useTranslations } from 'next-intl';
 import { CreditCard, Receipt } from 'lucide-react';
-import { SectionCard } from '../section-card';
-import { DataGrid } from '../data-grid';
+import { FieldGroup } from '@/components/ui/field-group';
+import { Field } from '@/components/ui/field';
+import { StatChip } from '@/components/ui/stat-chip';
+import { Card } from '@/components/ui/card';
 import { maskValue, formatCurrency } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface CompensationTabProps {
-  employee: Record<string, unknown> | null;
-  loading?: boolean;
+ employee: Record<string, unknown> | null;
+ loading?: boolean;
 }
 
 export function CompensationTab({ employee, loading }: CompensationTabProps) {
-  const t = useTranslations();
+ const t = useTranslations();
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        {[1, 2].map((i) => (
-          <div key={i} className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6">
-            <Skeleton className="h-6 w-40 mb-4" />
-            <div className="grid grid-cols-2 gap-4">
-              {[1, 2, 3, 4].map((j) => (
-                <div key={j}><Skeleton className="h-3 w-20 mb-2" /><Skeleton className="h-5 w-32" /></div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+ if (loading) {
+ return (
+ <div className="space-y-6">
+ {[1, 2].map((i) => (
+ <div key={i} className="rounded-md border border-hairline bg-surface p-6">
+ <Skeleton className="h-6 w-40 mb-4" />
+ <div className="grid grid-cols-2 gap-4">
+ {[1, 2, 3, 4].map((j) => (
+ <div key={j}><Skeleton className="h-3 w-20 mb-2" /><Skeleton className="h-5 w-32" /></div>
+ ))}
+ </div>
+ </div>
+ ))}
+ </div>
+ );
+ }
 
-  if (!employee) return null;
+ if (!employee) return null;
 
-  const comp = employee.compensation as Record<string, Record<string, unknown>>;
-  const paymentInfo = comp?.paymentInfo;
-  const payroll = comp?.payroll;
+ const comp = employee.compensation as Record<string, Record<string, unknown>>;
+ const paymentInfo = comp?.paymentInfo;
+ const payroll = comp?.payroll;
 
-  return (
-    <div className="space-y-6">
-      {/* Payment Information */}
-      {paymentInfo && (
-        <SectionCard title={t('compensation.paymentInfo')} icon={<CreditCard className="h-5 w-5" />}>
-          <DataGrid
-            items={[
-              { label: t('compensation.jobCountry'), value: paymentInfo.jobCountry as string },
-              { label: t('compensation.paymentMethod'), value: paymentInfo.paymentMethod as string },
-              { label: t('compensation.payType'), value: paymentInfo.payType as string },
-              { label: t('compensation.bank'), value: paymentInfo.bank as string },
-              { label: t('compensation.accountNumber'), value: maskValue(paymentInfo.accountNumber as string) },
-            ]}
-          />
-        </SectionCard>
-      )}
+ return (
+ <div className="space-y-6">
+ {/* ข้อมูลการจ่ายเงิน */}
+ {paymentInfo && (
+ <FieldGroup title={t('compensation.paymentInfo')} icon={<CreditCard className="h-5 w-5" />}>
+ <Field label={t('compensation.jobCountry')} value={paymentInfo.jobCountry as string} />
+ <Field label={t('compensation.paymentMethod')} value={paymentInfo.paymentMethod as string} />
+ <Field label={t('compensation.payType')} value={paymentInfo.payType as string} />
+ <Field label={t('compensation.bank')} value={paymentInfo.bank as string} />
+ <Field label={t('compensation.accountNumber')} value={maskValue(paymentInfo.accountNumber as string)} mono />
+ </FieldGroup>
+ )}
 
-      {/* Payroll Summary */}
-      {payroll && (
-        <SectionCard title={t('compensation.payroll')} icon={<Receipt className="h-5 w-5" />}>
-          <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('compensation.grossAmount')}</p>
-            <p className="text-2xl font-bold text-ink mt-1">
-              {formatCurrency(payroll.grossAmount as number, (payroll.currency as string) || 'THB')}
-            </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('compensation.payType')}: Monthly</p>
-          </div>
-        </SectionCard>
-      )}
-    </div>
-  );
+ {/* เงินเดือน */}
+ {payroll && (
+ <Card className="overflow-hidden">
+ <div className="px-6 py-4 border-l-2 border-accent">
+ <h3 className="text-sm font-semibold text-ink">{t('compensation.payroll')}</h3>
+ </div>
+ <div className="px-6 pb-6">
+ <div className="flex items-baseline gap-3">
+ <span className="text-3xl font-bold text-ink font-mono tabular-nums">
+ {formatCurrency(payroll.grossAmount as number, (payroll.currency as string) ||'THB')}
+ </span>
+ <StatChip label={t('compensation.payType')} value="Monthly" tone="cobalt" />
+ </div>
+ </div>
+ </Card>
+ )}
+ </div>
+ );
 }

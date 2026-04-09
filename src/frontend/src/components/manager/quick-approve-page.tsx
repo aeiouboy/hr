@@ -3,20 +3,20 @@
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import {
-  CheckCircle2,
-  XCircle,
-  Filter,
-  AlertCircle,
-  ChevronRight,
-  X,
-  Paperclip,
-  Clock,
-  FileText,
-  Search,
-  Settings2,
-  Calendar,
-  Trash2,
-  Plus,
+ CheckCircle2,
+ XCircle,
+ Filter,
+ AlertCircle,
+ ChevronRight,
+ X,
+ Paperclip,
+ Clock,
+ FileText,
+ Search,
+ Settings2,
+ Calendar,
+ Trash2,
+ Plus,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -28,584 +28,584 @@ import type { ApprovalItem, ApprovalType, UrgencyLevel } from '@/hooks/use-quick
 import { cn } from '@/lib/utils';
 
 const TYPE_LABELS: Record<string, string> = {
-  all: 'All',
-  leave: 'Leave',
-  expense: 'Expense',
-  overtime: 'Overtime',
-  'change-request': 'Change Request',
-  claim: 'Claim',
-  transfer: 'Transfer',
-  change_request: 'Change Request',
+ all:'All',
+ leave:'Leave',
+ expense:'Expense',
+ overtime:'Overtime',
+'change-request':'Change Request',
+ claim:'Claim',
+ transfer:'Transfer',
+ change_request:'Change Request',
 };
 
-const TYPE_BADGE_VARIANT: Record<string, 'info' | 'warning' | 'success' | 'neutral' | 'error'> = {
-  leave: 'info',
-  expense: 'warning',
-  overtime: 'success',
-  'change-request': 'neutral',
-  claim: 'warning',
-  transfer: 'info',
-  change_request: 'neutral',
+const TYPE_BADGE_VARIANT: Record<string,'info' |'warning' |'success' |'neutral' |'error'> = {
+ leave:'info',
+ expense:'warning',
+ overtime:'success',
+'change-request':'neutral',
+ claim:'warning',
+ transfer:'info',
+ change_request:'neutral',
 };
 
 const URGENCY_STYLES: Record<string, string> = {
-  urgent: 'bg-red-100 text-red-800',
-  normal: 'bg-yellow-100 text-yellow-800',
-  low: 'bg-green-100 text-green-800',
+ urgent:'bg-red-100 text-red-800',
+ normal:'bg-yellow-100 text-yellow-800',
+ low:'bg-green-100 text-green-800',
 };
 
-const WORKFLOW_TYPES = ['leave', 'overtime', 'claim', 'transfer', 'change_request'];
+const WORKFLOW_TYPES = ['leave','overtime','claim','transfer','change_request'];
 
 export function QuickApprovePage() {
-  const t = useTranslations('managerDashboard');
+ const t = useTranslations('managerDashboard');
 
-  const {
-    items,
-    loading,
-    typeFilter,
-    setTypeFilter,
-    urgencyFilter,
-    setUrgencyFilter,
-    searchText,
-    setSearchText,
-    dateFrom,
-    setDateFrom,
-    dateTo,
-    setDateTo,
-    selectedIds,
-    toggleSelect,
-    selectAll,
-    clearSelection,
-    approveItems,
-    rejectItems,
-    stats,
-    delegations,
-    createDelegation,
-    revokeDelegation,
-  } = useQuickApprove();
+ const {
+ items,
+ loading,
+ typeFilter,
+ setTypeFilter,
+ urgencyFilter,
+ setUrgencyFilter,
+ searchText,
+ setSearchText,
+ dateFrom,
+ setDateFrom,
+ dateTo,
+ setDateTo,
+ selectedIds,
+ toggleSelect,
+ selectAll,
+ clearSelection,
+ approveItems,
+ rejectItems,
+ stats,
+ delegations,
+ createDelegation,
+ revokeDelegation,
+ } = useQuickApprove();
 
-  const [previewItem, setPreviewItem] = useState<ApprovalItem | null>(null);
-  const [confirmModal, setConfirmModal] = useState<{ action: 'approve' | 'reject'; ids: string[]; count: number } | null>(null);
-  const [confirmReason, setConfirmReason] = useState('');
-  const [actionLoading, setActionLoading] = useState(false);
+ const [previewItem, setPreviewItem] = useState<ApprovalItem | null>(null);
+ const [confirmModal, setConfirmModal] = useState<{ action:'approve' |'reject'; ids: string[]; count: number } | null>(null);
+ const [confirmReason, setConfirmReason] = useState('');
+ const [actionLoading, setActionLoading] = useState(false);
 
-  // Delegation modal
-  const [delegationOpen, setDelegationOpen] = useState(false);
-  const [delegateForm, setDelegateForm] = useState({ to: '', start: '', end: '', types: [] as string[] });
-  const [delegateSubmitting, setDelegateSubmitting] = useState(false);
+ // Delegation modal
+ const [delegationOpen, setDelegationOpen] = useState(false);
+ const [delegateForm, setDelegateForm] = useState({ to:'', start:'', end:'', types: [] as string[] });
+ const [delegateSubmitting, setDelegateSubmitting] = useState(false);
 
-  const handleBulkAction = useCallback((action: 'approve' | 'reject') => {
-    const ids = Array.from(selectedIds);
-    if (ids.length === 0) return;
-    setConfirmModal({ action, ids, count: ids.length });
-    setConfirmReason('');
-  }, [selectedIds]);
+ const handleBulkAction = useCallback((action:'approve' |'reject') => {
+ const ids = Array.from(selectedIds);
+ if (ids.length === 0) return;
+ setConfirmModal({ action, ids, count: ids.length });
+ setConfirmReason('');
+ }, [selectedIds]);
 
-  const handleSingleAction = useCallback((id: string, action: 'approve' | 'reject') => {
-    setConfirmModal({ action, ids: [id], count: 1 });
-    setConfirmReason('');
-  }, []);
+ const handleSingleAction = useCallback((id: string, action:'approve' |'reject') => {
+ setConfirmModal({ action, ids: [id], count: 1 });
+ setConfirmReason('');
+ }, []);
 
-  const handleConfirm = useCallback(async () => {
-    if (!confirmModal) return;
-    if (confirmModal.action === 'reject' && !confirmReason.trim()) return;
-    setActionLoading(true);
-    try {
-      if (confirmModal.action === 'approve') await approveItems(confirmModal.ids, confirmReason || undefined);
-      else await rejectItems(confirmModal.ids, confirmReason);
-    } finally {
-      setActionLoading(false);
-      setConfirmModal(null);
-      setPreviewItem(null);
-    }
-  }, [confirmModal, confirmReason, approveItems, rejectItems]);
+ const handleConfirm = useCallback(async () => {
+ if (!confirmModal) return;
+ if (confirmModal.action ==='reject' && !confirmReason.trim()) return;
+ setActionLoading(true);
+ try {
+ if (confirmModal.action ==='approve') await approveItems(confirmModal.ids, confirmReason || undefined);
+ else await rejectItems(confirmModal.ids, confirmReason);
+ } finally {
+ setActionLoading(false);
+ setConfirmModal(null);
+ setPreviewItem(null);
+ }
+ }, [confirmModal, confirmReason, approveItems, rejectItems]);
 
-  const handleCreateDelegation = async () => {
-    if (!delegateForm.to || !delegateForm.start || !delegateForm.end || delegateForm.types.length === 0) return;
-    setDelegateSubmitting(true);
-    try {
-      await createDelegation({
-        delegate_to: delegateForm.to,
-        start_date: delegateForm.start,
-        end_date: delegateForm.end,
-        workflow_types: delegateForm.types,
-      });
-      setDelegateForm({ to: '', start: '', end: '', types: [] });
-    } finally {
-      setDelegateSubmitting(false);
-    }
-  };
+ const handleCreateDelegation = async () => {
+ if (!delegateForm.to || !delegateForm.start || !delegateForm.end || delegateForm.types.length === 0) return;
+ setDelegateSubmitting(true);
+ try {
+ await createDelegation({
+ delegate_to: delegateForm.to,
+ start_date: delegateForm.start,
+ end_date: delegateForm.end,
+ workflow_types: delegateForm.types,
+ });
+ setDelegateForm({ to:'', start:'', end:'', types: [] });
+ } finally {
+ setDelegateSubmitting(false);
+ }
+ };
 
-  const toggleDelegateType = (type: string) => {
-    setDelegateForm((prev) => ({
-      ...prev,
-      types: prev.types.includes(type) ? prev.types.filter((t) => t !== type) : [...prev.types, type],
-    }));
-  };
+ const toggleDelegateType = (type: string) => {
+ setDelegateForm((prev) => ({
+ ...prev,
+ types: prev.types.includes(type) ? prev.types.filter((t) => t !== type) : [...prev.types, type],
+ }));
+ };
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-12 w-full rounded-xl" />
-        <div className="space-y-3">
-          {[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
-        </div>
-      </div>
-    );
-  }
+ if (loading) {
+ return (
+ <div className="space-y-6">
+ <Skeleton className="h-8 w-48" />
+ <Skeleton className="h-12 w-full rounded-md" />
+ <div className="space-y-3">
+ {[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-24 w-full rounded-md" />)}
+ </div>
+ </div>
+ );
+ }
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-ink">Quick Approve</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Review and process pending approvals</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Badge variant="error">{stats.urgent} urgent</Badge>
-          <Badge variant="neutral">{stats.total} total</Badge>
-          <Button variant="outline" size="sm" onClick={() => setDelegationOpen(true)}>
-            <Settings2 className="h-4 w-4 mr-1.5" />
-            Delegations
-          </Button>
-        </div>
-      </div>
+ return (
+ <div className="space-y-6">
+ {/* Header */}
+ <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+ <div>
+ <h1 className="text-2xl font-bold text-ink">Quick Approve</h1>
+ <p className="text-sm text-ink-muted mt-1">Review and process pending approvals</p>
+ </div>
+ <div className="flex items-center gap-3">
+ <Badge variant="error">{stats.urgent} urgent</Badge>
+ <Badge variant="neutral">{stats.total} total</Badge>
+ <Button variant="outline" size="sm" onClick={() => setDelegationOpen(true)}>
+ <Settings2 className="h-4 w-4 mr-1.5" />
+ Delegations
+ </Button>
+ </div>
+ </div>
 
-      {/* Stats Strip */}
-      <div className="flex flex-wrap gap-2">
-        {[
-          { label: 'Leave', count: stats.leave, color: 'bg-blue-100 text-blue-800' },
-          { label: 'Expense', count: stats.expense, color: 'bg-yellow-100 text-yellow-800' },
-          { label: 'Overtime', count: stats.overtime, color: 'bg-green-100 text-green-800' },
-          { label: 'Claim', count: stats.claim, color: 'bg-orange-100 text-orange-800' },
-          { label: 'Transfer', count: stats.transfer, color: 'bg-purple-100 text-purple-800' },
-          { label: 'Changes', count: stats.changeRequest, color: 'bg-gray-100 text-gray-800' },
-        ].filter((s) => s.count > 0).map((s) => (
-          <span key={s.label} className={cn('px-3 py-1 rounded-full text-xs font-medium', s.color)}>
-            {s.label}: {s.count}
-          </span>
-        ))}
-      </div>
+ {/* Stats Strip */}
+ <div className="flex flex-wrap gap-2">
+ {[
+ { label:'Leave', count: stats.leave, color:'bg-blue-100 text-blue-800' },
+ { label:'Expense', count: stats.expense, color:'bg-yellow-100 text-yellow-800' },
+ { label:'Overtime', count: stats.overtime, color:'bg-green-100 text-green-800' },
+ { label:'Claim', count: stats.claim, color:'bg-orange-100 text-orange-800' },
+ { label:'Transfer', count: stats.transfer, color:'bg-purple-100 text-purple-800' },
+ { label:'Changes', count: stats.changeRequest, color:'bg-surface-raised text-ink' },
+ ].filter((s) => s.count > 0).map((s) => (
+ <span key={s.label} className={cn('px-3 py-1 rounded-full text-xs font-medium', s.color)}>
+ {s.label}: {s.count}
+ </span>
+ ))}
+ </div>
 
-      {/* Enhanced Filter Bar */}
-      <Card>
-        <CardContent className="py-3 space-y-3">
-          {/* Search + Date filters */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="relative flex-1 min-w-[200px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                placeholder="Search by name or description..."
-                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-9 pr-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
-              <input
-                type="date"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand outline-none"
-                aria-label="Date from"
-              />
-              <span className="text-gray-400 text-xs">to</span>
-              <input
-                type="date"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                className="rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand outline-none"
-                aria-label="Date to"
-              />
-            </div>
-          </div>
+ {/* Enhanced Filter Bar */}
+ <Card>
+ <CardContent className="py-3 space-y-3">
+ {/* Search + Date filters */}
+ <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+ <div className="relative flex-1 min-w-[200px]">
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-muted" />
+ <input
+ type="text"
+ value={searchText}
+ onChange={(e) => setSearchText(e.target.value)}
+ placeholder="Search by name or description..."
+ className="w-full rounded-md border border-hairline border-hairline pl-9 pr-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none"
+ />
+ </div>
+ <div className="flex items-center gap-2">
+ <Calendar className="h-4 w-4 text-ink-muted shrink-0" />
+ <input
+ type="date"
+ value={dateFrom}
+ onChange={(e) => setDateFrom(e.target.value)}
+ className="rounded-md border border-hairline border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
+ aria-label="Date from"
+ />
+ <span className="text-ink-muted text-xs">to</span>
+ <input
+ type="date"
+ value={dateTo}
+ onChange={(e) => setDateTo(e.target.value)}
+ className="rounded-md border border-hairline border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
+ aria-label="Date to"
+ />
+ </div>
+ </div>
 
-          {/* Type + Urgency filters + Bulk actions */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2 flex-wrap">
-              <Filter className="h-4 w-4 text-gray-400" />
-              <div className="flex gap-1 flex-wrap">
-                {(['all', 'leave', 'expense', 'overtime', 'change-request'] as ApprovalType[]).map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setTypeFilter(type)}
-                    className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
-                      typeFilter === type ? 'bg-brand text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    )}
-                  >
-                    {TYPE_LABELS[type]}
-                  </button>
-                ))}
-              </div>
-              <div className="h-4 w-px bg-gray-200 dark:bg-gray-700 mx-1" />
-              <div className="flex gap-1">
-                {(['all', 'urgent', 'normal', 'low'] as UrgencyLevel[]).map((level) => (
-                  <button
-                    key={level}
-                    onClick={() => setUrgencyFilter(level)}
-                    className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
-                      urgencyFilter === level
-                        ? level === 'urgent' ? 'bg-red-600 text-white' : level === 'low' ? 'bg-green-600 text-white' : 'bg-brand text-white'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    )}
-                  >
-                    {level === 'all' ? 'All' : level.charAt(0).toUpperCase() + level.slice(1)}
-                  </button>
-                ))}
-              </div>
-            </div>
+ {/* Type + Urgency filters + Bulk actions */}
+ <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+ <div className="flex items-center gap-2 flex-wrap">
+ <Filter className="h-4 w-4 text-ink-muted" />
+ <div className="flex gap-1 flex-wrap">
+ {(['all','leave','expense','overtime','change-request'] as ApprovalType[]).map((type) => (
+ <button
+ key={type}
+ onClick={() => setTypeFilter(type)}
+ className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
+ typeFilter === type ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised'
+ )}
+ >
+ {TYPE_LABELS[type]}
+ </button>
+ ))}
+ </div>
+ <div className="h-4 w-px bg-surface-raised mx-1" />
+ <div className="flex gap-1">
+ {(['all','urgent','normal','low'] as UrgencyLevel[]).map((level) => (
+ <button
+ key={level}
+ onClick={() => setUrgencyFilter(level)}
+ className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
+ urgencyFilter === level
+ ? level ==='urgent' ?'bg-red-600 text-white' : level ==='low' ?'bg-green-600 text-white' :'bg-brand text-white'
+ :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised'
+ )}
+ >
+ {level ==='all' ?'All' : level.charAt(0).toUpperCase() + level.slice(1)}
+ </button>
+ ))}
+ </div>
+ </div>
 
-            {/* Bulk Actions */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={selectAll}
-                className="text-xs text-brand hover:underline font-medium"
-              >
-                {selectedIds.size === items.length && items.length > 0 ? 'Deselect All' : 'Select All'}
-              </button>
-              {selectedIds.size > 0 && (
-                <>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{selectedIds.size} selected</span>
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
-                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
-                  </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
-                    <XCircle className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkReject')}
-                  </Button>
-                  <button onClick={clearSelection} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"><X className="h-4 w-4 text-gray-400 dark:text-gray-500" /></button>
-                </>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+ {/* Bulk Actions */}
+ <div className="flex items-center gap-2">
+ <button
+ onClick={selectAll}
+ className="text-xs text-brand hover:underline font-medium"
+ >
+ {selectedIds.size === items.length && items.length > 0 ?'Deselect All' :'Select All'}
+ </button>
+ {selectedIds.size > 0 && (
+ <>
+ <span className="text-xs text-ink-muted">{selectedIds.size} selected</span>
+ <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
+ <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
+ </Button>
+ <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
+ <XCircle className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkReject')}
+ </Button>
+ <button onClick={clearSelection} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised"><X className="h-4 w-4 text-ink-muted" /></button>
+ </>
+ )}
+ </div>
+ </div>
+ </CardContent>
+ </Card>
 
-      {/* Approval Items */}
-      <div className="flex gap-6">
-        <div className={cn('flex-1 space-y-3', previewItem && 'max-w-[55%]')}>
-          {items.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <CheckCircle2 className="h-12 w-12 text-green-300 mx-auto mb-3" />
-                <p className="text-gray-500">{t('approvals.noApprovals')}</p>
-              </CardContent>
-            </Card>
-          ) : (
-            items.map((item) => (
-              <div
-                key={item.id}
-                className={cn(
-                  'p-4 rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 transition cursor-pointer hover:shadow-sm',
-                  item.urgent && 'border-red-200',
-                  selectedIds.has(item.id) && 'ring-2 ring-brand/30 bg-brand/5',
-                  previewItem?.id === item.id && 'ring-2 ring-blue-400'
-                )}
-              >
-                <div className="flex items-start gap-3">
-                  {/* Checkbox */}
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.has(item.id)}
-                    onChange={() => toggleSelect(item.id)}
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand"
-                    aria-label={`Select ${item.employeeName}`}
-                  />
+ {/* Approval Items */}
+ <div className="flex gap-6">
+ <div className={cn('flex-1 space-y-3', previewItem &&'max-w-[55%]')}>
+ {items.length === 0 ? (
+ <Card>
+ <CardContent className="py-12 text-center">
+ <CheckCircle2 className="h-12 w-12 text-green-300 mx-auto mb-3" />
+ <p className="text-ink-muted">{t('approvals.noApprovals')}</p>
+ </CardContent>
+ </Card>
+ ) : (
+ items.map((item) => (
+ <div
+ key={item.id}
+ className={cn(
+'p-4 rounded-md border border-hairline bg-surface transition cursor-pointer hover:shadow-sm',
+ item.urgent &&'border-red-200',
+ selectedIds.has(item.id) &&'ring-2 ring-brand/30 bg-brand/5',
+ previewItem?.id === item.id &&'ring-2 ring-blue-400'
+ )}
+ >
+ <div className="flex items-start gap-3">
+ {/* Checkbox */}
+ <input
+ type="checkbox"
+ checked={selectedIds.has(item.id)}
+ onChange={() => toggleSelect(item.id)}
+ className="mt-1 h-4 w-4 rounded border-hairline text-brand focus:ring-brand"
+ aria-label={`Select ${item.employeeName}`}
+ />
 
-                  {/* Avatar */}
-                  <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm font-medium text-gray-600 dark:text-gray-400 shrink-0">
-                    {item.employeeAvatar}
-                  </div>
+ {/* Avatar */}
+ <div className="h-10 w-10 rounded-full bg-surface-raised flex items-center justify-center text-sm font-medium text-ink-muted shrink-0">
+ {item.employeeAvatar}
+ </div>
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0" onClick={() => setPreviewItem(item)}>
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <Badge variant={TYPE_BADGE_VARIANT[item.type]}>{TYPE_LABELS[item.type]}</Badge>
-                      {/* Urgency Badge */}
-                      <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>
-                        {item.urgency === 'urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}
-                        {item.urgency.charAt(0).toUpperCase() + item.urgency.slice(1)}
-                        {item.waitingDays > 0 && ` (${item.waitingDays}d)`}
-                      </span>
-                      {item.attachments.length > 0 && <Paperclip className="h-3.5 w-3.5 text-gray-400" />}
-                    </div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{item.summary}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                      {item.employeeName} &middot; {item.department}
-                      {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
-                      {item.dates && <> &middot; {item.dates}</>}
-                    </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />{new Date(item.submittedAt).toLocaleDateString()}
-                    </p>
-                  </div>
+ {/* Content */}
+ <div className="flex-1 min-w-0" onClick={() => setPreviewItem(item)}>
+ <div className="flex items-center gap-2 mb-1 flex-wrap">
+ <Badge variant={TYPE_BADGE_VARIANT[item.type]}>{TYPE_LABELS[item.type]}</Badge>
+ {/* Urgency Badge */}
+ <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>
+ {item.urgency ==='urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}
+ {item.urgency.charAt(0).toUpperCase() + item.urgency.slice(1)}
+ {item.waitingDays > 0 && ` (${item.waitingDays}d)`}
+ </span>
+ {item.attachments.length > 0 && <Paperclip className="h-3.5 w-3.5 text-ink-muted" />}
+ </div>
+ <p className="text-sm font-medium text-ink truncate">{item.summary}</p>
+ <p className="text-xs text-ink-muted mt-0.5">
+ {item.employeeName} &middot; {item.department}
+ {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
+ {item.dates && <> &middot; {item.dates}</>}
+ </p>
+ <p className="text-xs text-ink-muted mt-0.5 flex items-center gap-1">
+ <Clock className="h-3 w-3" />{new Date(item.submittedAt).toLocaleDateString()}
+ </p>
+ </div>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Preview"><ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" /></button>
-                    <button onClick={() => handleSingleAction(item.id, 'approve')} className="p-1.5 rounded-lg hover:bg-green-100 text-green-600" aria-label="Approve"><CheckCircle2 className="h-5 w-5" /></button>
-                    <button onClick={() => handleSingleAction(item.id, 'reject')} className="p-1.5 rounded-lg hover:bg-red-100 text-red-600" aria-label="Reject"><XCircle className="h-5 w-5" /></button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+ {/* Actions */}
+ <div className="flex items-center gap-1 shrink-0">
+ <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised hover:bg-surface-raised" aria-label="Preview"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
+ <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-green-100 text-green-600" aria-label="Approve"><CheckCircle2 className="h-5 w-5" /></button>
+ <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-red-100 text-red-600" aria-label="Reject"><XCircle className="h-5 w-5" /></button>
+ </div>
+ </div>
+ </div>
+ ))
+ )}
+ </div>
 
-        {/* Slide-over Preview Panel */}
-        {previewItem && (
-          <div className="hidden lg:block w-[45%] sticky top-20 self-start">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Request Details</CardTitle>
-                  <button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Close"><X className="h-4 w-4 text-gray-400 dark:text-gray-500" /></button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Employee */}
-                <div className="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
-                  <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-lg font-medium text-gray-600 dark:text-gray-400">{previewItem.employeeAvatar}</div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{previewItem.employeeName}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{previewItem.employeeId} &middot; {previewItem.department}</p>
-                  </div>
-                </div>
+ {/* Slide-over Preview Panel */}
+ {previewItem && (
+ <div className="hidden lg:block w-[45%] sticky top-20 self-start">
+ <Card>
+ <CardHeader>
+ <div className="flex items-center justify-between">
+ <CardTitle className="text-base">Request Details</CardTitle>
+ <button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised" aria-label="Close"><X className="h-4 w-4 text-ink-muted" /></button>
+ </div>
+ </CardHeader>
+ <CardContent className="space-y-4">
+ {/* Employee */}
+ <div className="flex items-center gap-3 pb-4 border-b border-hairline">
+ <div className="h-12 w-12 rounded-full bg-surface-raised flex items-center justify-center text-lg font-medium text-ink-muted">{previewItem.employeeAvatar}</div>
+ <div>
+ <p className="font-medium text-ink">{previewItem.employeeName}</p>
+ <p className="text-xs text-ink-muted">{previewItem.employeeId} &middot; {previewItem.department}</p>
+ </div>
+ </div>
 
-                {/* Type & Urgency */}
-                <div className="flex gap-2 flex-wrap">
-                  <Badge variant={TYPE_BADGE_VARIANT[previewItem.type]}>{TYPE_LABELS[previewItem.type]}</Badge>
-                  <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', URGENCY_STYLES[previewItem.urgency])}>
-                    {previewItem.urgency.charAt(0).toUpperCase() + previewItem.urgency.slice(1)}
-                  </span>
-                </div>
+ {/* Type & Urgency */}
+ <div className="flex gap-2 flex-wrap">
+ <Badge variant={TYPE_BADGE_VARIANT[previewItem.type]}>{TYPE_LABELS[previewItem.type]}</Badge>
+ <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', URGENCY_STYLES[previewItem.urgency])}>
+ {previewItem.urgency.charAt(0).toUpperCase() + previewItem.urgency.slice(1)}
+ </span>
+ </div>
 
-                {/* Summary */}
-                <div>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Summary</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{previewItem.summary}</p>
-                </div>
+ {/* Summary */}
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Summary</p>
+ <p className="text-sm font-medium text-ink">{previewItem.summary}</p>
+ </div>
 
-                {/* Detail */}
-                <div>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Details</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{previewItem.detail}</p>
-                </div>
+ {/* Detail */}
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Details</p>
+ <p className="text-sm text-ink-muted">{previewItem.detail}</p>
+ </div>
 
-                {/* Amount / Dates */}
-                {previewItem.amount && (
-                  <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Amount</p>
-                    <p className="text-lg font-bold text-ink">฿{previewItem.amount.toLocaleString()}</p>
-                  </div>
-                )}
-                {previewItem.dates && (
-                  <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Dates</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{previewItem.dates}</p>
-                  </div>
-                )}
+ {/* Amount / Dates */}
+ {previewItem.amount && (
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Amount</p>
+ <p className="text-lg font-bold text-ink">฿{previewItem.amount.toLocaleString()}</p>
+ </div>
+ )}
+ {previewItem.dates && (
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Dates</p>
+ <p className="text-sm text-ink-muted">{previewItem.dates}</p>
+ </div>
+ )}
 
-                {/* Approval Timeline */}
-                {previewItem.approvalTimeline && previewItem.approvalTimeline.length > 0 && (
-                  <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Approval Timeline</p>
-                    <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">
-                      {previewItem.approvalTimeline.map((step) => (
-                        <li key={step.step} className="mb-3 ml-4">
-                          <div className={cn('absolute -left-1.5 w-3 h-3 rounded-full border-2 border-white',
-                            step.status === 'approved' ? 'bg-green-500' : step.status === 'rejected' ? 'bg-red-500' : 'bg-gray-300'
-                          )} />
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium">{step.approver}</span>
-                            <Badge variant={step.status === 'approved' ? 'success' : step.status === 'rejected' ? 'error' : 'neutral'}>
-                              {step.status}
-                            </Badge>
-                          </div>
-                          {step.date && <p className="text-[10px] text-gray-400 dark:text-gray-500">{new Date(step.date).toLocaleDateString()}</p>}
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
+ {/* Approval Timeline */}
+ {previewItem.approvalTimeline && previewItem.approvalTimeline.length > 0 && (
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-2">Approval Timeline</p>
+ <ol className="relative border-l border-hairline border-hairline ml-2">
+ {previewItem.approvalTimeline.map((step) => (
+ <li key={step.step} className="mb-3 ml-4">
+ <div className={cn('absolute -left-1.5 w-3 h-3 rounded-full border-2 border-white',
+ step.status ==='approved' ?'bg-green-500' : step.status ==='rejected' ?'bg-red-500' :'bg-gray-300'
+ )} />
+ <div className="flex items-center gap-2">
+ <span className="text-xs font-medium">{step.approver}</span>
+ <Badge variant={step.status ==='approved' ?'success' : step.status ==='rejected' ?'error' :'neutral'}>
+ {step.status}
+ </Badge>
+ </div>
+ {step.date && <p className="text-[10px] text-ink-muted">{new Date(step.date).toLocaleDateString()}</p>}
+ </li>
+ ))}
+ </ol>
+ </div>
+ )}
 
-                {/* Attachments */}
-                {previewItem.attachments.length > 0 && (
-                  <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Attachments</p>
-                    <div className="space-y-1">
-                      {previewItem.attachments.map((a) => (
-                        <div key={a} className="flex items-center gap-2 text-sm text-blue-600">
-                          <FileText className="h-4 w-4" />{a}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+ {/* Attachments */}
+ {previewItem.attachments.length > 0 && (
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Attachments</p>
+ <div className="space-y-1">
+ {previewItem.attachments.map((a) => (
+ <div key={a} className="flex items-center gap-2 text-sm text-blue-600">
+ <FileText className="h-4 w-4" />{a}
+ </div>
+ ))}
+ </div>
+ </div>
+ )}
 
-                {/* Submitted */}
-                <div>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Submitted</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{new Date(previewItem.submittedAt).toLocaleString()}</p>
-                </div>
+ {/* Submitted */}
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Submitted</p>
+ <p className="text-sm text-ink-muted">{new Date(previewItem.submittedAt).toLocaleString()}</p>
+ </div>
 
-                {/* Notes */}
-                {previewItem.notes && (
-                  <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Notes</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{previewItem.notes}</p>
-                  </div>
-                )}
+ {/* Notes */}
+ {previewItem.notes && (
+ <div>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Notes</p>
+ <p className="text-sm text-ink-muted">{previewItem.notes}</p>
+ </div>
+ )}
 
-                {/* Actions */}
-                <div className="flex gap-3 pt-4 border-t dark:border-gray-700">
-                  <Button className="flex-1 bg-green-600 hover:bg-green-700" onClick={() => handleSingleAction(previewItem.id, 'approve')}>
-                    <CheckCircle2 className="h-4 w-4 mr-2" />{t('actions.approve')}
-                  </Button>
-                  <Button variant="destructive" className="flex-1" onClick={() => handleSingleAction(previewItem.id, 'reject')}>
-                    <XCircle className="h-4 w-4 mr-2" />{t('actions.reject')}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </div>
+ {/* Actions */}
+ <div className="flex gap-3 pt-4 border-t border-hairline">
+ <Button className="flex-1 bg-green-600 hover:bg-green-700" onClick={() => handleSingleAction(previewItem.id,'approve')}>
+ <CheckCircle2 className="h-4 w-4 mr-2" />{t('actions.approve')}
+ </Button>
+ <Button variant="destructive" className="flex-1" onClick={() => handleSingleAction(previewItem.id,'reject')}>
+ <XCircle className="h-4 w-4 mr-2" />{t('actions.reject')}
+ </Button>
+ </div>
+ </CardContent>
+ </Card>
+ </div>
+ )}
+ </div>
 
-      {/* Sticky Bulk Action Bar */}
-      {selectedIds.size > 0 && (
-        <div className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg">
-          <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
-            <span className="text-sm font-medium text-ink">{selectedIds.size} items selected</span>
-            <div className="flex items-center gap-3">
-              <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
-                <CheckCircle2 className="h-4 w-4 mr-1.5" />Approve All
-              </Button>
-              <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
-                <XCircle className="h-4 w-4 mr-1.5" />Reject All
-              </Button>
-              <button onClick={clearSelection} className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1">
-                <X className="h-3.5 w-3.5" />Clear
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+ {/* Sticky Bulk Action Bar */}
+ {selectedIds.size > 0 && (
+ <div className="fixed bottom-0 inset-x-0 z-40 bg-surface border-t border-hairline shadow-2">
+ <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+ <span className="text-sm font-medium text-ink">{selectedIds.size} items selected</span>
+ <div className="flex items-center gap-3">
+ <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleBulkAction('approve')}>
+ <CheckCircle2 className="h-4 w-4 mr-1.5" />Approve All
+ </Button>
+ <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
+ <XCircle className="h-4 w-4 mr-1.5" />Reject All
+ </Button>
+ <button onClick={clearSelection} className="text-sm text-ink-muted hover:text-ink-soft flex items-center gap-1">
+ <X className="h-3.5 w-3.5" />Clear
+ </button>
+ </div>
+ </div>
+ </div>
+ )}
 
-      {/* Confirmation Modal */}
-      <Modal
-        open={!!confirmModal}
-        onClose={() => setConfirmModal(null)}
-        title={confirmModal?.action === 'approve' ? 'Confirm Approval' : 'Confirm Rejection'}
-        footer={
-          <div className="flex justify-end gap-3">
-            <Button variant="outline" onClick={() => setConfirmModal(null)}>Cancel</Button>
-            <Button
-              variant={confirmModal?.action === 'reject' ? 'destructive' : 'default'}
-              className={confirmModal?.action === 'approve' ? 'bg-green-600 hover:bg-green-700' : ''}
-              onClick={handleConfirm}
-              disabled={actionLoading || (confirmModal?.action === 'reject' && !confirmReason.trim())}
-            >
-              {actionLoading ? 'Processing...' : confirmModal?.action === 'approve' ? `${t('actions.approve')} (${confirmModal?.count})` : `${t('actions.reject')} (${confirmModal?.count})`}
-            </Button>
-          </div>
-        }
-      >
-        <div className="space-y-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {confirmModal?.count === 1
-              ? (confirmModal.action === 'approve' ? t('messages.confirmApprove') : t('messages.confirmReject'))
-              : (confirmModal?.action === 'approve'
-                ? `Are you sure you want to approve ${confirmModal?.count} request(s)?`
-                : `Are you sure you want to reject ${confirmModal?.count} request(s)?`
-              )}
-          </p>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              {confirmModal?.action === 'approve' ? 'Comment (optional)' : 'Reason (required)'}
-            </label>
-            <textarea
-              value={confirmReason}
-              onChange={(e) => setConfirmReason(e.target.value)}
-              rows={3}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none resize-none"
-              placeholder={confirmModal?.action === 'approve' ? 'Optional comment...' : 'Please provide a reason...'}
-            />
-          </div>
-        </div>
-      </Modal>
+ {/* Confirmation Modal */}
+ <Modal
+ open={!!confirmModal}
+ onClose={() => setConfirmModal(null)}
+ title={confirmModal?.action ==='approve' ?'Confirm Approval' :'Confirm Rejection'}
+ footer={
+ <div className="flex justify-end gap-3">
+ <Button variant="outline" onClick={() => setConfirmModal(null)}>Cancel</Button>
+ <Button
+ variant={confirmModal?.action ==='reject' ?'destructive' :'default'}
+ className={confirmModal?.action ==='approve' ?'bg-green-600 hover:bg-green-700' :''}
+ onClick={handleConfirm}
+ disabled={actionLoading || (confirmModal?.action ==='reject' && !confirmReason.trim())}
+ >
+ {actionLoading ?'Processing...' : confirmModal?.action ==='approve' ? `${t('actions.approve')} (${confirmModal?.count})` : `${t('actions.reject')} (${confirmModal?.count})`}
+ </Button>
+ </div>
+ }
+ >
+ <div className="space-y-4">
+ <p className="text-sm text-ink-muted">
+ {confirmModal?.count === 1
+ ? (confirmModal.action ==='approve' ? t('messages.confirmApprove') : t('messages.confirmReject'))
+ : (confirmModal?.action ==='approve'
+ ? `Are you sure you want to approve ${confirmModal?.count} request(s)?`
+ : `Are you sure you want to reject ${confirmModal?.count} request(s)?`
+ )}
+ </p>
+ <div>
+ <label className="block text-sm font-medium text-ink-soft mb-1">
+ {confirmModal?.action ==='approve' ?'Comment (optional)' :'Reason (required)'}
+ </label>
+ <textarea
+ value={confirmReason}
+ onChange={(e) => setConfirmReason(e.target.value)}
+ rows={3}
+ className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none resize-none"
+ placeholder={confirmModal?.action ==='approve' ?'Optional comment...' :'Please provide a reason...'}
+ />
+ </div>
+ </div>
+ </Modal>
 
-      {/* Delegation Modal */}
-      <Modal
-        open={delegationOpen}
-        onClose={() => setDelegationOpen(false)}
-        title="Manage Delegations"
-        className="max-w-xl"
-      >
-        <div className="space-y-5">
-          <div>
-            <h4 className="text-sm font-medium text-ink mb-2">Active Delegations</h4>
-            {delegations.length === 0 ? (
-              <p className="text-sm text-gray-400 dark:text-gray-500">No active delegations</p>
-            ) : (
-              <ul className="space-y-2">
-                {delegations.map((d) => (
-                  <li key={d.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                    <div>
-                      <p className="text-sm font-medium text-ink">{d.delegateTo.name}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{d.startDate} — {d.endDate}</p>
-                      <div className="flex gap-1 mt-1 flex-wrap">
-                        {d.workflowTypes.map((wt) => <Badge key={wt} variant="info">{wt}</Badge>)}
-                      </div>
-                    </div>
-                    {d.status === 'active' && (
-                      <button onClick={() => revokeDelegation(d.id)} className="p-1.5 rounded hover:bg-red-50 text-red-500" aria-label="Revoke">
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+ {/* Delegation Modal */}
+ <Modal
+ open={delegationOpen}
+ onClose={() => setDelegationOpen(false)}
+ title="Manage Delegations"
+ className="max-w-xl"
+ >
+ <div className="space-y-5">
+ <div>
+ <h4 className="text-sm font-medium text-ink mb-2">Active Delegations</h4>
+ {delegations.length === 0 ? (
+ <p className="text-sm text-ink-muted">No active delegations</p>
+ ) : (
+ <ul className="space-y-2">
+ {delegations.map((d) => (
+ <li key={d.id} className="flex items-center justify-between p-3 bg-surface-raised rounded-md">
+ <div>
+ <p className="text-sm font-medium text-ink">{d.delegateTo.name}</p>
+ <p className="text-xs text-ink-muted">{d.startDate} — {d.endDate}</p>
+ <div className="flex gap-1 mt-1 flex-wrap">
+ {d.workflowTypes.map((wt) => <Badge key={wt} variant="info">{wt}</Badge>)}
+ </div>
+ </div>
+ {d.status ==='active' && (
+ <button onClick={() => revokeDelegation(d.id)} className="p-1.5 rounded hover:bg-red-50 text-red-500" aria-label="Revoke">
+ <Trash2 className="h-4 w-4" />
+ </button>
+ )}
+ </li>
+ ))}
+ </ul>
+ )}
+ </div>
 
-          <div className="border dark:border-gray-700 rounded-lg p-4 space-y-3">
-            <h4 className="text-sm font-medium text-ink">Create New Delegation</h4>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Delegate To (Employee ID)</label>
-              <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Start Date</label>
-                <input type="date" value={delegateForm.start} onChange={(e) => setDelegateForm((p) => ({ ...p, start: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand outline-none" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">End Date</label>
-                <input type="date" value={delegateForm.end} onChange={(e) => setDelegateForm((p) => ({ ...p, end: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand outline-none" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Workflow Types</label>
-              <div className="flex flex-wrap gap-2">
-                {WORKFLOW_TYPES.map((wt) => (
-                  <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ? 'bg-brand text-white border-brand' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-brand'}`}>
-                    {wt}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="flex justify-end gap-2 pt-1">
-              <Button size="sm" onClick={handleCreateDelegation} disabled={delegateSubmitting || !delegateForm.to || !delegateForm.start || !delegateForm.end || delegateForm.types.length === 0}>
-                {delegateSubmitting ? 'Creating...' : 'Create Delegation'}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Modal>
-    </div>
-  );
+ <div className="border border-hairline rounded-md p-4 space-y-3">
+ <h4 className="text-sm font-medium text-ink">Create New Delegation</h4>
+ <div>
+ <label className="block text-xs font-medium text-ink-muted mb-1">Delegate To (Employee ID)</label>
+ <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
+ </div>
+ <div className="grid grid-cols-2 gap-3">
+ <div>
+ <label className="block text-xs font-medium text-ink-muted mb-1">Start Date</label>
+ <input type="date" value={delegateForm.start} onChange={(e) => setDelegateForm((p) => ({ ...p, start: e.target.value }))} className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand outline-none" />
+ </div>
+ <div>
+ <label className="block text-xs font-medium text-ink-muted mb-1">End Date</label>
+ <input type="date" value={delegateForm.end} onChange={(e) => setDelegateForm((p) => ({ ...p, end: e.target.value }))} className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand outline-none" />
+ </div>
+ </div>
+ <div>
+ <label className="block text-xs font-medium text-ink-muted mb-1">Workflow Types</label>
+ <div className="flex flex-wrap gap-2">
+ {WORKFLOW_TYPES.map((wt) => (
+ <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ?'bg-brand text-white border-brand' :'bg-surface text-ink-muted border-hairline border-hairline hover:border-brand'}`}>
+ {wt}
+ </button>
+ ))}
+ </div>
+ </div>
+ <div className="flex justify-end gap-2 pt-1">
+ <Button size="sm" onClick={handleCreateDelegation} disabled={delegateSubmitting || !delegateForm.to || !delegateForm.start || !delegateForm.end || delegateForm.types.length === 0}>
+ {delegateSubmitting ?'Creating...' :'Create Delegation'}
+ </Button>
+ </div>
+ </div>
+ </div>
+ </Modal>
+ </div>
+ );
 }

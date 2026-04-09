@@ -12,41 +12,41 @@ import { useToast } from '@/components/ui/toast';
 import type { LeaveRequest } from '@/hooks/use-leave';
 
 export default function LeaveHistoryPage() {
-  const t = useTranslations('leave');
-  const { toast } = useToast();
-  const { requests, loading, cancelRequest, cancelApprovedLeave } = useLeave();
-  const [selectedRequest, setSelectedRequest] = useState<LeaveRequest | null>(null);
-  const [detailOpen, setDetailOpen] = useState(false);
+ const t = useTranslations('leave');
+ const { toast } = useToast();
+ const { requests, loading, cancelRequest, cancelApprovedLeave } = useLeave();
+ const [selectedRequest, setSelectedRequest] = useState<LeaveRequest | null>(null);
+ const [detailOpen, setDetailOpen] = useState(false);
 
-  return (
-    <div className="min-h-screen bg-canvas">
-      <Header />
-      <MobileMenu />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-bold text-ink mb-6">{t('history')}</h1>
-            <LeaveHistory
-              requests={requests}
-              loading={loading}
-              onViewDetail={(req) => { setSelectedRequest(req); setDetailOpen(true); }}
-              onCancelPending={cancelRequest}
-              onRequestCancellation={async (requestId, reason) => {
-                await cancelApprovedLeave(requestId, reason);
-                toast('success', t('cancellationRequestSubmitted'));
-              }}
-            />
-          </div>
-        </main>
-      </div>
+ return (
+ <div className="min-h-screen bg-canvas">
+ <Header />
+ <MobileMenu />
+ <div className="flex">
+ <Sidebar />
+ <main className="flex-1 p-4 sm:p-6">
+ <div className="max-w-7xl mx-auto">
+ <h1 className="text-2xl font-bold text-ink mb-6">{t('history')}</h1>
+ <LeaveHistory
+ requests={requests}
+ loading={loading}
+ onViewDetail={(req) => { setSelectedRequest(req); setDetailOpen(true); }}
+ onCancelPending={cancelRequest}
+ onRequestCancellation={async (requestId, reason) => {
+ await cancelApprovedLeave(requestId, reason);
+ toast('success', t('cancellationRequestSubmitted'));
+ }}
+ />
+ </div>
+ </main>
+ </div>
 
-      <LeaveDetail
-        request={selectedRequest}
-        open={detailOpen}
-        onClose={() => setDetailOpen(false)}
-        onCancel={cancelRequest}
-      />
-    </div>
-  );
+ <LeaveDetail
+ request={selectedRequest}
+ open={detailOpen}
+ onClose={() => setDetailOpen(false)}
+ onCancel={cancelRequest}
+ />
+ </div>
+ );
 }
