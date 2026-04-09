@@ -14,8 +14,8 @@ export function DataGrid({ items, columns = 2 }: DataGridProps) {
     <dl className={`grid grid-cols-1 ${gridCols} gap-4`}>
       {items.map((item, i) => (
         <div key={i} className="py-2">
-          <dt className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">{item.label}</dt>
-          <dd className="mt-1 text-sm font-medium text-ink">{item.value || '-'}</dd>
+          <dt className="text-xs text-ink-muted font-normal">{item.label}</dt>
+          <dd className="mt-1 text-sm font-medium text-ink">{item.value || '—'}</dd>
         </div>
       ))}
     </dl>

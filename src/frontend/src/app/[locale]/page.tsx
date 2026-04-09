@@ -37,28 +37,28 @@ export default function HomePage() {
       description: t('home.viewMyProfileDesc'),
       href: '/profile',
       icon: <User className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-blue-600 bg-blue-50',
+      color: 'text-accent bg-accent-tint',
     },
     {
       title: t('leave.title'),
       description: t('leave.request'),
       href: '/leave',
       icon: <Calendar className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-green-600 bg-green-50',
+      color: 'text-success bg-success-tint',
     },
     {
       title: t('payslip.title'),
       description: t('payslip.viewDetails'),
       href: '/payslip',
       icon: <FileText className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-purple-600 bg-purple-50',
+      color: 'text-accent bg-accent-tint',
     },
     {
       title: t('home.viewPendingWorkflows'),
       description: t('home.viewPendingWorkflowsDesc'),
       href: '/workflows',
       icon: <ClipboardList className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-orange-600 bg-orange-50',
+      color: 'text-warning bg-warning-tint',
     },
   ];
 
@@ -68,7 +68,7 @@ export default function HomePage() {
       description: t('home.directReports'),
       href: '/manager-dashboard',
       icon: <Users className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-brand bg-red-50',
+      color: 'text-brand bg-brand-tint',
     },
   ];
 
@@ -78,7 +78,7 @@ export default function HomePage() {
       description: t('payroll.subtitle'),
       href: '/payroll-processing',
       icon: <Calculator className="h-5 w-5 sm:h-6 sm:w-6" />,
-      color: 'text-indigo-600 bg-indigo-50',
+      color: 'text-accent bg-accent-tint',
     },
   ];
 
@@ -99,7 +99,7 @@ export default function HomePage() {
             <h1 className="text-2xl font-bold text-ink">
               {t('home.welcome')}, {username || 'User'}
             </h1>
-            <p className="text-gray-500 mt-1">{t('home.forYouToday')}</p>
+            <p className="text-ink-soft mt-1">{t('home.forYouToday')}</p>
           </div>
 
           <section>
@@ -117,7 +117,7 @@ export default function HomePage() {
                     </CardHeader>
                     <CardContent>
                       <CardTitle className="text-base mb-1">{action.title}</CardTitle>
-                      <p className="text-sm text-gray-500 hidden sm:block">{action.description}</p>
+                      <p className="text-sm text-ink-muted hidden sm:block">{action.description}</p>
                     </CardContent>
                   </Card>
                 </a>

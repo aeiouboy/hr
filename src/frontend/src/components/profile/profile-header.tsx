@@ -28,7 +28,7 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
 
   if (loading) {
     return (
-      <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+      <div className="bg-surface border-b border-hairline">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <Skeleton className="h-20 w-20 rounded-full" />
@@ -58,11 +58,11 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
   const status = empInfo?.job?.employeeStatus || 'active';
 
   return (
-    <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+    <div className="bg-surface border-b border-hairline">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           {/* Avatar */}
-          <div className="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center text-white text-2xl font-bold shrink-0 ring-2 ring-gray-100 dark:ring-gray-700">
+          <div className="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center text-white text-2xl font-bold shrink-0 ring-2 ring-hairline">
             {photo ? (
               <img src={photo} alt={fullNameEn} className="w-full h-full object-cover" />
             ) : (
@@ -73,16 +73,16 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
           {/* Info */}
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-              <h1 className="text-xl font-bold text-ink truncate">{fullNameEn}</h1>
+              <h1 className="text-2xl font-bold text-ink truncate">{fullNameEn}</h1>
               <Badge variant={STATUS_VARIANT[status as keyof typeof STATUS_VARIANT] ?? 'neutral'}>
                 {status}
               </Badge>
             </div>
             {fullNameTh && fullNameTh.trim() !== '' && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{fullNameTh}</p>
+              <p className="text-sm text-ink-soft mt-0.5">{fullNameTh}</p>
             )}
-            <p className="text-sm text-gray-600 dark:text-gray-400">{position}</p>
-            <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-ink-soft">{position}</p>
+            <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-ink-muted">
               <span className="flex items-center gap-1">
                 <Building className="h-3.5 w-3.5" />
                 {department}
@@ -109,7 +109,7 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
           {/* Right side: Employee ID + Actions */}
           <div className="flex flex-col items-stretch sm:items-end gap-2 shrink-0 w-full sm:w-auto">
             <div className="text-right hidden sm:block">
-              <span className="text-xs text-gray-400 dark:text-gray-500">{t('profile.employeeId')}</span>
+              <span className="text-xs text-ink-muted">{t('profile.employeeId')}</span>
               <p className="font-mono font-semibold text-ink">{employee.employeeId as string}</p>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
