@@ -179,28 +179,7 @@ export function FormField({
  );
 
  const renderInput = () => {
- if (type ==='select') {
- return (
- <select
- id={name}
- name={name}
- value={value}
- onChange={(e) => onChange?.(e.target.value)}
- className={inputClasses}
- disabled={disabled}
- required={required}
- >
- <option value="">{placeholder ||'Select...'}</option>
- {options?.map((opt) => (
- <option key={opt.value} value={opt.value}>
- {opt.label}
- </option>
- ))}
- </select>
- );
- }
-
- if (type ==='combobox') {
+ if (type === 'select' || type === 'combobox') {
  return <ComboboxField
  name={name}
  value={value}
