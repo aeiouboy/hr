@@ -11,6 +11,7 @@ import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import { useSpd, type TeamTimeRecord, type TeamOTRecord, type ShiftDay, type TeamSchedule } from '@/hooks/use-spd';
 import { cn } from '@/lib/utils';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 type TabKey ='timeRecords' |'otRecords' |'schedules' |'leaveDocuments';
 
@@ -307,22 +308,23 @@ export function SPDManagementPage() {
  </td>
  <td className="px-4 py-3">
  {isEditing ? (
- <select
- className="rounded border px-2 py-1"
+ <CustomSelect
  value={String(timeDraft.status ?? record.status)}
- onChange={(event) =>
+ onChange={(v) =>
  setTimeDraft((prev) => ({
  ...prev,
- status: event.target.value as TeamTimeRecord['status'],
+ status: v as TeamTimeRecord['status'],
  }))
  }
- >
- <option value="on_time">On Time</option>
- <option value="late">Late</option>
- <option value="early_departure">Early Departure</option>
- <option value="absent">Absent</option>
- <option value="leave">Leave</option>
- </select>
+ options={[
+ { value: 'on_time', label: 'On Time' },
+ { value: 'late', label: 'Late' },
+ { value: 'early_departure', label: 'Early Departure' },
+ { value: 'absent', label: 'Absent' },
+ { value: 'leave', label: 'Leave' },
+ ]}
+ className="w-40"
+ />
  ) : (
  <Badge variant={STATUS_BADGE[record.status]}>{record.status.replace('_','')}</Badge>
  )}
@@ -494,18 +496,19 @@ export function SPDManagementPage() {
  <p className="text-xs font-semibold">{day.day}</p>
  <p className="text-xs opacity-75">{day.date}</p>
  {isEditing ? (
- <select
- className="mt-2 w-full rounded border border-hairline bg-surface px-2 py-1 text-xs text-ink"
+ <CustomSelect
  value={day.shift}
- onChange={(event) =>
- handleScheduleChange(schedule, index, event.target.value as ShiftDay['shift'])
+ onChange={(v) =>
+ handleScheduleChange(schedule, index, v as ShiftDay['shift'])
  }
- >
- <option value="regular">Regular</option>
- <option value="morning">Morning</option>
- <option value="evening">Evening</option>
- <option value="off">Off</option>
- </select>
+ options={[
+ { value: 'regular', label: 'Regular' },
+ { value: 'morning', label: 'Morning' },
+ { value: 'evening', label: 'Evening' },
+ { value: 'off', label: 'Off' },
+ ]}
+ className="mt-2 w-full"
+ />
  ) : (
  <>
  <p className="text-sm font-medium mt-2">{getShiftLabel(day.shift)}</p>

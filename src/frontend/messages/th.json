@@ -62,7 +62,7 @@
   "profile": {
     "title": "โปรไฟล์",
     "personal": "ข้อมูลส่วนตัว",
-    "employment": "ข้อมูลการจ้างงาน",
+    "employment": "การจ้างงาน",
     "compensation": "ค่าตอบแทน",
     "benefits": "สวัสดิการ",
     "profileDetails": "โปรไฟล์",
@@ -74,7 +74,7 @@
   },
   "personal": {
     "title": "ข้อมูลส่วนตัว",
-    "basicInfo": "ข้อมูลพื้นฐาน",
+    "basicInfo": "ข้อมูลส่วนตัว",
     "salutation": "คำนำหน้า",
     "salutationEn": "คำนำหน้า (อังกฤษ)",
     "salutationTh": "คำนำหน้า (ไทย)",
@@ -93,7 +93,7 @@
     "nationalId": "เลขประจำตัวประชาชน",
     "maritalStatus": "สถานภาพสมรส",
     "maritalStatusSince": "สถานภาพสมรสตั้งแต่",
-    "contact": "ข้อมูลติดต่อ",
+    "contact": "ช่องทางติดต่อ",
     "businessEmail": "อีเมลธุรกิจ",
     "personalEmail": "อีเมลส่วนตัว",
     "businessPhone": "โทรศัพท์ธุรกิจ",
@@ -117,7 +117,7 @@
     "relationship": "ความสัมพันธ์",
     "phone": "โทรศัพท์",
     "isPrimary": "เป็นหลัก",
-    "dependents": "ผู้พึ่งพิง",
+    "dependents": "ผู้อยู่ในอุปการะ",
     "dependent": "ผู้พึ่งพิง",
     "dependentType": "ประเภทผู้พึ่งพิง",
     "dependentName": "ชื่อผู้พึ่งพิง",
@@ -128,7 +128,7 @@
     "editContactInfo": "แก้ไขข้อมูลติดต่อ",
     "editAddress": "แก้ไขที่อยู่",
     "advancedInfo": "ข้อมูลเพิ่มเติม",
-    "workPermit": "ข้อมูลใบอนุญาตทำงาน",
+    "workPermit": "ใบอนุญาตทำงาน",
     "permitNumber": "เลขที่ใบอนุญาต",
     "issueDate": "วันที่ออกเอกสาร",
     "expiryDate": "วันหมดอายุ",
@@ -3240,9 +3240,9 @@
   "personHero": {
     "probation": "ทดลองงาน",
     "onLeave": "ลางาน",
-    "active": "ทำงานอยู่",
-    "inactive": "ไม่ได้ทำงาน",
-    "terminated": "สิ้นสุดการจ้าง"
+    "active": "ปกติ",
+    "inactive": "ไม่ใช้งาน",
+    "terminated": "พ้นสภาพ"
   },
   "emptyValue": {
     "unknown": "ยังไม่ได้ระบุ",

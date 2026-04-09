@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Search, Filter, Calendar, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { UrgencyBadge } from './UrgencyBadge';
 import type { PendingRequest, Urgency, RequestType } from '@/lib/quick-approve-api';
 
@@ -83,36 +84,36 @@ export function RequestList({
  </div>
 
  {/* Type filter */}
- <select
- value={filters.type ??''}
- onChange={(e) => onFilterChange({ ...filters, type: e.target.value || undefined })}
- className="rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand outline-none"
+ <CustomSelect
+ value={filters.type ?? ''}
+ onChange={(v) => onFilterChange({ ...filters, type: (v as RequestType) || undefined })}
+ options={[
+ { value: '', label: t('filters.allTypes') },
+ ...TYPE_OPTIONS.map((type) => ({
+ value: type,
+ label: counts[type] ? `${type} (${counts[type]})` : type,
+ })),
+ ]}
  aria-label={t('filters.type')}
- >
- <option value="">{t('filters.allTypes')}</option>
- {TYPE_OPTIONS.map((type) => (
- <option key={type} value={type}>
- {type} {counts[type] ? `(${counts[type]})` :''}
- </option>
- ))}
- </select>
+ className="w-44"
+ />
 
  {/* Urgency filter */}
- <select
- value={filters.urgency ??''}
- onChange={(e) =>
- onFilterChange({ ...filters, urgency: (e.target.value as Urgency) || undefined })
+ <CustomSelect
+ value={filters.urgency ?? ''}
+ onChange={(v) =>
+ onFilterChange({ ...filters, urgency: (v as Urgency) || undefined })
  }
- className="rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand outline-none"
+ options={[
+ { value: '', label: t('filters.allUrgency') },
+ ...URGENCY_OPTIONS.map((u) => ({
+ value: u,
+ label: u.charAt(0).toUpperCase() + u.slice(1),
+ })),
+ ]}
  aria-label={t('filters.urgency')}
- >
- <option value="">{t('filters.allUrgency')}</option>
- {URGENCY_OPTIONS.map((u) => (
- <option key={u} value={u}>
- {u.charAt(0).toUpperCase() + u.slice(1)}
- </option>
- ))}
- </select>
+ className="w-36"
+ />
 
  {/* Date From */}
  <input

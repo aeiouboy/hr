@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTraining } from '@/hooks/use-training';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { formatDate, formatCurrency } from '@/lib/date';
 
 export function TrainingRecordsPage() {
@@ -31,16 +32,24 @@ export function TrainingRecordsPage() {
  </div>
 
  <div className="flex flex-wrap gap-3 mb-6">
- <select value={yearFilter} onChange={(e) => setYearFilter(e.target.value)}
- className="rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand">
- <option value="all">{t('filterByYear')}</option>
- {years.map((y) => <option key={y} value={y}>{y}</option>)}
- </select>
- <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}
- className="rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand">
- <option value="all">{t('filterByCategory')}</option>
- {categories.map((c) => <option key={c} value={c}>{c}</option>)}
- </select>
+ <CustomSelect
+ value={yearFilter}
+ onChange={setYearFilter}
+ options={[
+ { value: 'all', label: t('filterByYear') },
+ ...years.map((y) => ({ value: y, label: y })),
+ ]}
+ className="w-40"
+ />
+ <CustomSelect
+ value={categoryFilter}
+ onChange={setCategoryFilter}
+ options={[
+ { value: 'all', label: t('filterByCategory') },
+ ...categories.map((c) => ({ value: c, label: c })),
+ ]}
+ className="w-48"
+ />
  </div>
 
  <Card>

@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTalent } from '@/hooks/use-talent';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 export function TalentPage() {
  const t = useTranslations('talent');
@@ -39,14 +40,15 @@ export function TalentPage() {
  </div>
 
  <div className="flex items-center gap-4 mb-6">
- <select
+ <CustomSelect
  value={departmentFilter}
- onChange={(e) => setDepartmentFilter(e.target.value)}
- className="rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand"
- >
- <option value="all">{t('allDepartments')}</option>
- {departments.map((d) => <option key={d} value={d}>{d}</option>)}
- </select>
+ onChange={setDepartmentFilter}
+ options={[
+ { value: 'all', label: t('allDepartments') },
+ ...departments.map((d) => ({ value: d, label: d })),
+ ]}
+ className="w-48"
+ />
  </div>
 
  <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />

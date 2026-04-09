@@ -17,6 +17,7 @@ import { MobileMenu } from '@/components/shared/mobile-menu';
 import { Tabs } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 type TabKey ='payslips' |'taxDocuments';
 type YearFilter ='2026' |'2025' |'all';
@@ -526,16 +527,17 @@ export default function PayslipPage() {
  <label htmlFor="year-filter" className="text-sm text-ink-muted whitespace-nowrap">
  {t('filterByYear')}:
  </label>
- <select
+ <CustomSelect
  id="year-filter"
  value={selectedYear}
- onChange={(e) => setSelectedYear(e.target.value as YearFilter)}
- className="border border-hairline rounded-md px-3 py-1.5 text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-brand"
- >
- <option value="all">{t('allYears')}</option>
- <option value="2026">2026</option>
- <option value="2025">2025</option>
- </select>
+ onChange={(v) => setSelectedYear(v as YearFilter)}
+ options={[
+ { value: 'all', label: t('allYears') },
+ { value: '2026', label: '2026' },
+ { value: '2025', label: '2025' },
+ ]}
+ className="w-28"
+ />
  </div>
 
  {/* Payslip list */}

@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Modal } from '@/components/ui/modal';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { LEAVE_TYPE_COLORS } from './leave-balance';
 import type { LeaveRequest, LeaveStatus, LeaveType } from '@/hooks/use-leave';
 
@@ -142,27 +143,30 @@ export function LeaveHistory({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b border-hairline">
           <p className="text-sm font-semibold text-ink">{t('history')}</p>
           <div className="flex flex-wrap gap-2">
-            <select
+            <CustomSelect
               value={statusFilter}
-              onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-              className="px-3 py-1.5 border border-hairline rounded-md text-sm bg-surface text-ink"
-            >
-              <option value="all">All Status</option>
-              <option value="pending">{t('status.pending')}</option>
-              <option value="approved">{t('status.approved')}</option>
-              <option value="rejected">{t('status.rejected')}</option>
-              <option value="cancelled">{t('status.cancelled')}</option>
-            </select>
-            <select
+              onChange={(v) => { setStatusFilter(v); setPage(1); }}
+              options={[
+                { value: 'all', label: 'All Status' },
+                { value: 'pending', label: t('status.pending') },
+                { value: 'approved', label: t('status.approved') },
+                { value: 'rejected', label: t('status.rejected') },
+                { value: 'cancelled', label: t('status.cancelled') },
+              ]}
+              className="w-36"
+            />
+            <CustomSelect
               value={typeFilter}
-              onChange={(e) => { setTypeFilter(e.target.value); setPage(1); }}
-              className="px-3 py-1.5 border border-hairline rounded-md text-sm bg-surface text-ink"
-            >
-              <option value="all">All Types</option>
-              {uniqueTypes.map((type) => (
-                <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
-              ))}
-            </select>
+              onChange={(v) => { setTypeFilter(v); setPage(1); }}
+              options={[
+                { value: 'all', label: 'All Types' },
+                ...uniqueTypes.map((type) => ({
+                  value: type,
+                  label: type.charAt(0).toUpperCase() + type.slice(1),
+                })),
+              ]}
+              className="w-36"
+            />
           </div>
         </div>
 

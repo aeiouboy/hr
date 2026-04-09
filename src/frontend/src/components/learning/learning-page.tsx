@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLearning } from '@/hooks/use-learning';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 function generateCertificateHtml(course: { nameEn: string; code: string; score?: number; hours: number; credits: number; completionDate?: string }) {
  const completionDate = course.completionDate
@@ -175,11 +176,15 @@ export function LearningPage() {
  className="w-full pl-10 pr-4 py-2 rounded-md border border-hairline border-hairline text-sm focus:border-brand focus:ring-1 focus:ring-brand"
  />
  </div>
- <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}
- className="rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:ring-1 focus:ring-brand">
- <option value="all">{t('category')}: All</option>
- {categories.map((c) => <option key={c} value={c}>{c}</option>)}
- </select>
+ <CustomSelect
+ value={categoryFilter}
+ onChange={setCategoryFilter}
+ options={[
+ { value: 'all', label: `${t('category')}: All` },
+ ...categories.map((c) => ({ value: c, label: c })),
+ ]}
+ className="w-48"
+ />
  </div>
  {courses.length === 0 ? (
  <Card><CardContent className="py-12 text-center text-ink-muted">{t('noCoursesFound')}</CardContent></Card>

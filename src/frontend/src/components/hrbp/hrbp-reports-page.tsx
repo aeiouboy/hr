@@ -6,6 +6,7 @@ import { Tabs } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useHRBPReports } from '@/hooks/use-hrbp-reports';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 type TabKey ='attendance' |'leave' |'overtime' |'summary';
 
@@ -84,17 +85,14 @@ export function HRBPReportsPage() {
  </div>
  <div className="w-full md:w-60">
  <label className="block text-xs font-medium text-ink-muted mb-1">Department</label>
- <select
+ <CustomSelect
  value={departmentFilter}
- onChange={(event) => setDepartmentFilter(event.target.value)}
- className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm"
- >
- {departments.map((department) => (
- <option key={department} value={department}>
- {department ==='all' ?'All Departments' : department}
- </option>
- ))}
- </select>
+ onChange={setDepartmentFilter}
+ options={departments.map((department) => ({
+ value: department,
+ label: department === 'all' ? 'All Departments' : department,
+ }))}
+ />
  </div>
  </div>
 

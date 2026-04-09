@@ -26,6 +26,7 @@ import { Button } from '@/components/ui/button';
 import { usePayroll } from '@/hooks/use-payroll';
 import { useToast } from '@/components/ui/toast';
 import { formatCurrency } from '@/lib/date';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 type Step ='period' |'calculate' |'review' |'approve';
 
@@ -104,27 +105,19 @@ export default function PayrollProcessingPage() {
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
  <div>
  <label className="block text-sm font-medium text-ink-soft mb-1">Month</label>
- <select
+ <CustomSelect<number>
  value={selectedMonth}
- onChange={(e) => setSelectedMonth(Number(e.target.value))}
- className="w-full border border-hairline rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand bg-surface"
- >
- {MONTHS.map((m, idx) => (
- <option key={m} value={idx}>{m}</option>
- ))}
- </select>
+ onChange={setSelectedMonth}
+ options={MONTHS.map((m, idx) => ({ value: idx, label: m }))}
+ />
  </div>
  <div>
  <label className="block text-sm font-medium text-ink-soft mb-1">Year</label>
- <select
+ <CustomSelect<number>
  value={selectedYear}
- onChange={(e) => setSelectedYear(Number(e.target.value))}
- className="w-full border border-hairline rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand bg-surface"
- >
- {YEARS.map((y) => (
- <option key={y} value={y}>{y}</option>
- ))}
- </select>
+ onChange={setSelectedYear}
+ options={YEARS.map((y) => ({ value: y, label: String(y) }))}
+ />
  </div>
  </div>
 
