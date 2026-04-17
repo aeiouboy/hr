@@ -1,0 +1,8 @@
+{
+  "jobs": 3,
+  "tasks": [
+    { "id": "22", "promptFiles": ["prompts/22.md"], "image": "humi-22.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "23", "promptFiles": ["prompts/23.md"], "image": "humi-23.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "24", "promptFiles": ["prompts/24.md"], "image": "humi-24.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" }
+  ]
+}

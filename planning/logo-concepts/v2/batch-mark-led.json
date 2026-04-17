@@ -1,0 +1,11 @@
+{
+  "jobs": 3,
+  "tasks": [
+    { "id": "07", "promptFiles": ["prompts/07.md"], "image": "humi-07.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "08", "promptFiles": ["prompts/08.md"], "image": "humi-08.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "09", "promptFiles": ["prompts/09.md"], "image": "humi-09.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "10", "promptFiles": ["prompts/10.md"], "image": "humi-10.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "11", "promptFiles": ["prompts/11.md"], "image": "humi-11.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "12", "promptFiles": ["prompts/12.md"], "image": "humi-12.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" }
+  ]
+}

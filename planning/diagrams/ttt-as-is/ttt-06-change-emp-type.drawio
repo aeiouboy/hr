@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-10" version="21.0.0">
+  <diagram id="ttt06-change-emp-type" name="06 — Change Employee Type">
+    <mxGraphModel dx="1600" dy="1000" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Process 06 — Change Employee Type (SAP SuccessFactors EC Core, As-Is 2018)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=14;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="60" y="20" width="1680" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SWIMLANE: HR Admin -->
+        <!-- ============================================================ -->
+        <mxCell id="lane-hradmin" value="HR Admin" style="swimlane;startSize=40;horizontal=0;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#4a90b8;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="1680" height="1280" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- MAIN PATH (top section) -->
+        <!-- ============================================================ -->
+
+        <mxCell id="main-label" value="Main Process — Change Employee Type" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#4a90b8;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="50" width="400" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="100" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- S1 -->
+        <mxCell id="s1" value="Employee Profile&#xa;Actions menu" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="220" y="95" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- S2 -->
+        <mxCell id="s2" value="Change Job &amp; Comp&#xa;&#x2192; Job Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="450" y="95" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- S3 -->
+        <mxCell id="s3" value="Set Event =&#xa;Change Employee Type&#xa;(JCHG_EMPTYPE)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="90" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- S4 -->
+        <mxCell id="s4" value="Select new Position&#xa;(system auto-fills&#xa;Org/Job/Time info)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="930" y="90" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- DEC1: Pay Group changes? -->
+        <mxCell id="dec1" value="Pay Group&#xa;changes?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="940" y="220" width="160" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Comp Step (Yes branch) — F8: height 65 → 75 -->
+        <mxCell id="comp-step" value="Additional Compensation Step&#xa;Event Reason = DC_CHGINPAY&#xa;(Change in Pay)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="940" y="470" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Save — F4: move to y=390 -->
+        <mxCell id="save1" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="390" width="140" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- FTE note — F1: align y with save1 (390), F4: y=390, F7: dashed=1, strokeColor lighter -->
+        <mxCell id="fte-note" value="System Rule:&#xa;FTE reduction &#x2192; Standard&#xa;Weekly Hours auto-adjust&#xa;proportionally" style="text;html=1;dashed=1;strokeColor=#9ab8cc;fillColor=#e8f4f8;align=left;verticalAlign=top;fontSize=10;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="450" y="390" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- End main — F9: fontSize 14 -->
+        <mxCell id="end-main" value="Done" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=14;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1230" y="480" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- MAIN PATH EDGES -->
+        <!-- ============================================================ -->
+
+        <!-- start → s1 -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="start" target="s1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s1 → s2 -->
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s1" target="s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s2 → s3 -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s2" target="s3" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s3 → s4 -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s3" target="s4" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s4 → dec1 -->
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="s4" target="dec1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- dec1 → save1: No — F5: route LEFT → x=840,y=265 → x=840,y=420 → enter save1 right (entryX=1) -->
+        <mxCell id="e6" value="No" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontColor=#28a745;fontStyle=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="dec1" target="save1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="265" />
+              <mxPoint x="840" y="417" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- dec1 → comp-step: Yes down -->
+        <mxCell id="e7" value="Yes" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontColor=#dc3545;fontStyle=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="dec1" target="comp-step" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- comp-step → save1: exit LEFT — F6: x=850 (was 870) to shift from e7 corridor -->
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="comp-step" target="save1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="507" />
+              <mxPoint x="750" y="507" />
+              <mxPoint x="750" y="445" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- save1 → end-main: exit RIGHT, route east of comp-step column -->
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="save1" target="end-main" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1210" y="417" />
+              <mxPoint x="1210" y="502" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SUB-PROCESSES SECTION (bottom) -->
+        <!-- ============================================================ -->
+
+        <mxCell id="sub-divider" value="" style="line;strokeColor=#4a90b8;strokeWidth=1;html=1;fillColor=none;dashed=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="530" width="1600" height="10" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub-label" value="Sub-Processes (performed as separate Data Change steps via Change Job &amp; Comp)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=3;fontColor=#4a90b8;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="550" width="700" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SUB 1: Change in Time (DC_CHGINTM) -->
+        <!-- ============================================================ -->
+
+        <!-- F2: sub1-hdr width 240 → 200 -->
+        <mxCell id="sub1-hdr" value="Change in Time (DC_CHGINTM)" style="text;html=1;strokeColor=none;fillColor=#e8f4f8;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="80" y="590" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub1-s1" value="Actions&#xa;&#x2192; Change Job &amp; Comp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="80" y="640" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub1-s2" value="Event Reason =&#xa;DC_CHGINTM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="80" y="720" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub1-s3" value="Modify: OT Flag&#xa;Holiday Type&#xa;Working Hours" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="80" y="800" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- F3: sub1-save y 895 → 900 -->
+        <mxCell id="sub1-save" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="80" y="900" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- sub1 edges -->
+        <mxCell id="es1-1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub1-s1" target="sub1-s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="es1-2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub1-s2" target="sub1-s3" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="es1-3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub1-s3" target="sub1-save" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SUB 2: Extend Retirement (DC_EXTRET) -->
+        <!-- ============================================================ -->
+
+        <!-- F2: sub2-hdr width 240 → 200 -->
+        <mxCell id="sub2-hdr" value="Extend Retirement (DC_EXTRET)" style="text;html=1;strokeColor=none;fillColor=#e8f4f8;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="380" y="590" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub2-s1" value="Actions&#xa;&#x2192; Change Job &amp; Comp&#xa;&#x2192; Job Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="380" y="640" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub2-s2" value="Event Reason =&#xa;DC_EXTRET&#xa;(Extend Retirement)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="380" y="725" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub2-s3" value="Update Contract End Date&#xa;to new retirement date" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="380" y="815" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub2-save" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="380" y="900" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- sub2 edges -->
+        <mxCell id="es2-1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub2-s1" target="sub2-s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="es2-2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub2-s2" target="sub2-s3" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="es2-3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub2-s3" target="sub2-save" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SUB 3: Generic Data Change (DC_DC) -->
+        <!-- ============================================================ -->
+
+        <!-- F2: sub3-hdr width 240 → 200 -->
+        <mxCell id="sub3-hdr" value="Generic Data Change (DC_DC)" style="text;html=1;strokeColor=none;fillColor=#e8f4f8;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="590" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub3-s1" value="Actions&#xa;&#x2192; Change Job &amp; Comp&#xa;&#x2192; Job Info or Comp Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="640" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub3-s2" value="Event Reason = DC_DC&#xa;(Data Change)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="725" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub3-s3" value="Update any relevant&#xa;field(s) as needed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="810" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sub3-save" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="895" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- sub3 edges -->
+        <mxCell id="es3-1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub3-s1" target="sub3-s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="es3-2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub3-s2" target="sub3-s3" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="es3-3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="sub3-s3" target="sub3-save" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

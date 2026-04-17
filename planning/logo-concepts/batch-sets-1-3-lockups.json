@@ -1,0 +1,29 @@
+{
+  "jobs": 4,
+  "tasks": [
+    { "id": "01", "promptFiles": ["prompts/concept-01.md"], "image": "concept-01.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "02", "promptFiles": ["prompts/concept-02.md"], "image": "concept-02.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "03", "promptFiles": ["prompts/concept-03.md"], "image": "concept-03.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "04", "promptFiles": ["prompts/concept-04.md"], "image": "concept-04.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "05", "promptFiles": ["prompts/concept-05.md"], "image": "concept-05.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "06", "promptFiles": ["prompts/concept-06.md"], "image": "concept-06.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "07", "promptFiles": ["prompts/concept-07.md"], "image": "concept-07.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "09", "promptFiles": ["prompts/concept-09.md"], "image": "concept-09.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "10", "promptFiles": ["prompts/concept-10.md"], "image": "concept-10.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "11", "promptFiles": ["prompts/concept-11.md"], "image": "concept-11.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "12", "promptFiles": ["prompts/concept-12.md"], "image": "concept-12.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "13", "promptFiles": ["prompts/concept-13.md"], "image": "concept-13.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "14", "promptFiles": ["prompts/concept-14.md"], "image": "concept-14.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "15", "promptFiles": ["prompts/concept-15.md"], "image": "concept-15.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "16", "promptFiles": ["prompts/concept-16.md"], "image": "concept-16.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "17", "promptFiles": ["prompts/concept-17.md"], "image": "concept-17.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "18", "promptFiles": ["prompts/concept-18.md"], "image": "concept-18.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "19", "promptFiles": ["prompts/concept-19.md"], "image": "concept-19.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "20", "promptFiles": ["prompts/concept-20.md"], "image": "concept-20.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "21", "promptFiles": ["prompts/concept-21.md"], "image": "concept-21.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "22", "promptFiles": ["prompts/concept-22.md"], "image": "concept-22.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "23", "promptFiles": ["prompts/concept-23.md"], "image": "concept-23.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "24", "promptFiles": ["prompts/concept-24.md"], "image": "concept-24.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" },
+    { "id": "08", "promptFiles": ["prompts/concept-08.md"], "image": "concept-08.png", "provider": "openrouter", "model": "google/gemini-3.1-flash-image-preview", "ar": "1:1", "quality": "2k" }
+  ]
+}

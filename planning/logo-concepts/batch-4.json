@@ -1,0 +1,77 @@
+{
+  "jobs": 8,
+  "tasks": [
+    {
+      "id": "concept-25-dot-wordmark",
+      "promptFiles": ["prompts/concept-25.md"],
+      "image": "concept-25.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-26-odoo-style",
+      "promptFiles": ["prompts/concept-26.md"],
+      "image": "concept-26.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-27-nh-ligature",
+      "promptFiles": ["prompts/concept-27.md"],
+      "image": "concept-27.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-28-icon-wordmark",
+      "promptFiles": ["prompts/concept-28.md"],
+      "image": "concept-28.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-29-dot-prefix",
+      "promptFiles": ["prompts/concept-29.md"],
+      "image": "concept-29.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-30-mark-wordmark",
+      "promptFiles": ["prompts/concept-30.md"],
+      "image": "concept-30.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-31-slash",
+      "promptFiles": ["prompts/concept-31.md"],
+      "image": "concept-31.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-32-allcaps",
+      "promptFiles": ["prompts/concept-32.md"],
+      "image": "concept-32.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    }
+  ]
+}

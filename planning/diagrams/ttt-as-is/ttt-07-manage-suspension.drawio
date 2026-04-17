@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-10" version="21.0.0">
+  <diagram id="ttt07-manage-suspension" name="07 — Manage Suspension">
+    <mxGraphModel dx="1600" dy="1000" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Process 07 — Manage Suspension (SAP SuccessFactors EC Core, As-Is 2018)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=14;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="60" y="20" width="1680" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- IMPORTANT CALLOUT: Unique Entry Path -->
+        <mxCell id="unique-callout" value="UNIQUE ENTRY PATH: This process uses Employment Information tab &#x2192; Job Information &#x2192; History icon &#x2192; Insert New Record. NOT the Actions menu used by all other processes!" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;fontColor=#721c24;" vertex="1" parent="1">
+          <mxGeometry x="60" y="58" width="1680" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SWIMLANE: HR Admin -->
+        <!-- ============================================================ -->
+        <mxCell id="lane-hradmin" value="HR Admin" style="swimlane;startSize=40;horizontal=0;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#4a90b8;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="108" width="1680" height="1250" as="geometry" />
+        </mxCell>
+
+        <!-- Entry path note -->
+        <mxCell id="entry-note" value="UNIQUE ENTRY PATH (used for both Suspend and Return operations)" style="text;html=1;strokeColor=#dc3545;fillColor=#f8d7da;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#721c24;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="45" width="500" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ENTRY STEPS (horizontal, top row) -->
+        <!-- ============================================================ -->
+
+        <!-- Start -->
+        <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="105" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- U1: Employee Profile -->
+        <mxCell id="u1" value="Employee Profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;fontColor=#721c24;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="220" y="100" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- U2: Employment Information tab -->
+        <mxCell id="u2" value="Employment Information tab&#xa;(NOT Actions menu!)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;fontColor=#721c24;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="470" y="95" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- U3: Job Information section -->
+        <mxCell id="u3" value="Job Information&#xa;section" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;fontColor=#721c24;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="740" y="100" width="170" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- U4: History icon -->
+        <mxCell id="u4" value="Click History icon&#xa;(clock/history)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;fontColor=#721c24;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="980" y="100" width="170" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- U5: Insert New Record -->
+        <mxCell id="u5" value="Insert New Record" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;fontColor=#721c24;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1220" y="100" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- DEC: Action type? -->
+        <mxCell id="dec-action" value="Action?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=13;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="755" y="250" width="160" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ENTRY EDGES -->
+        <!-- ============================================================ -->
+
+        <!-- start → u1 -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;" edge="1" source="start" target="u1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- u1 → u2 -->
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;" edge="1" source="u1" target="u2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- u2 → u3 -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;" edge="1" source="u2" target="u3" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- u3 → u4 -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;" edge="1" source="u3" target="u4" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- u4 → u5 -->
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;" edge="1" source="u4" target="u5" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- u5 → dec-action: down then left to center -->
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="u5" target="dec-action" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1300" y="210" />
+              <mxPoint x="835" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SUSPEND BRANCH (left column) -->
+        <!-- ============================================================ -->
+
+        <mxCell id="susp-hdr" value="SUSPEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#dc3545;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="200" y="395" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="susp-s1" value="Set Effective Date&#xa;(Suspension start date)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="200" y="440" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="susp-s2" value="Event = Suspension&#xa;(SUSP_SUSP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="200" y="530" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="susp-save" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="200" y="625" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="susp-result" value="Status: SUSPENDED&#xa;Position: UNCHANGED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="200" y="715" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- RETURN BRANCH (right column) -->
+        <!-- ============================================================ -->
+
+        <mxCell id="ret-hdr" value="RETURN FROM SUSPENSION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#28a745;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1100" y="395" width="280" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ret-s1" value="Set Effective Date&#xa;(Return date)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="440" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ret-s2" value="Event = Return from Suspension&#xa;(RESUSP_RESUSP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="530" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ret-save" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="625" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ret-result" value="Status: ACTIVE&#xa;Position: UNCHANGED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="715" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- BUSINESS RULES (center) -->
+        <!-- ============================================================ -->
+
+        <mxCell id="rule1" value="Rule: Position remains unchanged throughout suspension period" style="text;html=1;strokeColor=#4a90b8;fillColor=#e8f4f8;align=left;verticalAlign=top;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="530" y="555" width="360" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rule2" value="AUDIT TRAIL RULE: Must create a Return record.&#xa;Do NOT delete the Suspension record.&#xa;Both records are required for complete audit trail." style="text;html=1;strokeColor=#dc3545;fillColor=#f8d7da;align=left;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="530" y="620" width="380" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- End -->
+        <mxCell id="end" value="Done" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="755" y="870" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- BRANCH EDGES -->
+        <!-- ============================================================ -->
+
+        <!-- dec-action → susp-s1: Suspend left -->
+        <mxCell id="e7" value="Suspend" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontColor=#dc3545;fontStyle=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="dec-action" target="susp-s1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="295" />
+              <mxPoint x="300" y="295" />
+              <mxPoint x="300" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- dec-action → ret-s1: Return right -->
+        <mxCell id="e8" value="Return" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontColor=#28a745;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="dec-action" target="ret-s1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1050" y="295" />
+              <mxPoint x="1240" y="295" />
+              <mxPoint x="1240" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Suspend branch edges -->
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="susp-s1" target="susp-s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="susp-s2" target="susp-save" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="susp-save" target="susp-result" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- susp-result → end: right then down -->
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="susp-result" target="end" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="742" />
+              <mxPoint x="480" y="892" />
+              <mxPoint x="755" y="892" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Return branch edges -->
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="ret-s1" target="ret-s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="ret-s2" target="ret-save" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="ret-save" target="ret-result" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ret-result → end: left then down -->
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="ret-result" target="end" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1060" y="742" />
+              <mxPoint x="1060" y="892" />
+              <mxPoint x="845" y="892" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

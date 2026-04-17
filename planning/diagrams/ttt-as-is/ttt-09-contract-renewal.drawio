@@ -1,0 +1,165 @@
+<mxfile>
+  <diagram id="ttt-09" name="09 - Contract Renewal">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1"
+                  tooltips="1" connect="1" arrows="1" fold="1"
+                  page="1" pageScale="1" pageWidth="1800" pageHeight="1000"
+                  math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== Title ===== -->
+        <mxCell id="title" value="TTT Process 09 — Contract Renewal" style="text;html=1;fontSize=18;fontStyle=1;fontFamily=Helvetica;fillColor=none;strokeColor=none;fontColor=#1a1a2e;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== SWIMLANE: HR Admin ===== -->
+        <mxCell id="sw-hradmin" value="HR Admin" style="swimlane;startSize=30;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=14;horizontal=1;swimlaneLine=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="50" width="1700" height="720" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ROW 1: Main flow left-to-right ===== -->
+
+        <!-- START -->
+        <mxCell id="start" value="START" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=12;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="50" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: Check Employment Info -->
+        <mxCell id="s1" value="1. Check Employment Info&#xa;View Contract End Date" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="220" y="77" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Step 2: Actions > Change Job & Comp -->
+        <mxCell id="s2" value="2. Actions&#xa;→ Change Job &amp; Comp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="480" y="77" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Step 3: Select Job Information checkbox -->
+        <mxCell id="s3" value="3. Select&#xa;&quot;Job Information&quot; checkbox" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="740" y="77" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Step 4: Set Effective Date -->
+        <mxCell id="s4" value="4. Set Effective Date" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="1000" y="77" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Step 5: Set Event + Event Reason -->
+        <mxCell id="s5" value="5. Event = Data Change&#xa;Event Reason = Extend Contract&#xa;(DC_EXCONT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="1260" y="70" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ROW 2: Continue flow ===== -->
+
+        <!-- Step 6: Change Contract End Date -->
+        <mxCell id="s6" value="6. Change Contract End Date&#xa;to new renewal date" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="1260" y="210" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: System Warning? -->
+        <mxCell id="d1" value="System Warning&#xa;Displayed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=12;fontFamily=Helvetica;verticalAlign=middle;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="1000" y="195" width="190" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- YES path: click Proceed -->
+        <mxCell id="s7-yes" value="Click &quot;Proceed&quot;&#xa;(confirm warning)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="1000" y="370" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- NO path label -->
+        <mxCell id="s7-no" value="(No warning —&#xa;date already correct)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontFamily=Helvetica;fontStyle=2;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="740" y="200" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Step 8: Verify Time Info -->
+        <mxCell id="s8" value="8. Verify Time Info&#xa;section" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="740" y="370" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Step 9: Save -->
+        <mxCell id="s9" value="9. Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="480" y="370" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- END -->
+        <mxCell id="end" value="END" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=12;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="220" y="373" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===== NOTES ===== -->
+        <mxCell id="note1" value="NOTE: Only for contract types WITH end date:&#xa;Contract-Monthly, Contract-Yearly, Contract-Long term.&#xa;Does NOT touch Compensation unless pay also changes." style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=top;align=left;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontFamily=Helvetica;spacingLeft=6;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="480" y="530" width="400" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="warn1" value="System Warning text:&#xa;&quot;Contract End Date should be changed&quot;&#xa;Click Proceed to continue or Correct to fix." style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=top;align=left;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;fontFamily=Helvetica;spacingLeft=6;" vertex="1" parent="sw-hradmin">
+          <mxGeometry x="950" y="530" width="360" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EDGES ===== -->
+
+        <!-- Row 1 left-to-right flow -->
+        <mxCell id="e-start-s1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="start" target="s1" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-s1-s2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s1" target="s2" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-s2-s3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s2" target="s3" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-s3-s4" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s3" target="s4" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-s4-s5" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="s4" target="s5" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s5 goes DOWN to s6 -->
+        <mxCell id="e-s5-s6" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="s5" target="s6" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s6 goes LEFT to d1 -->
+        <mxCell id="e-s6-d1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s6" target="d1" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- d1 YES: goes DOWN to s7-yes -->
+        <mxCell id="e-d1-yes" value="YES" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=1.5;html=1;fontSize=11;fontColor=#dc3545;fontStyle=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="d1" target="s7-yes" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- d1 NO: goes LEFT to s7-no -->
+        <mxCell id="e-d1-no" value="NO" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=1.5;html=1;fontSize=11;fontColor=#28a745;fontStyle=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="d1" target="s7-no" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s7-yes DOWN then LEFT to s8 (via orthogonal) -->
+        <mxCell id="e-s7yes-s8" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s7-yes" target="s8" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s7-no DOWN to s8 -->
+        <mxCell id="e-s7no-s8" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="s7-no" target="s8" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s8 LEFT to s9 -->
+        <mxCell id="e-s8-s9" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s8" target="s9" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s9 LEFT to end -->
+        <mxCell id="e-s9-end" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s9" target="end" parent="sw-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

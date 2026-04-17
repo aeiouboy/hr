@@ -1,0 +1,283 @@
+<mxfile>
+  <diagram id="ttt-10" name="10 - Terminate">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1"
+                  tooltips="1" connect="1" arrows="1" fold="1"
+                  page="1" pageScale="1" pageWidth="1800" pageHeight="1400"
+                  math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== Title ===== -->
+        <mxCell id="title" value="TTT Process 10 — Terminate (5 Scenarios)" style="text;html=1;fontSize=18;fontStyle=1;fontFamily=Helvetica;fillColor=none;strokeColor=none;fontColor=#1a1a2e;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== SWIMLANE: HR Admin ===== -->
+        <mxCell id="sw-hr" value="HR Admin" style="swimlane;startSize=30;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=14;horizontal=1;swimlaneLine=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="50" width="1700" height="460" as="geometry" />
+        </mxCell>
+
+        <!-- Row 1: Common entry -->
+        <mxCell id="hr-start" value="START" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=12;" vertex="1" parent="sw-hr">
+          <mxGeometry x="30" y="60" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-s1" value="Open Employee Profile&#xa;→ Employment Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="sw-hr">
+          <mxGeometry x="160" y="50" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-s2" value="Actions → Terminate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="sw-hr">
+          <mxGeometry x="400" y="50" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-d1" value="Termination&#xa;Type?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=12;verticalAlign=middle;" vertex="1" parent="sw-hr">
+          <mxGeometry x="620" y="40" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Row 2: Branch 1 — Resign (top row) -->
+        <mxCell id="hr-b1" value="① Resign&#xa;(TERM_RESIGN)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="sw-hr">
+          <mxGeometry x="840" y="40" width="160" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b1-form" value="Fill Form: Resigned Date,&#xa;Last Date Worked, OK to Rehire,&#xa;Transfer Subordinates → Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1060" y="30" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b1-end" value="Status =&#xa;Terminated&#xa;(Voluntary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1340" y="35" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Row 3: Branch 2 — Retirement -->
+        <mxCell id="hr-b2" value="② Retirement&#xa;(TERM_RETRIE)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="sw-hr">
+          <mxGeometry x="840" y="120" width="160" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b2-form" value="Fill Form: same fields&#xa;Involuntary → Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1060" y="118" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b2-end" value="Status =&#xa;Terminated&#xa;(Involuntary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1340" y="115" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Row 4: Branch 3 — Dismissal (goes to Manager lane) -->
+        <mxCell id="hr-b3" value="③ Dismissal&#xa;(TERM_DISMIS)&#xa;→ WORKFLOW" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;fontStyle=1;" vertex="1" parent="sw-hr">
+          <mxGeometry x="840" y="200" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Row 5: Branch 4 — No Show -->
+        <mxCell id="hr-b4" value="④ No Show&#xa;(Involuntary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="sw-hr">
+          <mxGeometry x="840" y="290" width="160" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b4-purge" value="Purge Employee ID&#xa;from System" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1060" y="285" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b4-end" value="Employee ID&#xa;Purged" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1340" y="290" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Row 6: Branch 5 — Transfer Out -->
+        <mxCell id="hr-b5" value="⑤ Transfer Out&#xa;(Involuntary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="sw-hr">
+          <mxGeometry x="840" y="370" width="160" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b5-form" value="Fill Form + Specify&#xa;Destination Company → Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1060" y="368" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr-b5-end" value="Status =&#xa;Terminated&#xa;(Transfer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=11;" vertex="1" parent="sw-hr">
+          <mxGeometry x="1340" y="373" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ===== HR Edges (all orthogonal) ===== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-start" target="hr-s1" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-s1" target="hr-s2" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-s2" target="hr-d1" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → 5 branches (exit right side of diamond, stacked vertically) -->
+        <mxCell id="e-d-b1" value="Resign" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;fontSize=10;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" source="hr-d1" target="hr-b1" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-d-b2" value="Retirement" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="hr-d1" target="hr-b2" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-d-b3" value="Dismissal" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontSize=10;fontColor=#dc3545;fontStyle=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" source="hr-d1" target="hr-b3" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-d-b4" value="No Show" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;fontSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="hr-d1" target="hr-b4" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="690" y="290" />
+              <mxPoint x="800" y="290" />
+              <mxPoint x="800" y="313" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-d-b5" value="Transfer Out" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;fontSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="hr-d1" target="hr-b5" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="690" y="393" />
+              <mxPoint x="800" y="393" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Branch flows: label → form → end -->
+        <mxCell id="e-b1a" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b1" target="hr-b1-form" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b1b" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b1-form" target="hr-b1-end" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b2a" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b2" target="hr-b2-form" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b2b" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b2-form" target="hr-b2-end" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b4a" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b4" target="hr-b4-purge" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b4b" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b4-purge" target="hr-b4-end" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b5a" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b5" target="hr-b5-form" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b5b" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hr-b5-form" target="hr-b5-end" parent="sw-hr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== SWIMLANE: Line Manager ===== -->
+        <mxCell id="sw-mgr" value="Line Manager" style="swimlane;startSize=30;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=14;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="1700" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-s1" value="Initiate Dismissal&#xa;Actions → Terminate&#xa;Reason = TERM_DISMIS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;fontStyle=1;" vertex="1" parent="sw-mgr">
+          <mxGeometry x="160" y="50" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-s2" value="Fill Form:&#xa;Resigned Date, Last Date,&#xa;OK to Rehire → Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="sw-mgr">
+          <mxGeometry x="440" y="50" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-s3" value="System sends To-Do&#xa;to HRBP Approver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;" vertex="1" parent="sw-mgr">
+          <mxGeometry x="700" y="50" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-reject" value="Receives Rejection&#xa;+ Comment from HRBP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;" vertex="1" parent="sw-mgr">
+          <mxGeometry x="1340" y="50" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Manager edges -->
+        <mxCell id="e-mgr1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="mgr-s1" target="mgr-s2" parent="sw-mgr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-mgr2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="mgr-s2" target="mgr-s3" parent="sw-mgr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-lane: Dismissal from HR → Manager -->
+        <mxCell id="e-cross-hr-mgr" value="Workflow triggered" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#9673A6;strokeWidth=2;html=1;dashed=1;fontSize=10;fontColor=#9673A6;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="hr-b3" target="mgr-s1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="480" />
+              <mxPoint x="120" y="480" />
+              <mxPoint x="120" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== SWIMLANE: HRBP ===== -->
+        <mxCell id="sw-hrbp" value="HRBP (Approver)" style="swimlane;startSize=30;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=14;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="1700" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hrbp-s1" value="Check To-Do&#xa;(System Notification)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="sw-hrbp">
+          <mxGeometry x="440" y="55" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hrbp-s2" value="Review Dismissal&#xa;Details + Comment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="sw-hrbp">
+          <mxGeometry x="700" y="55" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hrbp-d1" value="Approve?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=12;verticalAlign=middle;" vertex="1" parent="sw-hrbp">
+          <mxGeometry x="960" y="45" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hrbp-yes" value="Approve&#xa;→ Status = Terminated" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="sw-hrbp">
+          <mxGeometry x="1150" y="40" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hrbp-no" value="Reject with Comment&#xa;→ Back to Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=12;" vertex="1" parent="sw-hrbp">
+          <mxGeometry x="1150" y="105" width="180" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- HRBP edges -->
+        <mxCell id="e-hrbp1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hrbp-s1" target="hrbp-s2" parent="sw-hrbp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-hrbp2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="hrbp-s2" target="hrbp-d1" parent="sw-hrbp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-hrbp-yes" value="YES" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontSize=11;fontColor=#28a745;fontStyle=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" source="hrbp-d1" target="hrbp-yes" parent="sw-hrbp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-hrbp-no" value="NO" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontSize=11;fontColor=#dc3545;fontStyle=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" source="hrbp-d1" target="hrbp-no" parent="sw-hrbp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-lane: Manager → HRBP notification -->
+        <mxCell id="e-cross-mgr-hrbp" value="System To-Do" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#9673A6;strokeWidth=2;html=1;dashed=1;fontSize=10;fontColor=#9673A6;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="mgr-s3" target="hrbp-s1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-lane: HRBP reject → Manager -->
+        <mxCell id="e-cross-hrbp-mgr" value="Reject notification" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;dashed=1;fontSize=10;fontColor=#dc3545;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="hrbp-no" target="mgr-reject" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1470" y="808" />
+              <mxPoint x="1470" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== SWIMLANE: Employee (Result) ===== -->
+        <mxCell id="sw-emp" value="Employee (Result)" style="swimlane;startSize=30;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontStyle=1;fontSize=14;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="850" width="1700" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="emp-terminated" value="Employee Status = Terminated&#xa;(Resign / Retirement / Dismissal / Transfer Out)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=13;fontStyle=1;" vertex="1" parent="sw-emp">
+          <mxGeometry x="440" y="45" width="360" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="emp-purged" value="Employee ID Purged&#xa;(No Show only)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=13;fontStyle=1;" vertex="1" parent="sw-emp">
+          <mxGeometry x="900" y="45" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Info Boxes ===== -->
+        <mxCell id="info-fields" value="&lt;b&gt;Key Fields:&lt;/b&gt; Resigned Date | Last Date Worked | OK to Rehire (No = permanent blacklist) | Transfer Direct Subordinates (3 options: upper manager / other manager / individual)" style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=middle;align=left;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="990" width="700" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="warn-multi" value="&lt;b&gt;⚠ WARNING:&lt;/b&gt; Multi-position employees — Must select &quot;All Employments&quot; for true company exit. Selecting single assignment only terminates that position." style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=middle;align=left;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="990" width="500" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="info-events" value="&lt;b&gt;Event Reason Codes:&lt;/b&gt;&#xa;TERM_RESIGN (Voluntary) | TERM_RETRIE (Involuntary) | TERM_DISMIS (Involuntary + Workflow)&#xa;TERM_UNSUCPROB | TERM_ENDASSIGN | Layoff | Passed away | End of Contract" style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=middle;align=left;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1050" width="700" height="60" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

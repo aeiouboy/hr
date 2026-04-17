@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-10" version="21.0.0">
+  <diagram id="ttt05-pay-rate-change" name="05 — Pay Rate Change">
+    <mxGraphModel dx="1600" dy="1000" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Process 05 — Pay Rate Change (SAP SuccessFactors EC Core, As-Is 2018)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=14;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="60" y="20" width="1680" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LANE: HR Admin (Path A — Individual) -->
+        <!-- ============================================================ -->
+        <mxCell id="lane-hradmin" value="HR Admin" style="swimlane;startSize=40;horizontal=0;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#4a90b8;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="1680" height="560" as="geometry" />
+        </mxCell>
+
+        <!-- Path A label -->
+        <mxCell id="label-patha" value="Path A — Individual Pay Rate Change" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=3;fontColor=#4a90b8;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="50" width="340" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Start A -->
+        <mxCell id="a-start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="100" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- A-S1: Employee Profile Actions -->
+        <mxCell id="a-s1" value="Employee Profile&#xa;Actions menu" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="210" y="95" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- A-S2: Change Job & Comp -->
+        <mxCell id="a-s2" value="Change Job &amp; Comp&#xa;&#x2192; Compensation Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="440" y="95" width="170" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- A-S3: Set Event -->
+        <mxCell id="a-s3" value="Set Event =&#xa;Pay Rate Change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="680" y="95" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- A-S4: Select Event Reason -->
+        <mxCell id="a-s4" value="Select Event Reason" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="910" y="95" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Event Reasons reference box -->
+        <mxCell id="a-reasons" value="PRCHG_MERIT — Merit Increase&#xa;PRCHG_ADJPOS — Adjust Position&#xa;PRCHG_SALCUT — Salary Cuts&#xa;PRCHG_SALADJ — Salary Adjust&#xa;PRCHG_PRM — Promotion" style="text;html=1;strokeColor=#4a90b8;fillColor=#f0f8ff;align=left;verticalAlign=top;fontSize=10;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="910" y="170" width="250" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- A-DEC1: Future-dated record? -->
+        <mxCell id="a-dec1" value="Future-dated&#xa;record exists?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="700" y="290" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- A-WARN: Delete future record -->
+        <mxCell id="a-warn" value="&#x26;&#x23;9888; Delete Future Record First&#xa;(backdated insert is blocked)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="440" y="300" width="200" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- A-S5: Change Calculator -->
+        <mxCell id="a-s5" value="Change Calculator&#xa;(Amount or %)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="910" y="300" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- A-SAVE -->
+        <mxCell id="a-save" value="Save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="300" width="120" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- A-END -->
+        <mxCell id="a-end" value="Done" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1350" y="300" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- PATH A EDGES -->
+        <!-- ============================================================ -->
+
+        <!-- a-start → a-s1 -->
+        <mxCell id="ea1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="a-start" target="a-s1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-s1 → a-s2 -->
+        <mxCell id="ea2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="a-s1" target="a-s2" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-s2 → a-s3 -->
+        <mxCell id="ea3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="a-s2" target="a-s3" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-s3 → a-s4 -->
+        <mxCell id="ea4" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="a-s3" target="a-s4" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-s4 → a-dec1: go down then left -->
+        <mxCell id="ea5" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="a-s4" target="a-dec1" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="990" y="230" />
+              <mxPoint x="775" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- a-dec1 → a-warn: Yes left -->
+        <mxCell id="ea6" value="Yes" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontColor=#dc3545;fontStyle=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="a-dec1" target="a-warn" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-dec1 → a-s5: No right -->
+        <mxCell id="ea7" value="No" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontColor=#28a745;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="a-dec1" target="a-s5" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-warn → a-s5: after fix, route down then right (avoid overlap) -->
+        <mxCell id="ea8" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="a-warn" target="a-s5" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="420" />
+              <mxPoint x="990" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- a-s5 → a-save -->
+        <mxCell id="ea9" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="a-s5" target="a-save" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- a-save → a-end -->
+        <mxCell id="ea10" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="a-save" target="a-end" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LANE: System Admin (Path B — Mass Upload) -->
+        <!-- ============================================================ -->
+        <mxCell id="lane-sysadmin" value="System Admin (Mass Upload)" style="swimlane;startSize=40;horizontal=0;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#4a90b8;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="640" width="1680" height="700" as="geometry" />
+        </mxCell>
+
+        <!-- Path B label -->
+        <mxCell id="label-pathb" value="Path B — Mass Upload (2-File Import)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=3;fontColor=#4a90b8;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="60" y="50" width="360" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- FILE 1 header -->
+        <mxCell id="b-file1-hdr" value="STEP 1 — Import Compensation Information" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="60" y="85" width="380" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- B-Start -->
+        <mxCell id="b-start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="60" y="130" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- B-S1: Admin Centre -->
+        <mxCell id="b-s1" value="Admin Centre&#xa;&#x2192; Import Employee Data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="210" y="120" width="170" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- B-S2: Upload CSV File 1 -->
+        <mxCell id="b-s2" value="Upload CSV&#xa;CompInfoImportTemplate.csv&#xa;(UTF-8, dd/MM/yyyy, Incremental)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="450" y="110" width="200" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- B-S3: Validate File 1 -->
+        <mxCell id="b-s3" value="Validate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="720" y="120" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-DEC1: Errors? -->
+        <mxCell id="b-dec1" value="Errors?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="720" y="240" width="130" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- B-FIX1: Fix errors -->
+        <mxCell id="b-fix1" value="Fix CSV errors&#xa;&amp; re-upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="450" y="248" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-S4: Import File 1 -->
+        <mxCell id="b-s4" value="Import&#xa;(CompInfo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="720" y="380" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-MONITOR1: Monitor Job -->
+        <mxCell id="b-monitor1" value="Monitor Job&#xa;(Admin Centre)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="720" y="500" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- FILE 2 header -->
+        <mxCell id="b-file2-hdr" value="STEP 2 — Import Pay Component Recurring" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="980" y="85" width="400" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- B-S5: Upload CSV File 2 -->
+        <mxCell id="b-s5" value="Upload CSV&#xa;PayComponentRecurringImportTemplate.csv&#xa;(UTF-8, dd/MM/yyyy, Incremental)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="980" y="110" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- B-S6: Validate File 2 -->
+        <mxCell id="b-s6" value="Validate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="1270" y="120" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-DEC2: Errors? -->
+        <mxCell id="b-dec2" value="Errors?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="1270" y="240" width="130" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- B-FIX2: Fix errors -->
+        <mxCell id="b-fix2" value="Fix CSV errors&#xa;&amp; re-upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="1480" y="248" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-S7: Import File 2 -->
+        <mxCell id="b-s7" value="Import&#xa;(PayComponentRecurring)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="1270" y="380" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-MONITOR2: Monitor Job -->
+        <mxCell id="b-monitor2" value="Monitor Job&#xa;(Admin Centre)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="1270" y="500" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- B-END -->
+        <mxCell id="b-end" value="Done" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-sysadmin">
+          <mxGeometry x="1290" y="620" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- PATH B EDGES -->
+        <!-- ============================================================ -->
+
+        <!-- b-start → b-s1 -->
+        <mxCell id="eb1" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="b-start" target="b-s1" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-s1 → b-s2 -->
+        <mxCell id="eb2" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="b-s1" target="b-s2" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-s2 → b-s3 -->
+        <mxCell id="eb3" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="b-s2" target="b-s3" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-s3 → b-dec1 -->
+        <mxCell id="eb4" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-s3" target="b-dec1" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-dec1 → b-fix1: Yes left -->
+        <mxCell id="eb5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontColor=#dc3545;fontStyle=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="b-dec1" target="b-fix1" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-fix1 → b-s3: loop back — route BELOW via y=360 to avoid main flow -->
+        <mxCell id="eb6" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="b-fix1" target="b-s3" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="360" />
+              <mxPoint x="785" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- b-dec1 → b-s4: No down -->
+        <mxCell id="eb7" value="No" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontColor=#28a745;fontStyle=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-dec1" target="b-s4" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-s4 → b-monitor1 -->
+        <mxCell id="eb8" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-s4" target="b-monitor1" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-monitor1 → b-s5: cross to file 2 — route right via x=940 corridor (clear of retry loops) -->
+        <mxCell id="eb9" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;dashed=1;strokeColor=#9673A6;strokeWidth=1.5;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="b-monitor1" target="b-s5" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="527" />
+              <mxPoint x="940" y="148" />
+              <mxPoint x="980" y="148" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- b-s5 → b-s6 -->
+        <mxCell id="eb10" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="b-s5" target="b-s6" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-s6 → b-dec2 -->
+        <mxCell id="eb11" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-s6" target="b-dec2" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-dec2 → b-fix2: Yes right -->
+        <mxCell id="eb12" value="Yes" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontColor=#dc3545;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="b-dec2" target="b-fix2" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-fix2 → b-s6: loop back — route BELOW via y=360 to avoid main flow -->
+        <mxCell id="eb13" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="b-fix2" target="b-s6" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="360" />
+              <mxPoint x="1335" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- b-dec2 → b-s7: No down -->
+        <mxCell id="eb14" value="No" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontColor=#28a745;fontStyle=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-dec2" target="b-s7" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-s7 → b-monitor2 -->
+        <mxCell id="eb15" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-s7" target="b-monitor2" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- b-monitor2 → b-end -->
+        <mxCell id="eb16" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b-monitor2" target="b-end" parent="lane-sysadmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

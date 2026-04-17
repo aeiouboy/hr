@@ -1,0 +1,197 @@
+<mxfile host="app.diagrams.net" modified="2026-04-10" version="21.0.0">
+  <diagram id="ttt02-manage-probation" name="02 - Manage Probation">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Process 02 — Manage Probation (SAP SuccessFactors EC Core As-Is, 2018)" style="text;html=1;fontSize=14;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="1720" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Single swimlane: HR Admin -->
+        <mxCell id="lane-hradmin" value="HR Admin" style="swimlane;startSize=40;horizontal=0;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="54" width="1740" height="1250" as="geometry" />
+        </mxCell>
+
+        <!-- START + Review (left column) -->
+        <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="560" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="review" value="Review Employee&#xa;Probation Record" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="210" y="550" width="170" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Decision diamond (centre-left) -->
+        <mxCell id="decision" value="Probation&#xa;Result?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=12;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="450" y="545" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ===== BRANCH 1: PASS (top row, y~120) ===== -->
+        <mxCell id="b1-label" value="Branch 1 — Pass" style="text;html=1;fontSize=10;fontStyle=3;align=left;fillColor=none;strokeColor=none;fontColor=#28a745;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="80" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pass-action" value="Change Job &amp; Comp Info&#xa;Event: Completion of Probation&#xa;Reason: COMPROB_COMPROB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;align=left;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="110" width="220" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pass-verify" value="Verify Pass Probation Date&#xa;in Employment Details" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="950" y="120" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pass-end" value="End&#xa;(Pass)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1220" y="120" width="80" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== BRANCH 2: EXTEND (middle row, y~400) ===== -->
+        <mxCell id="b2-label" value="Branch 2 — Extend" style="text;html=1;fontSize=10;fontStyle=3;align=left;fillColor=none;strokeColor=none;fontColor=#e6a817;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="370" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="extend-action" value="Change Job &amp; Comp Info&#xa;Event: Data Change&#xa;Reason: DC_EXTPROB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;align=left;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="400" width="220" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="extend-warn" value="System Warning:&#xa;Probation End Date change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="950" y="410" width="190" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="extend-proceed" value="Proceed&#xa;(Change Probation End Date)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1210" y="410" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="extend-end" value="End&#xa;(Extend)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1460" y="415" width="80" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== BRANCH 3: FAIL (bottom row, y~700) ===== -->
+        <mxCell id="b3-label" value="Branch 3 — Fail / Terminate" style="text;html=1;fontSize=10;fontStyle=3;align=left;fillColor=none;strokeColor=none;fontColor=#dc3545;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="680" width="250" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-terminate" value="Terminate Employee&#xa;Event: Terminate&#xa;Reason: TERM_UNSUCPROB&#xa;(Involuntary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;align=left;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="710" width="210" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- OK to Rehire? decision -->
+        <mxCell id="fail-ok" value="OK to&#xa;Rehire?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="940" y="710" width="130" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-ok-yes" value="Yes&#xa;(Rehire eligible)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="690" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-ok-no" value="No&#xa;(Blacklisted)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1140" y="790" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Transfer subordinates -->
+        <mxCell id="fail-transfer" value="Transfer Direct Subordinates&#xa;(if any)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="660" y="880" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-end" value="End&#xa;(Fail)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="930" y="885" width="80" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Business Rules Note ===== -->
+        <mxCell id="note-rules" value="Business Rules:&#xa;- Pass: COMPROB_COMPROB event — verify Employment Details afterward&#xa;- Extend: DC_EXTPROB — system shows warning, proceed to change Probation End Date&#xa;- Fail: TERM_UNSUCPROB (Involuntary) — set OK to Rehire Yes/No — transfer subordinates if any&#xa;- OK to Rehire = No creates permanent blacklist for that position" style="text;html=1;fontSize=10;align=left;fillColor=#f5f5f5;strokeColor=#aaaaaa;fontColor=#333333;rounded=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="1040" width="700" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EDGES ===== -->
+
+        <!-- Start → Review -->
+        <mxCell id="e-start-review" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="start" target="review" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Review → Decision -->
+        <mxCell id="e-review-dec" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="review" target="decision" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → Pass (top exit, route up then right) -->
+        <mxCell id="e-dec-pass" value="Pass" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontSize=10;fontColor=#28a745;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="decision" target="pass-action" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="150" />
+              <mxPoint x="660" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Decision → Extend (right exit, horizontal) -->
+        <mxCell id="e-dec-extend" value="Extend" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#e6a817;strokeWidth=2;html=1;fontSize=10;fontColor=#e6a817;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="decision" target="extend-action" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="595" />
+              <mxPoint x="620" y="440" />
+              <mxPoint x="660" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Decision → Fail (bottom exit, route down then right) -->
+        <mxCell id="e-dec-fail" value="Fail" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontSize=10;fontColor=#dc3545;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="decision" target="fail-terminate" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="755" />
+              <mxPoint x="660" y="755" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Pass branch edges -->
+        <mxCell id="e-pass-verify" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="pass-action" target="pass-verify" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-pass-end" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;" edge="1" source="pass-verify" target="pass-end" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Extend branch edges -->
+        <mxCell id="e-ext-warn" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="extend-action" target="extend-warn" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-ext-proceed" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="extend-warn" target="extend-proceed" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-ext-end" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;" edge="1" source="extend-proceed" target="extend-end" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Fail branch edges -->
+        <mxCell id="e-fail-ok" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="fail-terminate" target="fail-ok" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-ok-yes" value="Yes" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontSize=10;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="fail-ok" target="fail-ok-yes" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-ok-no" value="No" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontSize=10;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="fail-ok" target="fail-ok-no" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Terminate → Transfer Subordinates (down) -->
+        <mxCell id="e-fail-transfer" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="fail-terminate" target="fail-transfer" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Transfer → End -->
+        <mxCell id="e-transfer-end" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;" edge="1" source="fail-transfer" target="fail-end" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

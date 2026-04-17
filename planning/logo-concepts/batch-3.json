@@ -1,0 +1,77 @@
+{
+  "jobs": 8,
+  "tasks": [
+    {
+      "id": "concept-17-seedling-hands",
+      "promptFiles": ["prompts/concept-17.md"],
+      "image": "concept-17.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-18-tree-of-people",
+      "promptFiles": ["prompts/concept-18.md"],
+      "image": "concept-18.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-19-lotus",
+      "promptFiles": ["prompts/concept-19.md"],
+      "image": "concept-19.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-20-origami-person",
+      "promptFiles": ["prompts/concept-20.md"],
+      "image": "concept-20.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-21-journey-path",
+      "promptFiles": ["prompts/concept-21.md"],
+      "image": "concept-21.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-22-compass-person",
+      "promptFiles": ["prompts/concept-22.md"],
+      "image": "concept-22.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-23-signature-H",
+      "promptFiles": ["prompts/concept-23.md"],
+      "image": "concept-23.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-24-platform-stack",
+      "promptFiles": ["prompts/concept-24.md"],
+      "image": "concept-24.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    }
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "type": "text", "id": "title",
+      "x": 200, "y": 10, "width": 700, "height": 30,
+      "text": "CG-03-02 Manage Probation — Workflow", "originalText": "CG-03-02 Manage Probation — Workflow",
+      "fontSize": 24, "fontFamily": 2, "textAlign": "center", "verticalAlign": "top",
+      "strokeColor": "#1e40af", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 100001, "version": 1, "versionNonce": 100002,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    },
+    {
+      "type": "text", "id": "subtitle",
+      "x": 250, "y": 42, "width": 600, "height": 16,
+      "text": "UI: Actions → Change Job and Comp Info → Job Information checkbox", "originalText": "UI: Actions → Change Job and Comp Info → Job Information checkbox",
+      "fontSize": 12, "fontFamily": 2, "textAlign": "center", "verticalAlign": "top",
+      "strokeColor": "#64748b", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 100003, "version": 1, "versionNonce": 100004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    },
+
+    {
+      "type": "ellipse", "id": "trigger",
+      "x": 30, "y": 100, "width": 180, "height": 65,
+      "strokeColor": "#047857", "backgroundColor": "#a7f3d0",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 110001, "version": 1, "versionNonce": 110002,
+      "isDeleted": false, "groupIds": [],
+      "boundElements": [{"id": "trigger_t", "type": "text"}, {"id": "arr_t_s1", "type": "arrow"}],
+      "link": null, "locked": false
+    },
+    {
+      "type": "text", "id": "trigger_t",
+      "x": 55, "y": 118, "width": 130, "height": 30,
+      "text": "Probation period\napproaching end", "originalText": "Probation period\napproaching end",
+      "fontSize": 12, "fontFamily": 2, "textAlign": "center", "verticalAlign": "middle",
+      "strokeColor": "#047857", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 110003, "version": 1, "versionNonce": 110004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": "trigger", "lineHeight": 1.25
+    },
+
+    {
+      "type": "arrow", "id": "arr_t_s1",
+      "x": 212, "y": 132, "width": 48, "height": 0,
+      "strokeColor": "#047857", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 110010, "version": 1, "versionNonce": 110011,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false,
+      "points": [[0,0],[48,0]],
+      "startBinding": {"elementId": "trigger", "focus": 0, "gap": 2},
+      "endBinding": {"elementId": "step1", "focus": 0, "gap": 2},
+      "startArrowhead": null, "endArrowhead": "arrow"
+    },
+
+    {
+      "type": "rectangle", "id": "step1",
+      "x": 262, "y": 97, "width": 180, "height": 70,
+      "strokeColor": "#1e3a5f", "backgroundColor": "#3b82f6",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 120001, "version": 1, "versionNonce": 120002,
+      "isDeleted": false, "groupIds": [],
+      "boundElements": [{"id": "step1_t", "type": "text"}, {"id": "arr_t_s1", "type": "arrow"}, {"id": "arr_s1_dec", "type": "arrow"}],
+      "link": null, "locked": false, "roundness": {"type": 3}
+    },
+    {
+      "type": "text", "id": "step1_t",
+      "x": 272, "y": 107, "width": 160, "height": 50,
+      "text": "HR Admin:\nSet effective date\nSelect Event + Reason", "originalText": "HR Admin:\nSet effective date\nSelect Event + Reason",
+      "fontSize": 12, "fontFamily": 2, "textAlign": "center", "verticalAlign": "middle",
+      "strokeColor": "#ffffff", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 120003, "version": 1, "versionNonce": 120004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": "step1", "lineHeight": 1.25
+    },
+
+    {
+      "type": "arrow", "id": "arr_s1_dec",
+      "x": 444, "y": 132, "width": 56, "height": 0,
+      "strokeColor": "#1e3a5f", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 120010, "version": 1, "versionNonce": 120011,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false,
+      "points": [[0,0],[56,0]],
+      "startBinding": {"elementId": "step1", "focus": 0, "gap": 2},
+      "endBinding": {"elementId": "decision", "focus": 0, "gap": 2},
+      "startArrowhead": null, "endArrowhead": "arrow"
+    },
+
+    {
+      "type": "diamond", "id": "decision",
+      "x": 502, "y": 72, "width": 130, "height": 120,
+      "strokeColor": "#b45309", "backgroundColor": "#fef3c7",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130001, "version": 1, "versionNonce": 130002,
+      "isDeleted": false, "groupIds": [],
+      "boundElements": [{"id": "decision_t", "type": "text"}, {"id": "arr_s1_dec", "type": "arrow"}, {"id": "arr_dec_pass", "type": "arrow"}, {"id": "arr_dec_extend", "type": "arrow"}, {"id": "arr_dec_fail", "type": "arrow"}],
+      "link": null, "locked": false
+    },
+    {
+      "type": "text", "id": "decision_t",
+      "x": 527, "y": 117, "width": 80, "height": 30,
+      "text": "Probation\nResult?", "originalText": "Probation\nResult?",
+      "fontSize": 12, "fontFamily": 2, "textAlign": "center", "verticalAlign": "middle",
+      "strokeColor": "#b45309", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130003, "version": 1, "versionNonce": 130004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": "decision", "lineHeight": 1.25
+    },
+
+    {
+      "type": "arrow", "id": "arr_dec_pass",
+      "x": 634, "y": 108, "width": 86, "height": 0,
+      "strokeColor": "#047857", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130010, "version": 1, "versionNonce": 130011,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false,
+      "points": [[0,0],[86,0]],
+      "startBinding": {"elementId": "decision", "focus": -0.4, "gap": 2},
+      "endBinding": {"elementId": "pass_result", "focus": 0, "gap": 2},
+      "startArrowhead": null, "endArrowhead": "arrow"
+    },
+    {
+      "type": "text", "id": "lbl_pass",
+      "x": 645, "y": 92, "width": 40, "height": 14,
+      "text": "PASS", "originalText": "PASS",
+      "fontSize": 11, "fontFamily": 2, "textAlign": "center", "verticalAlign": "top",
+      "strokeColor": "#047857", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130012, "version": 1, "versionNonce": 130013,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    },
+
+    {
+      "type": "rectangle", "id": "pass_result",
+      "x": 722, "y": 80, "width": 260, "height": 55,
+      "strokeColor": "#047857", "backgroundColor": "#a7f3d0",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 140001, "version": 1, "versionNonce": 140002,
+      "isDeleted": false, "groupIds": [],
+      "boundElements": [{"id": "pass_result_t", "type": "text"}, {"id": "arr_dec_pass", "type": "arrow"}],
+      "link": null, "locked": false, "roundness": {"type": 3}
+    },
+    {
+      "type": "text", "id": "pass_result_t",
+      "x": 732, "y": 90, "width": 240, "height": 35,
+      "text": "Completion of Probation\nSet Confirm Date in Employment Details", "originalText": "Completion of Probation\nSet Confirm Date in Employment Details",
+      "fontSize": 11, "fontFamily": 2, "textAlign": "center", "verticalAlign": "middle",
+      "strokeColor": "#374151", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 140003, "version": 1, "versionNonce": 140004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": "pass_result", "lineHeight": 1.25
+    },
+
+    {
+      "type": "arrow", "id": "arr_dec_extend",
+      "x": 567, "y": 194, "width": 0, "height": 56,
+      "strokeColor": "#b45309", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130020, "version": 1, "versionNonce": 130021,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false,
+      "points": [[0,0],[0,56]],
+      "startBinding": {"elementId": "decision", "focus": 0, "gap": 2},
+      "endBinding": {"elementId": "extend_result", "focus": 0, "gap": 2},
+      "startArrowhead": null, "endArrowhead": "arrow"
+    },
+    {
+      "type": "text", "id": "lbl_extend",
+      "x": 575, "y": 200, "width": 55, "height": 14,
+      "text": "EXTEND", "originalText": "EXTEND",
+      "fontSize": 11, "fontFamily": 2, "textAlign": "left", "verticalAlign": "top",
+      "strokeColor": "#b45309", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130022, "version": 1, "versionNonce": 130023,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    },
+
+    {
+      "type": "rectangle", "id": "extend_result",
+      "x": 437, "y": 252, "width": 260, "height": 55,
+      "strokeColor": "#b45309", "backgroundColor": "#fef3c7",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 150001, "version": 1, "versionNonce": 150002,
+      "isDeleted": false, "groupIds": [],
+      "boundElements": [{"id": "extend_result_t", "type": "text"}, {"id": "arr_dec_extend", "type": "arrow"}, {"id": "arr_extend_loop", "type": "arrow"}],
+      "link": null, "locked": false, "roundness": {"type": 3}
+    },
+    {
+      "type": "text", "id": "extend_result_t",
+      "x": 447, "y": 260, "width": 240, "height": 40,
+      "text": "Event = Data Change\nReason = Extend Probation\nMUST update Probation End Date", "originalText": "Event = Data Change\nReason = Extend Probation\nMUST update Probation End Date",
+      "fontSize": 10, "fontFamily": 2, "textAlign": "center", "verticalAlign": "middle",
+      "strokeColor": "#374151", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 150003, "version": 1, "versionNonce": 150004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": "extend_result", "lineHeight": 1.25
+    },
+
+    {
+      "type": "arrow", "id": "arr_extend_loop",
+      "x": 435, "y": 280, "width": 200, "height": 80,
+      "strokeColor": "#b45309", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "dashed",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 150010, "version": 1, "versionNonce": 150011,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false,
+      "points": [[0,0],[-200,0],[-200,-80],[0,-80]],
+      "startBinding": null, "endBinding": null,
+      "startArrowhead": null, "endArrowhead": "arrow"
+    },
+    {
+      "type": "text", "id": "lbl_loop",
+      "x": 255, "y": 268, "width": 150, "height": 14,
+      "text": "Wait for new end date →", "originalText": "Wait for new end date →",
+      "fontSize": 10, "fontFamily": 2, "textAlign": "center", "verticalAlign": "top",
+      "strokeColor": "#b45309", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 150012, "version": 1, "versionNonce": 150013,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    },
+
+    {
+      "type": "arrow", "id": "arr_dec_fail",
+      "x": 634, "y": 155, "width": 86, "height": 110,
+      "strokeColor": "#dc2626", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130030, "version": 1, "versionNonce": 130031,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false,
+      "points": [[0,0],[86,110]],
+      "startBinding": {"elementId": "decision", "focus": 0.4, "gap": 2},
+      "endBinding": {"elementId": "fail_result", "focus": 0, "gap": 2},
+      "startArrowhead": null, "endArrowhead": "arrow"
+    },
+    {
+      "type": "text", "id": "lbl_fail",
+      "x": 660, "y": 190, "width": 30, "height": 14,
+      "text": "FAIL", "originalText": "FAIL",
+      "fontSize": 11, "fontFamily": 2, "textAlign": "left", "verticalAlign": "top",
+      "strokeColor": "#dc2626", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 130032, "version": 1, "versionNonce": 130033,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    },
+
+    {
+      "type": "rectangle", "id": "fail_result",
+      "x": 722, "y": 252, "width": 260, "height": 55,
+      "strokeColor": "#dc2626", "backgroundColor": "#fee2e2",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 160001, "version": 1, "versionNonce": 160002,
+      "isDeleted": false, "groupIds": [],
+      "boundElements": [{"id": "fail_result_t", "type": "text"}, {"id": "arr_dec_fail", "type": "arrow"}],
+      "link": null, "locked": false, "roundness": {"type": 3}
+    },
+    {
+      "type": "text", "id": "fail_result_t",
+      "x": 732, "y": 260, "width": 240, "height": 40,
+      "text": "Unsuccessful Probation\n→ Triggers CG-03-05 Termination", "originalText": "Unsuccessful Probation\n→ Triggers CG-03-05 Termination",
+      "fontSize": 11, "fontFamily": 2, "textAlign": "center", "verticalAlign": "middle",
+      "strokeColor": "#dc2626", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 160003, "version": 1, "versionNonce": 160004,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": "fail_result", "lineHeight": 1.25
+    },
+
+    {
+      "type": "text", "id": "warning",
+      "x": 437, "y": 320, "width": 300, "height": 16,
+      "text": "⚠ System warns if Probation End Date not changed", "originalText": "⚠ System warns if Probation End Date not changed",
+      "fontSize": 11, "fontFamily": 2, "textAlign": "left", "verticalAlign": "top",
+      "strokeColor": "#dc2626", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid",
+      "roughness": 0, "opacity": 100, "angle": 0,
+      "seed": 170001, "version": 1, "versionNonce": 170002,
+      "isDeleted": false, "groupIds": [], "boundElements": null,
+      "link": null, "locked": false, "containerId": null, "lineHeight": 1.25
+    }
+  ],
+  "appState": { "viewBackgroundColor": "#ffffff", "gridSize": 20 },
+  "files": {}
+}

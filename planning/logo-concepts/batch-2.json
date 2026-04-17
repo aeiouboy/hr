@@ -1,0 +1,77 @@
+{
+  "jobs": 8,
+  "tasks": [
+    {
+      "id": "concept-09-hex-tech-grid",
+      "promptFiles": ["prompts/concept-09.md"],
+      "image": "concept-09.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-10-shopping-bag-people",
+      "promptFiles": ["prompts/concept-10.md"],
+      "image": "concept-10.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-11-circuit-person",
+      "promptFiles": ["prompts/concept-11.md"],
+      "image": "concept-11.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-12-storefront-H",
+      "promptFiles": ["prompts/concept-12.md"],
+      "image": "concept-12.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-13-data-ring-people",
+      "promptFiles": ["prompts/concept-13.md"],
+      "image": "concept-13.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-14-barcode-to-people",
+      "promptFiles": ["prompts/concept-14.md"],
+      "image": "concept-14.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-15-price-tag-badge",
+      "promptFiles": ["prompts/concept-15.md"],
+      "image": "concept-15.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    },
+    {
+      "id": "concept-16-pixel-NH",
+      "promptFiles": ["prompts/concept-16.md"],
+      "image": "concept-16.png",
+      "provider": "openrouter",
+      "model": "google/gemini-3.1-flash-image-preview",
+      "ar": "1:1",
+      "quality": "2k"
+    }
+  ]
+}

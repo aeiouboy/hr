@@ -1,0 +1,237 @@
+<mxfile host="app.diagrams.net" modified="2026-04-10" version="21.0.0">
+  <diagram id="ttt03-maintain-master-data" name="03 - Maintain Master Data">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Process 03 — Maintain Master Data (SAP SuccessFactors EC Core As-Is, 2018)" style="text;html=1;fontSize=14;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="1720" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== LANE 1: HR Admin ===== -->
+        <mxCell id="lane-hradmin" value="HR Admin" style="swimlane;startSize=40;horizontal=0;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="54" width="1740" height="400" as="geometry" />
+        </mxCell>
+
+        <!-- Section 1 label -->
+        <mxCell id="title-direct" value="Section 1: Direct Edit (Current Data)" style="text;html=1;fontSize=11;fontStyle=3;align=left;fillColor=none;strokeColor=none;fontColor=#aaaaaa;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="20" width="340" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 7 Direct Edit boxes (row 1) -->
+        <mxCell id="direct-natid" value="National ID&#xa;(Current)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direct-bio" value="Biographical&#xa;(Current)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="220" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direct-contact" value="Contact Info&#xa;(Current)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="380" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direct-address" value="Address&#xa;(Current)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="540" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direct-wp" value="Work Permit&#xa;(Current)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="700" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direct-emg" value="Emergency Contact&#xa;(Current)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="860" y="50" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direct-payment" value="Payment Info&#xa;(Historical +&#xa;Effective Date)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1030" y="45" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Note: direct-edit label -->
+        <mxCell id="note-direct" value="All above sections: HR edits directly — no workflow triggered" style="text;html=1;fontSize=9;fontStyle=2;align=left;fillColor=none;strokeColor=none;fontColor=#aaaaaa;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="120" width="500" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Section 2 label -->
+        <mxCell id="title-action" value="Section 2: Take Action — Change Job &amp; Comp (Historical Data)" style="text;html=1;fontSize=11;fontStyle=3;align=left;fillColor=none;strokeColor=none;fontColor=#aaaaaa;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="160" width="500" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 3 Historical boxes + action box -->
+        <mxCell id="act-org" value="Org Info&#xa;(Historical)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="60" y="196" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-job" value="Job Info&#xa;(Historical)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="230" y="196" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-comp" value="Compensation&#xa;(Historical)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="400" y="196" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-takaction" value="Take Action:&#xa;Change Job &amp; Comp Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;fontStyle=1;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="620" y="196" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Alt cost distribution -->
+        <mxCell id="act-altcost" value="Alt Cost Distribution&#xa;(Historical)&#xa;Take Action: Manage Alt Cost&#xa;Must sum to 100%" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="880" y="186" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Employee Profile background elements -->
+        <mxCell id="emp-profile" value="Employee Profile (Background Elements) — All Current + Direct Edit:&#xa;Formal Education, Work Experience Within Company, Salary History, Previous Employment,&#xa;Language Skills, Certification/Licences, Honours/Awards, Goodness/Disciplinary Records,&#xa;Legal Execution, Company Loan, Product Damage Insurance, Student Loan (กยศ.),&#xa;Scholarship, Guarantee, EBO, Company Asset, Mobility" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=10;align=left;" vertex="1" parent="lane-hradmin">
+          <mxGeometry x="1130" y="160" width="540" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- ===== LANE 2: Employee ===== -->
+        <mxCell id="lane-employee" value="Employee" style="swimlane;startSize=40;horizontal=0;fillColor=#2c5282;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="464" width="1740" height="240" as="geometry" />
+        </mxCell>
+
+        <mxCell id="emp-start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#2c5282;fontColor=#ffffff;strokeColor=#ffffff;fontSize=11;" vertex="1" parent="lane-employee">
+          <mxGeometry x="60" y="90" width="70" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="emp-request" value="Initiate Change Request&#xa;(Sensitive Fields)&#xa;— First / Last Name&#xa;— Name TH / Lastname TH&#xa;— Marital Status&#xa;— Military Status&#xa;— Address Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;align=left;" vertex="1" parent="lane-employee">
+          <mxGeometry x="190" y="60" width="200" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="emp-submit-wf" value="Submit for Approval&#xa;(Workflow triggered)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-employee">
+          <mxGeometry x="460" y="90" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== LANE 3: Manager ===== -->
+        <mxCell id="lane-manager" value="Manager" style="swimlane;startSize=40;horizontal=0;fillColor=#2d6a4f;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="714" width="1740" height="240" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#2d6a4f;fontColor=#ffffff;strokeColor=#ffffff;fontSize=11;" vertex="1" parent="lane-manager">
+          <mxGeometry x="60" y="90" width="70" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-request" value="Initiate Change Request&#xa;on behalf of Employee&#xa;(Sensitive Fields)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-manager">
+          <mxGeometry x="190" y="75" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr-submit" value="Submit for Approval&#xa;(Workflow triggered)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-manager">
+          <mxGeometry x="460" y="90" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== LANE 4: Approver ===== -->
+        <mxCell id="lane-approver" value="HR Admin&#xa;(Approver)" style="swimlane;startSize=40;horizontal=0;fillColor=#6b3a7d;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="964" width="1740" height="320" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approver-receive" value="Receive Workflow&#xa;Approval Request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#4a90b8;fontSize=11;" vertex="1" parent="lane-approver">
+          <mxGeometry x="460" y="80" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approver-dec" value="Approve?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e6a817;fontSize=11;" vertex="1" parent="lane-approver">
+          <mxGeometry x="720" y="70" width="120" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approver-ok" value="Approve&#xa;(Data Updated)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;" vertex="1" parent="lane-approver">
+          <mxGeometry x="920" y="60" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approver-reject" value="Reject&#xa;(Return to requester)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#dc3545;fontSize=11;" vertex="1" parent="lane-approver">
+          <mxGeometry x="920" y="160" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approver-end" value="End" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#ffffff;fontSize=11;" vertex="1" parent="lane-approver">
+          <mxGeometry x="1150" y="75" width="70" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Notes -->
+        <mxCell id="note-workflow" value="Workflow-triggering fields: First name, Last name, Name TH, Lastname TH, Marital Status, Military Status, Address Info&#xa;Non-workflow fields (HR edits directly): National ID, Biographical, Contact, Address, Work Permit, Emergency Contact, Payment Info&#xa;Historical data note: Org Info, Job Info, Compensation, Alt Cost Distribution store history — always use effective date" style="text;html=1;fontSize=10;align=left;fillColor=#f5f5f5;strokeColor=#aaaaaa;fontColor=#333333;rounded=1;" vertex="1" parent="lane-approver">
+          <mxGeometry x="60" y="150" width="760" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EDGES within HR Admin lane ===== -->
+
+        <mxCell id="e-org-action" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" source="act-org" target="act-takaction" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="226" />
+              <mxPoint x="580" y="241" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-job-action" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="act-job" target="act-takaction" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-comp-action" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" source="act-comp" target="act-takaction" parent="lane-hradmin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="226" />
+              <mxPoint x="580" y="211" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== EDGES within Employee lane ===== -->
+        <mxCell id="e-emp-start-req" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="emp-start" target="emp-request" parent="lane-employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-emp-req-sub" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="emp-request" target="emp-submit-wf" parent="lane-employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EDGES within Manager lane ===== -->
+        <mxCell id="e-mgr-start-req" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="mgr-start" target="mgr-request" parent="lane-manager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-mgr-req-sub" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="mgr-request" target="mgr-submit" parent="lane-manager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CROSS-LANE EDGES (parent="1") ===== -->
+
+        <!-- Employee submit → Approver receive (cross-lane, dashed purple) -->
+        <mxCell id="e-emp-to-approver" value="Workflow" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;dashed=1;strokeColor=#9673A6;strokeWidth=1.5;html=1;fontSize=10;" edge="1" source="emp-submit-wf" target="approver-receive" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="585" />
+              <mxPoint x="640" y="1064" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Manager submit → Approver receive (cross-lane, dashed purple) -->
+        <mxCell id="e-mgr-to-approver" value="Workflow" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;dashed=1;strokeColor=#9673A6;strokeWidth=1.5;html=1;fontSize=10;" edge="1" source="mgr-submit" target="approver-receive" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="835" />
+              <mxPoint x="660" y="1064" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== EDGES within Approver lane ===== -->
+        <mxCell id="e-approver-dec" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#666666;strokeWidth=1.5;html=1;" edge="1" source="approver-receive" target="approver-dec" parent="lane-approver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-approve-ok" value="Approve" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;fontSize=10;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="approver-dec" target="approver-ok" parent="lane-approver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-approve-reject" value="Reject" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#dc3545;strokeWidth=2;html=1;fontSize=10;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="approver-dec" target="approver-reject" parent="lane-approver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-ok-end" style="edgeStyle=orthogonalEdgeStyle;curved=1;endArrow=classic;strokeColor=#28a745;strokeWidth=2;html=1;" edge="1" source="approver-ok" target="approver-end" parent="lane-approver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
