@@ -3,97 +3,139 @@
 @variant dark (.dark &);
 
 /* ════════════════════════════════════════════════════════════
-   Precision Cool — HR Design System
-   Synthesized from aeiouboy/stark#1180 brainstorm (5 lenses) +
-   Forge Lead decision matrix (comment #4211704682).
+   Humi — Central Group HR Design System
+   Ref: specs/humi-frontend-redesign.md + docs/shelfly-hr-design-research.md
 
-   Kills: Atelier warm-stone palette, serif display, token drift
-          (cg-* legacy aliases, duplicate max-width, mixed radii).
+   Adapted จาก Shelfly bundle (cream / teal / ink) + NO-RED scrub
+   ตาม Rungrote guardrail — coral → amber, danger clay → pumpkin,
+   legacy brand red → teal. Tailwind v4 `@theme` SSOT (ไม่ใช้
+   tailwind.config.ts). Rule 26b: preflight handles reset, ไม่มี
+   global `*` reset ด้านล่าง.
 
    Decisions:
-   - Accent:  cobalt #1D6FE8  (focus rings + active states only)
-   - Fonts:   Anuphan (display+body+Thai) + Geist Mono (numerics)
-   - Radius:  12px (BordUp-inspired soft cards)
-   - Borders: minimal — cards use shadow, dividers use hairline
-   - Elevation: shadow-based (BordUp ref: borderless cards on tinted canvas)
+   - Primary:  teal   #1FA8A0  (accent + focus rings + active)
+   - Alt:      indigo #5B6CE0  (second accent, Tweaks option)
+   - Canvas:   cream  #F6F1E8  (body bg — editorial warmth)
+   - Ink:      navy   #0E1B2C  (never pure #000)
+   - Danger:   pumpkin#FB923C  (orange-leaning, ไม่ใช่ red)
+   - Warning:  amber  #F59E0B
+   - Fonts:    CPN Condensed (display) + CPN (body) + Anuphan
+               (Thai fallback) + Geist Mono (numerics)
+   - Radius:   14px medium cards, 20px large cards
+   - Elevation: shadow-based บน cream — ไม่พึ่ง heavy borders
    ════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ── Palette: cool neutral ───────────────────────── */
-  --color-canvas:         #F8F9FB;   /* lighter canvas — BordUp style */
-  --color-surface:        #FFFFFF;
-  --color-surface-raised: #F1F3F8;
-  --color-ink:            #0D1117;   /* never pure #000 */
-  --color-ink-soft:       #5B6B7C;
-  --color-ink-muted:      #8795A8;
-  --color-hairline:       #D8E0EA;   /* 1px ONLY — single divider token */
+  /* ── Palette: cream canvas + navy ink ───────────────────── */
+  --color-canvas:         #F6F1E8;  /* cream — body background */
+  --color-canvas-soft:    #FCFAF5;  /* cream-2 — inset cards */
+  --color-surface:        #FFFFFF;  /* paper — card body */
+  --color-surface-raised: #FCFAF5;
+  --color-ink:            #0E1B2C;  /* navy ink — primary text */
+  --color-ink-soft:       #243447;  /* ink-2 — secondary text */
+  --color-ink-muted:      #5A6A7E;  /* ink-3 — tertiary */
+  --color-ink-faint:      #8A97A8;  /* ink-4 — hints */
+  --color-hairline:       #E7DFD1;  /* cream-dark — 1px dividers */
+  --color-hairline-soft:  #EFE9DC;
 
-  /* ── Brand (preserved, non-negotiable) ───────────── */
-  --color-brand:          #C8102E;   /* brand — brand mark + destructive only */
-  --color-brand-tint:     #FDF1F3;
-  --color-brand-hover:    #A80D26;
+  /* ── Accents: teal primary + indigo alt (NO clay) ───────── */
+  --color-accent:         #1FA8A0;  /* teal — primary brand accent */
+  --color-accent-soft:    #D6EEEC;
+  --color-accent-ink:     #0E1B2C;  /* readable ink on teal */
+  --color-accent-alt:     #5B6CE0;  /* indigo — second option in Tweaks */
+  --color-accent-alt-soft:#E1E4FB;
 
-  /* ── Accent (interactive signal) ─────────────────── */
-  --color-accent:         #1D6FE8;   /* cobalt — focus rings, active states */
-  --color-accent-tint:    #EBF2FE;
+  /* ── Secondary palette (warm, NO red family) ────────────── */
+  --color-sage:           #9BB5A0;
+  --color-sage-soft:      #DDE7DE;
+  --color-butter:         #E8C46B;
+  --color-butter-soft:    #F4E4B8;
 
-  /* ── Semantic status ─────────────────────────────── */
-  --color-success:        #16A34A;
-  --color-success-tint:   #DCFCE7;
-  --color-warning:        #D97706;
-  --color-warning-tint:   #FEF3C7;
-  --color-danger:         #DC2626;
-  --color-danger-tint:    #FEE2E2;
-  --color-info:           #0284C7;
-  --color-info-tint:      #E0F2FE;
+  /* ── Semantic status (orange-leaning danger per NO-RED) ─── */
+  --color-success:        #10B981;  /* emerald */
+  --color-success-soft:   #D1FAE5;
+  --color-warning:        #F59E0B;  /* amber — replaces coral */
+  --color-warning-soft:   #FEF3C7;
+  --color-danger:         #FB923C;  /* pumpkin — orange-leaning, replaces clay per NO-RED guardrail */
+  --color-danger-soft:    #FFEDD5;
+  --color-danger-ink:     #9A3412;  /* readable ink on pumpkin-soft */
+  --color-info:           #5B6CE0;  /* indigo */
+  --color-info-soft:      #E1E4FB;
 
-  /* ── Typography ──────────────────────────────────── */
-  /* --font-anuphan + --font-geist-mono set by next/font on <html> */
-  --font-sans: var(--font-anuphan), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, 'Courier New', monospace;
+  /* ── Brand legacy alias → teal (was legacy Central retail red) ── */
+  --color-brand:          #1FA8A0;
+  --color-brand-tint:     #D6EEEC;
+  --color-brand-hover:    #188A83;
 
-  /* ── Layout: single canonical width ──────────────── */
-  /* --max-width-page is the ONLY page-width token — generates max-w-page utility */
+  /* ── Typography ─────────────────────────────────────────── */
+  /* Variables set by next/font on <html>: --font-cpn, --font-cpn-condensed,
+     --font-anuphan (Thai fallback), --font-geist-mono. */
+  --font-sans:    var(--font-cpn), var(--font-anuphan), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cpn-condensed), var(--font-cpn), var(--font-anuphan), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    var(--font-geist-mono), ui-monospace, 'Courier New', monospace;
+
+  /* ── Type scale (from spec: h1 32/40 … body 15/24) ──────── */
+  --text-display-h1: 32px;
+  --text-display-h1--line-height: 40px;
+  --text-display-h2: 24px;
+  --text-display-h2--line-height: 32px;
+  --text-display-h3: 20px;
+  --text-display-h3--line-height: 28px;
+  --text-body:       15px;
+  --text-body--line-height: 24px;
+  --text-small:      13px;
+  --text-small--line-height: 20px;
+  --text-eyebrow:    11px;
+  --text-eyebrow--line-height: 16px;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* ── Layout ─────────────────────────────────────────────── */
   --max-width-page: 1280px;
 
-  /* ── Spacing rhythm (4-step: 8 / 16 / 24 / 32) ───── */
-  /* Enforced by convention: use only space-2 / space-4 / space-6 / space-8.
-     Arbitrary p-[13px] etc. should be lint-banned in follow-up pass. */
+  /* ── Radius (cream-soft curves) ─────────────────────────── */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
 
-  /* ── Radius: 12px soft cards (BordUp-inspired) ────── */
-  --radius-md: 12px;
+  /* ── Shadows — warm navy tint on cream ──────────────────── */
+  --shadow-sm:   0 1px 0 rgba(14,27,44,0.04), 0 2px 6px  rgba(14,27,44,0.04);
+  --shadow-md:   0 1px 0 rgba(14,27,44,0.05), 0 6px 20px rgba(14,27,44,0.06);
+  --shadow-lg:   0 2px 0 rgba(14,27,44,0.06), 0 20px 40px rgba(14,27,44,0.10);
+  --shadow-card: var(--shadow-sm);
 
-  /* ── Shadows: primary elevation mechanism ─────────── */
-  --shadow-1: 0 1px 3px rgba(13, 17, 23, 0.06), 0 1px 2px rgba(13, 17, 23, 0.04);
-  --shadow-2: 0 4px 12px rgba(13, 17, 23, 0.08), 0 1px 3px rgba(13, 17, 23, 0.04);
-  --shadow-card: 0 1px 4px rgba(13, 17, 23, 0.06);  /* default card elevation */
-
-  /* ── Motion ──────────────────────────────────────── */
+  /* ── Motion ─────────────────────────────────────────────── */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 120ms;
   --dur-base: 220ms;
   --dur-slow: 380ms;
 }
 
-/* ── Dark mode: cool neutral, deeper ─────────────── */
+/* ── Dark mode placeholder — Humi dark palette ยังไม่ spec ─
+   เก็บ hook ไว้ consistent กับ existing code แต่ใช้ tokens
+   cool neutral ชั่วคราว (จะ re-tune ใน Sprint 2) ──────── */
 @layer base {
   .dark {
-    --color-canvas:         #0A0E14;
-    --color-surface:        #11161F;
-    --color-surface-raised: #18202C;
-    --color-ink:            #E6EDF3;
-    --color-ink-soft:       #9DA7B4;
-    --color-ink-muted:      #6B7583;
-    --color-hairline:       #22303F;
-    --color-brand-tint:     #3B1419;
-    --color-accent-tint:    #0C2240;
-    --color-success-tint:   #052E17;
-    --color-warning-tint:   #3A2506;
-    --color-danger-tint:    #3B0D0D;
-    --color-info-tint:      #0B2233;
+    --color-canvas:         #0E1B2C;
+    --color-canvas-soft:    #132033;
+    --color-surface:        #1A2738;
+    --color-surface-raised: #223246;
+    --color-ink:            #F3EEE2;
+    --color-ink-soft:       #C5CDDA;
+    --color-ink-muted:      #8A97A8;
+    --color-ink-faint:      #5A6A7E;
+    --color-hairline:       #2D3E55;
+    --color-hairline-soft:  #243447;
+    --color-accent-soft:    #0F3D3A;
+    --color-accent-alt-soft:#1E2450;
+    --color-success-soft:   #052E17;
+    --color-warning-soft:   #3A2506;
+    --color-danger-soft:    #3A1D0A;
+    --color-info-soft:      #1E2450;
   }
 }
 
+/* ── Base keyframes (reused across components) ───────────── */
 @keyframes slide-up {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
@@ -102,4 +144,17 @@
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+/* Optional grain overlay for hero cream surfaces —
+   apply via `class="grain"` on relatively-positioned parent */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(14,27,44,0.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+  opacity: 0.6;
+  mix-blend-mode: multiply;
 }

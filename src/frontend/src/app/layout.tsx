@@ -1,28 +1,15 @@
 import type { Metadata } from 'next';
-import { Anuphan, Geist_Mono } from 'next/font/google';
-import'./globals.css';
+import './globals.css';
 import { AuthProvider } from '@/lib/auth-provider';
 import { ThemeProvider } from '@/components/shared/theme-provider';
+import { cpnSans, cpnCondensed, anuphan, geistMono } from './fonts';
 
-// Precision Cool — Anuphan (display+body+Thai) + Geist Mono (numerics only).
-// Ref: aeiouboy/stark#1180 Forge Lead decision matrix.
-const anuphan = Anuphan({
- weight: ['300','400','500','600','700'],
- subsets: ['thai','latin'],
- variable:'--font-anuphan',
- display:'swap',
-});
-
-const geistMono = Geist_Mono({
- weight: ['400','500','600'],
- subsets: ['latin'],
- variable:'--font-geist-mono',
- display:'swap',
-});
+// Humi — CPN (display+body) + Anuphan (Thai fallback) + Geist Mono (numerics).
+// Ref: specs/humi-frontend-redesign.md — Task 2 design system.
 
 export const metadata: Metadata = {
- title:'Central Retail HRMS',
- description:'Next-Generation Human Resource Management System',
+ title:'Humi — Central Group HR',
+ description:'ระบบบริหารทรัพยากรบุคคล Central Group (Humi)',
 };
 
 export default function RootLayout({
@@ -32,8 +19,8 @@ export default function RootLayout({
 }) {
  return (
  <html
- lang="en"
- className={`${anuphan.variable} ${geistMono.variable}`}
+ lang="th"
+ className={`${cpnSans.variable} ${cpnCondensed.variable} ${anuphan.variable} ${geistMono.variable}`}
  suppressHydrationWarning
  >
  <head>
