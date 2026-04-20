@@ -1,385 +1,553 @@
+'use client';
+
+// ════════════════════════════════════════════════════════════
+// /home — Humi dashboard landing
+// 1:1 port of docs/design-ref/shelfly-bundle/project/screens/home.jsx
+// Adapted retail → generic HR (HQ workforce, not single store).
+// NO raw hex, NO red, AppShell owns sidebar+topbar.
+// ════════════════════════════════════════════════════════════
+
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import {
-  ArrowRight,
+  Plus,
   Check,
-  X,
-  Users,
-  UserCheck,
-  ClipboardList,
-  CalendarDays,
-  Circle,
+  Megaphone,
+  FileText,
+  ArrowRight,
+  ChevronRight,
+  ChevronLeft,
+  PartyPopper,
+  Pin,
 } from 'lucide-react';
-import { Button, Card, CardTitle, CardEyebrow } from '@/components/humi';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/humi';
 import {
-  HUMI_KPIS,
   HUMI_PENDING_REQUESTS,
-  HUMI_RECENT_ACTIVITY,
   HUMI_EMPLOYEES,
-  HUMI_MY_LEAVE,
-  HUMI_LATEST_PAYROLL,
-  AVATAR_TONE_CLASS,
-  type HumiEmployee,
+  HUMI_TODAY_PRESENCE,
+  HUMI_PENDING_DOCS,
+  HUMI_ANNOUNCEMENTS,
+  HUMI_CAL_EVENTS,
+  HUMI_WEEK_RECOGNITION,
 } from '@/lib/humi-mock-data';
 
-// ════════════════════════════════════════════════════════════
-// Humi /home — Dashboard (overview)
-// Editorial-refined layout: warm cream canvas, teal primary,
-// indigo accent sparingly. Generous whitespace, hairline
-// separators instead of heavy borders. Display font for KPI
-// values + section titles; body copy in CPN sans.
-// ════════════════════════════════════════════════════════════
-
-const KPI_ICONS = {
-  'kpi-headcount': Users,
-  'kpi-present': UserCheck,
-  'kpi-pending': ClipboardList,
-  'kpi-my-leave': CalendarDays,
+const AVATAR_TONE_MAP = {
+  teal: 'humi-avatar humi-avatar--teal',
+  sage: 'humi-avatar humi-avatar--sage',
+  butter: 'humi-avatar humi-avatar--butter',
+  ink: 'humi-avatar humi-avatar--ink',
+  indigo: 'humi-avatar humi-avatar--teal',
 } as const;
 
-const DELTA_TONE_CLASS = {
-  up: 'text-[color:var(--color-success)]',
-  down: 'text-[color:var(--color-warning)]',
-  neutral: 'text-ink-muted',
-} as const;
-
-const ACTIVITY_DOT_CLASS = {
-  success: 'bg-[color:var(--color-success)]',
-  accent: 'bg-accent',
-  warning: 'bg-[color:var(--color-warning)]',
-  muted: 'bg-ink-faint',
-} as const;
-
-function employeeById(id: string): HumiEmployee | undefined {
-  return HUMI_EMPLOYEES.find((e) => e.id === id);
-}
+const CAL_DAYS_TH = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
 
 export default function HumiHomePage() {
-  const t = useTranslations('humiHome');
+  const t = useTranslations('humiHero');
+
+  const top2 = HUMI_PENDING_REQUESTS.slice(0, 2);
+  const feed = HUMI_ANNOUNCEMENTS.slice(0, 2);
+  const ringPct = Math.round(
+    (HUMI_TODAY_PRESENCE.workingCount / HUMI_TODAY_PRESENCE.totalCount) * 100,
+  );
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <main className="mx-auto w-full max-w-[var(--max-width-page)] px-6 pb-16 pt-10 sm:px-8">
-        {/* ── Page header ───────────────────────────────────── */}
-        <header className="mb-10 flex flex-col gap-2">
-          <CardEyebrow>{t('eyebrow')}</CardEyebrow>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h1
-              className={cn(
-                'font-display font-semibold tracking-tight text-ink',
-                'text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]'
-              )}
-            >
-              {t('title')}
-            </h1>
-            <p className="text-body text-ink-muted">{t('subtitle')}</p>
-          </div>
-        </header>
+    <div className="pb-8">
+      {/* Top actions bar (AppShell already renders Topbar) */}
+      <div className="mb-5 flex items-center justify-end">
+        <Button variant="primary" leadingIcon={<Plus size={16} />}>
+          {t('newRequest')}
+        </Button>
+      </div>
 
-        {/* ── KPI row (4 cards) ─────────────────────────────── */}
-        <section
-          aria-label={t('kpiLabel')}
-          className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+      {/* Row 1 — hero greeting + today presence */}
+      <div
+        className="grid gap-5"
+        style={{ gridTemplateColumns: '1.35fr 1fr' }}
+      >
+        {/* Hero card */}
+        <div
+          className="humi-card humi-grain"
+          style={{ overflow: 'hidden', paddingRight: 150 }}
         >
-          {HUMI_KPIS.map((kpi) => {
-            const Icon = KPI_ICONS[kpi.id as keyof typeof KPI_ICONS];
-            const deltaClass =
-              DELTA_TONE_CLASS[kpi.deltaTone ?? 'neutral'];
-            return (
-              <Card key={kpi.id} variant="raised" size="md">
-                <div className="flex items-start justify-between gap-3">
-                  <CardEyebrow>{kpi.label}</CardEyebrow>
-                  {Icon && (
-                    <span
-                      aria-hidden
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"
-                    >
-                      <Icon size={16} />
-                    </span>
-                  )}
-                </div>
-                <p
-                  className={cn(
-                    'mt-3 font-display font-semibold text-ink tabular-nums',
-                    'text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]'
-                  )}
-                >
-                  {kpi.value}
-                </p>
-                {kpi.delta && (
-                  <p className={cn('mt-1 text-small', deltaClass)}>
-                    {kpi.delta}
-                  </p>
-                )}
-              </Card>
-            );
-          })}
-        </section>
+          <div
+            className="humi-blob humi-blob--teal"
+            style={{ width: 120, height: 150, right: -30, top: -30, opacity: 0.85 }}
+            aria-hidden
+          />
+          <div
+            className="humi-blob humi-blob--coral"
+            style={{ width: 80, height: 100, right: 60, bottom: -20, opacity: 0.7 }}
+            aria-hidden
+          />
+          <div
+            className="humi-blob humi-blob--butter"
+            style={{ width: 44, height: 56, right: 110, top: 80, opacity: 0.9 }}
+            aria-hidden
+          />
+          <div className="humi-eyebrow" style={{ marginBottom: 10 }}>
+            {t('dateEyebrow')}
+          </div>
+          <h1 className="humi-hero-title" style={{ maxWidth: 460 }}>
+            {t('greetingTitle')}
+            <br />
+            <span className="humi-hero-title-soft">{t('greetingSub')}</span>
+          </h1>
+          <div className="humi-row" style={{ marginTop: 22, gap: 10, flexWrap: 'wrap' }}>
+            <Link
+              href="/th/timeoff"
+              className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-body font-medium text-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+            >
+              <Check size={16} />
+              {t('ctaApprove')}
+            </Link>
+            <Link
+              href="/th/announcements"
+              className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <Megaphone size={16} />
+              {t('ctaAnnouncements')}
+            </Link>
+          </div>
+        </div>
 
-        {/* ── Main grid: approvals (2 cols) + right column ──── */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* Approvals queue ── 2/3 width */}
-          <div className="lg:col-span-2">
-            <Card
-              variant="raised"
-              size="lg"
-              header={
-                <div className="flex w-full items-center justify-between gap-3">
-                  <div className="flex flex-col">
-                    <CardEyebrow>{t('approvalsEyebrow')}</CardEyebrow>
-                    <CardTitle className="mt-1">
-                      {t('approvalsTitle')}
-                    </CardTitle>
+        {/* Today presence */}
+        <div className="humi-card">
+          <div className="humi-row" style={{ alignItems: 'flex-start' }}>
+            <div>
+              <div className="humi-eyebrow">{t('todayEyebrow')}</div>
+              <h3 className="mt-1.5 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                {t('todayTitle')}
+              </h3>
+            </div>
+            <span className="humi-tag humi-tag--accent" style={{ marginLeft: 'auto' }}>
+              {t('tagLive')}
+            </span>
+          </div>
+          <div className="humi-row" style={{ marginTop: 18, gap: 20 }}>
+            <div
+              className="humi-ring"
+              style={{ ['--p' as string]: ringPct } as React.CSSProperties}
+              role="img"
+              aria-label={`${HUMI_TODAY_PRESENCE.workingCount} / ${HUMI_TODAY_PRESENCE.totalCount} ${t('ringWorkingUnit')}`}
+            >
+              <div style={{ position: 'relative', textAlign: 'center', zIndex: 1 }}>
+                <div className="humi-ring-val">
+                  {HUMI_TODAY_PRESENCE.workingCount.toLocaleString()}
+                </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'var(--color-ink-muted)',
+                  }}
+                >
+                  {t('ringWorkingUnit')}
+                </div>
+              </div>
+            </div>
+            <div className="humi-col" style={{ gap: 10, flex: 1 }}>
+              <LegendRow
+                dotColor="var(--color-accent)"
+                label={t('legendPresent')}
+                value={HUMI_TODAY_PRESENCE.present}
+              />
+              <LegendRow
+                dotColor="var(--color-warning)"
+                label={t('legendAbsent')}
+                value={HUMI_TODAY_PRESENCE.absent}
+              />
+              <LegendRow
+                dotColor="var(--color-hairline)"
+                label={t('legendOffShift')}
+                value={HUMI_TODAY_PRESENCE.offShift}
+              />
+            </div>
+          </div>
+          <hr className="humi-divider" />
+          <div className="humi-row" style={{ gap: 0 }}>
+            {HUMI_TODAY_PRESENCE.teamInitials.map((initials, idx) => (
+              <span
+                key={initials}
+                className={cn(
+                  AVATAR_TONE_MAP[
+                    (['teal', 'sage', 'butter', 'ink', 'teal'] as const)[idx]
+                  ],
+                )}
+                style={{
+                  marginLeft: idx === 0 ? 0 : -8,
+                  border: '2px solid var(--color-surface)',
+                  width: 30,
+                  height: 30,
+                  fontSize: 11,
+                }}
+                aria-hidden
+              >
+                {initials}
+              </span>
+            ))}
+            <span
+              style={{
+                fontSize: 13,
+                color: 'var(--color-ink-muted)',
+                marginLeft: 8,
+              }}
+            >
+              {HUMI_TODAY_PRESENCE.moreLabel}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2 — approvals + docs */}
+      <div
+        className="grid gap-5"
+        style={{ gridTemplateColumns: '1.35fr 1fr', marginTop: 20 }}
+      >
+        <div className="humi-card">
+          <div className="humi-row" style={{ marginBottom: 6 }}>
+            <div>
+              <div className="humi-eyebrow">{t('pendingEyebrow')}</div>
+              <h3 className="mt-1.5 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                {t('pendingTitle')}
+              </h3>
+            </div>
+            <span
+              className="humi-tag humi-tag--coral"
+              style={{ marginLeft: 'auto' }}
+            >
+              {t('pendingTag')}
+            </span>
+          </div>
+          <ul className="humi-list" role="list">
+            {top2.map((req) => {
+              const emp = HUMI_EMPLOYEES.find((e) => e.id === req.employeeId);
+              if (!emp) return null;
+              const tone = emp.avatarTone === 'indigo' ? 'teal' : emp.avatarTone;
+              return (
+                <li key={req.id} className="humi-row-item">
+                  <span className={AVATAR_TONE_MAP[tone]} aria-hidden>
+                    {emp.initials}
+                  </span>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-ink)' }}>
+                      {emp.firstNameTh} {emp.lastNameTh}{' '}
+                      <span style={{ color: 'var(--color-ink-muted)', fontWeight: 400 }}>
+                        · {req.typeLabel}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 2 }}>
+                      {req.dateRangeLabel} &nbsp;•&nbsp; {req.submittedLabel}
+                    </div>
                   </div>
-                  <Link
-                    href="/workflows"
+                  <div className="humi-row" style={{ gap: 6 }}>
+                    <Button variant="ghost" size="sm">
+                      ปฏิเสธ
+                    </Button>
+                    <Button variant="primary" size="sm">
+                      อนุมัติ
+                    </Button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div className="humi-card humi-card--cream">
+          <div className="humi-eyebrow">{t('docsEyebrow')}</div>
+          <h3 className="mt-1.5 mb-3.5 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+            {t('docsTitle')}
+          </h3>
+          {HUMI_PENDING_DOCS.map((d) => (
+            <div
+              key={d.id}
+              className="humi-row"
+              style={{
+                padding: '12px 0',
+                borderTop: '1px solid var(--color-hairline-soft)',
+              }}
+            >
+              <div
+                style={{
+                  width: 34,
+                  height: 42,
+                  borderRadius: 6,
+                  background: 'var(--color-surface)',
+                  border: '1px solid var(--color-hairline)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--color-ink-soft)',
+                }}
+                aria-hidden
+              >
+                <FileText size={18} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-ink)' }}>
+                  {d.title}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                  {d.sub}
+                </div>
+              </div>
+              {d.nearDue && (
+                <span className="humi-tag humi-tag--butter">{t('docsNearDue')}</span>
+              )}
+            </div>
+          ))}
+          <Link
+            href="/th/benefits-hub"
+            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-body font-medium text-accent transition-colors hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            {t('docsAll')} <ArrowRight size={14} />
+          </Link>
+        </div>
+      </div>
+
+      {/* Row 3 — announcements + calendar/birthdays */}
+      <div
+        className="grid gap-5"
+        style={{ gridTemplateColumns: '1.35fr 1fr', marginTop: 20 }}
+      >
+        <div className="humi-card">
+          <div className="humi-row" style={{ marginBottom: 12 }}>
+            <div>
+              <div className="humi-eyebrow">{t('feedEyebrow')}</div>
+              <h3 className="mt-1.5 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                {t('feedTitle')}
+              </h3>
+            </div>
+            <Link
+              href="/th/announcements"
+              className="ml-auto inline-flex items-center gap-2 rounded-md border border-transparent px-3 py-1.5 text-small font-medium text-accent transition-colors hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              {t('openFeed')} <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {feed.map((p) => (
+            <article
+              key={p.id}
+              className={cn('humi-post', p.pinned && 'humi-post--pin')}
+            >
+              <div className="humi-row">
+                <span className={AVATAR_TONE_MAP[p.authorTone]} aria-hidden>
+                  {p.authorInitials}
+                </span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, color: 'var(--color-ink)' }}>
+                    <b>{p.author}</b>{' '}
+                    <span style={{ color: 'var(--color-ink-muted)' }}>· {p.timeLabel}</span>
+                  </div>
+                </div>
+                {p.pinned && (
+                  <span className="humi-tag humi-tag--ink">
+                    <Pin size={11} /> {t('pinnedTag')}
+                  </span>
+                )}
+              </div>
+              <h4
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 18,
+                  marginTop: 10,
+                  fontWeight: 600,
+                  letterSpacing: '-0.015em',
+                  color: 'var(--color-ink)',
+                }}
+              >
+                {p.title}
+              </h4>
+              <p
+                style={{
+                  color: 'var(--color-ink-soft)',
+                  fontSize: 14,
+                  marginTop: 6,
+                  lineHeight: 1.6,
+                }}
+              >
+                {p.body}
+              </p>
+              <div
+                className="humi-row"
+                style={{ marginTop: 12, gap: 10, flexWrap: 'wrap' }}
+              >
+                {p.reactions.map((x) => (
+                  <span key={x} className="humi-tag">
+                    {x}
+                  </span>
+                ))}
+                <span className="humi-spacer" />
+                <Button variant="ghost" size="sm">
+                  {t('replyCta')}
+                </Button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="humi-col" style={{ gap: 20 }}>
+          {/* Calendar */}
+          <div className="humi-card">
+            <div className="humi-row">
+              <div>
+                <div className="humi-eyebrow">{t('calendarEyebrow')}</div>
+                <h3 className="mt-1.5 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                  {t('calendarTitle')}
+                </h3>
+              </div>
+              <span className="humi-spacer" />
+              <button
+                type="button"
+                aria-label={t('prevMonth')}
+                className="humi-icon-btn"
+                style={{ width: 32, height: 32 }}
+              >
+                <ChevronLeft size={14} />
+              </button>
+              <button
+                type="button"
+                aria-label={t('nextMonth')}
+                className="humi-icon-btn"
+                style={{ width: 32, height: 32, marginLeft: 4 }}
+              >
+                <ChevronRight size={14} />
+              </button>
+            </div>
+            <div className="humi-cal" style={{ marginTop: 14 }} role="grid" aria-label={t('calendarEyebrow')}>
+              {CAL_DAYS_TH.map((d) => (
+                <div key={d} className="humi-cal-dow" role="columnheader">
+                  {d}
+                </div>
+              ))}
+              {Array.from({ length: 35 }).map((_, i) => {
+                const day = i - 2;
+                const off = day < 1 || day > 30;
+                const has = [8, 14, 17, 21, 28].includes(day);
+                const sel = day === 21;
+                const range = [28, 29, 30].includes(day);
+                return (
+                  <div
+                    key={i}
+                    role="gridcell"
                     className={cn(
-                      'inline-flex items-center gap-1 text-small font-medium text-accent',
-                      'hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface rounded-sm'
+                      'humi-cal-day',
+                      off && 'humi-cal-day--off',
+                      has && 'humi-cal-day--has',
+                      sel && 'humi-cal-day--sel',
+                      range && 'humi-cal-day--range',
                     )}
                   >
-                    {t('viewAll')}
-                    <ArrowRight size={14} aria-hidden />
-                  </Link>
-                </div>
-              }
-              flush
-            >
-              <ul role="list" className="divide-y divide-hairline">
-                {HUMI_PENDING_REQUESTS.map((req) => {
-                  const emp = employeeById(req.employeeId);
-                  if (!emp) return null;
-                  return (
-                    <li
-                      key={req.id}
-                      className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center"
-                    >
-                      <div className="flex min-w-0 flex-1 items-center gap-3">
-                        <span
-                          aria-hidden
-                          className={cn(
-                            'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-medium',
-                            AVATAR_TONE_CLASS[emp.avatarTone]
-                          )}
-                        >
-                          {emp.initials}
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-body font-medium text-ink">
-                            {emp.firstNameTh} {emp.lastNameTh}
-                            <span className="font-normal text-ink-muted">
-                              {' '}
-                              · {req.typeLabel}
-                            </span>
-                          </p>
-                          <p className="mt-0.5 text-small text-ink-muted">
-                            {req.dateRangeLabel} &nbsp;•&nbsp;{' '}
-                            {req.submittedLabel}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          leadingIcon={<X size={14} />}
-                          aria-label={`${t('reject')} — ${emp.firstNameTh} ${emp.lastNameTh}`}
-                        >
-                          {t('reject')}
-                        </Button>
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          leadingIcon={<Check size={14} />}
-                          aria-label={`${t('approve')} — ${emp.firstNameTh} ${emp.lastNameTh}`}
-                        >
-                          {t('approve')}
-                        </Button>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Card>
-
-            {/* Recent activity timeline */}
-            <div className="mt-6">
-              <Card
-                variant="raised"
-                size="lg"
-                header={
-                  <div className="flex flex-col">
-                    <CardEyebrow>{t('activityEyebrow')}</CardEyebrow>
-                    <CardTitle className="mt-1">
-                      {t('activityTitle')}
-                    </CardTitle>
+                    {off ? '' : day}
                   </div>
-                }
-              >
-                <ol role="list" className="relative">
+                );
+              })}
+            </div>
+            <hr className="humi-divider" />
+            <div className="humi-col" style={{ gap: 10 }}>
+              {HUMI_CAL_EVENTS.map((ev) => (
+                <div key={ev.id} className="humi-row">
                   <div
+                    style={{
+                      width: 6,
+                      height: 26,
+                      borderRadius: 3,
+                      background:
+                        ev.tone === 'accent'
+                          ? 'var(--color-accent)'
+                          : 'var(--color-warning)',
+                    }}
                     aria-hidden
-                    className="absolute left-[5px] top-2 bottom-2 w-px bg-hairline"
                   />
-                  {HUMI_RECENT_ACTIVITY.map((item) => (
-                    <li
-                      key={item.id}
-                      className="flex gap-4 py-3 first:pt-1 last:pb-0"
-                    >
-                      <span
-                        aria-hidden
-                        className={cn(
-                          'relative z-10 mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full ring-2 ring-surface',
-                          ACTIVITY_DOT_CLASS[item.tone]
-                        )}
-                      />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-body text-ink">{item.title}</p>
-                        <p className="mt-0.5 text-small text-ink-muted">
-                          {item.timeLabel}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </Card>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-ink)' }}>
+                      {ev.title}
+                    </div>
+                    <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                      {ev.timeLabel}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right column: my-leave + latest payroll */}
-          <aside className="flex flex-col gap-6">
-            <Card variant="raised" size="lg" tone="canvas">
-              <CardEyebrow>{t('myLeaveEyebrow')}</CardEyebrow>
-              <CardTitle className="mt-1">{t('myLeaveTitle')}</CardTitle>
-
-              <dl className="mt-5 space-y-4">
-                <LeaveBar
-                  label={t('leaveAnnual')}
-                  remaining={HUMI_MY_LEAVE.annualRemaining}
-                  total={HUMI_MY_LEAVE.annualTotal}
-                  tone="accent"
-                />
-                <LeaveBar
-                  label={t('leaveSick')}
-                  remaining={HUMI_MY_LEAVE.sickRemaining}
-                  total={HUMI_MY_LEAVE.sickTotal}
-                  tone="sage"
-                />
-                <LeaveBar
-                  label={t('leavePersonal')}
-                  remaining={HUMI_MY_LEAVE.personalRemaining}
-                  total={HUMI_MY_LEAVE.personalTotal}
-                  tone="indigo"
-                />
-              </dl>
-
-              <div className="mt-5">
-                <Link
-                  href="/leave"
-                  className={cn(
-                    'inline-flex items-center gap-1 text-small font-medium text-accent',
-                    'hover:underline'
-                  )}
-                >
-                  {t('myLeaveCta')}
-                  <ArrowRight size={14} aria-hidden />
-                </Link>
-              </div>
-            </Card>
-
-            <Card variant="raised" size="lg">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <CardEyebrow>{t('payrollEyebrow')}</CardEyebrow>
-                  <CardTitle className="mt-1">
-                    {HUMI_LATEST_PAYROLL.periodLabel}
-                  </CardTitle>
-                </div>
+          {/* Week recognition (ink card) */}
+          <div
+            className="humi-card humi-card--ink"
+            style={{ overflow: 'hidden', position: 'relative' }}
+          >
+            <div
+              className="humi-blob humi-blob--teal"
+              style={{ width: 90, height: 110, right: -20, bottom: -30, opacity: 0.55 }}
+              aria-hidden
+            />
+            <div
+              className="humi-eyebrow"
+              style={{ color: 'var(--color-accent)' }}
+            >
+              <PartyPopper
+                size={12}
+                style={{ display: 'inline-block', verticalAlign: -2, marginRight: 4 }}
+                aria-hidden
+              />
+              {HUMI_WEEK_RECOGNITION.eyebrow}
+            </div>
+            <h3 className="mt-2 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-[color:var(--color-canvas-soft)]">
+              {HUMI_WEEK_RECOGNITION.title}
+            </h3>
+            <div className="humi-row" style={{ marginTop: 14, gap: 0 }}>
+              {HUMI_WEEK_RECOGNITION.initials.map((a, idx) => (
                 <span
-                  className={cn(
-                    'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1',
-                    'text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em]',
-                    'bg-[color:var(--color-success-soft)] text-[color:var(--color-success)]'
-                  )}
+                  key={a.i}
+                  className={AVATAR_TONE_MAP[a.tone]}
+                  style={{
+                    border: '2px solid var(--color-ink)',
+                    marginLeft: idx === 0 ? 0 : -8,
+                  }}
+                  aria-hidden
                 >
-                  <Circle size={6} fill="currentColor" aria-hidden />
-                  {t('payrollPaid')}
+                  {a.i}
                 </span>
-              </div>
-              <p
-                className={cn(
-                  'mt-4 font-display font-semibold text-ink tabular-nums',
-                  'text-[length:var(--text-display-h2)] leading-[var(--text-display-h2--line-height)]'
-                )}
-              >
-                {HUMI_LATEST_PAYROLL.netAmountLabel}
-              </p>
-              <p className="mt-1 text-small text-ink-muted">
-                {t('payrollPaidOn', { date: HUMI_LATEST_PAYROLL.payDateLabel })}
-              </p>
-              <div className="mt-4">
-                <Link
-                  href="/payslip"
-                  className={cn(
-                    'inline-flex items-center gap-1 text-small font-medium text-accent',
-                    'hover:underline'
-                  )}
-                >
-                  {t('payrollCta')}
-                  <ArrowRight size={14} aria-hidden />
-                </Link>
-              </div>
-            </Card>
-          </aside>
+              ))}
+              <Button variant="primary" style={{ marginLeft: 'auto' }}>
+                {t('weekGreetCta')}
+              </Button>
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
 
-// ────────────────────────────────────────────────────────────
-// Helper: leave balance bar
-// ────────────────────────────────────────────────────────────
-
-function LeaveBar({
+function LegendRow({
+  dotColor,
   label,
-  remaining,
-  total,
-  tone,
+  value,
 }: {
+  dotColor: string;
   label: string;
-  remaining: number;
-  total: number;
-  tone: 'accent' | 'sage' | 'indigo';
+  value: number;
 }) {
-  const pct = Math.min(100, Math.max(0, (remaining / total) * 100));
-  const trackClass: Record<typeof tone, string> = {
-    accent: 'bg-accent',
-    sage: 'bg-[color:var(--color-sage)]',
-    indigo: 'bg-[color:var(--color-accent-alt)]',
-  };
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-baseline justify-between gap-2">
-        <dt className="text-small text-ink-soft">{label}</dt>
-        <dd className="font-mono text-small text-ink tabular-nums">
-          {remaining} / {total}
-        </dd>
-      </div>
-      <div
-        role="progressbar"
-        aria-valuenow={remaining}
-        aria-valuemin={0}
-        aria-valuemax={total}
-        aria-label={label}
-        className="h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
-      >
-        <div
-          className={cn('h-full rounded-full', trackClass[tone])}
-          style={{ width: `${pct}%` }}
+    <div className="humi-row" style={{ justifyContent: 'space-between' }}>
+      <div className="humi-row">
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 999,
+            background: dotColor,
+          }}
+          aria-hidden
         />
+        <span style={{ color: 'var(--color-ink-soft)', fontSize: 13 }}>{label}</span>
       </div>
+      <b style={{ color: 'var(--color-ink)', fontSize: 14 }}>{value.toLocaleString()}</b>
     </div>
   );
 }

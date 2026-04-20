@@ -445,3 +445,309 @@
 .humi-spacer {
   flex: 1;
 }
+
+/* ════════════════════════════════════════════════════════════
+   Humi Screens — ported classes (home / profile / announcements
+   / login).  Source: docs/design-ref/shelfly-bundle/project/
+   styles.css.  Namespaced .humi-* so they coexist with existing
+   primitives.  NO-RED: coral → var(--color-warning) amber, cream
+   tokens → --color-canvas family.  Line refs cite source line.
+   ════════════════════════════════════════════════════════════ */
+
+/* Ported from styles.css:127-135 (.grain::before) */
+.humi-grain { position: relative; }
+.humi-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(14, 27, 44, 0.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+  border-radius: inherit;
+}
+
+/* Ported from styles.css:439-449 (.blob variants).
+   Retained original warm palette (teal/coral-as-amber/sage/butter)
+   per reference visuals, but .coral remapped to amber per NO-RED. */
+.humi-blob {
+  position: absolute;
+  border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+  filter: blur(0.3px);
+  z-index: 0;
+  pointer-events: none;
+}
+.humi-blob--teal   { background: var(--color-accent); }
+.humi-blob--coral  { background: var(--color-warning); }
+.humi-blob--sage   { background: var(--color-sage); }
+.humi-blob--butter { background: var(--color-butter); }
+
+/* Ported from styles.css:315-326 (.card variants). Humi `Card`
+   primitive already covers the base surface; these variants are
+   for in-page inline cards (hero card, cream card, ink card). */
+.humi-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg, 20px);
+  padding: 22px;
+  position: relative;
+  isolation: isolate;
+}
+.humi-card--tight  { padding: 18px; }
+.humi-card--cream  { background: var(--color-canvas-soft); }
+.humi-card--ink    { background: var(--color-ink); color: #E7E3D8; border-color: var(--color-ink-soft); }
+.humi-card--accent { background: var(--color-accent-soft); border-color: transparent; }
+/* Raise non-blob children above decorative blobs (styles.css:451-456) */
+.humi-card > *:not(.humi-blob) { position: relative; z-index: 1; }
+
+/* Ported from styles.css:336-350 (.tag variants).  .tag.coral →
+   amber for NO-RED compliance. */
+.humi-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--color-canvas);
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-hairline);
+}
+.humi-tag--accent { background: var(--color-accent-soft); color: var(--color-ink); border-color: transparent; }
+.humi-tag--coral  { background: var(--color-warning-soft); color: #6B4E14; border-color: transparent; }
+.humi-tag--sage   { background: var(--color-sage-soft); color: #2F5840; border-color: transparent; }
+.humi-tag--butter { background: var(--color-butter-soft); color: #6B4E14; border-color: transparent; }
+.humi-tag--ink    { background: var(--color-ink); color: var(--color-canvas-soft); border-color: transparent; }
+
+/* Ported from styles.css:237-248 (.avatar base + tone variants).
+   Sibling of the existing .humi-avatar used in sidebar footer;
+   we extend it with tone modifiers here (the sidebar avatar
+   definition already lives at globals.css:307). */
+.humi-avatar--sage   { background: linear-gradient(135deg, #9BB5A0, #D6EEEC); color: var(--color-ink); }
+.humi-avatar--teal   { background: linear-gradient(135deg, #1FA8A0, #9BB5A0); color: #fff; }
+.humi-avatar--butter { background: linear-gradient(135deg, #E8C46B, #F4E4B8); color: var(--color-ink); }
+.humi-avatar--ink    { background: linear-gradient(135deg, #243447, #5A6A7E); color: #fff; }
+
+/* Ported from styles.css:352 (.divider). */
+.humi-divider { height: 1px; background: var(--color-hairline-soft); border: 0; margin: 16px 0; }
+
+/* Ported from styles.css:393-395 (.row / .col) — page-local
+   flex helpers. Scoped .humi-* so they don't collide. */
+.humi-row { display: flex; align-items: center; gap: 12px; }
+.humi-col { display: flex; flex-direction: column; gap: 12px; }
+
+/* Ported from styles.css:488-493 (.tabs + .tab). */
+.humi-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  border-radius: 12px;
+  padding: 4px;
+  width: fit-content;
+}
+.humi-tab {
+  padding: 7px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  font-family: inherit;
+}
+.humi-tab:hover { color: var(--color-ink); }
+.humi-tab--active {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 1px 2px rgba(14, 27, 44, 0.06);
+}
+.humi-tab:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* Ported from styles.css:496-504 (.list + .row-item). */
+.humi-list { display: flex; flex-direction: column; }
+.humi-row-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+.humi-row-item:last-child { border-bottom: 0; }
+
+/* Ported from styles.css:507-519 (.ring). */
+.humi-ring {
+  --p: 62;
+  --size: 104px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: conic-gradient(var(--color-accent) calc(var(--p) * 1%), var(--color-hairline-soft) 0);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.humi-ring::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: var(--color-surface);
+}
+.humi-ring-val {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* Ported from styles.css:522-542 (.cal + variants). */
+.humi-cal {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  font-size: 12px;
+}
+.humi-cal-dow {
+  color: var(--color-ink-faint);
+  text-align: center;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.humi-cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--color-ink-soft);
+  font-weight: 500;
+  position: relative;
+}
+.humi-cal-day--off { color: var(--color-ink-faint); }
+.humi-cal-day--has::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  position: absolute;
+  bottom: 4px;
+}
+.humi-cal-day--sel   { background: var(--color-ink); color: var(--color-canvas-soft); }
+.humi-cal-day--range { background: var(--color-accent-soft); }
+
+/* Ported from styles.css:564-570 (.post). */
+.humi-post {
+  padding: 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: 16px;
+}
+.humi-post + .humi-post { margin-top: 12px; }
+.humi-post--pin { border-color: transparent; background: var(--color-accent-soft); }
+
+/* Ported from styles.css:421-436 (.field). */
+.humi-field { display: flex; flex-direction: column; gap: 6px; }
+.humi-field label { font-size: 13px; font-weight: 500; color: var(--color-ink-soft); }
+.humi-field input {
+  padding: 12px 14px;
+  border: 1px solid var(--color-hairline);
+  border-radius: 12px;
+  background: var(--color-surface);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.humi-field input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+/* Ported from styles.css:403-420 (.login-wrap / .login-art /
+   .login-form).  Full-viewport overlay so it visually covers the
+   AppShell wrapper at /[locale]/login — no shell layout opt-out
+   is needed. */
+.humi-login-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: var(--color-canvas);
+  overflow: auto;
+}
+.humi-login-art {
+  background: var(--color-ink);
+  color: #E7E3D8;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.humi-login-form {
+  padding: 60px clamp(40px, 6vw, 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--color-canvas);
+}
+@media (max-width: 900px) {
+  .humi-login-wrap { grid-template-columns: 1fr; }
+  .humi-login-art  { min-height: 40vh; }
+}
+
+/* Hero card eyebrow/H1 typography helpers (home hero + login
+   headline). Ported inline styles from home.jsx:14 / login.jsx:22. */
+.humi-hero-title {
+  font-family: var(--font-display);
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+.humi-hero-title-soft { color: var(--color-ink-muted); }
+
+.humi-login-headline {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-canvas-soft);
+  margin: 14px 0 0;
+}
+.humi-login-body {
+  color: rgba(231, 227, 216, 0.75);
+  font-size: 16px;
+  line-height: 1.65;
+  margin-top: 18px;
+  max-width: 480px;
+}
+.humi-login-quote {
+  margin-top: 36px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 22px;
+  max-width: 500px;
+  backdrop-filter: blur(4px);
+}
+.humi-login-quote-body {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--color-canvas-soft);
+  line-height: 1.6;
+}
