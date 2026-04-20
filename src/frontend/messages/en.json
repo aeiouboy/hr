@@ -820,7 +820,7 @@
     "documentType": "Document Type",
     "year": "Year",
     "issueDate": "Issue Date",
-    "withholdingCert": "Withholding Tax Certificate (50 ทวิ)",
+    "withholdingCert": "Withholding Tax Certificate (50 Tawi)",
     "socialSecurityStatement": "Social Security Statement",
     "providentFundStatement": "Provident Fund Statement",
     "downloadPdf": "Download PDF",
@@ -2912,9 +2912,9 @@
     },
     "upload": {
       "receipt": "Receipt",
-      "receiptTh": "(ใบเสร็จ)",
+      "receiptTh": "(Receipt)",
       "medicalCert": "Medical Certificate",
-      "medicalCertTh": "(ใบรับรองแพทย์)",
+      "medicalCertTh": "(Medical Certificate)",
       "additionalDocs": "Additional Documents",
       "dragDrop": "Drag & drop or click to upload",
       "maxSize": "Max 10MB per file (JPG, PNG, PDF)",
@@ -3339,7 +3339,7 @@
         "description": "Defaults applied to every employee.",
         "language": "Default language",
         "timezone": "Time zone",
-        "langTh": "ไทย",
+        "langTh": "Thai",
         "langEn": "English",
         "tzBangkok": "Asia/Bangkok (UTC+7)"
       },
@@ -3365,5 +3365,41 @@
       "save": "Save changes",
       "saveHint": "Changes apply immediately to all users."
     }
+  },
+  "humiEmployeeDetail": {
+    "backToList": "Employees",
+    "actionMessage": "Send Message",
+    "actionViewProfile": "View Full Profile",
+    "actionEdit": "Edit",
+    "tabPersonal": "Personal Info",
+    "tabEmployment": "Employment History",
+    "tabTimeoff": "Time Off",
+    "tabPayroll": "Payroll",
+    "tabDocuments": "Documents",
+    "personalEyebrow": "Basic Information",
+    "personalTitle": "Contact and Employment Details",
+    "fieldFullName": "Full Name",
+    "fieldEmail": "Email",
+    "fieldPhone": "Phone",
+    "fieldManager": "Reporting Manager",
+    "fieldHiredOn": "Hire Date",
+    "fieldEmployment": "Employment Status",
+    "fieldEmpCode": "Employee Code",
+    "fieldAddress": "Address",
+    "placeholder": "In Development — Sprint 2"
+  },
+  "humiOrgChart": {
+    "title": "Org Chart",
+    "subtitle": "Reporting lines and full team structure",
+    "viewTree": "Tree View",
+    "viewList": "List View",
+    "eyebrowChain": "Reporting Line",
+    "treeTitle": "Full Organisation Structure",
+    "listTitle": "Departments and Teams",
+    "detailHead": "Team Lead",
+    "detailCount": "Headcount",
+    "detailSubTeams": "Sub-teams",
+    "detailNoSubTeams": "No sub-teams",
+    "detailViewAll": "View All Members"
   }
 }

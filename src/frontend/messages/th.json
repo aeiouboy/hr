@@ -2877,9 +2877,9 @@
     },
     "upload": {
       "receipt": "ใบเสร็จรับเงิน",
-      "receiptTh": "",
+      "receiptTh": "(ใบเสร็จ)",
       "medicalCert": "ใบรับรองแพทย์",
-      "medicalCertTh": "",
+      "medicalCertTh": "(ใบรับรองแพทย์)",
       "additionalDocs": "เอกสารเพิ่มเติม",
       "dragDrop": "ลากไฟล์มาวางหรือคลิกเพื่ออัปโหลด",
       "maxSize": "ขนาดไฟล์ไม่เกิน 10MB (JPG, PNG, PDF)",
@@ -3241,9 +3241,9 @@
   "personHero": {
     "probation": "ทดลองงาน",
     "onLeave": "ลางาน",
-    "active": "ปกติ",
-    "inactive": "ไม่ใช้งาน",
-    "terminated": "พ้นสภาพ"
+    "active": "ทำงานอยู่",
+    "inactive": "ไม่ได้ทำงาน",
+    "terminated": "สิ้นสุดการจ้าง"
   },
   "emptyValue": {
     "unknown": "ยังไม่ได้ระบุ",

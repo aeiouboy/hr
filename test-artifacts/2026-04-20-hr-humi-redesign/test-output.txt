@@ -1,0 +1,1001 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/components/humi/__tests__/Toggle.test.tsx (18 tests) 166ms
+ ✓ src/components/humi/__tests__/Nav.test.tsx (18 tests) 180ms
+ ✓ src/components/humi/__tests__/Button.test.tsx (20 tests) 166ms
+ ✓ src/components/humi/__tests__/DataTable.test.tsx (18 tests) 249ms
+ ❯ src/app/[locale]/__tests__/screens.smoke.test.tsx (27 tests | 2 failed) 886ms
+   × Dashboard — home/page.tsx (AC-2, AC-6) > แสดง KPI cards อย่างน้อย 3 ใบ (AC-2) 70ms
+     → Unable to find an accessible element with the role "article"
+
+Here are the accessible roles:
+
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-[color:var(--color-success)]"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-[color:var(--color-warning)]"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<section[39m
+  [33maria-label[39m=[32m"ตัวชี้วัดหลัก"[39m
+  [33mclass[39m=[32m"mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mพนักงานทั้งหมด[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-users"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"9"[39m
+              [33mcy[39m=[32m"7"[39m
+              [33mr[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 3.13a4 4 0 0 1 0 7.75"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m1,284[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-[color:var(--color-success)]"[39m
+      [36m>[39m
+        [0m+12 คน เดือนนี้[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mมาทำงานวันนี้[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-user-check"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"9"[39m
+              [33mcy[39m=[32m"7"[39m
+              [33mr[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<polyline[39m
+              [33mpoints[39m=[32m"16 11 18 13 22 9"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m1,147[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+      [36m>[39m
+        [0m89% ของทั้งหมด[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mคำขอรออนุมัติ[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-clipboard-list"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"4"[39m
+              [33mrx[39m=[32m"1"[39m
+              [33mry[39m=[32m"1"[39m
+              [33mwidth[39m=[32m"8"[39m
+              [33mx[39m=[32m"8"[39m
+              [33my[39m=[32m"2"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 11h4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 16h4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 11h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 16h.01"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m8[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-[color:var(--color-warning)]"[39m
+      [36m>[39m
+        [0m2 รายการใกล้ครบกำหนด[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mวันลาคงเหลือ (ของฉัน)[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-calendar-days"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 2v4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 2v4"[39m
+            [36m/>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mrx[39m=[32m"2"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mx[39m=[32m"3"[39m
+              [33my[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M3 10h18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 14h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 14h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 14h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 18h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 18h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 18h.01"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m12.5[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+      [36m>[39m
+        [0mจาก 15 วันต่อปี[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</section>[39m
+   × Settings — settings/page.tsx (AC-2) > แสดง default panel "ข้อมูลองค์กร" โดย default 15ms
+     → Found multiple elements with the text: ข้อมูลองค์กร
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<span[39m
+  [33mclass[39m=[32m"text-body font-medium"[39m
+[36m>[39m
+  [0mข้อมูลองค์กร[0m
+[36m</span>[39m
+
+Ignored nodes: comments, script, style
+[36m<h2[39m
+  [33mclass[39m=[32m"mt-1 font-display text-[length:var(--text-display-h2)] leading-[var(--text-display-h2--line-height)] font-semibold tracking-tight text-ink"[39m
+[36m>[39m
+  [0mข้อมูลองค์กร[0m
+[36m</h2>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-canvas"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"mx-auto w-full max-w-[var(--max-width-page)] px-6 py-10 md:px-10 md:py-14"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"mb-10 md:mb-14"[39m
+        [36m>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"font-display text-[length:var(--text-eyebrow)] uppercase tracking-[0.22em] text-accent"[39m
+          [36m>[39m
+            [0mโปรไฟล์องค์กร[0m
+          [36m</p>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"mt-3 font-display text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)] font-semibold tracking-tight text-ink"[39m
+          [36m>[39m
+            [0mตั้งค่าระบบ[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-2 max-w-2xl text-body text-ink-muted"[39m
+          [36m>[39m
+            [0mปรับแต่งข้อมูลองค์กร ผู้ใช้ สิทธิ์ และการแจ้งเตือน[0m
+          [36m</p>[39m
+        [36m</header>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"grid grid-cols-1 gap-8 lg:grid-cols-[minmax(220px,1fr)_3fr] lg:gap-12"[39m
+        [36m>[39m
+          [36m<aside>[39m
+            [36m<nav[39m
+              [33maria-label[39m=[32m"ตั้งค่าระบบ"[39m
+              [33mclass[39m=[32m"lg:sticky lg:top-10"[39m
+            [36m>[39m
+              [36m<ul[39m
+                [33mclass[39m=[32m"flex flex-col gap-1"[39m
+              [36m>[39m
+                [36m<li>[39m
+                  [36m<button[39m
+                    [33maria-current[39m=[32m"page"[39m
+                    [33mclass[39m=[32m"group flex w-full items-center gap-3 rounded-[var(--radius-md)] px-3.5 py-2.5 text-left transition-[background-color,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas bg-accent-soft text-ink"[39m
+                    [33mtype[39m=[32m"button"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"lucide lucide-building2 shrink-0 transition-colors text-accent"[39m
+                      [33mfill[39m=[32m"none"[39m
+                      [33mheight[39m=[32m"18"[39m
+                      [33mstroke[39m=[32m"currentColor"[39m
+                      [33mstroke-linecap[39m=[32m"round"[39m
+                      [33mstroke-linejoin[39m=[32m"round"[39m
+                      [33mstroke-width[39m=[32m"2"[39m
+                      [33mviewBox[39m=[32m"0 0 24 24"[39m
+                      [33mwidth[39m=[32m"18"[39m
+                      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 6h4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 10h4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 14h4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 18h4"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"text-body font-medium"[39m
+                    [36m>[39m
+                      [0mข้อมูลองค์กร[0m
+                    [36m</span>[39m
+                    [36m<span[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"ml-auto h-1.5 w-1.5 rounded-full bg-accent"[39m
+                    [36m/>[39m
+                  [36m</button>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"group flex w-full items-center gap-3 rounded-[var(--radius-md)] px-3.5 py-2.5 text-left transition-[background-color,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas text-ink-soft hover:bg-canvas-soft"[39m
+                    [33mtype[39m=[32m"button"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"lucide lucide-users shrink-0 transition-colors text-ink-muted"[39m
+                      [33mfill[39m=[32m"none"[39m
+                      [33mheight[39m=[32m"18"[39m
+                      [33mstroke[39m=[32m"currentColor"[39m
+                      [33mstroke-linecap[39m=[32m"round"[39m
+                      [33mstroke-linejoin[39m=[32m"round"[39m
+                      [33mstroke-width[39m=[32m"2"[39m
+                      [33mviewBox[39m=[32m"0 0 24 24"[39m
+                      [33mwidth[39m=[32m"18"[39m
+                      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+                      [36m/>[39m
+                      [36m<circle[39m
+                        [33mcx[39m=[32m"9"[39m
+                        [33mcy[39m=[32m"7"[39m
+                        [33mr[39m=[32m"4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M16 3.13a4 4 0 0 1 0 7.75"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"text-body font-medium"[39m
+                    [36m>[39m
+                      [0mผู้ใช้และสิทธิ์[0m
+                    [36m</span>[39m
+                  [36m</button>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<button[39m
+                    [33...
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/app/[locale]/__tests__/screens.smoke.test.tsx > Dashboard — home/page.tsx (AC-2, AC-6) > แสดง KPI cards อย่างน้อย 3 ใบ (AC-2)
+TestingLibraryElementError: Unable to find an accessible element with the role "article"
+
+Here are the accessible roles:
+
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-[color:var(--color-success)]"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-[color:var(--color-warning)]"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<section[39m
+  [33maria-label[39m=[32m"ตัวชี้วัดหลัก"[39m
+  [33mclass[39m=[32m"mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mพนักงานทั้งหมด[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-users"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"9"[39m
+              [33mcy[39m=[32m"7"[39m
+              [33mr[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 3.13a4 4 0 0 1 0 7.75"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m1,284[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-[color:var(--color-success)]"[39m
+      [36m>[39m
+        [0m+12 คน เดือนนี้[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mมาทำงานวันนี้[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-user-check"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"9"[39m
+              [33mcy[39m=[32m"7"[39m
+              [33mr[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<polyline[39m
+              [33mpoints[39m=[32m"16 11 18 13 22 9"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m1,147[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+      [36m>[39m
+        [0m89% ของทั้งหมด[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mคำขอรออนุมัติ[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-clipboard-list"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"4"[39m
+              [33mrx[39m=[32m"1"[39m
+              [33mry[39m=[32m"1"[39m
+              [33mwidth[39m=[32m"8"[39m
+              [33mx[39m=[32m"8"[39m
+              [33my[39m=[32m"2"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 11h4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 16h4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 11h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 16h.01"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m8[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-[color:var(--color-warning)]"[39m
+      [36m>[39m
+        [0m2 รายการใกล้ครบกำหนด[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"text-ink transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-md)] rounded-[var(--radius-md)] bg-surface"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"p-5"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-start justify-between gap-3"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-[length:var(--text-eyebrow)] leading-[var(--text-eyebrow--line-height)] font-semibold uppercase tracking-[0.14em] text-ink-muted"[39m
+        [36m>[39m
+          [0mวันลาคงเหลือ (ของฉัน)[0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"inline-flex h-8 w-8 items-center justify-center rounded-md bg-accent-soft text-accent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-calendar-days"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 2v4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 2v4"[39m
+            [36m/>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mrx[39m=[32m"2"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mx[39m=[32m"3"[39m
+              [33my[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M3 10h18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 14h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 14h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 14h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M8 18h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 18h.01"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16 18h.01"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-display font-semibold text-ink tabular-nums text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]"[39m
+      [36m>[39m
+        [0m12.5[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-ink-muted"[39m
+      [36m>[39m
+        [0mจาก 15 วันต่อปี[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</section>[39m
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:109:15
+ ❯ src/app/[locale]/__tests__/screens.smoke.test.tsx:213:38
+    211|     const kpiSection = screen.getByRole('region', { name: 'ตัวชี้วัดหล…
+    212|     // แต่ละ KPI card แสดงค่าตัวเลข — ตรวจ HUMI_KPIS มี 4 ตัว
+    213|     const cards = within(kpiSection).getAllByRole('article');
+       |                                      ^
+    214|     expect(cards.length).toBeGreaterThanOrEqual(3);
+    215|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/app/[locale]/__tests__/screens.smoke.test.tsx > Settings — settings/page.tsx (AC-2) > แสดง default panel "ข้อมูลองค์กร" โดย default
+TestingLibraryElementError: Found multiple elements with the text: ข้อมูลองค์กร
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<span[39m
+  [33mclass[39m=[32m"text-body font-medium"[39m
+[36m>[39m
+  [0mข้อมูลองค์กร[0m
+[36m</span>[39m
+
+Ignored nodes: comments, script, style
+[36m<h2[39m
+  [33mclass[39m=[32m"mt-1 font-display text-[length:var(--text-display-h2)] leading-[var(--text-display-h2--line-height)] font-semibold tracking-tight text-ink"[39m
+[36m>[39m
+  [0mข้อมูลองค์กร[0m
+[36m</h2>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-canvas"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"mx-auto w-full max-w-[var(--max-width-page)] px-6 py-10 md:px-10 md:py-14"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"mb-10 md:mb-14"[39m
+        [36m>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"font-display text-[length:var(--text-eyebrow)] uppercase tracking-[0.22em] text-accent"[39m
+          [36m>[39m
+            [0mโปรไฟล์องค์กร[0m
+          [36m</p>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"mt-3 font-display text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)] font-semibold tracking-tight text-ink"[39m
+          [36m>[39m
+            [0mตั้งค่าระบบ[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-2 max-w-2xl text-body text-ink-muted"[39m
+          [36m>[39m
+            [0mปรับแต่งข้อมูลองค์กร ผู้ใช้ สิทธิ์ และการแจ้งเตือน[0m
+          [36m</p>[39m
+        [36m</header>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"grid grid-cols-1 gap-8 lg:grid-cols-[minmax(220px,1fr)_3fr] lg:gap-12"[39m
+        [36m>[39m
+          [36m<aside>[39m
+            [36m<nav[39m
+              [33maria-label[39m=[32m"ตั้งค่าระบบ"[39m
+              [33mclass[39m=[32m"lg:sticky lg:top-10"[39m
+            [36m>[39m
+              [36m<ul[39m
+                [33mclass[39m=[32m"flex flex-col gap-1"[39m
+              [36m>[39m
+                [36m<li>[39m
+                  [36m<button[39m
+                    [33maria-current[39m=[32m"page"[39m
+                    [33mclass[39m=[32m"group flex w-full items-center gap-3 rounded-[var(--radius-md)] px-3.5 py-2.5 text-left transition-[background-color,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas bg-accent-soft text-ink"[39m
+                    [33mtype[39m=[32m"button"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"lucide lucide-building2 shrink-0 transition-colors text-accent"[39m
+                      [33mfill[39m=[32m"none"[39m
+                      [33mheight[39m=[32m"18"[39m
+                      [33mstroke[39m=[32m"currentColor"[39m
+                      [33mstroke-linecap[39m=[32m"round"[39m
+                      [33mstroke-linejoin[39m=[32m"round"[39m
+                      [33mstroke-width[39m=[32m"2"[39m
+                      [33mviewBox[39m=[32m"0 0 24 24"[39m
+                      [33mwidth[39m=[32m"18"[39m
+                      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 6h4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 10h4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 14h4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M10 18h4"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"text-body font-medium"[39m
+                    [36m>[39m
+                      [0mข้อมูลองค์กร[0m
+                    [36m</span>[39m
+                    [36m<span[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"ml-auto h-1.5 w-1.5 rounded-full bg-accent"[39m
+                    [36m/>[39m
+                  [36m</button>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"group flex w-full items-center gap-3 rounded-[var(--radius-md)] px-3.5 py-2.5 text-left transition-[background-color,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas text-ink-soft hover:bg-canvas-soft"[39m
+                    [33mtype[39m=[32m"button"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"lucide lucide-users shrink-0 transition-colors text-ink-muted"[39m
+                      [33mfill[39m=[32m"none"[39m
+                      [33mheight[39m=[32m"18"[39m
+                      [33mstroke[39m=[32m"currentColor"[39m
+                      [33mstroke-linecap[39m=[32m"round"[39m
+                      [33mstroke-linejoin[39m=[32m"round"[39m
+                      [33mstroke-width[39m=[32m"2"[39m
+                      [33mviewBox[39m=[32m"0 0 24 24"[39m
+                      [33mwidth[39m=[32m"18"[39m
+                      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+                      [36m/>[39m
+                      [36m<circle[39m
+                        [33mcx[39m=[32m"9"[39m
+                        [33mcy[39m=[32m"7"[39m
+                        [33mr[39m=[32m"4"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M16 3.13a4 4 0 0 1 0 7.75"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"text-body font-medium"[39m
+                    [36m>[39m
+                      [0mผู้ใช้และสิทธิ์[0m
+                    [36m</span>[39m
+                  [36m</button>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<button[39m
+                    [33...
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getElementError ../../node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ ❯ getMultipleElementsFoundError ../../node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/app/[locale]/__tests__/screens.smoke.test.tsx:352:19
+    350|     render(<SettingsPage />);
+    351|     // OrganizationPanel render เป็น default active section
+    352|     expect(screen.getByText('ข้อมูลองค์กร')).toBeInTheDocument();
+       |                   ^
+    353|   });
+    354| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  2 failed | 99 passed (101)
+   Start at  18:10:19
+   Duration  2.10s (transform 459ms, setup 423ms, collect 1.51s, tests 1.65s, environment 2.58s, prepare 382ms)
+
