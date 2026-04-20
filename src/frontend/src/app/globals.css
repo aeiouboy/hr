@@ -158,3 +158,290 @@
   opacity: 0.6;
   mix-blend-mode: multiply;
 }
+
+/* ════════════════════════════════════════════════════════════
+   Humi Shell — classes ported from
+   docs/design-ref/shelfly-bundle/project/styles.css.
+   Namespaced `humi-*` so they don't collide with existing Nav.tsx
+   primitive. Every token via CSS var (Rule: token-only).
+   Line refs cite source styles.css line numbers.
+   ════════════════════════════════════════════════════════════ */
+
+/* Ported from styles.css:144-150 (.app) */
+.humi-app {
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  min-height: 100vh;
+  background: var(--color-canvas);
+}
+
+/* Ported from styles.css:152-160 (.sidebar) */
+.humi-sidebar {
+  background: var(--color-ink);
+  color: #E7E3D8;
+  padding: 22px 16px 18px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Ported from styles.css:161-164 (.sidebar .brand) */
+.humi-brand {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px 20px;
+}
+
+/* Ported from styles.css:165-174 (.sidebar .brand .wordmark) */
+.humi-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  color: var(--color-canvas-soft);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Nav list container — own addition (reference uses React fragments). */
+.humi-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.humi-nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Ported from styles.css:191-198 (.nav-label) */
+.humi-nav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(231, 227, 216, 0.45);
+  padding: 14px 10px 6px;
+  font-weight: 500;
+}
+
+/* Ported from styles.css:199-213 (.nav-item + :hover + .active) */
+.humi-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: rgba(231, 227, 216, 0.78);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+  text-decoration: none;
+}
+.humi-nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+.humi-nav-item.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.humi-nav-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Ported from styles.css:214-219 (.nav-icon + .active .nav-icon) */
+.humi-nav-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(231, 227, 216, 0.55);
+}
+.humi-nav-item.active .humi-nav-icon {
+  color: var(--color-accent);
+}
+
+/* Text label — own addition so pill can sit margin-left:auto. */
+.humi-nav-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ported from styles.css:220-228 (.nav-item.active .pill)
+   — generalized so inactive items show pill too (reference shows
+   badges whenever item.badge is set, not only active). */
+.humi-pill {
+  margin-left: auto;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+/* Ported from styles.css:230-236 (.sidebar-foot) */
+.humi-sidebar-foot {
+  margin-top: auto;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+}
+
+/* Ported from styles.css:237-248 (.avatar + .avatar.coral) */
+.humi-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E08864, #E8C46B);
+  color: var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.humi-avatar.coral {
+  background: linear-gradient(135deg, #E08864, #F4E4B8);
+}
+
+/* User meta in sidebar footer — ported from shell.jsx:48-51 inline styles. */
+.humi-user-meta {
+  font-size: 13px;
+  line-height: 1.3;
+  min-width: 0;
+}
+.humi-user-name {
+  color: var(--color-canvas-soft);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.humi-user-role {
+  color: rgba(231, 227, 216, 0.55);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ported from styles.css:251 (.main) */
+.humi-main {
+  padding: 0 36px 48px;
+  min-width: 0;
+}
+
+/* Ported from styles.css:252-258 (.topbar) */
+.humi-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 0 22px;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(var(--color-canvas) 80%, rgba(246, 241, 232, 0));
+  z-index: 10;
+}
+
+/* Ported from styles.css:259-268 (.search) */
+.humi-search {
+  flex: 1;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: 12px;
+  color: var(--color-ink-muted);
+  font-size: 14px;
+}
+.humi-search-placeholder {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ported from styles.css:269-278 (.search kbd) */
+.humi-search kbd {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: 6px;
+  padding: 2px 6px;
+  color: var(--color-ink-muted);
+}
+
+/* Ported from styles.css:279-288 (.icon-btn) */
+.humi-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  position: relative;
+  font-family: inherit;
+}
+.humi-icon-btn:hover {
+  background: var(--color-canvas-soft);
+}
+.humi-icon-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Ported from styles.css:289-294 (.icon-btn .dot-badge) — using
+   warning amber (no coral in Humi token palette per NO-RED). */
+.humi-dot-badge {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-warning);
+  border: 2px solid var(--color-surface);
+}
+
+/* Ported from styles.css:328-334 (.eyebrow) — humi-scoped duplicate
+   of existing token so usage inside Topbar doesn't require a new
+   global utility class. */
+.humi-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-ink-muted);
+  font-weight: 600;
+}
+
+/* Ported from styles.css:395 (.spacer) */
+.humi-spacer {
+  flex: 1;
+}
