@@ -70,7 +70,8 @@
     "asOfToday": "ณ วันนี้",
     "header": "ส่วนหัว",
     "employeeId": "รหัสพนักงาน",
-    "location": "สถานที่"
+    "location": "สถานที่",
+    "ecPersonal": "ข้อมูลพนักงาน EC"
   },
   "personal": {
     "title": "ข้อมูลส่วนตัว",
@@ -3249,5 +3250,156 @@
     "notApplicable": "ไม่มี",
     "restricted": "ข้อมูลจำกัดสิทธิ์",
     "pending": "รอการอนุมัติ"
+  },
+  "humiSettings": {
+    "title": "ตั้งค่าระบบ",
+    "subtitle": "ปรับแต่งข้อมูลองค์กร ผู้ใช้ สิทธิ์ และการแจ้งเตือน",
+    "sections": {
+      "organization": "ข้อมูลองค์กร",
+      "usersRoles": "ผู้ใช้และสิทธิ์",
+      "notifications": "การแจ้งเตือน",
+      "security": "ความปลอดภัย",
+      "integrations": "การเชื่อมต่อระบบภายนอก",
+      "about": "เกี่ยวกับ"
+    },
+    "organization": {
+      "eyebrow": "โปรไฟล์องค์กร",
+      "title": "ข้อมูลองค์กร",
+      "subtitle": "รายละเอียดบริษัท โลโก้ ที่อยู่ และการตั้งค่าภูมิภาค",
+      "general": {
+        "title": "ข้อมูลทั่วไป",
+        "description": "ชื่อและรหัสที่ใช้อ้างอิงทั่วทั้งระบบ",
+        "companyName": "ชื่อบริษัท",
+        "companyCode": "รหัสบริษัท",
+        "fiscalYearStart": "วันเริ่มต้นปีงบประมาณ",
+        "fiscalYearHelp": "ใช้สำหรับคำนวณรอบบัญชีและรายงาน"
+      },
+      "logo": {
+        "title": "ตราสัญลักษณ์",
+        "description": "โลโก้จะปรากฏบนเอกสารและหน้าจอเข้าสู่ระบบ",
+        "change": "เปลี่ยนโลโก้",
+        "placeholder": "H",
+        "caption": "แนะนำขนาด 512×512px · PNG หรือ SVG"
+      },
+      "address": {
+        "title": "ที่อยู่",
+        "description": "ที่อยู่จดทะเบียนสำหรับเอกสารราชการ",
+        "label": "ที่อยู่บริษัท",
+        "placeholder": "เลขที่ ถนน แขวง/ตำบล เขต/อำเภอ จังหวัด รหัสไปรษณีย์"
+      },
+      "locale": {
+        "title": "ภาษาและเขตเวลา",
+        "description": "ค่าเริ่มต้นสำหรับพนักงานทุกคน",
+        "language": "ภาษาเริ่มต้น",
+        "timezone": "เขตเวลา",
+        "langTh": "ไทย",
+        "langEn": "English",
+        "tzBangkok": "Asia/Bangkok (UTC+7)"
+      },
+      "autoSave": {
+        "label": "บันทึกอัตโนมัติ",
+        "description": "บันทึกการเปลี่ยนแปลงทันทีเมื่อพิมพ์ (เปิดใช้ในรุ่นทดสอบ)"
+      }
+    },
+    "stub": {
+      "eyebrow": "กำลังพัฒนา",
+      "title": "หัวข้อนี้อยู่ระหว่างพัฒนา",
+      "body": "ทีมจะเปิดใช้งานใน Sprint 2 — ขณะนี้สามารถใช้งานหัวข้อ “ข้อมูลองค์กร” ได้",
+      "cta": "กลับไปข้อมูลองค์กร"
+    },
+    "defaults": {
+      "companyName": "กลุ่มเซ็นทรัล",
+      "companyCode": "CG-0001",
+      "fiscalYearStart": "1 มกราคม",
+      "address": "เลขที่ 22 ซอยสมคิด ถนนเพลินจิต แขวงลุมพินี เขตปทุมวัน กรุงเทพฯ 10330"
+    },
+    "actions": {
+      "cancel": "ยกเลิก",
+      "save": "บันทึกการเปลี่ยนแปลง",
+      "saveHint": "การเปลี่ยนแปลงจะมีผลทันทีกับทุกผู้ใช้"
+    }
+  },
+  "humiHome": {
+    "eyebrow": "Humi HR",
+    "title": "ภาพรวม",
+    "subtitle": "สรุปกิจกรรมและคำขอที่ต้องดำเนินการ",
+    "kpiLabel": "ตัวชี้วัดหลัก",
+    "approvalsEyebrow": "รอดำเนินการ",
+    "approvalsTitle": "คำขอที่ต้องอนุมัติ",
+    "activityEyebrow": "ไทม์ไลน์",
+    "activityTitle": "กิจกรรมล่าสุด",
+    "myLeaveEyebrow": "ของฉัน",
+    "myLeaveTitle": "วันลาคงเหลือ",
+    "myLeaveCta": "ดูรายละเอียดวันลา",
+    "leaveAnnual": "ลาพักร้อน",
+    "leaveSick": "ลาป่วย",
+    "leavePersonal": "ลากิจ",
+    "payrollEyebrow": "เงินเดือนล่าสุด",
+    "payrollPaid": "จ่ายแล้ว",
+    "payrollPaidOn": "วันโอน {date}",
+    "payrollCta": "ดูสลิปเงินเดือน",
+    "approve": "อนุมัติ",
+    "reject": "ปฏิเสธ",
+    "viewAll": "ดูทั้งหมด"
+  },
+  "humiEmployees": {
+    "eyebrow": "Humi HR",
+    "title": "พนักงาน",
+    "subtitle": "ทั้งหมด {count} คนในองค์กร",
+    "addEmployee": "เพิ่มพนักงาน",
+    "toolbarLabel": "ค้นหาและกรอง",
+    "searchPlaceholder": "ค้นหาชื่อ รหัสพนักงาน หรือหน่วยงาน...",
+    "filterLabel": "กรองตามสถานะ",
+    "filterAll": "ทั้งหมด",
+    "filterActive": "ทำงาน",
+    "filterLeave": "ลา",
+    "filterTerminated": "พ้นสภาพ",
+    "tableCaption": "รายชื่อพนักงานทั้งหมด",
+    "colAvatar": "รูปประจำตัว",
+    "colName": "ชื่อ-สกุล",
+    "colCode": "รหัสพนักงาน",
+    "colDepartment": "หน่วยงาน",
+    "colStatus": "สถานะ",
+    "colActions": "การจัดการ",
+    "view": "ดู",
+    "viewDetail": "ดูรายละเอียด",
+    "emptyTitle": "ไม่พบพนักงานตามเงื่อนไข",
+    "emptyBody": "ลองปรับคำค้นหาหรือเลือกสถานะอื่น"
+  },
+  "humiEmployeeDetail": {
+    "backToList": "พนักงาน",
+    "actionMessage": "ส่งข้อความ",
+    "actionViewProfile": "ดูโปรไฟล์ละเอียด",
+    "actionEdit": "แก้ไข",
+    "tabPersonal": "ข้อมูลส่วนตัว",
+    "tabEmployment": "ประวัติการทำงาน",
+    "tabTimeoff": "การลา",
+    "tabPayroll": "เงินเดือน",
+    "tabDocuments": "เอกสาร",
+    "personalEyebrow": "ข้อมูลพื้นฐาน",
+    "personalTitle": "รายละเอียดติดต่อและการจ้างงาน",
+    "fieldFullName": "ชื่อ-สกุล",
+    "fieldEmail": "อีเมล",
+    "fieldPhone": "เบอร์โทร",
+    "fieldManager": "หัวหน้าสายบังคับบัญชา",
+    "fieldHiredOn": "วันที่เริ่มงาน",
+    "fieldEmployment": "สถานะการจ้าง",
+    "fieldEmpCode": "รหัสพนักงาน",
+    "fieldAddress": "ที่อยู่",
+    "placeholder": "กำลังพัฒนา — Sprint 2"
+  },
+  "humiOrgChart": {
+    "title": "แผนผังองค์กร",
+    "subtitle": "สายบังคับบัญชาและโครงสร้างทีมทั้งหมด",
+    "viewTree": "มุมมองผัง",
+    "viewList": "มุมมองรายการ",
+    "eyebrowChain": "สายบังคับบัญชา",
+    "treeTitle": "ผังโครงสร้างทั้งองค์กร",
+    "listTitle": "รายการแผนกและทีม",
+    "detailHead": "หัวหน้าสายงาน",
+    "detailCount": "จำนวนพนักงาน",
+    "detailSubTeams": "ทีมย่อย",
+    "detailNoSubTeams": "ไม่มีทีมย่อย",
+    "detailViewAll": "ดูพนักงานทั้งหมด"
   }
 }

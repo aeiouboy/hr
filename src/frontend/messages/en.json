@@ -70,7 +70,8 @@
     "asOfToday": "As of Today",
     "header": "Header",
     "employeeId": "Employee ID",
-    "location": "Location"
+    "location": "Location",
+    "ecPersonal": "Employee Center"
   },
   "personal": {
     "title": "Personal Information",
@@ -3249,5 +3250,120 @@
     "notApplicable": "N/A",
     "restricted": "Restricted",
     "pending": "Pending approval"
+  },
+  "humiHome": {
+    "eyebrow": "Humi HR",
+    "title": "Overview",
+    "subtitle": "Activity and pending actions at a glance",
+    "kpiLabel": "Key indicators",
+    "approvalsEyebrow": "Awaiting action",
+    "approvalsTitle": "Requests to approve",
+    "activityEyebrow": "Timeline",
+    "activityTitle": "Recent activity",
+    "myLeaveEyebrow": "Mine",
+    "myLeaveTitle": "Leave balance",
+    "myLeaveCta": "View leave details",
+    "leaveAnnual": "Annual leave",
+    "leaveSick": "Sick leave",
+    "leavePersonal": "Personal leave",
+    "payrollEyebrow": "Latest payroll",
+    "payrollPaid": "Paid",
+    "payrollPaidOn": "Paid on {date}",
+    "payrollCta": "View payslip",
+    "approve": "Approve",
+    "reject": "Reject",
+    "viewAll": "View all"
+  },
+  "humiEmployees": {
+    "eyebrow": "Humi HR",
+    "title": "Employees",
+    "subtitle": "{count} people in the organization",
+    "addEmployee": "Add employee",
+    "toolbarLabel": "Search and filter",
+    "searchPlaceholder": "Search name, employee code, or department…",
+    "filterLabel": "Filter by status",
+    "filterAll": "All",
+    "filterActive": "Active",
+    "filterLeave": "On leave",
+    "filterTerminated": "Terminated",
+    "tableCaption": "All employees",
+    "colAvatar": "Avatar",
+    "colName": "Name",
+    "colCode": "Employee code",
+    "colDepartment": "Department",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "view": "View",
+    "viewDetail": "View details",
+    "emptyTitle": "No employees match",
+    "emptyBody": "Try adjusting your search or pick a different status"
+  },
+  "humiSettings": {
+    "title": "Settings",
+    "subtitle": "Manage organization data, users, permissions, and notifications.",
+    "sections": {
+      "organization": "Organization",
+      "usersRoles": "Users & permissions",
+      "notifications": "Notifications",
+      "security": "Security",
+      "integrations": "Integrations",
+      "about": "About"
+    },
+    "organization": {
+      "eyebrow": "Organization profile",
+      "title": "Organization",
+      "subtitle": "Company details, logo, address, and regional defaults.",
+      "general": {
+        "title": "General",
+        "description": "Names and codes used across the platform.",
+        "companyName": "Company name",
+        "companyCode": "Company code",
+        "fiscalYearStart": "Fiscal year start",
+        "fiscalYearHelp": "Used for accounting periods and reports."
+      },
+      "logo": {
+        "title": "Logo",
+        "description": "Appears on documents and the sign-in screen.",
+        "change": "Change logo",
+        "placeholder": "H",
+        "caption": "Recommended 512×512px · PNG or SVG"
+      },
+      "address": {
+        "title": "Address",
+        "description": "Registered address for official documents.",
+        "label": "Company address",
+        "placeholder": "Street, subdistrict, district, province, postal code"
+      },
+      "locale": {
+        "title": "Language & time zone",
+        "description": "Defaults applied to every employee.",
+        "language": "Default language",
+        "timezone": "Time zone",
+        "langTh": "ไทย",
+        "langEn": "English",
+        "tzBangkok": "Asia/Bangkok (UTC+7)"
+      },
+      "autoSave": {
+        "label": "Auto-save",
+        "description": "Save changes instantly while typing (beta)."
+      }
+    },
+    "stub": {
+      "eyebrow": "In development",
+      "title": "This section is being built",
+      "body": "The team will enable this in Sprint 2 — meanwhile, Organization is available.",
+      "cta": "Back to Organization"
+    },
+    "defaults": {
+      "companyName": "Central Group",
+      "companyCode": "CG-0001",
+      "fiscalYearStart": "1 January",
+      "address": "22 Soi Somkid, Ploenchit Rd, Lumphini, Pathum Wan, Bangkok 10330"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saveHint": "Changes apply immediately to all users."
+    }
   }
 }
