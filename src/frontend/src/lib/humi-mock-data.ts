@@ -1055,6 +1055,9 @@ export const HUMI_MY_PROFILE = {
 // Ports retail reference screens to HR context. Token-only colors.
 // ════════════════════════════════════════════════════════════
 
+/** Subset of HumiEmployee.avatarTone that the Avatar primitive accepts directly. */
+export type AvatarTone = 'teal' | 'sage' | 'butter' | 'ink';
+
 export type LeaveKind = 'vacation' | 'sick' | 'personal';
 
 export interface HumiLeaveBalance {
@@ -1115,7 +1118,7 @@ export interface HumiLeavePending {
   id: string;
   name: string;
   initials: string;
-  tone: HumiEmployee['avatarTone'];
+  tone: AvatarTone;
   reason: string;
   when: string;
 }
@@ -1129,7 +1132,7 @@ export interface HumiLeaveCoverage {
   id: string;
   name: string;
   initials: string;
-  tone: HumiEmployee['avatarTone'];
+  tone: AvatarTone;
   dateLabel: string;
   offsetPct: number;
 }
@@ -1187,7 +1190,7 @@ export interface HumiDependent {
   id: string;
   name: string;
   initials: string;
-  tone: HumiEmployee['avatarTone'];
+  tone: AvatarTone;
   relation: string;
 }
 
@@ -1309,7 +1312,7 @@ export interface HumiApprovalRow {
   id: string;
   who: string;
   initials: string;
-  tone: HumiEmployee['avatarTone'];
+  tone: AvatarTone;
   role: string;
   type: string;
   sub: string;
@@ -1421,7 +1424,7 @@ export interface HumiFeedback {
   id: string;
   who: string;
   initials: string;
-  tone: HumiEmployee['avatarTone'];
+  tone: AvatarTone;
   role: string;
   when: string;
   text: string;
@@ -1461,7 +1464,7 @@ export interface HumiGoalTeamMember {
   id: string;
   name: string;
   initials: string;
-  tone: HumiEmployee['avatarTone'];
+  tone: AvatarTone;
   role: string;
   goalsDone: string;
   percent: number;
