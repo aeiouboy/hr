@@ -1,406 +1,477 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useTranslations } from 'next-intl';
-import { Search, ZoomIn, ZoomOut, RotateCcw, Users, Minus } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
-import { OrgChart } from '@/components/profile/org-chart';
+import { useState, type KeyboardEvent } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { ChevronRight, Users } from 'lucide-react';
+import { Avatar, Button, Card, CardEyebrow, CardTitle } from '@/components/humi';
+import { cn } from '@/lib/utils';
+
+// ════════════════════════════════════════════════════════════
+// Org Chart — /org-chart
+// Split layout: 2/3 tree (left) + 1/3 detail panel (right).
+// Tree = nested <ul role="tree"> with hairline connectors +
+// expand/collapse via <button aria-expanded>. Keyboard: Enter/Space
+// on node = toggle expand; click = select.
+// ════════════════════════════════════════════════════════════
+
+type Tone = 'teal' | 'sage' | 'butter' | 'ink';
 
 interface OrgNode {
- id: string;
- name: string;
- title: string;
- department?: string;
- photo?: string;
+  id: string;
+  name: string;
+  role: string;
+  head?: string;
+  tone: Tone;
+  children?: OrgNode[];
 }
 
-const CEO_NODE: OrgNode = {
- id:'CEO001',
- name:'Prasert Charoensuk',
- title:'Chief Executive Officer',
- department:'Executive',
- photo:'https://i.pravatar.cc/150?img=3',
+// Mock org — matches Employee Detail persons where possible.
+const ROOT: OrgNode = {
+  id: 'hq',
+  name: 'สำนักงานใหญ่',
+  role: 'บริษัท เซ็นทรัล กรุ๊ป',
+  head: 'ประเสริฐ เจริญศักดิ์',
+  tone: 'ink',
+  children: [
+    {
+      id: 'dept-hr',
+      name: 'ฝ่ายบุคคล',
+      role: 'HR & People Operations',
+      head: 'ปิยะ ชัยวัฒน์',
+      tone: 'teal',
+      children: [
+        {
+          id: 'team-talent',
+          name: 'ทีมสรรหาบุคลากร',
+          role: 'Talent Acquisition',
+          head: 'กุลธิดา วงศ์สกุล',
+          tone: 'teal',
+          children: [
+            { id: 'E-0214', name: 'กุลธิดา วงศ์สกุล', role: 'ผู้จัดการฝ่ายสรรหาบุคลากร', tone: 'teal' },
+            { id: 'E-0218', name: 'ชญานิษฐ์ ศรีประเสริฐ', role: 'นักสรรหาอาวุโส', tone: 'sage' },
+            { id: 'E-0222', name: 'วีระศักดิ์ มาลัย', role: 'นักสรรหา', tone: 'butter' },
+          ],
+        },
+        {
+          id: 'team-people-ops',
+          name: 'ทีม People Ops',
+          role: 'Payroll & Benefits',
+          head: 'อัจฉรา ธนกิจ',
+          tone: 'butter',
+          children: [
+            { id: 'E-0412', name: 'อัจฉรา ธนกิจ', role: 'นักวิเคราะห์การเงินอาวุโส', tone: 'butter' },
+            { id: 'E-0418', name: 'สุรชัย ภักดี', role: 'เจ้าหน้าที่เงินเดือน', tone: 'sage' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'dept-ops',
+      name: 'ฝ่ายปฏิบัติการ',
+      role: 'Retail & Mall Operations',
+      head: 'พรทิพย์ เจริญสุข',
+      tone: 'sage',
+      children: [
+        {
+          id: 'team-mall-bkk',
+          name: 'ปฏิบัติการศูนย์การค้า กทม.',
+          role: 'Mall Ops – Bangkok',
+          head: 'ณัฐพล ศรีสุวรรณ',
+          tone: 'sage',
+          children: [
+            { id: 'E-0331', name: 'ณัฐพล ศรีสุวรรณ', role: 'หัวหน้างานปฏิบัติการ', tone: 'sage' },
+            { id: 'E-0335', name: 'กนกวรรณ แสงทอง', role: 'เจ้าหน้าที่ปฏิบัติการอาวุโส', tone: 'teal' },
+          ],
+        },
+        {
+          id: 'team-warehouse',
+          name: 'คลังสินค้าบางนา',
+          role: 'Warehouse Ops',
+          head: 'ธีรภัทร จิรายุ',
+          tone: 'teal',
+          children: [
+            { id: 'E-0527', name: 'ธีรภัทร จิรายุ', role: 'เจ้าหน้าที่คลังสินค้า', tone: 'teal' },
+            { id: 'E-0533', name: 'อนุชา พิทักษ์', role: 'หัวหน้ากะคลัง', tone: 'butter' },
+          ],
+        },
+        {
+          id: 'team-region-north',
+          name: 'เขตภาคเหนือ',
+          role: 'Northern Region',
+          head: 'พรทิพย์ เจริญสุข',
+          tone: 'sage',
+          children: [
+            { id: 'E-0643', name: 'พรทิพย์ เจริญสุข', role: 'ผู้จัดการเขตภาคเหนือ', tone: 'sage' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'dept-tech',
+      name: 'ฝ่ายเทคโนโลยี',
+      role: 'Product & Technology',
+      head: 'ฤทธิรงค์ อำนวยโสภณ',
+      tone: 'butter',
+      children: [
+        {
+          id: 'team-platform',
+          name: 'ทีม Platform',
+          role: 'Core Platform Engineering',
+          head: 'ชลสิทธิ์ ตระกูลวัฒน์',
+          tone: 'butter',
+        },
+        {
+          id: 'team-data',
+          name: 'ทีม Data',
+          role: 'Data & Analytics',
+          head: 'มาลินี กล้าหาญ',
+          tone: 'teal',
+        },
+      ],
+    },
+  ],
 };
 
-const VP_HR_NODE: OrgNode = {
- id:'VP001',
- name:'Kannika Srisawat',
- title:'VP Human Resources',
- department:'Human Resources',
- photo:'https://i.pravatar.cc/150?img=5',
-};
+// Default-expanded = root + immediate children (first 2 levels).
+const DEFAULT_EXPANDED = new Set<string>([
+  'hq',
+  'dept-hr',
+  'dept-ops',
+  'dept-tech',
+]);
 
-const VP_PRODUCT_NODE: OrgNode = {
- id:'VP002',
- name:'Rungrote Amnuaysopon',
- title:'VP Product & Technology',
- department:'Product & Technology',
- photo:'https://i.pravatar.cc/150?img=12',
-};
-
-const VP_OPS_NODE: OrgNode = {
- id:'VP003',
- name:'Siriporn Thanakulpaisal',
- title:'VP Operations',
- department:'Operations',
- photo:'https://i.pravatar.cc/150?img=9',
-};
-
-const CURRENT_USER_NODE: OrgNode = {
- id:'EMP001',
- name:'Chongrak Tanaka',
- title:'Product Manager',
- department:'Product Management',
- photo:'https://i.pravatar.cc/150?img=11',
-};
-
-const DIRECT_REPORTS: OrgNode[] = [
- {
- id:'EMP_DR001',
- name:'Naruechon Woraphatphawan',
- title:'Functional Trainee',
- department:'Product Management',
- photo:'https://i.pravatar.cc/150?img=14',
- },
- {
- id:'EMP_DR002',
- name:'Punnapa Thianchai',
- title:'Functional Trainee',
- department:'Product Management',
- photo:'https://i.pravatar.cc/150?img=15',
- },
-];
+type ViewMode = 'tree' | 'list';
 
 export default function OrgChartPage() {
- const t = useTranslations('orgChart');
- const tCommon = useTranslations('common');
+  const params = useParams<{ locale: string }>();
+  const locale = params?.locale ?? 'th';
 
- const [loading, setLoading] = useState(true);
- const [searchQuery, setSearchQuery] = useState('');
- const [hasData] = useState(true);
- const [zoomLevel, setZoomLevel] = useState(1.0);
- const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(DEFAULT_EXPANDED);
+  const [selectedId, setSelectedId] = useState<string>('dept-hr');
+  const [view, setView] = useState<ViewMode>('tree');
 
- const ZOOM_STEP = 0.15;
- const ZOOM_MIN = 0.5;
- const ZOOM_MAX = 2.0;
+  const toggle = (id: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
- const handleZoomIn = useCallback(() => {
- setZoomLevel((prev) => Math.min(prev + ZOOM_STEP, ZOOM_MAX));
- }, []);
+  const selected = findNode(ROOT, selectedId) ?? ROOT;
 
- const handleZoomOut = useCallback(() => {
- setZoomLevel((prev) => Math.max(prev - ZOOM_STEP, ZOOM_MIN));
- }, []);
+  return (
+    <div className="min-h-screen bg-canvas">
+      <main className="mx-auto w-full max-w-[var(--max-width-page)] px-6 py-8">
+        {/* Page header */}
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="font-display text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)] font-semibold tracking-tight text-ink whitespace-nowrap">
+              แผนผังองค์กร
+            </h1>
+            <p className="mt-1 text-small text-ink-muted">
+              สายบังคับบัญชาและโครงสร้างทีมทั้งหมด
+            </p>
+          </div>
+          <div
+            role="radiogroup"
+            aria-label="เลือกมุมมอง"
+            className="inline-flex rounded-md border border-hairline bg-surface p-1"
+          >
+            {(['tree', 'list'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                role="radio"
+                aria-checked={view === mode}
+                onClick={() => setView(mode)}
+                className={cn(
+                  'rounded-sm px-3 py-1.5 text-small font-medium transition-colors',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 focus-visible:ring-offset-surface',
+                  view === mode
+                    ? 'bg-accent-soft text-accent-ink'
+                    : 'text-ink-muted hover:text-ink-soft'
+                )}
+              >
+                {mode === 'tree' ? 'มุมมองผัง' : 'มุมมองรายการ'}
+              </button>
+            ))}
+          </div>
+        </div>
 
- const handleZoomReset = useCallback(() => {
- setZoomLevel(1.0);
- }, []);
+        {/* Split grid: 2fr tree + 1fr detail */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {/* LEFT — Tree (2/3) */}
+          <div className="lg:col-span-2">
+            <Card size="lg" className="overflow-hidden">
+              <CardEyebrow>สายบังคับบัญชา</CardEyebrow>
+              <CardTitle className="mt-2 mb-5">
+                {view === 'tree'
+                  ? 'ผังโครงสร้างทั้งองค์กร'
+                  : 'รายการแผนกและทีม'}
+              </CardTitle>
+              {view === 'tree' ? (
+                <ul role="tree" className="text-body">
+                  <TreeNode
+                    node={ROOT}
+                    depth={0}
+                    expanded={expanded}
+                    selectedId={selectedId}
+                    onToggle={toggle}
+                    onSelect={setSelectedId}
+                  />
+                </ul>
+              ) : (
+                <FlatList
+                  node={ROOT}
+                  selectedId={selectedId}
+                  onSelect={setSelectedId}
+                />
+              )}
+            </Card>
+          </div>
 
- const handleNodeClick = useCallback((id: string) => {
- setSelectedNodeId(id);
- }, []);
+          {/* RIGHT — Detail panel (1/3) */}
+          <div>
+            <Card size="lg" className="lg:sticky lg:top-6">
+              <div className="flex items-start gap-4">
+                <Avatar name={selected.name} size="lg" tone={selected.tone} />
+                <div className="min-w-0 flex-1">
+                  <CardEyebrow>{selected.role}</CardEyebrow>
+                  <CardTitle className="mt-1.5">{selected.name}</CardTitle>
+                </div>
+              </div>
 
- // Collect all nodes for search filtering
- const ALL_NODES: OrgNode[] = [CEO_NODE, VP_HR_NODE, VP_PRODUCT_NODE, VP_OPS_NODE, CURRENT_USER_NODE, ...DIRECT_REPORTS];
+              <dl className="mt-6 grid grid-cols-1 gap-4">
+                <DetailRow
+                  label="หัวหน้าสายงาน"
+                  value={selected.head ?? '—'}
+                />
+                <DetailRow
+                  label="จำนวนพนักงาน"
+                  value={`${countEmployees(selected)} คน`}
+                />
+                <div>
+                  <dt className="text-small text-ink-muted">ทีมย่อย</dt>
+                  <dd className="mt-1.5 flex flex-wrap gap-1.5">
+                    {selected.children && selected.children.length > 0 ? (
+                      selected.children.map((child) => (
+                        <span
+                          key={child.id}
+                          className="inline-flex items-center rounded-full bg-canvas-soft px-2.5 py-1 text-small text-ink-soft"
+                        >
+                          {child.name}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-small text-ink-muted">
+                        ไม่มีทีมย่อย
+                      </span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
 
- const matchesSearch = useCallback(
- (node: OrgNode) => {
- if (!searchQuery.trim()) return true;
- const q = searchQuery.toLowerCase();
- return (
- node.name.toLowerCase().includes(q) ||
- node.title.toLowerCase().includes(q) ||
- (node.department?.toLowerCase().includes(q) ?? false)
- );
- },
- [searchQuery]
- );
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Link
+                  href={`/${locale}/employees`}
+                  className="inline-flex"
+                >
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    leadingIcon={<Users className="h-4 w-4" />}
+                  >
+                    ดูพนักงานทั้งหมด
+                  </Button>
+                </Link>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
 
- // Check if any node matches the search (to show"no results" message)
- const hasSearchResults = !searchQuery.trim() || ALL_NODES.some(matchesSearch);
+// ── Tree node (recursive) ──────────────────────────────────
 
- useEffect(() => {
- const timer = setTimeout(() => setLoading(false), 400);
- return () => clearTimeout(timer);
- }, []);
+interface TreeNodeProps {
+  node: OrgNode;
+  depth: number;
+  expanded: Set<string>;
+  selectedId: string;
+  onToggle: (id: string) => void;
+  onSelect: (id: string) => void;
+}
 
- return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 sm:p-6">
- <div className="max-w-7xl mx-auto">
- {/* Page header */}
- <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
- <div>
- <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
- <p className="text-sm text-ink-muted mt-1">
- {t('interactiveChart')}
- </p>
- </div>
- </div>
+function TreeNode({
+  node,
+  depth,
+  expanded,
+  selectedId,
+  onToggle,
+  onSelect,
+}: TreeNodeProps) {
+  const hasChildren = !!node.children && node.children.length > 0;
+  const isExpanded = expanded.has(node.id);
+  const isSelected = selectedId === node.id;
 
- {/* Toolbar */}
- <div className="bg-surface rounded-md border border-hairline p-4 mb-4 flex flex-col sm:flex-row sm:items-center gap-3">
- {/* Search */}
- <div className="relative flex-1 max-w-sm">
- <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-muted" />
- <input
- type="text"
- placeholder={tCommon('search')}
- value={searchQuery}
- onChange={(e) => setSearchQuery(e.target.value)}
- className="w-full pl-10 pr-4 py-2 border border-hairline rounded-md bg-surface-raised text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand/40 focus:bg-surface transition"
- />
- </div>
+  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (hasChildren) onToggle(node.id);
+      onSelect(node.id);
+    }
+  };
 
- {/* Zoom controls */}
- <div className="flex items-center gap-2">
- <span className="text-xs text-ink-muted hidden sm:block mr-1">
- {t('zoomIn').replace('In','')}:
- </span>
- <button
- onClick={handleZoomIn}
- disabled={zoomLevel >= ZOOM_MAX}
- className="flex items-center gap-1.5 px-3 py-2 text-sm border border-hairline rounded-md hover:bg-surface-raised transition text-ink-soft disabled:opacity-40 disabled:cursor-not-allowed"
- aria-label={t('zoomIn')}
- title={t('zoomIn')}
- >
- <ZoomIn className="h-4 w-4" />
- <span className="hidden sm:inline">{t('zoomIn')}</span>
- </button>
- <button
- onClick={handleZoomOut}
- disabled={zoomLevel <= ZOOM_MIN}
- className="flex items-center gap-1.5 px-3 py-2 text-sm border border-hairline rounded-md hover:bg-surface-raised transition text-ink-soft disabled:opacity-40 disabled:cursor-not-allowed"
- aria-label={t('zoomOut')}
- title={t('zoomOut')}
- >
- <ZoomOut className="h-4 w-4" />
- <span className="hidden sm:inline">{t('zoomOut')}</span>
- </button>
- <button
- onClick={handleZoomReset}
- className="flex items-center gap-1.5 px-3 py-2 text-sm border border-hairline rounded-md hover:bg-surface-raised transition text-ink-soft"
- aria-label={t('resetView')}
- title={t('resetView')}
- >
- <RotateCcw className="h-4 w-4" />
- <span className="hidden sm:inline">{t('resetView')}</span>
- </button>
- <span className="text-xs text-ink-muted ml-1">
- {Math.round(zoomLevel * 100)}%
- </span>
- </div>
- </div>
+  return (
+    <li
+      role="treeitem"
+      aria-expanded={hasChildren ? isExpanded : undefined}
+      aria-selected={isSelected}
+      className={cn(
+        depth > 0 &&
+          'border-l border-hairline pl-4 ml-[11px] relative'
+      )}
+    >
+      <button
+        type="button"
+        onClick={() => {
+          if (hasChildren) onToggle(node.id);
+          onSelect(node.id);
+        }}
+        onKeyDown={onKeyDown}
+        className={cn(
+          'group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 focus-visible:ring-offset-surface',
+          isSelected
+            ? 'bg-accent-soft ring-1 ring-accent/40'
+            : 'hover:bg-canvas-soft'
+        )}
+      >
+        <span
+          aria-hidden="true"
+          className={cn(
+            'inline-flex h-5 w-5 shrink-0 items-center justify-center text-ink-muted transition-transform',
+            hasChildren ? 'opacity-100' : 'opacity-0',
+            isExpanded && 'rotate-90'
+          )}
+        >
+          <ChevronRight className="h-4 w-4" />
+        </span>
+        <Avatar name={node.name} size="sm" tone={node.tone} />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-body font-medium text-ink">
+            {node.name}
+          </span>
+          <span className="block truncate text-small text-ink-muted">
+            {node.role}
+            {node.head && ` · ${node.head}`}
+          </span>
+        </span>
+        {hasChildren && (
+          <span className="shrink-0 rounded-full bg-canvas-soft px-2 py-0.5 text-small text-ink-muted">
+            {node.children!.length}
+          </span>
+        )}
+      </button>
 
- {/* Chart area */}
- {loading ? (
- <div className="bg-surface rounded-md border border-hairline flex items-center justify-center py-24">
- <div className="flex flex-col items-center gap-3 text-ink-muted">
- <div className="h-8 w-8 rounded-full border-2 border-brand border-t-transparent animate-spin" />
- <p className="text-sm">{t('loading')}</p>
- </div>
- </div>
- ) : !hasData ? (
- <div className="bg-surface rounded-md border border-hairline flex items-center justify-center py-24">
- <div className="flex flex-col items-center gap-3 text-ink-muted">
- <Users className="h-10 w-10 text-gray-300" />
- <p className="text-sm">{t('noOrgData')}</p>
- </div>
- </div>
- ) : (
- <div className="flex flex-col lg:flex-row gap-4">
- {/* Main chart card */}
- <div className="flex-1 bg-surface-raised rounded-md border border-hairline p-6 min-h-[480px] overflow-auto">
- {/* No search results message */}
- {!hasSearchResults && (
- <div className="flex items-center justify-center py-12">
- <div className="flex flex-col items-center gap-2 text-ink-muted">
- <Search className="h-8 w-8 text-gray-300" />
- <p className="text-sm">No results found for &ldquo;{searchQuery}&rdquo;</p>
- <button
- onClick={() => setSearchQuery('')}
- className="text-xs text-brand hover:underline"
- >
- Clear search
- </button>
- </div>
- </div>
- )}
+      {hasChildren && isExpanded && (
+        <ul role="group" className="mt-1.5 space-y-0.5">
+          {node.children!.map((child) => (
+            <TreeNode
+              key={child.id}
+              node={child}
+              depth={depth + 1}
+              expanded={expanded}
+              selectedId={selectedId}
+              onToggle={onToggle}
+              onSelect={onSelect}
+            />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
 
- {/* Zoomable container */}
- <div
- style={{
- transform: `scale(${zoomLevel})`,
- transformOrigin:'top center',
- transition:'transform 0.2s ease-out',
- }}
- className={!hasSearchResults ?'hidden' :''}
- >
- {/* VP row header */}
- <div className="mb-6">
- <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide text-center mb-3">
- Executive Leadership
- </p>
- <div className="flex justify-center">
- <div className="w-full max-w-xs">
- <button
- onClick={() => handleNodeClick(CEO_NODE.id)}
- className={`flex items-center gap-3 p-3 rounded-md border text-left w-full transition-all ${
- selectedNodeId === CEO_NODE.id
- ?'border-blue-400 ring-2 ring-blue-200 bg-accent-tint'
- : matchesSearch(CEO_NODE)
- ? searchQuery.trim()
- ?'border-yellow-400 bg-warning-tint ring-1 ring-yellow-300'
- :'border-hairline bg-surface hover:border-hairline hover:shadow-sm'
- :'border-hairline bg-surface opacity-30'
- }`}
- >
- <div className="w-10 h-10 rounded-full overflow-hidden bg-surface-raised shrink-0">
- <img
- src={CEO_NODE.photo}
- alt={CEO_NODE.name}
- className="w-full h-full object-cover"
- />
- </div>
- <div className="min-w-0 flex-1">
- <p className="text-sm font-medium text-ink truncate">{CEO_NODE.name}</p>
- <p className="text-xs text-ink-muted truncate">{CEO_NODE.title}</p>
- <p className="text-xs text-ink-muted truncate">{CEO_NODE.department}</p>
- </div>
- </button>
- </div>
- </div>
+// ── Flat list view (stub) ──────────────────────────────────
 
- {/* Branch lines to VPs */}
- <div className="relative flex justify-center mt-0">
- <div className="w-px h-5 bg-gray-300" />
- </div>
- <div className="relative flex justify-center">
- <div className="w-2/3 h-px bg-gray-300" />
- </div>
+function FlatList({
+  node,
+  selectedId,
+  onSelect,
+}: {
+  node: OrgNode;
+  selectedId: string;
+  onSelect: (id: string) => void;
+}) {
+  const flat: { node: OrgNode; depth: number }[] = [];
+  const walk = (n: OrgNode, d: number) => {
+    flat.push({ node: n, depth: d });
+    n.children?.forEach((c) => walk(c, d + 1));
+  };
+  walk(node, 0);
 
- <div className="flex justify-center gap-4 mt-0">
- {[VP_HR_NODE, VP_PRODUCT_NODE, VP_OPS_NODE].map((vp) => {
- const isMatch = matchesSearch(vp);
- const isSelected = selectedNodeId === vp.id;
- return (
- <div key={vp.id} className="flex flex-col items-center">
- <div className="w-px h-4 bg-gray-300" />
- <div className="w-full max-w-[200px]">
- <button
- onClick={() => handleNodeClick(vp.id)}
- className={`flex items-center gap-2 p-2.5 rounded-md border text-left w-full transition-all ${
- isSelected
- ?'border-blue-400 ring-2 ring-blue-200 bg-accent-tint'
- : isMatch && searchQuery.trim()
- ?'border-yellow-400 bg-warning-tint ring-1 ring-yellow-300'
- : vp.id === VP_PRODUCT_NODE.id
- ? `border-brand/30 bg-brand/5${!isMatch && searchQuery.trim() ?' opacity-30' :''}`
- : `border-hairline bg-surface hover:border-hairline hover:shadow-sm${!isMatch && searchQuery.trim() ?' opacity-30' :''}`
- }`}
- >
- <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-raised shrink-0">
- <img src={vp.photo} alt={vp.name} className="w-full h-full object-cover" />
- </div>
- <div className="min-w-0 flex-1">
- <p className="text-xs font-medium text-ink truncate">{vp.name}</p>
- <p className="text-[11px] text-ink-muted truncate">{vp.title}</p>
- </div>
- </button>
- </div>
- </div>
- );
- })}
- </div>
- </div>
+  return (
+    <ul className="divide-y divide-hairline-soft">
+      {flat.map(({ node: n, depth }) => {
+        const isSelected = selectedId === n.id;
+        return (
+          <li key={n.id}>
+            <button
+              type="button"
+              onClick={() => onSelect(n.id)}
+              className={cn(
+                'flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset',
+                isSelected
+                  ? 'bg-accent-soft'
+                  : 'hover:bg-canvas-soft'
+              )}
+              style={{ paddingLeft: `${12 + depth * 16}px` }}
+            >
+              <Avatar name={n.name} size="sm" tone={n.tone} />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-body font-medium text-ink">
+                  {n.name}
+                </span>
+                <span className="block truncate text-small text-ink-muted">
+                  {n.role}
+                </span>
+              </span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
- {/* Divider */}
- <div className="border-t border-dashed border-hairline my-4" />
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-b border-hairline-soft pb-3 last:border-b-0">
+      <dt className="text-small text-ink-muted">{label}</dt>
+      <dd className="mt-0.5 text-body font-medium text-ink">{value}</dd>
+    </div>
+  );
+}
 
- {/* Current user chain (supervisor -> current -> direct reports) */}
- <div>
- <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide text-center mb-4">
- Your Team
- </p>
- <OrgChart
- supervisor={VP_PRODUCT_NODE}
- current={CURRENT_USER_NODE}
- directReports={DIRECT_REPORTS}
- onNodeClick={handleNodeClick}
- searchQuery={searchQuery}
- />
- </div>
- </div>
- </div>
+// ── Helpers ────────────────────────────────────────────────
 
- {/* Legend card */}
- <div className="lg:w-56 shrink-0">
- <div className="bg-surface rounded-md border border-hairline p-4">
- <h3 className="text-sm font-semibold text-ink-soft mb-3">Legend</h3>
- <div className="flex flex-col gap-3">
- {/* Solid line = direct reporting */}
- <div className="flex items-center gap-3">
- <div className="flex items-center gap-1 shrink-0">
- <div className="w-3 h-px bg-gray-400" />
- <Minus className="h-3 w-3 text-ink-muted -mx-1" />
- <div className="w-3 h-px bg-gray-400" />
- </div>
- <p className="text-xs text-ink-muted">Direct Reporting</p>
- </div>
+function findNode(root: OrgNode, id: string): OrgNode | null {
+  if (root.id === id) return root;
+  for (const child of root.children ?? []) {
+    const found = findNode(child, id);
+    if (found) return found;
+  }
+  return null;
+}
 
- {/* Highlighted card = current user */}
- <div className="flex items-center gap-3">
- <div
- className="w-6 h-4 rounded border border-brand bg-brand/10 shrink-0"
- aria-hidden="true"
- />
- <p className="text-xs text-ink-muted">
- {t('you')} (Current User)
- </p>
- </div>
-
- {/* VP highlight */}
- <div className="flex items-center gap-3">
- <div
- className="w-6 h-4 rounded border border-brand/30 bg-brand/5 shrink-0"
- aria-hidden="true"
- />
- <p className="text-xs text-ink-muted">Reporting Line VP</p>
- </div>
- </div>
-
- {/* Team summary */}
- <div className="mt-5 pt-4 border-t border-gray-100">
- <h3 className="text-sm font-semibold text-ink-soft mb-2">Team Summary</h3>
- <div className="flex flex-col gap-1.5 text-xs text-ink-muted">
- <div className="flex justify-between">
- <span>Direct Reports</span>
- <span className="font-medium text-ink">{DIRECT_REPORTS.length}</span>
- </div>
- <div className="flex justify-between">
- <span>VP Level</span>
- <span className="font-medium text-ink">3</span>
- </div>
- <div className="flex justify-between">
- <span>Department</span>
- <span className="font-medium text-ink text-right">Product Mgmt</span>
- </div>
- </div>
- </div>
- </div>
- </div>
- </div>
- )}
- </div>
- </main>
- </div>
- </div>
- );
+function countEmployees(node: OrgNode): number {
+  if (!node.children || node.children.length === 0) return 1;
+  return node.children.reduce((sum, c) => sum + countEmployees(c), 0);
 }
