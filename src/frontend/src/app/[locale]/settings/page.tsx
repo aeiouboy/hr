@@ -1,512 +1,425 @@
 'use client';
 
-import { useState } from 'react';
+// ════════════════════════════════════════════════════════════
+// Humi Settings — Sprint 1 redesign (#1 Task 6)
+// Editorial 2-column: sticky sidebar (sections) + content panel.
+// Default panel = ข้อมูลองค์กร; 5 other sections = "กำลังพัฒนา" stub.
+// Tokens only, Thai-primary. Uses Humi primitives (Card, Button,
+// FormField, FormInput, Toggle) — no legacy shadcn imports.
+// ════════════════════════════════════════════════════════════
+
+import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
-import { Save, AlertCircle, Check } from 'lucide-react';
-import { PageShell } from '@/components/shared/page-shell';
-import { Tabs } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { FormField } from '@/components/ui/form-field';
-import { GeofencingConfig } from '@/components/settings/geofencing-config';
-import { WorkflowConfig } from '@/components/settings/workflow-config';
-import { useSettings } from '@/hooks/use-settings';
-import { useAuthStore } from '@/stores/auth-store';
-import { isHR } from '@/lib/rbac';
-import type { GeneralSettings, CompanySettings, NotificationSettings } from '@/hooks/use-settings';
+import {
+  Building2,
+  Users,
+  Bell,
+  ShieldCheck,
+  Plug,
+  Info,
+  type LucideIcon,
+} from 'lucide-react';
+import {
+  Button,
+  Card,
+  CardEyebrow,
+  CardTitle,
+  FormField,
+  FormInput,
+  Toggle,
+} from '@/components/humi';
+import { cn } from '@/lib/utils';
 
-type TabKey =
- |'general'
- |'company'
- |'leavePolicy'
- |'payroll'
- |'notifications'
- |'geofencing'
- |'workflowConfig';
+type SectionKey =
+  | 'organization'
+  | 'usersRoles'
+  | 'notifications'
+  | 'security'
+  | 'integrations'
+  | 'about';
 
-interface SaveState {
- saving: boolean;
- saved: boolean;
- error: string | null;
+interface SectionMeta {
+  key: SectionKey;
+  icon: LucideIcon;
 }
 
+const SECTION_ORDER: SectionMeta[] = [
+  { key: 'organization', icon: Building2 },
+  { key: 'usersRoles', icon: Users },
+  { key: 'notifications', icon: Bell },
+  { key: 'security', icon: ShieldCheck },
+  { key: 'integrations', icon: Plug },
+  { key: 'about', icon: Info },
+];
+
 export default function SettingsPage() {
- const t = useTranslations('settings');
- const pathname = usePathname();
- const { roles } = useAuthStore();
- const { settings, loading, updateSettings } = useSettings();
+  const t = useTranslations('humiSettings');
+  const [active, setActive] = useState<SectionKey>('organization');
 
- const [activeTab, setActiveTab] = useState<TabKey>('general');
- const [saveState, setSaveState] = useState<SaveState>({ saving: false, saved: false, error: null });
+  // Local form state — surgical scope, no backend wiring.
+  const [companyName, setCompanyName] = useState(t('defaults.companyName'));
+  const [companyCode, setCompanyCode] = useState(t('defaults.companyCode'));
+  const [fiscalYearStart, setFiscalYearStart] = useState(
+    t('defaults.fiscalYearStart')
+  );
+  const [address, setAddress] = useState(t('defaults.address'));
+  const [language, setLanguage] = useState<'th' | 'en'>('th');
+  const [timezone] = useState('tzBangkok');
+  const [autoSave, setAutoSave] = useState(false);
 
- // Local form state (tracks changes before saving)
- const [generalForm, setGeneralForm] = useState<GeneralSettings | null>(null);
- const [companyForm, setCompanyForm] = useState<CompanySettings | null>(null);
- const [notifForm, setNotifForm] = useState<NotificationSettings | null>(null);
- const [paymentCycle, setPaymentCycle] = useState<string | null>(null);
- const [cutOffDay, setCutOffDay] = useState<string | null>(null);
- const [paymentDay, setPaymentDay] = useState<string | null>(null);
+  const sections = useMemo(
+    () =>
+      SECTION_ORDER.map((s) => ({
+        ...s,
+        label: t(`sections.${s.key}`),
+      })),
+    [t]
+  );
 
- const hrUser = isHR(roles);
+  return (
+    <div className="min-h-screen bg-canvas">
+      <div className="mx-auto w-full max-w-[var(--max-width-page)] px-6 py-10 md:px-10 md:py-14">
+        {/* ── Page header — editorial eyebrow + display h1 ───── */}
+        <header className="mb-10 md:mb-14">
+          <p className="font-display text-[length:var(--text-eyebrow)] uppercase tracking-[0.22em] text-accent">
+            {t('organization.eyebrow')}
+          </p>
+          <h1 className="mt-3 font-display text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)] font-semibold tracking-tight text-ink">
+            {t('title')}
+          </h1>
+          <p className="mt-2 max-w-2xl text-body text-ink-muted">
+            {t('subtitle')}
+          </p>
+        </header>
 
- const allTabs = [
- { key:'general', label: t('general') },
- ...(hrUser ? [{ key:'company', label: t('company') }] : []),
- ...(hrUser ? [{ key:'leavePolicy', label: t('leavePolicy') }] : []),
- ...(hrUser ? [{ key:'payroll', label: t('payroll') }] : []),
- ...(hrUser ? [{ key:'geofencing', label: t('geofencing') }] : []),
- ...(hrUser ? [{ key:'workflowConfig', label: t('workflowConfig') }] : []),
- { key:'notifications', label: t('notifications') },
- ];
+        {/* ── 2-column split: 1/4 sidebar + 3/4 content ──────── */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(220px,1fr)_3fr] lg:gap-12">
+          {/* Sidebar sections */}
+          <aside>
+            <nav
+              aria-label={t('title')}
+              className="lg:sticky lg:top-10"
+            >
+              <ul className="flex flex-col gap-1">
+                {sections.map(({ key, label, icon: Icon }) => {
+                  const isActive = key === active;
+                  return (
+                    <li key={key}>
+                      <button
+                        type="button"
+                        onClick={() => setActive(key)}
+                        aria-current={isActive ? 'page' : undefined}
+                        className={cn(
+                          'group flex w-full items-center gap-3 rounded-[var(--radius-md)]',
+                          'px-3.5 py-2.5 text-left transition-[background-color,color]',
+                          'duration-[var(--dur-fast)] ease-[var(--ease-spring)]',
+                          'focus-visible:outline-none focus-visible:ring-2',
+                          'focus-visible:ring-accent focus-visible:ring-offset-2',
+                          'focus-visible:ring-offset-canvas',
+                          isActive
+                            ? 'bg-accent-soft text-ink'
+                            : 'text-ink-soft hover:bg-canvas-soft'
+                        )}
+                      >
+                        <Icon
+                          size={18}
+                          aria-hidden="true"
+                          className={cn(
+                            'shrink-0 transition-colors',
+                            isActive ? 'text-accent' : 'text-ink-muted'
+                          )}
+                        />
+                        <span className="text-body font-medium">{label}</span>
+                        {isActive && (
+                          <span
+                            aria-hidden="true"
+                            className="ml-auto h-1.5 w-1.5 rounded-full bg-accent"
+                          />
+                        )}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </aside>
 
- const currentGeneral = generalForm ?? settings.general;
- const currentCompany = companyForm ?? settings.company;
- const currentNotif = notifForm ?? settings.notifications;
- const currentPaymentCycle = paymentCycle ?? settings.payroll.paymentCycle;
- const currentCutOffDay = cutOffDay ?? String(settings.payroll.cutOffDay);
- const currentPaymentDay = paymentDay ?? String(settings.payroll.paymentDay);
+          {/* Content panel */}
+          <section className="min-w-0">
+            {active === 'organization' ? (
+              <OrganizationPanel
+                companyName={companyName}
+                companyCode={companyCode}
+                fiscalYearStart={fiscalYearStart}
+                address={address}
+                language={language}
+                timezone={timezone}
+                autoSave={autoSave}
+                onCompanyName={setCompanyName}
+                onCompanyCode={setCompanyCode}
+                onFiscalYear={setFiscalYearStart}
+                onAddress={setAddress}
+                onLanguage={setLanguage}
+                onAutoSave={setAutoSave}
+              />
+            ) : (
+              <StubPanel onBack={() => setActive('organization')} />
+            )}
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+}
 
- const handleSaveWithFeedback = async (saveFn: () => Promise<void>) => {
- setSaveState({ saving: true, saved: false, error: null });
- try {
- await saveFn();
- setSaveState({ saving: false, saved: true, error: null });
- setTimeout(() => setSaveState((s) => ({ ...s, saved: false })), 3000);
- } catch {
- setSaveState({ saving: false, saved: false, error:'Failed to save. Please try again.' });
- }
- };
+// ════════════════════════════════════════════════════════════
+// ข้อมูลองค์กร panel — 4 cards + footer action row
+// ════════════════════════════════════════════════════════════
 
- const handleSaveGeneral = () =>
- handleSaveWithFeedback(async () => {
- await updateSettings('general', currentGeneral);
- setGeneralForm(null);
- });
+interface OrganizationPanelProps {
+  companyName: string;
+  companyCode: string;
+  fiscalYearStart: string;
+  address: string;
+  language: 'th' | 'en';
+  timezone: string;
+  autoSave: boolean;
+  onCompanyName: (v: string) => void;
+  onCompanyCode: (v: string) => void;
+  onFiscalYear: (v: string) => void;
+  onAddress: (v: string) => void;
+  onLanguage: (v: 'th' | 'en') => void;
+  onAutoSave: (v: boolean) => void;
+}
 
- const handleSaveCompany = () =>
- handleSaveWithFeedback(async () => {
- await updateSettings('company', currentCompany);
- setCompanyForm(null);
- });
+function OrganizationPanel({
+  companyName,
+  companyCode,
+  fiscalYearStart,
+  address,
+  language,
+  timezone,
+  autoSave,
+  onCompanyName,
+  onCompanyCode,
+  onFiscalYear,
+  onAddress,
+  onLanguage,
+  onAutoSave,
+}: OrganizationPanelProps) {
+  const t = useTranslations('humiSettings');
 
- const handleSaveNotifications = () =>
- handleSaveWithFeedback(async () => {
- await updateSettings('notifications', currentNotif);
- setNotifForm(null);
- });
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Panel header */}
+      <div>
+        <CardEyebrow>{t('organization.eyebrow')}</CardEyebrow>
+        <h2 className="mt-1 font-display text-[length:var(--text-display-h2)] leading-[var(--text-display-h2--line-height)] font-semibold tracking-tight text-ink">
+          {t('organization.title')}
+        </h2>
+        <p className="mt-1 text-small text-ink-muted">
+          {t('organization.subtitle')}
+        </p>
+      </div>
 
- const handleSavePayroll = () =>
- handleSaveWithFeedback(async () => {
- await updateSettings('payroll', {
- paymentCycle: currentPaymentCycle as'monthly' |'bi_weekly',
- cutOffDay: Number(currentCutOffDay),
- paymentDay: Number(currentPaymentDay),
- });
- setPaymentCycle(null);
- setCutOffDay(null);
- setPaymentDay(null);
- });
+      {/* Card 1 — ข้อมูลทั่วไป */}
+      <Card>
+        <div className="mb-5">
+          <CardTitle>{t('organization.general.title')}</CardTitle>
+          <p className="mt-1 text-small text-ink-muted">
+            {t('organization.general.description')}
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <FormField label={t('organization.general.companyName')} required>
+            {(props) => (
+              <FormInput
+                {...props}
+                value={companyName}
+                onChange={(e) => onCompanyName(e.target.value)}
+              />
+            )}
+          </FormField>
+          <FormField label={t('organization.general.companyCode')}>
+            {(props) => (
+              <FormInput
+                {...props}
+                value={companyCode}
+                onChange={(e) => onCompanyCode(e.target.value)}
+              />
+            )}
+          </FormField>
+          <FormField
+            label={t('organization.general.fiscalYearStart')}
+            help={t('organization.general.fiscalYearHelp')}
+            className="md:col-span-2"
+          >
+            {(props) => (
+              <FormInput
+                {...props}
+                value={fiscalYearStart}
+                onChange={(e) => onFiscalYear(e.target.value)}
+              />
+            )}
+          </FormField>
+        </div>
+      </Card>
 
- const renderSaveBar = (onSave: () => void) => (
- <div className="flex items-center justify-between mt-6 pt-4 border-t">
- {saveState.error && (
- <p className="text-sm text-danger flex items-center gap-1">
- <AlertCircle className="h-4 w-4" />
- {saveState.error}
- </p>
- )}
- {saveState.saved && (
- <p className="text-sm text-success flex items-center gap-1">
- <Check className="h-4 w-4" />
- {t('saveGeneral').replace('General','')} saved successfully
- </p>
- )}
- <div className="ml-auto">
- <Button onClick={onSave} disabled={saveState.saving}>
- {saveState.saving ? (
- <span className="flex items-center gap-2">
- <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
- Saving...
- </span>
- ) : (
- <span className="flex items-center gap-2">
- <Save className="h-4 w-4" />
- {t('saveGeneral')}
- </span>
- )}
- </Button>
- </div>
- </div>
- );
+      {/* Card 2 — ตราสัญลักษณ์ */}
+      <Card>
+        <div className="mb-5">
+          <CardTitle>{t('organization.logo.title')}</CardTitle>
+          <p className="mt-1 text-small text-ink-muted">
+            {t('organization.logo.description')}
+          </p>
+        </div>
+        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+          {/* Logo preview — cream tile with teal initial */}
+          <div
+            aria-hidden="true"
+            className={cn(
+              'relative flex h-20 w-20 shrink-0 items-center justify-center',
+              'rounded-[var(--radius-lg)] bg-accent-soft',
+              'ring-1 ring-hairline'
+            )}
+          >
+            <span className="font-display text-[32px] font-semibold tracking-tight text-accent">
+              {t('organization.logo.placeholder')}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Button variant="ghost" size="md">
+              {t('organization.logo.change')}
+            </Button>
+            <p className="text-small text-ink-muted">
+              {t('organization.logo.caption')}
+            </p>
+          </div>
+        </div>
+      </Card>
 
- const renderToggle = (
- label: string,
- description: string,
- checked: boolean,
- onChange: (val: boolean) => void
- ) => (
- <div className="flex items-start justify-between py-3 border-b last:border-b-0">
- <div className="flex-1 pr-4">
- <p className="text-sm font-medium text-ink">{label}</p>
- <p className="text-xs text-ink-muted mt-0.5">{description}</p>
- </div>
- <button
- type="button"
- role="switch"
- aria-checked={checked}
- onClick={() => onChange(!checked)}
- className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 ${
- checked ?'bg-brand' :'bg-surface-raised'
- }`}
- >
- <span
- className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-surface shadow ring-0 transition ${
- checked ?'translate-x-5' :'translate-x-0'
- }`}
- />
- </button>
- </div>
- );
+      {/* Card 3 — ที่อยู่ */}
+      <Card>
+        <div className="mb-5">
+          <CardTitle>{t('organization.address.title')}</CardTitle>
+          <p className="mt-1 text-small text-ink-muted">
+            {t('organization.address.description')}
+          </p>
+        </div>
+        <FormField label={t('organization.address.label')}>
+          {(props) => (
+            <textarea
+              {...props}
+              value={address}
+              onChange={(e) => onAddress(e.target.value)}
+              placeholder={t('organization.address.placeholder')}
+              rows={3}
+              className={cn(
+                'w-full rounded-md border bg-surface px-3 py-2',
+                'text-body text-ink placeholder:text-ink-faint',
+                'border-hairline',
+                'transition-[border-color,box-shadow] duration-[var(--dur-fast)]',
+                'focus:outline-none focus:ring-2 focus:ring-accent',
+                'focus:ring-offset-1 focus:ring-offset-canvas focus:border-accent',
+                'resize-y min-h-[88px]'
+              )}
+            />
+          )}
+        </FormField>
+      </Card>
 
- const renderGeneralTab = () => (
- <div className="space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>{t('generalSettings')}</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- <FormField
- label={t('language')}
- name="language"
- type="select"
- value={currentGeneral.language}
- onChange={(val) => setGeneralForm({ ...currentGeneral, language: val })}
- options={[
- { value:'en', label:'English' },
- { value:'th', label:'ภาษาไทย' },
- ]}
- />
- <FormField
- label={t('dateFormat')}
- name="dateFormat"
- type="select"
- value={currentGeneral.dateFormat}
- onChange={(val) => setGeneralForm({ ...currentGeneral, dateFormat: val })}
- options={[
- { value:'DD/MM/YYYY', label:'DD/MM/YYYY' },
- { value:'MM/DD/YYYY', label:'MM/DD/YYYY' },
- { value:'YYYY-MM-DD', label:'YYYY-MM-DD' },
- ]}
- />
- <FormField
- label={t('theme')}
- name="theme"
- type="select"
- value={currentGeneral.theme}
- onChange={(val) => setGeneralForm({ ...currentGeneral, theme: val })}
- options={[
- { value:'light', label: t('themeLight') },
- { value:'dark', label: t('themeDark') },
- { value:'system', label: t('themeSystem') },
- ]}
- />
- </div>
- {renderSaveBar(handleSaveGeneral)}
- </CardContent>
- </Card>
- </div>
- );
+      {/* Card 4 — ภาษาและเขตเวลา */}
+      <Card>
+        <div className="mb-5">
+          <CardTitle>{t('organization.locale.title')}</CardTitle>
+          <p className="mt-1 text-small text-ink-muted">
+            {t('organization.locale.description')}
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <FormField label={t('organization.locale.language')}>
+            {(props) => (
+              <select
+                {...props}
+                value={language}
+                onChange={(e) =>
+                  onLanguage(e.target.value as 'th' | 'en')
+                }
+                className={cn(
+                  'h-10 w-full rounded-md border bg-surface px-3',
+                  'text-body text-ink',
+                  'border-hairline',
+                  'transition-[border-color,box-shadow] duration-[var(--dur-fast)]',
+                  'focus:outline-none focus:ring-2 focus:ring-accent',
+                  'focus:ring-offset-1 focus:ring-offset-canvas focus:border-accent'
+                )}
+              >
+                <option value="th">{t('organization.locale.langTh')}</option>
+                <option value="en">{t('organization.locale.langEn')}</option>
+              </select>
+            )}
+          </FormField>
+          <FormField label={t('organization.locale.timezone')}>
+            {(props) => (
+              <select
+                {...props}
+                value={timezone}
+                disabled
+                className={cn(
+                  'h-10 w-full rounded-md border bg-canvas-soft px-3',
+                  'text-body text-ink-muted',
+                  'border-hairline cursor-not-allowed'
+                )}
+              >
+                <option value="tzBangkok">
+                  {t('organization.locale.tzBangkok')}
+                </option>
+              </select>
+            )}
+          </FormField>
+          <div className="md:col-span-2 pt-2 border-t border-hairline">
+            <Toggle
+              checked={autoSave}
+              onChange={onAutoSave}
+              label={t('organization.autoSave.label')}
+              description={t('organization.autoSave.description')}
+            />
+          </div>
+        </div>
+      </Card>
 
- const renderCompanyTab = () => (
- <div className="space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>{t('companySettings')}</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- <FormField
- label={t('companyName')}
- name="companyName"
- type="text"
- value={currentCompany.name}
- onChange={(val) => setCompanyForm({ ...currentCompany, name: val })}
- required
- />
- <FormField
- label={`${t('companyName')} (Thai)`}
- name="companyNameTh"
- type="text"
- value={currentCompany.nameTh}
- onChange={(val) => setCompanyForm({ ...currentCompany, nameTh: val })}
- />
- <FormField
- label={t('taxId')}
- name="taxId"
- type="text"
- value={currentCompany.taxId}
- onChange={(val) => setCompanyForm({ ...currentCompany, taxId: val })}
- placeholder="0000000000000"
- />
- <FormField
- label={t('socialSecurityRegNo')}
- name="socialSecurityNo"
- type="text"
- value={currentCompany.socialSecurityNo}
- onChange={(val) => setCompanyForm({ ...currentCompany, socialSecurityNo: val })}
- />
- <div className="md:col-span-2">
- <FormField
- label={t('companyAddress')}
- name="address"
- type="textarea"
- value={currentCompany.address}
- onChange={(val) => setCompanyForm({ ...currentCompany, address: val })}
- />
- </div>
- </div>
- {renderSaveBar(handleSaveCompany)}
- </CardContent>
- </Card>
- </div>
- );
+      {/* Footer action row — hairline divider + right-aligned */}
+      <div className="flex flex-col-reverse gap-3 border-t border-hairline pt-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-small text-ink-muted">
+          {t('actions.saveHint')}
+        </p>
+        <div className="flex items-center gap-3">
+          <Button variant="ghost">{t('actions.cancel')}</Button>
+          <Button variant="primary">{t('actions.save')}</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
- const renderLeavePolicyTab = () => (
- <div className="space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>{t('leavePolicySettings')}</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="overflow-x-auto">
- <table className="w-full text-sm">
- <thead>
- <tr className="border-b bg-surface-raised">
- <th className="text-left px-4 py-3 font-medium text-ink-muted">{t('leaveTypeName')}</th>
- <th className="text-left px-4 py-3 font-medium text-ink-muted">{t('daysPerYear')}</th>
- <th className="text-left px-4 py-3 font-medium text-ink-muted">{t('carryForward')}</th>
- <th className="text-left px-4 py-3 font-medium text-ink-muted">{t('carryForwardLimit')}</th>
- </tr>
- </thead>
- <tbody>
- {settings.leavePolicies.map((policy) => (
- <tr key={policy.type} className="border-b hover:bg-surface-raised transition-colors">
- <td className="px-4 py-3">
- <div>
- <p className="font-medium text-ink">{policy.nameEn}</p>
- <p className="text-xs text-ink-muted">{policy.nameTh}</p>
- </div>
- </td>
- <td className="px-4 py-3">
- <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-tint text-accent">
- {policy.maxDays} days
- </span>
- </td>
- <td className="px-4 py-3">
- <span
- className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
- policy.carryForward
- ?'bg-success-tint text-success'
- :'bg-surface-raised text-ink-muted'
- }`}
- >
- {policy.carryForward ? t('enabled') : t('disabled')}
- </span>
- </td>
- <td className="px-4 py-3 text-ink-muted">
- {policy.carryForward ? `${policy.maxCarryDays} days` :'—'}
- </td>
- </tr>
- ))}
- </tbody>
- </table>
- </div>
+// ════════════════════════════════════════════════════════════
+// Stub panel — for Sprint 2 sections
+// ════════════════════════════════════════════════════════════
 
- <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
- <p className="text-xs font-semibold text-amber-800 mb-2">{t('thaiLaborLaw')}</p>
- <ul className="space-y-1 text-xs text-amber-700">
- <li>• {t('laborLawNote1')}</li>
- <li>• {t('laborLawNote2')}</li>
- <li>• {t('laborLawNote3')}</li>
- </ul>
- </div>
- </CardContent>
- </Card>
- </div>
- );
-
- const renderPayrollTab = () => (
- <div className="space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>{t('payrollSettings')}</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- <FormField
- label="Payment Cycle"
- name="paymentCycle"
- type="select"
- value={currentPaymentCycle}
- onChange={setPaymentCycle}
- options={[
- { value:'monthly', label: t('monthly') },
- { value:'bi_weekly', label:'Bi-weekly' },
- ]}
- />
- <FormField
- label="Cut-off Day"
- name="cutOffDay"
- type="select"
- value={currentCutOffDay}
- onChange={setCutOffDay}
- options={Array.from({ length: 28 }, (_, i) => ({
- value: String(i + 1),
- label: `Day ${i + 1}`,
- }))}
- />
- <FormField
- label="Payment Day"
- name="paymentDay"
- type="select"
- value={currentPaymentDay}
- onChange={setPaymentDay}
- options={Array.from({ length: 28 }, (_, i) => ({
- value: String(i + 1),
- label: `Day ${i + 1}`,
- }))}
- />
- <div>
- <p className="text-sm font-medium text-ink-soft mb-1">SSO Rate</p>
- <p className="text-2xl font-bold text-ink">{settings.payroll.ssoRate}%</p>
- <p className="text-xs text-ink-muted">Employee + Employer contribution</p>
- </div>
- <div>
- <p className="text-sm font-medium text-ink-soft mb-1">Provident Fund Rate</p>
- <p className="text-2xl font-bold text-ink">{settings.payroll.pfRate}%</p>
- <p className="text-xs text-ink-muted">Default employee contribution rate</p>
- </div>
- </div>
- {renderSaveBar(handleSavePayroll)}
- </CardContent>
- </Card>
- </div>
- );
-
- const renderNotificationsTab = () => (
- <div className="space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>{t('notificationSettings')}</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="space-y-1">
- {renderToggle(
- t('emailNotifications'),
- t('enableEmailNotifications'),
- currentNotif.emailEnabled,
- (val) => setNotifForm({ ...currentNotif, emailEnabled: val })
- )}
- {renderToggle(
- t('inAppNotifications'),
- t('enableInAppNotifications'),
- currentNotif.inAppEnabled,
- (val) => setNotifForm({ ...currentNotif, inAppEnabled: val })
- )}
- {renderToggle(
- t('notifType.leaveReminder'),
-'Receive notifications when leave requests are approved or rejected',
- currentNotif.leaveApproval,
- (val) => setNotifForm({ ...currentNotif, leaveApproval: val })
- )}
- {renderToggle(
- t('notifType.payslipAvailable'),
-'Get notified when your payslip is ready to view',
- currentNotif.payslipReady,
- (val) => setNotifForm({ ...currentNotif, payslipReady: val })
- )}
- {renderToggle(
- t('notifType.workflowPending'),
-'Receive updates for workflow approvals and status changes',
- currentNotif.workflowUpdates,
- (val) => setNotifForm({ ...currentNotif, workflowUpdates: val })
- )}
- {renderToggle(
- t('notifType.documentExpiry'),
-'Get reminders when your documents are about to expire',
- currentNotif.documentExpiry,
- (val) => setNotifForm({ ...currentNotif, documentExpiry: val })
- )}
- </div>
- {renderSaveBar(handleSaveNotifications)}
- </CardContent>
- </Card>
- </div>
- );
-
- const renderGeofencingTab = () => (
- <div className="space-y-6">
- <GeofencingConfig />
- </div>
- );
-
- const renderWorkflowConfigTab = () => (
- <div className="space-y-6">
- <WorkflowConfig />
- </div>
- );
-
- const renderTabContent = () => {
- if (loading) {
- return (
- <div className="space-y-4">
- {[1, 2, 3].map((i) => (
- <div key={i} className="h-24 bg-surface-raised animate-pulse rounded-md" />
- ))}
- </div>
- );
- }
-
- switch (activeTab) {
- case'general':
- return renderGeneralTab();
- case'company':
- return hrUser ? renderCompanyTab() : null;
- case'leavePolicy':
- return hrUser ? renderLeavePolicyTab() : null;
- case'payroll':
- return hrUser ? renderPayrollTab() : null;
- case'geofencing':
- return hrUser ? renderGeofencingTab() : null;
- case'workflowConfig':
- return hrUser ? renderWorkflowConfigTab() : null;
- case'notifications':
- return renderNotificationsTab();
- default:
- return null;
- }
- };
-
- return (
- <PageShell
- title={t('title')}
- description={t('description')}
- >
- {/* Tabs */}
- <Tabs
- tabs={allTabs}
- activeTab={activeTab}
- onTabChange={(key) => {
- setActiveTab(key as TabKey);
- setSaveState({ saving: false, saved: false, error: null });
- }}
- className="mb-6"
- />
-
- {/* Tab content */}
- {renderTabContent()}
- </PageShell>
- );
+function StubPanel({ onBack }: { onBack: () => void }) {
+  const t = useTranslations('humiSettings');
+  return (
+    <Card tone="canvas" size="lg">
+      <div className="flex flex-col items-start gap-4 py-8 px-2">
+        <CardEyebrow>{t('stub.eyebrow')}</CardEyebrow>
+        <h3 className="font-display text-[length:var(--text-display-h2)] leading-[var(--text-display-h2--line-height)] font-semibold tracking-tight text-ink">
+          {t('stub.title')}
+        </h3>
+        <p className="max-w-lg text-body text-ink-muted">{t('stub.body')}</p>
+        <Button variant="secondary" size="md" onClick={onBack}>
+          {t('stub.cta')}
+        </Button>
+      </div>
+    </Card>
+  );
 }

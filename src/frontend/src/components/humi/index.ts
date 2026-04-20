@@ -19,3 +19,9 @@ export type {
 
 export { FormField, FormInput } from './FormField';
 export type { FormFieldProps, FormInputProps } from './FormField';
+
+export { Avatar, avatarVariants } from './Avatar';
+export type { AvatarProps } from './Avatar';
+
+export { Toggle } from './Toggle';
+export type { ToggleProps } from './Toggle';
