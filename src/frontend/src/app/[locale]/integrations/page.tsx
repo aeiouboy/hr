@@ -158,7 +158,7 @@ export default function IntegrationsPage() {
           <div
             role="tablist"
             aria-label="หมวดหมู่ระบบ"
-            className="flex flex-wrap gap-1"
+            className="flex overflow-x-auto flex-nowrap gap-1"
           >
             {HUMI_INTEGRATION_CATEGORIES.map((cat) => {
               const active = cat.key === category;
@@ -198,7 +198,7 @@ export default function IntegrationsPage() {
         {/* ── Integration grid ──────────────────────────────── */}
         <section
           aria-label="รายการระบบ"
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
         >
           {filtered.map((item) => {
             const categoryLabel = HUMI_INTEGRATION_CATEGORIES.find(
@@ -234,13 +234,14 @@ export default function IntegrationsPage() {
                       <span className="text-[12px] text-ink-muted">
                         ซิงค์ล่าสุด · 4 นาทีที่แล้ว
                       </span>
-                      {/* Toggle bound to enabled set — click → toggle(id) */}
-                      <Toggle
-                        className="ml-auto py-0"
-                        checked={isEnabled}
-                        onChange={() => toggle(item.id)}
-                        ariaLabel={`สลับการซิงค์ของ ${item.name}`}
-                      />
+                      {/* Toggle — ml-auto tap region min-h-[44px] for mobile touch-target */}
+                      <span className="ml-auto inline-flex min-h-[44px] items-center">
+                        <Toggle
+                          checked={isEnabled}
+                          onChange={() => toggle(item.id)}
+                          ariaLabel={`สลับการซิงค์ของ ${item.name}`}
+                        />
+                      </span>
                     </>
                   ) : (
                     <>
