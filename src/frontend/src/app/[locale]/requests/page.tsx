@@ -25,6 +25,7 @@ import {
   Card,
   CardEyebrow,
   CardTitle,
+  Modal,
 } from '@/components/humi';
 import { cn } from '@/lib/utils';
 import {
@@ -36,6 +37,7 @@ import {
   ACCENT_BAR_CLASS,
   type RequestIconKey,
   type RequestStatus,
+  type HumiApprovalStep,
 } from '@/lib/humi-mock-data';
 import {
   useRequestsStore,
@@ -113,12 +115,15 @@ export default function HumiRequestsPage() {
 
   const allMine = useMemo(() => {
     const base = HUMI_MY_REQUESTS.map((r) => ({ ...r }));
-    const store: RequestSubmission[] = submissions.map((s) => ({
+    const store = submissions.map((s) => ({
       id: s.id,
       type: s.type,
       sub: s.sub,
       submitted: s.submitted,
       status: s.status,
+      approvalChain: [
+        { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal' as const, status: 'pending' as const, when: 'รอดำเนินการ' },
+      ] satisfies HumiApprovalStep[],
     }));
     return [...store, ...base];
   }, [submissions]);
@@ -219,14 +224,17 @@ export default function HumiRequestsPage() {
 // Tab: Mine — with filter chips
 // ────────────────────────────────────────────────────────────
 
+type MineRow = { id: string; type: string; sub: string; submitted: string; status: RequestStatus; approvalChain: HumiApprovalStep[] };
+
 function MineTab({
   summary,
   filtered,
 }: {
   summary: { total: number; pending: number; approved: number; rejected: number };
-  filtered: Array<{ id: string; type: string; sub: string; submitted: string; status: RequestStatus }>;
+  filtered: MineRow[];
 }) {
   const { filter, setFilter } = useRequestsStore();
+  const [selected, setSelected] = useState<MineRow | null>(null);
 
   const summaryCards: Array<{ l: string; n: number; accent: 'accent' | 'alt' | 'sage' | 'butter' }> = [
     { l: 'ส่งทั้งหมด', n: summary.total, accent: 'accent' },
@@ -342,8 +350,9 @@ function MineTab({
                     </span>
                     <button
                       type="button"
-                      aria-label={`ดู ${r.id}`}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                      aria-label={`ดูรายละเอียดการอนุมัติ ${r.id}`}
+                      onClick={() => setSelected(r)}
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:bg-canvas-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                     >
                       <ArrowRight size={14} aria-hidden />
                     </button>
@@ -354,7 +363,74 @@ function MineTab({
           </ul>
         )}
       </Card>
+
+      <RequestDetailModal open={selected !== null} request={selected} onClose={() => setSelected(null)} />
     </>
+  );
+}
+
+// ────────────────────────────────────────────────────────────
+// Request detail modal — shows approval chain
+// ────────────────────────────────────────────────────────────
+
+const STEP_TONE: Record<HumiApprovalStep['status'], string> = {
+  approved: 'bg-[color:var(--color-sage-soft)] text-[color:var(--color-sage-ink)]',
+  pending: 'bg-[color:var(--color-butter-soft)] text-[color:var(--color-butter-ink)]',
+  rejected: 'bg-[color:var(--color-accent-alt-soft)] text-[color:var(--color-accent-alt-ink)]',
+  skipped: 'bg-canvas-soft text-ink-muted',
+};
+
+const STEP_LABEL: Record<HumiApprovalStep['status'], string> = {
+  approved: 'อนุมัติแล้ว',
+  pending: 'รออนุมัติ',
+  rejected: 'ไม่อนุมัติ',
+  skipped: 'ข้ามขั้น',
+};
+
+function RequestDetailModal({ open, request, onClose }: { open: boolean; request: MineRow | null; onClose: () => void }) {
+  if (!request) return null;
+  const meta = REQUEST_STATUS_META[request.status];
+  return (
+    <Modal open={open} onClose={onClose} title={`${request.type} · ${request.id}`} widthClass="max-w-xl">
+      <div className="space-y-4">
+        <div className="rounded-xl bg-canvas-soft px-4 py-3">
+          <p className="text-small text-ink-muted">{request.sub}</p>
+          <p className="mt-1 text-small text-ink-muted">
+            ส่งเมื่อ {request.submitted}
+            <span className={cn('ml-2 rounded-full px-2 py-0.5 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em]', meta.toneClass)}>
+              {meta.label}
+            </span>
+          </p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-small font-semibold uppercase tracking-[0.14em] text-ink-muted">ลำดับการอนุมัติ</h4>
+          {request.approvalChain.length === 0 ? (
+            <p className="text-small text-ink-muted">ยังไม่มีผู้อนุมัติ</p>
+          ) : (
+            <ol className="space-y-3">
+              {request.approvalChain.map((step, i) => (
+                <li key={`${step.name}-${i}`} className="flex items-start gap-3">
+                  <Avatar name={step.name} tone={step.tone} size="md" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-body font-semibold text-ink">{step.name}</p>
+                      <span className={cn('rounded-full px-2 py-0.5 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em]', STEP_TONE[step.status])}>
+                        {STEP_LABEL[step.status]}
+                      </span>
+                    </div>
+                    <p className="text-small text-ink-muted">{step.role}{step.when ? ` · ${step.when}` : ''}</p>
+                    {step.note ? <p className="mt-1 text-small text-ink">{step.note}</p> : null}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+        <div className="flex justify-end pt-2">
+          <Button variant="ghost" onClick={onClose}>ปิด</Button>
+        </div>
+      </div>
+    </Modal>
   );
 }
 

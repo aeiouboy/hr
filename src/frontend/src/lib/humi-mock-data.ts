@@ -1291,21 +1291,68 @@ export const HUMI_REQUEST_CATALOG: HumiRequestFormType[] = [
 
 export type RequestStatus = 'pending' | 'approved' | 'rejected' | 'info';
 
+export interface HumiApprovalStep {
+  role: string;
+  name: string;
+  initials: string;
+  tone: AvatarTone;
+  status: 'approved' | 'pending' | 'rejected' | 'skipped';
+  when?: string;
+  note?: string;
+}
+
 export interface HumiMyRequest {
   id: string;
   type: string;
   sub: string;
   submitted: string;
   status: RequestStatus;
+  approvalChain: HumiApprovalStep[];
 }
 
 export const HUMI_MY_REQUESTS: HumiMyRequest[] = [
-  { id: 'REQ-2481', type: 'เบิกค่าใช้จ่าย', sub: 'ค่ารักษาพยาบาล · รพ.บำรุงราษฎร์ · ฿4,820', submitted: '15 เม.ย. 2569', status: 'pending' },
-  { id: 'REQ-2475', type: 'ขอลางาน', sub: 'ลาพักร้อน · 24–26 เม.ย. (3 วัน)', submitted: '12 เม.ย. 2569', status: 'approved' },
-  { id: 'REQ-2460', type: 'ขอทำโอที', sub: 'เสาร์ที่ 19 เม.ย. · 4 ชั่วโมง', submitted: '10 เม.ย. 2569', status: 'approved' },
-  { id: 'REQ-2442', type: 'หนังสือรับรองเงินเดือน', sub: 'สำหรับยื่นกู้ธนาคารกสิกร', submitted: '5 เม.ย. 2569', status: 'info' },
-  { id: 'REQ-2418', type: 'เบิกอุปกรณ์', sub: 'หูฟัง Jabra × 1 ชุด', submitted: '28 มี.ค. 2569', status: 'approved' },
-  { id: 'REQ-2401', type: 'ขอเปลี่ยนกะ', sub: 'สลับกะกับ ธนกร เลิศวงศ์ · 22 มี.ค.', submitted: '20 มี.ค. 2569', status: 'rejected' },
+  {
+    id: 'REQ-2481', type: 'เบิกค่าใช้จ่าย', sub: 'ค่ารักษาพยาบาล · รพ.บำรุงราษฎร์ · ฿4,820', submitted: '15 เม.ย. 2569', status: 'pending',
+    approvalChain: [
+      { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal', status: 'approved', when: '15 เม.ย. 16:20', note: 'อนุมัติ — แนบใบรับรองแพทย์ถูกต้อง' },
+      { role: 'ผู้จัดการแผนก', name: 'สุภาวดี ธาราทอง', initials: 'สธ', tone: 'sage', status: 'pending', when: 'รอดำเนินการ' },
+      { role: 'ฝ่ายบัญชี', name: 'อรุณ พงษ์ศิริ', initials: 'อพ', tone: 'butter', status: 'pending' },
+    ],
+  },
+  {
+    id: 'REQ-2475', type: 'ขอลางาน', sub: 'ลาพักร้อน · 24–26 เม.ย. (3 วัน)', submitted: '12 เม.ย. 2569', status: 'approved',
+    approvalChain: [
+      { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal', status: 'approved', when: '12 เม.ย. 14:05' },
+      { role: 'ผู้จัดการแผนก', name: 'สุภาวดี ธาราทอง', initials: 'สธ', tone: 'sage', status: 'approved', when: '13 เม.ย. 09:30', note: 'อนุมัติ · ทีมมีผู้รับผิดชอบแทนแล้ว' },
+    ],
+  },
+  {
+    id: 'REQ-2460', type: 'ขอทำโอที', sub: 'เสาร์ที่ 19 เม.ย. · 4 ชั่วโมง', submitted: '10 เม.ย. 2569', status: 'approved',
+    approvalChain: [
+      { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal', status: 'approved', when: '10 เม.ย. 11:45' },
+      { role: 'ผู้จัดการแผนก', name: 'สุภาวดี ธาราทอง', initials: 'สธ', tone: 'sage', status: 'approved', when: '11 เม.ย. 10:12' },
+    ],
+  },
+  {
+    id: 'REQ-2442', type: 'หนังสือรับรองเงินเดือน', sub: 'สำหรับยื่นกู้ธนาคารกสิกร', submitted: '5 เม.ย. 2569', status: 'info',
+    approvalChain: [
+      { role: 'ฝ่ายบุคคล', name: 'นภา ศรีวิโรจน์', initials: 'นศ', tone: 'ink', status: 'approved', when: '6 เม.ย. 10:00', note: 'ออกเอกสารเรียบร้อย · รับได้ที่ HR ชั้น 8' },
+    ],
+  },
+  {
+    id: 'REQ-2418', type: 'เบิกอุปกรณ์', sub: 'หูฟัง Jabra × 1 ชุด', submitted: '28 มี.ค. 2569', status: 'approved',
+    approvalChain: [
+      { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal', status: 'approved', when: '28 มี.ค. 15:10' },
+      { role: 'ฝ่ายจัดซื้อ', name: 'วีระ สมบูรณ์ทรัพย์', initials: 'วส', tone: 'butter', status: 'approved', when: '30 มี.ค. 11:20', note: 'สั่งซื้อแล้ว · ETA 3 เม.ย.' },
+    ],
+  },
+  {
+    id: 'REQ-2401', type: 'ขอเปลี่ยนกะ', sub: 'สลับกะกับ ธนกร เลิศวงศ์ · 22 มี.ค.', submitted: '20 มี.ค. 2569', status: 'rejected',
+    approvalChain: [
+      { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal', status: 'approved', when: '20 มี.ค. 13:30' },
+      { role: 'ผู้จัดการแผนก', name: 'สุภาวดี ธาราทอง', initials: 'สธ', tone: 'sage', status: 'rejected', when: '21 มี.ค. 09:45', note: 'ไม่อนุมัติ · คู่สลับมีกะซ้ำวันเดียวกัน' },
+    ],
+  },
 ];
 
 export interface HumiApprovalRow {
