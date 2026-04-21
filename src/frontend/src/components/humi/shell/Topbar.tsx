@@ -10,9 +10,17 @@
 // - search pill wired to CommandPalette via onSearchClick prop (b5)
 // - sun/moon theme toggle added beside bell (b2)
 // - greeting eyebrow default preserved verbatim
+//
+// Responsive (issue #5):
+// - hamburger Menu button (lg:hidden) leftmost — toggles mobile drawer
+// - Eyebrow hidden on mobile (<sm)
+// - h2 title: 18px mobile, 20px sm+, 24px lg+
+// - Search pill: hidden on mobile (<sm), visible sm+ (sm:flex)
+// - Search icon-only button: visible mobile only (sm:hidden)
+// - ⌘K kbd: hidden below md
 // ════════════════════════════════════════════════════════════
 
-import { Bell, Moon, Search, Sun } from 'lucide-react';
+import { Bell, Menu, Moon, Search, Sun } from 'lucide-react';
 import { useUIStore } from '@/stores/ui-store';
 
 export interface TopbarProps {
@@ -22,7 +30,7 @@ export interface TopbarProps {
   subtitle?: string;
   /** optional extra action buttons rendered to the right of the bell */
   actions?: React.ReactNode;
-  /** called when search pill is clicked (wired to CommandPalette in b5) */
+  /** called when search pill/icon is clicked (wired to CommandPalette in b5) */
   onSearchClick?: () => void;
 }
 
@@ -32,7 +40,7 @@ export function Topbar({
   actions,
   onSearchClick,
 }: TopbarProps) {
-  const { theme, setTheme } = useUIStore();
+  const { theme, setTheme, toggleMobileMenu } = useUIStore();
   const isDark = theme === 'dark';
 
   const handleThemeToggle = () => {
@@ -41,15 +49,34 @@ export function Topbar({
 
   return (
     <div className="humi-topbar">
-      <div>
-        <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+      {/* Hamburger — mobile/tablet only (<lg) */}
+      <button
+        type="button"
+        className="humi-icon-btn lg:hidden"
+        aria-label="เปิดเมนู"
+        onClick={toggleMobileMenu}
+      >
+        <Menu size={20} aria-hidden="true" />
+      </button>
+
+      {/* Title block */}
+      <div className="min-w-0">
+        <div className="humi-eyebrow hidden sm:block" style={{ marginBottom: 4 }}>
           {subtitle}
         </div>
-        <h2 style={{ fontSize: 24 }}>{title}</h2>
+        <h2
+          className="truncate text-[18px] sm:text-[20px] lg:text-[24px]"
+          style={{ fontFamily: 'inherit', fontWeight: 600, lineHeight: 1.2 }}
+        >
+          {title}
+        </h2>
       </div>
+
       <div className="humi-spacer" />
+
+      {/* Search pill — hidden on mobile, visible sm+ */}
       <div
-        className="humi-search"
+        className="humi-search hidden sm:flex"
         role="search"
         aria-label="ค้นหา"
         onClick={onSearchClick}
@@ -59,8 +86,19 @@ export function Topbar({
         <span className="humi-search-placeholder">
           ค้นหาพนักงาน เอกสาร…
         </span>
-        <kbd>⌘K</kbd>
+        <kbd className="hidden md:inline-flex">⌘K</kbd>
       </div>
+
+      {/* Search icon-only — mobile only (<sm) */}
+      <button
+        type="button"
+        className="humi-icon-btn sm:hidden"
+        aria-label="ค้นหา"
+        onClick={onSearchClick}
+      >
+        <Search size={18} aria-hidden="true" />
+      </button>
+
       <button
         type="button"
         className="humi-icon-btn"
