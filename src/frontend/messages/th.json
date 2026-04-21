@@ -199,6 +199,7 @@
     "seniorityStartDate": "วันเริ่มนับอายุงาน",
     "yearsOfService": "อายุงาน",
     "passProbationDate": "วันผ่านทดลองงาน",
+    "corporateTitle": "ตำแหน่งองค์กร",
     "currentJobEffectiveDate": "วันมีผลตำแหน่งปัจจุบัน",
     "currentYearsInJob": "อายุงานในตำแหน่ง",
     "currentPositionEffective": "วันมีผล Position",
