@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import {
-  ArrowRight,
   BookOpen,
   Coffee,
   Heart,
@@ -12,7 +10,7 @@ import {
   Users as UsersIcon,
   type LucideIcon,
 } from 'lucide-react';
-import { Avatar, Button, Card, CardEyebrow, CardTitle } from '@/components/humi';
+import { Button, Card, CardEyebrow, CardTitle } from '@/components/humi';
 import { cn } from '@/lib/utils';
 import {
   HUMI_LEARNING_CERTIFICATIONS,
@@ -22,20 +20,20 @@ import {
   type HumiLearningCourse,
   type LearningCourseIcon,
 } from '@/lib/humi-mock-data';
+import { useLearningStore, type LearningFilter } from '@/stores/humi-learning-slice';
 
 // ════════════════════════════════════════════════════════════
 // Humi /learning-directory (A12)
 // Port of screens/learning_directory.jsx — retail → generic HR.
-// 3-card hero row (path / certs / readiness) + tabs + 3-col grid.
+// Phase C: search + filter tabs + enroll state wired via Zustand slice.
 // ════════════════════════════════════════════════════════════
 
-type TabKey = 'assigned' | 'progress' | 'catalog' | 'history';
-
-const TABS: Array<{ key: TabKey; label: string }> = [
-  { key: 'assigned', label: 'มอบหมายให้ฉัน (ครบกำหนด 2)' },
-  { key: 'progress', label: 'กำลังเรียน' },
-  { key: 'catalog', label: 'คลังคอร์ส' },
-  { key: 'history', label: 'เรียนจบแล้ว' },
+const TABS: Array<{ key: LearningFilter; label: string }> = [
+  { key: 'all', label: 'ทั้งหมด' },
+  { key: 'enrolled', label: 'มอบหมายให้ฉัน (ครบกำหนด 2)' },
+  { key: 'new', label: 'กำลังเรียน' },
+  { key: 'required', label: 'คลังคอร์ส' },
+  { key: 'live', label: 'เรียนจบแล้ว' },
 ];
 
 const ICON_MAP: Record<LearningCourseIcon, LucideIcon> = {
@@ -72,7 +70,19 @@ const CERT_DOT_TONE: Record<
 };
 
 export default function LearningDirectoryPage() {
-  const [tab, setTab] = useState<TabKey>('assigned');
+  const { query, filter, enrolled, setQuery, setFilter, toggleEnroll } =
+    useLearningStore();
+
+  // Filter courses by search query (title case-insensitive) and active tab
+  const q = query.trim().toLowerCase();
+  const visibleCourses = HUMI_LEARNING_COURSES.filter((course) => {
+    if (q && !course.title.toLowerCase().includes(q)) return false;
+    if (filter === 'enrolled') return enrolled.has(course.id);
+    if (filter === 'new') return course.actionLabel !== 'เรียนต่อ' && course.tag !== 'required';
+    if (filter === 'required') return course.tag === 'required';
+    if (filter === 'live') return course.tag === 'live';
+    return true; // 'all'
+  });
 
   return (
     <>
@@ -88,12 +98,26 @@ export default function LearningDirectoryPage() {
                 หลักสูตรที่ได้รับมอบหมาย ใบรับรอง และคลังคอร์สของทีม
               </p>
             </div>
-            <Button
-              variant="primary"
-              leadingIcon={<BookOpen className="h-4 w-4" />}
-            >
-              ดูคลังคอร์ส
-            </Button>
+            <div className="flex items-center gap-2">
+              {/* Search input controlled from slice */}
+              <div className="flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 min-w-[220px]">
+                <BookOpen className="h-3.5 w-3.5 text-ink-muted" aria-hidden />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="ค้นหาหลักสูตร…"
+                  aria-label="ค้นหาหลักสูตร"
+                  className="w-full bg-transparent text-small text-ink placeholder:text-ink-muted focus:outline-none"
+                />
+              </div>
+              <Button
+                variant="primary"
+                leadingIcon={<BookOpen className="h-4 w-4" />}
+              >
+                ดูคลังคอร์ส
+              </Button>
+            </div>
           </div>
         </header>
 
@@ -198,21 +222,21 @@ export default function LearningDirectoryPage() {
           </Card>
         </section>
 
-        {/* ── Tabs ──────────────────────────────────────────── */}
+        {/* ── Tabs (filter) ─────────────────────────────────── */}
         <div
           role="tablist"
           aria-label="หมวดหลักสูตร"
           className="mb-6 flex flex-wrap gap-1 border-b border-hairline"
         >
           {TABS.map((t) => {
-            const active = t.key === tab;
+            const active = t.key === filter;
             return (
               <button
                 key={t.key}
                 type="button"
                 role="tab"
                 aria-selected={active}
-                onClick={() => setTab(t.key)}
+                onClick={() => setFilter(t.key)}
                 className={cn(
                   '-mb-px border-b-2 px-4 py-3 text-small font-medium transition-colors',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
@@ -232,8 +256,9 @@ export default function LearningDirectoryPage() {
           aria-label="หลักสูตรทั้งหมด"
           className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
         >
-          {HUMI_LEARNING_COURSES.map((course) => {
+          {visibleCourses.map((course) => {
             const Icon = ICON_MAP[course.icon];
+            const isEnrolled = enrolled.has(course.id);
             const continueAction = course.actionLabel === 'เรียนต่อ';
             return (
               <Card
@@ -273,19 +298,31 @@ export default function LearningDirectoryPage() {
                   <span className="text-small text-ink-soft">
                     {course.statusLabel}
                   </span>
+                  {/* Enroll button — flips visual state + adds to enrolled Set */}
                   <Button
-                    variant="ghost"
+                    variant={isEnrolled ? 'primary' : 'ghost'}
                     size="sm"
-                    trailingIcon={<ArrowRight className="h-3.5 w-3.5" />}
                     className="ml-auto"
+                    onClick={() => toggleEnroll(course.id)}
+                    aria-pressed={isEnrolled}
                   >
-                    {continueAction ? 'เรียนต่อ' : course.actionLabel}
+                    {isEnrolled
+                      ? 'ลงทะเบียนแล้ว'
+                      : continueAction
+                      ? 'เรียนต่อ'
+                      : course.actionLabel}
                   </Button>
                 </div>
               </Card>
             );
           })}
         </section>
+
+        {visibleCourses.length === 0 && (
+          <p className="mt-12 text-center text-small text-ink-muted">
+            ไม่พบหลักสูตรที่ตรงกับเงื่อนไข
+          </p>
+        )}
       </>
   );
 }
