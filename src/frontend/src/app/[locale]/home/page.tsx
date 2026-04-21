@@ -9,6 +9,7 @@
 // ════════════════════════════════════════════════════════════
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/stores/auth-store';
 import {
@@ -53,6 +54,7 @@ function getTimeGreeting(): string {
 
 export default function HumiHomePage() {
   const t = useTranslations('humiHero');
+  const router = useRouter();
   const username = useAuthStore((s) => s.username);
   const greeting = getTimeGreeting();
 
@@ -66,7 +68,11 @@ export default function HumiHomePage() {
     <div className="pb-8">
       {/* Top actions bar (AppShell already renders Topbar) */}
       <div className="mb-5 flex items-center justify-end">
-        <Button variant="primary" leadingIcon={<Plus size={16} />}>
+        <Button
+          variant="primary"
+          leadingIcon={<Plus size={16} />}
+          onClick={() => router.push('/th/requests')}
+        >
           {t('newRequest')}
         </Button>
       </div>
