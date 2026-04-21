@@ -12,6 +12,7 @@ import { Edit, Network } from 'lucide-react';
 import { isHR } from '@/lib/rbac';
 import { useAuthStore } from '@/stores/auth-store';
 import { PersonalInfoTab } from '@/components/profile/tabs/personal-info';
+import { EcPersonalInfoTab } from '@/components/profile/tabs/ec-personal-info';
 import { EmploymentTab } from '@/components/profile/tabs/employment';
 import { CompensationTab } from '@/components/profile/tabs/compensation';
 import { BenefitsTab } from '@/components/profile/tabs/benefits';
@@ -22,7 +23,7 @@ import { Modal } from '@/components/ui/modal';
 import { useEmployee } from '@/hooks/use-employee';
 
 export default function ProfilePage() {
- const [activeTab, setActiveTab] = useState<ProfileTabId>('personal');
+ const [activeTab, setActiveTab] = useState<ProfileTabId>('ec-personal');
  const [showOrgChart, setShowOrgChart] = useState(false);
  const { employee, loading } = useEmployee();
  const { roles } = useAuthStore();
@@ -30,6 +31,8 @@ export default function ProfilePage() {
 
  const renderTabContent = () => {
  switch (activeTab) {
+ case'ec-personal':
+ return <EcPersonalInfoTab employee={employee} loading={loading} />;
  case'personal':
  return <PersonalInfoTab employee={employee} loading={loading} />;
  case'employment':

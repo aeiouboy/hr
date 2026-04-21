@@ -305,8 +305,8 @@ export default function PayslipPage() {
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  body { font-family: -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 30px; color: #333; background: #fff; }
- .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #C8102E; padding-bottom: 16px; margin-bottom: 24px; }
- .company h1 { font-size: 20px; color: #C8102E; font-weight: 700; }
+ .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--color-accent); padding-bottom: 16px; margin-bottom: 24px; }
+ .company h1 { font-size: 20px; color: var(--color-accent); font-weight: 700; }
  .company p { font-size: 12px; color: #666; margin-top: 2px; }
  .doc-title { text-align: right; }
  .doc-title h2 { font-size: 18px; color: #1a1a1a; text-transform: uppercase; letter-spacing: 2px; }
@@ -415,7 +415,7 @@ export default function PayslipPage() {
  <title>${docLabel} - ${doc.year}</title>
  <style>
  body { font-family: -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; color: #333; }
- h1 { color: #C8102E; border-bottom: 2px solid #C8102E; padding-bottom: 10px; font-size: 1.4em; }
+ h1 { color: var(--color-accent); border-bottom: 2px solid var(--color-accent); padding-bottom: 10px; font-size: 1.4em; }
  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
  th { background: #f9fafb; font-weight: 600; color: #555; width: 40%; }
@@ -465,10 +465,10 @@ export default function PayslipPage() {
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  body { font-family: -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 40px 30px; color: #333; background: #fff; }
- .header { border-bottom: 3px solid #C8102E; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
- .company h1 { font-size: 20px; color: #C8102E; font-weight: 700; }
+ .header { border-bottom: 3px solid var(--color-accent); padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
+ .company h1 { font-size: 20px; color: var(--color-accent); font-weight: 700; }
  .company p { font-size: 12px; color: #666; margin-top: 2px; }
- .doc-badge { background: #C8102E; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+ .doc-badge { background: var(--color-accent); color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
  h2 { font-size: 18px; color: #1a1a1a; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
  table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 14px; }

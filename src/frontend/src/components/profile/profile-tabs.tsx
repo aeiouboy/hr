@@ -9,10 +9,12 @@ import {
  Gift,
  UserCircle,
  BarChart3,
+ ClipboardList,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const TABS = [
+ { id:'ec-personal', icon: ClipboardList, labelKey:'profile.ecPersonal' },
  { id:'personal', icon: User, labelKey:'profile.personal' },
  { id:'employment', icon: Briefcase, labelKey:'profile.employment' },
  { id:'compensation', icon: DollarSign, labelKey:'profile.compensation' },

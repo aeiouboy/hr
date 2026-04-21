@@ -1,0 +1,35 @@
+
+> hrms-frontend@1.0.0 test
+> vitest --run
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/__tests__/employee-profile.test.tsx (57 tests) 21ms
+ ✓ src/lib/__tests__/i18n-completeness.test.ts (48 tests) 121ms
+ ✓ src/components/humi/__tests__/Nav.test.tsx (18 tests) 497ms
+ ✓ src/components/humi/__tests__/DataTable.test.tsx (18 tests) 591ms
+ ✓ src/__tests__/humi-phase-b.test.tsx (14 tests) 1131ms
+   ✓ b1 — OrgChartPage zoom/pan canvas > ZoomIn button increments transform scale 594ms
+ ✓ src/__tests__/thai-heading-regression.test.tsx (11 tests) 1295ms
+   ✓ AC-7 — Thai headings regression — /home > home page has h1/h3 with Thai text 387ms
+ ✓ src/app/[locale]/__tests__/screens.smoke.test.tsx (19 tests) 1621ms
+   ✓ Dashboard — home/page.tsx (AC-2, AC-6) > render ไม่ crash (no throw) 415ms
+ ✓ src/__tests__/humi-reference-smoke.test.tsx (25 tests) 2133ms
+   ✓ AC-4 smoke — /home > renders greeting section with Thai greeting text 650ms
+ ✓ src/components/humi/__tests__/Toggle.test.tsx (18 tests) 297ms
+ ✓ src/lib/__tests__/leave.test.ts (14 tests) 4ms
+ ✓ src/components/humi/__tests__/Button.test.tsx (20 tests) 436ms
+ ✓ src/lib/__tests__/rbac.test.ts (13 tests) 4ms
+ ✓ src/__tests__/humi-functional.test.tsx (31 tests) 2278ms
+   ✓ AC-3 — /profile/me functional > clicking employment tab changes activeTab in Zustand store 454ms
+   ✓ AC-13 — /timeoff functional > renders validation error when fromDate > toDate 324ms
+ ✓ src/lib/__tests__/date.test.ts (11 tests) 26ms
+ ✓ src/__tests__/layout-integration.test.tsx (55 tests) 862ms
+
+ Test Files  15 passed (15)
+      Tests  372 passed (372)
+   Start at  16:33:20
+   Duration  5.24s (transform 1.28s, setup 1.49s, collect 3.75s, tests 11.31s, environment 11.33s, prepare 1.34s)
+

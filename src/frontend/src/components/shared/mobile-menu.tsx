@@ -90,7 +90,7 @@ export function MobileMenu() {
  { href:'/payroll-processing', label: t('payroll.title'), icon: <Calculator className="h-5 w-5" />, module:'payroll-processing' },
  { href:'/government-reports', label: t('govReports.title'), icon: <BarChart3 className="h-5 w-5" />, module:'government-reports' },
  { href:'/locations', label: t('location.title'), icon: <MapPin className="h-5 w-5" />, module:'locations' },
- { href:'/settings', label: t('nav.settings'), icon: <SettingsIcon className="h-5 w-5" />, module:'settings' },
+ { href:'/integrations', label: t('nav.settings'), icon: <SettingsIcon className="h-5 w-5" />, module:'integrations' },
  ];
 
  const managerItems: MenuItem[] = [

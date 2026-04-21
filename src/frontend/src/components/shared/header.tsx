@@ -123,7 +123,7 @@ export function Header() {
  { label:'Payslip', href: `/${currentLocale}/payslip` },
  { label:'Workflows', href: `/${currentLocale}/workflows` },
  { label:'Organization Chart', href: `/${currentLocale}/org-chart` },
- { label:'Settings', href: `/${currentLocale}/settings` },
+ { label:'Settings', href: `/${currentLocale}/integrations` },
  { label:'Time Management', href: `/${currentLocale}/time-management` },
  { label:'Payroll', href: `/${currentLocale}/payroll-processing` },
  { label:'Recruitment', href: `/${currentLocale}/recruitment` },
@@ -234,7 +234,7 @@ export function Header() {
  };
 
  const handleSettingsClick = () => {
- router.push(`/${currentLocale}/settings`);
+ router.push(`/${currentLocale}/integrations`);
  };
 
  const renderSearchResults = () => {
@@ -522,7 +522,7 @@ export function Header() {
  <span>{t('nav.profile')}</span>
  </a>
  <a
- href={`/${currentLocale}/settings`}
+ href={`/${currentLocale}/integrations`}
  className="flex items-center gap-2 px-4 py-2 hover:bg-surface-raised"
  >
  <Settings className="h-4 w-4 text-ink-muted" />

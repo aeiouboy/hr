@@ -1,0 +1,1634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Central Retail — Deck Template</title>
+<meta name="viewport" content="width=1920" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root {
+    /*EDITMODE-BEGIN*/
+    --brand-red: #D4122A;
+    --brand-ink: #0E1726;
+    --brand-ivory: #F5F1E8;
+    --brand-gold: #B89254;
+    --brand-mist: #E9E4D6;
+    /*EDITMODE-END*/
+    --ink-60: color-mix(in oklab, var(--brand-ink) 60%, transparent);
+    --ink-40: color-mix(in oklab, var(--brand-ink) 40%, transparent);
+    --ink-15: color-mix(in oklab, var(--brand-ink) 15%, transparent);
+    --ink-08: color-mix(in oklab, var(--brand-ink) 8%, transparent);
+    --serif: "Fraunces", "Times New Roman", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  html, body { margin: 0; padding: 0; background: #000; }
+  * { box-sizing: border-box; }
+
+  /* ── Slide base ──────────────────────────────────────── */
+  .slide {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: var(--brand-ivory);
+    color: var(--brand-ink);
+    font-family: var(--sans);
+    font-size: 24px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+  .slide.dark { background: var(--brand-ink); color: var(--brand-ivory); }
+  .slide.red  { background: var(--brand-red); color: #fff; }
+
+  /* ── Persistent chrome ───────────────────────────────── */
+  .chrome {
+    position: absolute; inset: 0;
+    padding: 56px 96px;
+    display: flex; flex-direction: column;
+    pointer-events: none;
+  }
+  .chrome > * { pointer-events: auto; }
+  .chrome-top {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--sans);
+    font-size: 15px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-60);
+  }
+  .dark .chrome-top, .red .chrome-top { color: rgba(255,255,255,0.65); }
+  .wordmark {
+    display: inline-flex; align-items: baseline; gap: 10px;
+    letter-spacing: 0;
+  }
+  .wordmark .mark {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-style: italic;
+    font-optical-sizing: auto;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--brand-red);
+  }
+  .dark .wordmark .mark, .red .wordmark .mark { color: #fff; }
+  .wordmark .sub {
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    padding-left: 10px; border-left: 1px solid var(--ink-15);
+    color: var(--ink-60);
+  }
+  .dark .wordmark .sub, .red .wordmark .sub { color: rgba(255,255,255,0.55); border-left-color: rgba(255,255,255,0.2); }
+
+  .chrome-bottom {
+    margin-top: auto;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 13px; letter-spacing: 0.04em;
+    color: var(--ink-40);
+  }
+  .dark .chrome-bottom, .red .chrome-bottom { color: rgba(255,255,255,0.5); }
+  .chrome-bottom .folio { font-variant-numeric: tabular-nums; }
+
+  /* ── Type scale ──────────────────────────────────────── */
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 16px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--brand-red);
+    display: inline-flex; align-items: center; gap: 14px;
+  }
+  .dark .eyebrow { color: #fff; }
+  .eyebrow::before {
+    content: ""; width: 42px; height: 1px; background: currentColor;
+  }
+  .eyebrow.plain::before { display: none; }
+
+  h1.display {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-size: 168px;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1.display em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--brand-red);
+  }
+  .dark h1.display em, .red h1.display em { color: #fff; }
+
+  h2.headline {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 108px;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h2.headline em { font-style: italic; color: var(--brand-red); font-weight: 400; }
+  .dark h2.headline em { color: var(--brand-gold); }
+
+  h3.title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  h3.title em { font-style: italic; color: var(--brand-red); }
+
+  .lead {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.45;
+    color: var(--ink-60);
+    max-width: 1100px;
+    text-wrap: pretty;
+  }
+  .dark .lead { color: rgba(255,255,255,0.75); }
+
+  .body {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink-60);
+    text-wrap: pretty;
+  }
+  .dark .body { color: rgba(255,255,255,0.75); }
+
+  .meta {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-40);
+  }
+  .dark .meta { color: rgba(255,255,255,0.55); }
+
+  /* ── Utilities ───────────────────────────────────────── */
+  .stack > * + * { margin-top: 32px; }
+  .stack-tight > * + * { margin-top: 16px; }
+  .rule { height: 1px; background: var(--ink-15); border: 0; margin: 0; }
+  .dark .rule { background: rgba(255,255,255,0.15); }
+  .rule-red { height: 3px; background: var(--brand-red); border: 0; width: 84px; margin: 0; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 16px;
+    border: 1px solid var(--ink-15);
+    border-radius: 999px;
+    font-family: var(--sans); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-60);
+    background: rgba(255,255,255,0.4);
+  }
+  .pill .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--brand-red);
+  }
+
+  /* ── Slide 01 — Cover ────────────────────────────────── */
+  .s-cover .content {
+    position: absolute;
+    left: 96px; right: 96px; bottom: 140px;
+    display: flex; flex-direction: column; gap: 56px;
+  }
+  .s-cover .corner-mark {
+    position: absolute; top: 56px; right: 96px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .s-cover .corner-mark .seal {
+    width: 84px; height: 84px; border-radius: 50%;
+    background: var(--brand-red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-style: italic; font-size: 44px;
+    color: #fff;
+  }
+  .s-cover .corner-mark .seal-meta {
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em;
+    color: var(--ink-60);
+    text-align: right; line-height: 1.4;
+  }
+  .s-cover .arch {
+    position: absolute;
+    top: -200px; right: -120px;
+    width: 780px; height: 1100px;
+    background: var(--brand-red);
+    border-radius: 400px 400px 0 0;
+    opacity: 0.08;
+  }
+  .s-cover .arch-2 {
+    position: absolute;
+    top: 180px; right: 180px;
+    width: 380px; height: 540px;
+    border: 1.5px solid var(--ink-15);
+    border-radius: 200px 200px 0 0;
+  }
+  .s-cover .meta-row {
+    display: flex; gap: 96px; align-items: flex-end;
+  }
+  .s-cover .meta-row .item {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .s-cover .meta-row .label {
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-40);
+  }
+  .s-cover .meta-row .value {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: 28px; color: var(--brand-ink);
+  }
+
+  /* ── Slide 02 — Contents / Agenda ────────────────────── */
+  .s-agenda .grid {
+    position: absolute;
+    left: 96px; right: 96px; top: 220px; bottom: 120px;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 120px;
+  }
+  .s-agenda .left h3 { margin-bottom: 32px; }
+  .s-agenda ol {
+    list-style: none; padding: 0; margin: 0;
+    counter-reset: agenda;
+  }
+  .s-agenda ol li {
+    counter-increment: agenda;
+    display: grid;
+    grid-template-columns: 120px 1fr 160px;
+    align-items: baseline;
+    gap: 40px;
+    padding: 28px 0;
+    border-top: 1px solid var(--ink-15);
+  }
+  .s-agenda ol li:last-child { border-bottom: 1px solid var(--ink-15); }
+  .s-agenda ol li .num {
+    font-family: var(--mono); font-size: 16px;
+    color: var(--brand-red); font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+  .s-agenda ol li .title {
+    font-family: var(--serif); font-size: 40px; font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .s-agenda ol li .title em { font-style: italic; color: var(--brand-red); }
+  .s-agenda ol li .duration {
+    font-family: var(--mono); font-size: 14px;
+    color: var(--ink-40); text-align: right;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Slide 03 — Section divider ──────────────────────── */
+  .s-section {
+    background: var(--brand-red); color: #fff;
+  }
+  .s-section .big-num {
+    position: absolute;
+    right: 96px; top: 96px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 420px;
+    line-height: 0.85;
+    color: rgba(255,255,255,0.14);
+    letter-spacing: -0.04em;
+  }
+  .s-section .content {
+    position: absolute;
+    left: 96px; bottom: 180px; right: 600px;
+    display: flex; flex-direction: column; gap: 40px;
+  }
+  .s-section .content .eyebrow { color: rgba(255,255,255,0.8); }
+  .s-section .content .eyebrow::before { background: rgba(255,255,255,0.6); }
+  .s-section h2 { color: #fff; }
+  .s-section h2 em { color: #fff; font-style: italic; }
+  .s-section .sub { font-size: 26px; color: rgba(255,255,255,0.8); max-width: 900px; }
+  .s-section .frame {
+    position: absolute;
+    left: 96px; right: 96px; bottom: 96px;
+    height: 1px; background: rgba(255,255,255,0.3);
+  }
+
+  /* ── Slide 04 — Stats / KPIs ─────────────────────────── */
+  .s-stats .top {
+    position: absolute;
+    left: 96px; right: 96px; top: 200px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s-stats .grid {
+    position: absolute;
+    left: 96px; right: 96px; top: 440px; bottom: 120px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--ink-15);
+    border-top: 1px solid var(--ink-15);
+    border-bottom: 1px solid var(--ink-15);
+  }
+  .s-stats .cell {
+    background: var(--brand-ivory);
+    padding: 48px 40px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 28px;
+    position: relative;
+  }
+  .s-stats .cell .value {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 120px;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--brand-ink);
+  }
+  .s-stats .cell .value em { font-style: italic; color: var(--brand-red); }
+  .s-stats .cell .value .unit {
+    font-family: var(--sans); font-weight: 500;
+    font-size: 32px; color: var(--ink-60);
+    margin-left: 6px; letter-spacing: -0.01em;
+  }
+  .s-stats .cell .label {
+    font-family: var(--sans); font-size: 18px;
+    color: var(--brand-ink); font-weight: 500;
+    line-height: 1.4;
+  }
+  .s-stats .cell .note {
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-40);
+  }
+  .s-stats .cell .trend {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 13px;
+    color: #1a8a3f;
+  }
+
+  /* ── Slide 05 — Quote ────────────────────────────────── */
+  .s-quote {
+    background: var(--brand-ink); color: var(--brand-ivory);
+  }
+  .s-quote .quoteblock {
+    position: absolute;
+    left: 160px; right: 160px; top: 50%; transform: translateY(-50%);
+  }
+  .s-quote .mark {
+    font-family: var(--serif); font-style: italic;
+    font-size: 280px; line-height: 0.8;
+    color: var(--brand-red);
+    margin-bottom: -80px;
+  }
+  .s-quote blockquote {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 82px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+    color: #fff;
+  }
+  .s-quote blockquote em { font-style: italic; color: var(--brand-gold); font-weight: 300; }
+  .s-quote .attrib {
+    margin-top: 60px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .s-quote .attrib .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--brand-red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-style: italic;
+    font-size: 28px; color: #fff;
+  }
+  .s-quote .attrib .who {
+    display: flex; flex-direction: column;
+  }
+  .s-quote .attrib .who .name {
+    font-family: var(--sans); font-size: 22px; font-weight: 500;
+    color: #fff;
+  }
+  .s-quote .attrib .who .role {
+    font-family: var(--mono); font-size: 14px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); margin-top: 4px;
+  }
+
+  /* ── Slide 06 — Two column ───────────────────────────── */
+  .s-two .grid {
+    position: absolute;
+    left: 96px; right: 96px; top: 220px; bottom: 120px;
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 120px;
+  }
+  .s-two .grid .left { display: flex; flex-direction: column; gap: 40px; }
+  .s-two .grid .right { display: flex; flex-direction: column; gap: 40px; padding-top: 24px; }
+  .s-two .points { display: flex; flex-direction: column; gap: 36px; }
+  .s-two .points .point {
+    display: grid; grid-template-columns: 56px 1fr; gap: 24px;
+    align-items: baseline;
+  }
+  .s-two .points .point .n {
+    font-family: var(--mono); font-size: 14px;
+    color: var(--brand-red); font-weight: 500;
+    letter-spacing: 0.08em;
+    padding-top: 6px;
+  }
+  .s-two .points .point h4 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 32px; margin: 0 0 8px;
+    line-height: 1.1; letter-spacing: -0.015em;
+  }
+  .s-two .points .point p {
+    margin: 0; font-family: var(--sans);
+    font-size: 19px; line-height: 1.55;
+    color: var(--ink-60);
+  }
+
+  /* ── Slide 07 — Full bleed quote/image placeholder ───── */
+  .s-showcase {
+    background: var(--brand-ink);
+    color: #fff;
+    padding: 0;
+  }
+  .s-showcase .img {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #2a1a1f 0%, #4a1020 40%, var(--brand-red) 100%);
+    overflow: hidden;
+  }
+  .s-showcase .img::before {
+    /* subtle arch pattern to feel like Central/CPN architecture */
+    content: "";
+    position: absolute;
+    left: 10%; bottom: -10%;
+    width: 70%; height: 120%;
+    background:
+      radial-gradient(ellipse 40% 80% at 50% 100%, rgba(255,255,255,0.06), transparent 70%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 80px);
+  }
+  .s-showcase .img::after {
+    content: "";
+    position: absolute;
+    right: -200px; top: -100px;
+    width: 900px; height: 1400px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 450px 450px 0 0;
+  }
+  .s-showcase .tint {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(14,23,38,0.2) 0%, rgba(14,23,38,0.7) 70%, rgba(14,23,38,0.9) 100%);
+  }
+  .s-showcase .caption {
+    position: absolute;
+    left: 96px; right: 96px; bottom: 140px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 96px;
+  }
+  .s-showcase .caption h2 {
+    color: #fff; max-width: 900px;
+  }
+  .s-showcase .caption h2 em { color: var(--brand-gold); font-style: italic; }
+  .s-showcase .caption .meta-col {
+    display: flex; flex-direction: column; gap: 12px;
+    min-width: 280px;
+  }
+  .s-showcase .caption .meta-col .k {
+    font-family: var(--mono); font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .s-showcase .caption .meta-col .v {
+    font-family: var(--serif); font-style: italic;
+    font-size: 28px; color: #fff;
+  }
+  .s-showcase .chrome-top { color: rgba(255,255,255,0.7); position: relative; z-index: 2; padding: 56px 96px; }
+  .s-showcase .chrome-top .wordmark .mark { color: #fff; }
+  .s-showcase .chrome-top .wordmark .sub { color: rgba(255,255,255,0.55); border-left-color: rgba(255,255,255,0.2); }
+
+  /* ── Slide 08 — Process / timeline ───────────────────── */
+  .s-process .top {
+    position: absolute; left: 96px; right: 96px; top: 200px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s-process .timeline {
+    position: absolute;
+    left: 96px; right: 96px; top: 460px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+  .s-process .timeline .step {
+    padding: 32px 32px 0 0;
+    border-top: 2px solid var(--ink-15);
+    position: relative;
+  }
+  .s-process .timeline .step:first-child { padding-left: 0; }
+  .s-process .timeline .step::before {
+    content: "";
+    position: absolute;
+    top: -8px; left: 0;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--brand-ivory);
+    border: 2px solid var(--ink-40);
+  }
+  .s-process .timeline .step.active { border-top-color: var(--brand-red); }
+  .s-process .timeline .step.active::before {
+    background: var(--brand-red); border-color: var(--brand-red);
+  }
+  .s-process .timeline .step .label {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--ink-40); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .s-process .timeline .step.active .label { color: var(--brand-red); }
+  .s-process .timeline .step h4 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 30px; margin: 0 0 12px;
+    line-height: 1.1; letter-spacing: -0.015em;
+    max-width: 90%;
+  }
+  .s-process .timeline .step p {
+    margin: 0; font-size: 17px; color: var(--ink-60);
+    line-height: 1.5; max-width: 90%;
+  }
+
+  /* ── Slide 09 — Brand portfolio grid ─────────────────── */
+  .s-portfolio .top {
+    position: absolute; left: 96px; right: 96px; top: 200px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s-portfolio .grid {
+    position: absolute;
+    left: 96px; right: 96px; top: 440px; bottom: 120px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .s-portfolio .card {
+    background: #fff;
+    border: 1px solid var(--ink-15);
+    padding: 32px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .s-portfolio .card.feat {
+    background: var(--brand-red); color: #fff;
+    border-color: var(--brand-red);
+    grid-row: span 2;
+  }
+  .s-portfolio .card .cat {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--ink-40); letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .s-portfolio .card.feat .cat { color: rgba(255,255,255,0.7); }
+  .s-portfolio .card .brand {
+    font-family: var(--serif); font-style: italic;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--brand-ink);
+    letter-spacing: -0.02em;
+  }
+  .s-portfolio .card.feat .brand { color: #fff; font-size: 72px; }
+  .s-portfolio .card.feat .brand.alt { font-style: normal; }
+  .s-portfolio .card .desc {
+    font-family: var(--sans); font-size: 15px;
+    color: var(--ink-60); line-height: 1.5;
+  }
+  .s-portfolio .card.feat .desc { color: rgba(255,255,255,0.85); font-size: 18px; }
+  .s-portfolio .card .tag {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--brand-red);
+  }
+  .s-portfolio .card.feat .tag { color: #fff; }
+
+  /* ── Slide 10 — Comparison / before-after ────────────── */
+  .s-compare .top {
+    position: absolute; left: 96px; right: 96px; top: 200px;
+  }
+  .s-compare .grid {
+    position: absolute;
+    left: 96px; right: 96px; top: 380px; bottom: 120px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  }
+  .s-compare .col {
+    border: 1px solid var(--ink-15);
+    background: #fff;
+    padding: 56px;
+    display: flex; flex-direction: column; gap: 32px;
+  }
+  .s-compare .col.now {
+    background: var(--brand-ink); color: #fff; border-color: var(--brand-ink);
+  }
+  .s-compare .col .head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 24px; border-bottom: 1px solid var(--ink-15);
+  }
+  .s-compare .col.now .head { border-bottom-color: rgba(255,255,255,0.2); }
+  .s-compare .col h4 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 42px; margin: 0; letter-spacing: -0.02em;
+  }
+  .s-compare .col .chip {
+    font-family: var(--mono); font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--brand-ivory); color: var(--ink-60);
+    letter-spacing: 0.06em;
+  }
+  .s-compare .col.now .chip { background: var(--brand-red); color: #fff; }
+  .s-compare .col ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .s-compare .col li {
+    display: grid; grid-template-columns: 28px 1fr; gap: 16px;
+    font-size: 20px; line-height: 1.45;
+  }
+  .s-compare .col li::before {
+    content: "—";
+    font-family: var(--mono); color: var(--brand-red);
+    font-weight: 500;
+  }
+  .s-compare .col.now li::before { color: var(--brand-gold); }
+
+  /* ── Slide 11 — Data / chart ─────────────────────────── */
+  .s-data .top { position: absolute; left: 96px; right: 96px; top: 200px; }
+  .s-data .layout {
+    position: absolute;
+    left: 96px; right: 96px; top: 400px; bottom: 120px;
+    display: grid; grid-template-columns: 360px 1fr; gap: 80px;
+  }
+  .s-data .legend { display: flex; flex-direction: column; gap: 28px; }
+  .s-data .legend .item {
+    display: flex; flex-direction: column; gap: 8px;
+    padding-left: 20px; border-left: 3px solid var(--brand-red);
+  }
+  .s-data .legend .item.alt { border-left-color: var(--brand-gold); }
+  .s-data .legend .item.neu { border-left-color: var(--ink-40); }
+  .s-data .legend .item .k {
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-40);
+  }
+  .s-data .legend .item .v {
+    font-family: var(--serif); font-size: 54px;
+    font-weight: 400; letter-spacing: -0.02em;
+    color: var(--brand-ink); line-height: 1;
+  }
+  .s-data .legend .item .v em { color: var(--brand-red); font-style: italic; }
+  .s-data .legend .item .n {
+    font-family: var(--sans); font-size: 15px;
+    color: var(--ink-60); line-height: 1.4; margin-top: 4px;
+  }
+  .s-data .chart {
+    position: relative;
+    border-left: 1px solid var(--ink-15);
+    border-bottom: 1px solid var(--ink-15);
+    padding: 0 0 48px 32px;
+  }
+  .s-data .chart .yaxis {
+    position: absolute; left: -44px; top: 0; bottom: 48px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: var(--mono); font-size: 12px; color: var(--ink-40);
+    letter-spacing: 0.04em;
+    text-align: right; width: 40px;
+  }
+  .s-data .chart .bars {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+    height: 100%;
+    align-items: end;
+  }
+  .s-data .chart .col {
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+    position: relative; height: 100%;
+    justify-content: flex-end;
+  }
+  .s-data .chart .col .stack {
+    width: 100%; display: flex; flex-direction: column;
+    align-items: stretch;
+  }
+  .s-data .chart .col .bar {
+    width: 100%;
+  }
+  .s-data .chart .col .bar.a { background: var(--brand-red); }
+  .s-data .chart .col .bar.b { background: var(--brand-gold); }
+  .s-data .chart .col .lab {
+    position: absolute; bottom: -32px; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--mono); font-size: 13px; color: var(--ink-40);
+    letter-spacing: 0.04em;
+  }
+  .s-data .chart .col .val {
+    position: absolute; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--sans); font-size: 15px; font-weight: 600;
+    color: var(--brand-ink);
+  }
+
+  /* ── Slide 12 — Team ─────────────────────────────────── */
+  .s-team .top {
+    position: absolute; left: 96px; right: 96px; top: 200px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s-team .grid {
+    position: absolute;
+    left: 96px; right: 96px; top: 440px; bottom: 180px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px;
+  }
+  .s-team .person { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  .s-team .person .portrait {
+    height: 300px; width: 100%;
+    background: var(--brand-mist);
+    position: relative; overflow: hidden; flex: 0 0 auto;
+  }
+  .s-team .person .bio { font-size: 14px; line-height: 1.45; }
+  .s-team .person .portrait::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg,
+      color-mix(in oklab, var(--brand-red) 30%, var(--brand-mist)) 0%,
+      var(--brand-mist) 55%,
+      color-mix(in oklab, var(--brand-ink) 15%, var(--brand-mist)) 100%);
+  }
+  .s-team .person .portrait::after {
+    content: attr(data-initials);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-style: italic;
+    font-weight: 300;
+    font-size: 120px; color: rgba(14,23,38,0.35);
+  }
+  .s-team .person .name {
+    font-family: var(--serif); font-size: 30px; font-weight: 400;
+    letter-spacing: -0.015em; line-height: 1.1;
+  }
+  .s-team .person .role {
+    font-family: var(--mono); font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--brand-red);
+  }
+  .s-team .person .bio {
+    font-family: var(--sans); font-size: 16px;
+    color: var(--ink-60); line-height: 1.5;
+  }
+
+  /* ── Slide 13 — Callout / manifesto ──────────────────── */
+  .s-manifesto {
+    background: var(--brand-ivory);
+  }
+  .s-manifesto .content {
+    position: absolute;
+    left: 160px; right: 160px; top: 50%;
+    transform: translateY(-50%);
+  }
+  .s-manifesto h2 {
+    font-size: 132px;
+    text-wrap: balance;
+  }
+  .s-manifesto .kicker {
+    font-family: var(--mono); font-size: 18px;
+    color: var(--brand-red);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .s-manifesto .signoff {
+    margin-top: 80px;
+    display: flex; align-items: center; gap: 40px;
+  }
+  .s-manifesto .signoff .script {
+    font-family: var(--serif); font-style: italic;
+    font-weight: 300;
+    font-size: 56px;
+    color: var(--brand-red);
+    letter-spacing: -0.02em;
+  }
+  .s-manifesto .signoff .script-meta {
+    font-family: var(--mono); font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-60); padding-left: 32px;
+    border-left: 1px solid var(--ink-15);
+  }
+
+  /* ── Slide 14 — Thank you / close ────────────────────── */
+  .s-close {
+    background: var(--brand-ink); color: #fff;
+  }
+  .s-close .arch-lg {
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    bottom: -100px;
+    width: 1200px; height: 900px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 600px 600px 0 0;
+  }
+  .s-close .arch-sm {
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    bottom: -100px;
+    width: 700px; height: 600px;
+    border: 1.5px solid rgba(255,255,255,0.22);
+    border-radius: 350px 350px 0 0;
+  }
+  .s-close .seal {
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    top: 260px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: var(--brand-red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-style: italic;
+    font-size: 82px; color: #fff;
+  }
+  .s-close .content {
+    position: absolute;
+    left: 0; right: 0; top: 520px;
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 32px;
+  }
+  .s-close .content h1 {
+    font-size: 168px; color: #fff;
+  }
+  .s-close .content h1 em { color: var(--brand-red); font-style: italic; }
+  .s-close .content .sub {
+    font-family: var(--sans); font-size: 26px; color: rgba(255,255,255,0.7);
+    max-width: 900px;
+  }
+  .s-close .contact {
+    position: absolute;
+    left: 96px; right: 96px; bottom: 96px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--mono); font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .s-close .contact .block { display: flex; flex-direction: column; gap: 8px; }
+  .s-close .contact .block .k { color: rgba(255,255,255,0.4); font-size: 11px; }
+  .s-close .contact .block .v {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: 28px; color: #fff; text-transform: none; letter-spacing: -0.01em;
+  }
+  .s-close .chrome-top { color: rgba(255,255,255,0.6); }
+  .s-close .chrome-top .wordmark .mark { color: #fff; }
+  .s-close .chrome-top .wordmark .sub { color: rgba(255,255,255,0.5); border-left-color: rgba(255,255,255,0.2); }
+
+  /* ── Tweaks panel ────────────────────────────────────── */
+  #tweaks-panel {
+    position: fixed;
+    right: 24px; bottom: 72px;
+    width: 320px;
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    padding: 20px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    z-index: 2147483100;
+    display: none;
+  }
+  #tweaks-panel[data-open] { display: block; }
+  #tweaks-panel h4 {
+    margin: 0 0 4px;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  #tweaks-panel .hint {
+    margin: 0 0 16px;
+    font-size: 12px; color: #666;
+  }
+  #tweaks-panel .row {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-top: 14px;
+  }
+  #tweaks-panel .row label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 600;
+  }
+  #tweaks-panel .swatches {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+  }
+  #tweaks-panel .swatch {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 120ms ease;
+  }
+  #tweaks-panel .swatch:hover { transform: scale(1.08); }
+  #tweaks-panel .swatch[data-selected] {
+    border-color: #111;
+  }
+  #tweaks-panel input[type="color"] {
+    width: 100%; height: 36px;
+    border: 1px solid #e4e4e4; border-radius: 6px;
+    cursor: pointer; padding: 2px;
+  }
+
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ─────────────────── 01  COVER ─────────────────── -->
+  <section class="slide s-cover" data-label="Cover">
+    <div class="arch"></div>
+    <div class="arch-2"></div>
+
+    <div class="chrome-top" style="position: absolute; top: 56px; left: 96px;">
+      <div class="wordmark">
+        <span class="mark">Central</span>
+        <span class="sub">Retail Corporation</span>
+      </div>
+    </div>
+
+    <div class="corner-mark">
+      <div class="seal-meta">
+        Est. 1947<br/>Bangkok
+      </div>
+      <div class="seal">C</div>
+    </div>
+
+    <div class="content">
+      <div class="eyebrow">Quarterly Business Review · Q1 FY26</div>
+      <h1 class="display">Building on <em>seventy-nine</em><br/>years of trust.</h1>
+      <div class="meta-row">
+        <div class="item"><span class="label">Presented by</span><span class="value">Executive Office</span></div>
+        <div class="item"><span class="label">Audience</span><span class="value">Board of Directors</span></div>
+        <div class="item"><span class="label">Date</span><span class="value">20 April 2026</span></div>
+        <div class="item"><span class="label">Classification</span><span class="value">Confidential — Internal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 02  AGENDA ────────────────── -->
+  <section class="slide s-agenda" data-label="Agenda">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>01 &nbsp;·&nbsp; Overview</span>
+      </div>
+      <div class="chrome-bottom"><span>Confidential — Internal</span><span class="folio">02 / 14</span></div>
+    </div>
+
+    <div class="grid">
+      <div class="left">
+        <div class="eyebrow">Contents</div>
+        <h3 class="title">What we'll<br/><em>cover today.</em></h3>
+        <p class="body" style="max-width: 380px; margin-top: 24px;">Sixty minutes, structured around four questions: where we stand, what's shifting, where we're investing, and what we'll ask of the board.</p>
+      </div>
+      <div class="right">
+        <ol>
+          <li>
+            <span class="num">01</span>
+            <span class="title">The <em>state of the business</em> at a glance</span>
+            <span class="duration">10 min</span>
+          </li>
+          <li>
+            <span class="num">02</span>
+            <span class="title">Consumer and category shifts</span>
+            <span class="duration">12 min</span>
+          </li>
+          <li>
+            <span class="num">03</span>
+            <span class="title">Omnichannel and <em>digital progress</em></span>
+            <span class="duration">15 min</span>
+          </li>
+          <li>
+            <span class="num">04</span>
+            <span class="title">Portfolio, people, and capital</span>
+            <span class="duration">15 min</span>
+          </li>
+          <li>
+            <span class="num">05</span>
+            <span class="title">Discussion and next steps</span>
+            <span class="duration">8 min</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 03  SECTION DIVIDER ───────── -->
+  <section class="slide s-section" data-label="Section 01">
+    <div class="big-num">01</div>
+    <div class="chrome-top" style="position: absolute; top: 56px; left: 96px; right: 96px;">
+      <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+      <span>Part One</span>
+    </div>
+    <div class="content">
+      <div class="eyebrow">Part One</div>
+      <h2 class="headline">The state of<br/>the business.</h2>
+      <p class="sub">Strong year-on-year growth across food and hardline. Fashion recovering. Europe inflecting. Thailand, still the anchor.</p>
+    </div>
+    <div class="frame"></div>
+  </section>
+
+  <!-- ─────────────────── 04  STATS ─────────────────── -->
+  <section class="slide s-stats" data-label="Numbers at a glance">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>01 &nbsp;·&nbsp; Numbers</span>
+      </div>
+      <div class="chrome-bottom"><span>Source: FY25 annual report, internal management accounts</span><span class="folio">04 / 14</span></div>
+    </div>
+    <div class="top">
+      <div class="eyebrow">Numbers at a glance</div>
+      <h3 class="title">Four figures that<br/><em>frame the year.</em></h3>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <span class="note">Total revenue</span>
+        <div>
+          <div class="value">฿<em>287</em><span class="unit">bn</span></div>
+          <div class="trend">▲ 8.4% YoY</div>
+        </div>
+        <div class="label">Group consolidated revenue, trailing twelve months, across Thailand, Vietnam, and Europe.</div>
+      </div>
+      <div class="cell">
+        <span class="note">Stores &amp; malls</span>
+        <div>
+          <div class="value"><em>3,720</em></div>
+          <div class="trend">▲ 142 new locations</div>
+        </div>
+        <div class="label">Physical points of presence spanning fashion, food, hardline, and property across seven countries.</div>
+      </div>
+      <div class="cell">
+        <span class="note">Omnichannel share</span>
+        <div>
+          <div class="value"><em>24</em><span class="unit">%</span></div>
+          <div class="trend">▲ 410 bps</div>
+        </div>
+        <div class="label">Share of gross merchandise value transacted through digital or assisted-digital channels.</div>
+      </div>
+      <div class="cell">
+        <span class="note">People</span>
+        <div>
+          <div class="value"><em>82</em><span class="unit">k</span></div>
+          <div class="trend">▲ 3,200 FY25 hires</div>
+        </div>
+        <div class="label">Full-time equivalents group-wide. The single largest private-sector employer in Thai retail.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 05  QUOTE ─────────────────── -->
+  <section class="slide s-quote" data-label="Quote">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>01 &nbsp;·&nbsp; Voices</span>
+      </div>
+      <div class="chrome-bottom"><span>Confidential — Internal</span><span class="folio">05 / 14</span></div>
+    </div>
+    <div class="quoteblock">
+      <div class="mark">&ldquo;</div>
+      <blockquote>People are at the <em>heart</em> of everything we do — and every store we open is, first, a <em>promise</em> to a community.</blockquote>
+      <div class="attrib">
+        <div class="avatar">Y</div>
+        <div class="who">
+          <span class="name">Yol Phokasub</span>
+          <span class="role">Chief Executive Officer · Central Retail</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 06  TWO COLUMN ────────────── -->
+  <section class="slide s-two" data-label="Why it matters">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>02 &nbsp;·&nbsp; Shifts</span>
+      </div>
+      <div class="chrome-bottom"><span>Confidential — Internal</span><span class="folio">06 / 14</span></div>
+    </div>
+
+    <div class="grid">
+      <div class="left">
+        <div class="eyebrow">Consumer shifts</div>
+        <h3 class="title">Three forces are <em>redrawing</em> the map for Thai retail.</h3>
+        <p class="body" style="max-width: 520px;">Each shift has been visible for years. What's new is that all three are now structurally material to revenue — and each points to a different investment priority.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <span class="pill"><span class="dot"></span>Premiumisation</span>
+          <span class="pill"><span class="dot"></span>Health &amp; wellness</span>
+          <span class="pill"><span class="dot"></span>Tourism rebound</span>
+        </div>
+      </div>
+      <div class="right">
+        <div class="points">
+          <div class="point">
+            <span class="n">01</span>
+            <div>
+              <h4>The premium middle is widening.</h4>
+              <p>Imported-food basket up 19%. Luxury fashion durable. Value still anchors — but the middle is trading up, not down, for the first time since 2019.</p>
+            </div>
+          </div>
+          <div class="point">
+            <span class="n">02</span>
+            <div>
+              <h4>Wellness is a department, not an aisle.</h4>
+              <p>Tops Care, pharmacy formats, and Supersports are converging. The customer who buys running shoes now expects supplements, clinics, and classes under the same roof.</p>
+            </div>
+          </div>
+          <div class="point">
+            <span class="n">03</span>
+            <div>
+              <h4>Inbound tourism has returned — differently.</h4>
+              <p>Chinese and Indian visitors are back above 2019 levels. They shop more narrowly and more digitally. Our tax-refund flow needs to match that behaviour.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 07  SHOWCASE ─────────────── -->
+  <section class="slide s-showcase" data-label="Showcase">
+    <div class="img"></div>
+    <div class="tint"></div>
+    <div class="chrome-top">
+      <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+      <span style="color: rgba(255,255,255,0.65); font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase;">02 · Showcase</span>
+    </div>
+
+    <div class="caption">
+      <h2 class="headline">An <em>omnichannel</em> flagship — designed for how Thailand actually shops.</h2>
+      <div class="meta-col">
+        <div><span class="k">Location</span><div class="v">CentralWorld, Bangkok</div></div>
+        <div><span class="k">Opens</span><div class="v">Q3 FY26</div></div>
+        <div><span class="k">Format</span><div class="v">12,400 m² · 3 floors</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 08  PROCESS ───────────────── -->
+  <section class="slide s-process" data-label="Roadmap">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>03 &nbsp;·&nbsp; Roadmap</span>
+      </div>
+      <div class="chrome-bottom"><span>Confidential — Internal</span><span class="folio">08 / 14</span></div>
+    </div>
+
+    <div class="top">
+      <div class="eyebrow">Transformation roadmap</div>
+      <h3 class="title">From pilot to <em>platform</em>, over five horizons.</h3>
+    </div>
+
+    <div class="timeline">
+      <div class="step active">
+        <div class="label">Q1 · Complete</div>
+        <h4>Unified CRM live</h4>
+        <p>The One Card identity now spans all Thai banners, with 19M linked households.</p>
+      </div>
+      <div class="step active">
+        <div class="label">Q2 · In flight</div>
+        <h4>Fulfilment re-platform</h4>
+        <p>Seven distribution centres migrate to a common WMS. Thailand complete; Vietnam next.</p>
+      </div>
+      <div class="step">
+        <div class="label">Q3</div>
+        <h4>Digital-first clienteling</h4>
+        <p>Associate app rolls to Central Department Store and Robinson — 8,200 associates.</p>
+      </div>
+      <div class="step">
+        <div class="label">Q4</div>
+        <h4>Europe interoperability</h4>
+        <p>KaDeWe and Rinascente join the same loyalty ledger. Tax-refund flow integrated.</p>
+      </div>
+      <div class="step">
+        <div class="label">FY27</div>
+        <h4>Cashless ambition</h4>
+        <p>Group-level payments programme converges merchants, customers, and fintech into one rail.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 09  PORTFOLIO ─────────────── -->
+  <section class="slide s-portfolio" data-label="Portfolio">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>04 &nbsp;·&nbsp; Portfolio</span>
+      </div>
+      <div class="chrome-bottom"><span>Banners shown are illustrative of the group's four operating divisions</span><span class="folio">09 / 14</span></div>
+    </div>
+
+    <div class="top">
+      <div class="eyebrow">Our portfolio</div>
+      <h3 class="title">Four divisions, <em>one family</em> of brands.</h3>
+    </div>
+
+    <div class="grid">
+      <div class="card feat">
+        <div class="cat">Flagship · Department Store</div>
+        <div>
+          <div class="brand">Central</div>
+          <div class="desc">The 1947 flagship. Twenty-five stores across Thailand, and the luxury engine of the group — extending now to Europe through Rinascente, KaDeWe, and Selfridges.</div>
+        </div>
+        <div class="tag">→ Fashion · Beauty · Lifestyle</div>
+      </div>
+
+      <div class="card">
+        <div class="cat">Food</div>
+        <div class="brand">Tops</div>
+        <div class="tag">Supermarket</div>
+      </div>
+      <div class="card">
+        <div class="cat">Food · Wholesale</div>
+        <div class="brand">go!</div>
+        <div class="tag">Vietnam</div>
+      </div>
+      <div class="card">
+        <div class="cat">Hardline</div>
+        <div class="brand">Thaiwatsadu</div>
+        <div class="tag">Home improvement</div>
+      </div>
+      <div class="card">
+        <div class="cat">Fashion</div>
+        <div class="brand">Robinson</div>
+        <div class="tag">Department store</div>
+      </div>
+      <div class="card">
+        <div class="cat">Hardline</div>
+        <div class="brand">Power Buy</div>
+        <div class="tag">Electronics</div>
+      </div>
+      <div class="card">
+        <div class="cat">Sports</div>
+        <div class="brand">Supersports</div>
+        <div class="tag">Performance · Lifestyle</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 10  COMPARE ───────────────── -->
+  <section class="slide s-compare" data-label="Then and now">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>03 &nbsp;·&nbsp; Then &amp; now</span>
+      </div>
+      <div class="chrome-bottom"><span>Baseline FY22 compared to target FY26</span><span class="folio">10 / 14</span></div>
+    </div>
+    <div class="top">
+      <div class="eyebrow">Then and now</div>
+      <h3 class="title">What <em>four years</em> of omnichannel work has changed.</h3>
+    </div>
+    <div class="grid">
+      <div class="col">
+        <div class="head">
+          <h4>FY22 · baseline</h4>
+          <span class="chip">Before</span>
+        </div>
+        <ul>
+          <li>Channel P&amp;Ls run separately — digital reports as a cost centre.</li>
+          <li>Customer identity lives per banner; cross-shopping invisible.</li>
+          <li>Fulfilment from store backrooms; 48-hour SLA at best.</li>
+          <li>Associates paid on store walk-ins only.</li>
+          <li>Europe treated as a financial holding — no operational link.</li>
+        </ul>
+      </div>
+      <div class="col now">
+        <div class="head">
+          <h4>FY26 · target</h4>
+          <span class="chip">Now</span>
+        </div>
+        <ul>
+          <li>One P&amp;L per customer journey — digital is a channel, not a silo.</li>
+          <li>Unified identity across nine banners; 19M linked households.</li>
+          <li>Seven hub DCs with 2-hour Bangkok, same-day metro coverage.</li>
+          <li>Associate compensation follows the customer, in-store or online.</li>
+          <li>Shared buying, loyalty, and data across Bangkok, Milan, Berlin, London.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 11  DATA ──────────────────── -->
+  <section class="slide s-data" data-label="Revenue by division">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>01 &nbsp;·&nbsp; Revenue mix</span>
+      </div>
+      <div class="chrome-bottom"><span>Source: management accounts, full year 2020 – 2025. Values in ฿ billion.</span><span class="folio">11 / 14</span></div>
+    </div>
+    <div class="top">
+      <div class="eyebrow">Revenue by division</div>
+      <h3 class="title">Food and hardline <em>rebalanced</em> the mix.</h3>
+    </div>
+
+    <div class="layout">
+      <div class="legend">
+        <div class="item">
+          <span class="k">Food</span>
+          <span class="v"><em>฿121</em>bn</span>
+          <span class="n">Led by Tops, go!, and the wholesale build-out in Vietnam. Largest single contributor since FY24.</span>
+        </div>
+        <div class="item alt">
+          <span class="k">Fashion</span>
+          <span class="v">฿94bn</span>
+          <span class="n">Central and Robinson stabilised; European luxury still compounding at double digits.</span>
+        </div>
+        <div class="item neu">
+          <span class="k">Hardline &amp; Property</span>
+          <span class="v">฿72bn</span>
+          <span class="n">Thaiwatsadu, Power Buy, and CPN-linked property income. Steady, counter-cyclical.</span>
+        </div>
+      </div>
+
+      <div class="chart">
+        <div class="yaxis">
+          <span>300</span><span>225</span><span>150</span><span>75</span><span>0</span>
+        </div>
+        <div class="bars">
+          <div class="col">
+            <div class="stack">
+              <div class="bar b" style="height: 36px;"></div>
+              <div class="bar a" style="height: 74px;"></div>
+            </div>
+            <div class="val" style="bottom: 124px;">215</div>
+            <div class="lab">FY20</div>
+          </div>
+          <div class="col">
+            <div class="stack">
+              <div class="bar b" style="height: 42px;"></div>
+              <div class="bar a" style="height: 86px;"></div>
+            </div>
+            <div class="val" style="bottom: 144px;">229</div>
+            <div class="lab">FY21</div>
+          </div>
+          <div class="col">
+            <div class="stack">
+              <div class="bar b" style="height: 52px;"></div>
+              <div class="bar a" style="height: 108px;"></div>
+            </div>
+            <div class="val" style="bottom: 176px;">248</div>
+            <div class="lab">FY22</div>
+          </div>
+          <div class="col">
+            <div class="stack">
+              <div class="bar b" style="height: 62px;"></div>
+              <div class="bar a" style="height: 128px;"></div>
+            </div>
+            <div class="val" style="bottom: 206px;">263</div>
+            <div class="lab">FY23</div>
+          </div>
+          <div class="col">
+            <div class="stack">
+              <div class="bar b" style="height: 72px;"></div>
+              <div class="bar a" style="height: 152px;"></div>
+            </div>
+            <div class="val" style="bottom: 240px;">276</div>
+            <div class="lab">FY24</div>
+          </div>
+          <div class="col">
+            <div class="stack">
+              <div class="bar b" style="height: 84px;"></div>
+              <div class="bar a" style="height: 180px;"></div>
+            </div>
+            <div class="val" style="bottom: 280px;">287</div>
+            <div class="lab">FY25</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 12  TEAM ──────────────────── -->
+  <section class="slide s-team" data-label="Team">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>04 &nbsp;·&nbsp; People</span>
+      </div>
+      <div class="chrome-bottom"><span>Confidential — Internal</span><span class="folio">12 / 14</span></div>
+    </div>
+    <div class="top">
+      <div class="eyebrow">Who is leading this</div>
+      <h3 class="title">The <em>executive team</em> behind this plan.</h3>
+    </div>
+
+    <div class="grid">
+      <div class="person">
+        <div class="portrait" data-initials="YP"></div>
+        <div>
+          <div class="role">Chief Executive</div>
+          <div class="name">Yol Phokasub</div>
+          <div class="bio">Group CEO since 2020. Twenty-four years with Central, previously leading the fashion division.</div>
+        </div>
+      </div>
+      <div class="person">
+        <div class="portrait" data-initials="PN"></div>
+        <div>
+          <div class="role">Chief Financial Officer</div>
+          <div class="name">Pichai Nualrat</div>
+          <div class="bio">Joined from TCC Land. Leads group finance, treasury, and European integration.</div>
+        </div>
+      </div>
+      <div class="person">
+        <div class="portrait" data-initials="SC"></div>
+        <div>
+          <div class="role">Chief Digital Officer</div>
+          <div class="name">Sirada Chirathivat</div>
+          <div class="bio">Oversees Central Tech, platform engineering, and group-wide data strategy.</div>
+        </div>
+      </div>
+      <div class="person">
+        <div class="portrait" data-initials="AK"></div>
+        <div>
+          <div class="role">Chief People Officer</div>
+          <div class="name">Anong Kanjanasorn</div>
+          <div class="bio">Custodian of the I•CARE culture programme across 82,000 colleagues in seven countries.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 13  MANIFESTO ─────────────── -->
+  <section class="slide s-manifesto" data-label="Manifesto">
+    <div class="chrome">
+      <div class="chrome-top">
+        <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+        <span>What this is for</span>
+      </div>
+      <div class="chrome-bottom"><span>Confidential — Internal</span><span class="folio">13 / 14</span></div>
+    </div>
+    <div class="content">
+      <div class="kicker">One belief · guides every decision</div>
+      <h2 class="headline">Retail is <em>hospitality</em> — served at scale, every day, one household at a time.</h2>
+      <div class="signoff">
+        <span class="script">— The Central family</span>
+        <span class="script-meta">Since 1947</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── 14  THANK YOU ─────────────── -->
+  <section class="slide s-close" data-label="Thank you">
+    <div class="chrome-top" style="position: absolute; top: 56px; left: 96px; right: 96px; padding: 0; display: flex; align-items: center; justify-content: space-between; font-family: var(--sans); font-size: 15px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;">
+      <div class="wordmark"><span class="mark">Central</span><span class="sub">Retail Corporation</span></div>
+      <span>End</span>
+    </div>
+
+    <div class="arch-lg"></div>
+    <div class="arch-sm"></div>
+
+    <div class="seal">C</div>
+
+    <div class="content">
+      <h1 class="display">Thank <em>you.</em></h1>
+      <p class="sub">Discussion, questions, and next steps.</p>
+    </div>
+
+    <div class="contact">
+      <div class="block">
+        <span class="k">Presenter</span>
+        <span class="v">Executive Office</span>
+      </div>
+      <div class="block">
+        <span class="k">Follow up</span>
+        <span class="v">ir@centralretail.com</span>
+      </div>
+      <div class="block">
+        <span class="k">Full deck</span>
+        <span class="v">centralretail.com/investors</span>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<!-- ── Tweaks panel ────────────────────────────────────── -->
+<div id="tweaks-panel">
+  <h4>Tweaks</h4>
+  <p class="hint">Adjust the deck palette. Changes apply instantly and persist.</p>
+
+  <div class="row">
+    <label>Accent colour</label>
+    <div class="swatches" id="accent-swatches"></div>
+    <input type="color" id="accent-picker" />
+  </div>
+
+  <div class="row">
+    <label>Surface</label>
+    <div class="swatches" id="surface-swatches"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "brandRed": "#D4122A",
+    "brandIvory": "#F5F1E8"
+  }/*EDITMODE-END*/;
+
+  const accentSwatches = [
+    { name: "Central red",   val: "#D4122A" },
+    { name: "Scarlet",       val: "#E30613" },
+    { name: "Deep burgundy", val: "#7A1028" },
+    { name: "Imperial gold", val: "#B89254" },
+    { name: "Navy",          val: "#0E2A57" },
+    { name: "Forest",        val: "#1E4D3A" },
+  ];
+  const surfaceSwatches = [
+    { name: "Ivory",  val: "#F5F1E8" },
+    { name: "Cream",  val: "#EFE9DA" },
+    { name: "Warm white", val: "#FAF7F0" },
+    { name: "Paper",  val: "#FFFFFF" },
+    { name: "Stone",  val: "#E9E4D6" },
+    { name: "Bone",   val: "#F2EDE0" },
+  ];
+
+  function applyTweaks(t) {
+    document.documentElement.style.setProperty('--brand-red', t.brandRed);
+    document.documentElement.style.setProperty('--brand-ivory', t.brandIvory);
+    // keep selection ring in sync
+    document.querySelectorAll('#accent-swatches .swatch').forEach(s => {
+      if (s.dataset.val.toLowerCase() === t.brandRed.toLowerCase()) s.setAttribute('data-selected','');
+      else s.removeAttribute('data-selected');
+    });
+    document.querySelectorAll('#surface-swatches .swatch').forEach(s => {
+      if (s.dataset.val.toLowerCase() === t.brandIvory.toLowerCase()) s.setAttribute('data-selected','');
+      else s.removeAttribute('data-selected');
+    });
+    const picker = document.getElementById('accent-picker');
+    if (picker) picker.value = t.brandRed;
+  }
+
+  function commit(updates) {
+    Object.assign(TWEAKS, updates);
+    applyTweaks(TWEAKS);
+    try {
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: updates }, '*');
+    } catch(e) {}
+  }
+
+  function renderSwatches(wrapId, list, key) {
+    const host = document.getElementById(wrapId);
+    host.innerHTML = '';
+    list.forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'swatch';
+      el.dataset.val = s.val;
+      el.style.background = s.val;
+      el.title = s.name;
+      el.addEventListener('click', () => commit({ [key]: s.val }));
+      host.appendChild(el);
+    });
+  }
+  renderSwatches('accent-swatches', accentSwatches, 'brandRed');
+  renderSwatches('surface-swatches', surfaceSwatches, 'brandIvory');
+
+  document.getElementById('accent-picker').addEventListener('input', (e) => {
+    commit({ brandRed: e.target.value });
+  });
+
+  // Initial apply (values may already be rewritten in CSS :root)
+  applyTweaks(TWEAKS);
+
+  // ── Edit-mode protocol ─────────────────────────────────
+  const panel = document.getElementById('tweaks-panel');
+  window.addEventListener('message', (e) => {
+    const d = e.data;
+    if (!d || typeof d !== 'object') return;
+    if (d.type === '__activate_edit_mode') panel.setAttribute('data-open', '');
+    else if (d.type === '__deactivate_edit_mode') panel.removeAttribute('data-open');
+  });
+  try {
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  } catch(e) {}
+})();
+</script>
+
+</body>
+</html>
