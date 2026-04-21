@@ -175,13 +175,9 @@
   min-height: 100vh;
   background: var(--color-canvas);
 }
-@media (min-width: 1024px) {
-  .humi-app { grid-template-columns: 256px 1fr; }
-  .humi-sidebar { display: flex; }
-}
 
 /* Ported from styles.css:152-160 (.sidebar)
-   Responsive (issue #5): hidden on mobile, visible lg+ via media above */
+   Responsive (issue #5): hidden on mobile, visible lg+ via media below */
 .humi-sidebar {
   background: var(--color-ink);
   color: #E7E3D8;
@@ -192,6 +188,12 @@
   display: none;
   flex-direction: column;
   gap: 6px;
+}
+
+/* lg+ breakpoint: show sidebar, switch app to 2-col grid */
+@media (min-width: 1024px) {
+  .humi-app { grid-template-columns: 256px 1fr; }
+  .humi-sidebar { display: flex; }
 }
 
 /* Drawer modifier — fixed panel slides from left on mobile */
@@ -364,8 +366,12 @@
 
 /* Ported from styles.css:251 (.main) */
 .humi-main {
-  padding: 0 36px 48px;
+  padding: 0 16px 48px;
   min-width: 0;
+  overflow-x: hidden;
+}
+@media (min-width: 640px) {
+  .humi-main { padding: 0 36px 48px; }
 }
 
 /* Humi page wrapper — single source of truth for page max-width + padding.
