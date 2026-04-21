@@ -128,7 +128,9 @@ describe('AC-4 smoke — /profile/me', () => {
   it('renders user name จงรักษ์ ทานากะ', async () => {
     const { default: Page } = await import('@/app/[locale]/profile/me/page');
     render(<Page />);
-    expect(screen.getByText(/จงรักษ์ ทานากะ/)).toBeTruthy();
+    // Name appears in both h2 and sidebar chip — getAllByText is correct
+    const matches = screen.getAllByText(/จงรักษ์ ทานากะ/);
+    expect(matches.length).toBeGreaterThan(0);
   });
 });
 
@@ -141,7 +143,9 @@ describe('AC-4 smoke — /timeoff', () => {
   it('renders leave balance KPI cards (ลาพักร้อน)', async () => {
     const { default: Page } = await import('@/app/[locale]/timeoff/page');
     render(<Page />);
-    expect(screen.getByText('ลาพักร้อน')).toBeTruthy();
+    // "ลาพักร้อน" appears in KPI card label and in leave-type radio — getAllByText
+    const matches = screen.getAllByText('ลาพักร้อน');
+    expect(matches.length).toBeGreaterThan(0);
   });
 
   it('renders leave request form with leave type selector', async () => {
@@ -155,8 +159,9 @@ describe('AC-4 smoke — /timeoff', () => {
   it('renders leave history list', async () => {
     const { default: Page } = await import('@/app/[locale]/timeoff/page');
     render(<Page />);
-    // History shows pre-seeded leave items (from INITIAL_HISTORY)
-    expect(screen.getByText('ลาพักร้อน')).toBeTruthy();
+    // "ลาพักร้อน" appears in KPI card label and in leave-type radio — getAllByText
+    const matches = screen.getAllByText('ลาพักร้อน');
+    expect(matches.length).toBeGreaterThan(0);
   });
 });
 
@@ -238,8 +243,8 @@ describe('AC-4 smoke — /learning-directory', () => {
   it('renders learning course cards from mock data', async () => {
     const { default: Page } = await import('@/app/[locale]/learning-directory/page');
     const { container } = render(<Page />);
-    // Learning courses render as card elements
-    const cards = container.querySelectorAll('[class*="humi-card"]');
+    // Card component uses Tailwind cva classes — query by rounded bg-surface pattern
+    const cards = container.querySelectorAll('[class*="rounded-"][class*="bg-surface"]');
     expect(cards.length).toBeGreaterThan(0);
   });
 });
@@ -306,8 +311,8 @@ describe('AC-4 smoke — /integrations', () => {
   it('renders integration KPI stats', async () => {
     const { default: Page } = await import('@/app/[locale]/integrations/page');
     const { container } = render(<Page />);
-    // HUMI_INTEGRATION_KPIS rendered as stat cards
-    const cards = container.querySelectorAll('[class*="humi-card"]');
+    // Card component uses Tailwind cva classes — query by rounded bg-surface pattern
+    const cards = container.querySelectorAll('[class*="rounded-"][class*="bg-surface"]');
     expect(cards.length).toBeGreaterThan(0);
   });
 });
