@@ -74,7 +74,7 @@ export function Modal({ open, onClose, title, widthClass = 'max-w-lg', children 
               aria-label="ปิด"
               onClick={onClose}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-full',
+                'inline-flex h-11 w-11 items-center justify-center rounded-full',
                 'text-ink-muted hover:text-ink hover:bg-canvas-soft transition-colors',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
               )}

@@ -113,7 +113,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             onClick={closeDrawer}
           />
           {/* Drawer panel */}
-          <div className="fixed inset-y-0 left-0 z-40 w-[280px] lg:hidden">
+          <div className="fixed inset-y-0 left-0 z-40 w-[256px] lg:hidden">
             <Sidebar onNavigate={closeDrawer} className="humi-sidebar--drawer" />
           </div>
         </>
