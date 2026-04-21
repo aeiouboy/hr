@@ -352,7 +352,7 @@ function MineTab({
                       type="button"
                       aria-label={`ดูรายละเอียดการอนุมัติ ${r.id}`}
                       onClick={() => setSelected(r)}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:bg-canvas-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-muted hover:bg-canvas-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                     >
                       <ArrowRight size={14} aria-hidden />
                     </button>
