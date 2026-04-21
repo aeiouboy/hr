@@ -39,15 +39,24 @@ vi.mock('next-intl', () => ({
       tabEmergency: 'ผู้ติดต่อฉุกเฉิน',
       tabDocs: 'เอกสาร',
       tabTax: 'ภาษี',
+      // profile headings — prevent key fallback in h3
+      personalTitle: 'รายละเอียดพื้นฐาน',
+      personalEyebrow: 'ข้อมูลส่วนตัว',
+      contactTitle: 'วิธีติดต่อคุณ',
+      contactEyebrow: 'ข้อมูลการติดต่อ',
       // announcements
       title: 'ประกาศและข่าวสาร',
       filterAll: 'ทั้งหมด',
+      draftTitle: 'สรุปผลโครงการพัฒนาองค์กร Q2',
       // goals
       tabGoals: 'เป้าหมายของฉัน',
       tabReviews: 'การประเมิน',
-      // login
+      // login — prevent key fallback as h1 content
       headline: 'ยินดีต้อนรับสู่ Humi',
       subline: 'แพลตฟอร์ม HR สำหรับทีมงานยุคใหม่',
+      headlineLine1: 'ระบบเบื้องหลังที่',
+      headlineLine2: 'ทีมของคุณคู่ควร',
+      formTitle: 'เข้าสู่ระบบ Humi',
     };
     return map[key] ?? key;
   },
