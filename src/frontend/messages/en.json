@@ -274,7 +274,12 @@
     "status": "Status",
     "active": "Active",
     "inactive": "Inactive",
-    "pending": "Pending"
+    "pending": "Pending",
+    "enroll": "Enroll",
+    "cancelEnroll": "Cancel Enrollment",
+    "enrolled": "Enrolled",
+    "detail": "Plan Details",
+    "manage": "Manage"
   },
   "profileDetails": {
     "title": "Profile Details",
@@ -3406,6 +3411,11 @@
     "dateEyebrow": "Tuesday · 21 April",
     "greetingTitle": "Welcome back, Jongrak",
     "greetingSub": "You have 2 things to action today",
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
     "ctaApprove": "Approve 2 leave requests",
     "ctaAnnouncements": "Review announcement drafts",
     "newRequest": "New request",
@@ -3490,7 +3500,9 @@
     "draftMeta": "Saved 2 days ago · edited 3 times",
     "draftContinue": "Continue and post",
     "guideEyebrow": "Communication guide",
-    "guideBody": "Keep posts short. Lead with what changes for the team, not why. React to confirm you have read."
+    "guideBody": "Keep posts short. Lead with what changes for the team, not why. React to confirm you have read.",
+    "pinPost": "Pin post",
+    "unpinPost": "Unpin post"
   },
   "humiLogin": {
     "brand": "Humi",

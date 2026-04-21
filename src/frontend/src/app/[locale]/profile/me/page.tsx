@@ -5,16 +5,28 @@
 // 1:1 port of docs/design-ref/shelfly-bundle/project/screens/profile.jsx
 // Adapted retail persona → generic HR persona (HQ manager).
 // AppShell owns sidebar+topbar; this file renders main-column only.
+// c1-profile-functional: Zustand persist + 5-tab switcher + edit/save/toast
 // ════════════════════════════════════════════════════════════
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Check, FileText, Download } from 'lucide-react';
+import { Check, FileText, Download, Pencil, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
 import { HUMI_MY_PROFILE } from '@/lib/humi-mock-data';
+import { useHumiProfileStore, type ProfileTab } from '@/stores/humi-profile-slice';
 
+// Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
+
+// Mapping from Zustand ProfileTab → legacy panel key
+const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
+  personal: 'personal',
+  employment: 'job',
+  compensation: 'job', // compensation shown inside job tab panel
+  documents: 'docs',
+  activity: 'tax', // activity mapped to tax tab panel as closest
+};
 
 const AVATAR_TONE_MAP = {
   teal: 'humi-avatar humi-avatar--teal',
@@ -25,27 +37,77 @@ const AVATAR_TONE_MAP = {
 
 export default function HumiProfileMePage() {
   const t = useTranslations('humiProfile');
-  const [tab, setTab] = useState<TabKey>('personal');
   const p = HUMI_MY_PROFILE;
 
-  const tabs: Array<[TabKey, string]> = [
+  const { activeTab, isEditing, draft, saved, setTab, startEdit, updateDraft, save, cancelEdit } =
+    useHumiProfileStore();
+
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Derive panel key from slice activeTab
+  const panelKey = SLICE_TO_PANEL[activeTab];
+
+  // Show success toast after save
+  function handleSave() {
+    save();
+    setToast('บันทึกเรียบร้อย');
+    setTimeout(() => setToast(null), 2500);
+  }
+
+  const tabs: Array<[ProfileTab, string]> = [
     ['personal', t('tabPersonal')],
-    ['job', t('tabJob')],
-    ['emergency', t('tabEmergency')],
-    ['docs', t('tabDocs')],
-    ['tax', t('tabTax')],
+    ['employment', t('tabJob')],
+    ['compensation', t('tabEmergency')],
+    ['documents', t('tabDocs')],
+    ['activity', t('tabTax')],
   ];
 
   return (
     <div className="pb-8">
+      {/* Toast notification */}
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            background: 'var(--color-accent)',
+            color: '#fff',
+            borderRadius: 10,
+            padding: '10px 18px',
+            fontSize: 14,
+            fontWeight: 500,
+            zIndex: 9999,
+            boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+          }}
+        >
+          {toast}
+        </div>
+      )}
+
       {/* Top action bar (subtitle shown via Topbar) */}
       <div className="mb-5 flex items-center justify-between gap-3">
         <div className="text-small text-ink-muted">
           {t('subtitle')} · {p.employeeCode}
         </div>
-        <Button variant="primary" leadingIcon={<Check size={14} />}>
-          {t('save')}
-        </Button>
+        <div className="humi-row" style={{ gap: 8 }}>
+          {isEditing ? (
+            <>
+              <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
+                {t('profileCancelEdit')}
+              </Button>
+              <Button variant="primary" leadingIcon={<Check size={14} />} onClick={handleSave}>
+                {t('save')}
+              </Button>
+            </>
+          ) : (
+            <Button variant="primary" leadingIcon={<Pencil size={14} />} onClick={startEdit}>
+              {t('profileEdit')}
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Header card */}
@@ -111,7 +173,7 @@ export default function HumiProfileMePage() {
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs — controlled by Zustand slice */}
       <div
         className="humi-tabs mb-5"
         role="tablist"
@@ -122,8 +184,8 @@ export default function HumiProfileMePage() {
             type="button"
             key={k}
             role="tab"
-            aria-selected={tab === k}
-            className={cn('humi-tab', tab === k && 'humi-tab--active')}
+            aria-selected={activeTab === k}
+            className={cn('humi-tab', activeTab === k && 'humi-tab--active')}
             onClick={() => setTab(k)}
           >
             {l}
@@ -131,14 +193,29 @@ export default function HumiProfileMePage() {
         ))}
       </div>
 
-      {tab === 'personal' && (
+      {panelKey === 'personal' && (
         <div className="grid gap-4" style={{ gridTemplateColumns: '1fr 1fr' }}>
-          <FieldCard eyebrow={t('personalEyebrow')} title={t('personalTitle')} rows={p.personal} labelW={180} />
+          {isEditing ? (
+            <div className="humi-card">
+              <div className="humi-eyebrow">{t('contactEyebrow')}</div>
+              <h3 className="mt-1.5 mb-4 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                {t('profileEditTitle')}
+              </h3>
+              <div className="humi-col" style={{ gap: 14 }}>
+                <EditField label={t('profileFieldNickname')} value={draft.nickname} onChange={(v) => updateDraft({ nickname: v })} />
+                <EditField label={t('profileFieldPhone')} value={draft.phone} onChange={(v) => updateDraft({ phone: v })} />
+                <EditField label={t('profileFieldEmail')} value={draft.personalEmail} onChange={(v) => updateDraft({ personalEmail: v })} />
+                <EditField label={t('profileFieldAddress')} value={draft.address} onChange={(v) => updateDraft({ address: v })} />
+              </div>
+            </div>
+          ) : (
+            <FieldCard eyebrow={t('personalEyebrow')} title={t('personalTitle')} rows={p.personal} labelW={180} />
+          )}
           <FieldCard eyebrow={t('contactEyebrow')} title={t('contactTitle')} rows={p.contact} labelW={140} />
         </div>
       )}
 
-      {tab === 'job' && (
+      {panelKey === 'job' && (
         <div className="grid gap-4" style={{ gridTemplateColumns: '1.3fr 1fr' }}>
           <FieldCard eyebrow={t('jobEyebrow')} title={t('jobTitle')} rows={p.job} labelW={160} />
           <div className="humi-col" style={{ gap: 16 }}>
@@ -192,7 +269,7 @@ export default function HumiProfileMePage() {
         </div>
       )}
 
-      {tab === 'emergency' && (
+      {panelKey === 'emergency' && (
         <div className="humi-card">
           <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
             {t('emergencyTitle')}
@@ -235,13 +312,13 @@ export default function HumiProfileMePage() {
         </div>
       )}
 
-      {(tab === 'docs' || tab === 'tax') && (
+      {(panelKey === 'docs' || panelKey === 'tax') && (
         <div className="humi-card">
           <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
-            {tab === 'docs' ? t('docsTitle') : t('taxTitle')}
+            {panelKey === 'docs' ? t('docsTitle') : t('taxTitle')}
           </h3>
           <ul className="humi-list mt-2.5" role="list">
-            {(tab === 'tax'
+            {(panelKey === 'tax'
               ? [
                   { n: 'ภ.ง.ด. 91 ปี 2568', d: 'ก.พ. 2568' },
                   { n: 'หนังสือรับรองการหักภาษี ณ ที่จ่าย', d: 'ม.ค. 2568' },
@@ -343,6 +420,43 @@ function CompRow({ label, value }: { label: string; value: string }) {
       <span style={{ color: 'var(--color-ink-muted)' }}>{label}</span>
       <span className="humi-spacer" />
       <b style={{ color: 'var(--color-ink)' }}>{value}</b>
+    </div>
+  );
+}
+
+function EditField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div
+      className="humi-row"
+      style={{ borderBottom: '1px solid var(--color-hairline-soft)', paddingBottom: 10, alignItems: 'center' }}
+    >
+      <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', width: 140, flexShrink: 0 }}>
+        {label}
+      </div>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{
+          flex: 1,
+          fontSize: 14,
+          fontWeight: 500,
+          color: 'var(--color-ink)',
+          background: 'var(--color-canvas-soft)',
+          border: '1px solid var(--color-hairline)',
+          borderRadius: 7,
+          padding: '5px 10px',
+          outline: 'none',
+        }}
+      />
     </div>
   );
 }
