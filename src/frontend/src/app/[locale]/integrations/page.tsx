@@ -119,8 +119,7 @@ export default function IntegrationsPage() {
   }, [tab, query]);
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <main className="mx-auto w-full max-w-[var(--max-width-page)] px-6 pb-16 pt-10 sm:px-8">
+    <>
         {/* ── Page header ───────────────────────────────────── */}
         <header className="mb-8 flex flex-col gap-2">
           <CardEyebrow>ศูนย์จัดการระบบ</CardEyebrow>
@@ -277,7 +276,6 @@ export default function IntegrationsPage() {
             ไม่พบระบบที่ตรงกับคำค้นหา
           </p>
         )}
-      </main>
-    </div>
+      </>
   );
 }

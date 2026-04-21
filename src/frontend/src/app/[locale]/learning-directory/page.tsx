@@ -75,8 +75,7 @@ export default function LearningDirectoryPage() {
   const [tab, setTab] = useState<TabKey>('assigned');
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <main className="mx-auto w-full max-w-[var(--max-width-page)] px-6 pb-16 pt-10 sm:px-8">
+    <>
         {/* ── Page header ───────────────────────────────────── */}
         <header className="mb-8 flex flex-col gap-2">
           <CardEyebrow>ศูนย์การเรียนรู้</CardEyebrow>
@@ -287,7 +286,6 @@ export default function LearningDirectoryPage() {
             );
           })}
         </section>
-      </main>
-    </div>
+      </>
   );
 }

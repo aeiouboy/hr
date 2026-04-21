@@ -42,7 +42,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="humi-main">
         <Topbar title={title} />
-        <main>{children}</main>
+        <main className="humi-page-wrap">{children}</main>
       </div>
     </div>
   );

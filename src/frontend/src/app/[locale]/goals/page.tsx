@@ -51,8 +51,7 @@ export default function HumiGoalsPage() {
   const [tab, setTab] = useState<TabKey>('goals');
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <main className="mx-auto w-full max-w-[var(--max-width-page)] px-6 pb-16 pt-10 sm:px-8">
+    <>
         {/* Page header */}
         <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-col gap-1">
@@ -133,8 +132,7 @@ export default function HumiGoalsPage() {
         {tab === 'reviews' && <ReviewsTab />}
         {tab === 'feedback' && <FeedbackTab />}
         {tab === 'team' && <TeamTab />}
-      </main>
-    </div>
+      </>
   );
 }
 
