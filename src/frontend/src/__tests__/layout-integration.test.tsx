@@ -86,10 +86,12 @@ describe('AC-2 — wordmark "Hum" present on all routes', () => {
 
   for (const route of ROUTES) {
     it(`wordmark visible at ${route}`, async () => {
-      const { unmount } = await renderShellAtRoute(route);
-      // The wordmark renders "Hum" + SVG mark
-      const wordmark = screen.getByText(/Hum/i);
-      expect(wordmark).toBeTruthy();
+      const { container, unmount } = await renderShellAtRoute(route);
+      // The wordmark div contains "Hum" + SVG mark — query by class to be precise
+      // (Topbar may also render "Humi" as page title for some routes)
+      const wordmarkEl = container.querySelector('.humi-wordmark');
+      expect(wordmarkEl).toBeTruthy();
+      expect(wordmarkEl?.textContent).toMatch(/Hum/i);
       unmount();
     });
   }
