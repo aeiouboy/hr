@@ -9,14 +9,14 @@ import {
   HUMI_INTEGRATION_KPIS,
   HUMI_INTEGRATIONS,
   type HumiIntegration,
-  type IntegrationCategory,
   type IntegrationShape,
 } from '@/lib/humi-mock-data';
+import { useIntegrationsStore } from '@/stores/humi-integrations-slice';
 
 // ════════════════════════════════════════════════════════════
 // Humi /integrations (A14)
 // Port of screens/integrations.jsx — retail → generic HR.
-// KPI row (4) → category tabs + search → 3-col integration grid.
+// Phase C: toggle switch + category filter bound to Zustand slice.
 // ════════════════════════════════════════════════════════════
 
 function IntegrationMark({
@@ -76,8 +76,9 @@ function IntegrationMark({
   );
 }
 
-function StatusBadge({ status }: { status: HumiIntegration['status'] }) {
-  if (status === 'connected') {
+// Status badge reacts to slice enabled state
+function StatusBadge({ isEnabled }: { isEnabled: boolean }) {
+  if (isEnabled) {
     return (
       <span className="inline-flex items-center gap-1 rounded-full bg-[color:var(--color-success-soft)] px-2.5 py-0.5 text-[11px] font-semibold text-[color:var(--color-success)]">
         <Check className="h-3 w-3" aria-hidden />
@@ -87,36 +88,26 @@ function StatusBadge({ status }: { status: HumiIntegration['status'] }) {
   }
   return (
     <span className="inline-flex items-center rounded-full bg-canvas-soft px-2.5 py-0.5 text-[11px] font-semibold text-ink-muted">
-      ยังไม่เชื่อม
+      ยังไม่เชื่อมต่อ
     </span>
   );
 }
 
 export default function IntegrationsPage() {
-  const [tab, setTab] = useState<IntegrationCategory>('all');
+  const { enabled, category, toggle, setCategory } = useIntegrationsStore();
   const [query, setQuery] = useState('');
-  // Per-integration toggle state (connected items only). Controlled here
-  // so users can flip sync on/off without a real API.
-  const [syncState, setSyncState] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(
-      HUMI_INTEGRATIONS.filter((i) => i.status === 'connected').map((i) => [
-        i.id,
-        true,
-      ])
-    )
-  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return HUMI_INTEGRATIONS.filter((i) => {
-      const matchCat = tab === 'all' || i.category === tab;
+      const matchCat = category === 'all' || i.category === category;
       const matchQuery =
         !q ||
         i.name.toLowerCase().includes(q) ||
         i.description.toLowerCase().includes(q);
       return matchCat && matchQuery;
     });
-  }, [tab, query]);
+  }, [category, query]);
 
   return (
     <>
@@ -162,7 +153,7 @@ export default function IntegrationsPage() {
           ))}
         </section>
 
-        {/* ── Tabs + Search ─────────────────────────────────── */}
+        {/* ── Category chips + Search ───────────────────────── */}
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <div
             role="tablist"
@@ -170,14 +161,14 @@ export default function IntegrationsPage() {
             className="flex flex-wrap gap-1"
           >
             {HUMI_INTEGRATION_CATEGORIES.map((cat) => {
-              const active = cat.key === tab;
+              const active = cat.key === category;
               return (
                 <button
                   key={cat.key}
                   type="button"
                   role="tab"
                   aria-selected={active}
-                  onClick={() => setTab(cat.key)}
+                  onClick={() => setCategory(cat.key as Parameters<typeof setCategory>[0])}
                   className={cn(
                     'rounded-full px-3.5 py-1.5 text-small font-medium transition-colors',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
@@ -213,7 +204,8 @@ export default function IntegrationsPage() {
             const categoryLabel = HUMI_INTEGRATION_CATEGORIES.find(
               (c) => c.key === item.category
             )?.label;
-            const isConnected = item.status === 'connected';
+            const isEnabled = enabled.has(item.id);
+            const wasConnected = item.status === 'connected';
             return (
               <Card key={item.id} size="lg" className="flex flex-col">
                 <div className="flex items-start gap-3">
@@ -229,24 +221,24 @@ export default function IntegrationsPage() {
                       {categoryLabel}
                     </p>
                   </div>
-                  <StatusBadge status={item.status} />
+                  {/* Status badge reacts to slice enabled state */}
+                  <StatusBadge isEnabled={isEnabled} />
                 </div>
                 <p className="mt-4 text-small leading-relaxed text-ink-soft">
                   {item.description}
                 </p>
                 <hr className="mt-5 mb-4 border-t border-hairline-soft" />
                 <div className="mt-auto flex items-center gap-3">
-                  {isConnected ? (
+                  {wasConnected ? (
                     <>
                       <span className="text-[12px] text-ink-muted">
                         ซิงค์ล่าสุด · 4 นาทีที่แล้ว
                       </span>
+                      {/* Toggle bound to enabled set — click → toggle(id) */}
                       <Toggle
                         className="ml-auto py-0"
-                        checked={!!syncState[item.id]}
-                        onChange={(next) =>
-                          setSyncState((prev) => ({ ...prev, [item.id]: next }))
-                        }
+                        checked={isEnabled}
+                        onChange={() => toggle(item.id)}
                         ariaLabel={`สลับการซิงค์ของ ${item.name}`}
                       />
                     </>
@@ -256,12 +248,13 @@ export default function IntegrationsPage() {
                         ติดตั้ง 5 นาที
                       </span>
                       <Button
-                        variant="ghost"
+                        variant={isEnabled ? 'primary' : 'ghost'}
                         size="sm"
                         trailingIcon={<Link2 className="h-3.5 w-3.5" />}
                         className="ml-auto"
+                        onClick={() => toggle(item.id)}
                       >
-                        เชื่อมต่อ
+                        {isEnabled ? 'เชื่อมต่อแล้ว' : 'เชื่อมต่อ'}
                       </Button>
                     </>
                   )}
