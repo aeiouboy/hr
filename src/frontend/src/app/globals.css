@@ -167,15 +167,21 @@
    Line refs cite source styles.css line numbers.
    ════════════════════════════════════════════════════════════ */
 
-/* Ported from styles.css:144-150 (.app) */
+/* Ported from styles.css:144-150 (.app)
+   Responsive (issue #5): mobile = single column, lg+ = sidebar+content */
 .humi-app {
   display: grid;
-  grid-template-columns: 256px 1fr;
+  grid-template-columns: 1fr;
   min-height: 100vh;
   background: var(--color-canvas);
 }
+@media (min-width: 1024px) {
+  .humi-app { grid-template-columns: 256px 1fr; }
+  .humi-sidebar { display: flex; }
+}
 
-/* Ported from styles.css:152-160 (.sidebar) */
+/* Ported from styles.css:152-160 (.sidebar)
+   Responsive (issue #5): hidden on mobile, visible lg+ via media above */
 .humi-sidebar {
   background: var(--color-ink);
   color: #E7E3D8;
@@ -183,9 +189,21 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 6px;
+}
+
+/* Drawer modifier — fixed panel slides from left on mobile */
+.humi-sidebar--drawer {
+  display: flex;
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 280px;
+  height: 100vh;
+  z-index: 50;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* Ported from styles.css:161-164 (.sidebar .brand) */
@@ -230,12 +248,14 @@
   font-weight: 500;
 }
 
-/* Ported from styles.css:199-213 (.nav-item + :hover + .active) */
+/* Ported from styles.css:199-213 (.nav-item + :hover + .active)
+   min-height 44px = WCAG 2.5.5 touch target (issue #5) */
 .humi-nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 9px 12px;
+  min-height: 44px;
   border-radius: 10px;
   font-size: 14px;
   color: rgba(231, 227, 216, 0.78);
@@ -405,10 +425,13 @@
   color: var(--color-ink-muted);
 }
 
-/* Ported from styles.css:279-288 (.icon-btn) */
+/* Ported from styles.css:279-288 (.icon-btn)
+   Touch target bump to 44×44 (WCAG 2.5.5, issue #5) */
 .humi-icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-hairline);
