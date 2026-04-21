@@ -10,6 +10,17 @@
 // - lucide-react icons instead of window.I glyphs (1:1 concept)
 // - Thai labels kept verbatim (Rule: strict source-grounding)
 // - User footer adapted from retail → HR (per task spec A1)
+//
+// PO direction (#3): Humi sidebar stays clean to 10 reference items.
+// Legacy routes (payroll, performance, permissions, onboarding,
+// workflows, government-reports, hrbp-reports, idp, locations, manager-
+// dashboard, overtime, quick-approve, recruitment, resignation,
+// screening, spd-management, succession, talent-management, training-
+// records, hospital-referral, leave, time, and others) remain URL-
+// accessible via /th/<route> but are NOT surfaced in this sidebar.
+// Reason: preserves Humi information architecture per design-ref bundle.
+// If expansion needed: add { id: 'legacy', label: 'เครื่องมือเพิ่มเติม' }
+// under 'บริษัท' group pointing to /legacy hub page (separate sprint).
 // ════════════════════════════════════════════════════════════
 
 import Link from 'next/link';
