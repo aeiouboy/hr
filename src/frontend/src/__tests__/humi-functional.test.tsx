@@ -227,23 +227,21 @@ describe('AC-13 — /timeoff functional', () => {
     const { default: Page } = await import('@/app/[locale]/timeoff/page');
     render(<Page />);
 
-    // Default tab is 'request' — fill dates with invalid range
-    const fromInputs = screen.getAllByPlaceholderText(/เช่น.*เม\.ย\.|วว\/ดด\/ปปปป/i);
-    expect(fromInputs.length).toBeGreaterThan(0);
+    // Default tab is 'request' — fill dates with invalid range via label-based query
+    // Placeholders: from = "เช่น 28 เม.ย.", to = "เช่น 2 พ.ค."
+    const fromInput = screen.getByPlaceholderText(/เช่น 28/);
+    const toInput = screen.getByPlaceholderText(/เช่น 2 พ/);
 
-    // Type inverted dates: from 30, to 01
-    if (fromInputs.length >= 2) {
-      await user.clear(fromInputs[0]);
-      await user.type(fromInputs[0], '30 เม.ย.');
-      await user.clear(fromInputs[1]);
-      await user.type(fromInputs[1], '01 เม.ย.');
-    }
+    await user.clear(fromInput);
+    await user.type(fromInput, '30 เม.ย.');
+    await user.clear(toInput);
+    await user.type(toInput, '01 เม.ย.');
 
-    // Submit
-    const submitBtn = screen.getByRole('button', { name: /ส่งคำขอลา/i });
+    // Submit — button label is "ส่งคำขอ" (short form, not "ส่งคำขอลา")
+    const submitBtn = screen.getByRole('button', { name: /ส่งคำขอ$/i });
     await user.click(submitBtn);
 
-    // Error message should appear
+    // Error message should appear — rendered in <p role="alert"> inside Field
     await waitFor(() => {
       expect(screen.getByText(/วันสิ้นสุดต้องไม่ก่อนวันเริ่ม/)).toBeTruthy();
     });
@@ -538,7 +536,10 @@ describe('AC-13 — /login functional', () => {
     const { default: Page } = await import('@/app/[locale]/login/page');
     render(<Page />);
 
-    const submitBtn = screen.getByRole('button', { name: /เข้าสู่ระบบ/i });
+    // Login page uses useTranslations('humiLogin') — the test mock returns key
+    // fallback for 'submit', so the button text is 'submit' in jsdom.
+    // In production TH locale, t('submit') = 'เข้าสู่ระบบ'. Both must submit.
+    const submitBtn = screen.getByRole('button', { name: /เข้าสู่ระบบ|submit/i });
     await user.click(submitBtn);
 
     expect(mockPush).toHaveBeenCalledWith('/th/home');
@@ -562,10 +563,12 @@ describe('AC-10 — AppShell: ⌘K palette + theme toggle', () => {
     // Palette starts closed — no dialog visible
     expect(document.querySelector('[role="dialog"]')).toBeFalsy();
 
-    // Dispatch ⌘K event
+    // AppShell checks navigator.platform for Mac detection.
+    // jsdom sets platform to '' (empty) → isMac = false → handler uses ctrlKey.
+    // Dispatch Ctrl+K which is the non-Mac trigger path.
     act(() => {
       window.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true }),
+        new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }),
       );
     });
 
