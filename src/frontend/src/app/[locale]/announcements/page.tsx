@@ -77,7 +77,7 @@ export default function HumiAnnouncementsPage() {
         </Button>
       </div>
 
-      <div className="grid gap-5" style={{ gridTemplateColumns: '1fr 320px' }}>
+      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
         {/* Feed column */}
         <div>
           {/* Composer */}
@@ -119,20 +119,30 @@ export default function HumiAnnouncementsPage() {
           </div>
 
           {/* Filter row */}
-          <div className="humi-row mb-3.5" style={{ flexWrap: 'wrap' }}>
-            <div className="humi-tabs" role="tablist" aria-label={t('filterAll')}>
-              {filters.map(([k, l]) => (
-                <button
-                  type="button"
-                  key={k}
-                  role="tab"
-                  aria-selected={activeFilter === k}
-                  onClick={() => setFilter(k)}
-                  className={cn('humi-tab', activeFilter === k && 'humi-tab--active')}
-                >
-                  {l}
-                </button>
-              ))}
+          <div className="mb-3.5 flex items-center gap-2">
+            <div
+              className="overflow-x-auto"
+              style={{ WebkitOverflowScrolling: 'touch', flex: 1 }}
+            >
+              <div
+                className="humi-tabs flex-nowrap"
+                role="tablist"
+                aria-label={t('filterAll')}
+                style={{ width: 'max-content' }}
+              >
+                {filters.map(([k, l]) => (
+                  <button
+                    type="button"
+                    key={k}
+                    role="tab"
+                    aria-selected={activeFilter === k}
+                    onClick={() => setFilter(k)}
+                    className={cn('humi-tab min-h-[44px]', activeFilter === k && 'humi-tab--active')}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
             </div>
             <span className="humi-spacer" />
             <Button variant="ghost" size="sm" leadingIcon={<Filter size={13} />}>
@@ -171,11 +181,9 @@ export default function HumiAnnouncementsPage() {
                   type="button"
                   aria-label={isPinned ? 'เลิกปักหมุด' : 'ปักหมุด'}
                   aria-pressed={isPinned}
-                  className="humi-icon-btn"
+                  className="humi-icon-btn h-11 w-11"
                   onClick={() => togglePin(p.id)}
                   style={{
-                    width: 28,
-                    height: 28,
                     background: 'transparent',
                     border: 0,
                     color: isPinned ? 'var(--color-accent)' : 'var(--color-ink-soft)',
@@ -186,10 +194,8 @@ export default function HumiAnnouncementsPage() {
                 <button
                   type="button"
                   aria-label="ตัวเลือกเพิ่มเติม"
-                  className="humi-icon-btn"
+                  className="humi-icon-btn h-11 w-11"
                   style={{
-                    width: 28,
-                    height: 28,
                     background: 'transparent',
                     border: 0,
                   }}
