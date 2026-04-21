@@ -215,7 +215,7 @@ export default function OrgChartPage() {
               <div
                 role="toolbar"
                 aria-label="เครื่องมือผังองค์กร"
-                className="flex items-center gap-1"
+                className="flex flex-wrap items-center gap-1"
               >
                 <button
                   type="button"
@@ -257,16 +257,16 @@ export default function OrgChartPage() {
               />
             </div>
 
-            {/* Canvas with zoom */}
-            <div
-              className="overflow-x-auto"
-              style={{
-                transform: `scale(${zoom})`,
-                transformOrigin: 'top center',
-                transition: 'transform 200ms var(--ease-spring, ease)',
-              }}
-            >
-              <div className="min-w-[360px] text-center">
+            {/* Canvas with zoom — outer div clips overflow for horizontal scroll on mobile */}
+            <div className="overflow-x-auto">
+              <div
+                className="min-w-[360px] text-center"
+                style={{
+                  transform: `scale(${zoom})`,
+                  transformOrigin: 'top center',
+                  transition: 'transform 200ms var(--ease-spring, ease)',
+                }}
+              >
                 {/* Manager chain (top) */}
                 {managerChain.map((m) => (
                   <div key={m.id}>

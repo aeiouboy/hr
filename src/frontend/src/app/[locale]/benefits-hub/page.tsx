@@ -104,7 +104,7 @@ export default function HumiBenefitsHubPage() {
       <div
         role="tablist"
         aria-label="มุมมองสวัสดิการ"
-        className="mb-6 flex flex-wrap gap-1 border-b border-hairline"
+        className="mb-6 flex gap-1 overflow-x-auto border-b border-hairline"
       >
         {TABS.map(([k, l]) => (
           <button
@@ -184,11 +184,12 @@ function BenefitsTab() {
             <div className="flex gap-2 pt-2">
               <Button
                 variant={enrolled.has(detailPlan.id) ? 'secondary' : 'primary'}
+                className="min-h-[44px]"
                 onClick={() => toggleEnroll(detailPlan.id)}
               >
                 {enrolled.has(detailPlan.id) ? 'ยกเลิกสมัคร' : 'สมัคร'}
               </Button>
-              <Button variant="ghost" onClick={() => setDetailPlan(null)}>
+              <Button variant="ghost" className="min-h-[44px]" onClick={() => setDetailPlan(null)}>
                 ปิด
               </Button>
             </div>
@@ -234,7 +235,7 @@ function BenefitsTab() {
       </Card>
 
       {/* Benefit plan cards */}
-      <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
+      <section className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {HUMI_BENEFIT_PLANS.map((b) => {
           const isEnrolled = enrolled.has(b.id);
           return (
@@ -287,7 +288,7 @@ function BenefitsTab() {
               <Button
                 variant={isEnrolled ? 'secondary' : 'ghost'}
                 block
-                className="mt-5"
+                className="mt-5 min-h-[44px]"
                 onClick={(e) => { e.stopPropagation(); toggleEnroll(b.id); }}
               >
                 {isEnrolled ? 'ยกเลิกสมัคร' : 'สมัคร'}

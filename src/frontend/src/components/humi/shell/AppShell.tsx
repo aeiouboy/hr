@@ -7,6 +7,12 @@
 // Layout: aside (sticky sidebar) + main column (Topbar + page).
 // Title/eyebrow is derived from current pathname via lookup.
 // ⌘K (Mac) / Ctrl+K (Windows) opens CommandPalette (b5).
+//
+// Responsive (issue #5):
+// - <lg: Sidebar hidden; hamburger toggles mobile drawer overlay
+// - Drawer: fixed inset-y-0 left-0, 280px wide, backdrop, Esc close
+// - Body scroll locked while drawer open
+// - Drawer auto-closes on route change
 // ════════════════════════════════════════════════════════════
 
 import { useEffect, useState } from 'react';
@@ -14,6 +20,7 @@ import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
+import { useUIStore } from '@/stores/ui-store';
 
 /** href prefix → page title shown in topbar h2 */
 const TITLE_MAP: Array<{ prefix: string; title: string }> = [
@@ -50,6 +57,32 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const title = resolveTitle(pathname);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const { mobileMenuOpen, setMobileMenuOpen } = useUIStore();
+
+  const closeDrawer = () => setMobileMenuOpen(false);
+
+  // Auto-close drawer on route change
+  useEffect(() => {
+    closeDrawer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  // Esc key closes drawer
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeDrawer();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mobileMenuOpen]);
+
+  // Body scroll lock while drawer open
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
 
   // ⌘K / Ctrl+K global hotkey
   useEffect(() => {
@@ -67,7 +100,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="humi-app">
+      {/* Desktop sidebar — hidden below lg via .humi-sidebar CSS */}
       <Sidebar />
+
+      {/* Mobile drawer overlay — renders only when open */}
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-30 bg-ink/40 lg:hidden"
+            aria-hidden="true"
+            onClick={closeDrawer}
+          />
+          {/* Drawer panel */}
+          <div className="fixed inset-y-0 left-0 z-40 w-[256px] lg:hidden">
+            <Sidebar onNavigate={closeDrawer} className="humi-sidebar--drawer" />
+          </div>
+        </>
+      )}
+
       <div className="humi-main">
         <Topbar
           title={title}

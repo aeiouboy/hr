@@ -98,9 +98,9 @@ export default function LearningDirectoryPage() {
                 หลักสูตรที่ได้รับมอบหมาย ใบรับรอง และคลังคอร์สของทีม
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              {/* Search input controlled from slice */}
-              <div className="flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 min-w-[220px]">
+            <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
+              {/* Search input controlled from slice — full-width mobile */}
+              <div className="flex w-full items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 sm:max-w-md">
                 <BookOpen className="h-3.5 w-3.5 text-ink-muted" aria-hidden />
                 <input
                   type="search"
@@ -226,7 +226,7 @@ export default function LearningDirectoryPage() {
         <div
           role="tablist"
           aria-label="หมวดหลักสูตร"
-          className="mb-6 flex flex-wrap gap-1 border-b border-hairline"
+          className="mb-6 flex overflow-x-auto flex-nowrap gap-1 border-b border-hairline"
         >
           {TABS.map((t) => {
             const active = t.key === filter;
@@ -254,7 +254,7 @@ export default function LearningDirectoryPage() {
         {/* ── Course grid ───────────────────────────────────── */}
         <section
           aria-label="หลักสูตรทั้งหมด"
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
         >
           {visibleCourses.map((course) => {
             const Icon = ICON_MAP[course.icon];
@@ -298,20 +298,21 @@ export default function LearningDirectoryPage() {
                   <span className="text-small text-ink-soft">
                     {course.statusLabel}
                   </span>
-                  {/* Enroll button — flips visual state + adds to enrolled Set */}
-                  <Button
-                    variant={isEnrolled ? 'primary' : 'ghost'}
-                    size="sm"
-                    className="ml-auto"
-                    onClick={() => toggleEnroll(course.id)}
-                    aria-pressed={isEnrolled}
-                  >
-                    {isEnrolled
-                      ? 'ลงทะเบียนแล้ว'
-                      : continueAction
-                      ? 'เรียนต่อ'
-                      : course.actionLabel}
-                  </Button>
+                  {/* Enroll button — tap region min-h-[44px] for mobile touch-target */}
+                  <span className="ml-auto inline-flex min-h-[44px] items-center">
+                    <Button
+                      variant={isEnrolled ? 'primary' : 'ghost'}
+                      size="sm"
+                      onClick={() => toggleEnroll(course.id)}
+                      aria-pressed={isEnrolled}
+                    >
+                      {isEnrolled
+                        ? 'ลงทะเบียนแล้ว'
+                        : continueAction
+                        ? 'เรียนต่อ'
+                        : course.actionLabel}
+                    </Button>
+                  </span>
                 </div>
               </Card>
             );

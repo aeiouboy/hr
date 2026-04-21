@@ -167,25 +167,48 @@
    Line refs cite source styles.css line numbers.
    ════════════════════════════════════════════════════════════ */
 
-/* Ported from styles.css:144-150 (.app) */
+/* Ported from styles.css:144-150 (.app)
+   Responsive (issue #5): mobile = single column, lg+ = sidebar+content */
 .humi-app {
   display: grid;
-  grid-template-columns: 256px 1fr;
+  grid-template-columns: 1fr;
   min-height: 100vh;
   background: var(--color-canvas);
 }
 
-/* Ported from styles.css:152-160 (.sidebar) */
-.humi-sidebar {
-  background: var(--color-ink);
-  color: #E7E3D8;
-  padding: 22px 16px 18px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+/* Ported from styles.css:152-160 (.sidebar)
+   Responsive (issue #5): hidden on mobile, visible lg+ via media below
+   Wrapped in @layer components so Tailwind utilities (lg:hidden etc.) win via cascade. */
+@layer components {
+  .humi-sidebar {
+    background: var(--color-ink);
+    color: #E7E3D8;
+    padding: 22px 16px 18px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* lg+ breakpoint: show sidebar, switch app to 2-col grid */
+  @media (min-width: 1024px) {
+    .humi-app { grid-template-columns: 256px 1fr; }
+    .humi-sidebar { display: flex; }
+  }
+}
+
+/* Drawer modifier — fixed panel slides from left on mobile */
+.humi-sidebar--drawer {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 280px;
+  height: 100vh;
+  z-index: 50;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* Ported from styles.css:161-164 (.sidebar .brand) */
@@ -230,12 +253,14 @@
   font-weight: 500;
 }
 
-/* Ported from styles.css:199-213 (.nav-item + :hover + .active) */
+/* Ported from styles.css:199-213 (.nav-item + :hover + .active)
+   min-height 44px = WCAG 2.5.5 touch target (issue #5) */
 .humi-nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 9px 12px;
+  min-height: 44px;
   border-radius: 10px;
   font-size: 14px;
   color: rgba(231, 227, 216, 0.78);
@@ -344,8 +369,12 @@
 
 /* Ported from styles.css:251 (.main) */
 .humi-main {
-  padding: 0 36px 48px;
+  padding: 0 16px 48px;
   min-width: 0;
+  overflow-x: hidden;
+}
+@media (min-width: 640px) {
+  .humi-main { padding: 0 36px 48px; }
 }
 
 /* Humi page wrapper — single source of truth for page max-width + padding.
@@ -371,7 +400,8 @@
   z-index: 10;
 }
 
-/* Ported from styles.css:259-268 (.search) */
+/* Ported from styles.css:259-268 (.search) — wrapped in @layer so Tailwind hidden/flex utilities win */
+@layer components {
 .humi-search {
   flex: 1;
   max-width: 420px;
@@ -392,6 +422,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+}
 
 /* Ported from styles.css:269-278 (.search kbd) */
 .humi-search kbd {
@@ -405,10 +436,14 @@
   color: var(--color-ink-muted);
 }
 
-/* Ported from styles.css:279-288 (.icon-btn) */
+/* Ported from styles.css:279-288 (.icon-btn)
+   Touch target bump to 44×44 (WCAG 2.5.5, issue #5) */
+@layer components {
 .humi-icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-hairline);
@@ -427,6 +462,7 @@
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+} /* end @layer components for humi-icon-btn */
 
 /* Ported from styles.css:289-294 (.icon-btn .dot-badge) — using
    warning amber (no coral in Humi token palette per NO-RED). */
@@ -761,4 +797,31 @@
   font-size: 17px;
   color: var(--color-canvas-soft);
   line-height: 1.6;
+}
+
+/* ── Goals slider — 44×44 thumb touch target (WCAG 2.5.5, issue #5 b12)
+   Scoped to .humi-goal-slider so it doesn't affect other range inputs. ── */
+.humi-goal-slider {
+  height: 44px;
+  cursor: pointer;
+}
+.humi-goal-slider::-webkit-slider-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 1px 4px rgba(14, 27, 44, 0.18);
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: grab;
+}
+.humi-goal-slider::-moz-range-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 1px 4px rgba(14, 27, 44, 0.18);
+  cursor: grab;
 }

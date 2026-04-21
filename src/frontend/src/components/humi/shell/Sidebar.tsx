@@ -41,6 +41,14 @@ import {
 import { cn } from '@/lib/utils';
 import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
 
+export interface SidebarProps {
+  /** Called when any nav item or locale pill is clicked — used by AppShell
+   *  to close the mobile drawer after navigation. */
+  onNavigate?: () => void;
+  /** Extra className merged onto <aside> — e.g. "humi-sidebar--drawer". */
+  className?: string;
+}
+
 type NavItem = {
   id: string;
   label: string;
@@ -106,7 +114,7 @@ function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
 }
 
-export function Sidebar() {
+export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
   const pathname = usePathname();
   const router = useRouter();
   // Compare without locale prefix so /en/home matches href="/th/home"
@@ -122,7 +130,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="humi-sidebar" aria-label="เมนูหลัก">
+    <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
       <div className="humi-brand">
         <div className="humi-wordmark">
           Hum
@@ -143,6 +151,7 @@ export function Sidebar() {
                   href={item.href}
                   className={cn('humi-nav-item', active && 'active')}
                   aria-current={active ? 'page' : undefined}
+                  onClick={onNavigate}
                 >
                   <span className="humi-nav-icon" aria-hidden="true">
                     <Icon size={16} />
@@ -183,7 +192,7 @@ export function Sidebar() {
           <button
             key={loc}
             type="button"
-            onClick={() => handleLocaleSwitch(loc)}
+            onClick={() => { handleLocaleSwitch(loc); onNavigate?.(); }}
             aria-pressed={currentLocale === loc}
             className={cn(
               'flex-1 rounded-md border py-1 text-[12px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',

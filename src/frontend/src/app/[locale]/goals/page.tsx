@@ -234,7 +234,7 @@ function GoalFormModal({
               aria-valuemin={0}
               aria-valuemax={100}
               aria-label="ความคืบหน้า"
-              className="w-full accent-[color:var(--color-accent)]"
+              className="humi-goal-slider w-full accent-[color:var(--color-accent)]"
             />
             <div className="flex justify-between text-[length:var(--text-eyebrow)] text-ink-faint">
               <span>0%</span>
@@ -393,7 +393,7 @@ function GoalsTab() {
         />
       )}
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr]">
         <div className="flex flex-col gap-4">
           {/* User-created goals (from Zustand) */}
           {goals.map((g) => (

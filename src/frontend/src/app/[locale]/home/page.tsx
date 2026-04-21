@@ -78,27 +78,24 @@ export default function HumiHomePage() {
       </div>
 
       {/* Row 1 — hero greeting + today presence */}
-      <div
-        className="grid gap-5"
-        style={{ gridTemplateColumns: '1.35fr 1fr' }}
-      >
+      <div className="grid gap-5 lg:grid-cols-[1.35fr_1fr]">
         {/* Hero card */}
         <div
           className="humi-card humi-grain"
-          style={{ overflow: 'hidden', paddingRight: 150 }}
+          style={{ overflow: 'hidden', paddingRight: 'clamp(0px, 9.375vw, 150px)' }}
         >
           <div
-            className="humi-blob humi-blob--teal"
+            className="humi-blob humi-blob--teal hidden lg:block"
             style={{ width: 120, height: 150, right: -30, top: -30, opacity: 0.85 }}
             aria-hidden
           />
           <div
-            className="humi-blob humi-blob--coral"
+            className="humi-blob humi-blob--coral hidden lg:block"
             style={{ width: 80, height: 100, right: 60, bottom: -20, opacity: 0.7 }}
             aria-hidden
           />
           <div
-            className="humi-blob humi-blob--butter"
+            className="humi-blob humi-blob--butter hidden lg:block"
             style={{ width: 44, height: 56, right: 110, top: 80, opacity: 0.9 }}
             aria-hidden
           />
@@ -219,8 +216,8 @@ export default function HumiHomePage() {
 
       {/* Row 2 — approvals + docs */}
       <div
-        className="grid gap-5"
-        style={{ gridTemplateColumns: '1.35fr 1fr', marginTop: 20 }}
+        className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+        style={{ marginTop: 20 }}
       >
         <div className="humi-card">
           <div className="humi-row" style={{ marginBottom: 6 }}>
@@ -326,8 +323,8 @@ export default function HumiHomePage() {
 
       {/* Row 3 — announcements + calendar/birthdays */}
       <div
-        className="grid gap-5"
-        style={{ gridTemplateColumns: '1.35fr 1fr', marginTop: 20 }}
+        className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+        style={{ marginTop: 20 }}
       >
         <div className="humi-card">
           <div className="humi-row" style={{ marginBottom: 12 }}>

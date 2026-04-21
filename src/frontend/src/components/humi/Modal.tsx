@@ -12,7 +12,7 @@ export interface ModalProps {
   open: boolean;
   onClose: () => void;
   title?: string;
-  /** Max-width class — defaults to 'max-w-lg' */
+  /** Max-width class — defaults to 'max-w-lg'. On mobile the dialog is always full-width with mx-4 gutters. */
   widthClass?: string;
   children: React.ReactNode;
 }
@@ -58,6 +58,7 @@ export function Modal({ open, onClose, title, widthClass = 'max-w-lg', children 
         className={cn(
           'relative w-full rounded-[var(--radius-lg)] bg-surface shadow-xl',
           'border border-hairline',
+          'mx-4 sm:mx-auto',
           widthClass
         )}
         onClick={(e) => e.stopPropagation()}
@@ -73,7 +74,7 @@ export function Modal({ open, onClose, title, widthClass = 'max-w-lg', children 
               aria-label="ปิด"
               onClick={onClose}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-full',
+                'inline-flex h-11 w-11 items-center justify-center rounded-full',
                 'text-ink-muted hover:text-ink hover:bg-canvas-soft transition-colors',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
               )}
