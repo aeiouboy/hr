@@ -3586,5 +3586,29 @@
     "fillForm": "กรอกข้อมูล",
     "noRequests": "ไม่มีคำร้องในสถานะนี้",
     "validRequired": "กรุณากรอกข้อมูล"
+  },
+  "goals": {
+    "title": "เป้าหมายและผลงาน",
+    "addGoal": "เพิ่มเป้าหมาย",
+    "myGoals": "เป้าหมายของฉัน",
+    "reviews": "การประเมิน",
+    "feedback": "ข้อเสนอแนะ",
+    "team": "ทีมของฉัน",
+    "goalTitle": "ชื่อเป้าหมาย",
+    "goalTarget": "เป้าหมาย / ตัวชี้วัด",
+    "goalDue": "กำหนดส่ง",
+    "goalCategory": "หมวดหมู่",
+    "goalProgress": "ความคืบหน้า",
+    "createModal": "เพิ่มเป้าหมายใหม่",
+    "editModal": "แก้ไขเป้าหมาย",
+    "saveGoal": "บันทึก",
+    "updateGoal": "อัปเดต",
+    "validTitle": "กรุณาระบุชื่อเป้าหมาย",
+    "validTarget": "กรุณาระบุเป้าหมาย",
+    "validDue": "กรุณาระบุกำหนดส่ง",
+    "statusOnTrack": "อยู่ในแผน",
+    "statusAtRisk": "เสี่ยง",
+    "statusDone": "สำเร็จ",
+    "statusInProgress": "กำลังดำเนินการ"
   }
 }

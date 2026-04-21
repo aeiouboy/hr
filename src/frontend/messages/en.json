@@ -3586,5 +3586,29 @@
     "fillForm": "Fill Form",
     "noRequests": "No requests in this status",
     "validRequired": "This field is required"
+  },
+  "goals": {
+    "title": "Goals & Performance",
+    "addGoal": "Add Goal",
+    "myGoals": "My Goals",
+    "reviews": "Reviews",
+    "feedback": "Feedback",
+    "team": "My Team",
+    "goalTitle": "Goal Title",
+    "goalTarget": "Target / KPI",
+    "goalDue": "Due Date",
+    "goalCategory": "Category",
+    "goalProgress": "Progress",
+    "createModal": "Add New Goal",
+    "editModal": "Edit Goal",
+    "saveGoal": "Save",
+    "updateGoal": "Update",
+    "validTitle": "Please enter a goal title",
+    "validTarget": "Please enter a target",
+    "validDue": "Please enter a due date",
+    "statusOnTrack": "On Track",
+    "statusAtRisk": "At Risk",
+    "statusDone": "Complete",
+    "statusInProgress": "In Progress"
   }
 }
