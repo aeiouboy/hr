@@ -175,26 +175,32 @@ export default function HumiProfileMePage() {
 
       {/* Tabs — controlled by Zustand slice */}
       <div
-        className="humi-tabs mb-5"
-        role="tablist"
-        aria-label={t('personalEyebrow')}
+        className="mb-5 overflow-x-auto"
+        style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        {tabs.map(([k, l]) => (
-          <button
-            type="button"
-            key={k}
-            role="tab"
-            aria-selected={activeTab === k}
-            className={cn('humi-tab', activeTab === k && 'humi-tab--active')}
-            onClick={() => setTab(k)}
-          >
-            {l}
-          </button>
-        ))}
+        <div
+          className="humi-tabs flex-nowrap"
+          role="tablist"
+          aria-label={t('personalEyebrow')}
+          style={{ width: 'max-content' }}
+        >
+          {tabs.map(([k, l]) => (
+            <button
+              type="button"
+              key={k}
+              role="tab"
+              aria-selected={activeTab === k}
+              className={cn('humi-tab min-h-[44px]', activeTab === k && 'humi-tab--active')}
+              onClick={() => setTab(k)}
+            >
+              {l}
+            </button>
+          ))}
+        </div>
       </div>
 
       {panelKey === 'personal' && (
-        <div className="grid gap-4" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        <div className="grid gap-4 md:grid-cols-2">
           {isEditing ? (
             <div className="humi-card">
               <div className="humi-eyebrow">{t('contactEyebrow')}</div>
@@ -216,7 +222,7 @@ export default function HumiProfileMePage() {
       )}
 
       {panelKey === 'job' && (
-        <div className="grid gap-4" style={{ gridTemplateColumns: '1.3fr 1fr' }}>
+        <div className="grid gap-4 md:grid-cols-2">
           <FieldCard eyebrow={t('jobEyebrow')} title={t('jobTitle')} rows={p.job} labelW={160} />
           <div className="humi-col" style={{ gap: 16 }}>
             <div className="humi-card">
@@ -284,8 +290,8 @@ export default function HumiProfileMePage() {
             {t('emergencyHelp')}
           </p>
           <div
-            className="grid gap-3.5"
-            style={{ gridTemplateColumns: '1fr 1fr', marginTop: 16 }}
+            className="grid gap-3.5 md:grid-cols-2"
+            style={{ marginTop: 16 }}
           >
             {p.emergency.map((c) => (
               <div
