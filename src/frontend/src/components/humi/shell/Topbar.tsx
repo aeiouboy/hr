@@ -52,7 +52,7 @@ export function Topbar({
       {/* Hamburger — mobile/tablet only (<lg) */}
       <button
         type="button"
-        className="humi-icon-btn lg:hidden"
+        className="humi-icon-btn lg:!hidden"
         aria-label="เปิดเมนู"
         onClick={toggleMobileMenu}
       >
@@ -76,7 +76,7 @@ export function Topbar({
 
       {/* Search pill — hidden on mobile, visible sm+ */}
       <div
-        className="humi-search hidden sm:flex"
+        className="humi-search !hidden sm:!flex"
         role="search"
         aria-label="ค้นหา"
         onClick={onSearchClick}
@@ -92,7 +92,7 @@ export function Topbar({
       {/* Search icon-only — mobile only (<sm) */}
       <button
         type="button"
-        className="humi-icon-btn sm:hidden"
+        className="humi-icon-btn sm:!hidden"
         aria-label="ค้นหา"
         onClick={onSearchClick}
       >

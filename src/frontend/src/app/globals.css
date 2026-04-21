@@ -177,23 +177,26 @@
 }
 
 /* Ported from styles.css:152-160 (.sidebar)
-   Responsive (issue #5): hidden on mobile, visible lg+ via media below */
-.humi-sidebar {
-  background: var(--color-ink);
-  color: #E7E3D8;
-  padding: 22px 16px 18px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-}
+   Responsive (issue #5): hidden on mobile, visible lg+ via media below
+   Wrapped in @layer components so Tailwind utilities (lg:hidden etc.) win via cascade. */
+@layer components {
+  .humi-sidebar {
+    background: var(--color-ink);
+    color: #E7E3D8;
+    padding: 22px 16px 18px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-/* lg+ breakpoint: show sidebar, switch app to 2-col grid */
-@media (min-width: 1024px) {
-  .humi-app { grid-template-columns: 256px 1fr; }
-  .humi-sidebar { display: flex; }
+  /* lg+ breakpoint: show sidebar, switch app to 2-col grid */
+  @media (min-width: 1024px) {
+    .humi-app { grid-template-columns: 256px 1fr; }
+    .humi-sidebar { display: flex; }
+  }
 }
 
 /* Drawer modifier — fixed panel slides from left on mobile */
@@ -397,7 +400,8 @@
   z-index: 10;
 }
 
-/* Ported from styles.css:259-268 (.search) */
+/* Ported from styles.css:259-268 (.search) — wrapped in @layer so Tailwind hidden/flex utilities win */
+@layer components {
 .humi-search {
   flex: 1;
   max-width: 420px;
@@ -418,6 +422,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+}
 
 /* Ported from styles.css:269-278 (.search kbd) */
 .humi-search kbd {
@@ -433,6 +438,7 @@
 
 /* Ported from styles.css:279-288 (.icon-btn)
    Touch target bump to 44×44 (WCAG 2.5.5, issue #5) */
+@layer components {
 .humi-icon-btn {
   width: 44px;
   height: 44px;
@@ -456,6 +462,7 @@
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+} /* end @layer components for humi-icon-btn */
 
 /* Ported from styles.css:289-294 (.icon-btn .dot-badge) — using
    warning amber (no coral in Humi token palette per NO-RED). */
