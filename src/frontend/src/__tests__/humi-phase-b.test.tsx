@@ -216,10 +216,20 @@ describe('b4 — i18n routing config (locale redirect)', () => {
   });
 
   it('middleware.ts exports default middleware function', async () => {
-    // Verify middleware module shape without calling createMiddleware
-    // (createMiddleware requires Next.js runtime which is not available in jsdom)
-    const mod = await import('/Users/tachongrak/Projects/hr/src/frontend/middleware.ts' as string);
+    // createMiddleware requires Next.js server runtime (next/server) which is
+    // unavailable in jsdom. Verify the module shape via a lightweight mock instead.
+    vi.doMock('next-intl/middleware', () => ({
+      default: () => (_req: unknown) => null,
+    }));
+    vi.doMock('next/server', () => ({
+      NextResponse: { next: () => ({}) },
+    }));
+    const mod = await import(
+      /* @vite-ignore */ '/Users/tachongrak/Projects/hr/src/frontend/middleware.ts'
+    );
     expect(typeof mod.default).toBe('function');
+    vi.doUnmock('next-intl/middleware');
+    vi.doUnmock('next/server');
   });
 
   it('routing config disables localeDetection', async () => {
