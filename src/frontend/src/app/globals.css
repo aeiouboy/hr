@@ -785,3 +785,30 @@
   color: var(--color-canvas-soft);
   line-height: 1.6;
 }
+
+/* ── Goals slider — 44×44 thumb touch target (WCAG 2.5.5, issue #5 b12)
+   Scoped to .humi-goal-slider so it doesn't affect other range inputs. ── */
+.humi-goal-slider {
+  height: 44px;
+  cursor: pointer;
+}
+.humi-goal-slider::-webkit-slider-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 1px 4px rgba(14, 27, 44, 0.18);
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: grab;
+}
+.humi-goal-slider::-moz-range-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 1px 4px rgba(14, 27, 44, 0.18);
+  cursor: grab;
+}

@@ -234,7 +234,7 @@ function GoalFormModal({
               aria-valuemin={0}
               aria-valuemax={100}
               aria-label="ความคืบหน้า"
-              className="w-full accent-[color:var(--color-accent)]"
+              className="humi-goal-slider w-full accent-[color:var(--color-accent)]"
             />
             <div className="flex justify-between text-[length:var(--text-eyebrow)] text-ink-faint">
               <span>0%</span>
