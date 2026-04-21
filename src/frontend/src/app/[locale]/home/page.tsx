@@ -5,10 +5,12 @@
 // 1:1 port of docs/design-ref/shelfly-bundle/project/screens/home.jsx
 // Adapted retail → generic HR (HQ workforce, not single store).
 // NO raw hex, NO red, AppShell owns sidebar+topbar.
+// c2-home-functional: time-based greeting + useAuthStore username
 // ════════════════════════════════════════════════════════════
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useAuthStore } from '@/stores/auth-store';
 import {
   Plus,
   Check,
@@ -42,8 +44,17 @@ const AVATAR_TONE_MAP = {
 
 const CAL_DAYS_TH = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
 
+function getTimeGreeting(): string {
+  const h = new Date().getHours();
+  if (h < 12) return 'สวัสดีตอนเช้า';
+  if (h < 18) return 'สวัสดีตอนบ่าย';
+  return 'สวัสดีตอนเย็น';
+}
+
 export default function HumiHomePage() {
   const t = useTranslations('humiHero');
+  const username = useAuthStore((s) => s.username);
+  const greeting = getTimeGreeting();
 
   const top2 = HUMI_PENDING_REQUESTS.slice(0, 2);
   const feed = HUMI_ANNOUNCEMENTS.slice(0, 2);
@@ -89,7 +100,7 @@ export default function HumiHomePage() {
             {t('dateEyebrow')}
           </div>
           <h1 className="humi-hero-title" style={{ maxWidth: 460 }}>
-            {t('greetingTitle')}
+            {greeting}{username ? ` คุณ${username.split(' ')[0]}` : ''}
             <br />
             <span className="humi-hero-title-soft">{t('greetingSub')}</span>
           </h1>
