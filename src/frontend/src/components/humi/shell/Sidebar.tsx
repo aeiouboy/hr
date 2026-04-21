@@ -24,7 +24,7 @@
 // ════════════════════════════════════════════════════════════
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Home,
   User,
@@ -39,6 +39,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
 
 type NavItem = {
   id: string;
@@ -107,11 +108,17 @@ function stripLocale(path: string): string {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   // Compare without locale prefix so /en/home matches href="/th/home"
   const barePath = stripLocale(pathname);
   const isActive = (href: string) => {
     const bareHref = stripLocale(href);
     return barePath === bareHref || barePath.startsWith(bareHref + '/');
+  };
+  const currentLocale = getLocaleFromPath(pathname);
+  const handleLocaleSwitch = (locale: SupportedLocale) => {
+    if (locale === currentLocale) return;
+    router.push(swapLocale(pathname, locale));
   };
 
   return (
@@ -164,6 +171,30 @@ export function Sidebar() {
           <div className="humi-user-name">จงรักษ์ ทานากะ</div>
           <div className="humi-user-role">ผู้จัดการฝ่ายบุคคล · สำนักงานใหญ่</div>
         </div>
+      </div>
+
+      {/* Locale switcher TH | EN pills */}
+      <div
+        className="flex items-center gap-1.5 px-4 pb-4"
+        role="group"
+        aria-label="เลือกภาษา"
+      >
+        {(['th', 'en'] as SupportedLocale[]).map((loc) => (
+          <button
+            key={loc}
+            type="button"
+            onClick={() => handleLocaleSwitch(loc)}
+            aria-pressed={currentLocale === loc}
+            className={cn(
+              'flex-1 rounded-md border py-1 text-[12px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
+              currentLocale === loc
+                ? 'border-[color:var(--color-accent)] bg-accent-soft text-[color:var(--color-accent)]'
+                : 'border-hairline bg-surface text-ink-muted hover:border-[color:var(--color-accent)] hover:text-ink-soft',
+            )}
+          >
+            {loc === 'th' ? 'ไทย' : 'EN'}
+          </button>
+        ))}
       </div>
     </aside>
   );
