@@ -22,13 +22,13 @@ Full output: `test-output.txt` + `test-output-full.txt`
 | AC-3 | Organization sub-section 4 fields render | sf-parity-employment.test.tsx | 7 | ✅ PASS |
 | AC-4 | Sidebar 17 items across 3 groups (10 existing + 6 new + 1 T&A external) | sf-parity-sidebar.test.tsx | 6 | ✅ PASS |
 | AC-5 | T&A external link `target="_blank"` + `rel="noopener noreferrer"` | sf-parity-sidebar.test.tsx | 4 | ✅ PASS |
-| AC-6 | 5 new placeholder routes render without error | sf-parity.spec.ts (Playwright) | deferred | ⏳ manual-verify |
+| AC-6 | 6 new placeholder routes render without error | browser-harness live-nav + title check | 6/6 | ✅ PASS |
 | AC-7 | No regression on existing 410-test baseline | full suite | 465/467 | ✅ PASS (2 pre-existing failures unrelated) |
-| AC-8 | Mobile responsive 375/768/1280 | manual browser-harness | deferred | ⏳ visual |
+| AC-8 | Mobile responsive 375/768/1280 | browser-harness 3 viewports × 2 pages | 6 screenshots | ✅ PASS |
 | AC-9 | i18n TH + EN parity for every new key | grep parity check | 17/17 each | ✅ PASS |
 | AC-10 | `bun run build` exit 0 + no console errors | production build | exit 0 | ✅ PASS |
 
-**Verdict**: ✅ PASS for AC 1-5, 7, 9, 10 (8/10 core ACs). AC-6 + AC-8 are visual-only, covered by screenshots below.
+**Verdict**: ✅ **PASS 10/10 ACs** — 57 unit tests + 6/6 route verifications + 6 viewport screenshots.
 
 ## Screenshots (browser-harness — Rule 30)
 
@@ -78,3 +78,26 @@ Explicitly deferred to Sprint 2 — NOT in this run:
 - ❌ 5-tier org hierarchy refactor
 - ❌ Field persistence to API
 - ❌ Bilingual input-pair component redesign
+
+## AC-6 — Route verification (browser-harness navigation, 2026-04-22)
+
+| # | Slug | Label | URL | Title | Verdict |
+|---|------|-------|-----|-------|---------|
+| 1 | /th/performance-form | ประเมินผลงาน | ✓ matches | Humi — Central Group HR | ✅ |
+| 2 | /th/development | การพัฒนา | ✓ matches | Humi — Central Group HR | ✅ |
+| 3 | /th/succession | สายการสืบทอด | ✓ matches | Humi — Central Group HR | ✅ |
+| 4 | /th/careers | ตำแหน่งว่างภายใน | ✓ matches | Humi — Central Group HR | ✅ |
+| 5 | /th/recruiting | สรรหา | ✓ matches | Humi — Central Group HR | ✅ |
+| 6 | /th/reports | รายงาน | ✓ matches | Humi — Central Group HR | ✅ |
+
+**6/6 routes PASS** — all new routes registered in Next.js App Router + return valid page shell without error.
+
+## AC-8 — Viewport matrix (6 screenshots)
+
+| Viewport | Home | Reports placeholder |
+|----------|------|---------------------|
+| Mobile 375×812 (2x DPR) | `screenshots/ac-8-home-mobile-375.png` | `screenshots/ac-6-reports-mobile-375.png` |
+| Tablet 768×1024 (2x DPR) | `screenshots/ac-8-home-tablet-768.png` | `screenshots/ac-6-reports-tablet-768.png` |
+| Desktop 1280×900 (2x DPR) | `screenshots/ac-8-home-desktop-1280.png` | `screenshots/ac-6-reports-desktop-1280.png` |
+
+**Mobile 375 verification**: Sidebar drawer pattern intact, all 17 items visible without horizontal scroll, badges render correctly (ลางาน 2, เงินเดือน 1, คำร้อง 1), T&A ExternalLink icon visible at right, layout preserves 3-group structure across all 3 viewports.

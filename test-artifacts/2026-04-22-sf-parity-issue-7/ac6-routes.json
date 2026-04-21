@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "performance-form",
+    "label": "ประเมินผลงาน",
+    "url": "http://localhost:3000/th/performance-form",
+    "title": "🟢 Humi — Central Group HR",
+    "ok": true
+  },
+  {
+    "slug": "development",
+    "label": "การพัฒนา",
+    "url": "http://localhost:3000/th/development",
+    "title": "🟢 Humi — Central Group HR",
+    "ok": true
+  },
+  {
+    "slug": "succession",
+    "label": "สายการสืบทอด",
+    "url": "http://localhost:3000/th/succession",
+    "title": "🟢 Humi — Central Group HR",
+    "ok": true
+  },
+  {
+    "slug": "careers",
+    "label": "ตำแหน่งว่างภายใน",
+    "url": "http://localhost:3000/th/careers",
+    "title": "🟢 Humi — Central Group HR",
+    "ok": true
+  },
+  {
+    "slug": "recruiting",
+    "label": "สรรหา",
+    "url": "http://localhost:3000/th/recruiting",
+    "title": "🟢 Humi — Central Group HR",
+    "ok": true
+  },
+  {
+    "slug": "reports",
+    "label": "รายงาน",
+    "url": "http://localhost:3000/th/reports",
+    "title": "🟢 Humi — Central Group HR",
+    "ok": true
+  }
+]
