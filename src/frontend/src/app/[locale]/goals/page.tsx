@@ -393,7 +393,7 @@ function GoalsTab() {
         />
       )}
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr]">
         <div className="flex flex-col gap-4">
           {/* User-created goals (from Zustand) */}
           {goals.map((g) => (

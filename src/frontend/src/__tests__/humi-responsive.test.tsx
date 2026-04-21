@@ -17,9 +17,11 @@
  * AC-9  cmdpalette-fullscreen — fixed inset-0, sm:max-w-lg sm:rounded-2xl
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, act } from '@testing-library/react';
 import React from 'react';
+import { useUIStore } from '@/stores/ui-store';
+import { AppShell } from '@/components/humi/shell/AppShell';
 
 // ── Mock next/navigation ─────────────────────────────────────────────────────
 vi.mock('next/navigation', () => ({
@@ -110,22 +112,21 @@ function allClassTokens(container: HTMLElement): string {
 // ─────────────────────────────────────────────────────────────────────────────
 describe('AC-1 + AC-7 — AppShell mobile drawer', () => {
   beforeEach(() => {
-    vi.resetModules();
-    // Reset UI store to mobileMenuOpen = false
-    const { useUIStore } = require('@/stores/ui-store');
+    // ใช้ top-level import (store singleton เดียวกับ AppShell)
+    useUIStore.setState({ mobileMenuOpen: false });
+  });
+  afterEach(() => {
     useUIStore.setState({ mobileMenuOpen: false });
   });
 
-  it('drawer panel has fixed inset-y-0 left-0 z-40 when mobileMenuOpen=true', async () => {
-    const { useUIStore } = await import('@/stores/ui-store');
-    useUIStore.setState({ mobileMenuOpen: true });
-
-    const { AppShell } = await import('@/components/humi/shell/AppShell');
+  it('drawer panel has fixed inset-y-0 left-0 z-40 when mobileMenuOpen=true', () => {
     const { container } = render(
       <AppShell>
         <div>content</div>
       </AppShell>
     );
+    // set state after initial render+effects (pathname useEffect resets to false)
+    act(() => { useUIStore.setState({ mobileMenuOpen: true }); });
 
     // AC-1: drawer panel must carry mobile overlay positioning classes
     const tokens = allClassTokens(container);
@@ -134,16 +135,13 @@ describe('AC-1 + AC-7 — AppShell mobile drawer', () => {
     expect(tokens).toContain('z-40');
   });
 
-  it('backdrop has fixed inset-0 bg-ink/40 when mobileMenuOpen=true', async () => {
-    const { useUIStore } = await import('@/stores/ui-store');
-    useUIStore.setState({ mobileMenuOpen: true });
-
-    const { AppShell } = await import('@/components/humi/shell/AppShell');
+  it('backdrop has fixed inset-0 bg-ink/40 when mobileMenuOpen=true', () => {
     const { container } = render(
       <AppShell>
         <div>content</div>
       </AppShell>
     );
+    act(() => { useUIStore.setState({ mobileMenuOpen: true }); });
 
     // AC-7: backdrop behind drawer
     const tokens = allClassTokens(container);
@@ -151,16 +149,14 @@ describe('AC-1 + AC-7 — AppShell mobile drawer', () => {
     expect(tokens).toContain('z-30');
   });
 
-  it('no drawer panel rendered when mobileMenuOpen=false', async () => {
-    const { useUIStore } = await import('@/stores/ui-store');
-    useUIStore.setState({ mobileMenuOpen: false });
-
-    const { AppShell } = await import('@/components/humi/shell/AppShell');
+  it('no drawer panel rendered when mobileMenuOpen=false', () => {
     const { container } = render(
       <AppShell>
         <div>content</div>
       </AppShell>
     );
+    // beforeEach already sets mobileMenuOpen=false; verify closed state
+    act(() => { useUIStore.setState({ mobileMenuOpen: false }); });
 
     // z-40 drawer div must not exist when closed
     const drawerEl = container.querySelector('.z-40');
