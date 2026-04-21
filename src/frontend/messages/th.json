@@ -3570,5 +3570,21 @@
     "balanceLabel": "ยอดวันลาคงเหลือ",
     "teamCoverage": "การครอบคลุมของทีม",
     "policyTitle": "การยกยอดวันลา"
+  },
+  "requests": {
+    "title": "คำร้องและแบบฟอร์ม",
+    "newRequest": "สร้างคำร้องใหม่",
+    "myRequests": "คำร้องของฉัน",
+    "catalog": "แบบฟอร์มทั้งหมด",
+    "approvals": "รออนุมัติ",
+    "filterAll": "ทั้งหมด",
+    "filterPending": "รออนุมัติ",
+    "filterApproved": "อนุมัติแล้ว",
+    "filterRejected": "ไม่อนุมัติ",
+    "submitRequest": "ส่งคำร้อง",
+    "submitSuccess": "ส่งคำร้องเรียบร้อยแล้ว · สถานะ: รออนุมัติ",
+    "fillForm": "กรอกข้อมูล",
+    "noRequests": "ไม่มีคำร้องในสถานะนี้",
+    "validRequired": "กรุณากรอกข้อมูล"
   }
 }

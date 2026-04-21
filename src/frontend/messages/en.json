@@ -3570,5 +3570,21 @@
     "balanceLabel": "Leave Balance",
     "teamCoverage": "Team Coverage",
     "policyTitle": "Leave Carryover"
+  },
+  "requests": {
+    "title": "Requests & Forms",
+    "newRequest": "New Request",
+    "myRequests": "My Requests",
+    "catalog": "All Forms",
+    "approvals": "Pending Approval",
+    "filterAll": "All",
+    "filterPending": "Pending",
+    "filterApproved": "Approved",
+    "filterRejected": "Rejected",
+    "submitRequest": "Submit Request",
+    "submitSuccess": "Request submitted · Status: Pending",
+    "fillForm": "Fill Form",
+    "noRequests": "No requests in this status",
+    "validRequired": "This field is required"
   }
 }
