@@ -100,10 +100,19 @@ function HumiMark({ size = 20 }: { size?: number }) {
   );
 }
 
+/** Strip locale prefix (/th/ or /en/) to get bare path e.g. /home */
+function stripLocale(path: string): string {
+  return path.replace(/^\/(th|en)/, '') || '/';
+}
+
 export function Sidebar() {
   const pathname = usePathname();
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(href + '/');
+  // Compare without locale prefix so /en/home matches href="/th/home"
+  const barePath = stripLocale(pathname);
+  const isActive = (href: string) => {
+    const bareHref = stripLocale(href);
+    return barePath === bareHref || barePath.startsWith(bareHref + '/');
+  };
 
   return (
     <aside className="humi-sidebar" aria-label="เมนูหลัก">
