@@ -4,6 +4,13 @@
 // Humi ⌘K Command Palette
 // Modal overlay — search input top, filtered list, keyboard nav.
 // No external dependency — built from Tailwind primitives.
+//
+// Responsive (issue #5):
+// - <sm: full-screen (inset-0, rounded-none) — fills viewport
+// - sm+: centered modal (max-w-lg, rounded-2xl) — original behavior
+// - Input row min-h-[44px] touch target
+// - Each result item min-h-[44px] touch target
+// - Footer hint hidden on mobile (sm:flex)
 // ════════════════════════════════════════════════════════════
 
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -85,22 +92,31 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   if (!open) return null;
 
   return (
-    /* Backdrop */
+    /* Backdrop — full-screen on mobile (items-stretch), centered on sm+ */
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
+      className="fixed inset-0 z-50 flex items-stretch sm:items-start sm:justify-center sm:pt-[15vh]"
       style={{ background: 'rgba(14,27,44,0.45)' }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="presentation"
     >
-      {/* Panel */}
+      {/* Panel — full-screen <sm, centered max-w-lg sm+ */}
       <div
-        className="w-full max-w-lg rounded-2xl border border-hairline bg-surface shadow-[0_24px_48px_rgba(14,27,44,0.18)]"
+        className={cn(
+          'w-full bg-surface shadow-[0_24px_48px_rgba(14,27,44,0.18)]',
+          'border border-hairline',
+          // Mobile: fills full screen, no rounding
+          'rounded-none',
+          // sm+: centered modal with radius + max-width
+          'sm:rounded-2xl sm:max-w-lg sm:h-auto sm:self-start',
+          // On mobile stretch to full height via flex parent
+          'flex flex-col',
+        )}
         role="dialog"
         aria-modal="true"
         aria-label="แผงคำสั่ง"
       >
-        {/* Search input */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-hairline">
+        {/* Search input — min-h-[44px] touch target */}
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-hairline min-h-[44px]">
           <Search size={16} className="shrink-0 text-ink-muted" aria-hidden />
           <input
             ref={inputRef}
@@ -120,11 +136,11 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           </kbd>
         </div>
 
-        {/* Results list */}
+        {/* Results list — fills remaining height on mobile */}
         <ul
           role="listbox"
           aria-label="ผลลัพธ์การค้นหา"
-          className="max-h-80 overflow-y-auto py-2"
+          className="flex-1 overflow-y-auto py-2 sm:flex-none sm:max-h-80"
         >
           {results.length === 0 ? (
             <li className="px-4 py-8 text-center text-small text-ink-muted">
@@ -138,7 +154,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                   onClick={() => navigate(cmd)}
                   onMouseEnter={() => setActiveIndex(i)}
                   className={cn(
-                    'flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors',
+                    'flex w-full items-center gap-3 px-4 py-3 min-h-[44px] text-left transition-colors',
                     i === activeIndex
                       ? 'bg-accent-soft text-ink'
                       : 'text-ink-soft hover:bg-canvas-soft',
@@ -154,8 +170,8 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           )}
         </ul>
 
-        {/* Footer hint */}
-        <div className="flex items-center gap-3 border-t border-hairline px-4 py-2.5">
+        {/* Footer hint — hidden on mobile (too cramped), visible sm+ */}
+        <div className="hidden sm:flex items-center gap-3 border-t border-hairline px-4 py-2.5">
           <span className="text-[11px] text-ink-faint">
             ↑↓ เลือก · Enter ไป · Esc ปิด
           </span>
