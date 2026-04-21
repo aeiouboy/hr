@@ -5,9 +5,9 @@
 // 1:1 port of docs/design-ref/shelfly-bundle/project/screens/announcements.jsx
 // Adapted retail → generic HR (departments/functions, not stores).
 // AppShell owns sidebar+topbar.
+// c3-announcements-functional: filter tabs + pin toggle via Zustand persist
 // ════════════════════════════════════════════════════════════
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Plus,
@@ -25,10 +25,11 @@ import {
   HUMI_ANNOUNCEMENTS,
   HUMI_CHANNELS,
   HUMI_MY_PROFILE,
-  type HumiAnnouncementKind,
 } from '@/lib/humi-mock-data';
-
-type Filter = 'all' | HumiAnnouncementKind;
+import {
+  useHumiAnnouncementsStore,
+  type AnnouncementFilter,
+} from '@/stores/humi-announcements-slice';
 
 const AVATAR_TONE_MAP = {
   teal: 'humi-avatar humi-avatar--teal',
@@ -45,14 +46,21 @@ const CHANNEL_DOT_COLOR = {
 
 export default function HumiAnnouncementsPage() {
   const t = useTranslations('humiAnnouncements');
-  const [filter, setFilter] = useState<Filter>('all');
+  const { pinned, activeFilter, togglePin, setFilter } = useHumiAnnouncementsStore();
 
-  const filtered =
-    filter === 'all'
+  // Filter posts by active tab
+  const baseFiltered =
+    activeFilter === 'all'
       ? HUMI_ANNOUNCEMENTS
-      : HUMI_ANNOUNCEMENTS.filter((p) => p.kind === filter);
+      : HUMI_ANNOUNCEMENTS.filter((p) => p.kind === activeFilter);
 
-  const filters: Array<[Filter, string]> = [
+  // Pinned posts sort to top (optimistic — uses slice pinned set)
+  const filtered = [
+    ...baseFiltered.filter((p) => pinned.includes(p.id) || p.pinned),
+    ...baseFiltered.filter((p) => !pinned.includes(p.id) && !p.pinned),
+  ];
+
+  const filters: Array<[AnnouncementFilter, string]> = [
     ['all', t('filterAll')],
     ['ops', t('filterOps')],
     ['policy', t('filterPolicy')],
@@ -118,9 +126,9 @@ export default function HumiAnnouncementsPage() {
                   type="button"
                   key={k}
                   role="tab"
-                  aria-selected={filter === k}
+                  aria-selected={activeFilter === k}
                   onClick={() => setFilter(k)}
-                  className={cn('humi-tab', filter === k && 'humi-tab--active')}
+                  className={cn('humi-tab', activeFilter === k && 'humi-tab--active')}
                 >
                   {l}
                 </button>
@@ -133,12 +141,14 @@ export default function HumiAnnouncementsPage() {
           </div>
 
           {/* Posts */}
-          {filtered.map((p) => (
-            <article
-              key={p.id}
-              className={cn('humi-post', p.pinned && 'humi-post--pin')}
-              style={{ marginBottom: 12 }}
-            >
+          {filtered.map((p) => {
+            const isPinned = pinned.includes(p.id) || p.pinned;
+            return (
+              <article
+                key={p.id}
+                className={cn('humi-post', isPinned && 'humi-post--pin')}
+                style={{ marginBottom: 12 }}
+              >
               <div className="humi-row">
                 <span className={AVATAR_TONE_MAP[p.authorTone]} aria-hidden>
                   {p.authorInitials}
@@ -151,11 +161,28 @@ export default function HumiAnnouncementsPage() {
                     </span>
                   </div>
                 </div>
-                {p.pinned && (
+                {isPinned && (
                   <span className="humi-tag humi-tag--ink">
                     <Pin size={11} /> {t('pinnedTag')}
                   </span>
                 )}
+                {/* Pin toggle button */}
+                <button
+                  type="button"
+                  aria-label={isPinned ? 'เลิกปักหมุด' : 'ปักหมุด'}
+                  aria-pressed={isPinned}
+                  className="humi-icon-btn"
+                  onClick={() => togglePin(p.id)}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    background: 'transparent',
+                    border: 0,
+                    color: isPinned ? 'var(--color-accent)' : 'var(--color-ink-soft)',
+                  }}
+                >
+                  <Pin size={14} />
+                </button>
                 <button
                   type="button"
                   aria-label="ตัวเลือกเพิ่มเติม"
@@ -211,8 +238,9 @@ export default function HumiAnnouncementsPage() {
                   {t('commentsLabel', { n: p.comments })}
                 </span>
               </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
 
         {/* Right column */}
