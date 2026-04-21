@@ -57,7 +57,37 @@
     "organization": "Organization",
     "talentDevelopment": "Talent Development",
     "recruitment": "Recruitment",
-    "hospitalReferral": "Hospital Referral"
+    "hospitalReferral": "Hospital Referral",
+    "performanceForm": "Performance Form",
+    "development": "Development",
+    "succession": "Succession",
+    "careers": "Careers",
+    "recruiting": "Recruiting",
+    "reports": "Reports",
+    "timeAttendance": "Time & Attendance"
+  },
+  "pages": {
+    "performanceForm": {
+      "title": "Performance Form"
+    },
+    "development": {
+      "title": "Development"
+    },
+    "succession": {
+      "title": "Succession"
+    },
+    "careers": {
+      "title": "Careers"
+    },
+    "recruiting": {
+      "title": "Recruiting"
+    },
+    "reports": {
+      "title": "Reports"
+    }
+  },
+  "placeholders": {
+    "comingSoon": "Coming in Sprint 2+"
   },
   "profile": {
     "title": "Profile",
