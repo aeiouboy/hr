@@ -3459,7 +3459,15 @@
     "emergencyHelp": "Please keep at least 1 contact current. Used only for workplace emergencies.",
     "docsTitle": "My documents",
     "taxTitle": "Tax forms",
-    "downloadCta": "Download"
+    "downloadCta": "Download",
+    "profileEdit": "Edit profile",
+    "profileCancelEdit": "Cancel",
+    "profileSaveSuccess": "Saved successfully",
+    "profileEditTitle": "Edit personal details",
+    "profileFieldNickname": "Nickname",
+    "profileFieldPhone": "Mobile number",
+    "profileFieldEmail": "Personal email",
+    "profileFieldAddress": "Address"
   },
   "humiAnnouncements": {
     "subtitle": "Team and company feed",
@@ -3523,5 +3531,32 @@
     "placeholder": "Search…",
     "noResults": "No results",
     "aria": "Command palette"
+  },
+  "timeoff": {
+    "title": "Time Off",
+    "submitRequest": "Submit Leave Request",
+    "newRequest": "New Request",
+    "history": "My History",
+    "pendingApproval": "Pending Approval",
+    "leaveType": "Leave Type",
+    "fromDate": "From Date",
+    "toDate": "To Date",
+    "reason": "Reason",
+    "attach": "Attach Supporting Document",
+    "submitBtn": "Submit",
+    "saveDraft": "Save Draft",
+    "approver": "Approver",
+    "submitSuccess": "Leave request submitted · Status: Pending",
+    "validFromDate": "Please enter a start date",
+    "validToDate": "Please enter an end date",
+    "validDateRange": "End date cannot be before start date",
+    "validReason": "Please provide a reason",
+    "validReasonMin": "Reason must be at least 5 characters",
+    "statusApproved": "Approved",
+    "statusRejected": "Rejected",
+    "statusPending": "Pending",
+    "balanceLabel": "Leave Balance",
+    "teamCoverage": "Team Coverage",
+    "policyTitle": "Leave Carryover"
   }
 }

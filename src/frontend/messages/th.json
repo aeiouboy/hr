@@ -3459,7 +3459,15 @@
     "emergencyHelp": "กรุณาให้ข้อมูลอย่างน้อย 1 คนเป็นปัจจุบัน ใช้เฉพาะกรณีฉุกเฉินในที่ทำงานเท่านั้น",
     "docsTitle": "เอกสารของฉัน",
     "taxTitle": "แบบฟอร์มภาษี",
-    "downloadCta": "ดาวน์โหลด"
+    "downloadCta": "ดาวน์โหลด",
+    "profileEdit": "แก้ไขข้อมูล",
+    "profileCancelEdit": "ยกเลิก",
+    "profileSaveSuccess": "บันทึกเรียบร้อย",
+    "profileEditTitle": "แก้ไขข้อมูลส่วนตัว",
+    "profileFieldNickname": "ชื่อเล่น",
+    "profileFieldPhone": "เบอร์มือถือ",
+    "profileFieldEmail": "อีเมลส่วนตัว",
+    "profileFieldAddress": "ที่อยู่"
   },
   "humiAnnouncements": {
     "subtitle": "ฟีดของทีมและบริษัท",
@@ -3523,5 +3531,32 @@
     "placeholder": "ค้นหา…",
     "noResults": "ไม่มีผลลัพธ์",
     "aria": "แผงคำสั่ง"
+  },
+  "timeoff": {
+    "title": "ลางาน",
+    "submitRequest": "ยื่นคำขอลางาน",
+    "newRequest": "คำขอใหม่",
+    "history": "ประวัติของฉัน",
+    "pendingApproval": "รออนุมัติ",
+    "leaveType": "ประเภทการลา",
+    "fromDate": "ตั้งแต่วันที่",
+    "toDate": "ถึงวันที่",
+    "reason": "เหตุผล",
+    "attach": "แนบเอกสารประกอบ",
+    "submitBtn": "ส่งคำขอ",
+    "saveDraft": "บันทึกร่าง",
+    "approver": "ผู้อนุมัติ",
+    "submitSuccess": "ส่งคำขอลางานเรียบร้อยแล้ว · สถานะ: รออนุมัติ",
+    "validFromDate": "กรุณาระบุวันที่เริ่มลา",
+    "validToDate": "กรุณาระบุวันที่สิ้นสุด",
+    "validDateRange": "วันสิ้นสุดต้องไม่ก่อนวันเริ่ม",
+    "validReason": "กรุณาระบุเหตุผล",
+    "validReasonMin": "เหตุผลต้องมีอย่างน้อย 5 ตัวอักษร",
+    "statusApproved": "อนุมัติแล้ว",
+    "statusRejected": "ไม่อนุมัติ",
+    "statusPending": "รออนุมัติ",
+    "balanceLabel": "ยอดวันลาคงเหลือ",
+    "teamCoverage": "การครอบคลุมของทีม",
+    "policyTitle": "การยกยอดวันลา"
   }
 }
