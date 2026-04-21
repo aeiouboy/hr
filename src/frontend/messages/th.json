@@ -3506,5 +3506,22 @@
     "ssoGeneric": "เข้าสู่ระบบด้วย SSO",
     "newMember": "เป็นสมาชิกใหม่?",
     "setupAccount": "ติดต่อฝ่ายทรัพยากรบุคคล"
+  },
+  "shell": {
+    "theme": {
+      "light": "โหมดสว่าง",
+      "dark": "โหมดมืด",
+      "aria": "สลับโหมดมืด/สว่าง"
+    },
+    "locale": {
+      "th": "ภาษาไทย",
+      "en": "English",
+      "aria": "เลือกภาษา"
+    }
+  },
+  "commandPalette": {
+    "placeholder": "ค้นหา…",
+    "noResults": "ไม่มีผลลัพธ์",
+    "aria": "แผงคำสั่ง"
   }
 }

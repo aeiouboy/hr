@@ -20,8 +20,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
  const applyTheme = (isDark: boolean) => {
  if (isDark) {
  root.classList.add('dark');
+ root.setAttribute('data-theme', 'dark');
  } else {
  root.classList.remove('dark');
+ root.setAttribute('data-theme', 'light');
  }
  };
 

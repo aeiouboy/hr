@@ -3506,5 +3506,22 @@
     "ssoGeneric": "Sign in with SSO",
     "newMember": "New here?",
     "setupAccount": "Contact HR"
+  },
+  "shell": {
+    "theme": {
+      "light": "Light mode",
+      "dark": "Dark mode",
+      "aria": "Toggle dark/light mode"
+    },
+    "locale": {
+      "th": "ภาษาไทย",
+      "en": "English",
+      "aria": "Select language"
+    }
+  },
+  "commandPalette": {
+    "placeholder": "Search…",
+    "noResults": "No results",
+    "aria": "Command palette"
   }
 }
