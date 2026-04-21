@@ -21,6 +21,7 @@ import {
   type HumiOrgPerson,
   type HumiOrgTone,
 } from '@/lib/humi-mock-data';
+import { useOrgChartStore } from '@/stores/humi-orgchart-slice';
 
 // ════════════════════════════════════════════════════════════
 // Humi /org-chart (A13 — OVERWRITE)
@@ -140,11 +141,13 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 }
 
 export default function OrgChartPage() {
-  const [selectedId, setSelectedId] = useState<string>('marcus');
-  const [query, setQuery] = useState('');
+  // Slice: search + node selection (detail panel)
+  const { query, selectedId, setQuery, select } = useOrgChartStore();
+  // Zoom remains local — ephemeral pan/zoom state per b1 spec (no persist)
   const [zoom, setZoom] = useState(1);
 
-  const person = HUMI_ORG_PEOPLE[selectedId] ?? HUMI_ORG_PEOPLE.marcus;
+  const resolvedId = selectedId ?? 'marcus';
+  const person = HUMI_ORG_PEOPLE[resolvedId] ?? HUMI_ORG_PEOPLE.marcus;
   const manager = person.managerId
     ? HUMI_ORG_PEOPLE[person.managerId]
     : null;
@@ -270,7 +273,7 @@ export default function OrgChartPage() {
                     <NodeCard
                       person={m}
                       size="sm"
-                      onClick={() => setSelectedId(m.id)}
+                      onClick={() => select(m.id)}
                       dim={!matches(m)}
                     />
                     <Connector />
@@ -293,7 +296,7 @@ export default function OrgChartPage() {
                           key={pr.id}
                           person={pr}
                           size="sm"
-                          onClick={() => setSelectedId(pr.id)}
+                          onClick={() => select(pr.id)}
                           dim={!matches(pr)}
                         />
                       ))}
@@ -314,7 +317,7 @@ export default function OrgChartPage() {
                           key={pr.id}
                           person={pr}
                           size="sm"
-                          onClick={() => setSelectedId(pr.id)}
+                          onClick={() => select(pr.id)}
                           dim={!matches(pr)}
                         />
                       ))}
