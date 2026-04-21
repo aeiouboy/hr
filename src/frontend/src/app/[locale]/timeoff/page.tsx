@@ -128,7 +128,7 @@ export default function HumiTimeoffPage() {
       {/* Balance KPIs */}
       <section
         aria-label="ยอดวันลาคงเหลือ"
-        className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3"
+        className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3"
       >
         {HUMI_LEAVE_BALANCES.map((b) => (
           <Card key={b.kind} variant="raised" size="md">
@@ -435,7 +435,7 @@ function RequestTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
       <button
         type="button"
         className={cn(
-          'mt-3 flex items-center gap-2 rounded-[var(--radius-md)] border border-dashed border-hairline px-4 py-3 text-small text-ink-muted',
+          'mt-3 flex min-h-[44px] items-center gap-2 rounded-[var(--radius-md)] border border-dashed border-hairline px-4 py-3 text-small text-ink-muted',
           'w-full hover:border-ink-faint hover:text-ink-soft transition-colors',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
         )}
@@ -446,7 +446,7 @@ function RequestTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
 
       {/* Actions */}
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button variant="primary" className="h-11" onClick={handleSubmit}>
           ส่งคำขอ
         </Button>
         <Button variant="ghost">บันทึกร่าง</Button>
@@ -476,20 +476,22 @@ function HistoryTab() {
   return (
     <ul role="list" className="divide-y divide-hairline pt-2">
       {history.map((h: TimeoffHistoryItem) => (
-        <li key={h.id} className="flex items-center gap-3 py-4">
-          <Avatar name={h.kindLabel} tone="teal" size="sm" />
-          <div className="min-w-0 flex-1">
-            <p className="text-body font-semibold text-ink">
-              {h.fromDate}
-              {h.toDate !== h.fromDate ? ` – ${h.toDate}` : ''}
-            </p>
-            <p className="text-small text-ink-muted">
-              {h.kindLabel} · {h.reason}
-            </p>
+        <li key={h.id} className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
+            <Avatar name={h.kindLabel} tone="teal" size="sm" />
+            <div className="min-w-0 flex-1">
+              <p className="text-body font-semibold text-ink">
+                {h.fromDate}
+                {h.toDate !== h.fromDate ? ` – ${h.toDate}` : ''}
+              </p>
+              <p className="text-small text-ink-muted">
+                {h.kindLabel} · {h.reason}
+              </p>
+            </div>
           </div>
           <span
             className={cn(
-              'rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] whitespace-nowrap',
+              'self-start rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] whitespace-nowrap sm:self-auto',
               HISTORY_TONE[h.status]
             )}
           >
