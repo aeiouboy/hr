@@ -6,7 +6,7 @@
    Humi — Central Group HR Design System
    Ref: specs/humi-frontend-redesign.md + docs/shelfly-hr-design-research.md
 
-   Adapted จาก Shelfly bundle (cream / teal / ink) + NO-RED scrub
+   Humi design tokens (cream + teal + ink) — NO RED constraint
    ตาม Rungrote guardrail — coral → amber, danger clay → pumpkin,
    legacy brand red → teal. Tailwind v4 `@theme` SSOT (ไม่ใช้
    tailwind.config.ts). Rule 26b: preflight handles reset, ไม่มี
