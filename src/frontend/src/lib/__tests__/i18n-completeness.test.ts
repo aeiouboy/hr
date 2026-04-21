@@ -471,9 +471,14 @@ describe('Thai translation quality', () => {
   it('all EN values are non-Thai (no accidental Thai in EN)', () => {
     const enKeys = flattenKeys(en);
     const thaiCharPattern = /[\u0E00-\u0E7F]/;
+    // shell.locale.* intentionally stores the native language name
+    // (e.g. shell.locale.th = "ภาษาไทย") so locale pills display correct labels
+    // in both EN and TH UI without runtime locale-switching.
+    const intentionalNativeLocaleKeys = new Set(['shell.locale.th']);
     const thaiInEn: string[] = [];
 
     for (const key of enKeys) {
+      if (intentionalNativeLocaleKeys.has(key)) continue;
       const val = getNestedValue(en, key);
       if (typeof val === 'string' && thaiCharPattern.test(val)) {
         thaiInEn.push(`${key} = "${val}"`);
