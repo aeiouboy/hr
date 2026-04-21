@@ -25,3 +25,6 @@ export type { AvatarProps } from './Avatar';
 
 export { Toggle } from './Toggle';
 export type { ToggleProps } from './Toggle';
+
+export { Modal } from './Modal';
+export type { ModalProps } from './Modal';

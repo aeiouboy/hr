@@ -15,6 +15,7 @@ import {
   Card,
   CardEyebrow,
   CardTitle,
+  Modal,
 } from '@/components/humi';
 import { cn } from '@/lib/utils';
 import {
@@ -25,17 +26,18 @@ import {
   HUMI_PAYSLIPS,
   ACCENT_BAR_CLASS,
   CLAIM_STATUS_META,
+  type HumiBenefitPlan,
 } from '@/lib/humi-mock-data';
+import { useBenefitsStore, type BenefitsTabKey } from '@/stores/humi-benefits-slice';
 
 // ════════════════════════════════════════════════════════════
 // /benefits-hub — Salary + benefits overview
 // Port of docs/design-ref/shelfly-bundle/project/screens/benefits.jsx
 // 5-tab panel: benefits / claims / docs / policies / pay
+// c6: Zustand persist tab + enroll toggle + Modal detail
 // ════════════════════════════════════════════════════════════
 
-type TabKey = 'benefits' | 'claims' | 'docs' | 'policies' | 'pay';
-
-const TABS: Array<[TabKey, string]> = [
+const TABS: Array<[BenefitsTabKey, string]> = [
   ['benefits', 'สวัสดิการ'],
   ['claims', 'เบิกค่าใช้จ่าย'],
   ['docs', 'เอกสาร'],
@@ -76,70 +78,124 @@ const POLICIES = [
 ];
 
 export default function HumiBenefitsHubPage() {
-  const [tab, setTab] = useState<TabKey>('benefits');
+  const { activeTab, setTab } = useBenefitsStore();
 
   return (
     <>
-        {/* Page header */}
-        <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <CardEyebrow>เงินเดือนและสวัสดิการ</CardEyebrow>
-            <h1
-              className={cn(
-                'font-display font-semibold tracking-tight text-ink',
-                'text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]'
-              )}
-            >
-              ความคุ้มครอง แบบฟอร์ม และนโยบาย
-            </h1>
-          </div>
-          <Button variant="ghost" leadingIcon={<Download size={14} />}>
-            ดาวน์โหลดสลิปเงินเดือน
-          </Button>
-        </header>
-
-        {/* Tabs */}
-        <div
-          role="tablist"
-          aria-label="มุมมองสวัสดิการ"
-          className="mb-6 flex flex-wrap gap-1 border-b border-hairline"
-        >
-          {TABS.map(([k, l]) => (
-            <button
-              key={k}
-              type="button"
-              role="tab"
-              aria-selected={tab === k}
-              onClick={() => setTab(k)}
-              className={cn(
-                '-mb-px border-b-2 px-4 py-3 text-body font-medium transition-colors whitespace-nowrap',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
-                tab === k
-                  ? 'border-accent text-ink'
-                  : 'border-transparent text-ink-muted hover:text-ink'
-              )}
-            >
-              {l}
-            </button>
-          ))}
+      {/* Page header */}
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <CardEyebrow>เงินเดือนและสวัสดิการ</CardEyebrow>
+          <h1
+            className={cn(
+              'font-display font-semibold tracking-tight text-ink',
+              'text-[length:var(--text-display-h1)] leading-[var(--text-display-h1--line-height)]'
+            )}
+          >
+            ความคุ้มครอง แบบฟอร์ม และนโยบาย
+          </h1>
         </div>
+        <Button variant="ghost" leadingIcon={<Download size={14} />}>
+          ดาวน์โหลดสลิปเงินเดือน
+        </Button>
+      </header>
 
-        {tab === 'benefits' && <BenefitsTab />}
-        {tab === 'claims' && <ClaimsTab />}
-        {tab === 'docs' && <DocsTab />}
-        {tab === 'policies' && <PoliciesTab />}
-        {tab === 'pay' && <PayTab />}
-      </>
+      {/* Tabs */}
+      <div
+        role="tablist"
+        aria-label="มุมมองสวัสดิการ"
+        className="mb-6 flex flex-wrap gap-1 border-b border-hairline"
+      >
+        {TABS.map(([k, l]) => (
+          <button
+            key={k}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === k}
+            onClick={() => setTab(k)}
+            className={cn(
+              '-mb-px border-b-2 px-4 py-3 text-body font-medium transition-colors whitespace-nowrap',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
+              activeTab === k
+                ? 'border-accent text-ink'
+                : 'border-transparent text-ink-muted hover:text-ink'
+            )}
+          >
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === 'benefits' && <BenefitsTab />}
+      {activeTab === 'claims' && <ClaimsTab />}
+      {activeTab === 'docs' && <DocsTab />}
+      {activeTab === 'policies' && <PoliciesTab />}
+      {activeTab === 'pay' && <PayTab />}
+    </>
   );
 }
 
 // ────────────────────────────────────────────────────────────
-// Tab: Benefits
+// Tab: Benefits — with enroll toggle + modal detail
 // ────────────────────────────────────────────────────────────
 
 function BenefitsTab() {
+  const { enrolled, toggleEnroll } = useBenefitsStore();
+  const [detailPlan, setDetailPlan] = useState<HumiBenefitPlan | null>(null);
+
   return (
     <>
+      {/* Benefit detail modal */}
+      <Modal
+        open={detailPlan !== null}
+        onClose={() => setDetailPlan(null)}
+        title={detailPlan?.title}
+      >
+        {detailPlan && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="text-body font-semibold text-ink">{detailPlan.plan}</p>
+              <p className="text-small text-ink-muted">{detailPlan.cost} · คุณจ่าย</p>
+            </div>
+            <div
+              role="progressbar"
+              aria-valuenow={detailPlan.percent}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={detailPlan.title}
+              className="h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
+            >
+              <div
+                className={cn('h-full rounded-full', detailPlan.barClass)}
+                style={{ width: `${detailPlan.percent}%` }}
+              />
+            </div>
+            <ul className="space-y-1.5 text-small text-ink-soft">
+              {detailPlan.items.map((x) => (
+                <li key={x} className="flex items-start gap-2">
+                  <span
+                    aria-hidden
+                    className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-ink-faint"
+                  />
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex gap-2 pt-2">
+              <Button
+                variant={enrolled.has(detailPlan.id) ? 'secondary' : 'primary'}
+                onClick={() => toggleEnroll(detailPlan.id)}
+              >
+                {enrolled.has(detailPlan.id) ? 'ยกเลิกสมัคร' : 'สมัคร'}
+              </Button>
+              <Button variant="ghost" onClick={() => setDetailPlan(null)}>
+                ปิด
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
       {/* Hero announcement */}
       <Card
         variant="raised"
@@ -177,52 +233,68 @@ function BenefitsTab() {
         </div>
       </Card>
 
-      {/* Benefit plans */}
+      {/* Benefit plan cards */}
       <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
-        {HUMI_BENEFIT_PLANS.map((b) => (
-          <Card key={b.id} variant="raised" size="md">
-            <div className="flex items-start justify-between gap-2">
-              <CardEyebrow>{b.title}</CardEyebrow>
-              <span
-                className={cn(
-                  'rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] whitespace-nowrap',
-                  'bg-[color:var(--color-success-soft)] text-[color:var(--color-success)]'
-                )}
-              >
-                ลงทะเบียนแล้ว
-              </span>
-            </div>
-            <CardTitle className="mt-2">{b.plan}</CardTitle>
-            <p className="mt-1 text-small text-ink-muted">{b.cost} · คุณจ่าย</p>
-            <div
-              role="progressbar"
-              aria-valuenow={b.percent}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-label={b.title}
-              className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
+        {HUMI_BENEFIT_PLANS.map((b) => {
+          const isEnrolled = enrolled.has(b.id);
+          return (
+            <Card
+              key={b.id}
+              variant="raised"
+              size="md"
+              className="cursor-pointer transition-transform duration-[var(--dur-fast)] hover:-translate-y-0.5"
+              onClick={() => setDetailPlan(b)}
             >
-              <div
-                className={cn('h-full rounded-full', b.barClass)}
-                style={{ width: `${b.percent}%` }}
-              />
-            </div>
-            <ul className="mt-4 space-y-1.5 text-small text-ink-soft">
-              {b.items.map((x) => (
-                <li key={x} className="flex items-start gap-2">
+              <div className="flex items-start justify-between gap-2">
+                <CardEyebrow>{b.title}</CardEyebrow>
+                {isEnrolled && (
                   <span
-                    aria-hidden
-                    className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-ink-faint"
-                  />
-                  <span>{x}</span>
-                </li>
-              ))}
-            </ul>
-            <Button variant="ghost" block className="mt-5">
-              จัดการ
-            </Button>
-          </Card>
-        ))}
+                    className={cn(
+                      'rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] whitespace-nowrap',
+                      'bg-[color:var(--color-success-soft)] text-[color:var(--color-success)]'
+                    )}
+                  >
+                    เข้าร่วมแล้ว
+                  </span>
+                )}
+              </div>
+              <CardTitle className="mt-2">{b.plan}</CardTitle>
+              <p className="mt-1 text-small text-ink-muted">{b.cost} · คุณจ่าย</p>
+              <div
+                role="progressbar"
+                aria-valuenow={b.percent}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={b.title}
+                className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
+              >
+                <div
+                  className={cn('h-full rounded-full', b.barClass)}
+                  style={{ width: `${b.percent}%` }}
+                />
+              </div>
+              <ul className="mt-4 space-y-1.5 text-small text-ink-soft">
+                {b.items.map((x) => (
+                  <li key={x} className="flex items-start gap-2">
+                    <span
+                      aria-hidden
+                      className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-ink-faint"
+                    />
+                    <span>{x}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button
+                variant={isEnrolled ? 'secondary' : 'ghost'}
+                block
+                className="mt-5"
+                onClick={(e) => { e.stopPropagation(); toggleEnroll(b.id); }}
+              >
+                {isEnrolled ? 'ยกเลิกสมัคร' : 'สมัคร'}
+              </Button>
+            </Card>
+          );
+        })}
       </section>
 
       {/* Dependents */}
