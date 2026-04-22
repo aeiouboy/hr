@@ -8,7 +8,7 @@
 // c1-profile-functional: Zustand persist + 5-tab switcher + edit/save/toast
 // ════════════════════════════════════════════════════════════
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Check, FileText, Download, Pencil, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -19,13 +19,17 @@ import { useHumiProfileStore, type ProfileTab } from '@/stores/humi-profile-slic
 // Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
 
-// Mapping from Zustand ProfileTab → legacy panel key
+// Mapping from Zustand ProfileTab → legacy panel key.
+// NOTE: slice key `compensation` is a legacy name from an earlier sprint where
+// Compensation was a standalone tab. Today's tab #3 displays "ติดต่อฉุกเฉิน"
+// (Emergency) and must route to the emergency panel. Compensation cards are
+// rendered inside the `job` panel.
 const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
   personal: 'personal',
   employment: 'job',
-  compensation: 'job', // compensation shown inside job tab panel
+  compensation: 'emergency',
   documents: 'docs',
-  activity: 'tax', // activity mapped to tax tab panel as closest
+  activity: 'tax',
 };
 
 const AVATAR_TONE_MAP = {
@@ -46,6 +50,15 @@ export default function HumiProfileMePage() {
 
   // Derive panel key from slice activeTab
   const panelKey = SLICE_TO_PANEL[activeTab];
+
+  // Auto-cancel edit when user switches tab — only the personal panel renders
+  // an edit form, so leaving that panel mid-edit would strand Save/Cancel
+  // buttons in the topbar with no editable content visible (Bug 2026-04-22).
+  useEffect(() => {
+    if (isEditing && panelKey !== 'personal') {
+      cancelEdit();
+    }
+  }, [panelKey, isEditing, cancelEdit]);
 
   // Show success toast after save
   function handleSave() {
@@ -87,27 +100,32 @@ export default function HumiProfileMePage() {
         </div>
       )}
 
-      {/* Top action bar (subtitle shown via Topbar) */}
+      {/* Top action bar (subtitle shown via Topbar). Edit controls only render
+          on the personal panel — that's the only tab with an inline edit form,
+          so showing Save/Cancel elsewhere would leave the user with no fields
+          to act on (Bug 2026-04-22). */}
       <div className="mb-5 flex items-center justify-between gap-3">
         <div className="text-small text-ink-muted">
           {t('subtitle')} · {p.employeeCode}
         </div>
-        <div className="humi-row" style={{ gap: 8 }}>
-          {isEditing ? (
-            <>
-              <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
-                {t('profileCancelEdit')}
+        {panelKey === 'personal' && (
+          <div className="humi-row" style={{ gap: 8 }}>
+            {isEditing ? (
+              <>
+                <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
+                  {t('profileCancelEdit')}
+                </Button>
+                <Button variant="primary" leadingIcon={<Check size={14} />} onClick={handleSave}>
+                  {t('save')}
+                </Button>
+              </>
+            ) : (
+              <Button variant="primary" leadingIcon={<Pencil size={14} />} onClick={startEdit}>
+                {t('profileEdit')}
               </Button>
-              <Button variant="primary" leadingIcon={<Check size={14} />} onClick={handleSave}>
-                {t('save')}
-              </Button>
-            </>
-          ) : (
-            <Button variant="primary" leadingIcon={<Pencil size={14} />} onClick={startEdit}>
-              {t('profileEdit')}
-            </Button>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Header card */}

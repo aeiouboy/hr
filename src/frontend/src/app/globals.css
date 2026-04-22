@@ -191,12 +191,16 @@
     flex-direction: column;
     gap: 6px;
   }
+}
 
-  /* lg+ breakpoint: show sidebar, switch app to 2-col grid */
-  @media (min-width: 1024px) {
-    .humi-app { grid-template-columns: 256px 1fr; }
-    .humi-sidebar { display: flex; }
-  }
+/* lg+ breakpoint: switch app to 2-col grid + show sidebar.
+   Bug 2026-04-22: this media query MUST live OUTSIDE @layer components.
+   Un-layered rules outrank any layered rule per CSS layer cascade, so the
+   default `.humi-app { grid-template-columns: 1fr }` (un-layered above) was
+   beating the layered override → sidebar took full viewport width on desktop. */
+@media (min-width: 1024px) {
+  .humi-app { grid-template-columns: 256px 1fr; }
+  .humi-sidebar { display: flex; }
 }
 
 /* Drawer modifier — fixed panel slides from left on mobile */

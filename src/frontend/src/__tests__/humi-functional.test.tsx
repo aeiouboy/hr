@@ -35,7 +35,7 @@ vi.mock('next-intl', () => ({
       feedTitle: 'ประกาศล่าสุด',
       ctaApprove: 'อนุมัติคำขอลา 2 รายการ',
       ctaAnnouncements: 'ตรวจสอบร่างประกาศ',
-      // profile
+      // profile — tab labels
       tabPersonal: 'ข้อมูลส่วนตัว',
       tabJob: 'การจ้างงาน',
       tabEmergency: 'ผู้ติดต่อฉุกเฉิน',
@@ -45,6 +45,16 @@ vi.mock('next-intl', () => ({
       profileCancelEdit: 'ยกเลิก',
       save: 'บันทึก',
       subtitle: 'พนักงาน',
+      // profile — panel headings (used by tab-routing regression tests).
+      // NOTE: `docsTitle` is intentionally re-used by both home (เอกสารรอลงนาม)
+      // and profile/me docs panel. Regression test for docs tab matches a
+      // file-list item (สัญญาจ้างงานที่ลงนาม) instead of the heading to avoid ambiguity.
+      personalTitle: 'รายละเอียดพื้นฐาน',
+      contactTitle: 'วิธีติดต่อคุณ',
+      jobTitle: 'ข้อมูลตำแหน่งงาน',
+      emergencyTitle: 'ผู้ติดต่อกรณีฉุกเฉิน',
+      emergencyHelp: 'กรุณาให้ข้อมูลอย่างน้อย 1 คน',
+      taxTitle: 'แบบฟอร์มภาษี',
       // announcements
       title: 'ประกาศและข่าวสาร',
       filterAll: 'ทั้งหมด',
@@ -607,5 +617,109 @@ describe('AC-10 — AppShell: ⌘K palette + theme toggle', () => {
 
     // router.push called with /en/home (locale swap)
     expect(mockPush).toHaveBeenCalledWith('/en/home');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — /profile/me tab routing (Bug 2026-04-22)
+//
+// Bug: SLICE_TO_PANEL had `compensation: 'job'`, but tab #3 label is
+// "ติดต่อฉุกเฉิน" — so clicking Emergency rendered the Job panel and the
+// emergency panel was unreachable. Existing tab tests only asserted
+// `activeTab` slice state (not rendered content) so the bug slipped past 77
+// PASS tests. These regression tests assert each tab renders content unique
+// to its panel — guards against any future SLICE_TO_PANEL routing drift.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — /profile/me tab → panel routing', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    mockPush.mockReset();
+    localStorage.clear();
+  });
+
+  async function clickTabAndAssert(tabLabel: string, expectedPanelMarker: string) {
+    const user = userEvent.setup();
+    const { default: Page } = await import('@/app/[locale]/profile/me/page');
+    render(<Page />);
+    const tab = screen.getByRole('tab', { name: tabLabel });
+    await user.click(tab);
+    await waitFor(() => {
+      expect(screen.getByText(expectedPanelMarker)).toBeTruthy();
+    });
+  }
+
+  it('Personal tab → Personal panel (รายละเอียดพื้นฐาน)', async () => {
+    await clickTabAndAssert('ข้อมูลส่วนตัว', 'รายละเอียดพื้นฐาน');
+  });
+
+  it('Job tab → Job panel (ข้อมูลตำแหน่งงาน)', async () => {
+    await clickTabAndAssert('การจ้างงาน', 'ข้อมูลตำแหน่งงาน');
+  });
+
+  it('Emergency tab → Emergency panel (ผู้ติดต่อกรณีฉุกเฉิน) — was unreachable before fix', async () => {
+    await clickTabAndAssert('ผู้ติดต่อฉุกเฉิน', 'ผู้ติดต่อกรณีฉุกเฉิน');
+  });
+
+  it('Emergency tab does NOT render Job panel content (regression guard)', async () => {
+    const user = userEvent.setup();
+    const { default: Page } = await import('@/app/[locale]/profile/me/page');
+    render(<Page />);
+    const emergencyTab = screen.getByRole('tab', { name: 'ผู้ติดต่อฉุกเฉิน' });
+    await user.click(emergencyTab);
+    await waitFor(() => {
+      expect(screen.getByText('ผู้ติดต่อกรณีฉุกเฉิน')).toBeTruthy();
+    });
+    expect(screen.queryByText('ข้อมูลตำแหน่งงาน')).toBeNull();
+  });
+
+  it('Docs tab → renders document file list item (สัญญาจ้างงานที่ลงนาม)', async () => {
+    await clickTabAndAssert('เอกสาร', 'สัญญาจ้างงานที่ลงนาม');
+  });
+
+  it('Tax tab → Tax panel (แบบฟอร์มภาษี)', async () => {
+    await clickTabAndAssert('ภาษี', 'แบบฟอร์มภาษี');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — Desktop layout @media query escapes @layer (Bug 2026-04-22)
+//
+// Bug: `.humi-app { grid-template-columns: 1fr }` lived outside any @layer,
+// while the desktop override `@media (min-width: 1024px) { .humi-app { ...
+// 256px 1fr } }` was nested INSIDE @layer components. Per CSS layer cascade,
+// un-layered rules outrank ANY layered rule → mobile rule won at desktop →
+// sidebar took full viewport width. jsdom can't compute @media so we assert
+// the structural fix via source-text inspection: the lg+ media query for
+// `.humi-app` must NOT be nested inside @layer components.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — globals.css desktop @media must escape @layer', () => {
+  it('@media (min-width: 1024px) for .humi-app is at top level (not inside @layer)', async () => {
+    const fs = await import('node:fs/promises');
+    const path = await import('node:path');
+    const cssPath = path.resolve(__dirname, '../app/globals.css');
+    const css = await fs.readFile(cssPath, 'utf-8');
+
+    // Find every @layer components { ... } block (balanced braces) and verify
+    // none of them contain the desktop override for .humi-app.
+    const layerRe = /@layer\s+components\s*\{/g;
+    let m: RegExpExecArray | null;
+    while ((m = layerRe.exec(css)) !== null) {
+      let depth = 1;
+      let i = m.index + m[0].length;
+      while (i < css.length && depth > 0) {
+        if (css[i] === '{') depth++;
+        else if (css[i] === '}') depth--;
+        i++;
+      }
+      const block = css.slice(m.index, i);
+      // The block must NOT contain the lg+ media query targeting .humi-app
+      const hasBuggyNesting =
+        /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[^}]*\.humi-app/s.test(block);
+      expect(hasBuggyNesting).toBe(false);
+    }
+
+    // And the override must exist somewhere at top level
+    const topLevel = /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[^}]*\.humi-app[^}]*grid-template-columns/s;
+    expect(topLevel.test(css)).toBe(true);
   });
 });
