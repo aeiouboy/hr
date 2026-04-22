@@ -34,6 +34,14 @@ vi.mock('next/link', () => ({
   ),
 }));
 
+// ── Mock next/image — renders as <img> in jsdom ──────────────────────────────
+vi.mock('next/image', () => ({
+  default: ({ src, alt, width, height, priority: _p, ...props }: { src: string; alt: string; width?: number; height?: number; priority?: boolean; [k: string]: unknown }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} width={width} height={height} {...props} />
+  ),
+}));
+
 // ── Route fixtures (11 Humi routes) ─────────────────────────────────────────
 const ROUTES = [
   '/th/home',
@@ -77,7 +85,8 @@ describe('AC-1 — sidebar element present on all routes', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AC-2: Wordmark "Hum" text present on every route
+// AC-2: Wordmark brand mark present on every route
+// (Updated: logo is now next/image PNG with alt="Humi", no raw text "Hum")
 // ─────────────────────────────────────────────────────────────────────────────
 describe('AC-2 — wordmark "Hum" present on all routes', () => {
   beforeEach(() => {
@@ -87,11 +96,13 @@ describe('AC-2 — wordmark "Hum" present on all routes', () => {
   for (const route of ROUTES) {
     it(`wordmark visible at ${route}`, async () => {
       const { container, unmount } = await renderShellAtRoute(route);
-      // The wordmark div contains "Hum" + SVG mark — query by class to be precise
-      // (Topbar may also render "Humi" as page title for some routes)
+      // The wordmark div now holds the official Humi logo PNG (alt="Humi")
       const wordmarkEl = container.querySelector('.humi-wordmark');
       expect(wordmarkEl).toBeTruthy();
-      expect(wordmarkEl?.textContent).toMatch(/Hum/i);
+      // Brand mark = img with alt matching "Humi"
+      const img = wordmarkEl?.querySelector('img');
+      expect(img).toBeTruthy();
+      expect(img?.alt).toMatch(/humi/i);
       unmount();
     });
   }

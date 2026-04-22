@@ -71,6 +71,13 @@ vi.mock('next/link', () => ({
   ),
 }));
 
+vi.mock('next/image', () => ({
+  default: ({ src, alt, width, height, priority: _p, ...props }: { src: string; alt: string; width?: number; height?: number; priority?: boolean; [k: string]: unknown }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} width={width} height={height} {...props} />
+  ),
+}));
+
 // ─────────────────────────────────────────────────────────────────────────────
 // c1 — /profile/me: tab switching + edit/save flow
 // ─────────────────────────────────────────────────────────────────────────────

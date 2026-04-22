@@ -23,6 +23,7 @@
 // under 'บริษัท' group pointing to /legacy hub page (separate sprint).
 // ════════════════════════════════════════════════════════════
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -110,25 +111,6 @@ const NAV: NavSection[] = [
   },
 ];
 
-/** Humi wordmark brand mark — gumdrop/person shape from reference ShelflyMark. */
-function HumiMark({ size = 20 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size * 1.15}
-      viewBox="0 0 28 32"
-      aria-hidden="true"
-      style={{ color: 'var(--color-accent)' }}
-    >
-      <circle cx="14" cy="7" r="6" fill="currentColor" />
-      <path
-        d="M5 30c0-6 4-11 9-11s9 5 9 11c0 1-1 2-2 2H7c-1 0-2-1-2-2z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
 /** Strip locale prefix (/th/ or /en/) to get bare path e.g. /home */
 function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
@@ -153,8 +135,14 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
     <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
       <div className="humi-brand">
         <div className="humi-wordmark">
-          Hum
-          <HumiMark size={20} />
+          <Image
+            src="/humi-logo.png"
+            alt="Humi"
+            width={90}
+            height={28}
+            priority
+            style={{ height: 28, width: 'auto', objectFit: 'contain' }}
+          />
         </div>
         {/* Explicit close affordance — only rendered in drawer mode (when
             AppShell passes onClose). Without this the user has no visible

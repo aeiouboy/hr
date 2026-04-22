@@ -159,7 +159,7 @@ export default function HumiRequestsPage() {
       )}
 
       {/* Page header */}
-      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
         <div className="flex flex-col gap-1">
           <CardEyebrow>คำร้องและแบบฟอร์ม</CardEyebrow>
           <h1
@@ -175,6 +175,8 @@ export default function HumiRequestsPage() {
           variant="primary"
           leadingIcon={<Plus size={14} />}
           onClick={() => setTab('catalog')}
+          block
+          className="sm:w-auto"
         >
           สร้างคำร้องใหม่
         </Button>
@@ -286,7 +288,7 @@ function MineTab({
             aria-pressed={filter === chip.key}
             onClick={() => setFilter(chip.key)}
             className={cn(
-              'rounded-full px-3.5 py-1.5 text-small font-medium transition-colors',
+              'min-h-[44px] rounded-full px-4 py-2.5 text-small font-medium transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
               filter === chip.key
                 ? 'bg-ink text-canvas'
@@ -300,11 +302,11 @@ function MineTab({
 
       {/* Request list */}
       <Card variant="raised" size="lg">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <CardTitle>คำร้องของฉัน</CardTitle>
           <div
             role="search"
-            className="inline-flex min-w-[220px] items-center gap-2 rounded-full border border-hairline bg-canvas-soft px-3 py-1.5 text-small text-ink-muted"
+            className="flex w-full min-w-0 items-center gap-2 rounded-full border border-hairline bg-canvas-soft px-3 py-2 text-small text-ink-muted sm:w-auto sm:min-w-[220px]"
           >
             <Search size={14} aria-hidden />
             <span>ค้นหารหัสหรือหัวข้อ…</span>
@@ -564,11 +566,11 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
             ))}
           </div>
 
-          <div className="mt-5 flex gap-3">
-            <Button variant="primary" onClick={handleSubmit}>
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <Button variant="primary" block onClick={handleSubmit} className="sm:w-auto">
               ส่งคำร้อง
             </Button>
-            <Button variant="ghost" onClick={() => { setSelectedTemplate(null); setFieldValues({}); setErrors({}); }}>
+            <Button variant="ghost" block onClick={() => { setSelectedTemplate(null); setFieldValues({}); setErrors({}); }} className="sm:w-auto">
               ยกเลิก
             </Button>
           </div>
@@ -673,14 +675,14 @@ function ApprovalsTab() {
                 </p>
               </div>
             </div>
-            <div className="flex shrink-0 items-center gap-2">
-              <Button variant="ghost" size="sm">
+            <div className="flex min-w-0 flex-wrap items-center gap-2 sm:shrink-0 sm:flex-nowrap">
+              <Button variant="ghost" size="sm" className="min-h-[44px] px-4">
                 รายละเอียด
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="min-h-[44px] px-4">
                 ปฏิเสธ
               </Button>
-              <Button variant="primary" size="sm">
+              <Button variant="primary" size="sm" className="min-h-[44px] px-4">
                 อนุมัติ
               </Button>
             </div>
