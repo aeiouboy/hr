@@ -813,3 +813,45 @@ describe('REGRESSION — Hamburger + Mobile Drawer a11y', () => {
     expect(useUIStore.getState().mobileMenuOpen).toBe(false);
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — Every sidebar NAV destination must have a topbar TITLE_MAP entry
+// (Bug 2026-04-22 "double humi"): without a match, resolveTitle() falls back
+// to 'Humi' which duplicates the sidebar logo and reads as a visual bug.
+// Guards against future nav additions that forget the topbar registration.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — Sidebar NAV ↔ AppShell TITLE_MAP parity', () => {
+  it('every internal sidebar href has a matching TITLE_MAP prefix', async () => {
+    const fs = await import('node:fs/promises');
+    const path = await import('node:path');
+
+    const sidebarSrc = await fs.readFile(
+      path.resolve(__dirname, '../components/humi/shell/Sidebar.tsx'),
+      'utf-8',
+    );
+    const appShellSrc = await fs.readFile(
+      path.resolve(__dirname, '../components/humi/shell/AppShell.tsx'),
+      'utf-8',
+    );
+
+    // Extract sidebar internal NAV hrefs (skip external https:// links)
+    const hrefMatches = Array.from(sidebarSrc.matchAll(/href:\s*'(\/th\/[^']+)'/g));
+    const navHrefs = hrefMatches.map((m) => m[1]);
+    expect(navHrefs.length).toBeGreaterThan(0);
+
+    // Extract TITLE_MAP prefixes
+    const prefixMatches = Array.from(appShellSrc.matchAll(/prefix:\s*'(\/th\/[^']+)'/g));
+    const titlePrefixes = new Set(prefixMatches.map((m) => m[1]));
+
+    // Each nav href must match a title prefix (exact or startsWith — resolveTitle
+    // uses startsWith so /th/profile covers /th/profile/me, etc)
+    const missing: string[] = [];
+    for (const href of navHrefs) {
+      const matched = Array.from(titlePrefixes).some(
+        (p) => href === p || href.startsWith(p + '/'),
+      );
+      if (!matched) missing.push(href);
+    }
+    expect(missing).toEqual([]);
+  });
+});

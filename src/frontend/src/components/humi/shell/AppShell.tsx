@@ -22,7 +22,10 @@ import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
 import { useUIStore } from '@/stores/ui-store';
 
-/** href prefix → page title shown in topbar h2 */
+/** href prefix → page title shown in topbar h2.
+ *  Keep 1:1 with Sidebar.tsx NAV items — every sidebar destination MUST have a
+ *  title entry here, otherwise topbar falls back to 'Humi' and visually
+ *  duplicates the sidebar brand logo (Ken UAT 2026-04-22 "double humi"). */
 const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/th/home',               title: 'หน้าหลัก' },
   { prefix: '/en/home',               title: 'หน้าหลัก' },
@@ -40,10 +43,22 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/learning-directory', title: 'การเรียนรู้' },
   { prefix: '/th/org-chart',          title: 'ผังองค์กร' },
   { prefix: '/en/org-chart',          title: 'ผังองค์กร' },
+  { prefix: '/th/performance-form',   title: 'ประเมินผลงาน' },
+  { prefix: '/en/performance-form',   title: 'ประเมินผลงาน' },
+  { prefix: '/th/development',        title: 'การพัฒนา' },
+  { prefix: '/en/development',        title: 'การพัฒนา' },
+  { prefix: '/th/succession',         title: 'สายการสืบทอด' },
+  { prefix: '/en/succession',         title: 'สายการสืบทอด' },
   { prefix: '/th/announcements',      title: 'ประกาศ' },
   { prefix: '/en/announcements',      title: 'ประกาศ' },
   { prefix: '/th/integrations',       title: 'จัดการระบบ' },
   { prefix: '/en/integrations',       title: 'จัดการระบบ' },
+  { prefix: '/th/careers',            title: 'ตำแหน่งว่างภายใน' },
+  { prefix: '/en/careers',            title: 'ตำแหน่งว่างภายใน' },
+  { prefix: '/th/recruiting',         title: 'สรรหา' },
+  { prefix: '/en/recruiting',         title: 'สรรหา' },
+  { prefix: '/th/reports',            title: 'รายงาน' },
+  { prefix: '/en/reports',            title: 'รายงาน' },
 ];
 
 function resolveTitle(pathname: string): string {
