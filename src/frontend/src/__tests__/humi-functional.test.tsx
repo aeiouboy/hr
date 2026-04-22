@@ -712,14 +712,15 @@ describe('REGRESSION — globals.css desktop @media must escape @layer', () => {
         i++;
       }
       const block = css.slice(m.index, i);
-      // The block must NOT contain the lg+ media query targeting .humi-app
+      // The block must NOT contain the lg+ media query targeting .humi-app.
+      // Use [\s\S] instead of /s flag (target compatibility — TS1501).
       const hasBuggyNesting =
-        /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[^}]*\.humi-app/s.test(block);
+        /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[\s\S]*?\.humi-app/.test(block);
       expect(hasBuggyNesting).toBe(false);
     }
 
     // And the override must exist somewhere at top level
-    const topLevel = /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[^}]*\.humi-app[^}]*grid-template-columns/s;
+    const topLevel = /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[\s\S]*?\.humi-app[\s\S]*?grid-template-columns/;
     expect(topLevel.test(css)).toBe(true);
   });
 });

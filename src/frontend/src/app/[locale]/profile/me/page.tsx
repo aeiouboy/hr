@@ -409,7 +409,30 @@ function FieldCard({
         {title}
       </h3>
       <div className="humi-col" style={{ gap: 14 }}>
-        {rows.map(([l, v]) => (
+        {rows.map(([l, v]) => {
+          // Section divider row: label starts with "────" and value is empty.
+          // Render as full-width eyebrow heading instead of a label/value pair —
+          // mirrors SF EC Core sub-section structure (Employment Details, Org Info, ...)
+          if (v === '' && l.startsWith('────')) {
+            const heading = l.replace(/────/g, '').trim();
+            return (
+              <div
+                key={l}
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-accent)',
+                  paddingTop: 8,
+                  borderTop: '1px solid var(--color-hairline)',
+                }}
+              >
+                {heading}
+              </div>
+            );
+          }
+          return (
           <div
             key={l}
             className="humi-row"
@@ -432,7 +455,8 @@ function FieldCard({
               {v}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
