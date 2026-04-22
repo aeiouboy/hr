@@ -57,7 +57,37 @@
     "organization": "Organization",
     "talentDevelopment": "Talent Development",
     "recruitment": "Recruitment",
-    "hospitalReferral": "Hospital Referral"
+    "hospitalReferral": "Hospital Referral",
+    "performanceForm": "Performance Form",
+    "development": "Development",
+    "succession": "Succession",
+    "careers": "Careers",
+    "recruiting": "Recruiting",
+    "reports": "Reports",
+    "timeAttendance": "Time & Attendance"
+  },
+  "pages": {
+    "performanceForm": {
+      "title": "Performance Form"
+    },
+    "development": {
+      "title": "Development"
+    },
+    "succession": {
+      "title": "Succession"
+    },
+    "careers": {
+      "title": "Careers"
+    },
+    "recruiting": {
+      "title": "Recruiting"
+    },
+    "reports": {
+      "title": "Reports"
+    }
+  },
+  "placeholders": {
+    "comingSoon": "Coming in Sprint 2+"
   },
   "profile": {
     "title": "Profile",
@@ -94,6 +124,7 @@
     "nationalId": "National ID",
     "maritalStatus": "Marital Status",
     "maritalStatusSince": "Marital Status Since",
+    "otherTitleTh": "Other Title (Thai)",
     "contact": "Contact Information",
     "businessEmail": "Business Email",
     "personalEmail": "Personal Email",
@@ -198,6 +229,7 @@
     "seniorityStartDate": "Seniority Start Date",
     "yearsOfService": "Years of Service",
     "passProbationDate": "Pass Probation Date",
+    "corporateTitle": "Corporate Title",
     "currentJobEffectiveDate": "Current Job Effective Date",
     "currentYearsInJob": "Current Years in Job",
     "currentPositionEffective": "Current Position Effective Date",

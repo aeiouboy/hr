@@ -63,6 +63,11 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
  <Field label={t('personal.nationalId')} value={maskValue(info.nationalId)} mono />
  <Field label={t('personal.maritalStatus')} value={info.maritalStatus ? t(`maritalStatus.${info.maritalStatus}`) : undefined} />
  <Field label={t('personal.maritalStatusSince')} value={formatDate(info.maritalStatusSince,'long', locale)} mono />
+ <Field label={t('personal.salutationEn')} value={info.salutationEn} />
+ <Field label={t('personal.salutationTh')} value={info.salutationTh} />
+ <Field label={t('personal.otherTitleTh')} value={info.otherTitleTh} />
+ <Field label={t('personal.middleNameEn')} value={info.middleNameEn} />
+ <Field label={t('personal.lastNameTh')} value={info.lastNameTh} />
  </FieldGroup>
 
  {/* ช่องทางติดต่อ */}

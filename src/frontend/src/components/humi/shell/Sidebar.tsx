@@ -36,6 +36,14 @@ import {
   Network,
   Megaphone,
   Plug,
+  Activity,
+  TrendingUp,
+  Users2,
+  Search,
+  UserPlus,
+  BarChart3,
+  Clock,
+  ExternalLink,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -55,6 +63,7 @@ type NavItem = {
   href: string;
   icon: LucideIcon;
   badge?: string;
+  external?: boolean;
 };
 
 type NavSection = {
@@ -71,6 +80,7 @@ const NAV: NavSection[] = [
       { id: 'timeoff', label: 'ลางาน', href: '/th/timeoff', icon: Calendar, badge: '2' },
       { id: 'benefits', label: 'เงินเดือนและสวัสดิการ', href: '/th/benefits-hub', icon: Heart, badge: '1' },
       { id: 'requests', label: 'คำร้องและแบบฟอร์ม', href: '/th/requests', icon: FileText, badge: '1' },
+      { id: 'time-attendance', label: 'เวลา & การเข้างาน', href: 'https://cnext-time.centralgroup.com', icon: Clock, external: true },
     ],
   },
   {
@@ -79,6 +89,9 @@ const NAV: NavSection[] = [
       { id: 'goals', label: 'เป้าหมายและผลงาน', href: '/th/goals', icon: Target },
       { id: 'learning', label: 'การเรียนรู้', href: '/th/learning-directory', icon: BookOpen },
       { id: 'directory', label: 'ผังองค์กร', href: '/th/org-chart', icon: Network },
+      { id: 'performance-form', label: 'ประเมินผลงาน', href: '/th/performance-form', icon: Activity },
+      { id: 'development', label: 'การพัฒนา', href: '/th/development', icon: TrendingUp },
+      { id: 'succession', label: 'สายการสืบทอด', href: '/th/succession', icon: Users2 },
     ],
   },
   {
@@ -86,6 +99,9 @@ const NAV: NavSection[] = [
     items: [
       { id: 'announce', label: 'ประกาศ', href: '/th/announcements', icon: Megaphone },
       { id: 'integrations', label: 'จัดการระบบ', href: '/th/integrations', icon: Plug },
+      { id: 'careers', label: 'ตำแหน่งว่างภายใน', href: '/th/careers', icon: Search },
+      { id: 'recruiting', label: 'สรรหา', href: '/th/recruiting', icon: UserPlus },
+      { id: 'reports', label: 'รายงาน', href: '/th/reports', icon: BarChart3 },
     ],
   },
 ];
@@ -145,6 +161,24 @@ export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
             {section.items.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
+              if (item.external) {
+                return (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="humi-nav-item"
+                    onClick={onNavigate}
+                  >
+                    <span className="humi-nav-icon" aria-hidden="true">
+                      <Icon size={16} />
+                    </span>
+                    <span className="humi-nav-text">{item.label}</span>
+                    <ExternalLink size={12} className="ml-auto text-ink-muted" aria-hidden="true" />
+                  </a>
+                );
+              }
               return (
                 <Link
                   key={item.id}

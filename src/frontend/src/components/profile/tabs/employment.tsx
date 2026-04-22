@@ -73,6 +73,7 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
  <Field label={t('employment.seniorityStartDate')} value={formatDate(details.seniorityStartDate,'long', locale)} mono />
  <Field label={t('employment.yearsOfService')} value={details.yearsOfService} />
  <Field label={t('employment.passProbationDate')} value={formatDate(details.passProbationDate,'long', locale)} mono />
+ <Field label={t('employment.corporateTitle')} value={details.corporateTitle} />
  <Field label={t('employment.currentJobEffectiveDate')} value={formatDate(details.currentJobEffectiveDate,'long', locale)} mono />
  <Field label={t('employment.currentYearsInJob')} value={details.currentYearsInJob} />
  <Field label={t('employment.currentPositionEffective')} value={formatDate(details.currentPositionEffectiveDate,'long', locale)} mono />

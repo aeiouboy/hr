@@ -57,7 +57,37 @@
     "organization": "องค์กร",
     "talentDevelopment": "พัฒนาบุคลากร",
     "recruitment": "สรรหาบุคลากร",
-    "hospitalReferral": "หนังสือส่งตัว"
+    "hospitalReferral": "หนังสือส่งตัว",
+    "performanceForm": "ประเมินผลงาน",
+    "development": "การพัฒนา",
+    "succession": "สายการสืบทอด",
+    "careers": "ตำแหน่งว่างภายใน",
+    "recruiting": "สรรหา",
+    "reports": "รายงาน",
+    "timeAttendance": "เวลา & การเข้างาน"
+  },
+  "pages": {
+    "performanceForm": {
+      "title": "ประเมินผลงาน"
+    },
+    "development": {
+      "title": "การพัฒนา"
+    },
+    "succession": {
+      "title": "สายการสืบทอด"
+    },
+    "careers": {
+      "title": "ตำแหน่งว่างภายใน"
+    },
+    "recruiting": {
+      "title": "สรรหา"
+    },
+    "reports": {
+      "title": "รายงาน"
+    }
+  },
+  "placeholders": {
+    "comingSoon": "ฟีเจอร์นี้อยู่ระหว่างพัฒนา — Sprint 2+"
   },
   "profile": {
     "title": "โปรไฟล์",
@@ -94,6 +124,7 @@
     "nationalId": "เลขประจำตัวประชาชน",
     "maritalStatus": "สถานภาพสมรส",
     "maritalStatusSince": "สถานภาพสมรสตั้งแต่",
+    "otherTitleTh": "ตำแหน่งอื่น (ไทย)",
     "contact": "ช่องทางติดต่อ",
     "businessEmail": "อีเมลธุรกิจ",
     "personalEmail": "อีเมลส่วนตัว",
@@ -198,6 +229,7 @@
     "seniorityStartDate": "วันเริ่มนับอายุงาน",
     "yearsOfService": "อายุงาน",
     "passProbationDate": "วันผ่านทดลองงาน",
+    "corporateTitle": "ตำแหน่งองค์กร",
     "currentJobEffectiveDate": "วันมีผลตำแหน่งปัจจุบัน",
     "currentYearsInJob": "อายุงานในตำแหน่ง",
     "currentPositionEffective": "วันมีผล Position",
