@@ -11,7 +11,7 @@
 
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Check, FileText, Download, Pencil, X, ShieldCheck } from 'lucide-react';
+import { Check, FileText, Download, Pencil, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
 import { HUMI_MY_PROFILE } from '@/lib/humi-mock-data';
@@ -114,15 +114,14 @@ export default function HumiProfileMePage() {
   const t = useTranslations('humiProfile');
   const tEdit = useTranslations('profileEdit');
   const tPending = useTranslations('pending');
-  const tAdmin = useTranslations('adminMode');
   const tToast = useTranslations('profileToast');
   const tActivity = useTranslations('activityLog');
   const p = HUMI_MY_PROFILE;
 
   const {
     activeTab, isEditing, draft, save, setTab, startEdit, updateDraft, cancelEdit,
-    pendingChanges, attachments, adminMode,
-    submitChangeRequest, adminApprove, adminReject, toggleAdminMode,
+    pendingChanges, attachments,
+    submitChangeRequest,
   } = useHumiProfileStore();
 
   const [toast, setToast] = useState<string | null>(null);
@@ -178,18 +177,6 @@ export default function HumiProfileMePage() {
     });
     showToast(tToast('submitted'));
     handleGateClose();
-  }
-
-  // ── Admin approve/reject ──────────────────────────────────────────────────
-
-  function handleAdminApprove(id: string) {
-    adminApprove(id);
-    showToast(tToast('approved'));
-  }
-
-  function handleAdminReject(id: string) {
-    adminReject(id);
-    showToast(tToast('rejected'), false);
   }
 
   // ── Determine if save is disabled (attachment required but missing) ────────
@@ -283,16 +270,6 @@ export default function HumiProfileMePage() {
           {t('subtitle')} · {p.employeeCode}
         </div>
         <div className="humi-row" style={{ gap: 8 }}>
-          {/* Admin mode toggle */}
-          <Button
-            variant={adminMode ? 'primary' : 'ghost'}
-            size="sm"
-            leadingIcon={<ShieldCheck size={14} />}
-            onClick={toggleAdminMode}
-          >
-            {tAdmin('toggle')}
-          </Button>
-
           {isEditing ? (
             <>
               <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
@@ -870,11 +847,7 @@ export default function HumiProfileMePage() {
                   key={pc.id}
                   pc={pc}
                   attachments={attachments}
-                  adminMode={adminMode}
-                  onApprove={handleAdminApprove}
-                  onReject={handleAdminReject}
                   tPending={tPending}
-                  tAdmin={tAdmin}
                   tActivity={tActivity}
                 />
               ))}
@@ -1075,20 +1048,12 @@ function FullEditField({
 function PendingChangeCard({
   pc,
   attachments,
-  adminMode,
-  onApprove,
-  onReject,
   tPending,
-  tAdmin,
   tActivity,
 }: {
   pc: PendingChange;
   attachments: ReturnType<typeof useHumiProfileStore.getState>['attachments'];
-  adminMode: boolean;
-  onApprove: (id: string) => void;
-  onReject: (id: string) => void;
   tPending: ReturnType<typeof useTranslations>;
-  tAdmin: ReturnType<typeof useTranslations>;
   tActivity: ReturnType<typeof useTranslations>;
 }) {
   const pcAttachments = attachments.filter((a) => pc.attachmentIds.includes(a.id));
@@ -1185,43 +1150,6 @@ function PendingChangeCard({
         </div>
       )}
 
-      {/* Admin approve/reject buttons */}
-      {adminMode && pc.status === 'pending' && (
-        <div className="humi-row" style={{ gap: 8, marginTop: 12 }}>
-          <button
-            type="button"
-            onClick={() => onApprove(pc.id)}
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              padding: '5px 14px',
-              borderRadius: 7,
-              border: 'none',
-              background: 'var(--color-accent)',
-              color: '#fff',
-              cursor: 'pointer',
-            }}
-          >
-            {tAdmin('approve')}
-          </button>
-          <button
-            type="button"
-            onClick={() => onReject(pc.id)}
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              padding: '5px 14px',
-              borderRadius: 7,
-              border: '1px solid var(--color-hairline)',
-              background: '#fff',
-              color: 'var(--color-danger)',
-              cursor: 'pointer',
-            }}
-          >
-            {tAdmin('reject')}
-          </button>
-        </div>
-      )}
     </li>
   );
 }
