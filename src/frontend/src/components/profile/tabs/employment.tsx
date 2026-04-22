@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Briefcase, Building, UserCheck } from 'lucide-react';
@@ -8,6 +9,8 @@ import { Field } from '@/components/ui/field';
 import { Card } from '@/components/ui/card';
 import { formatDate } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
+import { EffectiveDateGate } from '@/components/profile/EffectiveDateGate';
+import { EditPencilButton } from '@/components/profile/EditPencilButton';
 
 interface OrgChartNode {
  id: string;
@@ -25,6 +28,7 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
  const t = useTranslations();
  const pathname = usePathname();
  const locale = pathname.startsWith('/th') ?'th' :'en';
+ const [editingSection, setEditingSection] = useState<string | null>(null);
 
  if (loading) {
  return (
@@ -53,6 +57,29 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
 
  return (
  <div className="space-y-6">
+ {/* EffectiveDateGate — Employment Details */}
+ <EffectiveDateGate
+ open={editingSection ==='employment-details'}
+ onClose={() => setEditingSection(null)}
+ onConfirm={(date, values) => {
+ console.log('Employment Details save:', { date, values });
+ setEditingSection(null);
+ }}
+ sectionTitle={t('employment.details')}
+ >
+ {(effectiveDate) => (
+ <div className="space-y-2">
+ <p className="text-sm text-ink-muted">
+ {/* Sprint 3 จะ build form fields จริง */}
+ Edit form coming in Sprint 3
+ </p>
+ <p className="text-xs text-ink-muted font-mono">
+ Effective: {effectiveDate.toLocaleDateString()}
+ </p>
+ </div>
+ )}
+ </EffectiveDateGate>
+
  {/* Org Chart */}
  {orgChart && (
  <Card className="overflow-hidden">
@@ -67,7 +94,11 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
 
  {/* รายละเอียดการจ้างงาน */}
  {details && (
- <FieldGroup title={t('employment.details')} icon={<Briefcase className="h-5 w-5" />}>
+ <FieldGroup
+ title={t('employment.details')}
+ icon={<Briefcase className="h-5 w-5" />}
+ action={<EditPencilButton onClick={() => setEditingSection('employment-details')} />}
+ >
  <Field label={t('employment.hireDate')} value={formatDate(details.hireDate,'long', locale)} mono />
  <Field label={t('employment.originalStartDate')} value={formatDate(details.originalStartDate,'long', locale)} mono />
  <Field label={t('employment.seniorityStartDate')} value={formatDate(details.seniorityStartDate,'long', locale)} mono />
