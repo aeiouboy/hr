@@ -194,13 +194,15 @@
 }
 
 /* lg+ breakpoint: switch app to 2-col grid + show sidebar.
-   Bug 2026-04-22: this media query MUST live OUTSIDE @layer components.
-   Un-layered rules outrank any layered rule per CSS layer cascade, so the
-   default `.humi-app { grid-template-columns: 1fr }` (un-layered above) was
-   beating the layered override → sidebar took full viewport width on desktop. */
+   Bug 2026-04-22: Tailwind v4/PostCSS absorbs this media query into @layer components
+   at build time despite source being un-layered. Un-layered default `.humi-app {
+   grid-template-columns: 1fr }` then outranks the layered media override → full-viewport
+   sidebar overlap. Workaround: !important on the 2 override properties to win regardless
+   of layer cascade. Surgical (only 2 properties flagged), safe (no other rule should
+   override these at 1024px+). Verified via browser-harness computed styles 2026-04-22. */
 @media (min-width: 1024px) {
-  .humi-app { grid-template-columns: 256px 1fr; }
-  .humi-sidebar { display: flex; }
+  .humi-app { grid-template-columns: 256px 1fr !important; }
+  .humi-sidebar { display: flex !important; }
 }
 
 /* Drawer modifier — 2026: rounded right edge + shadow elevation + slide-in.
