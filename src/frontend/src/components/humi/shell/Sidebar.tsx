@@ -44,6 +44,7 @@ import {
   BarChart3,
   Clock,
   ExternalLink,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -53,6 +54,9 @@ export interface SidebarProps {
   /** Called when any nav item or locale pill is clicked — used by AppShell
    *  to close the mobile drawer after navigation. */
   onNavigate?: () => void;
+  /** Called when the explicit close (X) button is clicked. Renders the close
+   *  button only when this prop is provided — typically only in drawer mode. */
+  onClose?: () => void;
   /** Extra className merged onto <aside> — e.g. "humi-sidebar--drawer". */
   className?: string;
 }
@@ -130,7 +134,7 @@ function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
 }
 
-export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
+export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
   const router = useRouter();
   // Compare without locale prefix so /en/home matches href="/th/home"
@@ -152,6 +156,20 @@ export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
           Hum
           <HumiMark size={20} />
         </div>
+        {/* Explicit close affordance — only rendered in drawer mode (when
+            AppShell passes onClose). Without this the user has no visible
+            way to close the drawer once it covers the topbar hamburger. */}
+        {onClose && (
+          <button
+            type="button"
+            className="humi-icon-btn humi-drawer-close"
+            aria-label="ปิดเมนู"
+            onClick={onClose}
+            style={{ marginLeft: 'auto' }}
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       <nav className="humi-nav" aria-label="เมนูหลัก">

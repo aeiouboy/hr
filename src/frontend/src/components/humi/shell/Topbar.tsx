@@ -49,18 +49,21 @@ export function Topbar({
 
   return (
     <div className="humi-topbar">
-      {/* Hamburger — mobile/tablet only (<lg). aria-expanded + aria-controls
-          let screen readers announce the controlled drawer + its open state.
-          Dynamic aria-label flips ปิดเมนู / เปิดเมนู so VoiceOver reads correctly. */}
+      {/* Menu button — mobile/tablet only (<lg). Labeled chip ([≡ เมนู]) instead
+          of icon-only — Nielsen Norman 2014: hamburger discoverability hurts UX.
+          Visible text label kills the "what does this do?" question. aria-expanded
+          + aria-controls let screen readers announce the controlled drawer + its
+          open state. Dynamic aria-label flips ปิดเมนู / เปิดเมนู for VoiceOver. */}
       <button
         type="button"
-        className="humi-icon-btn lg:!hidden"
+        className="humi-menu-btn lg:!hidden"
         aria-label={mobileMenuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
         aria-expanded={mobileMenuOpen}
         aria-controls="humi-mobile-drawer"
         onClick={toggleMobileMenu}
       >
-        <Menu size={20} aria-hidden="true" />
+        <Menu size={18} aria-hidden="true" />
+        <span>เมนู</span>
       </button>
 
       {/* Title block */}

@@ -749,16 +749,24 @@ describe('REGRESSION — Hamburger + Mobile Drawer a11y', () => {
       </AppShell>,
     );
 
-    // Default state — closed
-    const hamburger = screen.getByRole('button', { name: 'เปิดเมนู' });
-    expect(hamburger.getAttribute('aria-expanded')).toBe('false');
-    expect(hamburger.getAttribute('aria-controls')).toBe('humi-mobile-drawer');
+    // Default state — closed. Disambiguate from drawer X button (also labeled
+    // "ปิดเมนู") by selecting the unique button that has aria-controls.
+    const hamburger = document.querySelector(
+      'button[aria-controls="humi-mobile-drawer"]',
+    ) as HTMLButtonElement | null;
+    expect(hamburger).not.toBeNull();
+    expect(hamburger!.getAttribute('aria-label')).toBe('เปิดเมนู');
+    expect(hamburger!.getAttribute('aria-expanded')).toBe('false');
 
-    // After click — open
-    await user.click(hamburger);
+    // After click — open. Same selector still finds the hamburger; drawer X
+    // button doesn't have aria-controls so it can't collide.
+    await user.click(hamburger!);
     await waitFor(() => {
-      const opened = screen.getByRole('button', { name: 'ปิดเมนู' });
+      const opened = document.querySelector(
+        'button[aria-controls="humi-mobile-drawer"]',
+      ) as HTMLButtonElement;
       expect(opened.getAttribute('aria-expanded')).toBe('true');
+      expect(opened.getAttribute('aria-label')).toBe('ปิดเมนู');
     });
   });
 
@@ -774,7 +782,10 @@ describe('REGRESSION — Hamburger + Mobile Drawer a11y', () => {
     // Drawer not in DOM until open
     expect(document.getElementById('humi-mobile-drawer')).toBeNull();
 
-    await user.click(screen.getByRole('button', { name: 'เปิดเมนู' }));
+    const trigger = document.querySelector(
+      'button[aria-controls="humi-mobile-drawer"]',
+    ) as HTMLButtonElement;
+    await user.click(trigger);
     await waitFor(() => {
       const drawer = document.getElementById('humi-mobile-drawer');
       expect(drawer).not.toBeNull();

@@ -159,7 +159,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             aria-label="เมนูหลัก"
             className="fixed inset-y-0 left-0 z-40 lg:hidden"
           >
-            <Sidebar onNavigate={closeMobileMenu} className="humi-sidebar--drawer" />
+            <Sidebar
+              onNavigate={closeMobileMenu}
+              onClose={closeMobileMenu}
+              className="humi-sidebar--drawer"
+            />
           </div>
         </>
       )}
