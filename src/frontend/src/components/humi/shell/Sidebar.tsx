@@ -135,8 +135,14 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
     <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
       <div className="humi-brand">
         <div className="humi-wordmark">
+          {/* Sidebar bg = navy ink (`--color-ink`). The base humi-logo.png has
+              dark navy "Hum" text → invisible on navy bg. Use the cream-tinted
+              variant for the dark sidebar. Generated via PIL pixel swap from
+              the same source PNG so brand fidelity stays intact (only the
+              dark luminance band gets remapped to cream — teal person
+              silhouette untouched). */}
           <Image
-            src="/humi-logo.png"
+            src="/humi-logo-light.png"
             alt="Humi"
             width={90}
             height={28}
