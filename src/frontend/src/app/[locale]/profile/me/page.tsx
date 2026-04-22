@@ -461,22 +461,9 @@ export default function HumiProfileMePage() {
       {/* ── Personal tab ─────────────────────────────────────────────────── */}
       {panelKey === 'personal' && (
         <div className="grid gap-4 md:grid-cols-2">
-          {isEditing ? (
-            // Legacy quick-edit mode (4 fields) — kept for backward compat
-            <div className="humi-card">
-              <div className="humi-eyebrow">{t('contactEyebrow')}</div>
-              <h3 className="mt-1.5 mb-4 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
-                {t('profileEditTitle')}
-              </h3>
-              <div className="humi-col" style={{ gap: 14 }}>
-                <EditField label={t('profileFieldNickname')} value={draft.nickname} onChange={(v) => updateDraft({ nickname: v })} />
-                <EditField label={t('profileFieldPhone')} value={draft.phone} onChange={(v) => updateDraft({ phone: v })} />
-                <EditField label={t('profileFieldEmail')} value={draft.personalEmail} onChange={(v) => updateDraft({ personalEmail: v })} />
-                <EditField label={t('profileFieldAddress')} value={draft.address} onChange={(v) => updateDraft({ address: v })} />
-              </div>
-            </div>
-          ) : (
-            // Full 4-section edit form with per-field pencil → single-step modal
+          {/* Always render full 4-section form; FullEditField gates input+pencil by isEditing
+              (display mode = read-only value, edit mode = input + pencil → single-step modal) */}
+          {true && (
             <div className="humi-card md:col-span-2">
               <h3 className="mb-4 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
                 {t('personalTitle')}
@@ -495,6 +482,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'salutationTh' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.salutationEn')}
@@ -507,6 +495,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'salutationEn' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.firstNameTh')}
@@ -518,6 +507,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'firstNameTh' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.firstNameEn')}
@@ -529,6 +519,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'firstNameEn' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.lastNameTh')}
@@ -540,6 +531,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'lastNameTh' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.lastNameEn')}
@@ -551,6 +543,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'lastNameEn' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.nickname')}
@@ -561,6 +554,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'nickname' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.gender')}
@@ -572,6 +566,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'gender' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.dateOfBirth')}
@@ -583,6 +578,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'dateOfBirth' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.nationality')}
@@ -593,6 +589,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'nationality' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.nationalId')}
@@ -604,6 +601,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'nationalId' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
               </div>
 
@@ -621,6 +619,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'maritalStatus' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.maritalStatusSince')}
@@ -633,6 +632,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'maritalStatusSince' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 {formValues.maritalStatus === 'สมรส' && (
                   <FullEditField
@@ -645,6 +645,7 @@ export default function HumiProfileMePage() {
                       (pc) => pc.field === 'spouseName' && pc.status === 'pending'
                     )}
                     tPending={tPending}
+                    isEditing={isEditing}
                   />
                 )}
               </div>
@@ -680,6 +681,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'personalEmail' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.businessPhone')}
@@ -691,6 +693,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'businessPhone' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.personalMobile')}
@@ -702,6 +705,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'personalMobile' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
                 <FullEditField
                   label={tEdit('field.homePhone')}
@@ -713,6 +717,7 @@ export default function HumiProfileMePage() {
                     (pc) => pc.field === 'homePhone' && pc.status === 'pending'
                   )}
                   tPending={tPending}
+                  isEditing={isEditing}
                 />
               </div>
 
@@ -738,6 +743,7 @@ export default function HumiProfileMePage() {
                       (pc) => pc.field === 'religion' && pc.status === 'pending'
                     )}
                     tPending={tPending}
+                    isEditing={isEditing}
                   />
                   <FullEditField
                     label={tEdit('field.bloodType')}
@@ -749,6 +755,7 @@ export default function HumiProfileMePage() {
                       (pc) => pc.field === 'bloodType' && pc.status === 'pending'
                     )}
                     tPending={tPending}
+                    isEditing={isEditing}
                   />
                   <FullEditField
                     label={tEdit('field.militaryStatus')}
@@ -760,6 +767,7 @@ export default function HumiProfileMePage() {
                       (pc) => pc.field === 'militaryStatus' && pc.status === 'pending'
                     )}
                     tPending={tPending}
+                    isEditing={isEditing}
                   />
                 </div>
               )}
@@ -1020,6 +1028,7 @@ function FullEditField({
   requiresAttachment = false,
   pendingChange,
   tPending,
+  isEditing,
 }: {
   label: string;
   value: string;
@@ -1030,6 +1039,7 @@ function FullEditField({
   requiresAttachment?: boolean;
   pendingChange?: PendingChange;
   tPending: ReturnType<typeof useTranslations>;
+  isEditing: boolean;
 }) {
   const hasPending = !!pendingChange;
 
@@ -1067,64 +1077,81 @@ function FullEditField({
       </div>
 
       <div className="humi-row" style={{ gap: 8, alignItems: 'center' }}>
-        {options ? (
-          <select
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
+        {isEditing ? (
+          <>
+            {options ? (
+              <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                style={{
+                  flex: 1,
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: 'var(--color-ink)',
+                  background: 'var(--color-canvas-soft)',
+                  border: '1px solid var(--color-hairline)',
+                  borderRadius: 7,
+                  padding: '5px 10px',
+                  outline: 'none',
+                }}
+              >
+                {options.map((o) => (
+                  <option key={o} value={o}>{o}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type={inputType}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                style={{
+                  flex: 1,
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: 'var(--color-ink)',
+                  background: 'var(--color-canvas-soft)',
+                  border: '1px solid var(--color-hairline)',
+                  borderRadius: 7,
+                  padding: '5px 10px',
+                  outline: 'none',
+                }}
+              />
+            )}
+            <button
+              type="button"
+              onClick={onEdit}
+              aria-label={`แก้ไข ${label}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 30,
+                height: 30,
+                borderRadius: 7,
+                border: '1px solid var(--color-hairline)',
+                background: 'var(--color-canvas-soft)',
+                cursor: 'pointer',
+                color: 'var(--color-ink-muted)',
+                flexShrink: 0,
+              }}
+            >
+              <Pencil size={13} />
+            </button>
+          </>
+        ) : (
+          // Display mode — read-only text, no pencil
+          <span
             style={{
               flex: 1,
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-ink)',
-              background: 'var(--color-canvas-soft)',
-              border: '1px solid var(--color-hairline)',
-              borderRadius: 7,
-              padding: '5px 10px',
-              outline: 'none',
+              padding: '5px 0',
             }}
           >
-            {options.map((o) => (
-              <option key={o} value={o}>{o}</option>
-            ))}
-          </select>
-        ) : (
-          <input
-            type={inputType}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            style={{
-              flex: 1,
-              fontSize: 14,
-              fontWeight: 500,
-              color: 'var(--color-ink)',
-              background: 'var(--color-canvas-soft)',
-              border: '1px solid var(--color-hairline)',
-              borderRadius: 7,
-              padding: '5px 10px',
-              outline: 'none',
-            }}
-          />
+            {value || '—'}
+          </span>
         )}
-        <button
-          type="button"
-          onClick={onEdit}
-          aria-label={`แก้ไข ${label}`}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 30,
-            height: 30,
-            borderRadius: 7,
-            border: '1px solid var(--color-hairline)',
-            background: 'var(--color-canvas-soft)',
-            cursor: 'pointer',
-            color: 'var(--color-ink-muted)',
-            flexShrink: 0,
-          }}
-        >
-          <Pencil size={13} />
-        </button>
       </div>
     </div>
   );
