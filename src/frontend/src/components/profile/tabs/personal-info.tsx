@@ -60,19 +60,20 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
  open={editingSection ==='personal-info'}
  onClose={() => setEditingSection(null)}
  onConfirm={(date, values) => {
- console.log('Personal Info save:', { date, values });
+ // parent page.tsx wires submitChangeRequest — this tab just closes gate
+ void date;
+ void values;
  setEditingSection(null);
  }}
  sectionTitle={t('personal.basicInfo')}
  >
  {(effectiveDate) => (
- <div className="space-y-2">
- <p className="text-sm text-ink-muted">
- {/* Sprint 3 จะ build form fields จริง */}
- Edit form coming in Sprint 3
- </p>
+ <div className="space-y-3">
  <p className="text-xs text-ink-muted font-mono">
- Effective: {effectiveDate.toLocaleDateString()}
+ {t('common.effectiveDate')}: {effectiveDate.toLocaleDateString()}
+ </p>
+ <p className="text-sm text-ink-muted">
+ {t('personal.editPersonalInfo')}
  </p>
  </div>
  )}

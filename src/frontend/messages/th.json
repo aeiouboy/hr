@@ -3651,5 +3651,70 @@
     "statusAtRisk": "เสี่ยง",
     "statusDone": "สำเร็จ",
     "statusInProgress": "กำลังดำเนินการ"
+  },
+  "profileEdit": {
+    "section": {
+      "personal": "ข้อมูลส่วนตัว",
+      "marital": "สถานภาพสมรส",
+      "contact": "ช่องทางติดต่อ",
+      "advanced": "ข้อมูลเพิ่มเติม"
+    },
+    "field": {
+      "salutationTh": "คำนำหน้า (ไทย)",
+      "salutationEn": "คำนำหน้า (อังกฤษ)",
+      "firstNameTh": "ชื่อ (ไทย)",
+      "firstNameEn": "ชื่อ (อังกฤษ)",
+      "lastNameTh": "นามสกุล (ไทย)",
+      "lastNameEn": "นามสกุล (อังกฤษ)",
+      "nickname": "ชื่อเล่น",
+      "gender": "เพศ",
+      "dateOfBirth": "วันเกิด",
+      "nationality": "สัญชาติ",
+      "nationalId": "เลขประจำตัวประชาชน",
+      "maritalStatus": "สถานภาพสมรส",
+      "maritalStatusSince": "สถานภาพสมรสตั้งแต่",
+      "spouseName": "ชื่อคู่สมรส",
+      "businessEmail": "อีเมลธุรกิจ",
+      "personalEmail": "อีเมลส่วนตัว",
+      "businessPhone": "โทรศัพท์ธุรกิจ",
+      "personalMobile": "มือถือส่วนตัว",
+      "homePhone": "โทรศัพท์บ้าน",
+      "religion": "ศาสนา",
+      "bloodType": "หมู่เลือด",
+      "militaryStatus": "สถานะทหาร"
+    },
+    "required": "จำเป็นต้องแนบเอกสาร"
+  },
+  "attachment": {
+    "label": "แนบเอกสาร",
+    "dragDrop": "ลาก-วาง หรือคลิกเพื่อเลือกไฟล์",
+    "maxSize": "ขนาดสูงสุด 5MB",
+    "types": "รองรับ PDF, JPG, PNG",
+    "remove": "ลบ"
+  },
+  "pending": {
+    "badge": "รออนุมัติ",
+    "approved": "อนุมัติแล้ว",
+    "rejected": "ปฏิเสธแล้ว"
+  },
+  "adminMode": {
+    "toggle": "โหมด Admin",
+    "approve": "อนุมัติ",
+    "reject": "ปฏิเสธ"
+  },
+  "profileToast": {
+    "submitted": "ส่งคำขออนุมัติแล้ว — รอ HR ตรวจสอบ",
+    "approved": "อนุมัติแล้ว",
+    "rejected": "ปฏิเสธแล้ว"
+  },
+  "activityLog": {
+    "title": "ประวัติการแก้ไข",
+    "noChanges": "ยังไม่มีประวัติการแก้ไข",
+    "changedFrom": "จาก",
+    "changedTo": "เป็น",
+    "effectiveDate": "มีผลวันที่",
+    "requestedAt": "ส่งคำขอเมื่อ",
+    "attachments": "เอกสารแนบ",
+    "preview": "ดูเอกสาร"
   }
 }

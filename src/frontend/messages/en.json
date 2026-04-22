@@ -3651,5 +3651,70 @@
     "statusAtRisk": "At Risk",
     "statusDone": "Complete",
     "statusInProgress": "In Progress"
+  },
+  "profileEdit": {
+    "section": {
+      "personal": "Personal Information",
+      "marital": "Marital Status",
+      "contact": "Contact Information",
+      "advanced": "Advanced Information"
+    },
+    "field": {
+      "salutationTh": "Salutation (Thai)",
+      "salutationEn": "Salutation (English)",
+      "firstNameTh": "First Name (Thai)",
+      "firstNameEn": "First Name (English)",
+      "lastNameTh": "Last Name (Thai)",
+      "lastNameEn": "Last Name (English)",
+      "nickname": "Nickname",
+      "gender": "Gender",
+      "dateOfBirth": "Date of Birth",
+      "nationality": "Nationality",
+      "nationalId": "National ID",
+      "maritalStatus": "Marital Status",
+      "maritalStatusSince": "Marital Status Since",
+      "spouseName": "Spouse Name",
+      "businessEmail": "Business Email",
+      "personalEmail": "Personal Email",
+      "businessPhone": "Business Phone",
+      "personalMobile": "Personal Mobile",
+      "homePhone": "Home Phone",
+      "religion": "Religion",
+      "bloodType": "Blood Type",
+      "militaryStatus": "Military Status"
+    },
+    "required": "Attachment required"
+  },
+  "attachment": {
+    "label": "Attach document",
+    "dragDrop": "Drag-drop or click to select",
+    "maxSize": "Max 5MB",
+    "types": "Accepts PDF, JPG, PNG",
+    "remove": "Remove"
+  },
+  "pending": {
+    "badge": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "adminMode": {
+    "toggle": "Admin Mode",
+    "approve": "Approve",
+    "reject": "Reject"
+  },
+  "profileToast": {
+    "submitted": "Request submitted — HR review pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "activityLog": {
+    "title": "Edit History",
+    "noChanges": "No edit history yet",
+    "changedFrom": "From",
+    "changedTo": "To",
+    "effectiveDate": "Effective date",
+    "requestedAt": "Requested at",
+    "attachments": "Attachments",
+    "preview": "Preview"
   }
 }
