@@ -724,3 +724,74 @@ describe('REGRESSION — globals.css desktop @media must escape @layer', () => {
     expect(topLevel.test(css)).toBe(true);
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — Hamburger + Mobile Drawer a11y attrs (Audit 2026-04-22)
+//
+// Expert audit caught: missing aria-expanded, missing aria-controls, no
+// role="dialog" on drawer, drawer width mismatch (256↔280px wrapper),
+// no matchMedia resize handler. Tests guard the a11y contract so future
+// changes can't silently regress screen-reader UX.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — Hamburger + Mobile Drawer a11y', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    mockPush.mockReset();
+    localStorage.clear();
+  });
+
+  it('Hamburger button has aria-expanded + aria-controls + dynamic aria-label', async () => {
+    const user = userEvent.setup();
+    const { AppShell } = await import('@/components/humi/shell/AppShell');
+    render(
+      <AppShell>
+        <div>page content</div>
+      </AppShell>,
+    );
+
+    // Default state — closed
+    const hamburger = screen.getByRole('button', { name: 'เปิดเมนู' });
+    expect(hamburger.getAttribute('aria-expanded')).toBe('false');
+    expect(hamburger.getAttribute('aria-controls')).toBe('humi-mobile-drawer');
+
+    // After click — open
+    await user.click(hamburger);
+    await waitFor(() => {
+      const opened = screen.getByRole('button', { name: 'ปิดเมนู' });
+      expect(opened.getAttribute('aria-expanded')).toBe('true');
+    });
+  });
+
+  it('Mobile drawer renders with role="dialog" + aria-modal + matching id', async () => {
+    const user = userEvent.setup();
+    const { AppShell } = await import('@/components/humi/shell/AppShell');
+    render(
+      <AppShell>
+        <div>page content</div>
+      </AppShell>,
+    );
+
+    // Drawer not in DOM until open
+    expect(document.getElementById('humi-mobile-drawer')).toBeNull();
+
+    await user.click(screen.getByRole('button', { name: 'เปิดเมนู' }));
+    await waitFor(() => {
+      const drawer = document.getElementById('humi-mobile-drawer');
+      expect(drawer).not.toBeNull();
+      expect(drawer?.getAttribute('role')).toBe('dialog');
+      expect(drawer?.getAttribute('aria-modal')).toBe('true');
+      expect(drawer?.getAttribute('aria-label')).toBe('เมนูหลัก');
+    });
+  });
+
+  it('UI store exposes closeMobileMenu action (used by Esc handler + matchMedia handler)', async () => {
+    const { useUIStore } = await import('@/stores/ui-store');
+    expect(typeof useUIStore.getState().closeMobileMenu).toBe('function');
+
+    // closeMobileMenu actually closes
+    useUIStore.getState().setMobileMenuOpen(true);
+    expect(useUIStore.getState().mobileMenuOpen).toBe(true);
+    useUIStore.getState().closeMobileMenu();
+    expect(useUIStore.getState().mobileMenuOpen).toBe(false);
+  });
+});

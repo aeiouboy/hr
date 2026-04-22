@@ -40,7 +40,7 @@ export function Topbar({
   actions,
   onSearchClick,
 }: TopbarProps) {
-  const { theme, setTheme, toggleMobileMenu } = useUIStore();
+  const { theme, setTheme, toggleMobileMenu, mobileMenuOpen } = useUIStore();
   const isDark = theme === 'dark';
 
   const handleThemeToggle = () => {
@@ -49,11 +49,15 @@ export function Topbar({
 
   return (
     <div className="humi-topbar">
-      {/* Hamburger — mobile/tablet only (<lg) */}
+      {/* Hamburger — mobile/tablet only (<lg). aria-expanded + aria-controls
+          let screen readers announce the controlled drawer + its open state.
+          Dynamic aria-label flips ปิดเมนู / เปิดเมนู so VoiceOver reads correctly. */}
       <button
         type="button"
         className="humi-icon-btn lg:!hidden"
-        aria-label="เปิดเมนู"
+        aria-label={mobileMenuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
+        aria-expanded={mobileMenuOpen}
+        aria-controls="humi-mobile-drawer"
         onClick={toggleMobileMenu}
       >
         <Menu size={20} aria-hidden="true" />
