@@ -3653,6 +3653,8 @@
     "statusInProgress": "กำลังดำเนินการ"
   },
   "profileEdit": {
+    "newValue": "ค่าใหม่",
+    "effectiveDate": "วันที่มีผล",
     "section": {
       "personal": "ข้อมูลส่วนตัว",
       "marital": "สถานภาพสมรส",

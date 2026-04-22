@@ -3653,6 +3653,8 @@
     "statusInProgress": "In Progress"
   },
   "profileEdit": {
+    "newValue": "New value",
+    "effectiveDate": "Effective date",
     "section": {
       "personal": "Personal Information",
       "marital": "Marital Status",
