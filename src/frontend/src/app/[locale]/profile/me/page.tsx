@@ -9,7 +9,7 @@
 // Build-B: full 15+ field form + admin mode + activity log (issue #12)
 // ════════════════════════════════════════════════════════════
 
-import { useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Check, FileText, Download, Pencil, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -26,11 +26,15 @@ import { EffectiveDateGate } from '@/components/profile/EffectiveDateGate';
 // Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
 
-// Mapping from Zustand ProfileTab → legacy panel key
+// Mapping from Zustand ProfileTab → legacy panel key.
+// NOTE: slice key `compensation` is a legacy name from an earlier sprint where
+// Compensation was a standalone tab. Today's tab #3 displays "ติดต่อฉุกเฉิน"
+// (Emergency) and must route to the emergency panel. Compensation cards are
+// rendered inside the `job` panel.
 const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
   personal: 'personal',
   employment: 'job',
-  compensation: 'job', // compensation shown inside job tab panel
+  compensation: 'emergency',
   documents: 'docs',
   activity: 'tax', // activity mapped to tax tab panel — now shows pendingChanges
 };
@@ -145,7 +149,15 @@ export default function HumiProfileMePage() {
     setTimeout(() => setToast(null), 2500);
   }, []);
 
-  // Show success toast after legacy save
+  // Auto-cancel edit when user switches tab — only the personal panel renders
+  // an edit form; leaving mid-edit strands Save/Cancel with no visible fields.
+  useEffect(() => {
+    if (isEditing && panelKey !== 'personal') {
+      cancelEdit();
+    }
+  }, [panelKey, isEditing, cancelEdit]);
+
+  // Show success toast after save
   function handleSave() {
     save();
     showToast('บันทึกเรียบร้อย');
@@ -264,27 +276,30 @@ export default function HumiProfileMePage() {
         )}
       </EffectiveDateGate>
 
-      {/* Top action bar */}
+      {/* Top action bar — Edit controls only render on personal panel to avoid
+          stranded Save/Cancel on tabs without editable fields (Bug 2026-04-22). */}
       <div className="mb-5 flex items-center justify-between gap-3 flex-wrap">
         <div className="text-small text-ink-muted">
           {t('subtitle')} · {p.employeeCode}
         </div>
-        <div className="humi-row" style={{ gap: 8 }}>
-          {isEditing ? (
-            <>
-              <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
-                {t('profileCancelEdit')}
+        {panelKey === 'personal' && (
+          <div className="humi-row" style={{ gap: 8 }}>
+            {isEditing ? (
+              <>
+                <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
+                  {t('profileCancelEdit')}
+                </Button>
+                <Button variant="primary" leadingIcon={<Check size={14} />} onClick={handleSave}>
+                  {t('save')}
+                </Button>
+              </>
+            ) : (
+              <Button variant="primary" leadingIcon={<Pencil size={14} />} onClick={startEdit}>
+                {t('profileEdit')}
               </Button>
-              <Button variant="primary" leadingIcon={<Check size={14} />} onClick={handleSave}>
-                {t('save')}
-              </Button>
-            </>
-          ) : (
-            <Button variant="primary" leadingIcon={<Pencil size={14} />} onClick={startEdit}>
-              {t('profileEdit')}
-            </Button>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Header card */}
@@ -396,6 +411,9 @@ export default function HumiProfileMePage() {
           ) : (
             // Full 4-section edit form with EffectiveDateGate per field
             <div className="humi-card md:col-span-2">
+              <h3 className="mb-4 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                {t('personalTitle')}
+              </h3>
               {/* Section A — Personal Info */}
               <SectionHeader title={tEdit('section.personal')} />
               <div className="grid gap-3 sm:grid-cols-2" style={{ marginBottom: 20 }}>
@@ -1172,7 +1190,30 @@ function FieldCard({
         {title}
       </h3>
       <div className="humi-col" style={{ gap: 14 }}>
-        {rows.map(([l, v]) => (
+        {rows.map(([l, v]) => {
+          // Section divider row: label starts with "────" and value is empty.
+          // Render as full-width eyebrow heading instead of a label/value pair —
+          // mirrors SF EC Core sub-section structure (Employment Details, Org Info, ...)
+          if (v === '' && l.startsWith('────')) {
+            const heading = l.replace(/────/g, '').trim();
+            return (
+              <div
+                key={l}
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-accent)',
+                  paddingTop: 8,
+                  borderTop: '1px solid var(--color-hairline)',
+                }}
+              >
+                {heading}
+              </div>
+            );
+          }
+          return (
           <div
             key={l}
             className="humi-row"
@@ -1195,7 +1236,8 @@ function FieldCard({
               {v}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

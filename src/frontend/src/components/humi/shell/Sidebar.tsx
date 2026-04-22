@@ -23,6 +23,7 @@
 // under 'บริษัท' group pointing to /legacy hub page (separate sprint).
 // ════════════════════════════════════════════════════════════
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -44,6 +45,7 @@ import {
   BarChart3,
   Clock,
   ExternalLink,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -53,6 +55,9 @@ export interface SidebarProps {
   /** Called when any nav item or locale pill is clicked — used by AppShell
    *  to close the mobile drawer after navigation. */
   onNavigate?: () => void;
+  /** Called when the explicit close (X) button is clicked. Renders the close
+   *  button only when this prop is provided — typically only in drawer mode. */
+  onClose?: () => void;
   /** Extra className merged onto <aside> — e.g. "humi-sidebar--drawer". */
   className?: string;
 }
@@ -106,31 +111,12 @@ const NAV: NavSection[] = [
   },
 ];
 
-/** Humi wordmark brand mark — gumdrop/person shape from reference ShelflyMark. */
-function HumiMark({ size = 20 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size * 1.15}
-      viewBox="0 0 28 32"
-      aria-hidden="true"
-      style={{ color: 'var(--color-accent)' }}
-    >
-      <circle cx="14" cy="7" r="6" fill="currentColor" />
-      <path
-        d="M5 30c0-6 4-11 9-11s9 5 9 11c0 1-1 2-2 2H7c-1 0-2-1-2-2z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
 /** Strip locale prefix (/th/ or /en/) to get bare path e.g. /home */
 function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
 }
 
-export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
+export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
   const router = useRouter();
   // Compare without locale prefix so /en/home matches href="/th/home"
@@ -149,9 +135,35 @@ export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
     <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
       <div className="humi-brand">
         <div className="humi-wordmark">
-          Hum
-          <HumiMark size={20} />
+          {/* Sidebar bg = navy ink (`--color-ink`). The base humi-logo.png has
+              dark navy "Hum" text → invisible on navy bg. Use the cream-tinted
+              variant for the dark sidebar. Generated via PIL pixel swap from
+              the same source PNG so brand fidelity stays intact (only the
+              dark luminance band gets remapped to cream — teal person
+              silhouette untouched). */}
+          <Image
+            src="/humi-logo-light.png"
+            alt="Humi"
+            width={90}
+            height={28}
+            priority
+            style={{ height: 28, width: 'auto', objectFit: 'contain' }}
+          />
         </div>
+        {/* Explicit close affordance — only rendered in drawer mode (when
+            AppShell passes onClose). Without this the user has no visible
+            way to close the drawer once it covers the topbar hamburger. */}
+        {onClose && (
+          <button
+            type="button"
+            className="humi-icon-btn humi-drawer-close"
+            aria-label="ปิดเมนู"
+            onClick={onClose}
+            style={{ marginLeft: 'auto' }}
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       <nav className="humi-nav" aria-label="เมนูหลัก">

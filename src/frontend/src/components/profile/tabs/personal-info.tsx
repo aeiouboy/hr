@@ -70,10 +70,10 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
  {(effectiveDate) => (
  <div className="space-y-3">
  <p className="text-xs text-ink-muted font-mono">
- {t('common.effectiveDate')}: {effectiveDate.toLocaleDateString()}
+ Effective: {effectiveDate.toLocaleDateString()}
  </p>
  <p className="text-sm text-ink-muted">
- {t('personal.editPersonalInfo')}
+ แก้ไขข้อมูลที่หน้าโปรไฟล์หลัก (use main profile page)
  </p>
  </div>
  )}
