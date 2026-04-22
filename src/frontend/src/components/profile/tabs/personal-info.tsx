@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { User, Phone, MapPin, AlertTriangle, Users, Shield } from 'lucide-react';
@@ -8,6 +9,8 @@ import { Field } from '@/components/ui/field';
 import { Badge } from '@/components/ui/badge';
 import { formatDate, maskValue } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
+import { EffectiveDateGate } from '@/components/profile/EffectiveDateGate';
+import { EditPencilButton } from '@/components/profile/EditPencilButton';
 
 interface PersonalInfoTabProps {
  employee: Record<string, unknown> | null;
@@ -18,6 +21,7 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
  const t = useTranslations();
  const pathname = usePathname();
  const locale = pathname.startsWith('/th') ?'th' :'en';
+ const [editingSection, setEditingSection] = useState<string | null>(null);
 
  if (loading) {
  return (
@@ -51,8 +55,35 @@ export function PersonalInfoTab({ employee, loading }: PersonalInfoTabProps) {
 
  return (
  <div className="space-y-6">
+ {/* EffectiveDateGate — Personal Information */}
+ <EffectiveDateGate
+ open={editingSection ==='personal-info'}
+ onClose={() => setEditingSection(null)}
+ onConfirm={(date, values) => {
+ console.log('Personal Info save:', { date, values });
+ setEditingSection(null);
+ }}
+ sectionTitle={t('personal.basicInfo')}
+ >
+ {(effectiveDate) => (
+ <div className="space-y-2">
+ <p className="text-sm text-ink-muted">
+ {/* Sprint 3 จะ build form fields จริง */}
+ Edit form coming in Sprint 3
+ </p>
+ <p className="text-xs text-ink-muted font-mono">
+ Effective: {effectiveDate.toLocaleDateString()}
+ </p>
+ </div>
+ )}
+ </EffectiveDateGate>
+
  {/* ข้อมูลส่วนตัว */}
- <FieldGroup title={t('personal.basicInfo')} icon={<User className="h-5 w-5" />}>
+ <FieldGroup
+ title={t('personal.basicInfo')}
+ icon={<User className="h-5 w-5" />}
+ action={<EditPencilButton onClick={() => setEditingSection('personal-info')} />}
+ >
  <Field label={t('personal.salutation')} value={locale ==='th' ? info.salutationTh : info.salutationEn} />
  <Field label={t('personal.firstName')} value={locale ==='th' ? info.firstNameTh : info.firstNameEn} />
  <Field label={t('personal.lastName')} value={locale ==='th' ? info.lastNameTh : info.lastNameEn} />

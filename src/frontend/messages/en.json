@@ -3619,6 +3619,15 @@
     "noRequests": "No requests in this status",
     "validRequired": "This field is required"
   },
+  "gate": {
+    "title": "When should these changes take effect?",
+    "continue": "Continue",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "invalidDate": "Please select today or a future date",
+    "editAria": "Edit section"
+  },
   "goals": {
     "title": "Goals & Performance",
     "addGoal": "Add Goal",
