@@ -21,6 +21,7 @@
 // ════════════════════════════════════════════════════════════
 
 import { Bell, Menu, Moon, Search, Sun } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { useUIStore } from '@/stores/ui-store';
 
 export interface TopbarProps {
@@ -42,13 +43,23 @@ export function Topbar({
 }: TopbarProps) {
   const { theme, setTheme, toggleMobileMenu, mobileMenuOpen } = useUIStore();
   const isDark = theme === 'dark';
+  const [scrolled, setScrolled] = useState(false);
+  const topbarRef = useRef<HTMLDivElement>(null);
+
+  // Elevate topbar shadow once user scrolls past ~4px — adds depth
+  // without the "floating disconnected bar" feel of always-on shadow.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleThemeToggle = () => {
     setTheme(isDark ? 'light' : 'dark');
   };
 
   return (
-    <div className="humi-topbar">
+    <div ref={topbarRef} className="humi-topbar" data-scrolled={scrolled}>
       {/* Menu button — mobile/tablet only (<lg). Labeled chip ([≡ เมนู]) instead
           of icon-only — Nielsen Norman 2014: hamburger discoverability hurts UX.
           Visible text label kills the "what does this do?" question. aria-expanded
@@ -73,7 +84,7 @@ export function Topbar({
         </div>
         <h2
           className="truncate text-[18px] sm:text-[20px] lg:text-[24px]"
-          style={{ fontFamily: 'inherit', fontWeight: 600, lineHeight: 1.2 }}
+          style={{ fontFamily: 'var(--font-display)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}
         >
           {title}
         </h2>

@@ -203,7 +203,12 @@
   .humi-sidebar { display: flex; }
 }
 
-/* Drawer modifier — fixed panel slides from left on mobile */
+/* Drawer modifier — 2026: rounded right edge + shadow elevation + slide-in.
+   Before: hard rectangular block, instant appear (2018 Bootstrap-era).
+   After: rounded-right softens into floating surface (Notion/Figma/Linear),
+   shadow-lg provides depth without harsh border, mount animation slides in
+   from left via spring easing (AppShell renders drawer conditionally on open,
+   so enter animation fires on every mount — no exit animation needed). */
 .humi-sidebar--drawer {
   display: flex;
   position: fixed;
@@ -213,6 +218,31 @@
   z-index: 50;
   overflow-y: auto;
   overscroll-behavior: contain;
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  box-shadow: var(--shadow-lg);
+  will-change: transform;
+  animation: humi-drawer-slide-in var(--dur-slow) var(--ease-spring) both;
+}
+
+@keyframes humi-drawer-slide-in {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+/* Scrim — 2026: fade-in from transparent + frosted glass tint.
+   Before: instant opaque dark overlay (harsh / old school).
+   After: fade-in over dur-base + backdrop-blur(4px) gives depth
+   without full-black overlay — feels like iOS/Figma/Notion. */
+.humi-drawer-scrim {
+  background: rgba(14, 27, 44, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: humi-scrim-fade-in var(--dur-base) ease both;
+}
+
+@keyframes humi-scrim-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* Ported from styles.css:161-164 (.sidebar .brand) */
@@ -257,29 +287,35 @@
   font-weight: 500;
 }
 
-/* Ported from styles.css:199-213 (.nav-item + :hover + .active)
-   min-height 44px = WCAG 2.5.5 touch target (issue #5) */
+/* Nav items — 2026: spring transitions + active state accent glow.
+   Before: flat `rgba(255,255,255,0.08)` active bg = barely visible (old school).
+   After: accent left-border strip + teal tint bg + icon glow for active;
+   hover reveals slightly brighter bg with smooth spring easing. */
 .humi-nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 9px 12px;
   min-height: 44px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
-  color: rgba(231, 227, 216, 0.78);
+  color: rgba(231, 227, 216, 0.72);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background var(--dur-fast) var(--ease-spring),
+              color var(--dur-fast),
+              box-shadow var(--dur-base) var(--ease-spring);
   font-weight: 500;
   text-decoration: none;
+  position: relative;
 }
 .humi-nav-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(231, 227, 216, 0.95);
 }
 .humi-nav-item.active {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(31, 168, 160, 0.15);
   color: #fff;
+  box-shadow: inset 3px 0 0 var(--color-accent);
 }
 .humi-nav-item:focus-visible {
   outline: 2px solid var(--color-accent);
@@ -392,19 +428,33 @@
   padding: 40px 0 64px;
 }
 
-/* Ported from styles.css:252-258 (.topbar) */
+/* Topbar — 2026 modernised: backdrop-blur translucent + soft bottom separator.
+   Replaces flat opaque gradient (2018 Bootstrap-era static bar). The cream canvas
+   at 0.88 opacity lets content scroll behind with readable depth; blur(16px)
+   provides the frosted-glass separation used by Linear/Vercel/Stripe toolbars.
+   Border-bottom hairline replaces the hard canvas gradient cut. */
 .humi-topbar {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 22px 0 22px;
+  gap: 12px;
+  padding: 14px 0;
   position: sticky;
   top: 0;
-  background: linear-gradient(var(--color-canvas) 80%, rgba(246, 241, 232, 0));
+  background: rgba(246, 241, 232, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(231, 223, 209, 0.55);
   z-index: 10;
+  transition: box-shadow var(--dur-fast) var(--ease-spring);
+}
+/* Elevate topbar when page has scrolled — JS adds data-scrolled */
+.humi-topbar[data-scrolled="true"] {
+  box-shadow: var(--shadow-md);
+  border-bottom-color: transparent;
 }
 
-/* Ported from styles.css:259-268 (.search) — wrapped in @layer so Tailwind hidden/flex utilities win */
+/* Search pill — 2026: shadow replaces hard border, hover lift feedback.
+   Shadow-sm is warm navy tinted from token — reads as card elevation not outline. */
 @layer components {
 .humi-search {
   flex: 1;
@@ -414,10 +464,18 @@
   gap: 10px;
   padding: 10px 14px;
   background: var(--color-surface);
-  border: 1px solid var(--color-hairline);
-  border-radius: 12px;
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--radius-md);
   color: var(--color-ink-muted);
   font-size: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur-fast) var(--ease-spring),
+              border-color var(--dur-fast);
+  cursor: pointer;
+}
+.humi-search:hover {
+  border-color: var(--color-accent-soft);
+  box-shadow: var(--shadow-md);
 }
 .humi-search-placeholder {
   flex: 1;
@@ -440,58 +498,79 @@
   color: var(--color-ink-muted);
 }
 
-/* Ported from styles.css:279-288 (.icon-btn)
-   Touch target bump to 44×44 (WCAG 2.5.5, issue #5) */
+/* Icon buttons — 2026: ghost style (no permanent border), hover reveals soft
+   bg + shadow. Flat bordered squares read as dead UI chrome; ghost buttons feel
+   lighter and more modern (Linear, Notion, Vercel pattern). Touch target 44×44
+   preserved for WCAG 2.5.5. Added transition for all interactive states. */
 @layer components {
 .humi-icon-btn {
   width: 44px;
   height: 44px;
   min-width: 44px;
   min-height: 44px;
-  border-radius: 12px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-ink-soft);
+  color: var(--color-ink-muted);
   cursor: pointer;
   position: relative;
   font-family: inherit;
+  transition: background var(--dur-fast) var(--ease-spring),
+              color var(--dur-fast),
+              border-color var(--dur-fast),
+              box-shadow var(--dur-fast) var(--ease-spring);
 }
 .humi-icon-btn:hover {
-  background: var(--color-canvas-soft);
+  background: var(--color-surface);
+  border-color: var(--color-hairline-soft);
+  color: var(--color-ink-soft);
+  box-shadow: var(--shadow-sm);
+}
+.humi-icon-btn:active {
+  transform: scale(0.94);
 }
 .humi-icon-btn:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-/* Labeled menu button — replaces icon-only hamburger per Ken's UAT 2026-04-22
-   ("ไม่ชอบ hamburger" + "เมื่อกดแล้วปุ่มหายไป"). Chip layout: icon + "เมนู" label,
-   44px tall (touch target), accent color so it reads as a real button.
-   Drawer also gets its own X close button (Sidebar.tsx onClose) — labeled
-   here + close button there = two visible affordances, no hidden nav. */
+/* Labeled menu button — 2026 modernised: drop hard accent border,
+   use shadow + display-font label + spring scale micro-interaction.
+   Before: `border: 1px solid accent` = Bootstrap chip feel (2018).
+   After:  shadow glow + borderless chip, `font-display` on "เมนู" text
+   — reads as intentional UI affordance not a form field. */
 .humi-menu-btn {
   height: 44px;
   min-height: 44px;
-  padding: 0 14px;
-  border-radius: 12px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
   background: var(--color-accent-soft);
-  color: var(--color-accent-ink);
-  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   cursor: pointer;
-  transition: background 120ms ease;
+  box-shadow: 0 0 0 1.5px rgba(31, 168, 160, 0.18), var(--shadow-sm);
+  transition: background var(--dur-fast) var(--ease-spring),
+              color var(--dur-fast),
+              box-shadow var(--dur-fast) var(--ease-spring),
+              transform var(--dur-fast) var(--ease-spring);
 }
 .humi-menu-btn:hover {
   background: var(--color-accent);
   color: var(--color-canvas-soft);
+  box-shadow: 0 0 0 1.5px var(--color-accent), var(--shadow-md);
+}
+.humi-menu-btn:active {
+  transform: scale(0.96);
 }
 .humi-menu-btn:focus-visible {
   outline: 2px solid var(--color-accent);

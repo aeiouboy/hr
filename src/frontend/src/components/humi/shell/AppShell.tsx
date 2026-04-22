@@ -146,7 +146,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-30 bg-ink/40 lg:hidden"
+            className="fixed inset-0 z-30 lg:hidden humi-drawer-scrim"
             aria-hidden="true"
             onClick={closeMobileMenu}
           />
