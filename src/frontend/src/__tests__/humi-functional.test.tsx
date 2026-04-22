@@ -35,7 +35,7 @@ vi.mock('next-intl', () => ({
       feedTitle: 'ประกาศล่าสุด',
       ctaApprove: 'อนุมัติคำขอลา 2 รายการ',
       ctaAnnouncements: 'ตรวจสอบร่างประกาศ',
-      // profile
+      // profile — tab labels
       tabPersonal: 'ข้อมูลส่วนตัว',
       tabJob: 'การจ้างงาน',
       tabEmergency: 'ผู้ติดต่อฉุกเฉิน',
@@ -45,6 +45,16 @@ vi.mock('next-intl', () => ({
       profileCancelEdit: 'ยกเลิก',
       save: 'บันทึก',
       subtitle: 'พนักงาน',
+      // profile — panel headings (used by tab-routing regression tests).
+      // NOTE: `docsTitle` is intentionally re-used by both home (เอกสารรอลงนาม)
+      // and profile/me docs panel. Regression test for docs tab matches a
+      // file-list item (สัญญาจ้างงานที่ลงนาม) instead of the heading to avoid ambiguity.
+      personalTitle: 'รายละเอียดพื้นฐาน',
+      contactTitle: 'วิธีติดต่อคุณ',
+      jobTitle: 'ข้อมูลตำแหน่งงาน',
+      emergencyTitle: 'ผู้ติดต่อกรณีฉุกเฉิน',
+      emergencyHelp: 'กรุณาให้ข้อมูลอย่างน้อย 1 คน',
+      taxTitle: 'แบบฟอร์มภาษี',
       // announcements
       title: 'ประกาศและข่าวสาร',
       filterAll: 'ทั้งหมด',
@@ -58,6 +68,13 @@ vi.mock('next-intl', () => ({
 vi.mock('next/link', () => ({
   default: ({ href, children, ...props }: { href: string; children: React.ReactNode; [k: string]: unknown }) => (
     <a href={href} {...props}>{children}</a>
+  ),
+}));
+
+vi.mock('next/image', () => ({
+  default: ({ src, alt, width, height, priority: _p, ...props }: { src: string; alt: string; width?: number; height?: number; priority?: boolean; [k: string]: unknown }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} width={width} height={height} {...props} />
   ),
 }));
 
@@ -607,5 +624,234 @@ describe('AC-10 — AppShell: ⌘K palette + theme toggle', () => {
 
     // router.push called with /en/home (locale swap)
     expect(mockPush).toHaveBeenCalledWith('/en/home');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — /profile/me tab routing (Bug 2026-04-22)
+//
+// Bug: SLICE_TO_PANEL had `compensation: 'job'`, but tab #3 label is
+// "ติดต่อฉุกเฉิน" — so clicking Emergency rendered the Job panel and the
+// emergency panel was unreachable. Existing tab tests only asserted
+// `activeTab` slice state (not rendered content) so the bug slipped past 77
+// PASS tests. These regression tests assert each tab renders content unique
+// to its panel — guards against any future SLICE_TO_PANEL routing drift.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — /profile/me tab → panel routing', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    mockPush.mockReset();
+    localStorage.clear();
+  });
+
+  async function clickTabAndAssert(tabLabel: string, expectedPanelMarker: string) {
+    const user = userEvent.setup();
+    const { default: Page } = await import('@/app/[locale]/profile/me/page');
+    render(<Page />);
+    const tab = screen.getByRole('tab', { name: tabLabel });
+    await user.click(tab);
+    await waitFor(() => {
+      expect(screen.getByText(expectedPanelMarker)).toBeTruthy();
+    });
+  }
+
+  it('Personal tab → Personal panel (รายละเอียดพื้นฐาน)', async () => {
+    await clickTabAndAssert('ข้อมูลส่วนตัว', 'รายละเอียดพื้นฐาน');
+  });
+
+  it('Job tab → Job panel (ข้อมูลตำแหน่งงาน)', async () => {
+    await clickTabAndAssert('การจ้างงาน', 'ข้อมูลตำแหน่งงาน');
+  });
+
+  it('Emergency tab → Emergency panel (ผู้ติดต่อกรณีฉุกเฉิน) — was unreachable before fix', async () => {
+    await clickTabAndAssert('ผู้ติดต่อฉุกเฉิน', 'ผู้ติดต่อกรณีฉุกเฉิน');
+  });
+
+  it('Emergency tab does NOT render Job panel content (regression guard)', async () => {
+    const user = userEvent.setup();
+    const { default: Page } = await import('@/app/[locale]/profile/me/page');
+    render(<Page />);
+    const emergencyTab = screen.getByRole('tab', { name: 'ผู้ติดต่อฉุกเฉิน' });
+    await user.click(emergencyTab);
+    await waitFor(() => {
+      expect(screen.getByText('ผู้ติดต่อกรณีฉุกเฉิน')).toBeTruthy();
+    });
+    expect(screen.queryByText('ข้อมูลตำแหน่งงาน')).toBeNull();
+  });
+
+  it('Docs tab → renders document file list item (สัญญาจ้างงานที่ลงนาม)', async () => {
+    await clickTabAndAssert('เอกสาร', 'สัญญาจ้างงานที่ลงนาม');
+  });
+
+  it('Tax tab → Tax panel (แบบฟอร์มภาษี)', async () => {
+    await clickTabAndAssert('ภาษี', 'แบบฟอร์มภาษี');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — Desktop layout @media query escapes @layer (Bug 2026-04-22)
+//
+// Bug: `.humi-app { grid-template-columns: 1fr }` lived outside any @layer,
+// while the desktop override `@media (min-width: 1024px) { .humi-app { ...
+// 256px 1fr } }` was nested INSIDE @layer components. Per CSS layer cascade,
+// un-layered rules outrank ANY layered rule → mobile rule won at desktop →
+// sidebar took full viewport width. jsdom can't compute @media so we assert
+// the structural fix via source-text inspection: the lg+ media query for
+// `.humi-app` must NOT be nested inside @layer components.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — globals.css desktop @media must escape @layer', () => {
+  it('@media (min-width: 1024px) for .humi-app is at top level (not inside @layer)', async () => {
+    const fs = await import('node:fs/promises');
+    const path = await import('node:path');
+    const cssPath = path.resolve(__dirname, '../app/globals.css');
+    const css = await fs.readFile(cssPath, 'utf-8');
+
+    // Find every @layer components { ... } block (balanced braces) and verify
+    // none of them contain the desktop override for .humi-app.
+    const layerRe = /@layer\s+components\s*\{/g;
+    let m: RegExpExecArray | null;
+    while ((m = layerRe.exec(css)) !== null) {
+      let depth = 1;
+      let i = m.index + m[0].length;
+      while (i < css.length && depth > 0) {
+        if (css[i] === '{') depth++;
+        else if (css[i] === '}') depth--;
+        i++;
+      }
+      const block = css.slice(m.index, i);
+      // The block must NOT contain the lg+ media query targeting .humi-app.
+      // Use [\s\S] instead of /s flag (target compatibility — TS1501).
+      const hasBuggyNesting =
+        /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[\s\S]*?\.humi-app/.test(block);
+      expect(hasBuggyNesting).toBe(false);
+    }
+
+    // And the override must exist somewhere at top level
+    const topLevel = /@media\s*\([^)]*min-width:\s*1024px[^)]*\)\s*\{[\s\S]*?\.humi-app[\s\S]*?grid-template-columns/;
+    expect(topLevel.test(css)).toBe(true);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — Hamburger + Mobile Drawer a11y attrs (Audit 2026-04-22)
+//
+// Expert audit caught: missing aria-expanded, missing aria-controls, no
+// role="dialog" on drawer, drawer width mismatch (256↔280px wrapper),
+// no matchMedia resize handler. Tests guard the a11y contract so future
+// changes can't silently regress screen-reader UX.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — Hamburger + Mobile Drawer a11y', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    mockPush.mockReset();
+    localStorage.clear();
+  });
+
+  it('Hamburger button has aria-expanded + aria-controls + dynamic aria-label', async () => {
+    const user = userEvent.setup();
+    const { AppShell } = await import('@/components/humi/shell/AppShell');
+    render(
+      <AppShell>
+        <div>page content</div>
+      </AppShell>,
+    );
+
+    // Default state — closed. Disambiguate from drawer X button (also labeled
+    // "ปิดเมนู") by selecting the unique button that has aria-controls.
+    const hamburger = document.querySelector(
+      'button[aria-controls="humi-mobile-drawer"]',
+    ) as HTMLButtonElement | null;
+    expect(hamburger).not.toBeNull();
+    expect(hamburger!.getAttribute('aria-label')).toBe('เปิดเมนู');
+    expect(hamburger!.getAttribute('aria-expanded')).toBe('false');
+
+    // After click — open. Same selector still finds the hamburger; drawer X
+    // button doesn't have aria-controls so it can't collide.
+    await user.click(hamburger!);
+    await waitFor(() => {
+      const opened = document.querySelector(
+        'button[aria-controls="humi-mobile-drawer"]',
+      ) as HTMLButtonElement;
+      expect(opened.getAttribute('aria-expanded')).toBe('true');
+      expect(opened.getAttribute('aria-label')).toBe('ปิดเมนู');
+    });
+  });
+
+  it('Mobile drawer renders with role="dialog" + aria-modal + matching id', async () => {
+    const user = userEvent.setup();
+    const { AppShell } = await import('@/components/humi/shell/AppShell');
+    render(
+      <AppShell>
+        <div>page content</div>
+      </AppShell>,
+    );
+
+    // Drawer not in DOM until open
+    expect(document.getElementById('humi-mobile-drawer')).toBeNull();
+
+    const trigger = document.querySelector(
+      'button[aria-controls="humi-mobile-drawer"]',
+    ) as HTMLButtonElement;
+    await user.click(trigger);
+    await waitFor(() => {
+      const drawer = document.getElementById('humi-mobile-drawer');
+      expect(drawer).not.toBeNull();
+      expect(drawer?.getAttribute('role')).toBe('dialog');
+      expect(drawer?.getAttribute('aria-modal')).toBe('true');
+      expect(drawer?.getAttribute('aria-label')).toBe('เมนูหลัก');
+    });
+  });
+
+  it('UI store exposes closeMobileMenu action (used by Esc handler + matchMedia handler)', async () => {
+    const { useUIStore } = await import('@/stores/ui-store');
+    expect(typeof useUIStore.getState().closeMobileMenu).toBe('function');
+
+    // closeMobileMenu actually closes
+    useUIStore.getState().setMobileMenuOpen(true);
+    expect(useUIStore.getState().mobileMenuOpen).toBe(true);
+    useUIStore.getState().closeMobileMenu();
+    expect(useUIStore.getState().mobileMenuOpen).toBe(false);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGRESSION — Every sidebar NAV destination must have a topbar TITLE_MAP entry
+// (Bug 2026-04-22 "double humi"): without a match, resolveTitle() falls back
+// to 'Humi' which duplicates the sidebar logo and reads as a visual bug.
+// Guards against future nav additions that forget the topbar registration.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('REGRESSION — Sidebar NAV ↔ AppShell TITLE_MAP parity', () => {
+  it('every internal sidebar href has a matching TITLE_MAP prefix', async () => {
+    const fs = await import('node:fs/promises');
+    const path = await import('node:path');
+
+    const sidebarSrc = await fs.readFile(
+      path.resolve(__dirname, '../components/humi/shell/Sidebar.tsx'),
+      'utf-8',
+    );
+    const appShellSrc = await fs.readFile(
+      path.resolve(__dirname, '../components/humi/shell/AppShell.tsx'),
+      'utf-8',
+    );
+
+    // Extract sidebar internal NAV hrefs (skip external https:// links)
+    const hrefMatches = Array.from(sidebarSrc.matchAll(/href:\s*'(\/th\/[^']+)'/g));
+    const navHrefs = hrefMatches.map((m) => m[1]);
+    expect(navHrefs.length).toBeGreaterThan(0);
+
+    // Extract TITLE_MAP prefixes
+    const prefixMatches = Array.from(appShellSrc.matchAll(/prefix:\s*'(\/th\/[^']+)'/g));
+    const titlePrefixes = new Set(prefixMatches.map((m) => m[1]));
+
+    // Each nav href must match a title prefix (exact or startsWith — resolveTitle
+    // uses startsWith so /th/profile covers /th/profile/me, etc)
+    const missing: string[] = [];
+    for (const href of navHrefs) {
+      const matched = Array.from(titlePrefixes).some(
+        (p) => href === p || href.startsWith(p + '/'),
+      );
+      if (!matched) missing.push(href);
+    }
+    expect(missing).toEqual([]);
   });
 });

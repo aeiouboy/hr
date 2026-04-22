@@ -13,3 +13,19 @@ if (typeof HTMLDialogElement !== 'undefined') {
     };
   }
 }
+
+// jsdom polyfill: window.matchMedia (used by AppShell to auto-close mobile
+// drawer when viewport crosses lg breakpoint). jsdom doesn't implement
+// matchMedia at all — without this stub every AppShell mount throws.
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
+  });
+}
