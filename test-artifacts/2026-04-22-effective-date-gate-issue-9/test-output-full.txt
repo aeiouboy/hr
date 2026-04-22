@@ -1,0 +1,146 @@
+$ vitest
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ DEV  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/lib/__tests__/i18n-completeness.test.ts (48 tests) 43ms
+stderr | src/__tests__/humi-responsive.test.tsx > AC-1 + AC-7 — AppShell mobile drawer > drawer panel has fixed inset-y-0 left-0 z-40 when mobileMenuOpen=true
+An update to Topbar inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AppShell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/humi-responsive.test.tsx > AC-1 + AC-7 — AppShell mobile drawer > backdrop has fixed inset-0 bg-ink/40 when mobileMenuOpen=true
+An update to Topbar inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AppShell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/humi-responsive.test.tsx > AC-1 + AC-7 — AppShell mobile drawer > no drawer panel rendered when mobileMenuOpen=false
+An update to Topbar inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AppShell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/components/__tests__/effective-date-gate.test.tsx (39 tests) 332ms
+ ✓ src/__tests__/employee-profile.test.tsx (57 tests) 8ms
+ ✓ src/__tests__/humi-reference-smoke.test.tsx (25 tests) 1450ms
+   ✓ AC-4 smoke — /home > renders greeting section with Thai greeting text 303ms
+ ❯ src/__tests__/humi-responsive.test.tsx (32 tests | 2 failed) 1371ms
+   × AC-4 + AC-8 — Topbar no-regression + compressed tokens > Topbar hamburger button has lg:hidden class (mobile-only) 21ms
+     → expected 'humi-topbar humi-icon-btn lg:!hidden …' to contain 'lg:hidden'
+   × AC-4 + AC-8 — Topbar no-regression + compressed tokens > Topbar has search pill with hidden sm:flex classes 10ms
+     → expected 'humi-topbar humi-icon-btn lg:!hidden …' to contain 'sm:flex'
+ ✓ src/__tests__/humi-functional.test.tsx (31 tests) 1740ms
+ ✓ src/components/humi/__tests__/DataTable.test.tsx (18 tests) 611ms
+ ✓ src/app/[locale]/__tests__/screens.smoke.test.tsx (19 tests) 1777ms
+   ✓ Dashboard — home/page.tsx (AC-2, AC-6) > render ไม่ crash (no throw) 444ms
+ ✓ src/components/humi/__tests__/Nav.test.tsx (18 tests) 474ms
+ ✓ src/__tests__/humi-phase-b.test.tsx (14 tests) 1141ms
+   ✓ b1 — OrgChartPage zoom/pan canvas > ZoomIn button increments transform scale 643ms
+ ✓ src/__tests__/thai-heading-regression.test.tsx (11 tests) 1169ms
+   ✓ AC-7 — Thai headings regression — /home > home page has h1/h3 with Thai text 379ms
+ ✓ src/components/__tests__/sf-parity-employment.test.tsx (20 tests) 672ms
+ ✓ src/components/humi/__tests__/Toggle.test.tsx (18 tests) 285ms
+ ✓ src/components/__tests__/sf-parity-sidebar.test.tsx (20 tests) 656ms
+ ✓ src/components/__tests__/sf-parity-personal.test.tsx (17 tests) 785ms
+ ✓ src/components/humi/__tests__/Button.test.tsx (20 tests) 452ms
+ ✓ src/components/__tests__/employment-edit.test.tsx (14 tests) 863ms
+ ✓ src/components/__tests__/personal-info-edit.test.tsx (12 tests) 833ms
+ ✓ src/components/humi/__tests__/Modal.responsive.test.tsx (6 tests) 100ms
+ ✓ src/components/__tests__/edit-pencil.test.tsx (12 tests) 272ms
+ ✓ src/lib/__tests__/leave.test.ts (14 tests) 7ms
+ ✓ src/lib/__tests__/rbac.test.ts (13 tests) 7ms
+ ✓ src/lib/__tests__/date.test.ts (11 tests) 39ms
+ ✓ src/__tests__/layout-integration.test.tsx (55 tests) 3111ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/humi-responsive.test.tsx > AC-4 + AC-8 — Topbar no-regression + compressed tokens > Topbar hamburger button has lg:hidden class (mobile-only)
+AssertionError: expected 'humi-topbar humi-icon-btn lg:!hidden …' to contain 'lg:hidden'
+
+Expected: "lg:hidden"
+Received: "humi-topbar humi-icon-btn lg:!hidden lucide lucide-menu min-w-0 humi-eyebrow hidden sm:block truncate text-[18px] sm:text-[20px] lg:text-[24px] humi-spacer humi-search !hidden sm:!flex lucide lucide-search humi-search-placeholder hidden md:inline-flex humi-icon-btn sm:!hidden lucide lucide-search humi-icon-btn lucide lucide-moon humi-icon-btn lucide lucide-bell humi-dot-badge"
+
+ ❯ src/__tests__/humi-responsive.test.tsx:207:20
+    205|     const tokens = allClassTokens(container);
+    206|     // AC-7 hamburger is lg:hidden
+    207|     expect(tokens).toContain('lg:hidden');
+       |                    ^
+    208|   });
+    209| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/__tests__/humi-responsive.test.tsx > AC-4 + AC-8 — Topbar no-regression + compressed tokens > Topbar has search pill with hidden sm:flex classes
+AssertionError: expected 'humi-topbar humi-icon-btn lg:!hidden …' to contain 'sm:flex'
+
+Expected: "sm:flex"
+Received: "humi-topbar humi-icon-btn lg:!hidden lucide lucide-menu min-w-0 humi-eyebrow hidden sm:block truncate text-[18px] sm:text-[20px] lg:text-[24px] humi-spacer humi-search !hidden sm:!flex lucide lucide-search humi-search-placeholder hidden md:inline-flex humi-icon-btn sm:!hidden lucide lucide-search humi-icon-btn lucide lucide-moon humi-icon-btn lucide lucide-bell humi-dot-badge"
+
+ ❯ src/__tests__/humi-responsive.test.tsx:224:20
+    222|     const tokens = allClassTokens(container);
+    223|     // AC-8: search pill hidden on mobile, visible sm+
+    224|     expect(tokens).toContain('sm:flex');
+       |                    ^
+    225|     // search icon-only mobile button
+    226|     expect(tokens).toContain('sm:hidden');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed | 23 passed (24)
+      Tests  2 failed | 542 passed (544)
+   Start at  08:26:14
+   Duration  11.57s (transform 1.22s, setup 2.34s, collect 7.35s, tests 18.20s, environment 16.29s, prepare 2.48s)
+
+ FAIL  Tests failed. Watching for file changes...
+       press h to show help, press q to quit
+error: script "test" was terminated by signal SIGTERM (Polite quit request)
