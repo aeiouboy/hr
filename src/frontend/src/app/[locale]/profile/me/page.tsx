@@ -21,7 +21,7 @@ import {
   type PendingChange,
 } from '@/stores/humi-profile-slice';
 import { FileUploadField } from '@/components/humi/FileUploadField';
-import { EffectiveDateGate } from '@/components/profile/EffectiveDateGate';
+import { Modal } from '@/components/ui/modal';
 
 // Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
@@ -131,11 +131,12 @@ export default function HumiProfileMePage() {
   const [toast, setToast] = useState<string | null>(null);
   const [showToastOk, setShowToastOk] = useState(false);
 
-  // Full form state (local — submitted via EffectiveDateGate)
+  // Full form state (local — submitted via single-step modal)
   const [formValues, setFormValues] = useState<EditFormValues>(FORM_DEFAULTS);
   const [pendingAttachmentIds, setPendingAttachmentIds] = useState<string[]>([]);
   const [activeEditField, setActiveEditField] = useState<keyof EditFormValues | null>(null);
   const [gateOpen, setGateOpen] = useState(false);
+  const [modalDate, setModalDate] = useState<string>(''); // ISO yyyy-MM-dd
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   // Derive panel key from slice activeTab
@@ -167,6 +168,9 @@ export default function HumiProfileMePage() {
 
   function handleEditField(field: keyof EditFormValues) {
     setActiveEditField(field);
+    const today = new Date();
+    const iso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    setModalDate(iso);
     setGateOpen(true);
   }
 
@@ -174,29 +178,30 @@ export default function HumiProfileMePage() {
     setGateOpen(false);
     setActiveEditField(null);
     setPendingAttachmentIds([]);
+    setModalDate('');
   }
 
-  function handleGateConfirm(effectiveDate: Date, _formValues: unknown) {
-    if (!activeEditField) return;
+  function handleSubmitChange() {
+    if (!activeEditField || !modalDate) return;
     const newValue = formValues[activeEditField];
     const oldValue = FORM_DEFAULTS[activeEditField];
     submitChangeRequest({
       field: activeEditField,
       oldValue,
       newValue,
-      effectiveDate: effectiveDate.toISOString().split('T')[0],
+      effectiveDate: modalDate,
       attachmentIds: pendingAttachmentIds,
     });
     showToast(tToast('submitted'));
     handleGateClose();
   }
 
-  // ── Determine if save is disabled (attachment required but missing) ────────
+  // ── Determine if save is disabled (date missing OR required attachment missing) ──
 
+  const attachmentRequired =
+    activeEditField !== null && ATTACHMENT_REQUIRED_FIELDS.has(activeEditField);
   const saveDisabled =
-    activeEditField !== null &&
-    ATTACHMENT_REQUIRED_FIELDS.has(activeEditField) &&
-    pendingAttachmentIds.length === 0;
+    !modalDate || (attachmentRequired && pendingAttachmentIds.length === 0);
 
   const tabs: Array<[ProfileTab, string]> = [
     ['personal', t('tabPersonal')],
@@ -231,73 +236,135 @@ export default function HumiProfileMePage() {
         </div>
       )}
 
-      {/* EffectiveDateGate — shared for all field edits */}
-      <EffectiveDateGate
+      {/* Single-step edit modal — field value + effective date + attachment in one view */}
+      <Modal
         open={gateOpen}
         onClose={handleGateClose}
-        onConfirm={handleGateConfirm}
-        sectionTitle={
+        title={
           activeEditField
             ? tEdit(`field.${activeEditField}` as Parameters<typeof tEdit>[0])
             : ''
         }
-      >
-        {(effectiveDate) => (
-          <div className="space-y-4">
-            <p className="text-xs text-ink-muted font-mono">
-              วันที่มีผล: {effectiveDate.toLocaleDateString('th-TH')}
-            </p>
-
-            {/* Attachment zone — only for fields requiring it */}
-            {activeEditField && ATTACHMENT_REQUIRED_FIELDS.has(activeEditField) && (
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-ink">
-                  {tEdit('required')}
-                  <span className="ml-1 text-danger" aria-hidden>*</span>
-                </p>
-                <FileUploadField
-                  label="แนบเอกสารประกอบ"
-                  required
-                  onUpload={(id) => setPendingAttachmentIds((prev) => [...prev, id])}
-                  onRemove={(id) =>
-                    setPendingAttachmentIds((prev) => prev.filter((x) => x !== id))
-                  }
-                />
-              </div>
-            )}
-
-            {/* Disable-save hint */}
-            {saveDisabled && (
-              <p role="alert" className="text-xs text-danger">
-                กรุณาแนบเอกสารก่อนบันทึก
-              </p>
-            )}
+        footer={
+          <div className="flex gap-2 justify-end">
+            <Button variant="ghost" size="sm" onClick={handleGateClose}>
+              {t('profileCancelEdit')}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleSubmitChange}
+              disabled={saveDisabled}
+            >
+              {t('save')}
+            </Button>
           </div>
-        )}
-      </EffectiveDateGate>
+        }
+      >
+        <div className="space-y-4">
+          {/* New value input */}
+          {activeEditField && (
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-ink">
+                {tEdit('newValue') || 'ค่าใหม่'}
+              </label>
+              <input
+                type="text"
+                value={formValues[activeEditField]}
+                onChange={(e) =>
+                  setFormValues((f) => ({ ...f, [activeEditField]: e.target.value }))
+                }
+                className="w-full rounded-md border border-hairline px-3 py-2 text-sm outline-none focus:border-accent"
+              />
+            </div>
+          )}
 
-      {/* Top action bar — Edit controls only render on personal panel to avoid
-          stranded Save/Cancel on tabs without editable fields (Bug 2026-04-22). */}
+          {/* Effective date */}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-ink">
+              {tEdit('effectiveDate') || 'วันที่มีผล'}
+              <span className="ml-1 text-danger" aria-hidden>*</span>
+            </label>
+            <input
+              type="date"
+              value={modalDate}
+              onChange={(e) => setModalDate(e.target.value)}
+              className="w-full rounded-md border border-hairline px-3 py-2 text-sm outline-none focus:border-accent"
+            />
+          </div>
+
+          {/* Attachment zone — only for fields requiring it */}
+          {attachmentRequired && (
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-ink">
+                {tEdit('required')}
+                <span className="ml-1 text-danger" aria-hidden>*</span>
+              </p>
+              <FileUploadField
+                label="แนบเอกสารประกอบ"
+                required
+                onUpload={(id) => setPendingAttachmentIds((prev) => [...prev, id])}
+                onRemove={(id) =>
+                  setPendingAttachmentIds((prev) => prev.filter((x) => x !== id))
+                }
+              />
+            </div>
+          )}
+
+          {/* Disable hint */}
+          {saveDisabled && (
+            <p role="alert" className="text-xs text-danger">
+              {attachmentRequired && pendingAttachmentIds.length === 0
+                ? 'กรุณาแนบเอกสารก่อนบันทึก'
+                : 'กรุณาระบุวันที่มีผล'}
+            </p>
+          )}
+        </div>
+      </Modal>
+
+      {/* Top action bar — Edit controls only on personal panel (tab guard
+          prevents stranded Save/Cancel on other tabs). Buttons container uses
+          fixed min-width to reserve space for 2-button state so toggling
+          Edit↔(Cancel+Save) doesn't jump layout (Ken UAT 2026-04-22 "กระตุก"). */}
       <div className="mb-5 flex items-center justify-between gap-3 flex-wrap">
         <div className="text-small text-ink-muted">
           {t('subtitle')} · {p.employeeCode}
         </div>
         {panelKey === 'personal' && (
-          <div className="humi-row" style={{ gap: 8 }}>
-            {isEditing ? (
-              <>
-                <Button variant="ghost" size="sm" leadingIcon={<X size={14} />} onClick={cancelEdit}>
-                  {t('profileCancelEdit')}
-                </Button>
-                <Button variant="primary" leadingIcon={<Check size={14} />} onClick={handleSave}>
-                  {t('save')}
-                </Button>
-              </>
-            ) : (
-              <Button variant="primary" leadingIcon={<Pencil size={14} />} onClick={startEdit}>
-                {t('profileEdit')}
-              </Button>
-            )}
+          // Render all 3 buttons always, toggle visibility via CSS — avoids
+          // React mount/unmount flash. Container reserves 2-button width so
+          // layout doesn't jump when swapping (Ken UAT 2026-04-22 "กระตุก").
+          <div
+            className="humi-row justify-end"
+            style={{ gap: 8, minWidth: 260 }}
+          >
+            <Button
+              variant="primary"
+              size="md"
+              leadingIcon={<Pencil size={14} />}
+              onClick={startEdit}
+              className={isEditing ? 'hidden' : ''}
+            >
+              {t('profileEdit')}
+            </Button>
+            <Button
+              variant="ghost"
+              size="md"
+              leadingIcon={<X size={14} />}
+              onClick={cancelEdit}
+              className={isEditing ? '' : 'hidden'}
+            >
+              {t('profileCancelEdit')}
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              leadingIcon={<Check size={14} />}
+              onClick={handleSave}
+              className={isEditing ? '' : 'hidden'}
+            >
+              {t('save')}
+            </Button>
           </div>
         )}
       </div>
@@ -409,7 +476,7 @@ export default function HumiProfileMePage() {
               </div>
             </div>
           ) : (
-            // Full 4-section edit form with EffectiveDateGate per field
+            // Full 4-section edit form with per-field pencil → single-step modal
             <div className="humi-card md:col-span-2">
               <h3 className="mb-4 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
                 {t('personalTitle')}
