@@ -28,6 +28,7 @@ import {
   CalendarDays,
   Building2,
   Briefcase,
+  TrendingUp,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -280,6 +281,13 @@ export default function EmployeeDetailPage() {
       label: 'จ้างซ้ำ',
       desc: 'รับกลับเข้าทำงานหลังสิ้นสุดสภาพ',
       href: `/${locale}/admin/employees/${empId}/rehire`,
+      locked: false,
+    },
+    {
+      icon: TrendingUp,
+      label: 'เลื่อนตำแหน่ง',
+      desc: 'เลื่อน Job Grade / ปรับตำแหน่ง / เพิ่มเงินเดือน',
+      href: `/${locale}/admin/employees/${empId}/promotion`,
       locked: false,
     },
   ]

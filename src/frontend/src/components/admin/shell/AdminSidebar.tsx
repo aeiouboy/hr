@@ -16,6 +16,7 @@ import {
   BriefcaseBusiness,
   MapPin,
   ArrowLeft,
+  LogOut,
   X,
   type LucideIcon,
 } from 'lucide-react';
@@ -138,6 +139,16 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
               <ArrowLeft size={16} />
             </span>
             <span className="humi-nav-text">กลับสู่พนักงาน</span>
+          </Link>
+          <Link
+            href="/th/login"
+            className="humi-nav-item"
+            onClick={onNavigate}
+          >
+            <span className="humi-nav-icon" aria-hidden="true">
+              <LogOut size={16} />
+            </span>
+            <span className="humi-nav-text">ออกจากระบบ</span>
           </Link>
         </div>
       </nav>

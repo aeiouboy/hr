@@ -122,6 +122,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
   // Compare without locale prefix so /en/home matches href="/th/home"
   const barePath = stripLocale(pathname);
+  const currentLocale = pathname.match(/^\/(th|en)/)?.[1] ?? 'th';
   const isActive = (href: string) => {
     const bareHref = stripLocale(href);
     return barePath === bareHref || barePath.startsWith(bareHref + '/');
@@ -213,15 +214,20 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
         ))}
       </nav>
 
-      <div className="humi-sidebar-foot">
+      <Link
+        href={`/${currentLocale}/login`}
+        className="humi-sidebar-foot"
+        style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+        aria-label="ออกจากระบบและกลับไปหน้าเข้าสู่ระบบ"
+      >
         <div className="humi-avatar coral" aria-hidden="true">
           จท
         </div>
         <div className="humi-user-meta">
           <div className="humi-user-name">จงรักษ์ ทานากะ</div>
-          <div className="humi-user-role">ผู้จัดการฝ่ายบุคคล · สำนักงานใหญ่</div>
+          <div className="humi-user-role">กดเพื่อออกจากระบบ</div>
         </div>
-      </div>
+      </Link>
 
       {/* Locale switcher ย้ายไป Topbar แล้ว — 2026-04-23 (แก้ bug ยื่นนอก sidebar) */}
     </aside>
