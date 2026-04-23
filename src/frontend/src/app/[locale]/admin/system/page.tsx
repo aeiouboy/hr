@@ -10,32 +10,28 @@ const HUBS = [
   {
     href: '/admin/system/reports',
     title: 'รายงาน',
-    titleEn: 'Reporting',
-    desc: 'สร้าง กำหนดเวลา และจัดการรายงานทั้งหมด',
+    desc: 'สร้าง กำหนดเวลา และจัดการรายงานทั้งหมดในระบบ',
     icon: '📊',
     color: 'blue',
   },
   {
     href: '/admin/system/integration',
-    title: 'การเชื่อมต่อ',
-    titleEn: 'Integration',
-    desc: 'IC/API endpoints และการเชื่อมต่อ Microsoft Teams Viva',
+    title: 'การเชื่อมต่อระบบ',
+    desc: 'จุดเชื่อมต่อกับระบบภายนอกและแอปพลิเคชันที่ใช้ร่วมกัน',
     icon: '🔗',
     color: 'violet',
   },
   {
     href: '/admin/system/features',
     title: 'ฟีเจอร์ระบบ',
-    titleEn: 'System Features',
-    desc: 'ภาษา, E-Document, การแสดงผล และกฎการแก้ไข',
+    desc: 'ภาษา เอกสารอิเล็กทรอนิกส์ การแสดงผล และกฎการแก้ไข',
     icon: '⚙️',
     color: 'amber',
   },
   {
     href: '/admin/system/security',
     title: 'ความปลอดภัย',
-    titleEn: 'Security & Governance',
-    desc: 'ยินยอม, Traffic Log, การเข้ารหัส และการย้ายข้อมูล',
+    desc: 'การยินยอม บันทึกการเข้าถึง การเข้ารหัส และการย้ายข้อมูล',
     icon: '🔒',
     color: 'red',
   },
@@ -56,7 +52,7 @@ export default function SystemPage() {
     { label: 'รายงานทั้งหมด',    value: reports.length },
     { label: 'งานตั้งเวลา',       value: scheduledJobs.filter((j) => j.isActive).length },
     { label: 'รายงานโปรด',        value: favouriteReports.length },
-    { label: 'Endpoints',          value: integrationEndpoints.length },
+    { label: 'จุดเชื่อมต่อ',        value: integrationEndpoints.length },
     { label: 'การยินยอมรอดำเนินการ', value: consentForms.filter((c) => c.status === 'pending').length },
   ]
 
@@ -90,8 +86,7 @@ export default function SystemPage() {
           >
             <div className="text-3xl mb-3" aria-hidden>{hub.icon}</div>
             <h2 className="font-semibold text-gray-900">{hub.title}</h2>
-            <p className="text-xs text-gray-400 mb-2">{hub.titleEn}</p>
-            <p className="text-sm text-gray-600">{hub.desc}</p>
+            <p className="mt-2 text-sm text-gray-600">{hub.desc}</p>
           </Link>
         ))}
       </div>

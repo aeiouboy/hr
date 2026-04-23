@@ -10,7 +10,7 @@ const TOOLS = [
     href: '/admin/users/data-permissions',
     title: 'กลุ่มสิทธิ์ข้อมูล',
     brd: 'BRD #184',
-    description: 'กำหนดขอบเขตข้อมูลที่แต่ละกลุ่มผู้ใช้มีสิทธิ์เข้าถึง (Module / BG / Company / Division / Department / Employee Group / PG)',
+    description: 'กำหนดขอบเขตข้อมูลที่แต่ละกลุ่มผู้ใช้มีสิทธิ์เข้าถึง ตามโมดูล กลุ่มธุรกิจ บริษัท แผนก หน่วยงาน หรือกลุ่มพนักงาน',
     icon: '🔒',
     actor: 'HRIS Admin / SPD Admin',
   },
@@ -18,7 +18,7 @@ const TOOLS = [
     href: '/admin/users/role-groups',
     title: 'กลุ่มสิทธิ์แอปพลิเคชัน',
     brd: 'BRD #185',
-    description: 'กำหนดสิทธิ์เมนูและฟังก์ชันระดับ Field (View / Edit / Enable / Disable) สำหรับแต่ละ Role',
+    description: 'กำหนดสิทธิ์เมนูและสิทธิ์ระดับฟิลด์ (ดู แก้ไข เปิดใช้ ปิดใช้) สำหรับแต่ละกลุ่มผู้ใช้',
     icon: '🛡️',
     actor: 'HRIS Admin',
   },
@@ -26,31 +26,31 @@ const TOOLS = [
     href: '/admin/users/user-assignment',
     title: 'กำหนดสิทธิ์ผู้ใช้',
     brd: 'BRD #186',
-    description: 'Assign ผู้ใช้ให้กับกลุ่มสิทธิ์แอปพลิเคชันและกลุ่มสิทธิ์ข้อมูล',
+    description: 'มอบหมายผู้ใช้ให้กับกลุ่มสิทธิ์แอปพลิเคชันและกลุ่มสิทธิ์ข้อมูล',
     icon: '👥',
     actor: 'HRIS Admin',
   },
   {
     href: '/admin/users/proxy',
-    title: 'จัดการ Proxy',
+    title: 'จัดการตัวแทนดำเนินการ',
     brd: 'BRD #187',
-    description: 'มอบหมายสิทธิ์ชั่วคราวให้ผู้อื่นดำเนินการแทน พร้อม log ทุก action',
+    description: 'มอบสิทธิ์ชั่วคราวให้ผู้อื่นดำเนินการแทน พร้อมบันทึกทุกการใช้งาน',
     icon: '🔄',
     actor: 'Admin (exclusive)',
   },
   {
     href: '/admin/users/foundation-audit',
-    title: 'ประวัติการแก้ไข Foundation',
+    title: 'ประวัติการแก้ไขข้อมูลพื้นฐาน',
     brd: 'BRD #188',
-    description: 'ดูประวัติการเปลี่ยนแปลง Foundation Data (Company / Division / Department) รวมถึง Position Changed events',
+    description: 'ดูประวัติการเปลี่ยนแปลงข้อมูลบริษัท แผนก หน่วยงาน รวมถึงการย้ายตำแหน่งของพนักงาน',
     icon: '📋',
     actor: 'HRIS Admin',
   },
   {
     href: '/admin/users/audit-report',
-    title: 'รายงาน Audit',
+    title: 'รายงานบันทึกการใช้งาน',
     brd: 'BRD #189',
-    description: 'ดูและ Export log การดำเนินการ Add / Edit / Delete ทุก Module ในระบบ',
+    description: 'ดูและส่งออกประวัติการเพิ่ม แก้ไข และลบข้อมูลในทุกโมดูลของระบบ',
     icon: '📊',
     actor: 'Admin / HRIS Admin',
   },
@@ -71,14 +71,14 @@ export default function UsersPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-900">ผู้ใช้และสิทธิ์</h1>
         <p className="mt-1 text-sm text-gray-500">
-          จัดการ roles, data permissions, user assignments และ audit สำหรับระบบ EC
+          จัดการกลุ่มผู้ใช้ สิทธิ์ข้อมูล การมอบหมาย และประวัติการใช้งานระบบ
         </p>
       </div>
 
       <div className="flex gap-4 mb-6">
         {pendingProxies > 0 && (
           <div className="flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-sm">
-            <span className="text-amber-600 font-medium">Proxy รออนุมัติ</span>
+            <span className="text-amber-600 font-medium">ตัวแทนดำเนินการรออนุมัติ</span>
             <span className="bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
               {pendingProxies}
             </span>
@@ -86,7 +86,7 @@ export default function UsersPage() {
         )}
         {todayAudit > 0 && (
           <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg text-sm">
-            <span className="text-blue-600 font-medium">Audit วันนี้</span>
+            <span className="text-blue-600 font-medium">บันทึกการใช้งานวันนี้</span>
             <span className="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
               {todayAudit}
             </span>
