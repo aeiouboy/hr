@@ -24,6 +24,7 @@ import { ArrowLeft, UserCheck, AlertTriangle, Info } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import type { MockEmployee } from '@/mocks/employees'
 import type { RehireEvent } from '@hrms/shared/types/timeline'
 
@@ -405,42 +406,20 @@ export default function RehirePage() {
       <EmployeeSnapshot employee={employee} />
 
       {/* Rehire form */}
+      <EffectiveDateGate
+        initialEffectiveDate={rehire.newHireDate ?? undefined}
+        onEffectiveDateChange={(date) => patch({
+          newHireDate: date,
+          seniorityDateOverride: rehire.seniorityDateOverride && rehire.seniorityDateOverride > date
+            ? null
+            : rehire.seniorityDateOverride,
+        })}
+        label="วันที่กลับมาทำงาน"
+      >
+        {() => (
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
           ข้อมูลการจ้างซ้ำ
-        </div>
-
-        {/* ── วันที่กลับมาทำงาน ── */}
-        <div style={{ marginBottom: 20 }}>
-          <label
-            htmlFor="newHireDate"
-            className="text-body font-semibold text-ink"
-            style={{ display: 'block', marginBottom: 6 }}
-          >
-            วันที่กลับมาทำงาน <span style={{ color: 'var(--color-danger)' }}>*</span>
-          </label>
-          <input
-            id="newHireDate"
-            type="date"
-            value={rehire.newHireDate ?? ''}
-            min={today}
-            onChange={(e) => {
-              const val = e.target.value || null
-              patch({
-                newHireDate: val,
-                // Reset seniority if it now conflicts
-                seniorityDateOverride: rehire.seniorityDateOverride && val
-                  ? (rehire.seniorityDateOverride > val ? null : rehire.seniorityDateOverride)
-                  : rehire.seniorityDateOverride,
-              })
-            }}
-            className="humi-input"
-            aria-describedby="newHireDate-hint"
-            style={{ maxWidth: 240 }}
-          />
-          <p id="newHireDate-hint" className="text-small text-ink-muted mt-1">
-            ต้องเป็นวันปัจจุบันหรือในอนาคต
-          </p>
         </div>
 
         <hr className="humi-divider" />
@@ -629,6 +608,8 @@ export default function RehirePage() {
           </button>
         </div>
       </div>
+        )}
+      </EffectiveDateGate>
     </div>
   )
 }

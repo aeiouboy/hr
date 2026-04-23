@@ -21,6 +21,7 @@ import { ArrowLeft, ArrowRightLeft } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { PICKLIST_COMPANY } from '@hrms/shared/picklists'
 import type { CompanyId } from '@hrms/shared/picklists'
 import type { MockEmployee } from '@/mocks/employees'
@@ -284,6 +285,12 @@ export default function TransferPage() {
       <EmployeeSnapshot employee={employee} />
 
       {/* Transfer form */}
+      <EffectiveDateGate
+        min={employee.hire_date || undefined}
+        initialEffectiveDate={movement.effectiveDate ?? undefined}
+        onEffectiveDateChange={(date) => patch({ effectiveDate: date })}
+      >
+        {() => (
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
           ข้อมูลการโอนย้าย
@@ -380,30 +387,6 @@ export default function TransferPage() {
 
         <hr className="humi-divider" />
 
-        {/* ── วันที่มีผล (required, min=today) ── */}
-        <div style={{ marginBottom: 20 }}>
-          <label
-            htmlFor="effectiveDate"
-            className="text-body font-semibold text-ink"
-            style={{ display: 'block', marginBottom: 6 }}
-          >
-            วันที่มีผล <span style={{ color: 'var(--color-danger)' }}>*</span>
-          </label>
-          <input
-            id="effectiveDate"
-            type="date"
-            value={movement.effectiveDate ?? ''}
-            min={TODAY}
-            onChange={(e) => patch({ effectiveDate: e.target.value || null })}
-            className="humi-input"
-            style={{ maxWidth: 240 }}
-            aria-label="วันที่มีผลของการโอนย้าย"
-          />
-          <p className="text-small text-ink-muted mt-1">
-            ต้องเป็นวันที่ปัจจุบันหรือหลังจากนี้
-          </p>
-        </div>
-
         {/* ── Cost Center (optional, English label OK) ── */}
         <div style={{ marginBottom: 20 }}>
           <label
@@ -489,6 +472,8 @@ export default function TransferPage() {
           </button>
         </div>
       </div>
+        )}
+      </EffectiveDateGate>
     </div>
   )
 }

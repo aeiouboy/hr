@@ -35,9 +35,9 @@ import {
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
-import { useEmploymentEvents } from '@/lib/admin/store/useEmploymentEvents'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
-import { calcAge, calcGeneration, calcYearOfService } from '@/lib/calculations'
+import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsInCorpTitle, calcYearsInPosition } from '@/lib/calculations'
+import type { LifecycleEvent } from '@/lib/calculations'
 
 // ── Tenure helper ────────────────────────────────────────────
 function calcTenure(hireDateStr: string): string {
@@ -155,6 +155,74 @@ interface ActionCard {
   desc: string
   href?: string
   locked: boolean
+  lockReason?: string
+}
+
+// ── Status-gated action availability (Ken 2026-04-24 — don't show probation
+//    to a terminated employee). Rules derived from BRD + 2026-04-23 audit:
+//    - terminated: only rehire available
+//    - inactive:   read-only (all locked); user must be reactivated first
+//    - active + in_probation/extended: probation + edit + terminate only
+//    - active + passed (or terminated-prob): all change actions except probation
+//    - contract_renewal: gated to PARTIME (contract-based) employees
+//    - change_type: always available on active employees
+// ─────────────────────────────────────────────────────────────
+type ActionKey =
+  | 'probation' | 'edit' | 'transfer' | 'terminate'
+  | 'contract_renewal' | 'rehire' | 'change_type' | 'promotion'
+
+function actionAvailability(emp: {
+  status: 'active' | 'inactive' | 'terminated'
+  probation_status: 'in_probation' | 'passed' | 'terminated' | 'extended'
+  employee_class: 'PERMANENT' | 'PARTIME'
+}): Record<ActionKey, { ok: boolean; reason?: string }> {
+  const isActive = emp.status === 'active'
+  const isTerminated = emp.status === 'terminated'
+  const isInactive = emp.status === 'inactive'
+  const inProbation = isActive && (emp.probation_status === 'in_probation' || emp.probation_status === 'extended')
+  const passedProb = isActive && emp.probation_status === 'passed'
+  const isPartime = emp.employee_class === 'PARTIME'
+
+  const terminated_reason = isTerminated ? 'พนักงานพ้นสภาพแล้ว — ใช้ "จ้างซ้ำ" ก่อน' : ''
+  const inactive_reason = isInactive ? 'พนักงานไม่ได้ทำงานอยู่ — ต้องเปิดใช้งานก่อน' : ''
+
+  return {
+    probation: inProbation
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'ผ่านทดลองงานแล้ว ไม่ต้องประเมินเพิ่ม' },
+    edit: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : { ok: false, reason: inactive_reason },
+    transfer: (passedProb || (isActive && emp.probation_status !== 'terminated'))
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'รอให้ผ่านทดลองงานก่อน' },
+    terminate: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: 'พนักงานพ้นสภาพไปแล้ว' }
+      : { ok: false, reason: inactive_reason },
+    contract_renewal: (isActive && isPartime)
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'เฉพาะพนักงานสัญญาจ้าง/Part-time เท่านั้น' },
+    rehire: isTerminated
+      ? { ok: true }
+      : { ok: false, reason: 'เฉพาะพนักงานที่พ้นสภาพแล้ว' },
+    change_type: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : { ok: false, reason: inactive_reason },
+    promotion: passedProb
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'รอให้ผ่านทดลองงานก่อน' },
+  }
 }
 
 export default function EmployeeDetailPage() {
@@ -169,20 +237,10 @@ export default function EmployeeDetailPage() {
   // Timeline store — S3 owns this
   const { seed } = useTimelines()
 
-  // B2 PoC: employment events store
-  const seedFromEmployees = useEmploymentEvents((s) => s.seedFromEmployees)
-  const stateAsOf = useEmploymentEvents((s) => s.stateAsOf)
-
   // Seed HireEvent on mount if not already seeded
   useEffect(() => {
     if (employee) seed(employee)
   }, [employee, seed])
-
-  // B2 PoC: seed employment events from all employees (idempotent — safe to call on every mount)
-  const allEmployees = useEmployees((s) => s.all)
-  useEffect(() => {
-    seedFromEmployees(allEmployees)
-  }, [allEmployees, seedFromEmployees])
 
   // Bug 3 fix: stable reference to avoid infinite loop when byEmployee[empId] is undefined
   // Direct selector `s.byEmployee[empId] ?? []` creates new [] each render → Object.is false → re-render loop
@@ -217,74 +275,90 @@ export default function EmployeeDetailPage() {
   const nameTh = `${employee.first_name_th} ${employee.last_name_th}`
   const nameEn = `${employee.first_name_en} ${employee.last_name_en}`
   const tenure = calcTenure(employee.hire_date)
-
-  // Computed fields via lib/calculations (B4 PoC — additive rows only, no existing ACs touched)
-  const asOf = new Date().toISOString().slice(0, 10)
-  const ageResult = employee.date_of_birth ? (() => {
-    try { return calcAge(employee.date_of_birth, asOf) } catch { return null }
-  })() : null
-  const generationResult = employee.date_of_birth ? (() => {
-    try { return calcGeneration(employee.date_of_birth) } catch { return null }
-  })() : null
-  // B2 PoC: pull employment events from store + pass to calcYearOfService
-  // snapshot.events = LifecycleEvent[] compatible with B4 (superset shape, duck-type safe)
-  const b2Snapshot = stateAsOf(empId, asOf)
-  const yosResult = employee.hire_date ? (() => {
-    try {
-      return calcYearOfService(
-        b2Snapshot.hireDate ?? employee.hire_date,
-        b2Snapshot.events,  // B4 duck-types: needs type + effectiveDate + meta only
-        asOf,
-      )
-    } catch { return null }
-  })() : null
   const hireDateFormatted = new Date(employee.hire_date).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 
-  // 6 action cards — all active after Phase 1 Batch 2 (BRD #109/117/110/111-115/93/102)
+  // ── A8: computed fields — display-layer only (BRD #86-92) ───
+  // Build minimal HIRE event from hire_date for fallback path in all calcYearsInX functions.
+  // No EmploymentState history yet (A2 pending) → all X-counters fallback to HIRE.
+  const hireEvents: LifecycleEvent[] = employee.hire_date
+    ? [{ type: 'HIRE', effectiveDate: employee.hire_date }]
+    : []
+  const today = new Date().toISOString().slice(0, 10)
+
+  const ageResult       = employee.date_of_birth ? calcAge(employee.date_of_birth, today) : null
+  const genResult       = employee.date_of_birth ? calcGeneration(employee.date_of_birth) : null
+  const yosResult       = employee.hire_date ? calcYearOfService(employee.hire_date, hireEvents, today) : null
+  const yijResult       = employee.hire_date ? calcYearsInJob(hireEvents, today) : null
+  const yictResult      = employee.hire_date ? calcYearsInCorpTitle(hireEvents, today) : null
+  const yipResult       = employee.hire_date ? calcYearsInPosition(hireEvents, today) : null
+  // Compute status-gated availability once per render
+  const avail = actionAvailability(employee)
   const ACTION_CARDS: ActionCard[] = [
     {
       icon: ClipboardCheck,
       label: 'ประเมินทดลองงาน',
       desc: 'บันทึกผลการประเมินช่วงทดลองงาน',
       href: `/${locale}/admin/employees/${empId}/probation`,
-      locked: false,
+      locked: !avail.probation.ok,
+      lockReason: avail.probation.reason,
     },
     {
       icon: Pencil,
       label: 'แก้ไขข้อมูลส่วนตัว',
-      desc: 'อัปเดตข้อมูล Identity / ชื่อ / ที่อยู่',
+      desc: 'อัปเดตข้อมูลชื่อ ที่อยู่ และข้อมูลส่วนตัว',
       href: `/${locale}/admin/employees/${empId}/edit`,
-      locked: false,
+      locked: !avail.edit.ok,
+      lockReason: avail.edit.reason,
     },
     {
       icon: ArrowRightLeft,
       label: 'โอนย้าย',
       desc: 'เปลี่ยนบริษัท หน่วยงาน ตำแหน่ง',
       href: `/${locale}/admin/employees/${empId}/transfer`,
-      locked: false,
+      locked: !avail.transfer.ok,
+      lockReason: avail.transfer.reason,
     },
     {
       icon: UserX,
       label: 'สิ้นสุดสภาพพนักงาน',
       desc: 'บันทึกการลาออกหรือสิ้นสุดการจ้างงาน',
       href: `/${locale}/admin/employees/${empId}/terminate`,
-      locked: false,
+      locked: !avail.terminate.ok,
+      lockReason: avail.terminate.reason,
     },
     {
       icon: FileText,
       label: 'ต่อสัญญา',
       desc: 'ต่ออายุสัญญาการจ้างงาน',
       href: `/${locale}/admin/employees/${empId}/contract-renewal`,
-      locked: false,
+      locked: !avail.contract_renewal.ok,
+      lockReason: avail.contract_renewal.reason,
     },
     {
       icon: UserCheck,
       label: 'จ้างซ้ำ',
       desc: 'รับกลับเข้าทำงานหลังสิ้นสุดสภาพ',
       href: `/${locale}/admin/employees/${empId}/rehire`,
-      locked: false,
+      locked: !avail.rehire.ok,
+      lockReason: avail.rehire.reason,
+    },
+    {
+      icon: RefreshCw,
+      label: 'เปลี่ยนประเภทการจ้าง',
+      desc: 'เปลี่ยนระหว่างพนักงานประจำกับพนักงานบางเวลา',
+      href: `/${locale}/admin/employees/${empId}/change-type`,
+      locked: !avail.change_type.ok,
+      lockReason: avail.change_type.reason,
+    },
+    {
+      icon: TrendingUp,
+      label: 'เลื่อนตำแหน่ง',
+      desc: 'เลื่อนระดับ ปรับตำแหน่ง หรือปรับเงินเดือน',
+      href: `/${locale}/admin/employees/${empId}/promotion`,
+      locked: !avail.promotion.ok,
+      lockReason: avail.promotion.reason,
     },
   ]
 
@@ -351,6 +425,13 @@ export default function EmployeeDetailPage() {
             </div>
             <div className="text-body font-medium text-ink">{hireDateFormatted}</div>
             <div className="text-small text-ink-muted">{tenure}</div>
+            {employee.seniority_start_date !== employee.hire_date && (
+              <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                อายุงานนับจาก {new Date(employee.seniority_start_date).toLocaleDateString('th-TH', {
+                  year: 'numeric', month: 'short', day: 'numeric',
+                })}
+              </div>
+            )}
           </div>
 
           <div>
@@ -368,6 +449,9 @@ export default function EmployeeDetailPage() {
               ตำแหน่ง
             </div>
             <div className="text-body font-medium text-ink">{employee.position_title}</div>
+            {employee.corporate_title && employee.corporate_title !== employee.position_title && (
+              <div className="text-small text-ink-muted">ระดับ {employee.corporate_title}</div>
+            )}
           </div>
 
           {/* Retail chips — audit A6/#11: conditional on non-null */}
@@ -398,10 +482,10 @@ export default function EmployeeDetailPage() {
               <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
             </div>
           )}
-          {generationResult && (
+          {genResult && (
             <div>
               <div className="humi-eyebrow" style={{ marginBottom: 4 }}>Generation</div>
-              <div className="text-body font-medium text-ink">{generationResult}</div>
+              <div className="text-body font-medium text-ink">{genResult}</div>
             </div>
           )}
           {yosResult && (
@@ -412,6 +496,52 @@ export default function EmployeeDetailPage() {
             </div>
           )}
         </div>
+
+        {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ── */}
+        {employee.hire_date && (
+          <>
+            <hr className="humi-divider" />
+            <div className="humi-row" style={{ gap: 12, flexWrap: 'wrap' }}>
+              {ageResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุ</div>
+                  <div className="text-body font-semibold text-ink">{ageResult.display}</div>
+                  {genResult && (
+                    <div className="text-small text-ink-muted">{genResult}</div>
+                  )}
+                </div>
+              )}
+              {yosResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>
+                  <div className="text-body font-semibold text-ink">{yosResult.display}</div>
+                  <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
+                </div>
+              )}
+              {yijResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในตำแหน่ง</div>
+                  <div className="text-body font-semibold text-ink">{yijResult.display}</div>
+                  <div className="text-small text-ink-muted">{yijResult.decimal} ปี</div>
+                </div>
+              )}
+              {yictResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในระดับ</div>
+                  <div className="text-body font-semibold text-ink">{yictResult.display}</div>
+                  <div className="text-small text-ink-muted">{yictResult.decimal} ปี</div>
+                </div>
+              )}
+              {yipResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 130 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานที่ตำแหน่งนี้</div>
+                  <div className="text-body font-semibold text-ink">{yipResult.display}</div>
+                  <div className="text-small text-ink-muted">{yipResult.decimal} ปี</div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* ── Section B: Timeline event log ─────────────────── */}
@@ -472,7 +602,7 @@ export default function EmployeeDetailPage() {
                     position: 'relative',
                   }}
                   aria-disabled="true"
-                  title="Phase 2 — Coming soon"
+                  title={card.lockReason ?? 'ยังไม่พร้อมใช้งาน'}
                 >
                   <div className="humi-row" style={{ gap: 10, alignItems: 'flex-start' }}>
                     <div
@@ -491,9 +621,11 @@ export default function EmployeeDetailPage() {
                         <Lock size={12} className="text-ink-faint" aria-hidden />
                       </div>
                       <div className="text-small text-ink-faint mt-0.5">{card.desc}</div>
-                      <div className="mt-1.5">
-                        <span className="humi-tag" style={{ fontSize: 10 }}>Phase 2 — Coming soon</span>
-                      </div>
+                      {card.lockReason && (
+                        <div className="mt-1.5 text-small text-ink-muted" style={{ fontSize: 11, lineHeight: 1.4 }}>
+                          {card.lockReason}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

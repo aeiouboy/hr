@@ -21,6 +21,7 @@ import { ArrowLeft, ClipboardCheck } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ProbationEvent } from '@hrms/shared/types/timeline'
 
@@ -29,6 +30,7 @@ import type { ProbationEvent } from '@hrms/shared/types/timeline'
 interface ProbationAssessment {
   outcome: 'pass' | 'no_pass' | 'extend' | null
   effectiveDate: string | null
+  confirmDate: string | null
   note: string
   allowanceAmount: string | null
   extendUntil: string | null
@@ -42,6 +44,7 @@ const INITIAL_FORM: ProbationForm = {
   assessment: {
     outcome: null,
     effectiveDate: null,
+    confirmDate: null,
     note: '',
     allowanceAmount: null,
     extendUntil: null,
@@ -71,6 +74,69 @@ function formatDateTh(isoDate: string): string {
   return new Date(isoDate).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
+}
+
+// BRD #117: auto-pass at day 119 — days remaining from hireDate
+function calcDaysRemaining(hireDateStr: string): number {
+  if (!hireDateStr) return 0
+  const hire = new Date(hireDateStr)
+  hire.setDate(hire.getDate() + 119)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  hire.setHours(0, 0, 0, 0)
+  return Math.max(0, Math.floor((hire.getTime() - today.getTime()) / 86_400_000))
+}
+
+// ─── Days-remaining banner ────────────────────────────────────────────────────
+
+interface ProbationBannerProps { daysRemaining: number }
+
+function ProbationBanner({ daysRemaining }: ProbationBannerProps) {
+  // tier thresholds: 0 = past, ≤14 = danger, ≤29 = warning, ≥30 = muted
+  let bg: string
+  let border: string
+  let color: string
+  let text: string
+
+  if (daysRemaining === 0) {
+    bg = 'var(--color-accent-soft, #E8F4FE)'
+    border = 'var(--color-accent, #3B82F6)'
+    color = 'var(--color-accent, #1D4ED8)'
+    text = 'ครบกำหนดแล้ว — auto-pass ของระบบจะทริกเกอร์ (รอ backend phase)'
+  } else if (daysRemaining <= 14) {
+    bg = '#FEF2F2'
+    border = '#EF4444'
+    color = '#B91C1C'
+    text = `ใกล้ครบกำหนด (${daysRemaining} วัน) — โปรดประเมิน`
+  } else if (daysRemaining <= 29) {
+    bg = '#FFFBEB'
+    border = '#F59E0B'
+    color = '#92400E'
+    text = `ใกล้ครบทดลองงาน: เหลือ ${daysRemaining} วัน`
+  } else {
+    bg = 'var(--color-hairline-soft, #F3F4F6)'
+    border = 'var(--color-hairline, #D1D5DB)'
+    color = 'var(--color-ink-muted, #6B7280)'
+    text = `ช่วงทดลองงานเหลืออีก ${daysRemaining} วัน`
+  }
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      style={{
+        background: bg,
+        border: `1.5px solid ${border}`,
+        borderRadius: 10,
+        padding: '10px 14px',
+        marginBottom: 16,
+        color,
+      }}
+      className="text-body font-medium"
+    >
+      {text}
+    </div>
+  )
 }
 
 // ─── Employee snapshot (readonly) ────────────────────────────────────────────
@@ -214,6 +280,7 @@ export default function ProbationAssessPage() {
   // ── Derived date constraints per BRD #117 ───────────────────────────────
   const hireDate = employee?.hire_date ?? ''
   const maxEffectiveDate = hireDate ? addDays(hireDate, 119) : ''
+  const daysRemaining = hireDate ? calcDaysRemaining(hireDate) : 0
 
   // ── Validation ───────────────────────────────────────────────────────────
   const isValid =
@@ -250,6 +317,13 @@ export default function ProbationAssessPage() {
       extend: 'extend' as const,
     }
 
+    // confirmDate (HR payroll confirm) stored in notes until backend field added
+    const noteParts: string[] = []
+    if (assessment.note) noteParts.push(assessment.note)
+    if (assessment.outcome === 'pass' && assessment.confirmDate) {
+      noteParts.push(`[confirmDate:${assessment.confirmDate}]`)
+    }
+
     const event: ProbationEvent = {
       id: `evt-prob-${Date.now()}`,
       employeeId: empId,
@@ -258,7 +332,7 @@ export default function ProbationAssessPage() {
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
       outcome: outcomeMap[assessment.outcome!],
-      notes: assessment.note || undefined,
+      notes: noteParts.length > 0 ? noteParts.join('\n') : undefined,
     }
 
     append(empId, event)
@@ -352,7 +426,17 @@ export default function ProbationAssessPage() {
         <EmployeeSnapshot employee={employee} />
 
         {/* Assessment form */}
+        <EffectiveDateGate
+          min={hireDate || undefined}
+          max={maxEffectiveDate || undefined}
+          initialEffectiveDate={assessment.effectiveDate ?? undefined}
+          onEffectiveDateChange={(date) => patch({ effectiveDate: date })}
+        >
+          {() => (
         <div className="humi-card">
+          {/* ── Days-remaining banner (BRD #117) ── */}
+          <ProbationBanner daysRemaining={daysRemaining} />
+
           <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
             บันทึกผลการประเมิน
           </div>
@@ -405,33 +489,6 @@ export default function ProbationAssessPage() {
           </div>
 
           <hr className="humi-divider" />
-
-          {/* ── Effective Date ── */}
-          <div style={{ marginBottom: 20 }}>
-            <label
-              htmlFor="effectiveDate"
-              className="text-body font-semibold text-ink"
-              style={{ display: 'block', marginBottom: 6 }}
-            >
-              วันที่มีผล <span style={{ color: 'var(--color-danger)' }}>*</span>
-            </label>
-            <input
-              id="effectiveDate"
-              type="date"
-              value={assessment.effectiveDate ?? ''}
-              min={hireDate}
-              max={maxEffectiveDate}
-              onChange={(e) => patch({ effectiveDate: e.target.value || null })}
-              className="humi-input"
-              aria-describedby="effectiveDate-hint"
-              style={{ maxWidth: 240 }}
-            />
-            {hireDate && (
-              <p id="effectiveDate-hint" className="text-small text-ink-muted mt-1">
-                ช่วงที่กำหนด: {formatDateTh(hireDate)} — {formatDateTh(maxEffectiveDate)}
-              </p>
-            )}
-          </div>
 
           {/* ── Extend Until (conditional) ── */}
           {assessment.outcome === 'extend' && (
@@ -494,6 +551,32 @@ export default function ProbationAssessPage() {
             </div>
           )}
 
+          {/* ── Confirm Date for Payroll (A5 — only when outcome=pass) ── */}
+          {assessment.outcome === 'pass' && (
+            <div style={{ marginBottom: 20 }}>
+              <label
+                htmlFor="confirmDate"
+                className="text-body font-semibold text-ink"
+                style={{ display: 'block', marginBottom: 6 }}
+              >
+                วันที่ยืนยัน (HR){' '}
+                <span className="text-small text-ink-muted">(ไม่บังคับ)</span>
+              </label>
+              <input
+                id="confirmDate"
+                type="date"
+                value={assessment.confirmDate ?? ''}
+                onChange={(e) => patch({ confirmDate: e.target.value || null })}
+                className="humi-input"
+                style={{ maxWidth: 240 }}
+                aria-label="วันที่ยืนยันสำหรับ Payroll"
+              />
+              <p className="text-small text-ink-muted mt-1">
+                วันที่ยืนยันสำหรับ Payroll (ไม่บังคับ — กรอกเมื่อ HR พร้อมอนุมัติ)
+              </p>
+            </div>
+          )}
+
           {/* ── Note textarea ── */}
           <div style={{ marginBottom: 24 }}>
             <label
@@ -533,6 +616,8 @@ export default function ProbationAssessPage() {
             </button>
           </div>
         </div>
+          )}
+        </EffectiveDateGate>
       </div>
     </>
   )

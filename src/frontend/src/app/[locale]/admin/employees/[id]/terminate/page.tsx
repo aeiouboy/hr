@@ -20,6 +20,7 @@ import { ArrowLeft, UserX } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import type { MockEmployee } from '@/mocks/employees'
 import type { TerminateEvent } from '@hrms/shared/types/timeline'
 
@@ -32,11 +33,11 @@ import type { TerminateEvent } from '@hrms/shared/types/timeline'
  * deferred to Phase 2.5 backend.
  */
 const TERMINATION_REASONS = [
-  { code: 'RESIGN',        labelTh: 'ลาออก (Resign)' },
-  { code: 'RETIRE',        labelTh: 'เกษียณอายุ (Retire)' },
-  { code: 'LAYOFF',        labelTh: 'เลิกจ้าง / ปรับโครงสร้าง (Layoff)' },
-  { code: 'MISCONDUCT',    labelTh: 'ผิดวินัยร้ายแรง (Misconduct)' },
-  { code: 'CONTRACT_END',  labelTh: 'สัญญาจ้างสิ้นสุด (Contract End)' },
+  { code: 'RESIGN',        labelTh: 'ลาออก' },
+  { code: 'RETIRE',        labelTh: 'เกษียณอายุ' },
+  { code: 'LAYOFF',        labelTh: 'เลิกจ้าง/ปรับโครงสร้าง' },
+  { code: 'MISCONDUCT',    labelTh: 'ผิดวินัยร้ายแรง' },
+  { code: 'CONTRACT_END',  labelTh: 'สัญญาจ้างสิ้นสุด' },
 ] as const
 
 // ─── Form shape ───────────────────────────────────────────────────────────────
@@ -398,6 +399,13 @@ export default function TerminatePage() {
         <EmployeeSnapshot employee={employee} />
 
         {/* Terminate form */}
+        <EffectiveDateGate
+          min={hireDate !== today ? hireDate : undefined}
+          initialEffectiveDate={termination.lastDay ?? undefined}
+          onEffectiveDateChange={(date) => handleLastDayChange(date)}
+          label="วันสุดท้ายที่ทำงาน"
+        >
+          {() => (
         <div className="humi-card">
           <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
             บันทึกการสิ้นสุดการจ้างงาน
@@ -451,31 +459,6 @@ export default function TerminatePage() {
 
           <hr className="humi-divider" />
 
-          {/* ── Last working day ── */}
-          <div style={{ marginBottom: 20 }}>
-            <label
-              htmlFor="lastDay"
-              className="text-body font-semibold text-ink"
-              style={{ display: 'block', marginBottom: 6 }}
-            >
-              วันสุดท้ายที่ทำงาน <span style={{ color: 'var(--color-danger)' }}>*</span>
-            </label>
-            <input
-              id="lastDay"
-              type="date"
-              value={termination.lastDay ?? ''}
-              min={lastDayMin}
-              onChange={(e) => handleLastDayChange(e.target.value)}
-              className="humi-input"
-              style={{ maxWidth: 240 }}
-              aria-required="true"
-              aria-describedby="lastDay-hint"
-            />
-            <p id="lastDay-hint" className="text-small text-ink-muted mt-1">
-              ต้องไม่ก่อนวันที่เริ่มงาน ({formatDateTh(hireDate)})
-            </p>
-          </div>
-
           {/* ── Payroll effective date ── */}
           <div style={{ marginBottom: 20 }}>
             <label
@@ -522,8 +505,8 @@ export default function TerminatePage() {
                 style={{ display: 'flex', gap: 12 }}
               >
                 {([
-                  { value: true,  label: 'ใช่ (Yes)' },
-                  { value: false, label: 'ไม่ใช่ (No)' },
+                  { value: true,  label: 'ใช่' },
+                  { value: false, label: 'ไม่ใช่' },
                 ] as const).map(({ value, label }) => (
                   <label
                     key={String(value)}
@@ -602,6 +585,8 @@ export default function TerminatePage() {
             </button>
           </div>
         </div>
+          )}
+        </EffectiveDateGate>
       </div>
     </>
   )

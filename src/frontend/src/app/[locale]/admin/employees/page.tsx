@@ -198,6 +198,7 @@ export default function EmployeesPage() {
   const locale = (params?.locale as string) ?? 'th'
 
   const { setSearchQuery, searchQuery, getFiltered } = useEmployees()
+  const allEmployeesCount = useEmployees((s) => s.all.length)
   const [localQuery, setLocalQuery] = useState(searchQuery)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -207,13 +208,14 @@ export default function EmployeesPage() {
     return () => clearTimeout(t)
   }, [localQuery, setSearchQuery])
 
-  // Recompute filtered list when store query changes
-  const filtered = useMemo(() => getFiltered(), [
+  // Empty-by-default: don't render the full 1K row list until the user actually
+  // types a search. Ken 2026-04-24: "ข้อมูลยังไม่ควรโหลดขึ้นมาถ้ายังไม่มีการ
+  // Search" — avoids accidental-weight first paint + signals search-driven UX.
+  const filtered = useMemo(() => {
+    if (!searchQuery.trim()) return []
+    return getFiltered()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    searchQuery,
-    // re-run when query changes — getFiltered is a stable selector function
-    // that reads current store state each call
-  ])
+  }, [searchQuery])
 
   const handleRowClick = useCallback(
     (id: string) => {
@@ -360,48 +362,51 @@ export default function EmployeesPage() {
           boxShadow: 'var(--shadow-sm)',
         }}
       >
-        {/* Thead — sticky, not virtualized */}
-        <div
-          role="rowgroup"
-          aria-label="หัวตาราง"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: HEADER_HEIGHT,
-            background: 'var(--color-canvas)',
-            borderBottom: '1px solid var(--color-hairline)',
-            flexShrink: 0,
-          }}
-        >
-          {COLUMNS.map((col) => (
-            <div
-              key={col.key}
-              role="columnheader"
-              style={{
-                width: col.key === 'position_title' ? undefined : col.width,
-                flex: col.key === 'position_title' ? 1 : undefined,
-                minWidth: col.key === 'position_title' ? col.width : undefined,
-                flexShrink: col.key === 'position_title' ? undefined : 0,
-                padding: '0 12px',
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--color-ink-muted)',
-              }}
-            >
-              {col.label}
-            </div>
-          ))}
-        </div>
-
-        {/* Scrollable tbody — virtualized */}
+        {/* Scrollable tbody — virtualized; thead lives inside as sticky so it
+            survives narrow viewports where outer flex-height can collapse.
+            position:sticky within the scroll parent keeps header pinned
+            regardless of how the page around us behaves. */}
         <div
           ref={scrollRef}
           role="rowgroup"
           aria-label="รายการพนักงาน"
           style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}
         >
+          <div
+            role="rowgroup"
+            aria-label="หัวตาราง"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: HEADER_HEIGHT,
+              background: 'var(--color-canvas)',
+              borderBottom: '1px solid var(--color-hairline)',
+              position: 'sticky',
+              top: 0,
+              zIndex: 2,
+            }}
+          >
+            {COLUMNS.map((col) => (
+              <div
+                key={col.key}
+                role="columnheader"
+                style={{
+                  width: col.key === 'position_title' ? undefined : col.width,
+                  flex: col.key === 'position_title' ? 1 : undefined,
+                  minWidth: col.key === 'position_title' ? col.width : undefined,
+                  flexShrink: col.key === 'position_title' ? undefined : 0,
+                  padding: '0 12px',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-ink-muted)',
+                }}
+              >
+                {col.label}
+              </div>
+            ))}
+          </div>
           {filtered.length === 0 ? (
             <div
               style={{
@@ -410,13 +415,25 @@ export default function EmployeesPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100%',
+                minHeight: 220,
                 gap: 8,
+                padding: '40px 20px',
+                textAlign: 'center',
                 color: 'var(--color-ink-muted)',
                 fontSize: 13,
               }}
             >
               <Users2 size={32} style={{ opacity: 0.35 }} aria-hidden />
-              <span>ไม่พบพนักงานที่ตรงกับการค้นหา</span>
+              {searchQuery.trim() ? (
+                <span>ไม่พบพนักงานที่ตรงกับการค้นหา</span>
+              ) : (
+                <>
+                  <span>เริ่มต้นด้วยการค้นหาชื่อหรือรหัสพนักงาน</span>
+                  <span style={{ fontSize: 11, opacity: 0.75 }}>
+                    มีพนักงานทั้งหมด {allEmployeesCount.toLocaleString('th-TH')} คนในระบบ
+                  </span>
+                </>
+              )}
             </div>
           ) : (
             /* Outer div sized to total virtual height — virtualizer positions rows inside */
