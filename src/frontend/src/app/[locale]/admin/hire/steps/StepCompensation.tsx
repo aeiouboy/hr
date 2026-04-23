@@ -1,8 +1,9 @@
 'use client'
 
-// StepCompensation.tsx — Step 8: ค่าตอบแทน (Compensation) + Submit
-// Fields: baseSalary number > 0 (Thai Baht) — required
-// Submit: toast + reset after 2s
+// StepCompensation.tsx — Compensation section (base salary).
+// Option-1 restructure (2026-04-23): Submit button + toast removed — submit
+// is owned by WizardFooter on Step 3 Review. Keeping an inner submit here
+// created the "double submit button" Ken flagged in the Job cluster screenshot.
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepCompensationSchema } from '@/lib/admin/validation/hireSchema'
@@ -11,35 +12,13 @@ export interface StepCompensationProps {
   onValidChange?: (isValid: boolean) => void
 }
 
-// Toast component — plain div ที่ fade out (ไม่ใช้ 3rd party lib)
-function Toast({ message, onDone }: { message: string; onDone: () => void }) {
-  useEffect(() => {
-    const t = setTimeout(onDone, 3000)
-    return () => clearTimeout(t)
-  }, [onDone])
-
-  return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
-        bg-accent text-white text-sm px-5 py-3 rounded-lg shadow-lg
-        animate-fade-in-up"
-    >
-      {message}
-    </div>
-  )
-}
-
 export default function StepCompensation({ onValidChange }: StepCompensationProps) {
-  const { formData, setStepData, reset } = useHireWizard()
+  const { formData, setStepData } = useHireWizard()
   const [salaryInput, setSalaryInput] = useState<string>(
     formData.compensation.baseSalary != null ? String(formData.compensation.baseSalary) : ''
   )
-  const [touched, setTouched]     = useState(false)
-  const [error, setError]         = useState<string | undefined>()
-  const [toastMsg, setToastMsg]   = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
+  const [touched, setTouched] = useState(false)
+  const [error, setError]     = useState<string | undefined>()
 
   const validate = useCallback(
     (raw: string) => {
@@ -62,21 +41,6 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
   )
 
   useEffect(() => { validate(salaryInput) }, [salaryInput, validate])
-
-  // Submit handler — validate + toast + reset (PII payload ไม่ log ใน production)
-  const handleSubmit = useCallback(() => {
-    setTouched(true)
-    if (!validate(salaryInput)) return
-
-    setSubmitting(true)
-    setToastMsg('✅ ส่งคำขอจ้างพนักงานสำเร็จ (mock submit)')
-
-    // reset หลัง 2 วินาที
-    setTimeout(() => {
-      reset()
-      setSubmitting(false)
-    }, 2000)
-  }, [salaryInput, validate, reset])
 
   return (
     <div className="space-y-6">
@@ -111,29 +75,6 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
       </fieldset>
 
       <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
-
-      {/* Submit button */}
-      <div className="pt-2">
-        <button
-          type="button"
-          disabled={submitting}
-          onClick={handleSubmit}
-          className={[
-            'rounded-md px-6 py-2.5 text-sm font-semibold text-white',
-            'focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)] focus:ring-offset-2',
-            submitting
-              ? 'bg-canvas-soft text-ink-muted cursor-not-allowed'
-              : 'bg-accent hover:bg-[#188A83] active:opacity-90',
-          ].join(' ')}
-        >
-          {submitting ? 'กำลังส่ง...' : 'ส่งคำขอจ้างพนักงาน'}
-        </button>
-      </div>
-
-      {/* Toast notification — plain div ไม่ใช้ lib */}
-      {toastMsg && (
-        <Toast message={toastMsg} onDone={() => setToastMsg(null)} />
-      )}
     </div>
   )
 }
