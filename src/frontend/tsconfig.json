@@ -31,6 +31,9 @@
       ],
       "@hrms/shared/field-catalog": [
         "../services/shared/src/field-catalog/index.ts"
+      ],
+      "@hrms/shared/types/timeline": [
+        "../services/shared/src/types/timeline.ts"
       ]
     }
   },

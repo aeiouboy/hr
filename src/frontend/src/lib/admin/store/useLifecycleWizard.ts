@@ -4,8 +4,10 @@ import { create } from 'zustand'
 
 // ---------- ชนิดข้อมูลร่วม ----------
 
-// รูปแบบ MockEmployee ที่ EmployeePicker ส่งกลับมา
-export interface MockEmployee {
+// LegacyMockEmployee — รูปแบบที่ใช้ภายใน Lifecycle wizards (Rehire/Transfer/Terminate Phase 2)
+// มี fields เฉพาะ wizard (okToRehire, lastTermDate) ที่ S2 MockEmployee ไม่มี
+// ห้ามใช้นอก lifecycle wizard store — production pages ให้ใช้ MockEmployee จาก @/mocks/employees
+export interface LegacyMockEmployee {
   externalCode: string
   firstName: { th: string; en: string }
   lastName: { th: string; en: string }
@@ -18,6 +20,9 @@ export interface MockEmployee {
   lastTermDate?: string
   okToRehire?: boolean
 }
+
+// backward-compat alias — test ที่ import MockEmployee จากไฟล์นี้ยังทำงานได้
+export type MockEmployee = LegacyMockEmployee
 
 // ---------- Form data shapes ต่อ flow ----------
 

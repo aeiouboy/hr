@@ -1,6 +1,19 @@
 // GENERATED — do not edit manually; run generate.ts
 // Generated at: 2026-04-23T08:14:25.759Z
 // Source: picklists/data/ (10 picklists)
+// Extended (D2 S1 — 37 BA fields): +COUNTRY_ISO +ID_CARD_TYPE +COMPANY +SALUTATION_EN +MILITARY_STATUS
+export { PICKLIST_COUNTRY_ISO } from './country-iso'
+export type { CountryISOId } from './country-iso'
+export { PICKLIST_ID_CARD_TYPE } from './id-card-type'
+export type { IdCardTypeId } from './id-card-type'
+export { PICKLIST_COMPANY } from './company'
+export type { CompanyId } from './company'
+export { PICKLIST_SALUTATION_EN } from './salutation-en'
+export type { SalutationEnId } from './salutation-en'
+export { PICKLIST_MILITARY_STATUS } from './military-status'
+export type { MilitaryStatusId } from './military-status'
+export { PICKLIST_YES_NO } from './yes-no'
+export type { YesNoId } from './yes-no'
 
 /** A single picklist entry with Thai and English labels. */
 export interface PicklistItem {

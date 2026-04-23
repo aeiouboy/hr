@@ -87,13 +87,24 @@ describe('StepBiographical — MARITAL picklist renders', () => {
 // ─── AC-3: Selecting option updates store ────────────────────────────────────
 
 describe('StepBiographical — store update on marital status change', () => {
-  // Component gates setStepData behind stepBiographicalSchema.safeParse, which
-  // requires dateOfBirth. Seed it so marital selection propagates to store.
+  // D2 S1: dateOfBirth ย้ายไปอยู่ใน identity slice แล้ว (BA row 8)
+  // stepBiographicalSchema ตอนนี้ gate ด้วย otherTitleTh/firstNameLocal/etc.
+  // Seed minimal required biographical fields เพื่อ marital selection จะ propagate ไป store
   beforeEach(() => {
     act(() => {
       useHireWizard.getState().setStepData('biographical', {
-        dateOfBirth: '1990-01-01',
+        otherTitleTh: 'นาย',
+        firstNameLocal: 'สมชาย',
+        lastNameLocal: 'ใจดี',
+        middleNameLocal: 'กลาง',
+        nickname: 'แดง',
+        militaryStatus: 'EXEMPTED',
+        gender: 'M',
+        nationality: 'TH',
+        foreigner: 'NO',
+        bloodType: 'A_POS',
         maritalStatus: null,
+        maritalStatusSince: '2020-01-01',
       })
     })
   })

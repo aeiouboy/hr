@@ -1,74 +1,25 @@
 {
-  "task": "HR Phase 1 D1 Foundation \u2014 factory refactor + shared types + delete orphans + fix tests",
-  "issue": 15,
+  "task": "HR Phase 1 Build \u2014 Hiring + Probation + Employee Data journey (5 routes, 2 waves)",
+  "issue": 17,
   "repo": "aeiouboy/hr",
-  "spec": "specs/hr-phase-1-d1-foundation.md",
-  "phase": 2.5,
-  "phase_name": "Dry-Run Validate (Phase 2.5)",
-  "started_at": "2026-04-23T17:15:00Z",
-  "updated_at": "2026-04-23T18:15:00Z",
+  "spec": "specs/hr-phase-1-build-journey.md",
+  "phase": 2,
+  "phase_name": "Build Wave 1 (S1+S2+S3 parallel)",
+  "started_at": "2026-04-23T20:15:00Z",
+  "updated_at": "2026-04-23T20:15:00Z",
   "completed_phases": [
     0,
     0.5,
     1,
-    1.5,
-    2
+    1.5
   ],
   "artifacts": {
-    "spec_path": "specs/hr-phase-1-d1-foundation.md",
-    "test_report_path": null,
-    "screenshot_dir": null
+    "spec_path": "specs/hr-phase-1-build-journey.md"
   },
-  "phase_2_5_fixes": [
-    {
-      "file": "src/frontend/src/lib/admin/wizard-template/createClusterWizard.ts",
-      "line": 142,
-      "fix": "Type ReturnType<typeof create<...>> \u2192 UseBoundStore<StoreApi<...>>; added zustand type imports",
-      "reason": "D1.2 agent used wrong return type (curried function vs bound hook) \u2192 20+ TS errors in factory + test"
-    }
-  ],
+  "phase_2_5_fixes": [],
   "test_results": {
     "backend": null,
     "frontend": null
   },
-  "agents": [
-    {
-      "id": "batch-1-mk3-delete",
-      "mark": "MK III",
-      "status": "done",
-      "task": "D1.1 delete orphans",
-      "files_created": []
-    },
-    {
-      "id": "batch-1-mk3-imports",
-      "mark": "MK III",
-      "status": "done",
-      "task": "D1.4 fix imports",
-      "files_created": []
-    },
-    {
-      "id": "batch-2-forge-fe",
-      "mark": "Forge Frontend",
-      "status": "done",
-      "task": "D1.2 factory refactor",
-      "files_created": [
-        "createClusterWizard.ts",
-        "createClusterWizard.test.ts"
-      ]
-    },
-    {
-      "id": "batch-2-forge-be",
-      "mark": "Forge Backend",
-      "status": "done",
-      "task": "D1.3 shared types + MARITAL wire",
-      "files_created": [
-        "timeline.ts",
-        "yes-no.ts",
-        "index.ts",
-        "StepBiographical.tsx",
-        "useHireWizard.ts",
-        "hireSchema.ts"
-      ]
-    }
-  ]
+  "agents": []
 }

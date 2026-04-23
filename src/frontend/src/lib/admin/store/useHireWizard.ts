@@ -1,23 +1,111 @@
 // useHireWizard.ts — Zustand store สำหรับ Hire Wizard state
 //
-// Option 1 restructure (2026-04-23):
-//   - ลดจาก 8 visible steps เหลือ 3 clusters (Who / Job / Review)
-//   - formData ยังเก็บแบบ 8 slices ตาม BRD field mapping เพื่อ preserve
-//     spec §5.4 + validation rules + existing Step*.tsx setStepData calls
-//   - เพิ่ม `persist` middleware → auto-sync localStorage ("hire-wizard-draft")
-//     ให้ admin กรอกค้างได้ไม่กลัว reload/หลงแท็บ
+// D2 S1 (2026-04-23): ขยาย 13 → 37 BA fields ใน FormData
+//   - identity slice: เพิ่ม salutationEn, firstNameEn, middleNameEn, lastNameEn,
+//     dateOfBirth, countryOfBirth, regionOfBirth, age, employeeId,
+//     nationalIdCardType, country, nationalId, issueDate, expiryDate,
+//     isPrimary, vnIssuePlace, salutationLocal
+//   - biographical slice: เพิ่ม otherTitleTh, firstNameLocal, lastNameLocal,
+//     middleNameLocal, nickname, militaryStatus, gender, nationality,
+//     foreigner, bloodType, maritalStatusSince, attachment
+//   - Option-1 structure ยังคง 3 clusters (Who / Job / Review)
+//   - persist key ยังคง 'hire-wizard-draft' (ไม่ทำลาย existing drafts)
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 // ประเภท step number — จำกัดเป็น 1-3 เท่านั้น (Who / Job / Review)
 type StepNumber = 1 | 2 | 3
 
-// รูปแบบข้อมูลของแต่ละ slice — ตาม BRD spec §5.4 verbatim, คงไว้ไม่เปลี่ยน
-// เพื่อ Step* components (StepIdentity, StepName, ฯลฯ) setStepData คีย์เดิมได้
+// employeeClass toggle — BA cols H/I (Permanent vs Partime field visibility)
+export type EmployeeClassToggle = 'PERMANENT' | 'PARTIME'
+
+// รูปแบบข้อมูลของแต่ละ slice — trace กลับ BA-EC-SUMMARY.md ทุก field
 interface FormData {
-  identity:     { hireDate: string | null; companyCode: string | null; eventReason: string | null }
+  // ── Cluster 1 "Who" (Identity) ── 20 fields
+  identity: {
+    // BA row 1 — Hire Date
+    hireDate: string | null
+    // BA row 2 — Company
+    companyCode: string | null
+    // BA row 3 — Event Reason
+    eventReason: string | null
+    // BA row 4 — Salutation (EN)
+    salutationEn: string | null
+    // BA row 5 — Firstname (EN)
+    firstNameEn: string
+    // BA row 6 — Middle Name (EN)
+    middleNameEn: string
+    // BA row 7 — Lastname (EN)
+    lastNameEn: string
+    // BA row 8 — Date of Birth
+    dateOfBirth: string | null
+    // BA row 9 — Country of Birth
+    countryOfBirth: string | null
+    // BA row 10 — Region of Birth
+    regionOfBirth: string
+    // BA row 11 — Age (calculated, display only)
+    age: number | null
+    // BA row 12 — Employee ID
+    employeeId: string
+    // BA row 13 — National ID Card Type
+    nationalIdCardType: string | null
+    // BA row 14 — Country
+    country: string | null
+    // BA row 15 — National ID
+    nationalId: string
+    // BA row 16 — Issue Date
+    issueDate: string | null
+    // BA row 17 — Expiry Date
+    expiryDate: string | null
+    // BA row 18 — Is Primary
+    isPrimary: string | null
+    // BA row 19 — [VN] Issue Place
+    vnIssuePlace: string
+    // BA Personal Info row 1 — Salutation (Local)
+    salutationLocal: string | null
+  }
+
+  // ── Cluster 2 "Job" (Personal Info carry-over) ── 12 fields
+  biographical: {
+    // BA Personal Info row 2 — Other Title (TH)
+    otherTitleTh: string
+    // BA Personal Info row 3 — Firstname (Local)
+    firstNameLocal: string
+    // BA Personal Info row 4 — Lastname (Local)
+    lastNameLocal: string
+    // BA Personal Info row 5 — Middle Name (Local)
+    middleNameLocal: string
+    // BA Personal Info row 10 — Nickname
+    nickname: string
+    // BA Personal Info row 11 — Military Status
+    militaryStatus: string | null
+    // BA Personal Info row 12 — Gender
+    gender: string | null
+    // BA Personal Info row 13 — Nationality
+    nationality: string | null
+    // BA Personal Info row 14 — Foreigner
+    foreigner: string | null
+    // BA Personal Info row 15 — Blood Type
+    bloodType: string | null
+    // BA Personal Info row 16 — Marital Status
+    maritalStatus: string | null
+    // BA Personal Info row 17 — Marital Status Since
+    maritalStatusSince: string | null
+  }
+
+  // ── Cluster 3 "Review" ── 5 fields (dup EN name + attachment)
+  review: {
+    // BA Personal Info rows 6-9 — dup EN name fields (read-only, carry from identity)
+    salutationEnReview: string | null
+    firstNameEnReview: string
+    lastNameEnReview: string
+    middleNameEnReview: string
+    // BA Personal Info row 18 — Attachment
+    attachmentName: string | null
+  }
+
+  // Legacy slices — ยังคง interface เดิมเพื่อ backward compat กับ test suite
   name:         { firstNameTh: string; lastNameTh: string; firstNameEn: string; lastNameEn: string }
-  biographical: { dateOfBirth: string | null; maritalStatus: string | null }
   employeeInfo: { employeeClass: string | null }
   nationalId:   { value: string }
   personal:     { addressLine1: string }
@@ -26,9 +114,51 @@ interface FormData {
 }
 
 const initialFormData: FormData = {
-  identity:     { hireDate: null, companyCode: null, eventReason: null },
+  identity: {
+    hireDate: null,
+    companyCode: null,
+    eventReason: null,
+    salutationEn: null,
+    firstNameEn: '',
+    middleNameEn: '',
+    lastNameEn: '',
+    dateOfBirth: null,
+    countryOfBirth: null,
+    regionOfBirth: '',
+    age: null,
+    employeeId: '',
+    nationalIdCardType: null,
+    country: null,
+    nationalId: '',
+    issueDate: null,
+    expiryDate: null,
+    isPrimary: null,
+    vnIssuePlace: '',
+    salutationLocal: null,
+  },
+  biographical: {
+    otherTitleTh: '',
+    firstNameLocal: '',
+    lastNameLocal: '',
+    middleNameLocal: '',
+    nickname: '',
+    militaryStatus: null,
+    gender: null,
+    nationality: null,
+    foreigner: null,
+    bloodType: null,
+    maritalStatus: null,
+    maritalStatusSince: null,
+  },
+  review: {
+    salutationEnReview: null,
+    firstNameEnReview: '',
+    lastNameEnReview: '',
+    middleNameEnReview: '',
+    attachmentName: null,
+  },
+  // Legacy slices
   name:         { firstNameTh: '', lastNameTh: '', firstNameEn: '', lastNameEn: '' },
-  biographical: { dateOfBirth: null, maritalStatus: null },
   employeeInfo: { employeeClass: null },
   nationalId:   { value: '' },
   personal:     { addressLine1: '' },
@@ -40,9 +170,12 @@ interface HireWizardState {
   currentStep: StepNumber
   maxUnlockedStep: StepNumber
   formData: FormData
-  lastSavedAt: number | null  // epoch ms — populated by persist onRehydrate / setStepData
+  lastSavedAt: number | null
+  // BA cols H/I: Permanent vs Partime field visibility toggle — top-level (not in FormData)
+  employeeClassToggle: EmployeeClassToggle
 
   setStepData: <K extends keyof FormData>(step: K, patch: Partial<FormData[K]>) => void
+  setEmployeeClassToggle: (v: EmployeeClassToggle) => void
   goNext: () => void
   goBack: () => void
   jumpTo: (step: number) => void
@@ -50,12 +183,49 @@ interface HireWizardState {
   reset: () => void
 }
 
-// Per-slice validators — reused by both single-slice and aggregate step checks.
-// Keeps checkStepValid readable + lets Review summary reuse same logic.
+// Per-slice validators
+// Step 1 "Who" — identity required: hireDate + companyCode + eventReason + salutationEn
+//   + firstNameEn + lastNameEn + dateOfBirth + employeeId + nationalIdCardType
+//   + country + nationalId + isPrimary + salutationLocal
+// Step 2 "Job" — biographical required: otherTitleTh + firstNameLocal + lastNameLocal
+//   + middleNameLocal + nickname + militaryStatus + gender + nationality
+//   + foreigner + bloodType + maritalStatus + maritalStatusSince
+// Step 3 "Review" — always passable (read-only summary + optional attachment)
 const sliceValid = {
-  identity:     (d: FormData) => !!(d.identity.hireDate && d.identity.companyCode && d.identity.eventReason),
+  identity: (d: FormData) =>
+    !!(
+      d.identity.hireDate &&
+      d.identity.companyCode &&
+      d.identity.eventReason &&
+      d.identity.salutationEn &&
+      d.identity.firstNameEn.trim() &&
+      d.identity.lastNameEn.trim() &&
+      d.identity.dateOfBirth &&
+      d.identity.employeeId.trim() &&
+      d.identity.nationalIdCardType &&
+      d.identity.country &&
+      d.identity.nationalId.trim() &&
+      d.identity.isPrimary &&
+      d.identity.salutationLocal
+    ),
+  biographical: (d: FormData) =>
+    !!(
+      d.biographical.otherTitleTh.trim() &&
+      d.biographical.firstNameLocal.trim() &&
+      d.biographical.lastNameLocal.trim() &&
+      d.biographical.middleNameLocal.trim() &&
+      d.biographical.nickname.trim() &&
+      d.biographical.militaryStatus &&
+      d.biographical.gender &&
+      d.biographical.nationality &&
+      d.biographical.foreigner &&
+      d.biographical.bloodType &&
+      d.biographical.maritalStatus &&
+      d.biographical.maritalStatusSince
+    ),
+  review: (_d: FormData) => true,
+  // Legacy validators — kept for backward compat with existing tests
   name:         (d: FormData) => d.name.firstNameTh.trim() !== '' && d.name.lastNameTh.trim() !== '',
-  biographical: (d: FormData) => !!d.biographical.dateOfBirth,
   employeeInfo: (d: FormData) => !!d.employeeInfo.employeeClass,
   nationalId:   (d: FormData) => d.nationalId.value.trim() !== '',
   personal:     (d: FormData) => d.personal.addressLine1.trim() !== '',
@@ -63,14 +233,14 @@ const sliceValid = {
   compensation: (d: FormData) => d.compensation.baseSalary !== null && d.compensation.baseSalary > 0,
 } as const
 
-// Step 1 "Who"    = Identity + Name + NationalID + Biographical
-// Step 2 "Job"    = EmployeeInfo + Job + Compensation
-// Step 3 "Review" = Personal (ที่อยู่/contact) + สรุปก่อน Submit
+// Step 1 "Who"    = identity (20 fields)
+// Step 2 "Job"    = biographical personal info (12 fields)
+// Step 3 "Review" = summary + attachment (always valid)
 function checkStepValid(step: number, d: FormData): boolean {
   switch (step) {
-    case 1: return sliceValid.identity(d) && sliceValid.name(d) && sliceValid.nationalId(d) && sliceValid.biographical(d)
-    case 2: return sliceValid.employeeInfo(d) && sliceValid.job(d) && sliceValid.compensation(d)
-    case 3: return sliceValid.personal(d)
+    case 1: return sliceValid.identity(d)
+    case 2: return sliceValid.biographical(d)
+    case 3: return sliceValid.review(d)
     default: return false
   }
 }
@@ -82,6 +252,7 @@ export const useHireWizard = create<HireWizardState>()(
       maxUnlockedStep: 1,
       formData: initialFormData,
       lastSavedAt: null,
+      employeeClassToggle: 'PERMANENT' as EmployeeClassToggle,
 
       setStepData: (step, patch) => {
         set((state) => ({
@@ -89,6 +260,8 @@ export const useHireWizard = create<HireWizardState>()(
           lastSavedAt: Date.now(),
         }))
       },
+
+      setEmployeeClassToggle: (v) => set({ employeeClassToggle: v }),
 
       goNext: () => {
         const { currentStep, maxUnlockedStep, formData } = get()
@@ -120,22 +293,22 @@ export const useHireWizard = create<HireWizardState>()(
         maxUnlockedStep: 1,
         formData: initialFormData,
         lastSavedAt: null,
+        employeeClassToggle: 'PERMANENT',
       }),
     }),
     {
       name: 'hire-wizard-draft',
       storage: createJSONStorage(() => localStorage),
-      // Only persist data + progress, not function references.
       partialize: (state) => ({
         currentStep: state.currentStep,
         maxUnlockedStep: state.maxUnlockedStep,
         formData: state.formData,
         lastSavedAt: state.lastSavedAt,
+        employeeClassToggle: state.employeeClassToggle,
       }),
     },
   ),
 )
 
 // Exported for Review summary so it can surface per-slice completeness
-// without duplicating the validation logic.
 export { sliceValid }

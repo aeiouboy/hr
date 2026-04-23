@@ -27,9 +27,11 @@ describe('useHireWizard — initial state', () => {
     expect(identity.hireDate).toBeNull()
     expect(identity.companyCode).toBeNull()
     expect(identity.eventReason).toBeNull()
+    // D2 S1: dateOfBirth ย้ายไปอยู่ใน identity slice (BA row 8) — was biographical
+    expect(identity.dateOfBirth).toBeNull()
     expect(name.firstNameTh).toBe('')
     expect(name.lastNameTh).toBe('')
-    expect(biographical.dateOfBirth).toBeNull()
+    expect(biographical.firstNameLocal).toBe('')
     expect(employeeInfo.employeeClass).toBeNull()
     expect(nationalId.value).toBe('')
     expect(personal.addressLine1).toBe('')
@@ -39,6 +41,23 @@ describe('useHireWizard — initial state', () => {
   })
 })
 
+// Helper: seed ครบ 13 mandatory identity fields (D2 S1 — 20 fields total, 13 required)
+const fullIdentity = {
+  hireDate: '2026-05-01',
+  companyCode: 'CEN',
+  eventReason: 'H_NEWHIRE',
+  salutationEn: 'MR',
+  firstNameEn: 'Somchai',
+  lastNameEn: 'Jaidee',
+  dateOfBirth: '1990-01-15',
+  employeeId: 'EMP-00001',
+  nationalIdCardType: 'NATIONAL_ID',
+  country: 'TH',
+  nationalId: '1234567890123',
+  isPrimary: 'YES',
+  salutationLocal: 'MR',
+}
+
 describe('useHireWizard — isStepValid', () => {
   it('isStepValid(1) เป็น false ถ้า identity fields ว่าง', () => {
     // AC-5: Step 1 ยังไม่ valid ถ้า fields ว่าง
@@ -46,30 +65,26 @@ describe('useHireWizard — isStepValid', () => {
     expect(result.current.isStepValid(1)).toBe(false)
   })
 
-  it('isStepValid(1) เป็น true เมื่อ set ครบ 3 fields', () => {
-    // AC-4, AC-5: Step 1 valid หลังกรอกครบ hireDate + companyCode + eventReason
+  it('isStepValid(1) เป็น true เมื่อ set ครบ 13 mandatory fields (D2 S1)', () => {
+    // AC-4, AC-5: Step 1 valid หลังกรอกครบ 13 mandatory identity fields
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
-      result.current.setStepData('identity', {
-        hireDate: '2026-05-01',
-        companyCode: 'CEN',
-        eventReason: 'H_NEWHIRE',
-      })
+      result.current.setStepData('identity', fullIdentity)
     })
 
     expect(result.current.isStepValid(1)).toBe(true)
   })
 
   it('isStepValid(1) เป็น false ถ้าขาด 1 field (partial fill)', () => {
-    // กรอกแค่ 2 fields จาก 3 — ยังไม่ valid
+    // กรอกแค่ 3 fields จาก 13 — ยังไม่ valid
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
       result.current.setStepData('identity', {
         hireDate: '2026-05-01',
         companyCode: 'CEN',
-        // ไม่กรอก eventReason
+        // ไม่กรอก eventReason + fields อื่น
       })
     })
 
@@ -105,15 +120,11 @@ describe('useHireWizard — jumpTo gating', () => {
 
 describe('useHireWizard — goNext และ sequential unlock', () => {
   it('goNext() ขณะ Step 1 valid → currentStep=2, maxUnlockedStep=2', () => {
-    // AC-6: กด Next หลัง Step 1 valid → ปลดล็อค Step 2
+    // AC-6: กด Next หลัง Step 1 valid (ครบ 13 mandatory fields) → ปลดล็อค Step 2
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
-      result.current.setStepData('identity', {
-        hireDate: '2026-05-01',
-        companyCode: 'CEN',
-        eventReason: 'H_NEWHIRE',
-      })
+      result.current.setStepData('identity', fullIdentity)
     })
 
     act(() => {
@@ -144,11 +155,7 @@ describe('useHireWizard — state persistence (AC-8)', () => {
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
-      result.current.setStepData('identity', {
-        hireDate: '2026-05-01',
-        companyCode: 'CEN',
-        eventReason: 'H_NEWHIRE',
-      })
+      result.current.setStepData('identity', fullIdentity)
       result.current.goNext() // ไป Step 2
     })
 
