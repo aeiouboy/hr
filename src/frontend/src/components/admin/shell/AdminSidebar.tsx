@@ -12,6 +12,9 @@ import {
   Sliders,
   UserCog,
   Settings,
+  Network,
+  BriefcaseBusiness,
+  MapPin,
   ArrowLeft,
   X,
   type LucideIcon,
@@ -43,6 +46,14 @@ const NAV: NavSection[] = [
     ],
   },
   {
+    group: 'โครงสร้างองค์กร',
+    items: [
+      { id: 'organization', label: 'หน่วยงาน', href: '/th/admin/organization', icon: Network },
+      { id: 'jobs', label: 'งาน/Job', href: '/th/admin/jobs', icon: BriefcaseBusiness },
+      { id: 'positions', label: 'ตำแหน่ง', href: '/th/admin/positions', icon: MapPin },
+    ],
+  },
+  {
     group: 'บริหารระบบ',
     items: [
       { id: 'reports', label: 'รายงาน', href: '/th/admin/reports', icon: BarChart3 },
@@ -71,7 +82,7 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
       <div className="humi-brand">
         <div className="humi-wordmark">
           <Image
-            src="/humi-logo-white-v2.png"
+            src="/humi-logo-white-v3.png"
             alt="Humi"
             width={90}
             height={28}
