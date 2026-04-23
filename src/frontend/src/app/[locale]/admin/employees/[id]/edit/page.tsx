@@ -14,6 +14,10 @@
 //
 // Factory usage: createClusterWizard with 1 step (single-cluster Archetype B pattern).
 // readOnlyKeys: employee_id + EN-name fields (mirrors from S1 Hire — not editable here).
+//
+// PoC B1: Wrapped in <EffectiveDateGate> (spec B1, outer wrapper only).
+// effectiveDate is threaded into the submit payload as required by spec §5.2 (J7).
+// min={hireDateISO} is left as a comment — this page has no hire-date bound; see §9 Decision 4.
 
 import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
@@ -21,6 +25,7 @@ import Link from 'next/link'
 import { ArrowLeft, Check } from 'lucide-react'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import {
   PICKLIST_SALUTATION_EN,
   PICKLIST_GENDER,
@@ -320,8 +325,8 @@ export default function EmployeeEditPage() {
   // ── Banner state ──────────────────────────────────────────────
   const [showBanner, setShowBanner] = useState(false)
 
-  // ── Submit ────────────────────────────────────────────────────
-  function handleSubmit() {
+  // ── Submit — receives effectiveDate from EffectiveDateGate (PoC B1, spec §5.2 J7) ──
+  function handleSubmit(effectiveDate: string) {
     // Touch all fields to surface errors
     allTouchedRef.current = true
     setTouchedFields(new Set([
@@ -332,12 +337,15 @@ export default function EmployeeEditPage() {
 
     if (!isFormValid) return
 
-    // Patch in-memory store (S2 owner)
+    // Patch in-memory store (S2 owner); effectiveDate threaded into payload (J7)
     updateEmployee(empId, {
       first_name_th: names.firstNameLocal,
       last_name_th:  names.lastNameLocal,
       first_name_en: namesEn.firstNameEn,
       last_name_en:  namesEn.lastNameEn,
+      // effectiveDate is passed through to the API when backend implements it
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...(effectiveDate ? { effectiveDate } as any : {}),
     })
 
     setShowBanner(true)
@@ -418,7 +426,10 @@ export default function EmployeeEditPage() {
         </div>
       </div>
 
-      {/* ── Form card ───────────────────────────────────────── */}
+      {/* ── EffectiveDateGate (spec B1 PoC) — outer wrapper for Edit form ── */}
+      {/* min not set here: Personal Info edit has no hire-date lower bound (spec §9 Decision 4) */}
+      <EffectiveDateGate>
+        {({ effectiveDate }) => (
       <div className="humi-card">
         <div style={{ marginBottom: 24 }}>
           <h1 className="font-display text-[20px] font-semibold text-ink">
@@ -740,7 +751,7 @@ export default function EmployeeEditPage() {
           </Link>
           <button
             type="button"
-            onClick={handleSubmit}
+            onClick={() => handleSubmit(effectiveDate)}
             disabled={showBanner}
             className="humi-btn-primary"
             aria-disabled={showBanner}
@@ -749,6 +760,8 @@ export default function EmployeeEditPage() {
           </button>
         </div>
       </div>
+        )}
+      </EffectiveDateGate>
     </div>
   )
 }
