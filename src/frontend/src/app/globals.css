@@ -191,15 +191,26 @@
     flex-direction: column;
     gap: 6px;
   }
-
-  /* lg+ breakpoint: show sidebar, switch app to 2-col grid */
-  @media (min-width: 1024px) {
-    .humi-app { grid-template-columns: 256px 1fr; }
-    .humi-sidebar { display: flex; }
-  }
 }
 
-/* Drawer modifier — fixed panel slides from left on mobile */
+/* lg+ breakpoint: switch app to 2-col grid + show sidebar.
+   Bug 2026-04-22: Tailwind v4/PostCSS absorbs this media query into @layer components
+   at build time despite source being un-layered. Un-layered default `.humi-app {
+   grid-template-columns: 1fr }` then outranks the layered media override → full-viewport
+   sidebar overlap. Workaround: !important on the 2 override properties to win regardless
+   of layer cascade. Surgical (only 2 properties flagged), safe (no other rule should
+   override these at 1024px+). Verified via browser-harness computed styles 2026-04-22. */
+@media (min-width: 1024px) {
+  .humi-app { grid-template-columns: 256px 1fr !important; }
+  .humi-sidebar { display: flex !important; }
+}
+
+/* Drawer modifier — 2026: rounded right edge + shadow elevation + slide-in.
+   Before: hard rectangular block, instant appear (2018 Bootstrap-era).
+   After: rounded-right softens into floating surface (Notion/Figma/Linear),
+   shadow-lg provides depth without harsh border, mount animation slides in
+   from left via spring easing (AppShell renders drawer conditionally on open,
+   so enter animation fires on every mount — no exit animation needed). */
 .humi-sidebar--drawer {
   display: flex;
   position: fixed;
@@ -209,6 +220,31 @@
   z-index: 50;
   overflow-y: auto;
   overscroll-behavior: contain;
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  box-shadow: var(--shadow-lg);
+  will-change: transform;
+  animation: humi-drawer-slide-in var(--dur-slow) var(--ease-spring) both;
+}
+
+@keyframes humi-drawer-slide-in {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+/* Scrim — 2026: fade-in from transparent + frosted glass tint.
+   Before: instant opaque dark overlay (harsh / old school).
+   After: fade-in over dur-base + backdrop-blur(4px) gives depth
+   without full-black overlay — feels like iOS/Figma/Notion. */
+.humi-drawer-scrim {
+  background: rgba(14, 27, 44, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: humi-scrim-fade-in var(--dur-base) ease both;
+}
+
+@keyframes humi-scrim-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* Ported from styles.css:161-164 (.sidebar .brand) */
@@ -231,51 +267,81 @@
   gap: 2px;
 }
 
-/* Nav list container — own addition (reference uses React fragments). */
+/* Nav list container — own addition (reference uses React fragments).
+   flex:1 + min-height:0 lets it absorb remaining height inside the sticky
+   100vh sidebar; overflow-y:auto scrolls when items exceed viewport so the
+   foot (user card) stays pinned at the bottom instead of spilling out of
+   the navy panel.
+   SCROLLBAR HIDDEN: on a navy bg any visible scrollbar reads as a "chipped
+   edge" against the dark panel — Ken flagged this 2026-04-23. Use the
+   cross-browser `scrollbar-width: none` + `::-webkit-scrollbar { display: none }`
+   pattern so wheel/trackpad scrolling still works but no UI bar shows.
+   Nav content is also tightened (gap + padding below) so scroll rarely
+   triggers on standard desktop viewports (~1000px) — scroll becomes the
+   edge case (expanded submenus) rather than the default state. */
 .humi-nav {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;         /* Firefox */
+  -ms-overflow-style: none;       /* legacy Edge/IE */
 }
+.humi-nav::-webkit-scrollbar { display: none; }   /* Chromium/Safari */
 .humi-nav-section {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-/* Ported from styles.css:191-198 (.nav-label) */
+/* Ported from styles.css:191-198 (.nav-label)
+   Padding tightened 2026-04-23 (14/6 → 10/4) so 17-item nav fits in
+   1000px viewports without scrolling — avoids the hidden-scrollbar
+   clip cutting the last item (ศูนย์ Admin). */
 .humi-nav-label {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: rgba(231, 227, 216, 0.45);
-  padding: 14px 10px 6px;
+  padding: 10px 10px 4px;
   font-weight: 500;
 }
+/* First section label has no top padding — brand header already provides the gap */
+.humi-nav > .humi-nav-section:first-child .humi-nav-label { padding-top: 4px; }
 
-/* Ported from styles.css:199-213 (.nav-item + :hover + .active)
-   min-height 44px = WCAG 2.5.5 touch target (issue #5) */
+/* Nav items — 2026: spring transitions + active state accent glow.
+   Before: flat `rgba(255,255,255,0.08)` active bg = barely visible (old school).
+   After: accent left-border strip + teal tint bg + icon glow for active;
+   hover reveals slightly brighter bg with smooth spring easing. */
 .humi-nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 12px;
-  min-height: 44px;
-  border-radius: 10px;
+  padding: 7px 12px;
+  min-height: 36px;   /* desktop — mouse target; drawer mode overrides to 44 for touch */
+  border-radius: var(--radius-sm);
   font-size: 14px;
-  color: rgba(231, 227, 216, 0.78);
+  color: rgba(231, 227, 216, 0.72);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background var(--dur-fast) var(--ease-spring),
+              color var(--dur-fast),
+              box-shadow var(--dur-base) var(--ease-spring);
   font-weight: 500;
   text-decoration: none;
+  position: relative;
 }
+/* Drawer mode = mobile/tablet → restore WCAG 2.5.5 touch target */
+.humi-sidebar--drawer .humi-nav-item { min-height: 44px; padding: 9px 12px; }
 .humi-nav-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(231, 227, 216, 0.95);
 }
 .humi-nav-item.active {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(31, 168, 160, 0.15);
   color: #fff;
+  box-shadow: inset 3px 0 0 var(--color-accent);
 }
 .humi-nav-item:focus-visible {
   outline: 2px solid var(--color-accent);
@@ -388,19 +454,33 @@
   padding: 40px 0 64px;
 }
 
-/* Ported from styles.css:252-258 (.topbar) */
+/* Topbar — 2026 modernised: backdrop-blur translucent + soft bottom separator.
+   Replaces flat opaque gradient (2018 Bootstrap-era static bar). The cream canvas
+   at 0.88 opacity lets content scroll behind with readable depth; blur(16px)
+   provides the frosted-glass separation used by Linear/Vercel/Stripe toolbars.
+   Border-bottom hairline replaces the hard canvas gradient cut. */
 .humi-topbar {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 22px 0 22px;
+  gap: 12px;
+  padding: 14px 0;
   position: sticky;
   top: 0;
-  background: linear-gradient(var(--color-canvas) 80%, rgba(246, 241, 232, 0));
+  background: rgba(246, 241, 232, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(231, 223, 209, 0.55);
   z-index: 10;
+  transition: box-shadow var(--dur-fast) var(--ease-spring);
+}
+/* Elevate topbar when page has scrolled — JS adds data-scrolled */
+.humi-topbar[data-scrolled="true"] {
+  box-shadow: var(--shadow-md);
+  border-bottom-color: transparent;
 }
 
-/* Ported from styles.css:259-268 (.search) — wrapped in @layer so Tailwind hidden/flex utilities win */
+/* Search pill — 2026: shadow replaces hard border, hover lift feedback.
+   Shadow-sm is warm navy tinted from token — reads as card elevation not outline. */
 @layer components {
 .humi-search {
   flex: 1;
@@ -410,10 +490,18 @@
   gap: 10px;
   padding: 10px 14px;
   background: var(--color-surface);
-  border: 1px solid var(--color-hairline);
-  border-radius: 12px;
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--radius-md);
   color: var(--color-ink-muted);
   font-size: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur-fast) var(--ease-spring),
+              border-color var(--dur-fast);
+  cursor: pointer;
+}
+.humi-search:hover {
+  border-color: var(--color-accent-soft);
+  box-shadow: var(--shadow-md);
 }
 .humi-search-placeholder {
   flex: 1;
@@ -436,29 +524,81 @@
   color: var(--color-ink-muted);
 }
 
-/* Ported from styles.css:279-288 (.icon-btn)
-   Touch target bump to 44×44 (WCAG 2.5.5, issue #5) */
+/* Icon buttons — 2026: ghost style (no permanent border), hover reveals soft
+   bg + shadow. Flat bordered squares read as dead UI chrome; ghost buttons feel
+   lighter and more modern (Linear, Notion, Vercel pattern). Touch target 44×44
+   preserved for WCAG 2.5.5. Added transition for all interactive states. */
 @layer components {
 .humi-icon-btn {
   width: 44px;
   height: 44px;
   min-width: 44px;
   min-height: 44px;
-  border-radius: 12px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-ink-soft);
+  color: var(--color-ink-muted);
   cursor: pointer;
   position: relative;
   font-family: inherit;
+  transition: background var(--dur-fast) var(--ease-spring),
+              color var(--dur-fast),
+              border-color var(--dur-fast),
+              box-shadow var(--dur-fast) var(--ease-spring);
 }
 .humi-icon-btn:hover {
-  background: var(--color-canvas-soft);
+  background: var(--color-surface);
+  border-color: var(--color-hairline-soft);
+  color: var(--color-ink-soft);
+  box-shadow: var(--shadow-sm);
+}
+.humi-icon-btn:active {
+  transform: scale(0.94);
 }
 .humi-icon-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Labeled menu button — 2026 modernised: drop hard accent border,
+   use shadow + display-font label + spring scale micro-interaction.
+   Before: `border: 1px solid accent` = Bootstrap chip feel (2018).
+   After:  shadow glow + borderless chip, `font-display` on "เมนู" text
+   — reads as intentional UI affordance not a form field. */
+.humi-menu-btn {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 0 0 1.5px rgba(31, 168, 160, 0.18), var(--shadow-sm);
+  transition: background var(--dur-fast) var(--ease-spring),
+              color var(--dur-fast),
+              box-shadow var(--dur-fast) var(--ease-spring),
+              transform var(--dur-fast) var(--ease-spring);
+}
+.humi-menu-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-canvas-soft);
+  box-shadow: 0 0 0 1.5px var(--color-accent), var(--shadow-md);
+}
+.humi-menu-btn:active {
+  transform: scale(0.96);
+}
+.humi-menu-btn:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
@@ -824,4 +964,241 @@
   border: 3px solid var(--color-surface);
   box-shadow: 0 1px 4px rgba(14, 27, 44, 0.18);
   cursor: grab;
+}
+
+/* ════════════════════════════════════════════════════════════
+   Admin form primitives — used across wizard steps + editor pages
+   so Hire/Rehire/Transfer/Terminate + Self-Service/Users/System
+   editors share one visual language with /th/home + /th/profile.
+   Kept as CSS classes (not Tailwind chains) so a single edit here
+   re-skins all forms — no sed sweep across 30+ files.
+   ════════════════════════════════════════════════════════════ */
+.humi-field { display: flex; flex-direction: column; gap: 6px; }
+.humi-field + .humi-field { margin-top: 18px; }
+
+.humi-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+}
+.humi-label-hint {
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  font-weight: 400;
+  margin-left: 4px;
+}
+.humi-asterisk {
+  color: var(--color-accent);
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.humi-input,
+.humi-select,
+.humi-textarea {
+  width: 100%;
+  max-width: 480px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.humi-input:hover,
+.humi-select:hover,
+.humi-textarea:hover { border-color: var(--color-ink-faint); }
+.humi-input:focus,
+.humi-select:focus,
+.humi-textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+.humi-input[aria-invalid="true"],
+.humi-select[aria-invalid="true"],
+.humi-textarea[aria-invalid="true"] {
+  border-color: var(--color-warning);
+}
+.humi-input[aria-invalid="true"]:focus,
+.humi-select[aria-invalid="true"]:focus,
+.humi-textarea[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-warning) 22%, transparent);
+}
+.humi-input:disabled,
+.humi-select:disabled,
+.humi-textarea:disabled {
+  background: var(--color-canvas-soft);
+  color: var(--color-ink-muted);
+  cursor: not-allowed;
+}
+.humi-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5 6 6.5l5-5' stroke='%230E1B2C' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+.humi-input--sm { max-width: 220px; }
+.humi-input--wide { max-width: 100%; }
+
+.humi-help {
+  font-size: 12px;
+  color: var(--color-ink-muted);
+}
+.humi-error {
+  font-size: 12px;
+  color: var(--color-warning);
+  font-weight: 500;
+}
+.humi-required-note {
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  margin-top: 18px;
+}
+.humi-required-note .humi-asterisk { margin-left: 0; margin-right: 4px; }
+
+/* Section inside a merged wizard step (Who / Job / Review).
+   Each section = independent `humi-card` with its own eyebrow so
+   the 3-step shell still feels like a curated dashboard rather
+   than one giant scrolling form. */
+.humi-section-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+.humi-section-sub {
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  margin-bottom: 16px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   .humi-step-section — CSS overrides that re-skin every existing
+   Step*.tsx (Identity, Name, Biographical, …) to Humi tokens
+   WITHOUT editing the 8 component files. The wrapper passes
+   className="humi-step-section" to a container, and descendant
+   selectors here map plain Tailwind utilities → Humi primitives.
+   ────────────────────────────────────────────────────────── */
+.humi-step-section h2 {
+  /* Visually hidden — Step*.tsx h2 says "ขั้นตอนที่ N — …" which is
+     redundant (and now misleading) when composed under Who/Job/Review
+     wrappers. Keep in DOM so text-presence tests still find the heading.
+     Descendant selector (no `>`) because Step*.tsx wraps its h2 in a
+     <div className="space-y-6"> so the h2 is a grandchild, not direct. */
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+/* Required-field note at the bottom of each Step*.tsx — wrapper
+   provides a single consolidated note for the whole section so
+   dedupe by hiding the inner repeats. Use :has() to only hide the
+   paragraph that wraps the asterisk+required text (not error messages). */
+.humi-step-section p.text-gray-400 { display: none !important; }
+
+/* Labels — override Tailwind `text-gray-700` inside Step*.tsx
+   with Humi label styling. Covers both `<label>` and inline
+   `<fieldset><label>` patterns used across Step*.tsx. */
+.humi-step-section label.text-gray-700 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+}
+/* The asterisk span inside each label → accent teal (warmer than
+   red-500 and matches Humi required-indicator on /th/profile). */
+.humi-step-section .text-red-500 {
+  color: var(--color-accent) !important;
+  font-weight: 600;
+}
+/* Error messages under fields — swap rose-red to pumpkin warning
+   which is NO-RED-compliant and part of Humi tokens. */
+.humi-step-section .text-red-600 {
+  color: var(--color-warning) !important;
+}
+
+/* Text inputs + date + number + select — map the plain rounded
+   borders to Humi surface + hairline + accent focus ring. Use
+   Tailwind utility-class as hook since Step*.tsx hard-codes them. */
+.humi-step-section input[type="text"],
+.humi-step-section input[type="date"],
+.humi-step-section input[type="number"],
+.humi-step-section input[type="email"],
+.humi-step-section input[type="tel"],
+.humi-step-section select,
+.humi-step-section textarea {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.humi-step-section input:hover:not(:disabled),
+.humi-step-section select:hover:not(:disabled),
+.humi-step-section textarea:hover:not(:disabled) {
+  border-color: var(--color-ink-faint);
+}
+.humi-step-section input:focus,
+.humi-step-section select:focus,
+.humi-step-section textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+.humi-step-section input[aria-invalid="true"],
+.humi-step-section select[aria-invalid="true"],
+.humi-step-section textarea[aria-invalid="true"] {
+  border-color: var(--color-warning) !important;
+}
+.humi-step-section select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5 6 6.5l5-5' stroke='%230E1B2C' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Draft auto-save chip for wizard header. Small teal pill with a
+   pulse dot — reassures admins their work is safe between tabs. */
+.humi-draft-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.humi-draft-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 0 currentColor;
+  animation: humi-draft-pulse 2s ease-in-out infinite;
+}
+@keyframes humi-draft-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
 }

@@ -23,8 +23,9 @@
 // under 'บริษัท' group pointing to /legacy hub page (separate sprint).
 // ════════════════════════════════════════════════════════════
 
+import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   Home,
   User,
@@ -36,15 +37,28 @@ import {
   Network,
   Megaphone,
   Plug,
+  Activity,
+  TrendingUp,
+  Users2,
+  Search,
+  UserPlus,
+  BarChart3,
+  Clock,
+  Settings,
+  ExternalLink,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
+// Locale helpers — moved to Topbar with locale switcher (2026-04-23)
 
 export interface SidebarProps {
   /** Called when any nav item or locale pill is clicked — used by AppShell
    *  to close the mobile drawer after navigation. */
   onNavigate?: () => void;
+  /** Called when the explicit close (X) button is clicked. Renders the close
+   *  button only when this prop is provided — typically only in drawer mode. */
+  onClose?: () => void;
   /** Extra className merged onto <aside> — e.g. "humi-sidebar--drawer". */
   className?: string;
 }
@@ -55,6 +69,7 @@ type NavItem = {
   href: string;
   icon: LucideIcon;
   badge?: string;
+  external?: boolean;
 };
 
 type NavSection = {
@@ -71,6 +86,7 @@ const NAV: NavSection[] = [
       { id: 'timeoff', label: 'ลางาน', href: '/th/timeoff', icon: Calendar, badge: '2' },
       { id: 'benefits', label: 'เงินเดือนและสวัสดิการ', href: '/th/benefits-hub', icon: Heart, badge: '1' },
       { id: 'requests', label: 'คำร้องและแบบฟอร์ม', href: '/th/requests', icon: FileText, badge: '1' },
+      { id: 'time-attendance', label: 'เวลา & การเข้างาน', href: 'https://cnext-time.centralgroup.com', icon: Clock, external: true },
     ],
   },
   {
@@ -79,6 +95,9 @@ const NAV: NavSection[] = [
       { id: 'goals', label: 'เป้าหมายและผลงาน', href: '/th/goals', icon: Target },
       { id: 'learning', label: 'การเรียนรู้', href: '/th/learning-directory', icon: BookOpen },
       { id: 'directory', label: 'ผังองค์กร', href: '/th/org-chart', icon: Network },
+      { id: 'performance-form', label: 'ประเมินผลงาน', href: '/th/performance-form', icon: Activity },
+      { id: 'development', label: 'การพัฒนา', href: '/th/development', icon: TrendingUp },
+      { id: 'succession', label: 'สายการสืบทอด', href: '/th/succession', icon: Users2 },
     ],
   },
   {
@@ -86,56 +105,60 @@ const NAV: NavSection[] = [
     items: [
       { id: 'announce', label: 'ประกาศ', href: '/th/announcements', icon: Megaphone },
       { id: 'integrations', label: 'จัดการระบบ', href: '/th/integrations', icon: Plug },
+      { id: 'careers', label: 'ตำแหน่งว่างภายใน', href: '/th/careers', icon: Search },
+      { id: 'recruiting', label: 'สรรหา', href: '/th/recruiting', icon: UserPlus },
+      { id: 'reports', label: 'รายงาน', href: '/th/reports', icon: BarChart3 },
+      { id: 'admin', label: 'ศูนย์ Admin', href: '/th/admin', icon: Settings },
     ],
   },
 ];
-
-/** Humi wordmark brand mark — gumdrop/person shape from reference ShelflyMark. */
-function HumiMark({ size = 20 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size * 1.15}
-      viewBox="0 0 28 32"
-      aria-hidden="true"
-      style={{ color: 'var(--color-accent)' }}
-    >
-      <circle cx="14" cy="7" r="6" fill="currentColor" />
-      <path
-        d="M5 30c0-6 4-11 9-11s9 5 9 11c0 1-1 2-2 2H7c-1 0-2-1-2-2z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
 
 /** Strip locale prefix (/th/ or /en/) to get bare path e.g. /home */
 function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
 }
 
-export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
+export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
-  const router = useRouter();
   // Compare without locale prefix so /en/home matches href="/th/home"
   const barePath = stripLocale(pathname);
   const isActive = (href: string) => {
     const bareHref = stripLocale(href);
     return barePath === bareHref || barePath.startsWith(bareHref + '/');
   };
-  const currentLocale = getLocaleFromPath(pathname);
-  const handleLocaleSwitch = (locale: SupportedLocale) => {
-    if (locale === currentLocale) return;
-    router.push(swapLocale(pathname, locale));
-  };
-
   return (
     <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
       <div className="humi-brand">
         <div className="humi-wordmark">
-          Hum
-          <HumiMark size={20} />
+          {/* Sidebar bg = navy ink (`--color-ink`). The base humi-logo.png has
+              dark navy "Hum" text → invisible on navy bg. Use the pure-white
+              variant for the dark sidebar. Generated via PIL pixel swap from
+              the same source PNG so brand fidelity stays intact (only the
+              dark luminance band gets remapped to #FFFFFF — teal person
+              silhouette untouched). */}
+          <Image
+            src="/humi-logo-white-v2.png"
+            alt="Humi"
+            width={90}
+            height={28}
+            priority
+            style={{ height: 28, width: 'auto', objectFit: 'contain' }}
+          />
         </div>
+        {/* Explicit close affordance — only rendered in drawer mode (when
+            AppShell passes onClose). Without this the user has no visible
+            way to close the drawer once it covers the topbar hamburger. */}
+        {onClose && (
+          <button
+            type="button"
+            className="humi-icon-btn humi-drawer-close"
+            aria-label="ปิดเมนู"
+            onClick={onClose}
+            style={{ marginLeft: 'auto' }}
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       <nav className="humi-nav" aria-label="เมนูหลัก">
@@ -145,6 +168,24 @@ export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
             {section.items.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
+              if (item.external) {
+                return (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="humi-nav-item"
+                    onClick={onNavigate}
+                  >
+                    <span className="humi-nav-icon" aria-hidden="true">
+                      <Icon size={16} />
+                    </span>
+                    <span className="humi-nav-text">{item.label}</span>
+                    <ExternalLink size={12} className="ml-auto text-ink-muted" aria-hidden="true" />
+                  </a>
+                );
+              }
               return (
                 <Link
                   key={item.id}
@@ -182,29 +223,7 @@ export function Sidebar({ onNavigate, className }: SidebarProps = {}) {
         </div>
       </div>
 
-      {/* Locale switcher TH | EN pills */}
-      <div
-        className="flex items-center gap-1.5 px-4 pb-4"
-        role="group"
-        aria-label="เลือกภาษา"
-      >
-        {(['th', 'en'] as SupportedLocale[]).map((loc) => (
-          <button
-            key={loc}
-            type="button"
-            onClick={() => { handleLocaleSwitch(loc); onNavigate?.(); }}
-            aria-pressed={currentLocale === loc}
-            className={cn(
-              'flex-1 rounded-md border py-1 text-[12px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
-              currentLocale === loc
-                ? 'border-[color:var(--color-accent)] bg-accent-soft text-[color:var(--color-accent)]'
-                : 'border-hairline bg-surface text-ink-muted hover:border-[color:var(--color-accent)] hover:text-ink-soft',
-            )}
-          >
-            {loc === 'th' ? 'ไทย' : 'EN'}
-          </button>
-        ))}
-      </div>
+      {/* Locale switcher ย้ายไป Topbar แล้ว — 2026-04-23 (แก้ bug ยื่นนอก sidebar) */}
     </aside>
   );
 }

@@ -1,0 +1,4314 @@
+[
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000000",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1561081055000+0000)/",
+    "name_localized": "CDS",
+    "description_th_TH": "Central Department Store",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "A39FB892D5134D1680539FE866DCC248",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CDS",
+    "description_defaultValue": "Central Department Store",
+    "name": "CDS",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CDS",
+    "description": "Central Department Store",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CDS",
+    "description_en_GB": "Central Department Store",
+    "lastModifiedBy": "20092496",
+    "name_en_GB": "CDS",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1561081055000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "CA479AF21018452AA4F8178D209EDC2A",
+    "description_localized": "Central Department Store",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000000',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000001",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "RBS",
+    "description_th_TH": "Robinson Department Store",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "01ABB146312642E8BB2C4E09601510ED",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "RBS",
+    "description_defaultValue": "Robinson Department Store",
+    "name": "RBS",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "RBS",
+    "description": "Robinson Department Store",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "RBS",
+    "description_en_GB": "Robinson Department Store",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "RBS",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "757F6C2BE288420A9282CF6AEF7D87BB",
+    "description_localized": "Robinson Department Store",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000001',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000002",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "SSP",
+    "description_th_TH": "SuperSports",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "3BEDB09F909B4375BAD5EAB250AB8B2B",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "SSP",
+    "description_defaultValue": "SuperSports",
+    "name": "SSP",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SSP",
+    "description": "SuperSports",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "SSP",
+    "description_en_GB": "SuperSports",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "SSP",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "59529BCBC4D74FC68AFE54806ED90368",
+    "description_localized": "SuperSports",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000002',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000003",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "CFR",
+    "description_th_TH": "Central Food Retail",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "CD6E1ADE28F142EDBFAA8AF89946F0CB",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CFR",
+    "description_defaultValue": "Central Food Retail",
+    "name": "CFR",
+    "description_en_US": null,
+    "cust_businessGroup": "Retail Food",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CFR",
+    "description": "Central Food Retail",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CFR",
+    "description_en_GB": "Central Food Retail",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "CFR",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "3C09649CB6634E04BAB874E93A0444A7",
+    "description_localized": "Central Food Retail",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000003',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000004",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1636012540000+0000)/",
+    "name_localized": "CFM",
+    "description_th_TH": "Central Family Mart",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "9C16367E0AF04FFF955E17BF32E22784",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CFM",
+    "description_defaultValue": "Central Family Mart",
+    "name": "CFM",
+    "description_en_US": null,
+    "cust_businessGroup": "Retail Food",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CFM",
+    "description": "Central Family Mart",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CFM",
+    "description_en_GB": "Central Family Mart",
+    "lastModifiedBy": "20171474",
+    "name_en_GB": "CFM",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1636012540000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "99582279EE7243F8BF0186879B27F286",
+    "description_localized": "Central Family Mart",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000004',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000005",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "CHG",
+    "description_th_TH": "Central Home Group",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "7383E174983B4675BCED7BA67B36DC77",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CHG",
+    "description_defaultValue": "Central Home Group",
+    "name": "CHG",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CHG",
+    "description": "Central Home Group",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CHG",
+    "description_en_GB": "Central Home Group",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "CHG",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "20C1D65C3ECA44C08DAB0E333231038D",
+    "description_localized": "Central Home Group",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000005',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000006",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1565085060000+0000)/",
+    "name_localized": "PWB",
+    "description_th_TH": "Power Buy",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "3CDEFB447B0A4BF4A9D331B59B5593E1",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "PWB",
+    "description_defaultValue": "Power Buy",
+    "name": "PWB",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "PWB",
+    "description": "Power Buy",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "PWB",
+    "description_en_GB": "Power Buy",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "PWB",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1565085060000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "DABF9F67A3ED413F88E8F7B928608807",
+    "description_localized": "Power Buy",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000006',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000007",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1573527422000+0000)/",
+    "name_localized": "B2S",
+    "description_th_TH": "B2S",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "26A3D91146FB4297826AAF0F0304778A",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "B2S",
+    "description_defaultValue": "B2S",
+    "name": "B2S",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "B2S",
+    "description": "B2S",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "B2S",
+    "description_en_GB": "B2S",
+    "lastModifiedBy": "20093069",
+    "name_en_GB": "B2S",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1573527422000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "7B13C1E0D78B49F3A83EDE01D7A3C733",
+    "description_localized": "B2S",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000007',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000008",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "OFM",
+    "description_th_TH": "Office Mate",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "A8398F9DD8BD4535BFF5C1FDB9D08B0F",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "OFM",
+    "description_defaultValue": "Office Mate",
+    "name": "OFM",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "OFM",
+    "description": "Office Mate",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "OFM",
+    "description_en_GB": "Office Mate",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "OFM",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "0CDFF7E313D74DF389EFEF246D205A92",
+    "description_localized": "Office Mate",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000008',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000009",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1613711128000+0000)/",
+    "name_localized": "CPN",
+    "description_th_TH": "Central Pattana",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "7195E38918434B07963BE2B870CF12CD",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CPN",
+    "description_defaultValue": "Central Pattana",
+    "name": "CPN",
+    "description_en_US": null,
+    "cust_businessGroup": "CPN",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CPN",
+    "description": "Central Pattana",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CPN",
+    "description_en_GB": "Central Pattana",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CPN",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1613711128000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "A86444198D134F4691A9E24A6C5D23D9",
+    "description_localized": "Central Pattana",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000009',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000010",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1609988075000+0000)/",
+    "name_localized": "CMG",
+    "description_th_TH": "Central Marketing Group",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "A0020660F380471099CFF166DF94E4A4",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CMG",
+    "description_defaultValue": "Central Marketing Group",
+    "name": "CMG",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CMG",
+    "description": "Central Marketing Group",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CMG",
+    "description_en_GB": "Central Marketing Group",
+    "lastModifiedBy": "20171474",
+    "name_en_GB": "CMG",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1609988075000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "429532BE7D5940218A23CA493F854A7A",
+    "description_localized": "Central Marketing Group",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000010',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000011",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "CRG",
+    "description_th_TH": "Central Restaurants Group",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "78F989268DB047C8BEB0F38967AF5B12",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CRG",
+    "description_defaultValue": "Central Restaurants Group",
+    "name": "CRG",
+    "description_en_US": null,
+    "cust_businessGroup": "Retail Food",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CRG",
+    "description": "Central Restaurants Group",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CRG",
+    "description_en_GB": "Central Restaurants Group",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "CRG",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "F40F1D28A7054AE2A4C37BB80FC659EF",
+    "description_localized": "Central Restaurants Group",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000011',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000012",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "CHR",
+    "description_th_TH": "Centara Hotels and Resorts",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "02B72242D8DD479F965CF8E2A82CDC84",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CHR",
+    "description_defaultValue": "Centara Hotels and Resorts",
+    "name": "CHR",
+    "description_en_US": null,
+    "cust_businessGroup": "CHR",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CHR",
+    "description": "Centara Hotels and Resorts",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CHR",
+    "description_en_GB": "Centara Hotels and Resorts",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "CHR",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "DE10E47E708B45FC97EEF0DC3C852E49",
+    "description_localized": "Centara Hotels and Resorts",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000012',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000014",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "SCM",
+    "description_th_TH": "Supply Chain Management",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "FD3B93AF089440BD8E09D4D9E730DCFC",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "SCM",
+    "description_defaultValue": "Supply Chain Management",
+    "name": "SCM",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SCM",
+    "description": "Supply Chain Management",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "SCM",
+    "description_en_GB": "Supply Chain Management",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "SCM",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "73AC485D3B0B4B388BCD09EDD96C58DD",
+    "description_localized": "Supply Chain Management",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000014',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000015",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1553588018000+0000)/",
+    "name_localized": "Retail Food Corporate",
+    "description_th_TH": "Retail Food Corporate",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "0FB207078A7E455DA156B779FF40015D",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "Retail Food Corporate",
+    "description_defaultValue": "Retail Food Corporate",
+    "name": "Retail Food Corporate",
+    "description_en_US": null,
+    "cust_businessGroup": "Retail Food",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-OTHER",
+    "description": "Retail Food Corporate",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Retail Food Corporate",
+    "description_en_GB": "Retail Food Corporate",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "Retail Food Corporate",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1553588018000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "682A586D98AB42BD8A2BD15466476B34",
+    "description_localized": "Retail Food Corporate",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000015',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000017",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "FAST",
+    "description_th_TH": "FAST",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "0DBECBEB104C4DB8BA314A21145481E9",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "FAST",
+    "description_defaultValue": "FAST",
+    "name": "FAST",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-FAST",
+    "description": "FAST",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "FAST",
+    "description_en_GB": "FAST",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "FAST",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "67CF4FC1A49842C4B50424B438323811",
+    "description_localized": "FAST",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000017',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000018",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1629084202000+0000)/",
+    "name_localized": "CG HR",
+    "description_th_TH": "Human Resources",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "AF7DDF8CB9A44B0287E26EE20F18B64A",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CG HR",
+    "description_defaultValue": "Human Resources",
+    "name": "CG HR",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-HR",
+    "description": "Human Resources",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CG HR",
+    "description_en_GB": "Human Resources",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CG HR",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1629084202000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "D1F5F1DDB61847989B072F7B68F80DBF",
+    "description_localized": "Human Resources",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000018',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000019",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "RIS",
+    "description_th_TH": "RIS",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "0A4A4437FBCF4BC4A406C4517DFD32AC",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "RIS",
+    "description_defaultValue": "RIS",
+    "name": "RIS",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-RIS",
+    "description": "RIS",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "RIS",
+    "description_en_GB": "RIS",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "RIS",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "57EC085FBF5444BB9E232A80359B334D",
+    "description_localized": "RIS",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000019',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000020",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1552061837000+0000)/",
+    "name_localized": "T1C",
+    "description_th_TH": "The 1 Central Limited",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "4AAFD2DC264748E88697507FAF421EAB",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "T1C",
+    "description_defaultValue": "The 1 Central Limited",
+    "name": "T1C",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-T1C",
+    "description": "The 1 Central Limited",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "T1C",
+    "description_en_GB": "The 1 Central Limited",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "T1C",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1552061837000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "FAE0B69F7457437F906463F4EC5A217D",
+    "description_localized": "The 1 Central Limited",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000020',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000021",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1551089156000+0000)/",
+    "name_localized": "Audit",
+    "description_th_TH": "Audit",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "320676E0C47D4D63A7DFFFD21A7CB87A",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "Audit",
+    "description_defaultValue": "Audit",
+    "name": "Audit",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-INTERNAL AUDIT",
+    "description": "Audit",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Audit",
+    "description_en_GB": "Audit",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "Audit",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1551089156000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "A4FC0FB30A944155B25A668C5F831B04",
+    "description_localized": "Audit",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000021',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000023",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1553758032000+0000)/",
+    "name_localized": "CGO",
+    "description_th_TH": "CGO",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "D606DFBE324A4D80808E9E9B21EC90E6",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CGO",
+    "description_defaultValue": "CGO",
+    "name": "CGO",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-CGO",
+    "description": "CGO",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CGO",
+    "description_en_GB": "CGO",
+    "lastModifiedBy": "20092496",
+    "name_en_GB": "CGO",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1553758032000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "113D88384FD04F2F98E4E449031C208C",
+    "description_localized": "CGO",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000023',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000024",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1553758061000+0000)/",
+    "name_localized": "CNG",
+    "description_th_TH": "CNG",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "8C7FC5C7E1224DEB9288C227D19E7E02",
+    "createdDateTime": "/Date(1551088976000+0000)/",
+    "name_th_TH": "CNG",
+    "description_defaultValue": "CNG",
+    "name": "CNG",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-CNG",
+    "description": "CNG",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551088976000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CNG",
+    "description_en_GB": "CNG",
+    "lastModifiedBy": "20092496",
+    "name_en_GB": "CNG",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1553758061000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "D9D35899DDD74CB499FBB2D6CA3398C2",
+    "description_localized": "CNG",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000024',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "99999999",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1676455566000+0000)/",
+    "name_localized": "999",
+    "description_th_TH": "MIGRATION BUSINESS UNIT",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "D8D90FCC7E634E03A5EABA6942BE502C",
+    "createdDateTime": "/Date(1551158049000+0000)/",
+    "name_th_TH": "999",
+    "description_defaultValue": "DUMMY DATA - BU",
+    "name": "DUMMY DATA - BU",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "DUMMY DATA - BU",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1551158049000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "DUMMY DATA - BU",
+    "description_en_GB": "MIGRATION BUSINESS UNIT",
+    "lastModifiedBy": "DC07",
+    "name_en_GB": "999",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1676455566000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "5CF47F5893064EBABF93BB30546831C9",
+    "description_localized": "MIGRATION BUSINESS UNIT",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999999',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000026",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1566382709000+0000)/",
+    "name_localized": "CGV",
+    "description_th_TH": "บริษัท กลุ่มเซ็นทรัลเวียดนาม จำกัด",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "7A5132C9F0EB4A7CA5728BA4B113893A",
+    "createdDateTime": "/Date(1566382709000+0000)/",
+    "name_th_TH": "CGV",
+    "description_defaultValue": "Central Group Vietnam",
+    "name": "CGV",
+    "description_en_US": null,
+    "cust_businessGroup": "CGV",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CGV",
+    "description": "Central Group Vietnam",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1566382709000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CGV",
+    "description_en_GB": "Central Group Vietnam",
+    "lastModifiedBy": "20058927",
+    "name_en_GB": "CGV",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1566382709000)/",
+    "description_vi_VN": null,
+    "createdBy": "20058927",
+    "mdfSystemRecordId": "BAEB85916AF84D40913FD02C6FA94673",
+    "description_localized": "Central Group Vietnam",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000026',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "99999CMG",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1593084232000+0000)/",
+    "name_localized": "99999CMG",
+    "description_th_TH": "MIGRATION BUSINESS UNIT CMG",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "D39D0EFB73284704BD3D60807DE5E1BE",
+    "createdDateTime": "/Date(1593083767000+0000)/",
+    "name_th_TH": "99999CMG",
+    "description_defaultValue": "MIGRATION BUSINESS UNIT CMG",
+    "name": "99999CMG",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "MIGRATION BUSINESS UNIT CMG",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1593083767000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "99999CMG",
+    "description_en_GB": "MIGRATION BUSINESS UNIT CMG",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "99999CMG",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1593084232000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "C2C4F1ECA5F9478EA14DF50855374616",
+    "description_localized": "MIGRATION BUSINESS UNIT CMG",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CMG',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "99999CPN",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1593084232000+0000)/",
+    "name_localized": "99999CPN",
+    "description_th_TH": "MIGRATION BUSINESS UNIT CPN",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "976C3E3A3A9B49799E52EE0AF3A0579A",
+    "createdDateTime": "/Date(1593083767000+0000)/",
+    "name_th_TH": "99999CPN",
+    "description_defaultValue": "MIGRATION BUSINESS UNIT CPN",
+    "name": "99999CPN",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "MIGRATION BUSINESS UNIT CPN",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1593083767000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "99999CPN",
+    "description_en_GB": "MIGRATION BUSINESS UNIT CPN",
+    "lastModifiedBy": "POIT02",
+    "name_en_GB": "99999CPN",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1593084232000)/",
+    "description_vi_VN": null,
+    "createdBy": "POIT02",
+    "mdfSystemRecordId": "9622BB6A4CED4FDEB73D851741E67CB2",
+    "description_localized": "MIGRATION BUSINESS UNIT CPN",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='99999CPN',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000022",
+    "startDate": "/Date(1609459200000)/",
+    "lastModifiedDateTime": "/Date(1625452809000+0000)/",
+    "name_localized": "BD",
+    "description_th_TH": "Business Development",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "58BEC6A6ED7A43BE856DF2CB8368EE46",
+    "createdDateTime": "/Date(1625452809000+0000)/",
+    "name_th_TH": "BD",
+    "description_defaultValue": "Business Development",
+    "name": "BD",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-BD",
+    "description": "Business Development",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1625452809000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "BD",
+    "description_en_GB": "Business Development",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "BD",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1625452809000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "FB9C9E2FB3E344AD84307F63D7A0BC8F",
+    "description_localized": "Business Development",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000022',startDate=datetime'2021-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000013",
+    "startDate": "/Date(1609459200000)/",
+    "lastModifiedDateTime": "/Date(1633328479000+0000)/",
+    "name_localized": "CU",
+    "description_th_TH": "Corporate Units",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "6C2DE50E274347F495A7F77A9F25A7B9",
+    "createdDateTime": "/Date(1633328479000+0000)/",
+    "name_th_TH": "CU",
+    "description_defaultValue": "Corporate Units",
+    "name": "CU",
+    "description_en_US": null,
+    "cust_businessGroup": "CU",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-OTHER",
+    "description": "Corporate Units",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1633328479000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CU",
+    "description_en_GB": "Corporate Units",
+    "lastModifiedBy": "20017863",
+    "name_en_GB": "CU",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1633328479000)/",
+    "description_vi_VN": null,
+    "createdBy": "20017863",
+    "mdfSystemRecordId": "B2F8C8323837403591444768DD235A74",
+    "description_localized": "Corporate Units",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000013',startDate=datetime'2021-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000016",
+    "startDate": "/Date(1633046400000)/",
+    "lastModifiedDateTime": "/Date(1633940470000+0000)/",
+    "name_localized": "CRC",
+    "description_th_TH": "Central Retail Corporation",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "99559E546D0841688D8F9B4C80A1BE37",
+    "createdDateTime": "/Date(1633940470000+0000)/",
+    "name_th_TH": "CRC",
+    "description_defaultValue": "Central Retail Corporation",
+    "name": "CRC",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "SU-OTHER",
+    "description": "Central Retail Corporation",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1633940470000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CRC",
+    "description_en_GB": "Central Retail Corporation",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CRC",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1633940470000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "46BC9C292BFE46EA89DB141149F49931",
+    "description_localized": "Central Retail Corporation",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000016',startDate=datetime'2021-10-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000042",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1635476204000+0000)/",
+    "name_localized": "CPT",
+    "description_th_TH": "CRC Property",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "65511DE4AD7D4E0A8EC8D90AE52EF74D",
+    "createdDateTime": "/Date(1635476144000+0000)/",
+    "name_th_TH": "CPT",
+    "description_defaultValue": "CRC Property",
+    "name": "CPT",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "RBS",
+    "description": "CRC Property",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1635476144000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CPT",
+    "description_en_GB": "CRC Property",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CPT",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1635476204000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "2E235FC74C8C4B6DA438D578BD8C5617",
+    "description_localized": "CRC Property",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000042',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000027",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1671519499000+0000)/",
+    "name_localized": "CFW",
+    "description_th_TH": "Central Food Wholesale",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "C1D2577C22044C58836D70836D200FE0",
+    "createdDateTime": "/Date(1671519499000+0000)/",
+    "name_th_TH": "CFW",
+    "description_defaultValue": "Central Food Wholesale",
+    "name": "CFW",
+    "description_en_US": "Central Food Wholesale",
+    "cust_businessGroup": "CFG",
+    "entityOID": null,
+    "description_en_DEBUG": "Central Food Wholesale",
+    "status": "A",
+    "cust_policyProfile": "CFR",
+    "description": "Central Food Wholesale",
+    "name_en_DEBUG": "CFW",
+    "createdOn": "/Date(1671519499000)/",
+    "headOfUnit": null,
+    "name_en_US": "CFW",
+    "name_defaultValue": "CFW",
+    "description_en_GB": "Central Food Wholesale",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CFW",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1671519499000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "89C86CE260DC422B8464AE71D94D4B11",
+    "description_localized": "Central Food Wholesale",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000027',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000044",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1689929324000+0000)/",
+    "name_localized": "Supermarket",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "92A86D35B1A842B99C5D97212F7CC770",
+    "createdDateTime": "/Date(1675758647000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Khối Siêu thị",
+    "name": "Supermarket",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "Supermarket",
+    "description": "Khối Siêu thị",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675758647000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Supermarket",
+    "description_en_GB": "Khối Siêu thị",
+    "lastModifiedBy": "DC07",
+    "name_en_GB": "Supermarket",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1689929324000)/",
+    "description_vi_VN": null,
+    "createdBy": "DC04",
+    "mdfSystemRecordId": "A5426F7E03844818ABAF96951A4B6F2B",
+    "description_localized": "Khối Siêu thị",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000044',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000045",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1675758679000+0000)/",
+    "name_localized": "Home & Entertainment",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "98D37C3B7DB646A3BF1C8E4DCE309132",
+    "createdDateTime": "/Date(1675758647000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Khối Gia dụng, Nội thất và Giải trí",
+    "name": "Home & Entertainment",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "Khối Gia dụng, Nội thất và Giải trí",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675758647000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Home & Entertainment",
+    "description_en_GB": null,
+    "lastModifiedBy": "DC04",
+    "name_en_GB": null,
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1675758679000)/",
+    "description_vi_VN": null,
+    "createdBy": "DC04",
+    "mdfSystemRecordId": "95218259808547688012EB488BBB8112",
+    "description_localized": "Khối Gia dụng, Nội thất và Giải trí",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000045',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000046",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1675758679000+0000)/",
+    "name_localized": "Property",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "79B793643316425EA603FC28CD33D165",
+    "createdDateTime": "/Date(1675758647000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Khối Bất động sản và Trung tâm Thương mại",
+    "name": "Property",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "Khối Bất động sản và Trung tâm Thương mại",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675758647000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Property",
+    "description_en_GB": null,
+    "lastModifiedBy": "DC04",
+    "name_en_GB": null,
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1675758679000)/",
+    "description_vi_VN": null,
+    "createdBy": "DC04",
+    "mdfSystemRecordId": "ADB03AADE40B40138638F1910B9A8A76",
+    "description_localized": "Khối Bất động sản và Trung tâm Thương mại",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000046',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000047",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1676548184000+0000)/",
+    "name_localized": "CRC Sport & Lifestyle",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "47C880639AA84CD8BD4EE2315772497C",
+    "createdDateTime": "/Date(1675758647000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Khối Thể thao và Phong cách sống",
+    "name": "CRC Sport & Lifestyle",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "Khối Thể thao và Phong cách sống",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675758647000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CRC Sport & Lifestyle",
+    "description_en_GB": "Khối Thể thao và Phong cách sống",
+    "lastModifiedBy": "DC07",
+    "name_en_GB": "CRC Sport & Lifestyle",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1676548184000)/",
+    "description_vi_VN": null,
+    "createdBy": "DC04",
+    "mdfSystemRecordId": "B4A60580DCB54B5493DED4151483D187",
+    "description_localized": "Khối Thể thao và Phong cách sống",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000047',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000048",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1676548168000+0000)/",
+    "name_localized": "Nguyen Kim",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "FED67530412841EA8BA4A1C02C545E56",
+    "createdDateTime": "/Date(1675758647000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Nguyễn Kim",
+    "name": "Nguyen Kim",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "Nguyễn Kim",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675758647000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Nguyen Kim",
+    "description_en_GB": "Nguyễn Kim",
+    "lastModifiedBy": "DC07",
+    "name_en_GB": "Nguyen Kim",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1676548168000)/",
+    "description_vi_VN": null,
+    "createdBy": "DC04",
+    "mdfSystemRecordId": "D9F4664FBC8247CABB306BF8A40DCEAA",
+    "description_localized": "Nguyễn Kim",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000048',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000049",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1675780638000+0000)/",
+    "name_localized": "Group HO",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "F453FB1F687F4BA0BE55395EF91B34AF",
+    "createdDateTime": "/Date(1675758647000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Văn phòng Tổng Công ty",
+    "name": "Group HO",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "Văn phòng Tổng Công ty",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675758647000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Group HO",
+    "description_en_GB": null,
+    "lastModifiedBy": "SFADMIN",
+    "name_en_GB": null,
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1675780638000)/",
+    "description_vi_VN": null,
+    "createdBy": "DC04",
+    "mdfSystemRecordId": "14F3FB5117554E74BD38B52631C1446D",
+    "description_localized": "Văn phòng Tổng Công ty",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000049',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000043",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1675780638000+0000)/",
+    "name_localized": "Hypermarket",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "94413BD1BB82445CA173D782E9B53E55",
+    "createdDateTime": "/Date(1675780246000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Khối Đại Siêu thị",
+    "name": "Hypermarket",
+    "description_en_US": null,
+    "cust_businessGroup": "999",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "Khối Đại Siêu thị",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1675780246000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Hypermarket",
+    "description_en_GB": null,
+    "lastModifiedBy": "SFADMIN",
+    "name_en_GB": null,
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1675780638000)/",
+    "description_vi_VN": null,
+    "createdBy": "SFADMIN",
+    "mdfSystemRecordId": "F52C7919A5C34015AA6B6C7DB0065D75",
+    "description_localized": "Khối Đại Siêu thị",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000043',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000057",
+    "startDate": "/Date(1678060800000)/",
+    "lastModifiedDateTime": "/Date(1678094273000+0000)/",
+    "name_localized": "Supermarket",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "A4ADB40D297248F383EC74AA2921BF27",
+    "createdDateTime": "/Date(1678094273000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "DUMMY",
+    "name": "Supermarket",
+    "description_en_US": "DUMMY",
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "999",
+    "description": "DUMMY",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1678094273000)/",
+    "headOfUnit": "20254696",
+    "name_en_US": "Supermarket",
+    "name_defaultValue": "Supermarket",
+    "description_en_GB": null,
+    "lastModifiedBy": "CGVN_AA02",
+    "name_en_GB": null,
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1678094273000)/",
+    "description_vi_VN": null,
+    "createdBy": "CGVN_AA02",
+    "mdfSystemRecordId": "BEAE8DF098C44A23BFE56BE17E667FE4",
+    "description_localized": "DUMMY",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000057',startDate=datetime'2023-03-06T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000056",
+    "startDate": "/Date(1677110400000)/",
+    "lastModifiedDateTime": "/Date(1677212964000+0000)/",
+    "name_localized": "Supermarket",
+    "description_th_TH": null,
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "7477DBEBADC840B18BEE138C45F40D39",
+    "createdDateTime": "/Date(1677212964000+0000)/",
+    "name_th_TH": null,
+    "description_defaultValue": "Testing",
+    "name": "Supermarket",
+    "description_en_US": null,
+    "cust_businessGroup": "CGV",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CGV",
+    "description": "Testing",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1677212964000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "Supermarket",
+    "description_en_GB": "Testing",
+    "lastModifiedBy": "CGVN_AA02",
+    "name_en_GB": "Supermarket",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1677212964000)/",
+    "description_vi_VN": null,
+    "createdBy": "CGVN_AA02",
+    "mdfSystemRecordId": "0C0660273AE4486E8EB0BA48AF2F7404",
+    "description_localized": "Testing",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000056',startDate=datetime'2023-02-23T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000075",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1725960703000+0000)/",
+    "name_localized": "CDG",
+    "description_th_TH": "Central Department Store Group",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "6027B521A77146E0B056CF1A1DB81CE3",
+    "createdDateTime": "/Date(1725960703000+0000)/",
+    "name_th_TH": "CDG",
+    "description_defaultValue": "Central Department Store Group",
+    "name": "CDG",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CDS",
+    "description": "Central Department Store Group",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1725960703000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CDG",
+    "description_en_GB": "Central Department Store Group",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CDG",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1725960703000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "0CCE79D401114008A6AEA9F39C951E9E",
+    "description_localized": "Central Department Store Group",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000075',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000076",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1725960703000+0000)/",
+    "name_localized": "CEH",
+    "description_th_TH": "Central Embassy",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "BF6528237D0F4506A28BA757AB71F294",
+    "createdDateTime": "/Date(1725960703000+0000)/",
+    "name_th_TH": "CEH",
+    "description_defaultValue": "Central Embassy",
+    "name": "CEH",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CDS",
+    "description": "Central Embassy",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1725960703000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "CEH",
+    "description_en_GB": "Central Embassy",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "CEH",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1725960703000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "84C45F62B4534116AE245EFBB98E772F",
+    "description_localized": "Central Embassy",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000076',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000077",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1725960703000+0000)/",
+    "name_localized": "MJT",
+    "description_th_TH": "Muji Retail Thailand",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "F851E4A632464A238D98A9E26458A71C",
+    "createdDateTime": "/Date(1725960703000+0000)/",
+    "name_th_TH": "MJT",
+    "description_defaultValue": "Muji Retail Thailand",
+    "name": "MJT",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CDS",
+    "description": "Muji Retail Thailand",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1725960703000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "MJT",
+    "description_en_GB": "Muji Retail Thailand",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "MJT",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1725960703000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "70407B9053B2460BA12DE068F235CD60",
+    "description_localized": "Muji Retail Thailand",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000077',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOBusinessUnit"
+    },
+    "externalCode": "10000078",
+    "startDate": "/Date(-2208988800000)/",
+    "lastModifiedDateTime": "/Date(1725960703000+0000)/",
+    "name_localized": "SWL",
+    "description_th_TH": "Siwilai",
+    "endDate": "/Date(253402214400000)/",
+    "entityUUID": "4E3A523AE79B4C739B5D633E0B75C384",
+    "createdDateTime": "/Date(1725960703000+0000)/",
+    "name_th_TH": "SWL",
+    "description_defaultValue": "Siwilai",
+    "name": "SWL",
+    "description_en_US": null,
+    "cust_businessGroup": "Central Retail Corporation",
+    "entityOID": null,
+    "description_en_DEBUG": null,
+    "status": "A",
+    "cust_policyProfile": "CDS",
+    "description": "Siwilai",
+    "name_en_DEBUG": null,
+    "createdOn": "/Date(1725960703000)/",
+    "headOfUnit": null,
+    "name_en_US": null,
+    "name_defaultValue": "SWL",
+    "description_en_GB": "Siwilai",
+    "lastModifiedBy": "20174407",
+    "name_en_GB": "SWL",
+    "name_vi_VN": null,
+    "lastModifiedOn": "/Date(1725960703000)/",
+    "description_vi_VN": null,
+    "createdBy": "20174407",
+    "mdfSystemRecordId": "E4E0D3E3AFCA4C398ECF29D0D5EFF66B",
+    "description_localized": "Siwilai",
+    "cust_toLegalEntity": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/cust_toLegalEntity"
+      }
+    },
+    "nameTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/nameTranslationTextNav"
+      }
+    },
+    "createdByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/createdByNav"
+      }
+    },
+    "cust_policyProfileNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/cust_policyProfileNav"
+      }
+    },
+    "headOfUnitNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/headOfUnitNav"
+      }
+    },
+    "descriptionTranslationTextNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationTextNav"
+      }
+    },
+    "statusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/statusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "lastModifiedByNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/lastModifiedByNav"
+      }
+    },
+    "cust_businessGroupNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/cust_businessGroupNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "cust_toGroup": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOBusinessUnit(externalCode='10000078',startDate=datetime'1900-01-01T00:00:00')/cust_toGroup"
+      }
+    }
+  }
+]

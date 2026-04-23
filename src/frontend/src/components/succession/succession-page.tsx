@@ -1,97 +1,273 @@
 'use client';
 
+// ════════════════════════════════════════════════════════════
+// Succession Planning — reskinned from shadcn primitives → Humi tokens.
+// Ken UAT 2026-04-22: "ดูเป็นคนละระบบ" — shadcn Card/Badge/Skeleton felt
+// visually foreign to Humi cream+teal language. Reskin uses humi-card,
+// humi-tag (sage/butter/coral/accent variants), humi-eyebrow, humi-divider
+// so the page reads as one system with /home, /profile, /timeoff etc.
+// Data + hook contract (useSuccession, RiskLevel, Readiness) unchanged.
+// ════════════════════════════════════════════════════════════
+
 import { useTranslations } from 'next-intl';
-import { Shield, AlertTriangle, Users, CheckCircle } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Shield } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useSuccession, type Readiness, type RiskLevel } from '@/hooks/use-succession';
 
-const RISK_VARIANT: Record<RiskLevel,'error' |'warning' |'success'> = { high:'error', medium:'warning', low:'success' };
-const READINESS_VARIANT: Record<Readiness,'success' |'info' |'neutral'> = { ready_now:'success','1_2_years':'info','3_plus_years':'neutral' };
+// Map SF risk/readiness ontology → Humi tag variants. NO RED tokens used
+// (coral + butter already map through warning-amber / butter-soft per rule).
+const RISK_TAG: Record<RiskLevel, string> = {
+  high: 'humi-tag--coral',
+  medium: 'humi-tag--butter',
+  low: 'humi-tag--sage',
+};
+const READINESS_TAG: Record<Readiness, string> = {
+  ready_now: 'humi-tag--sage',
+  '1_2_years': 'humi-tag--accent',
+  '3_plus_years': 'humi-tag',
+};
 
 export function SuccessionPage() {
- const t = useTranslations('succession');
+  const t = useTranslations('succession');
+  const { plans, stats, loading } = useSuccession();
 
- const { plans, stats, loading } = useSuccession();
+  if (loading) {
+    return (
+      <div className="humi-col" style={{ gap: 16 }}>
+        {[1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="humi-card"
+            style={{ height: 160, background: 'var(--color-canvas-soft)' }}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+    );
+  }
 
- if (loading) {
- return <div className="space-y-4">{[1, 2, 3].map((i) => <Skeleton key={i} className="h-40 w-full" />)}</div>;
- }
+  return (
+    <>
+      {/* Page header — eyebrow + display h1 matches other Humi pages (/home, /profile) */}
+      <div className="mb-8">
+        <div className="humi-eyebrow">{t('title')}</div>
+        <h1
+          className="mt-1 text-ink"
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 32,
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.1,
+          }}
+        >
+          {t('subtitle')}
+        </h1>
+      </div>
 
- return (
- <>
- <div className="mb-6">
- <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
- <p className="text-ink-muted mt-1">{t('subtitle')}</p>
- </div>
+      {/* Stats row — 4 tiles with humi-card, token-only colors (no text-brand red) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <StatTile value={stats.totalPositions} label={t('criticalPositions')} tone="ink" />
+        <StatTile value={stats.highRisk} label={t('highRisk')} tone="coral" />
+        <StatTile value={`${stats.coverageRatio}%`} label={t('coverageRatio')} tone="accent" />
+        <StatTile value={`${stats.readyNowRatio}%`} label={t('readyNowRatio')} tone="sage" />
+      </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.totalPositions}</p><p className="text-xs text-ink-muted">{t('criticalPositions')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-brand">{stats.highRisk}</p><p className="text-xs text-ink-muted">{t('highRisk')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-info">{stats.coverageRatio}%</p><p className="text-xs text-ink-muted">{t('coverageRatio')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{stats.readyNowRatio}%</p><p className="text-xs text-ink-muted">{t('readyNowRatio')}</p></CardContent></Card>
- </div>
+      {/* Plans list */}
+      <div className="humi-col" style={{ gap: 20 }}>
+        {plans.map((plan) => (
+          <div key={plan.id} className="humi-card">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6">
+              {/* Left — position + incumbent */}
+              <div className="lg:w-1/3">
+                <div className="humi-eyebrow">{t('criticalPositions')}</div>
+                <div className="mt-1 flex items-start gap-3">
+                  <span
+                    className="humi-avatar humi-avatar--ink"
+                    style={{ width: 36, height: 36, borderRadius: 12, flexShrink: 0 }}
+                    aria-hidden="true"
+                  >
+                    <Shield size={18} />
+                  </span>
+                  <div>
+                    <h3
+                      className="text-ink"
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 18,
+                        fontWeight: 700,
+                        lineHeight: 1.25,
+                      }}
+                    >
+                      {plan.positionTitle}
+                    </h3>
+                    <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 2 }}>
+                      {plan.department}
+                    </div>
+                  </div>
+                </div>
 
- <div className="space-y-6">
- {plans.map((plan) => (
- <Card key={plan.id}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
- <div className="flex flex-col lg:flex-row lg:items-start gap-6">
- {/* Position & Incumbent */}
- <div className="lg:w-1/3">
- <div className="flex items-center gap-3 mb-3">
- <Shield className="h-5 w-5 text-ink" />
- <div>
- <h3 className="font-semibold text-ink">{plan.positionTitle}</h3>
- <p className="text-xs text-ink-muted">{plan.department}</p>
- </div>
- </div>
- <div className="flex items-center gap-2 mb-2">
- {plan.incumbentPhoto && <img src={plan.incumbentPhoto} alt="" className="w-8 h-8 rounded-full" />}
- <div>
- <p className="text-sm font-medium">{plan.incumbentName}</p>
- <p className="text-xs text-ink-muted">{plan.yearsInRole} {t('yearsInRole')}</p>
- </div>
- </div>
- <div className="flex items-center gap-2 mt-2">
- <Badge variant={RISK_VARIANT[plan.riskLevel]}>{t(`flightRisk.${plan.riskLevel}` as never)}</Badge>
- <span className="text-xs text-ink-muted">{plan.riskReason}</span>
- </div>
- </div>
+                <hr className="humi-divider" />
 
- {/* Successors */}
- <div className="flex-1">
- <h4 className="text-sm font-semibold text-ink-soft mb-3">{t('identifiedSuccessors')} ({plan.successors.length})</h4>
- {plan.successors.length === 0 ? (
- <p className="text-sm text-ink-muted">{t('noSuccessorsIdentified')}</p>
- ) : (
- <div className="space-y-3">
- {plan.successors.map((s) => (
- <div key={s.id} className="flex items-center gap-3 p-3 bg-surface-raised rounded-md">
- {s.photo && <img src={s.photo} alt="" className="w-8 h-8 rounded-full" />}
- <div className="flex-1 min-w-0">
- <p className="text-sm font-medium truncate">{s.name}</p>
- <p className="text-xs text-ink-muted">{s.position} - {s.department}</p>
- </div>
- <Badge variant={READINESS_VARIANT[s.readiness]}>
- {s.readiness ==='ready_now' ? t('readyNow') : s.readiness ==='1_2_years' ? t('ready1To2Years') : t('ready3PlusYears')}
- </Badge>
- {s.gaps.length > 0 && (
- <div className="hidden sm:flex gap-1">
- {s.gaps.map((g) => <Badge key={g} variant="warning">{g}</Badge>)}
- </div>
- )}
- </div>
- ))}
- </div>
- )}
- </div>
- </div>
- </CardContent>
- </Card>
- ))}
- </div>
- </>
- );
+                {/* Incumbent row */}
+                <div className="humi-row">
+                  {plan.incumbentPhoto && (
+                    <img
+                      src={plan.incumbentPhoto}
+                      alt=""
+                      className="rounded-full"
+                      style={{ width: 34, height: 34, flexShrink: 0 }}
+                    />
+                  )}
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-ink)' }}>
+                      {plan.incumbentName}
+                    </div>
+                    <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                      {plan.yearsInRole} {t('yearsInRole')}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Risk chip + reason */}
+                <div className="humi-row" style={{ marginTop: 12, flexWrap: 'wrap' }}>
+                  <span className={cn('humi-tag', RISK_TAG[plan.riskLevel])}>
+                    {t(`flightRisk.${plan.riskLevel}` as never)}
+                  </span>
+                  <span style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                    {plan.riskReason}
+                  </span>
+                </div>
+              </div>
+
+              {/* Right — successors */}
+              <div className="flex-1 min-w-0">
+                <div className="humi-eyebrow">
+                  {t('identifiedSuccessors')} · {plan.successors.length}
+                </div>
+                {plan.successors.length === 0 ? (
+                  <p
+                    style={{
+                      fontSize: 14,
+                      color: 'var(--color-ink-muted)',
+                      marginTop: 8,
+                    }}
+                  >
+                    {t('noSuccessorsIdentified')}
+                  </p>
+                ) : (
+                  <div className="humi-col" style={{ gap: 10, marginTop: 10 }}>
+                    {plan.successors.map((s) => (
+                      <div
+                        key={s.id}
+                        className="humi-card humi-card--cream humi-card--tight"
+                        style={{ padding: 14 }}
+                      >
+                        <div className="humi-row" style={{ gap: 12 }}>
+                          {s.photo && (
+                            <img
+                              src={s.photo}
+                              alt=""
+                              className="rounded-full"
+                              style={{ width: 36, height: 36, flexShrink: 0 }}
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div
+                              className="truncate"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                color: 'var(--color-ink)',
+                              }}
+                            >
+                              {s.name}
+                            </div>
+                            <div
+                              className="truncate"
+                              style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}
+                            >
+                              {s.position} · {s.department}
+                            </div>
+                          </div>
+                          <span
+                            className={cn('humi-tag', READINESS_TAG[s.readiness])}
+                            style={{ flexShrink: 0 }}
+                          >
+                            {s.readiness === 'ready_now'
+                              ? t('readyNow')
+                              : s.readiness === '1_2_years'
+                                ? t('ready1To2Years')
+                                : t('ready3PlusYears')}
+                          </span>
+                        </div>
+                        {s.gaps.length > 0 && (
+                          <div
+                            className="humi-row"
+                            style={{ gap: 6, marginTop: 10, flexWrap: 'wrap' }}
+                          >
+                            {s.gaps.map((g) => (
+                              <span key={g} className="humi-tag humi-tag--butter">
+                                {g}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ─── StatTile — small helper so the 4 header tiles share typography rhythm
+// without re-declaring inline styles 4× in the main JSX.
+function StatTile({
+  value,
+  label,
+  tone,
+}: {
+  value: number | string;
+  label: string;
+  tone: 'ink' | 'coral' | 'accent' | 'sage';
+}) {
+  const valueColor =
+    tone === 'ink'
+      ? 'var(--color-ink)'
+      : tone === 'coral'
+        ? 'var(--color-warning)'
+        : tone === 'accent'
+          ? 'var(--color-accent)'
+          : 'var(--color-success)';
+  return (
+    <div className="humi-card humi-card--tight" style={{ textAlign: 'center' }}>
+      <div
+        style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 28,
+          fontWeight: 700,
+          lineHeight: 1.1,
+          color: valueColor,
+        }}
+      >
+        {value}
+      </div>
+      <div
+        style={{
+          fontSize: 12,
+          color: 'var(--color-ink-muted)',
+          marginTop: 4,
+          letterSpacing: '0.02em',
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  );
 }

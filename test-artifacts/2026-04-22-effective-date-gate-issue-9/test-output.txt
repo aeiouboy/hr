@@ -1,0 +1,15 @@
+$ vitest --run src/components/__tests__/effective-date-gate.test.tsx src/components/__tests__/edit-pencil.test.tsx src/components/__tests__/personal-info-edit.test.tsx src/components/__tests__/employment-edit.test.tsx
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/components/__tests__/edit-pencil.test.tsx (12 tests) 89ms
+ ✓ src/components/__tests__/effective-date-gate.test.tsx (39 tests) 254ms
+ ✓ src/components/__tests__/employment-edit.test.tsx (14 tests) 242ms
+ ✓ src/components/__tests__/personal-info-edit.test.tsx (12 tests) 258ms
+
+ Test Files  4 passed (4)
+      Tests  77 passed (77)
+   Start at  08:26:06
+   Duration  1.08s (transform 230ms, setup 159ms, collect 983ms, tests 843ms, environment 827ms, prepare 224ms)
+

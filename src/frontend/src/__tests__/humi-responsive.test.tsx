@@ -98,6 +98,14 @@ vi.mock('next/link', () => ({
   ),
 }));
 
+// ── Mock next/image ───────────────────────────────────────────────────────────
+vi.mock('next/image', () => ({
+  default: ({ src, alt, width, height, priority: _p, ...props }: { src: string; alt: string; width?: number; height?: number; priority?: boolean; [k: string]: unknown }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} width={width} height={height} {...props} />
+  ),
+}));
+
 // Helper: collect all className strings from DOM tree
 function allClassTokens(container: HTMLElement): string {
   const tokens: string[] = [];
@@ -203,8 +211,9 @@ describe('AC-4 + AC-8 — Topbar no-regression + compressed tokens', () => {
     const { Topbar } = await import('@/components/humi/shell/Topbar');
     const { container } = render(<Topbar title="หน้าหลัก" />);
     const tokens = allClassTokens(container);
-    // AC-7 hamburger is lg:hidden
-    expect(tokens).toContain('lg:hidden');
+    // AC-7 hamburger is lg:!hidden (important flag added for Tailwind cascade fix)
+    const tokenList = tokens.split(/\s+/);
+    expect(tokenList.includes('lg:hidden') || tokenList.includes('lg:!hidden')).toBe(true);
   });
 
   it('Topbar eyebrow div has hidden sm:block classes', async () => {
@@ -220,10 +229,11 @@ describe('AC-4 + AC-8 — Topbar no-regression + compressed tokens', () => {
     const { Topbar } = await import('@/components/humi/shell/Topbar');
     const { container } = render(<Topbar title="หน้าหลัก" />);
     const tokens = allClassTokens(container);
-    // AC-8: search pill hidden on mobile, visible sm+
-    expect(tokens).toContain('sm:flex');
+    // AC-8: search pill hidden on mobile, visible sm+ (Tailwind important flag allowed)
+    const tokenList = tokens.split(/\s+/);
+    expect(tokenList.includes('sm:flex') || tokenList.includes('sm:!flex')).toBe(true);
     // search icon-only mobile button
-    expect(tokens).toContain('sm:hidden');
+    expect(tokenList.includes('sm:hidden') || tokenList.includes('sm:!hidden')).toBe(true);
   });
 
   it('Topbar bell and theme-toggle buttons are present (AC-4 regression)', async () => {

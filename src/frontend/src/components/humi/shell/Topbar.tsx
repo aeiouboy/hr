@@ -21,7 +21,11 @@
 // ════════════════════════════════════════════════════════════
 
 import { Bell, Menu, Moon, Search, Sun } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useUIStore } from '@/stores/ui-store';
+import { cn } from '@/lib/utils';
+import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
 
 export interface TopbarProps {
   /** h2 page title — typically derived from route */
@@ -40,23 +44,47 @@ export function Topbar({
   actions,
   onSearchClick,
 }: TopbarProps) {
-  const { theme, setTheme, toggleMobileMenu } = useUIStore();
+  const { theme, setTheme, toggleMobileMenu, mobileMenuOpen } = useUIStore();
   const isDark = theme === 'dark';
+  const [scrolled, setScrolled] = useState(false);
+  const topbarRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentLocale = getLocaleFromPath(pathname);
+  const handleLocaleSwitch = (locale: SupportedLocale) => {
+    if (locale === currentLocale) return;
+    router.push(swapLocale(pathname, locale));
+  };
+
+  // Elevate topbar shadow once user scrolls past ~4px — adds depth
+  // without the "floating disconnected bar" feel of always-on shadow.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleThemeToggle = () => {
     setTheme(isDark ? 'light' : 'dark');
   };
 
   return (
-    <div className="humi-topbar">
-      {/* Hamburger — mobile/tablet only (<lg) */}
+    <div ref={topbarRef} className="humi-topbar" data-scrolled={scrolled}>
+      {/* Menu button — mobile/tablet only (<lg). Labeled chip ([≡ เมนู]) instead
+          of icon-only — Nielsen Norman 2014: hamburger discoverability hurts UX.
+          Visible text label kills the "what does this do?" question. aria-expanded
+          + aria-controls let screen readers announce the controlled drawer + its
+          open state. Dynamic aria-label flips ปิดเมนู / เปิดเมนู for VoiceOver. */}
       <button
         type="button"
-        className="humi-icon-btn lg:!hidden"
-        aria-label="เปิดเมนู"
+        className="humi-menu-btn lg:!hidden"
+        aria-label={mobileMenuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
+        aria-expanded={mobileMenuOpen}
+        aria-controls="humi-mobile-drawer"
         onClick={toggleMobileMenu}
       >
-        <Menu size={20} aria-hidden="true" />
+        <Menu size={18} aria-hidden="true" />
+        <span>เมนู</span>
       </button>
 
       {/* Title block */}
@@ -66,7 +94,7 @@ export function Topbar({
         </div>
         <h2
           className="truncate text-[18px] sm:text-[20px] lg:text-[24px]"
-          style={{ fontFamily: 'inherit', fontWeight: 600, lineHeight: 1.2 }}
+          style={{ fontFamily: 'var(--font-display)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}
         >
           {title}
         </h2>
@@ -98,6 +126,26 @@ export function Topbar({
       >
         <Search size={18} aria-hidden="true" />
       </button>
+
+      {/* Locale switcher — ย้ายมาจาก Sidebar 2026-04-23 (แก้ overflow) */}
+      <div className="flex items-center gap-1" role="group" aria-label="เลือกภาษา">
+        {(['th', 'en'] as SupportedLocale[]).map((loc) => (
+          <button
+            key={loc}
+            type="button"
+            onClick={() => handleLocaleSwitch(loc)}
+            aria-pressed={currentLocale === loc}
+            className={cn(
+              'h-7 min-w-[32px] rounded-md border px-2 text-[11px] font-semibold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
+              currentLocale === loc
+                ? 'border-[color:var(--color-accent)] bg-accent-soft text-[color:var(--color-accent)]'
+                : 'border-hairline bg-surface text-ink-muted hover:border-[color:var(--color-accent)] hover:text-ink-soft',
+            )}
+          >
+            {loc === 'th' ? 'ไทย' : 'EN'}
+          </button>
+        ))}
+      </div>
 
       <button
         type="button"

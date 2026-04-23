@@ -986,67 +986,110 @@ export const HUMI_CHANNELS: HumiChannel[] = [
 ];
 
 // ════════════════════════════════════════════════════════════
-// My profile (employee self-service) — HR generic persona.
+// My profile (employee self-service)
+// Field schema = SAP SuccessFactors EC Core ground-truth, extracted
+// 2026-04-22 from /sf/liveprofile (CENTRAL tenant) — see
+// stark/projects/hr-platform-replacement/sf-extract/ec-core/EC_CORE_SCHEMA.md.
+//   Personal Information section = 14 fields (bilingual EN+TH where applicable)
+//   Employment Details section   = 12 fields (effective-dating + computed)
+//   Organization Information     = 10 fields (5-tier hierarchy + Central retail-custom)
+// Header card values use realistic Central retail context (not invented "CG-XXXX"
+// stubs) so demo to HRBP/Rungrote reads as genuine cnext-shaped data.
 // ════════════════════════════════════════════════════════════
 
 export const HUMI_MY_PROFILE = {
-  employeeCode: 'CG-0412',
+  employeeCode: '30100412',
   nameTh: 'จงรักษ์ ทานากะ',
-  pronouns: '(เขา)',
+  pronouns: '(เขา/Mr.)',
   initials: 'จท',
   avatarTone: 'butter' as const,
-  position: 'ผู้จัดการฝ่ายทรัพยากรบุคคล',
-  department: 'สำนักงานใหญ่ กรุงเทพฯ',
-  reportsTo: 'คุณกฤตนัย อินทรเดช',
+  position: 'HR Manager (ผู้จัดการฝ่ายทรัพยากรบุคคล)',
+  department: 'HR Operations & People Services',
+  reportsTo: 'Krittinai Indradet (กฤตนัย อินทรเดช)',
   status: 'active' as const,
-  employmentType: 'พนักงานประจำ',
-  startLabel: 'เริ่มงาน ต.ค. 2566',
+  employmentType: 'Permanent · พนักงานประจำ',
+  startLabel: 'Hire Date · 14 ต.ค. 2566',
 
+  // ── Personal Information (14 fields — SF EC Core "Personal Information" portlet)
   personal: [
-    ['ชื่อ-นามสกุลตามบัตรประชาชน', 'จงรักษ์ ทานากะ'],
-    ['ชื่อเล่น', 'จงรักษ์'],
-    ['วันเกิด', '12 สิงหาคม 2534'],
-    ['เพศ', 'ชาย'],
-    ['สถานภาพสมรส', 'สมรส'],
-    ['เลขบัตรประชาชน', '•••-•••-221'],
+    ['Salutation (EN) / Salutation (Local)', 'Mr. / นาย'],
+    ['Firstname (EN) / Firstname (Local)', 'Chongrak / จงรักษ์'],
+    ['Middle Name (EN)', '—'],
+    ['Lastname (EN) / Lastname (Local)', 'Tanaka / ทานากะ'],
+    ['Nickname (EN/TH)', 'Tan / ตั๋น'],
+    ['Other Title (TH)', '—'],
+    ['Gender', 'Male · ชาย'],
+    ['Nationality', 'Thai · ไทย'],
+    ['Marital Status', 'Married · สมรส'],
+    ['Marital Status Since', '14 กุมภาพันธ์ 2563'],
+    ['Date of Birth', '12 สิงหาคม 2534'],
+    ['National ID', '•••-•••-•••-22-1'],
+    ['Religion', 'Buddhist · พุทธ'],
+    ['Blood Type', 'O+'],
   ] as ReadonlyArray<readonly [string, string]>,
 
   contact: [
-    ['อีเมลที่ทำงาน', 'jongrak.t@humi.co.th'],
-    ['อีเมลส่วนตัว', 'jongrak.tanaka@proton.me'],
-    ['เบอร์มือถือ', '+66 (02) 555-0188'],
-    ['ที่อยู่', '241 ถ.สุขุมวิท แขวงคลองตัน กรุงเทพฯ 10110'],
-    ['ภาษาที่ใช้', 'ภาษาไทย'],
+    ['Work Email', 'chongrak.t@centralgroup.com'],
+    ['Personal Email', 'chongrak.tanaka@proton.me'],
+    ['Mobile Phone', '+66 (02) 555-0188'],
+    ['Address (Home)', '241 ถ.สุขุมวิท แขวงคลองตัน กรุงเทพฯ 10110'],
+    ['Preferred Language', 'ภาษาไทย / English'],
   ] as ReadonlyArray<readonly [string, string]>,
 
+  // ── Employment Details (12) + Organization Information (10) — SF EC Core
+  // ground-truth labels. Empty-value entry "──── ... ────" rows are visual
+  // section dividers (FieldCard renders label on left, value on right).
   job: [
-    ['ชื่อตำแหน่ง', 'ผู้จัดการฝ่ายทรัพยากรบุคคล'],
-    ['สายงาน', 'ทรัพยากรบุคคล'],
-    ['ระดับ', 'M-05'],
-    ['ศูนย์ต้นทุน', 'HR-HQ-0412'],
-    ['สถานที่ทำงาน', 'สำนักงานใหญ่, กรุงเทพฯ'],
-    ['ประเภทการจ้าง', 'พนักงานประจำ · เงินเดือน'],
-    ['หัวหน้า', 'กฤตนัย อินทรเดช, ผู้อำนวยการฝ่ายกลยุทธ์'],
-    ['วันเริ่มงาน', '14 ตุลาคม 2566'],
+    ['──── Employment Details ────', ''],
+    ['Hire Date', '14 ตุลาคม 2566'],
+    ['Original Start Date', '1 มีนาคม 2562'],
+    ['Seniority Start Date', '1 มีนาคม 2562'],
+    ['Year of service', '5.6 ปี (computed)'],
+    ['Pass Probation Date / Confirm Date', '14 มกราคม 2567'],
+    ['Current Job Effective Date', '1 ตุลาคม 2566'],
+    ['Current Years in Job', '1.5 ปี (computed)'],
+    ['Current Corporate Title Effective Date', '1 มกราคม 2567'],
+    ['Current Years in Corporate Title', '1.3 ปี (computed)'],
+    ['Current Position Effective Date', '1 ตุลาคม 2566'],
+    ['Current Years in Position', '1.5 ปี (computed)'],
+    ['Current Store Branch Effective Date', '1 ตุลาคม 2566'],
+    ['──── Organization Information ────', ''],
+    ['Company', 'Central Retail Corporation PCL'],
+    ['Group', 'Central Retail'],
+    ['Business Unit', 'Central Group HQ'],
+    ['Function', 'Human Resources'],
+    ['Organization', 'HR Operations & People Services'],
+    ['Position', 'PSN-30412 — HR Manager (HQ)'],
+    ['Store/Branch Code', 'HQ-BKK-001'],
+    ['HR District', 'Bangkok Metro'],
+    ['Cost Centre', 'CC-HR-104012'],
+    ['Work Location', 'Central World Tower, Bangkok'],
   ] as ReadonlyArray<readonly [string, string]>,
 
+  // Compensation portlet not yet extracted from SF (Phase 4 work).
+  // Values below are illustrative — schema TBD via cnext follow-up.
   comp: {
     monthly: '฿ 82,500',
-    cadence: 'จ่ายทุกสิ้นเดือน · ครั้งถัดไป 30 เม.ย.',
+    cadence: 'Monthly · จ่ายทุกสิ้นเดือน · ครั้งถัดไป 30 เม.ย.',
     base: '฿ 82,500',
-    bonus: 'สูงสุด 12%',
-    equity: '1,500 RSU',
+    bonus: 'สูงสุด 12% · Performance-linked',
+    equity: 'N/A (CRC ยังไม่มี RSU/equity program)',
   },
 
+  // Work history reflects effective-dating model — each row = one EmploymentState
+  // (job_title + corp_title + position_code + effective_start..effective_end).
+  // Locations use Central retail BU context (HQ vs Robinson vs Tops).
   workHistory: [
-    { title: 'ผู้จัดการฝ่ายทรัพยากรบุคคล', dates: 'ต.ค. 2566 – ปัจจุบัน', loc: 'สำนักงานใหญ่', tone: 'teal' as const },
-    { title: 'หัวหน้าทีมพัฒนาองค์กร', dates: 'มิ.ย. 2564 – ต.ค. 2566', loc: 'สำนักงานใหญ่', tone: 'butter' as const },
-    { title: 'เจ้าหน้าที่สรรหาและว่าจ้างอาวุโส', dates: 'มี.ค. 2562 – มิ.ย. 2564', loc: 'สำนักงานใหญ่', tone: 'sage' as const },
+    { title: 'HR Manager · Central Retail HQ', dates: 'ต.ค. 2566 – ปัจจุบัน', loc: 'Central World Tower', tone: 'teal' as const },
+    { title: 'Senior OD Specialist · Central Group HQ', dates: 'มี.ค. 2562 – ก.ย. 2566', loc: 'CentralWorld Office', tone: 'butter' as const },
+    { title: 'HR Business Partner · Robinson Lifestyle', dates: 'พ.ค. 2559 – ก.พ. 2562', loc: 'Robinson Rangsit', tone: 'sage' as const },
   ],
 
+  // Emergency Contact = SF EC Core sub-section "Emergency Contact & Dependents"
+  // confirmed 3 fields: Name / Relationship / Phone (+ Humi adds initials/tone for UI).
   emergency: [
-    { name: 'สมชาย ทานากะ', relation: 'คู่สมรส', phone: '+66 (02) 555-0233', initials: 'สท', tone: 'teal' as const },
-    { name: 'อัมพร ทานากะ', relation: 'มารดา', phone: '+66 (02) 555-1144', initials: 'อท', tone: 'sage' as const },
+    { name: 'Somchai Tanaka (สมชาย ทานากะ)', relation: 'Spouse · คู่สมรส', phone: '+66 (02) 555-0233', initials: 'สท', tone: 'teal' as const },
+    { name: 'Aumporn Tanaka (อัมพร ทานากะ)', relation: 'Mother · มารดา', phone: '+66 (02) 555-1144', initials: 'อท', tone: 'sage' as const },
   ],
 };
 

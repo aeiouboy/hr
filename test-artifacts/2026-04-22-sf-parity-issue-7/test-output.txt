@@ -1,0 +1,14 @@
+$ vitest --run src/components/__tests__/sf-parity-personal.test.tsx src/components/__tests__/sf-parity-employment.test.tsx src/components/__tests__/sf-parity-sidebar.test.tsx
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/components/__tests__/sf-parity-personal.test.tsx (17 tests) 512ms
+ ✓ src/components/__tests__/sf-parity-sidebar.test.tsx (20 tests) 792ms
+ ✓ src/components/__tests__/sf-parity-employment.test.tsx (20 tests) 620ms
+
+ Test Files  3 passed (3)
+      Tests  57 passed (57)
+   Start at  00:42:49
+   Duration  2.24s (transform 567ms, setup 209ms, collect 1.98s, tests 1.92s, environment 1.08s, prepare 259ms)
+

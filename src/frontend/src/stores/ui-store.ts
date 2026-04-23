@@ -8,6 +8,7 @@ interface UIState {
  setSidebarOpen: (open: boolean) => void;
  toggleMobileMenu: () => void;
  setMobileMenuOpen: (open: boolean) => void;
+ closeMobileMenu: () => void;
  setTheme: (theme:'light' |'dark' |'system') => void;
 }
 
@@ -19,5 +20,6 @@ export const useUIStore = create<UIState>((set) => ({
  setSidebarOpen: (open) => set({ sidebarOpen: open }),
  toggleMobileMenu: () => set((s) => ({ mobileMenuOpen: !s.mobileMenuOpen })),
  setMobileMenuOpen: (open) => set({ mobileMenuOpen: open }),
+ closeMobileMenu: () => set({ mobileMenuOpen: false }),
  setTheme: (theme) => set({ theme }),
 }));

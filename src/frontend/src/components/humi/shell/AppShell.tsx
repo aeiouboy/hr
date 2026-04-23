@@ -15,14 +15,17 @@
 // - Drawer auto-closes on route change
 // ════════════════════════════════════════════════════════════
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
 import { useUIStore } from '@/stores/ui-store';
 
-/** href prefix → page title shown in topbar h2 */
+/** href prefix → page title shown in topbar h2.
+ *  Keep 1:1 with Sidebar.tsx NAV items — every sidebar destination MUST have a
+ *  title entry here, otherwise topbar falls back to 'Humi' and visually
+ *  duplicates the sidebar brand logo (Ken UAT 2026-04-22 "double humi"). */
 const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/th/home',               title: 'หน้าหลัก' },
   { prefix: '/en/home',               title: 'หน้าหลัก' },
@@ -40,10 +43,26 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/learning-directory', title: 'การเรียนรู้' },
   { prefix: '/th/org-chart',          title: 'ผังองค์กร' },
   { prefix: '/en/org-chart',          title: 'ผังองค์กร' },
+  { prefix: '/th/performance-form',   title: 'ประเมินผลงาน' },
+  { prefix: '/en/performance-form',   title: 'ประเมินผลงาน' },
+  { prefix: '/th/development',        title: 'การพัฒนา' },
+  { prefix: '/en/development',        title: 'การพัฒนา' },
+  { prefix: '/th/succession',         title: 'สายการสืบทอด' },
+  { prefix: '/en/succession',         title: 'สายการสืบทอด' },
   { prefix: '/th/announcements',      title: 'ประกาศ' },
   { prefix: '/en/announcements',      title: 'ประกาศ' },
   { prefix: '/th/integrations',       title: 'จัดการระบบ' },
   { prefix: '/en/integrations',       title: 'จัดการระบบ' },
+  { prefix: '/th/careers',            title: 'ตำแหน่งว่างภายใน' },
+  { prefix: '/en/careers',            title: 'ตำแหน่งว่างภายใน' },
+  { prefix: '/th/recruiting',         title: 'สรรหา' },
+  { prefix: '/en/recruiting',         title: 'สรรหา' },
+  { prefix: '/th/reports',            title: 'รายงาน' },
+  { prefix: '/en/reports',            title: 'รายงาน' },
+  { prefix: '/th/admin',              title: 'ศูนย์ Admin' },
+  { prefix: '/en/admin',              title: 'ศูนย์ Admin' },
+  { prefix: '/th/ess',                title: 'บริการตนเอง' },
+  { prefix: '/en/ess',                title: 'บริการตนเอง' },
 ];
 
 function resolveTitle(pathname: string): string {
@@ -57,31 +76,65 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const title = resolveTitle(pathname);
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const { mobileMenuOpen, setMobileMenuOpen } = useUIStore();
-
-  const closeDrawer = () => setMobileMenuOpen(false);
+  const { mobileMenuOpen, closeMobileMenu } = useUIStore();
+  // Refs for focus management — return focus to hamburger when drawer closes,
+  // and focus the first interactive element inside drawer when it opens.
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+  const triggerSnapshotRef = useRef<HTMLElement | null>(null);
 
   // Auto-close drawer on route change
   useEffect(() => {
-    closeDrawer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+    closeMobileMenu();
+  }, [pathname, closeMobileMenu]);
 
   // Esc key closes drawer
   useEffect(() => {
     if (!mobileMenuOpen) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeDrawer();
+      if (e.key === 'Escape') closeMobileMenu();
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mobileMenuOpen, closeMobileMenu]);
+
+  // Body scroll lock while drawer open — preserves any prior inline overflow
+  // value (e.g. set by a modal mounted before drawer) instead of clobbering to ''.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
   }, [mobileMenuOpen]);
 
-  // Body scroll lock while drawer open
+  // Auto-close drawer when viewport crosses lg breakpoint — without this the
+  // drawer state stays true while CSS hides the panel via lg:hidden, leaving
+  // body scroll locked + aria-expanded out of sync.
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(min-width: 1024px)');
+    const handler = (e: MediaQueryListEvent) => {
+      if (e.matches) closeMobileMenu();
+    };
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, [closeMobileMenu]);
+
+  // Focus management — on open: snapshot the trigger (hamburger) + focus first
+  // interactive element inside drawer. On close: return focus to trigger.
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      triggerSnapshotRef.current = document.activeElement as HTMLElement | null;
+      // Defer one tick — drawer DOM mounts after this effect runs.
+      requestAnimationFrame(() => {
+        const first = drawerRef.current?.querySelector<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])',
+        );
+        first?.focus();
+      });
+    } else {
+      triggerSnapshotRef.current?.focus();
+      triggerSnapshotRef.current = null;
+    }
   }, [mobileMenuOpen]);
 
   // ⌘K / Ctrl+K global hotkey
@@ -103,18 +156,33 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Desktop sidebar — hidden below lg via .humi-sidebar CSS */}
       <Sidebar />
 
-      {/* Mobile drawer overlay — renders only when open */}
+      {/* Mobile drawer overlay — renders only when open. Wrapper has no width
+          (drop the previous `w-[256px]` which mismatched .humi-sidebar--drawer's
+          280px in globals.css) — the drawer's own CSS controls the panel size.
+          role="dialog" + aria-modal makes screen readers treat this as a modal
+          region. id matches Topbar's aria-controls. */}
       {mobileMenuOpen && (
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-30 bg-ink/40 lg:hidden"
+            className="fixed inset-0 z-30 lg:hidden humi-drawer-scrim"
             aria-hidden="true"
-            onClick={closeDrawer}
+            onClick={closeMobileMenu}
           />
           {/* Drawer panel */}
-          <div className="fixed inset-y-0 left-0 z-40 w-[256px] lg:hidden">
-            <Sidebar onNavigate={closeDrawer} className="humi-sidebar--drawer" />
+          <div
+            ref={drawerRef}
+            id="humi-mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="เมนูหลัก"
+            className="fixed inset-y-0 left-0 z-40 lg:hidden"
+          >
+            <Sidebar
+              onNavigate={closeMobileMenu}
+              onClose={closeMobileMenu}
+              className="humi-sidebar--drawer"
+            />
           </div>
         </>
       )}

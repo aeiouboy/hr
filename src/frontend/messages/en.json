@@ -57,7 +57,37 @@
     "organization": "Organization",
     "talentDevelopment": "Talent Development",
     "recruitment": "Recruitment",
-    "hospitalReferral": "Hospital Referral"
+    "hospitalReferral": "Hospital Referral",
+    "performanceForm": "Performance Form",
+    "development": "Development",
+    "succession": "Succession",
+    "careers": "Careers",
+    "recruiting": "Recruiting",
+    "reports": "Reports",
+    "timeAttendance": "Time & Attendance"
+  },
+  "pages": {
+    "performanceForm": {
+      "title": "Performance Form"
+    },
+    "development": {
+      "title": "Development"
+    },
+    "succession": {
+      "title": "Succession"
+    },
+    "careers": {
+      "title": "Careers"
+    },
+    "recruiting": {
+      "title": "Recruiting"
+    },
+    "reports": {
+      "title": "Reports"
+    }
+  },
+  "placeholders": {
+    "comingSoon": "Coming in Sprint 2+"
   },
   "profile": {
     "title": "Profile",
@@ -94,6 +124,7 @@
     "nationalId": "National ID",
     "maritalStatus": "Marital Status",
     "maritalStatusSince": "Marital Status Since",
+    "otherTitleTh": "Other Title (Thai)",
     "contact": "Contact Information",
     "businessEmail": "Business Email",
     "personalEmail": "Personal Email",
@@ -198,6 +229,7 @@
     "seniorityStartDate": "Seniority Start Date",
     "yearsOfService": "Years of Service",
     "passProbationDate": "Pass Probation Date",
+    "corporateTitle": "Corporate Title",
     "currentJobEffectiveDate": "Current Job Effective Date",
     "currentYearsInJob": "Current Years in Job",
     "currentPositionEffective": "Current Position Effective Date",
@@ -3587,6 +3619,15 @@
     "noRequests": "No requests in this status",
     "validRequired": "This field is required"
   },
+  "gate": {
+    "title": "When should these changes take effect?",
+    "continue": "Continue",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "invalidDate": "Please select today or a future date",
+    "editAria": "Edit section"
+  },
   "goals": {
     "title": "Goals & Performance",
     "addGoal": "Add Goal",
@@ -3610,5 +3651,72 @@
     "statusAtRisk": "At Risk",
     "statusDone": "Complete",
     "statusInProgress": "In Progress"
+  },
+  "profileEdit": {
+    "newValue": "New value",
+    "effectiveDate": "Effective date",
+    "section": {
+      "personal": "Personal Information",
+      "marital": "Marital Status",
+      "contact": "Contact Information",
+      "advanced": "Advanced Information"
+    },
+    "field": {
+      "salutationTh": "Salutation (Thai)",
+      "salutationEn": "Salutation (English)",
+      "firstNameTh": "First Name (Thai)",
+      "firstNameEn": "First Name (English)",
+      "lastNameTh": "Last Name (Thai)",
+      "lastNameEn": "Last Name (English)",
+      "nickname": "Nickname",
+      "gender": "Gender",
+      "dateOfBirth": "Date of Birth",
+      "nationality": "Nationality",
+      "nationalId": "National ID",
+      "maritalStatus": "Marital Status",
+      "maritalStatusSince": "Marital Status Since",
+      "spouseName": "Spouse Name",
+      "businessEmail": "Business Email",
+      "personalEmail": "Personal Email",
+      "businessPhone": "Business Phone",
+      "personalMobile": "Personal Mobile",
+      "homePhone": "Home Phone",
+      "religion": "Religion",
+      "bloodType": "Blood Type",
+      "militaryStatus": "Military Status"
+    },
+    "required": "Attachment required"
+  },
+  "attachment": {
+    "label": "Attach document",
+    "dragDrop": "Drag-drop or click to select",
+    "maxSize": "Max 5MB",
+    "types": "Accepts PDF, JPG, PNG",
+    "remove": "Remove"
+  },
+  "pending": {
+    "badge": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "adminMode": {
+    "toggle": "Admin Mode",
+    "approve": "Approve",
+    "reject": "Reject"
+  },
+  "profileToast": {
+    "submitted": "Request submitted — HR review pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "activityLog": {
+    "title": "Edit History",
+    "noChanges": "No edit history yet",
+    "changedFrom": "From",
+    "changedTo": "To",
+    "effectiveDate": "Effective date",
+    "requestedAt": "Requested at",
+    "attachments": "Attachments",
+    "preview": "Preview"
   }
 }

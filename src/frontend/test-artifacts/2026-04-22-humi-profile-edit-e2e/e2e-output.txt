@@ -1,0 +1,158 @@
+
+Running 14 tests using 5 workers
+
+  ✓   4 [chromium] › e2e/profile-edit-e2e.spec.ts:285:7 › AC-7: Toast content correctness › AC-7: Navigating to profile page does not show error toast (2.6s)
+  ✓   5 [chromium] › e2e/profile-edit-e2e.spec.ts:304:7 › AC-8: Mobile responsive drawer › AC-8: Profile page loads without JS error at 375px width (2.7s)
+  ✓   3 [chromium] › e2e/profile-edit-e2e.spec.ts:312:7 › AC-8: Mobile responsive drawer › AC-8: Edit button is accessible at mobile viewport (375px) (2.7s)
+  ✘   8 [mobile] › e2e/profile-edit-e2e.spec.ts:51:7 › AC-10: Full profile-edit E2E scenario › AC-10: navigate → edit → upload → submit → pending badge → admin approve → verify (0ms)
+  ✓   7 [chromium] › e2e/profile-edit-e2e.spec.ts:344:7 › AC-9: i18n TH/EN parity › AC-9: /th/profile/me renders without i18n key fallback (883ms)
+  ✘   9 [mobile] › e2e/profile-edit-e2e.spec.ts:244:7 › AC-3: Submit disabled without required attachment › AC-3: Submit/Save button disabled when name-change field edited but no file attached (0ms)
+  ✘  10 [mobile] › e2e/profile-edit-e2e.spec.ts:285:7 › AC-7: Toast content correctness › AC-7: Navigating to profile page does not show error toast (0ms)
+  ✘  11 [mobile] › e2e/profile-edit-e2e.spec.ts:304:7 › AC-8: Mobile responsive drawer › AC-8: Profile page loads without JS error at 375px width (0ms)
+  ✘  12 [mobile] › e2e/profile-edit-e2e.spec.ts:312:7 › AC-8: Mobile responsive drawer › AC-8: Edit button is accessible at mobile viewport (375px) (0ms)
+  ✘  13 [mobile] › e2e/profile-edit-e2e.spec.ts:333:7 › AC-9: i18n TH/EN parity › AC-9: /en/profile/me renders without i18n key fallback (no "profile.edit." raw key visible) (0ms)
+  ✓   6 [chromium] › e2e/profile-edit-e2e.spec.ts:333:7 › AC-9: i18n TH/EN parity › AC-9: /en/profile/me renders without i18n key fallback (no "profile.edit." raw key visible) (1.9s)
+  ✘  14 [mobile] › e2e/profile-edit-e2e.spec.ts:344:7 › AC-9: i18n TH/EN parity › AC-9: /th/profile/me renders without i18n key fallback (0ms)
+  ✘   2 [chromium] › e2e/profile-edit-e2e.spec.ts:244:7 › AC-3: Submit disabled without required attachment › AC-3: Submit/Save button disabled when name-change field edited but no file attached (7.4s)
+  ✘   1 [chromium] › e2e/profile-edit-e2e.spec.ts:51:7 › AC-10: Full profile-edit E2E scenario › AC-10: navigate → edit → upload → submit → pending badge → admin approve → verify (10.6s)
+
+
+  1) [chromium] › e2e/profile-edit-e2e.spec.ts:51:7 › AC-10: Full profile-edit E2E scenario › AC-10: navigate → edit → upload → submit → pending badge → admin approve → verify 
+
+    TimeoutError: locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[type="date"]').first() to be visible[22m
+
+
+      67 |     // ── Step 3: EffectiveDateGate Step 1 — select today as effective date ───
+      68 |     const dateInput = page.locator('input[type="date"]').first();
+    > 69 |     await dateInput.waitFor({ state: 'visible', timeout: 8_000 });
+         |                     ^
+      70 |     await dateInput.fill(todayISO());
+      71 |
+      72 |     // ── Step 4: Click ต่อไป (Next) → Step 2 renders form ───────────────────
+        at /Users/tachongrak/Projects/hr/src/frontend/e2e/profile-edit-e2e.spec.ts:69:21
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/profile-edit-e2e-AC-10-Ful-9b7c0-ge-→-admin-approve-→-verify-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/profile-edit-e2e-AC-10-Ful-9b7c0-ge-→-admin-approve-→-verify-chromium/error-context.md
+
+  2) [chromium] › e2e/profile-edit-e2e.spec.ts:244:7 › AC-3: Submit disabled without required attachment › AC-3: Submit/Save button disabled when name-change field edited but no file attached 
+
+    TimeoutError: locator.waitFor: Timeout 5000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[type="date"]').first() to be visible[22m
+
+
+      251 |     // Fill date → proceed to Step 2
+      252 |     const dateInput = page.locator('input[type="date"]').first();
+    > 253 |     await dateInput.waitFor({ state: 'visible', timeout: 5_000 });
+          |                     ^
+      254 |     await dateInput.fill(todayISO());
+      255 |     await page.getByRole('button', { name: /ต่อไป/i }).first().click();
+      256 |     await page.waitForTimeout(500);
+        at /Users/tachongrak/Projects/hr/src/frontend/e2e/profile-edit-e2e.spec.ts:253:21
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/profile-edit-e2e-AC-3-Subm-42939-edited-but-no-file-attached-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/profile-edit-e2e-AC-3-Subm-42939-edited-but-no-file-attached-chromium/error-context.md
+
+  3) [mobile] › e2e/profile-edit-e2e.spec.ts:51:7 › AC-10: Full profile-edit E2E scenario › AC-10: navigate → edit → upload → submit → pending badge → admin approve → verify 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  4) [mobile] › e2e/profile-edit-e2e.spec.ts:244:7 › AC-3: Submit disabled without required attachment › AC-3: Submit/Save button disabled when name-change field edited but no file attached 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  5) [mobile] › e2e/profile-edit-e2e.spec.ts:285:7 › AC-7: Toast content correctness › AC-7: Navigating to profile page does not show error toast 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  6) [mobile] › e2e/profile-edit-e2e.spec.ts:304:7 › AC-8: Mobile responsive drawer › AC-8: Profile page loads without JS error at 375px width 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  7) [mobile] › e2e/profile-edit-e2e.spec.ts:312:7 › AC-8: Mobile responsive drawer › AC-8: Edit button is accessible at mobile viewport (375px) 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  8) [mobile] › e2e/profile-edit-e2e.spec.ts:333:7 › AC-9: i18n TH/EN parity › AC-9: /en/profile/me renders without i18n key fallback (no "profile.edit." raw key visible) 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  9) [mobile] › e2e/profile-edit-e2e.spec.ts:344:7 › AC-9: i18n TH/EN parity › AC-9: /th/profile/me renders without i18n key fallback 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tachongrak/Library/Caches/ms-playwright/webkit-2248/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+  9 failed
+    [chromium] › e2e/profile-edit-e2e.spec.ts:51:7 › AC-10: Full profile-edit E2E scenario › AC-10: navigate → edit → upload → submit → pending badge → admin approve → verify 
+    [chromium] › e2e/profile-edit-e2e.spec.ts:244:7 › AC-3: Submit disabled without required attachment › AC-3: Submit/Save button disabled when name-change field edited but no file attached 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:51:7 › AC-10: Full profile-edit E2E scenario › AC-10: navigate → edit → upload → submit → pending badge → admin approve → verify 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:244:7 › AC-3: Submit disabled without required attachment › AC-3: Submit/Save button disabled when name-change field edited but no file attached 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:285:7 › AC-7: Toast content correctness › AC-7: Navigating to profile page does not show error toast 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:304:7 › AC-8: Mobile responsive drawer › AC-8: Profile page loads without JS error at 375px width 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:312:7 › AC-8: Mobile responsive drawer › AC-8: Edit button is accessible at mobile viewport (375px) 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:333:7 › AC-9: i18n TH/EN parity › AC-9: /en/profile/me renders without i18n key fallback (no "profile.edit." raw key visible) 
+    [mobile] › e2e/profile-edit-e2e.spec.ts:344:7 › AC-9: i18n TH/EN parity › AC-9: /th/profile/me renders without i18n key fallback 
+  5 passed (12.8s)

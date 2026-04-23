@@ -1,0 +1,14 @@
+{
+  "id": "E001",
+  "firstNameTh": "ชงรัก",
+  "lastNameTh": "ธนะ",
+  "firstNameEn": "Chongrak",
+  "lastNameEn": "Thana",
+  "dateOfBirth": "1989-01-01",
+  "nationalId": "1999920198782",
+  "address": "555/24 สมุทรปราการ",
+  "emergencyContact": {
+    "name": "ชัยชนะ เทพย์ตุ้มเขา",
+    "phone": "0865254197"
+  }
+}
