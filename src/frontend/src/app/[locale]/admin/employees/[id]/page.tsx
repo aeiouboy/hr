@@ -30,6 +30,8 @@ import {
   Briefcase,
   RefreshCw,
   TrendingUp,
+  MapPin,
+  Network,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -451,6 +453,48 @@ export default function EmployeeDetailPage() {
               <div className="text-small text-ink-muted">ระดับ {employee.corporate_title}</div>
             )}
           </div>
+
+          {/* Retail chips — audit A6/#11: conditional on non-null */}
+          {employee.store_branch_code && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+                <MapPin size={10} className="inline mr-1" aria-hidden />
+                สาขา/หน่วยงาน
+              </div>
+              <div className="text-body font-medium text-ink">{employee.store_branch_code}</div>
+            </div>
+          )}
+          {employee.hr_district && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+                <Network size={10} className="inline mr-1" aria-hidden />
+                เขต HR
+              </div>
+              <div className="text-body font-medium text-ink">{employee.hr_district}</div>
+            </div>
+          )}
+
+          {/* B4 PoC: computed fields — Age / Generation / Year-of-Service */}
+          {ageResult && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุ</div>
+              <div className="text-body font-medium text-ink">{ageResult.display}</div>
+              <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
+            </div>
+          )}
+          {genResult && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>Generation</div>
+              <div className="text-body font-medium text-ink">{genResult}</div>
+            </div>
+          )}
+          {yosResult && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุงาน</div>
+              <div className="text-body font-medium text-ink">{yosResult.display}</div>
+              <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
+            </div>
+          )}
         </div>
 
         {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ── */}

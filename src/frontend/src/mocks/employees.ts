@@ -5,6 +5,7 @@
 // Pool: 20 Thai given names + 20 surnames (phonetic EN transliteration paired).
 // Hire date: 2016-2024 range. 85% active, 15% inactive/terminated mix.
 // Probation: 60% in_probation if hire_date within last 119 days.
+// Retail fields (audit A6/#11): store_branch_code + hr_district — ~70% retail (CRC/ROBINSON)
 
 export interface MockEmployee {
   employee_id: string
@@ -26,6 +27,10 @@ export interface MockEmployee {
   org_unit: string
   probation_status: 'in_probation' | 'passed' | 'terminated' | 'extended'
   status: 'active' | 'inactive' | 'terminated'
+  /** รหัสสาขา/หน่วยงานค้าปลีก — audit A6/#11. null = HQ/finance (ไม่ใช่สาขา) */
+  store_branch_code: string | null
+  /** เขต HR ค้าปลีก — audit A6/#11. null = HQ/finance */
+  hr_district: string | null
   /** Job Grade ปัจจุบัน — JG-02/04/06/08/10 (Promotion route uses as fromJG) */
   job_grade: string
 }
@@ -63,6 +68,26 @@ const SURNAME_EN = [
 ]
 
 const COMPANIES: Array<MockEmployee['company']> = ['CEN', 'CRC', 'CU', 'CPN', 'ROBINSON']
+
+// Retail field pools — audit A6/#11 (8 store codes + 5 HR districts)
+const STORE_BRANCH_CODES = [
+  'CDS-CTW',   // CentralWorld
+  'CDS-CPN',   // CPN Pinklao
+  'CDS-RMA',   // CRC Rama 9
+  'ROB-CLN',   // Robinson Chaeng Watthana
+  'ROB-RMA',   // Robinson Rama 9
+  'ROB-UPC',   // Robinson Chiang Mai (Upcountry)
+  'CDS-PAT',   // CRC Pattaya
+  'ROB-KON',   // Robinson Khon Kaen
+] as const
+
+const HR_DISTRICTS = [
+  'D-BKK-1',   // Bangkok Zone 1 (Sukhumvit / CBD)
+  'D-BKK-2',   // Bangkok Zone 2 (West / Pinklao)
+  'D-CNX-N',   // Chiang Mai / North
+  'D-UPC-N',   // Upcountry North
+  'D-EAS-E',   // Eastern Seaboard
+] as const
 
 const JOB_GRADES = ['JG-02', 'JG-04', 'JG-06', 'JG-08', 'JG-10']
 
@@ -174,10 +199,17 @@ function generateEmployees(count: number): MockEmployee[] {
     const employee_class: MockEmployee['employee_class'] =
       rnd() < 0.75 ? 'PERMANENT' : 'PARTIME'
 
+    const company = pick(rnd, COMPANIES)
     const position_title = pick(rnd, POSITIONS)
-    // Default 3 dates tied to hire_date — no rehire history in mock seed, so all 3 equal.
-    // 10% of employees get adjusted seniority_start_date (~1-3 years earlier than hire)
-    // to simulate prior-service credit cases — audit A4.
+
+    // Retail fields (A6/#11): CRC + ROBINSON employees are ~70% retail.
+    const isRetailCompany = company === 'CRC' || company === 'ROBINSON'
+    const retailRoll = rnd()
+    const isRetail = isRetailCompany && retailRoll < 0.70
+    const store_branch_code = isRetail ? pick(rnd, STORE_BRANCH_CODES as unknown as string[]) : null
+    const hr_district = isRetail ? pick(rnd, HR_DISTRICTS as unknown as string[]) : null
+
+    // Seniority adjust (A4): 10% of employees get 1-3 years prior-service credit.
     const has_seniority_adjust = rnd() < 0.1 && status !== 'terminated'
     const seniority_adjust_days = has_seniority_adjust
       ? Math.floor(rnd() * 1095)   // up to ~3 years
@@ -197,12 +229,14 @@ function generateEmployees(count: number): MockEmployee[] {
       hire_date,
       original_start_date: hire_date,
       seniority_start_date,
-      company: pick(rnd, COMPANIES),
+      company,
       position_title,
       corporate_title: position_title,
       org_unit: pick(rnd, ORG_UNITS),
       probation_status,
       status,
+      store_branch_code,
+      hr_district,
       job_grade: pick(rnd, JOB_GRADES),
     })
   }
