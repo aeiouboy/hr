@@ -21,6 +21,7 @@ import { ArrowLeft, ClipboardCheck } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ProbationEvent } from '@hrms/shared/types/timeline'
 
@@ -352,6 +353,13 @@ export default function ProbationAssessPage() {
         <EmployeeSnapshot employee={employee} />
 
         {/* Assessment form */}
+        <EffectiveDateGate
+          min={hireDate || undefined}
+          max={maxEffectiveDate || undefined}
+          initialEffectiveDate={assessment.effectiveDate ?? undefined}
+          onEffectiveDateChange={(date) => patch({ effectiveDate: date })}
+        >
+          {() => (
         <div className="humi-card">
           <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
             บันทึกผลการประเมิน
@@ -405,33 +413,6 @@ export default function ProbationAssessPage() {
           </div>
 
           <hr className="humi-divider" />
-
-          {/* ── Effective Date ── */}
-          <div style={{ marginBottom: 20 }}>
-            <label
-              htmlFor="effectiveDate"
-              className="text-body font-semibold text-ink"
-              style={{ display: 'block', marginBottom: 6 }}
-            >
-              วันที่มีผล <span style={{ color: 'var(--color-danger)' }}>*</span>
-            </label>
-            <input
-              id="effectiveDate"
-              type="date"
-              value={assessment.effectiveDate ?? ''}
-              min={hireDate}
-              max={maxEffectiveDate}
-              onChange={(e) => patch({ effectiveDate: e.target.value || null })}
-              className="humi-input"
-              aria-describedby="effectiveDate-hint"
-              style={{ maxWidth: 240 }}
-            />
-            {hireDate && (
-              <p id="effectiveDate-hint" className="text-small text-ink-muted mt-1">
-                ช่วงที่กำหนด: {formatDateTh(hireDate)} — {formatDateTh(maxEffectiveDate)}
-              </p>
-            )}
-          </div>
 
           {/* ── Extend Until (conditional) ── */}
           {assessment.outcome === 'extend' && (
@@ -533,6 +514,8 @@ export default function ProbationAssessPage() {
             </button>
           </div>
         </div>
+          )}
+        </EffectiveDateGate>
       </div>
     </>
   )
