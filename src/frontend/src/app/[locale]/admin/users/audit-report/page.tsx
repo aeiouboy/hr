@@ -39,7 +39,7 @@ const ENTITY_LABELS: Record<AuditEntityType, string> = {
 
 const ITEMS_PER_PAGE = 10
 
-// CSV columns ตาม spec T11 — Thai headers ตาม AC-8 (C10)
+// CSV columns ตาม spec T11 ตาม AC-8 (C10)
 const auditCsvCols: CsvColumn<AuditEntry>[] = [
   { header: 'วันที่', accessor: 'timestamp' },
   { header: 'รหัสผู้ใช้', accessor: 'userId' },

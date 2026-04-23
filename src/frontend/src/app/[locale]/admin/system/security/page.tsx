@@ -29,7 +29,7 @@ const TOOLS = [
     href: '/admin/system/security/settings',
     title: 'Security Settings',
     brd: 'BRD #201-204',
-    description: 'ตั้งค่าความปลอดภัย — Hidden Profile, Direct User, Encryption Policy, Session Timeout',
+    description: 'ตั้งค่าความปลอดภัย, Direct User, Encryption Policy, Session Timeout',
     icon: '🔒',
     alertKey: null,
     alertLabel: null,
@@ -54,7 +54,7 @@ export default function SecurityPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-900">Security & Governance</h1>
         <p className="mt-1 text-sm text-gray-500">
-          ดูแลความปลอดภัยระบบ — Consent, Traffic, Hidden Profile, Direct User, Encryption, Session Timeout
+          ดูแลความปลอดภัยระบบ, Traffic, Hidden Profile, Direct User, Encryption, Session Timeout
         </p>
       </div>
 

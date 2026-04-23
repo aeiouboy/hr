@@ -1,4 +1,4 @@
-// self-service/page.tsx — การตั้งค่า Self-Service (placeholder — Phase 2)
+// self-service/page.tsx — การตั้งค่า Self-Service (placeholder 2)
 export default function SelfServicePage() {
   return (
     <div className="p-6">

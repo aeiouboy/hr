@@ -29,7 +29,7 @@ type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
 // Mapping from Zustand ProfileTab → legacy panel key.
 // NOTE: slice key `compensation` is a legacy name from an earlier sprint where
 // Compensation was a standalone tab. Today's tab #3 displays "ติดต่อฉุกเฉิน"
-// (Emergency) and must route to the emergency panel. Compensation cards are
+// and must route to the emergency panel. Compensation cards are
 // rendered inside the `job` panel.
 const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
   personal: 'personal',

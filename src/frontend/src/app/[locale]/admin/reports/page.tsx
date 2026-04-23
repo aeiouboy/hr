@@ -1,4 +1,4 @@
-// reports/page.tsx — รายงาน (placeholder — Phase 2)
+// reports/page.tsx — รายงาน (placeholder 2)
 export default function ReportsPage() {
   return (
     <div className="p-6">

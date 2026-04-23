@@ -39,7 +39,7 @@ export default function FavouriteReportsPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-gray-900">รายงานโปรด</h2>
-        <p className="text-sm text-gray-500 mt-1">Favourite Reports — ลากเพื่อเรียงลำดับ — BRD #206</p>
+        <p className="text-sm text-gray-500 mt-1">Favourite Reports — ลากเพื่อเรียงลำดับ #206</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

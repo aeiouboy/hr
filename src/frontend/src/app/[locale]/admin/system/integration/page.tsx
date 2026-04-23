@@ -147,7 +147,7 @@ export default function IntegrationPage() {
 
             <div>
               <label className="block text-xs text-gray-500 mb-1" htmlFor="viva-tenant">
-                Tenant ID (Azure AD)
+                Tenant ID
               </label>
               <input
                 id="viva-tenant"

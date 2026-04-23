@@ -9,8 +9,8 @@ import { CronPicker } from '@/components/admin/admin-system/CronPicker'
 import { formatCron } from '@/lib/admin/utils/cronFormat'
 
 const DELIVERY_OPTIONS = [
-  { value: 'view',       label: 'ดูในระบบ (View)' },
-  { value: 'email',      label: 'อีเมล (Email)' },
+  { value: 'view',       label: 'ดูในระบบ' },
+  { value: 'email',      label: 'อีเมล' },
   { value: 'cg-gateway', label: 'CG Gateway' },
 ] as const
 
