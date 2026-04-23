@@ -180,8 +180,12 @@
    Responsive (issue #5): hidden on mobile, visible lg+ via media below
    Wrapped in @layer components so Tailwind utilities (lg:hidden etc.) win via cascade. */
 @layer components {
+  /* Dark navy rail in both light and dark mode — design intent: persistent
+     dark-rail sidebar à la Linear/Notion. Pinning to literal hex avoids the
+     `--color-ink` flip in dark mode which would otherwise invert the rail
+     to cream and hide nav labels (hardcoded `#E7E3D8` text on cream = invisible). */
   .humi-sidebar {
-    background: var(--color-ink);
+    background: #0E1B2C;
     color: #E7E3D8;
     padding: 22px 16px 18px;
     position: sticky;
@@ -466,10 +470,10 @@
   padding: 14px 0;
   position: sticky;
   top: 0;
-  background: rgba(246, 241, 232, 0.88);
+  background: color-mix(in srgb, var(--color-canvas) 88%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(231, 223, 209, 0.55);
+  border-bottom: 1px solid var(--color-hairline);
   z-index: 10;
   transition: box-shadow var(--dur-fast) var(--ease-spring);
 }

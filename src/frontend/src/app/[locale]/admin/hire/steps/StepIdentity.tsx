@@ -171,11 +171,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">
-        Cluster 1 — Who
-      </h2>
-
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
       {/* ─── BA row 1 — Hire Date * ─── */}
       <fieldset>
         <label htmlFor="hire-date" className="humi-label">
@@ -433,7 +429,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 19 — [VN] Issue Place — optional ─── */}
       <fieldset>
         <label htmlFor="vn-issue-place" className="humi-label">
-          สถานที่ออกบัตร (Issue Place — VN)
+          สถานที่ออกบัตร
           <span className="ml-1 text-xs text-ink-muted">(เฉพาะสัญชาติเวียดนาม)</span>
         </label>
         <input id="vn-issue-place" type="text" placeholder="สถานที่ออกบัตร (optional)"
