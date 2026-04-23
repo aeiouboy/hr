@@ -44,7 +44,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 8 — ค่าตอบแทน (Compensation)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 8 — ค่าตอบแทน</h2>
 
       {/* เงินเดือนพื้นฐาน */}
       <fieldset>

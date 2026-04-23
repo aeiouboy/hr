@@ -1,6 +1,6 @@
 'use client'
 
-// StepName.tsx — Step 2: ชื่อ-นามสกุล (Name)
+// StepName.tsx — Step 2: ชื่อ-นามสกุล
 // Fields: firstNameTh, lastNameTh (required) + firstNameEn, lastNameEn (optional)
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
@@ -55,7 +55,7 @@ export default function StepName({ onValidChange }: StepNameProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 2 — ชื่อ-นามสกุล (Name)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 2 — ชื่อ-นามสกุล</h2>
 
       {/* ชื่อภาษาไทย — required */}
       <fieldset>

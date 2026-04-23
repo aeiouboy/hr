@@ -1,6 +1,6 @@
 'use client'
 
-// StepBiographical.tsx — Cluster 2 "Job" (Personal Information section)
+// StepBiographical.tsx — Cluster 2 "Job"
 // BA Personal Info rows 2-17 = 12 fields (all mandatory per BA-EC-SUMMARY.md)
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
 
@@ -116,13 +116,13 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   return (
     <div className="space-y-6">
       <h2 className="text-lg font-semibold text-ink">
-        Cluster 2 — Job (Personal Information)
+        Cluster 2 — Job
       </h2>
 
       {/* ─── BA Personal Info row 2 — Other Title (TH) * ─── */}
       <fieldset>
         <label htmlFor="other-title-th" className="humi-label">
-          คำนำหน้า (TH) (Other Title TH)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          คำนำหน้า (TH)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="other-title-th" type="text" required aria-required="true"
           aria-invalid={touched.otherTitleTh && !!errors.otherTitleTh}
@@ -137,7 +137,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 3 — Firstname (Local) * ─── */}
       <fieldset>
         <label htmlFor="first-name-local" className="humi-label">
-          ชื่อ (ภาษาท้องถิ่น) (Firstname Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อ (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="first-name-local" type="text" required aria-required="true"
           aria-invalid={touched.firstNameLocal && !!errors.firstNameLocal}
@@ -152,7 +152,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 4 — Lastname (Local) * ─── */}
       <fieldset>
         <label htmlFor="last-name-local" className="humi-label">
-          นามสกุล (ภาษาท้องถิ่น) (Lastname Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          นามสกุล (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="last-name-local" type="text" required aria-required="true"
           aria-invalid={touched.lastNameLocal && !!errors.lastNameLocal}
@@ -167,7 +167,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 5 — Middle Name (Local) * ─── */}
       <fieldset>
         <label htmlFor="middle-name-local" className="humi-label">
-          ชื่อกลาง (Local) (Middle Name Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อกลาง (Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="middle-name-local" type="text" required aria-required="true"
           aria-invalid={touched.middleNameLocal && !!errors.middleNameLocal}
@@ -182,7 +182,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 10 — Nickname * ─── */}
       <fieldset>
         <label htmlFor="nickname" className="humi-label">
-          ชื่อเล่น (Nickname)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อเล่น<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="nickname" type="text" required aria-required="true"
           aria-invalid={touched.nickname && !!errors.nickname}
@@ -197,7 +197,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 11 — Military Status * ─── */}
       <fieldset>
         <label htmlFor="military-status" className="humi-label">
-          สถานะทางทหาร (Military Status)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          สถานะทางทหาร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="military-status" required aria-required="true"
           aria-invalid={touched.militaryStatus && !!errors.militaryStatus}
@@ -216,7 +216,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 12 — Gender * ─── */}
       <fieldset>
         <label htmlFor="gender" className="humi-label">
-          เพศ (Gender)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เพศ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="gender" required aria-required="true"
           aria-invalid={touched.gender && !!errors.gender}
@@ -235,7 +235,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 13 — Nationality * ─── */}
       <fieldset>
         <label htmlFor="nationality" className="humi-label">
-          สัญชาติ (Nationality)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          สัญชาติ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="nationality" required aria-required="true"
           aria-invalid={touched.nationality && !!errors.nationality}
@@ -254,7 +254,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 14 — Foreigner * ─── */}
       <fieldset>
         <label htmlFor="foreigner" className="humi-label">
-          เป็นชาวต่างชาติ (Foreigner)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เป็นชาวต่างชาติ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="foreigner" required aria-required="true"
           aria-invalid={touched.foreigner && !!errors.foreigner}
@@ -273,7 +273,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 15 — Blood Type * ─── */}
       <fieldset>
         <label htmlFor="blood-type" className="humi-label">
-          กรุ๊ปเลือด (Blood Type)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          กรุ๊ปเลือด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="blood-type" required aria-required="true"
           aria-invalid={touched.bloodType && !!errors.bloodType}
@@ -292,7 +292,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 16 — Marital Status * ─── */}
       <fieldset>
         <label htmlFor="marital-status" className="humi-label">
-          สถานภาพสมรส (Marital Status)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          สถานภาพสมรส<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="marital-status" required aria-required="true"
           aria-invalid={touched.maritalStatus && !!errors.maritalStatus}
@@ -311,7 +311,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 17 — Marital Status Since * ─── */}
       <fieldset>
         <label htmlFor="marital-status-since" className="humi-label">
-          วันที่เปลี่ยนสถานภาพ (Marital Status Since)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          วันที่เปลี่ยนสถานภาพ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="marital-status-since" type="date" required aria-required="true"
           aria-invalid={touched.maritalStatusSince && !!errors.maritalStatusSince}

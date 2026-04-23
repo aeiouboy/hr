@@ -1,6 +1,6 @@
 'use client'
 
-// StepJob.tsx — Step 7: ข้อมูลงาน (Job)
+// StepJob.tsx — Step 7: ข้อมูลงาน
 // Fields: position text (required) + businessUnit dropdown 44 options (required)
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
@@ -57,12 +57,12 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 7 — ข้อมูลงาน (Job)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 7 — ข้อมูลงาน</h2>
 
       {/* ตำแหน่งงาน */}
       <fieldset>
         <label htmlFor="position" className="humi-label">
-          ตำแหน่งงาน (Position)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ตำแหน่งงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="position" type="text" required aria-required="true"
           aria-invalid={touched.position && !!errors.position}
@@ -77,7 +77,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       {/* Business Unit dropdown */}
       <fieldset>
         <label htmlFor="business-unit" className="humi-label">
-          หน่วยธุรกิจ (Business Unit)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          หน่วยธุรกิจ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="business-unit" required aria-required="true"
           aria-invalid={touched.businessUnit && !!errors.businessUnit}

@@ -71,12 +71,12 @@ export default function ClusterReview() {
       <div className="humi-card">
         <SectionHeader
           icon={Paperclip}
-          eyebrow="EN Name (Local EN)"
+          eyebrow="EN Name"
           title="ชื่อ-นามสกุล (EN) ยืนยัน"
           sub="BA Personal Info rows 6-9 — dup จาก Identity สำหรับ confirmation"
         />
         <div className="humi-step-section space-y-4">
-          {/* BA Personal Info row 6 — Salutation (Local EN) */}
+          {/* BA Personal Info row 6 — Salutation */}
           <fieldset>
             <label htmlFor="review-salutation-en" className="humi-label">
               คำนำหน้า (EN) ยืนยัน
@@ -86,7 +86,7 @@ export default function ClusterReview() {
               className="humi-input w-full max-w-xs bg-surface-muted cursor-not-allowed" />
           </fieldset>
 
-          {/* BA Personal Info row 7 — Firstname (Local EN) */}
+          {/* BA Personal Info row 7 — Firstname */}
           <fieldset>
             <label htmlFor="review-first-name-en" className="humi-label">
               ชื่อ (EN) ยืนยัน
@@ -96,7 +96,7 @@ export default function ClusterReview() {
               className="humi-input w-full max-w-sm bg-surface-muted cursor-not-allowed" />
           </fieldset>
 
-          {/* BA Personal Info row 8 — Lastname (Local EN) */}
+          {/* BA Personal Info row 8 — Lastname */}
           <fieldset>
             <label htmlFor="review-last-name-en" className="humi-label">
               นามสกุล (EN) ยืนยัน
@@ -106,7 +106,7 @@ export default function ClusterReview() {
               className="humi-input w-full max-w-sm bg-surface-muted cursor-not-allowed" />
           </fieldset>
 
-          {/* BA Personal Info row 9 — Middle Name (Local EN) */}
+          {/* BA Personal Info row 9 — Middle Name */}
           <fieldset>
             <label htmlFor="review-middle-name-en" className="humi-label">
               ชื่อกลาง (EN) ยืนยัน
@@ -119,7 +119,7 @@ export default function ClusterReview() {
           {/* BA Personal Info row 18 — Attachment (optional) */}
           <fieldset>
             <label htmlFor="attachment" className="humi-label">
-              เอกสารแนบ (Attachment)
+              เอกสารแนบ
               <span className="ml-1 text-xs text-ink-muted">(optional)</span>
             </label>
             <input id="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"

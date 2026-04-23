@@ -1,6 +1,6 @@
 'use client'
 
-// StepEmployeeInfo.tsx — Step 4: ข้อมูลพนักงาน (Employee Info)
+// StepEmployeeInfo.tsx — Step 4: ข้อมูลพนักงาน
 // Fields: employeeClass dropdown A-H — required
 // Labels verbatim จาก spec Appendix 3 (C8: ห้าม invent)
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
@@ -38,11 +38,11 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 4 — ข้อมูลพนักงาน (Employee Info)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 4 — ข้อมูลพนักงาน</h2>
 
       <fieldset>
         <label htmlFor="employee-class" className="humi-label">
-          ประเภทพนักงาน (Employee Class)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ประเภทพนักงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select
           id="employee-class"

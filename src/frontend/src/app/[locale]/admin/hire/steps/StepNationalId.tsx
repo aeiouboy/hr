@@ -1,6 +1,6 @@
 'use client'
 
-// StepNationalId.tsx — Step 5: เลขบัตรประชาชน (National ID)
+// StepNationalId.tsx — Step 5: เลขบัตรประชาชน
 // Fields: nationalId text — 13 digits Thai pattern, required
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
@@ -37,11 +37,11 @@ export default function StepNationalId({ onValidChange }: StepNationalIdProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 5 — เลขบัตรประชาชน (National ID)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 5 — เลขบัตรประชาชน</h2>
 
       <fieldset>
         <label htmlFor="national-id" className="humi-label">
-          เลขบัตรประชาชน (National ID)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เลขบัตรประชาชน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input
           id="national-id"

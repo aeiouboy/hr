@@ -421,13 +421,9 @@ export default function EmployeeEditPage() {
       {/* ── Form card ───────────────────────────────────────── */}
       <div className="humi-card">
         <div style={{ marginBottom: 24 }}>
-          <div className="humi-eyebrow">แก้ไขข้อมูลส่วนตัว</div>
-          <h1 className="mt-1 font-display text-[20px] font-semibold text-ink">
-            ข้อมูลพนักงาน
+          <h1 className="font-display text-[20px] font-semibold text-ink">
+            แก้ไขข้อมูลส่วนตัว
           </h1>
-          <p className="mt-1 text-small text-ink-soft">
-            23 fields · Personal Info section
-          </p>
         </div>
 
         <div className="space-y-8">
@@ -440,7 +436,7 @@ export default function EmployeeEditPage() {
               {/* Salutation (Local) */}
               <PicklistSelect
                 id="salutation-local"
-                label="คำนำหน้า (ไทย) — Salutation Local"
+                label="คำนำหน้า (ไทย)"
                 value={names.salutationLocal}
                 onChange={(v) => setNamesLocal((p) => ({ ...p, salutationLocal: v }))}
                 onBlur={() => touch('salutationLocal')}
@@ -450,7 +446,7 @@ export default function EmployeeEditPage() {
               {/* Other Title (TH) */}
               <TextInput
                 id="other-title-th"
-                label="คำนำหน้าอื่น (TH) — Other Title"
+                label="คำนำหน้าอื่น (TH)"
                 placeholder="เช่น ร้อยเอก, ดร."
                 value={names.otherTitleTh}
                 onChange={(v) => setNamesLocal((p) => ({ ...p, otherTitleTh: v }))}
@@ -460,7 +456,7 @@ export default function EmployeeEditPage() {
               {/* Firstname (Local) — mandatory */}
               <TextInput
                 id="first-name-local"
-                label="ชื่อ (ภาษาท้องถิ่น) — Firstname Local"
+                label="ชื่อ (ภาษาท้องถิ่น)"
                 required
                 placeholder="ชื่อภาษาไทย"
                 value={names.firstNameLocal}
@@ -472,7 +468,7 @@ export default function EmployeeEditPage() {
               {/* Middle Name (Local) */}
               <TextInput
                 id="middle-name-local"
-                label="ชื่อกลาง (Local) — Middle Name"
+                label="ชื่อกลาง (Local)"
                 placeholder="ชื่อกลาง (ถ้ามี)"
                 value={names.middleNameLocal}
                 onChange={(v) => setNamesLocal((p) => ({ ...p, middleNameLocal: v }))}
@@ -482,7 +478,7 @@ export default function EmployeeEditPage() {
               {/* Lastname (Local) — mandatory */}
               <TextInput
                 id="last-name-local"
-                label="นามสกุล (ภาษาท้องถิ่น) — Lastname Local"
+                label="นามสกุล (ภาษาท้องถิ่น)"
                 required
                 placeholder="นามสกุลภาษาไทย"
                 value={names.lastNameLocal}
@@ -494,7 +490,7 @@ export default function EmployeeEditPage() {
               {/* Nickname — mandatory */}
               <TextInput
                 id="nickname"
-                label="ชื่อเล่น — Nickname"
+                label="ชื่อเล่น"
                 required
                 placeholder="ชื่อเล่น"
                 value={names.nickname}
@@ -507,7 +503,7 @@ export default function EmployeeEditPage() {
 
           {/* ── Group 2: Localized Names (EN) — read-only mirror ── */}
           <section aria-labelledby="section-names-en">
-            <SectionLabel title="ชื่อ (ภาษาอังกฤษ) — Read-only mirror จาก Hire" />
+            <SectionLabel title="ชื่อ (ภาษาอังกฤษ)" />
             <p className="text-small text-ink-muted mb-4">
               ข้อมูลนี้ถูกกำหนดตอน Hire ไม่สามารถแก้ไขได้ที่นี่
             </p>
@@ -516,7 +512,7 @@ export default function EmployeeEditPage() {
               {/* Salutation EN */}
               <PicklistSelect
                 id="salutation-en"
-                label="คำนำหน้า (EN) — Salutation EN"
+                label="คำนำหน้า (EN)"
                 readOnly={enNamesReadOnly}
                 value={namesEn.salutationEn}
                 onChange={() => {/* read-only */}}
@@ -526,7 +522,7 @@ export default function EmployeeEditPage() {
               {/* Firstname EN */}
               <TextInput
                 id="first-name-en"
-                label="ชื่อ (EN) — Firstname EN"
+                label="ชื่อ (EN)"
                 readOnly={enNamesReadOnly}
                 value={namesEn.firstNameEn}
                 onChange={() => {/* read-only */}}
@@ -535,7 +531,7 @@ export default function EmployeeEditPage() {
               {/* Middle Name EN */}
               <TextInput
                 id="middle-name-en"
-                label="ชื่อกลาง (EN) — Middle Name EN"
+                label="ชื่อกลาง (EN)"
                 readOnly={enNamesReadOnly}
                 value={namesEn.middleNameEn}
                 onChange={() => {/* read-only */}}
@@ -544,7 +540,7 @@ export default function EmployeeEditPage() {
               {/* Lastname EN */}
               <TextInput
                 id="last-name-en"
-                label="นามสกุล (EN) — Lastname EN"
+                label="นามสกุล (EN)"
                 readOnly={enNamesReadOnly}
                 value={namesEn.lastNameEn}
                 onChange={() => {/* read-only */}}
@@ -554,13 +550,13 @@ export default function EmployeeEditPage() {
 
           {/* ── Group 3: Personal Attributes ── */}
           <section aria-labelledby="section-attributes">
-            <SectionLabel title="ข้อมูลส่วนตัว — Personal Attributes" />
+            <SectionLabel title="ข้อมูลส่วนตัว" />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
               {/* Gender — mandatory */}
               <PicklistSelect
                 id="gender"
-                label="เพศ — Gender"
+                label="เพศ"
                 required
                 value={attributes.gender}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, gender: v }))}
@@ -572,7 +568,7 @@ export default function EmployeeEditPage() {
               {/* Nationality — mandatory */}
               <PicklistSelect
                 id="nationality"
-                label="สัญชาติ — Nationality"
+                label="สัญชาติ"
                 required
                 value={attributes.nationality}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, nationality: v }))}
@@ -584,7 +580,7 @@ export default function EmployeeEditPage() {
               {/* Foreigner — mandatory */}
               <PicklistSelect
                 id="foreigner"
-                label="ชาวต่างชาติ — Foreigner"
+                label="ชาวต่างชาติ"
                 required
                 value={attributes.foreigner}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, foreigner: v }))}
@@ -596,7 +592,7 @@ export default function EmployeeEditPage() {
               {/* Blood Type — mandatory */}
               <PicklistSelect
                 id="blood-type"
-                label="กรุ๊ปเลือด — Blood Type"
+                label="กรุ๊ปเลือด"
                 required
                 value={attributes.bloodType}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, bloodType: v }))}
@@ -608,7 +604,7 @@ export default function EmployeeEditPage() {
               {/* Marital Status — mandatory */}
               <PicklistSelect
                 id="marital-status"
-                label="สถานภาพสมรส — Marital Status"
+                label="สถานภาพสมรส"
                 required
                 value={attributes.maritalStatus}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, maritalStatus: v }))}
@@ -620,7 +616,7 @@ export default function EmployeeEditPage() {
               {/* Marital Status Since — date, optional */}
               <fieldset>
                 <label htmlFor="marital-status-since" className="humi-label">
-                  วันที่เปลี่ยนสถานภาพ — Marital Status Since
+                  วันที่เปลี่ยนสถานภาพ
                 </label>
                 <input
                   id="marital-status-since"
@@ -634,7 +630,7 @@ export default function EmployeeEditPage() {
               {/* Military Status — mandatory */}
               <PicklistSelect
                 id="military-status"
-                label="สถานะทางทหาร — Military Status"
+                label="สถานะทางทหาร"
                 required
                 value={attributes.militaryStatus}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, militaryStatus: v }))}
@@ -647,13 +643,13 @@ export default function EmployeeEditPage() {
 
           {/* ── Group 4: Contact ── */}
           <section aria-labelledby="section-contact">
-            <SectionLabel title="ข้อมูลติดต่อ — Contact" />
+            <SectionLabel title="ข้อมูลติดต่อ" />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
               {/* Phone — mandatory */}
               <TextInput
                 id="phone"
-                label="เบอร์โทรศัพท์ — Phone"
+                label="เบอร์โทรศัพท์"
                 required
                 type="tel"
                 placeholder="0812345678"
@@ -666,7 +662,7 @@ export default function EmployeeEditPage() {
               {/* Email — mandatory */}
               <TextInput
                 id="email"
-                label="อีเมล — Email"
+                label="อีเมล"
                 required
                 type="email"
                 placeholder="name@example.com"
@@ -680,7 +676,7 @@ export default function EmployeeEditPage() {
               <div className="sm:col-span-2">
                 <TextInput
                   id="address-line1"
-                  label="ที่อยู่ — Address Line 1"
+                  label="ที่อยู่"
                   required
                   placeholder="บ้านเลขที่ ถนน แขวง เขต"
                   value={contact.addressLine1}
@@ -694,7 +690,7 @@ export default function EmployeeEditPage() {
               <div className="sm:col-span-2">
                 <TextInput
                   id="address-line2"
-                  label="ที่อยู่เพิ่มเติม — Address Line 2"
+                  label="ที่อยู่เพิ่มเติม"
                   placeholder="อาคาร ห้อง ชั้น (ถ้ามี)"
                   value={contact.addressLine2}
                   onChange={(v) => setContactLocal((p) => ({ ...p, addressLine2: v }))}
@@ -705,7 +701,7 @@ export default function EmployeeEditPage() {
               {/* Postal Code — optional with 5-digit validation */}
               <TextInput
                 id="postal-code"
-                label="รหัสไปรษณีย์ — Postal Code"
+                label="รหัสไปรษณีย์"
                 placeholder="10110"
                 value={contact.postalCode}
                 onChange={(v) => setContactLocal((p) => ({ ...p, postalCode: v }))}
@@ -716,7 +712,7 @@ export default function EmployeeEditPage() {
               {/* Country — PICKLIST_COUNTRY_ISO, optional */}
               <PicklistSelect
                 id="country"
-                label="ประเทศ — Country"
+                label="ประเทศ"
                 value={contact.country}
                 onChange={(v) => setContactLocal((p) => ({ ...p, country: v }))}
                 onBlur={() => touch('country')}

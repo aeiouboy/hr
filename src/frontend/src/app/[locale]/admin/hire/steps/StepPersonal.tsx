@@ -1,6 +1,6 @@
 'use client'
 
-// StepPersonal.tsx — Step 6: ข้อมูลส่วนตัว (Personal)
+// StepPersonal.tsx — Step 6: ข้อมูลส่วนตัว
 // Fields: addressLine1 text — required
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
@@ -35,7 +35,7 @@ export default function StepPersonal({ onValidChange }: StepPersonalProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 6 — ข้อมูลส่วนตัว (Personal)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 6 — ข้อมูลส่วนตัว</h2>
 
       <fieldset>
         <label htmlFor="address-line1" className="humi-label">

@@ -1,7 +1,7 @@
 'use client'
 
-// StepIdentity.tsx — Cluster 1 "Who" (Identity section)
-// BA rows 1-19 (Identity) + Personal Info row 1 (Salutation Local) = 20 fields
+// StepIdentity.tsx — Cluster 1 "Who"
+// BA rows 1-19 + Personal Info row 1 = 20 fields
 // 13 mandatory (*), 7 optional per BA-EC-SUMMARY.md
 // Cross-field: DOB < HireDate (BA row 8 col F verbatim)
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
@@ -162,13 +162,13 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-lg font-semibold text-ink">
-        Cluster 1 — Who (Identity)
+        Cluster 1 — Who
       </h2>
 
       {/* ─── BA row 1 — Hire Date * ─── */}
       <fieldset>
         <label htmlFor="hire-date" className="humi-label">
-          วันที่เริ่มงาน (Hire Date)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          วันที่เริ่มงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="hire-date" type="date" required aria-required="true"
           aria-invalid={touched.hireDate && !!errors.hireDate}
@@ -182,7 +182,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 2 — Company * ─── */}
       <fieldset>
         <label htmlFor="company-code" className="humi-label">
-          บริษัท (Company)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          บริษัท<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="company-code" required aria-required="true"
           aria-invalid={touched.companyCode && !!errors.companyCode}
@@ -201,7 +201,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 3 — Event Reason * ─── */}
       <fieldset>
         <label htmlFor="event-reason" className="humi-label">
-          สาเหตุการจ้างงาน (Event Reason)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          สาเหตุการจ้างงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="event-reason" required aria-required="true"
           aria-invalid={touched.eventReason && !!errors.eventReason}
@@ -220,7 +220,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 4 — Salutation (EN) * ─── */}
       <fieldset>
         <label htmlFor="salutation-en" className="humi-label">
-          คำนำหน้า (EN) (Salutation EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          คำนำหน้า (EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="salutation-en" required aria-required="true"
           aria-invalid={touched.salutationEn && !!errors.salutationEn}
@@ -239,7 +239,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 5 — Firstname (EN) * ─── */}
       <fieldset>
         <label htmlFor="first-name-en" className="humi-label">
-          ชื่อ (EN) (Firstname EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อ (EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="first-name-en" type="text" required aria-required="true"
           aria-invalid={touched.firstNameEn && !!errors.firstNameEn}
@@ -254,7 +254,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 6 — Middle Name (EN) — optional ─── */}
       <fieldset>
         <label htmlFor="middle-name-en" className="humi-label">
-          ชื่อกลาง (EN) (Middle Name EN)
+          ชื่อกลาง (EN)
         </label>
         <input id="middle-name-en" type="text" placeholder="Middle name (optional)"
           value={middleNameEn}
@@ -265,7 +265,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 7 — Lastname (EN) * ─── */}
       <fieldset>
         <label htmlFor="last-name-en" className="humi-label">
-          นามสกุล (EN) (Lastname EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          นามสกุล (EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="last-name-en" type="text" required aria-required="true"
           aria-invalid={touched.lastNameEn && !!errors.lastNameEn}
@@ -280,7 +280,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 8 — Date of Birth * ─── */}
       <fieldset>
         <label htmlFor="date-of-birth" className="humi-label">
-          วันเกิด (Date of Birth)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          วันเกิด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="date-of-birth" type="date" required aria-required="true"
           aria-invalid={touched.dateOfBirth && !!errors.dateOfBirth}
@@ -298,7 +298,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 9 — Country of Birth — optional ─── */}
       <fieldset>
         <label htmlFor="country-of-birth" className="humi-label">
-          ประเทศที่เกิด (Country of Birth)
+          ประเทศที่เกิด
         </label>
         <select id="country-of-birth"
           value={countryOfBirth}
@@ -314,7 +314,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 10 — Region of Birth — optional ─── */}
       <fieldset>
         <label htmlFor="region-of-birth" className="humi-label">
-          จังหวัด/ภูมิภาคที่เกิด (Region of Birth)
+          จังหวัด/ภูมิภาคที่เกิด
         </label>
         <input id="region-of-birth" type="text" placeholder="จังหวัด/ภูมิภาค (optional)"
           value={regionOfBirth}
@@ -325,7 +325,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 12 — Employee ID * ─── */}
       <fieldset>
         <label htmlFor="employee-id" className="humi-label">
-          รหัสพนักงาน (Employee ID)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          รหัสพนักงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="employee-id" type="text" required aria-required="true"
           aria-invalid={touched.employeeId && !!errors.employeeId}
@@ -340,7 +340,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 13 — National ID Card Type * ─── */}
       <fieldset>
         <label htmlFor="national-id-card-type" className="humi-label">
-          ประเภทบัตรประชาชน (National ID Card Type)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ประเภทบัตรประชาชน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="national-id-card-type" required aria-required="true"
           aria-invalid={touched.nationalIdCardType && !!errors.nationalIdCardType}
@@ -359,7 +359,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 14 — Country * ─── */}
       <fieldset>
         <label htmlFor="country" className="humi-label">
-          ประเทศ (Country)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ประเทศ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="country" required aria-required="true"
           aria-invalid={touched.country && !!errors.country}
@@ -378,7 +378,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 15 — National ID * ─── */}
       <fieldset>
         <label htmlFor="national-id" className="humi-label">
-          เลขบัตร (National ID)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เลขบัตร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="national-id" type="text" required aria-required="true"
           aria-invalid={touched.nationalId && !!errors.nationalId}
@@ -393,7 +393,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 16 — Issue Date — optional ─── */}
       <fieldset>
         <label htmlFor="issue-date" className="humi-label">
-          วันออกบัตร (Issue Date)
+          วันออกบัตร
         </label>
         <input id="issue-date" type="date"
           value={issueDate}
@@ -404,7 +404,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 17 — Expiry Date — optional ─── */}
       <fieldset>
         <label htmlFor="expiry-date" className="humi-label">
-          วันหมดอายุบัตร (Expiry Date)
+          วันหมดอายุบัตร
         </label>
         <input id="expiry-date" type="date"
           value={expiryDate}
@@ -415,7 +415,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 18 — Is Primary * ─── */}
       <fieldset>
         <label htmlFor="is-primary" className="humi-label">
-          บัตรหลัก (Is Primary)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          บัตรหลัก<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="is-primary" required aria-required="true"
           aria-invalid={touched.isPrimary && !!errors.isPrimary}
@@ -446,7 +446,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA Personal Info row 1 — Salutation (Local) * ─── */}
       <fieldset>
         <label htmlFor="salutation-local" className="humi-label">
-          คำนำหน้า (Local) (Salutation Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          คำนำหน้า (Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="salutation-local" required aria-required="true"
           aria-invalid={touched.salutationLocal && !!errors.salutationLocal}

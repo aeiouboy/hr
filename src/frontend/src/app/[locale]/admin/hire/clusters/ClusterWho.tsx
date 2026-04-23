@@ -1,6 +1,6 @@
 'use client'
 
-// ClusterWho.tsx — Cluster 1 of 3 (Identity)
+// ClusterWho.tsx — Cluster 1 of 3
 // D2 S1: StepIdentity ขยายครอบคลุม BA rows 1-19 + Personal Info row 1 = 20 fields
 // 13 mandatory, 7 optional per BA-EC-SUMMARY.md
 import StepIdentity from '../steps/StepIdentity'
