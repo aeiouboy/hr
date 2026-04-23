@@ -34,6 +34,8 @@ import {
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
+import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsInCorpTitle, calcYearsInPosition } from '@/lib/calculations'
+import type { LifecycleEvent } from '@/lib/calculations'
 
 // ── Tenure helper ────────────────────────────────────────────
 function calcTenure(hireDateStr: string): string {
@@ -207,6 +209,20 @@ export default function EmployeeDetailPage() {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 
+  // ── A8: computed fields — display-layer only (BRD #86-92) ───
+  // Build minimal HIRE event from hire_date for fallback path in all calcYearsInX functions.
+  // No EmploymentState history yet (A2 pending) → all X-counters fallback to HIRE.
+  const hireEvents: LifecycleEvent[] = employee.hire_date
+    ? [{ type: 'HIRE', effectiveDate: employee.hire_date }]
+    : []
+  const today = new Date().toISOString().slice(0, 10)
+
+  const ageResult       = employee.date_of_birth ? calcAge(employee.date_of_birth, today) : null
+  const genResult       = employee.date_of_birth ? calcGeneration(employee.date_of_birth) : null
+  const yosResult       = employee.hire_date ? calcYearOfService(employee.hire_date, hireEvents, today) : null
+  const yijResult       = employee.hire_date ? calcYearsInJob(hireEvents, today) : null
+  const yictResult      = employee.hire_date ? calcYearsInCorpTitle(hireEvents, today) : null
+  const yipResult       = employee.hire_date ? calcYearsInPosition(hireEvents, today) : null
   // 7 action cards — 6 original + เปลี่ยนประเภทการจ้าง (CNeXt #06)
   const ACTION_CARDS: ActionCard[] = [
     {
@@ -359,6 +375,52 @@ export default function EmployeeDetailPage() {
             )}
           </div>
         </div>
+
+        {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ── */}
+        {employee.hire_date && (
+          <>
+            <hr className="humi-divider" />
+            <div className="humi-row" style={{ gap: 12, flexWrap: 'wrap' }}>
+              {ageResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุ</div>
+                  <div className="text-body font-semibold text-ink">{ageResult.display}</div>
+                  {genResult && (
+                    <div className="text-small text-ink-muted">{genResult}</div>
+                  )}
+                </div>
+              )}
+              {yosResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>
+                  <div className="text-body font-semibold text-ink">{yosResult.display}</div>
+                  <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
+                </div>
+              )}
+              {yijResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในตำแหน่ง</div>
+                  <div className="text-body font-semibold text-ink">{yijResult.display}</div>
+                  <div className="text-small text-ink-muted">{yijResult.decimal} ปี</div>
+                </div>
+              )}
+              {yictResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในระดับ</div>
+                  <div className="text-body font-semibold text-ink">{yictResult.display}</div>
+                  <div className="text-small text-ink-muted">{yictResult.decimal} ปี</div>
+                </div>
+              )}
+              {yipResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 130 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานที่ตำแหน่งนี้</div>
+                  <div className="text-body font-semibold text-ink">{yipResult.display}</div>
+                  <div className="text-small text-ink-muted">{yipResult.decimal} ปี</div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* ── Section B: Timeline event log ─────────────────── */}
