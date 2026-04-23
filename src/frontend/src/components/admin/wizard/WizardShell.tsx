@@ -19,6 +19,13 @@ export const WIZARD_STEPS = [
   { number: 3, labelTh: 'ตรวจสอบและส่ง',  labelEn: 'Review', descTh: 'ข้อมูลติดต่อ • สรุปก่อน Submit' },
 ] as const
 
+interface StepItem {
+  number: number
+  labelTh: string
+  labelEn: string
+  descTh?: string
+}
+
 interface WizardShellProps {
   currentStep: number
   maxUnlockedStep: number
@@ -29,6 +36,12 @@ interface WizardShellProps {
   onNext: () => void
   onSubmit: () => void
   children: React.ReactNode
+  /** Override step list — defaults to WIZARD_STEPS (Hire) when omitted. */
+  steps?: readonly StepItem[] | StepItem[]
+  /** Override eyebrow label — defaults to "Hire Workflow". */
+  flowEyebrow?: string
+  /** Override page title (Thai) — defaults to "เพิ่มพนักงานใหม่". */
+  flowTitleTh?: string
 }
 
 function formatTime(ts: number): string {
@@ -48,8 +61,11 @@ export function WizardShell({
   onNext,
   onSubmit,
   children,
+  steps = WIZARD_STEPS,
+  flowEyebrow = 'Hire Workflow',
+  flowTitleTh = 'เพิ่มพนักงานใหม่',
 }: WizardShellProps) {
-  const step = WIZARD_STEPS[currentStep - 1]
+  const step = steps[currentStep - 1] ?? steps[0]
 
   // Ticks every 30s so "บันทึก X นาทีที่แล้ว" stays fresh without the parent
   // having to re-render on its own timer.
@@ -65,12 +81,12 @@ export function WizardShell({
       <div className="border-b border-hairline bg-canvas-soft px-6 py-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <div className="humi-eyebrow">Hire Workflow</div>
+            <div className="humi-eyebrow">{flowEyebrow}</div>
             <h1 className="mt-1 font-display text-[22px] font-semibold leading-tight text-ink">
-              เพิ่มพนักงานใหม่
+              {flowTitleTh}
             </h1>
             <p className="mt-1 text-small text-ink-soft">
-              ขั้นตอนที่ {currentStep} จาก {WIZARD_STEPS.length} · {step.labelTh}
+              ขั้นตอนที่ {currentStep} จาก {steps.length} · {step.labelTh}
             </p>
           </div>
           {lastSavedAt != null && (
@@ -89,7 +105,7 @@ export function WizardShell({
       <div className="flex flex-1 overflow-hidden">
         <aside className="hidden w-64 shrink-0 overflow-y-auto border-r border-hairline bg-surface px-3 py-5 md:block">
           <Stepper
-            steps={[...WIZARD_STEPS]}
+            steps={[...steps]}
             currentStep={currentStep}
             maxUnlockedStep={maxUnlockedStep}
             onStepClick={onStepClick}
@@ -99,17 +115,17 @@ export function WizardShell({
         {/* Mobile progress bar */}
         <div className="w-full border-b border-hairline bg-surface px-4 py-3 md:hidden">
           <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-ink-muted">
-            <span>ขั้นตอน {currentStep}/{WIZARD_STEPS.length}</span>
+            <span>ขั้นตอน {currentStep}/{steps.length}</span>
             <span className="text-ink">{step.labelTh}</span>
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-canvas-soft">
             <div
               className="h-full rounded-full bg-accent transition-all"
-              style={{ width: `${(currentStep / WIZARD_STEPS.length) * 100}%` }}
+              style={{ width: `${(currentStep / steps.length) * 100}%` }}
               role="progressbar"
               aria-valuenow={currentStep}
               aria-valuemin={1}
-              aria-valuemax={WIZARD_STEPS.length}
+              aria-valuemax={steps.length}
             />
           </div>
         </div>
@@ -122,7 +138,7 @@ export function WizardShell({
 
       <WizardFooter
         currentStep={currentStep}
-        totalSteps={WIZARD_STEPS.length}
+        totalSteps={steps.length}
         isCurrentStepValid={isCurrentStepValid}
         onBack={onBack}
         onNext={onNext}
