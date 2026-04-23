@@ -360,48 +360,51 @@ export default function EmployeesPage() {
           boxShadow: 'var(--shadow-sm)',
         }}
       >
-        {/* Thead — sticky, not virtualized */}
-        <div
-          role="rowgroup"
-          aria-label="หัวตาราง"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: HEADER_HEIGHT,
-            background: 'var(--color-canvas)',
-            borderBottom: '1px solid var(--color-hairline)',
-            flexShrink: 0,
-          }}
-        >
-          {COLUMNS.map((col) => (
-            <div
-              key={col.key}
-              role="columnheader"
-              style={{
-                width: col.key === 'position_title' ? undefined : col.width,
-                flex: col.key === 'position_title' ? 1 : undefined,
-                minWidth: col.key === 'position_title' ? col.width : undefined,
-                flexShrink: col.key === 'position_title' ? undefined : 0,
-                padding: '0 12px',
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--color-ink-muted)',
-              }}
-            >
-              {col.label}
-            </div>
-          ))}
-        </div>
-
-        {/* Scrollable tbody — virtualized */}
+        {/* Scrollable tbody — virtualized; thead lives inside as sticky so it
+            survives narrow viewports where outer flex-height can collapse.
+            position:sticky within the scroll parent keeps header pinned
+            regardless of how the page around us behaves. */}
         <div
           ref={scrollRef}
           role="rowgroup"
           aria-label="รายการพนักงาน"
           style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}
         >
+          <div
+            role="rowgroup"
+            aria-label="หัวตาราง"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: HEADER_HEIGHT,
+              background: 'var(--color-canvas)',
+              borderBottom: '1px solid var(--color-hairline)',
+              position: 'sticky',
+              top: 0,
+              zIndex: 2,
+            }}
+          >
+            {COLUMNS.map((col) => (
+              <div
+                key={col.key}
+                role="columnheader"
+                style={{
+                  width: col.key === 'position_title' ? undefined : col.width,
+                  flex: col.key === 'position_title' ? 1 : undefined,
+                  minWidth: col.key === 'position_title' ? col.width : undefined,
+                  flexShrink: col.key === 'position_title' ? undefined : 0,
+                  padding: '0 12px',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-ink-muted)',
+                }}
+              >
+                {col.label}
+              </div>
+            ))}
+          </div>
           {filtered.length === 0 ? (
             <div
               style={{
