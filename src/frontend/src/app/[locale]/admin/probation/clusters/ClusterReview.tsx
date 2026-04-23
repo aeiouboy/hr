@@ -6,39 +6,14 @@
 // Pattern mirrors Hire ClusterReview — sliceValid map from store
 // surfaces per-slice completeness so admin can see what's still missing.
 
+import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { ClipboardCheck, Check, AlertCircle } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import { useProbationWizard, probationSliceValid } from '../store'
 
 const PASS_LABELS: Record<string, string> = {
   YES: 'ผ่านทดลองงาน',
   NO: 'ไม่ผ่านทดลองงาน',
   EXTEND: 'ต่อระยะทดลองงาน',
-}
-
-function SectionHeader({
-  icon: Icon,
-  eyebrow,
-  title,
-  sub,
-}: {
-  icon: LucideIcon
-  eyebrow: string
-  title: string
-  sub: string
-}) {
-  return (
-    <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-        <Icon size={20} aria-hidden />
-      </div>
-      <div>
-        <div className="humi-eyebrow">{eyebrow}</div>
-        <h3 className="humi-section-title">{title}</h3>
-        <p className="humi-section-sub" style={{ marginBottom: 0 }}>{sub}</p>
-      </div>
-    </div>
-  )
 }
 
 function SummaryRow({ label, value, ok }: { label: string; value: string; ok: boolean }) {

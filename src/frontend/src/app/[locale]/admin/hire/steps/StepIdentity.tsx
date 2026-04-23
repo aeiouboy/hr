@@ -103,7 +103,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">
+      <h2 className="text-lg font-semibold text-ink">
         ขั้นตอนที่ 1 — ข้อมูลระบุตัวตน (Identity)
       </h2>
 
@@ -111,10 +111,10 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       <fieldset>
         <label
           htmlFor="hire-date"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="humi-label"
         >
           วันที่เริ่มงาน (Hire Date)
-          <span aria-hidden="true" className="ml-1 text-red-500">*</span>
+          <span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
 
         <input
@@ -127,20 +127,14 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={hireDate}
           onChange={(e) => setHireDate(e.target.value)}
           onBlur={() => setTouched((prev) => ({ ...prev, hireDate: true }))}
-          className={[
-            'w-full max-w-xs rounded-md border px-3 py-2 text-sm',
-            'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            touched.hireDate && errors.hireDate
-              ? 'border-red-500 focus:ring-red-500'
-              : 'border-gray-300',
-          ].join(' ')}
+          className="humi-input w-full max-w-xs"
         />
 
         {touched.hireDate && errors.hireDate && (
           <p
             id="hire-date-error"
             role="alert"
-            className="mt-1 text-xs text-red-600"
+            className="mt-1 text-xs text-warning"
           >
             {errors.hireDate}
           </p>
@@ -151,10 +145,10 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       <fieldset>
         <label
           htmlFor="company-typeahead"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="humi-label"
         >
           บริษัท (Company)
-          <span aria-hidden="true" className="ml-1 text-red-500">*</span>
+          <span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
 
         <div
@@ -178,7 +172,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           <p
             id="company-code-error"
             role="alert"
-            className="mt-1 text-xs text-red-600"
+            className="mt-1 text-xs text-warning"
           >
             {errors.companyCode}
           </p>
@@ -189,10 +183,10 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       <fieldset>
         <label
           htmlFor="event-reason"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="humi-label"
         >
           สาเหตุการจ้างงาน (Event Reason)
-          <span aria-hidden="true" className="ml-1 text-red-500">*</span>
+          <span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
 
         <select
@@ -206,14 +200,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={eventReason}
           onChange={(e) => setEventReason(e.target.value)}
           onBlur={() => setTouched((prev) => ({ ...prev, eventReason: true }))}
-          className={[
-            'w-full max-w-xs rounded-md border px-3 py-2 text-sm',
-            'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            'bg-white text-gray-900',
-            touched.eventReason && errors.eventReason
-              ? 'border-red-500 focus:ring-red-500'
-              : 'border-gray-300',
-          ].join(' ')}
+          className="humi-select w-full max-w-xs"
         >
           <option value="">— เลือกสาเหตุ —</option>
           {PICKLIST_EVENT_REASON_HIRE.filter((item) => item.active).map((item) => (
@@ -227,7 +214,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           <p
             id="event-reason-error"
             role="alert"
-            className="mt-1 text-xs text-red-600"
+            className="mt-1 text-xs text-warning"
           >
             {errors.eventReason}
           </p>
@@ -235,8 +222,8 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       </fieldset>
 
       {/* หมายเหตุ required */}
-      <p className="text-xs text-gray-400">
-        <span className="text-red-500">*</span> ช่องที่บังคับกรอก
+      <p className="text-xs text-ink-soft">
+        <span className="humi-asterisk">*</span> ช่องที่บังคับกรอก
       </p>
     </div>
   )

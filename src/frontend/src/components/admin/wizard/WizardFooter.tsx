@@ -27,7 +27,7 @@ export function WizardFooter({
   const isLastStep = currentStep === totalSteps
 
   const primaryClass = cn(
-    'inline-flex items-center gap-2 rounded-md px-5 py-2 text-body font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
+    'inline-flex items-center gap-2 rounded-md px-5 py-2 min-h-[44px] text-body font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
     isCurrentStepValid
       ? 'bg-accent text-white shadow-sm hover:shadow-md'
       : 'cursor-not-allowed bg-canvas-soft text-ink-muted',
@@ -40,7 +40,7 @@ export function WizardFooter({
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]"
+            className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 min-h-[44px] text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]"
           >
             <ArrowLeft size={14} aria-hidden />
             ย้อนกลับ

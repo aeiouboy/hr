@@ -42,6 +42,8 @@ interface WizardShellProps {
   flowEyebrow?: string
   /** Override page title (Thai) — defaults to "เพิ่มพนักงานใหม่". */
   flowTitleTh?: string
+  /** aria-label สำหรับ stepper nav — defaults to "ขั้นตอน Hire Wizard". */
+  stepperLabel?: string
 }
 
 function formatTime(ts: number): string {
@@ -64,6 +66,7 @@ export function WizardShell({
   steps = WIZARD_STEPS,
   flowEyebrow = 'Hire Workflow',
   flowTitleTh = 'เพิ่มพนักงานใหม่',
+  stepperLabel,
 }: WizardShellProps) {
   const step = steps[currentStep - 1] ?? steps[0]
 
@@ -109,6 +112,7 @@ export function WizardShell({
             currentStep={currentStep}
             maxUnlockedStep={maxUnlockedStep}
             onStepClick={onStepClick}
+            stepperLabel={stepperLabel}
           />
         </aside>
 
@@ -132,7 +136,7 @@ export function WizardShell({
 
         {/* Content — max-width container with generous rhythm */}
         <div className="flex-1 overflow-y-auto bg-canvas">
-          <div className="mx-auto max-w-3xl px-6 py-6">{children}</div>
+          <div className="mx-auto w-full max-w-5xl px-6 py-6 lg:px-8 lg:py-8">{children}</div>
         </div>
       </div>
 

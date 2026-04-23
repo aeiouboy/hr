@@ -4,33 +4,8 @@
 import StepEmployeeInfo from '../steps/StepEmployeeInfo'
 import StepJob from '../steps/StepJob'
 import StepCompensation from '../steps/StepCompensation'
+import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { Briefcase, Building2, Wallet } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-
-function SectionHeader({
-  icon: Icon,
-  eyebrow,
-  title,
-  sub,
-}: {
-  icon: LucideIcon
-  eyebrow: string
-  title: string
-  sub: string
-}) {
-  return (
-    <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-        <Icon size={20} aria-hidden />
-      </div>
-      <div>
-        <div className="humi-eyebrow">{eyebrow}</div>
-        <h3 className="humi-section-title">{title}</h3>
-        <p className="humi-section-sub" style={{ marginBottom: 0 }}>{sub}</p>
-      </div>
-    </div>
-  )
-}
 
 export default function ClusterJob() {
   return (

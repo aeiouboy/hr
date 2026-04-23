@@ -11,8 +11,8 @@
 // Note: YES_NO picklist not yet exported from @hrms/shared/picklists (F2 pending).
 // Using inline constant until F2 is updated. Track via issue #14 ⚠️ PICKLIST_RISK.
 
+import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { ClipboardCheck, CalendarDays } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import { useProbationWizard } from '../store'
 
 // ⚠️ YES_NO not yet in @hrms/shared/picklists — defined inline per README guidance.
@@ -23,31 +23,6 @@ const YES_NO_OPTIONS = [
   { id: 'NO', labelTh: 'ไม่ผ่านทดลองงาน', labelEn: 'Unsuccessful Probation' },
   { id: 'EXTEND', labelTh: 'ต่อระยะทดลองงาน', labelEn: 'Extend Probation' },
 ] as const
-
-function SectionHeader({
-  icon: Icon,
-  eyebrow,
-  title,
-  sub,
-}: {
-  icon: LucideIcon
-  eyebrow: string
-  title: string
-  sub: string
-}) {
-  return (
-    <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-        <Icon size={20} aria-hidden />
-      </div>
-      <div>
-        <div className="humi-eyebrow">{eyebrow}</div>
-        <h3 className="humi-section-title">{title}</h3>
-        <p className="humi-section-sub" style={{ marginBottom: 0 }}>{sub}</p>
-      </div>
-    </div>
-  )
-}
 
 export default function ClusterAssessment() {
   const { formData, setStepData } = useProbationWizard()

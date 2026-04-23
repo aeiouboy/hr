@@ -35,11 +35,11 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">ขั้นตอนที่ 3 — ข้อมูลประวัติ (Biographical)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 3 — ข้อมูลประวัติ (Biographical)</h2>
 
       <fieldset>
-        <label htmlFor="date-of-birth" className="block text-sm font-medium text-gray-700 mb-1">
-          วันเกิด (Date of Birth)<span aria-hidden="true" className="ml-1 text-red-500">*</span>
+        <label htmlFor="date-of-birth" className="humi-label">
+          วันเกิด (Date of Birth)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input
           id="date-of-birth"
@@ -51,18 +51,14 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={dateOfBirth}
           onChange={(e) => setDateOfBirth(e.target.value)}
           onBlur={() => setTouched(true)}
-          className={[
-            'w-full max-w-xs rounded-md border px-3 py-2 text-sm',
-            'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            touched && error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300',
-          ].join(' ')}
+          className="humi-input w-full max-w-xs"
         />
         {touched && error && (
-          <p id="dob-error" role="alert" className="mt-1 text-xs text-red-600">{error}</p>
+          <p id="dob-error" role="alert" className="mt-1 text-xs text-warning">{error}</p>
         )}
       </fieldset>
 
-      <p className="text-xs text-gray-400"><span className="text-red-500">*</span> ช่องที่บังคับกรอก</p>
+      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
     </div>
   )
 }

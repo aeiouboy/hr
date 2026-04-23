@@ -53,66 +53,61 @@ export default function StepName({ onValidChange }: StepNameProps) {
   useEffect(() => { validate(firstNameTh, lastNameTh, firstNameEn, lastNameEn) },
     [firstNameTh, lastNameTh, firstNameEn, lastNameEn, validate])
 
-  const inputCls = (field?: string) =>
-    ['w-full max-w-sm rounded-md border px-3 py-2 text-sm',
-     'focus:outline-none focus:ring-2 focus:ring-blue-500',
-     field ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'].join(' ')
-
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">ขั้นตอนที่ 2 — ชื่อ-นามสกุล (Name)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 2 — ชื่อ-นามสกุล (Name)</h2>
 
       {/* ชื่อภาษาไทย — required */}
       <fieldset>
-        <label htmlFor="first-name-th" className="block text-sm font-medium text-gray-700 mb-1">
-          ชื่อ (ภาษาไทย)<span aria-hidden="true" className="ml-1 text-red-500">*</span>
+        <label htmlFor="first-name-th" className="humi-label">
+          ชื่อ (ภาษาไทย)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="first-name-th" type="text" required aria-required="true"
           aria-invalid={touched.firstNameTh && !!errors.firstNameTh}
           placeholder="ชื่อภาษาไทย" value={firstNameTh}
           onChange={(e) => setFirstNameTh(e.target.value)}
           onBlur={() => touch('firstNameTh')}
-          className={inputCls(touched.firstNameTh ? errors.firstNameTh : undefined)} />
+          className="humi-input w-full max-w-sm" />
         {touched.firstNameTh && errors.firstNameTh && (
-          <p role="alert" className="mt-1 text-xs text-red-600">{errors.firstNameTh}</p>)}
+          <p role="alert" className="mt-1 text-xs text-warning">{errors.firstNameTh}</p>)}
       </fieldset>
 
       {/* นามสกุลภาษาไทย — required */}
       <fieldset>
-        <label htmlFor="last-name-th" className="block text-sm font-medium text-gray-700 mb-1">
-          นามสกุล (ภาษาไทย)<span aria-hidden="true" className="ml-1 text-red-500">*</span>
+        <label htmlFor="last-name-th" className="humi-label">
+          นามสกุล (ภาษาไทย)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="last-name-th" type="text" required aria-required="true"
           aria-invalid={touched.lastNameTh && !!errors.lastNameTh}
           placeholder="นามสกุลภาษาไทย" value={lastNameTh}
           onChange={(e) => setLastNameTh(e.target.value)}
           onBlur={() => touch('lastNameTh')}
-          className={inputCls(touched.lastNameTh ? errors.lastNameTh : undefined)} />
+          className="humi-input w-full max-w-sm" />
         {touched.lastNameTh && errors.lastNameTh && (
-          <p role="alert" className="mt-1 text-xs text-red-600">{errors.lastNameTh}</p>)}
+          <p role="alert" className="mt-1 text-xs text-warning">{errors.lastNameTh}</p>)}
       </fieldset>
 
       {/* ชื่อภาษาอังกฤษ — optional */}
       <fieldset>
-        <label htmlFor="first-name-en" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="first-name-en" className="humi-label">
           ชื่อ (ภาษาอังกฤษ)
         </label>
         <input id="first-name-en" type="text" placeholder="First name (optional)" value={firstNameEn}
           onChange={(e) => setFirstNameEn(e.target.value)}
-          className={inputCls()} />
+          className="humi-input w-full max-w-sm" />
       </fieldset>
 
       {/* นามสกุลภาษาอังกฤษ — optional */}
       <fieldset>
-        <label htmlFor="last-name-en" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="last-name-en" className="humi-label">
           นามสกุล (ภาษาอังกฤษ)
         </label>
         <input id="last-name-en" type="text" placeholder="Last name (optional)" value={lastNameEn}
           onChange={(e) => setLastNameEn(e.target.value)}
-          className={inputCls()} />
+          className="humi-input w-full max-w-sm" />
       </fieldset>
 
-      <p className="text-xs text-gray-400"><span className="text-red-500">*</span> ช่องที่บังคับกรอก</p>
+      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
     </div>
   )
 }

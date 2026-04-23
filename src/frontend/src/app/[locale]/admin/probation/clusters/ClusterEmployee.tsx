@@ -13,34 +13,9 @@
 //
 // Note: YES_NO picklist (passProbation) lives in Step 2 (ClusterAssessment).
 
+import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { Search, CalendarDays } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import { useProbationWizard } from '../store'
-
-function SectionHeader({
-  icon: Icon,
-  eyebrow,
-  title,
-  sub,
-}: {
-  icon: LucideIcon
-  eyebrow: string
-  title: string
-  sub: string
-}) {
-  return (
-    <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-        <Icon size={20} aria-hidden />
-      </div>
-      <div>
-        <div className="humi-eyebrow">{eyebrow}</div>
-        <h3 className="humi-section-title">{title}</h3>
-        <p className="humi-section-sub" style={{ marginBottom: 0 }}>{sub}</p>
-      </div>
-    </div>
-  )
-}
 
 export default function ClusterEmployee() {
   const { formData, setStepData } = useProbationWizard()

@@ -35,11 +35,11 @@ export default function StepPersonal({ onValidChange }: StepPersonalProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">ขั้นตอนที่ 6 — ข้อมูลส่วนตัว (Personal)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 6 — ข้อมูลส่วนตัว (Personal)</h2>
 
       <fieldset>
-        <label htmlFor="address-line1" className="block text-sm font-medium text-gray-700 mb-1">
-          ที่อยู่ (Address Line 1)<span aria-hidden="true" className="ml-1 text-red-500">*</span>
+        <label htmlFor="address-line1" className="humi-label">
+          ที่อยู่ (Address Line 1)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input
           id="address-line1"
@@ -52,18 +52,14 @@ export default function StepPersonal({ onValidChange }: StepPersonalProps) {
           value={addressLine1}
           onChange={(e) => setAddressLine1(e.target.value)}
           onBlur={() => setTouched(true)}
-          className={[
-            'w-full max-w-lg rounded-md border px-3 py-2 text-sm',
-            'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            touched && error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300',
-          ].join(' ')}
+          className="humi-input w-full max-w-lg"
         />
         {touched && error && (
-          <p id="addr-error" role="alert" className="mt-1 text-xs text-red-600">{error}</p>
+          <p id="addr-error" role="alert" className="mt-1 text-xs text-warning">{error}</p>
         )}
       </fieldset>
 
-      <p className="text-xs text-gray-400"><span className="text-red-500">*</span> ช่องที่บังคับกรอก</p>
+      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
     </div>
   )
 }

@@ -303,7 +303,8 @@ export default function PayslipPage() {
  <meta charset="UTF-8">
  <title>Payslip - ${payslip.period}</title>
  <style>
- * { margin: 0; padding: 0; box-sizing: border-box; }
+ /* standalone payslip HTML — no Tailwind, scope reset to body/elements only (rule 26b) */
+ html, body, div, p, h1, h2, h3, table, tr, td, th { margin: 0; padding: 0; box-sizing: border-box; }
  body { font-family: -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 30px; color: #333; background: #fff; }
  .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--color-accent); padding-bottom: 16px; margin-bottom: 24px; }
  .company h1 { font-size: 20px; color: var(--color-accent); font-weight: 700; }
@@ -463,7 +464,8 @@ export default function PayslipPage() {
  <meta charset="UTF-8">
  <title>${docLabel} - ${doc.year}</title>
  <style>
- * { margin: 0; padding: 0; box-sizing: border-box; }
+ /* standalone tax-doc HTML — no Tailwind, scope reset to body/elements only (rule 26b) */
+ html, body, div, p, h1, h2, table, tr, td, th { margin: 0; padding: 0; box-sizing: border-box; }
  body { font-family: -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 40px 30px; color: #333; background: #fff; }
  .header { border-bottom: 3px solid var(--color-accent); padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
  .company h1 { font-size: 20px; color: var(--color-accent); font-weight: 700; }

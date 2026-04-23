@@ -38,11 +38,11 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">ขั้นตอนที่ 4 — ข้อมูลพนักงาน (Employee Info)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 4 — ข้อมูลพนักงาน (Employee Info)</h2>
 
       <fieldset>
-        <label htmlFor="employee-class" className="block text-sm font-medium text-gray-700 mb-1">
-          ประเภทพนักงาน (Employee Class)<span aria-hidden="true" className="ml-1 text-red-500">*</span>
+        <label htmlFor="employee-class" className="humi-label">
+          ประเภทพนักงาน (Employee Class)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select
           id="employee-class"
@@ -53,11 +53,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           value={employeeClass}
           onChange={(e) => setEmployeeClass(e.target.value)}
           onBlur={() => setTouched(true)}
-          className={[
-            'w-full max-w-xs rounded-md border px-3 py-2 text-sm bg-white text-gray-900',
-            'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            touched && error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300',
-          ].join(' ')}
+          className="humi-select w-full max-w-xs"
         >
           <option value="">— เลือกประเภทพนักงาน —</option>
           {PICKLIST_EMPLOYEE_CLASS.filter((item) => item.active).map((item) => (
@@ -65,11 +61,11 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           ))}
         </select>
         {touched && error && (
-          <p id="eclass-error" role="alert" className="mt-1 text-xs text-red-600">{error}</p>
+          <p id="eclass-error" role="alert" className="mt-1 text-xs text-warning">{error}</p>
         )}
       </fieldset>
 
-      <p className="text-xs text-gray-400"><span className="text-red-500">*</span> ช่องที่บังคับกรอก</p>
+      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
     </div>
   )
 }
