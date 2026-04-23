@@ -28,6 +28,7 @@ import {
   CalendarDays,
   Building2,
   Briefcase,
+  RefreshCw,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -205,7 +206,7 @@ export default function EmployeeDetailPage() {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 
-  // 6 action cards — all active after Phase 1 Batch 2 (BRD #109/117/110/111-115/93/102)
+  // 7 action cards — 6 original + เปลี่ยนประเภทการจ้าง (CNeXt #06)
   const ACTION_CARDS: ActionCard[] = [
     {
       icon: ClipboardCheck,
@@ -247,6 +248,13 @@ export default function EmployeeDetailPage() {
       label: 'จ้างซ้ำ',
       desc: 'รับกลับเข้าทำงานหลังสิ้นสุดสภาพ',
       href: `/${locale}/admin/employees/${empId}/rehire`,
+      locked: false,
+    },
+    {
+      icon: RefreshCw,
+      label: 'เปลี่ยนประเภทการจ้าง',
+      desc: 'เปลี่ยนระหว่าง Permanent / Part-time / สัญญาจ้าง',
+      href: `/${locale}/admin/employees/${empId}/change-type`,
       locked: false,
     },
   ]
@@ -314,6 +322,13 @@ export default function EmployeeDetailPage() {
             </div>
             <div className="text-body font-medium text-ink">{hireDateFormatted}</div>
             <div className="text-small text-ink-muted">{tenure}</div>
+            {employee.seniority_start_date !== employee.hire_date && (
+              <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                อายุงานนับจาก {new Date(employee.seniority_start_date).toLocaleDateString('th-TH', {
+                  year: 'numeric', month: 'short', day: 'numeric',
+                })}
+              </div>
+            )}
           </div>
 
           <div>
@@ -331,6 +346,9 @@ export default function EmployeeDetailPage() {
               ตำแหน่ง
             </div>
             <div className="text-body font-medium text-ink">{employee.position_title}</div>
+            {employee.corporate_title && employee.corporate_title !== employee.position_title && (
+              <div className="text-small text-ink-muted">ระดับ {employee.corporate_title}</div>
+            )}
           </div>
         </div>
       </div>
