@@ -8,6 +8,8 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
+import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
 import { stepIdentitySchema } from '@/lib/admin/validation/hireSchema'
 import {
   PICKLIST_EVENT_REASON_HIRE,
@@ -54,6 +56,13 @@ type TouchedState = {
 export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   const { formData, setStepData } = useHireWizard()
   const id = formData.identity
+  const allEmployees = useEmployees((s) => s.all)
+
+  // employeeId is system-generated per BRD #102 line 2267 (Invariant I1)
+  const generatedEmployeeId = useMemo(
+    () => id.employeeId || nextEmployeeCode(allEmployees),
+    [allEmployees, id.employeeId]
+  )
 
   // ── Local field state ───────────────────────────────────────────────────────
   const [hireDate,          setHireDate]          = useState(id.hireDate ?? todayISO())
@@ -66,7 +75,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   const [dateOfBirth,       setDateOfBirth]       = useState(id.dateOfBirth ?? '')
   const [countryOfBirth,    setCountryOfBirth]    = useState(id.countryOfBirth ?? '')
   const [regionOfBirth,     setRegionOfBirth]     = useState(id.regionOfBirth)
-  const [employeeId,        setEmployeeId]        = useState(id.employeeId)
+  const [employeeId,        setEmployeeId]        = useState(id.employeeId || generatedEmployeeId)
   const [nationalIdCardType,setNationalIdCardType]= useState(id.nationalIdCardType ?? '')
   const [country,           setCountry]           = useState(id.country ?? '')
   const [nationalId,        setNationalId]        = useState(id.nationalId)
@@ -322,19 +331,19 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           className="humi-input w-full max-w-sm" />
       </fieldset>
 
-      {/* ─── BA row 12 — Employee ID * ─── */}
+      {/* ─── BA row 12 — Employee ID (Invariant I1: system-generated per BRD #102 line 2267) ─── */}
       <fieldset>
         <label htmlFor="employee-id" className="humi-label">
-          รหัสพนักงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          รหัสพนักงาน
         </label>
-        <input id="employee-id" type="text" required aria-required="true"
-          aria-invalid={touched.employeeId && !!errors.employeeId}
-          placeholder="เช่น EMP-00001"
-          value={employeeId}
-          onChange={(e) => setEmployeeId(e.target.value)}
-          onBlur={() => touch('employeeId')}
-          className="humi-input w-full max-w-xs" />
-        {errMsg('employeeId')}
+        <div
+          id="employee-id"
+          aria-readonly="true"
+          className="humi-input w-full max-w-xs bg-neutral-50 text-neutral-700 font-mono select-all"
+        >
+          {employeeId}
+        </div>
+        <p className="text-xs text-neutral-500 mt-1">ระบบสร้างอัตโนมัติต่อเนื่องจาก Employee Code Range</p>
       </fieldset>
 
       {/* ─── BA row 13 — National ID Card Type * ─── */}
