@@ -28,6 +28,10 @@ import {
   CalendarDays,
   Building2,
   Briefcase,
+  RefreshCw,
+  TrendingUp,
+  MapPin,
+  Network,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -365,6 +369,26 @@ export default function EmployeeDetailPage() {
             </div>
             <div className="text-body font-medium text-ink">{employee.position_title}</div>
           </div>
+
+          {/* Retail chips — audit A6/#11: conditional on non-null */}
+          {employee.store_branch_code && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+                <MapPin size={10} className="inline mr-1" aria-hidden />
+                สาขา/หน่วยงาน
+              </div>
+              <div className="text-body font-medium text-ink">{employee.store_branch_code}</div>
+            </div>
+          )}
+          {employee.hr_district && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+                <Network size={10} className="inline mr-1" aria-hidden />
+                เขต HR
+              </div>
+              <div className="text-body font-medium text-ink">{employee.hr_district}</div>
+            </div>
+          )}
 
           {/* B4 PoC: computed fields — Age / Generation / Year-of-Service */}
           {ageResult && (

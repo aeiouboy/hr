@@ -5,6 +5,7 @@
 // Pool: 20 Thai given names + 20 surnames (phonetic EN transliteration paired).
 // Hire date: 2016-2024 range. 85% active, 15% inactive/terminated mix.
 // Probation: 60% in_probation if hire_date within last 119 days.
+// Retail fields (audit A6/#11): store_branch_code + hr_district — ~70% retail (CRC/ROBINSON)
 
 export interface MockEmployee {
   employee_id: string
@@ -20,6 +21,10 @@ export interface MockEmployee {
   org_unit: string
   probation_status: 'in_probation' | 'passed' | 'terminated' | 'extended'
   status: 'active' | 'inactive' | 'terminated'
+  /** รหัสสาขา/หน่วยงานค้าปลีก — audit A6/#11. null = HQ/finance (ไม่ใช่สาขา) */
+  store_branch_code: string | null
+  /** เขต HR ค้าปลีก — audit A6/#11. null = HQ/finance */
+  hr_district: string | null
 }
 
 // ──────────────────────────────────────────────
@@ -55,6 +60,26 @@ const SURNAME_EN = [
 ]
 
 const COMPANIES: Array<MockEmployee['company']> = ['CEN', 'CRC', 'CU', 'CPN', 'ROBINSON']
+
+// Retail field pools — audit A6/#11 (8 store codes + 5 HR districts)
+const STORE_BRANCH_CODES = [
+  'CDS-CTW',   // CentralWorld
+  'CDS-CPN',   // CPN Pinklao
+  'CDS-RMA',   // CRC Rama 9
+  'ROB-CLN',   // Robinson Chaeng Watthana
+  'ROB-RMA',   // Robinson Rama 9
+  'ROB-UPC',   // Robinson Chiang Mai (Upcountry)
+  'CDS-PAT',   // CRC Pattaya
+  'ROB-KON',   // Robinson Khon Kaen
+] as const
+
+const HR_DISTRICTS = [
+  'D-BKK-1',   // Bangkok Zone 1 (Sukhumvit / CBD)
+  'D-BKK-2',   // Bangkok Zone 2 (West / Pinklao)
+  'D-CNX-N',   // Chiang Mai / North
+  'D-UPC-N',   // Upcountry North
+  'D-EAS-E',   // Eastern Seaboard
+] as const
 
 const POSITIONS = [
   'HR Business Partner', 'Software Engineer', 'Senior Analyst',
@@ -164,6 +189,16 @@ function generateEmployees(count: number): MockEmployee[] {
     const employee_class: MockEmployee['employee_class'] =
       rnd() < 0.75 ? 'PERMANENT' : 'PARTIME'
 
+    const company = pick(rnd, COMPANIES)
+
+    // Retail fields: CRC + ROBINSON employees are ~70% retail.
+    // CEN/CU/CPN (HQ/finance-heavy) are null.
+    const isRetailCompany = company === 'CRC' || company === 'ROBINSON'
+    const retailRoll = rnd()
+    const isRetail = isRetailCompany && retailRoll < 0.70
+    const store_branch_code = isRetail ? pick(rnd, STORE_BRANCH_CODES as unknown as string[]) : null
+    const hr_district = isRetail ? pick(rnd, HR_DISTRICTS as unknown as string[]) : null
+
     employees.push({
       employee_id: `EMP-${num}`,
       first_name_th,
@@ -173,11 +208,13 @@ function generateEmployees(count: number): MockEmployee[] {
       employee_class,
       date_of_birth,
       hire_date,
-      company: pick(rnd, COMPANIES),
+      company,
       position_title: pick(rnd, POSITIONS),
       org_unit: pick(rnd, ORG_UNITS),
       probation_status,
       status,
+      store_branch_code,
+      hr_district,
     })
   }
 
