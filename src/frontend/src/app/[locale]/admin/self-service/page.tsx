@@ -1,8 +1,6 @@
 'use client'
 
-// self-service/page.tsx — Hub landing for Self-Service Config
-// แสดง 6 editor cards (BRD #178-183) + dirty indicator
-// Sub-nav + save-bar จัดการโดย layout.tsx
+// Sub-nav + save-bar owned by layout.tsx — this is hub only.
 
 import Link from 'next/link'
 import { LayoutGrid, Eye, AlertCircle, Lock, MousePointer2, Home } from 'lucide-react'

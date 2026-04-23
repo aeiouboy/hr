@@ -1,16 +1,7 @@
 'use client'
 
-// /admin/reports — Reports Hub (Archetype D)
-//
-// Dashboard ที่ aggregate จาก stores ที่ ship แล้ว (Batch 1-3):
-//   useEmployees   → headcount + status mix + probation pipeline
-//   useTimelines   → recent activity (30d rolling)
-//   useJobs        → active job count
-//   usePositions   → headcount vs capacity (fill rate)
-//   useOrgUnits    → org depth + units per company
-//
+// /admin/reports — Reports Hub (Archetype D).
 // ไม่มี BA/BRD dependency ใหม่ — report เฉพาะข้อมูลที่ user navigate ถึงได้อยู่แล้ว.
-// เมื่อ Compensation (Batch 4+) + Benefit เข้ามา ค่อยเพิ่ม widget tier 2.
 
 import { useMemo } from 'react'
 import { Users, UserCheck, Briefcase, Building2, Network, Clock } from 'lucide-react'
@@ -21,14 +12,6 @@ import { useOrgUnits } from '@/lib/admin/store/useOrgUnits'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
 
-const COMPANY_LABELS_TH: Record<string, string> = {
-  CEN: 'เซ็นทรัล กรุ๊ป',
-  CRC: 'เซ็นทรัล เรสเตอรองส์',
-  CU: 'เซ็นทรัล ยูนิต',
-  CPN: 'เซ็นทรัล พัฒนา',
-  ROBINSON: 'โรบินสัน',
-}
-
 const TIMELINE_LABELS_TH: Record<TimelineEvent['kind'], string> = {
   hire: 'รับพนักงานใหม่',
   probation_assess: 'ประเมินทดลองงาน',
@@ -38,10 +21,6 @@ const TIMELINE_LABELS_TH: Record<TimelineEvent['kind'], string> = {
   contract_renewal: 'ต่อสัญญา',
   promotion: 'เลื่อนตำแหน่ง',
 }
-
-// ──────────────────────────────────────────────
-// Stat card
-// ──────────────────────────────────────────────
 
 interface StatCardProps {
   icon: React.ReactNode
@@ -67,10 +46,6 @@ function StatCard({ icon, label, value, sub }: StatCardProps) {
     </div>
   )
 }
-
-// ──────────────────────────────────────────────
-// Breakdown row (key → count bar)
-// ──────────────────────────────────────────────
 
 interface BreakdownRowProps {
   label: string
@@ -102,10 +77,6 @@ function BreakdownRow({ label, count, max }: BreakdownRowProps) {
   )
 }
 
-// ──────────────────────────────────────────────
-// Report section shell
-// ──────────────────────────────────────────────
-
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="humi-card" style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -117,10 +88,6 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-// ──────────────────────────────────────────────
-// Page
-// ──────────────────────────────────────────────
-
 export default function ReportsPage() {
   const employees = useEmployees((s) => s.all)
   const jobs = useJobs((s) => s.all)
@@ -128,40 +95,41 @@ export default function ReportsPage() {
   const orgUnits = useOrgUnits((s) => s.all)
   const byEmployee = useTimelines((s) => s.byEmployee)
 
-  // Headcount aggregate
-  const headcount = useMemo(() => {
-    const by = { active: 0, inactive: 0, terminated: 0 }
-    for (const e of employees) by[e.status] = (by[e.status] ?? 0) + 1
-    return { total: employees.length, ...by }
-  }, [employees])
-
-  // Company mix
-  const byCompany = useMemo(() => {
-    const m: Record<string, number> = {}
-    for (const e of employees) {
-      if (e.status !== 'terminated') m[e.company] = (m[e.company] ?? 0) + 1
+  // Company code → Thai label derived from org roots (SSOT: useOrgUnits seed).
+  const companyLabelsTh = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const u of orgUnits) {
+      if (u.id === u.company) m.set(u.company, u.nameTh)
     }
-    return Object.entries(m)
-      .map(([code, count]) => ({ code, label: COMPANY_LABELS_TH[code] ?? code, count }))
-      .sort((a, b) => b.count - a.count)
-  }, [employees])
-
-  // Employee class mix
-  const byClass = useMemo(() => {
-    const permanent = employees.filter((e) => e.employee_class === 'PERMANENT' && e.status !== 'terminated').length
-    const partime = employees.filter((e) => e.employee_class === 'PARTIME' && e.status !== 'terminated').length
-    return { permanent, partime }
-  }, [employees])
-
-  // Probation pipeline (only currently active employees)
-  const probation = useMemo(() => {
-    const live = employees.filter((e) => e.status === 'active')
-    const m = { in_probation: 0, passed: 0, extended: 0, terminated: 0 }
-    for (const e of live) m[e.probation_status] = (m[e.probation_status] ?? 0) + 1
     return m
-  }, [employees])
+  }, [orgUnits])
 
-  // Master data counts
+  // Single pass over employees → headcount + byCompany + byClass + probation.
+  const employeeStats = useMemo(() => {
+    const headcount = { total: employees.length, active: 0, inactive: 0, terminated: 0 }
+    const companyLive: Record<string, number> = {}
+    const classLive = { permanent: 0, partime: 0 }
+    const probation = { in_probation: 0, passed: 0, extended: 0, terminated: 0 }
+
+    for (const e of employees) {
+      headcount[e.status] += 1
+      if (e.status !== 'terminated') {
+        companyLive[e.company] = (companyLive[e.company] ?? 0) + 1
+        if (e.employee_class === 'PERMANENT') classLive.permanent += 1
+        else if (e.employee_class === 'PARTIME') classLive.partime += 1
+      }
+      if (e.status === 'active') probation[e.probation_status] += 1
+    }
+
+    const byCompany = Object.entries(companyLive)
+      .map(([code, count]) => ({ code, label: companyLabelsTh.get(code) ?? code, count }))
+      .sort((a, b) => b.count - a.count)
+
+    return { headcount, byCompany, byClass: classLive, probation }
+  }, [employees, companyLabelsTh])
+
+  const { headcount, byCompany, byClass, probation } = employeeStats
+
   const masterData = useMemo(() => {
     const activeJobs = jobs.filter((j) => j.active).length
     const activePositions = positions.filter((p) => p.active).length
@@ -181,7 +149,7 @@ export default function ReportsPage() {
     }
   }, [jobs, positions, orgUnits])
 
-  // Recent timeline activity (last 30d)
+  // Last 30d activity — pre-filtered to only kinds with count > 0, ready to render.
   const recentActivity = useMemo(() => {
     const cutoff = new Date()
     cutoff.setDate(cutoff.getDate() - 30)
@@ -199,16 +167,20 @@ export default function ReportsPage() {
     for (const events of Object.values(byEmployee)) {
       for (const ev of events) {
         if (ev.effectiveDate >= cutoffIso) {
-          counts[ev.kind] = (counts[ev.kind] ?? 0) + 1
+          counts[ev.kind] += 1
           total += 1
         }
       }
     }
-    return { counts, total }
+    const entries = (Object.keys(TIMELINE_LABELS_TH) as Array<TimelineEvent['kind']>)
+      .filter((k) => counts[k] > 0)
+      .map((k) => ({ kind: k, label: TIMELINE_LABELS_TH[k], count: counts[k] }))
+    const max = entries.reduce((m, e) => (e.count > m ? e.count : m), 1)
+    return { entries, total, max }
   }, [byEmployee])
 
   const companyMax = byCompany[0]?.count ?? 0
-  const activityMax = Math.max(...Object.values(recentActivity.counts), 1)
+  const classMax = Math.max(byClass.permanent, byClass.partime)
 
   return (
     <div className="pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -283,8 +255,8 @@ export default function ReportsPage() {
 
         <Section title="สัดส่วนประเภทการจ้าง">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <BreakdownRow label="พนักงานประจำ" count={byClass.permanent} max={Math.max(byClass.permanent, byClass.partime)} />
-            <BreakdownRow label="พนักงานบางเวลา" count={byClass.partime} max={Math.max(byClass.permanent, byClass.partime)} />
+            <BreakdownRow label="พนักงานประจำ" count={byClass.permanent} max={classMax} />
+            <BreakdownRow label="พนักงานบางเวลา" count={byClass.partime} max={classMax} />
           </div>
           <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 8 }}>
             นับเฉพาะพนักงานที่ยังไม่พ้นสภาพ
@@ -298,16 +270,9 @@ export default function ReportsPage() {
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {(Object.keys(TIMELINE_LABELS_TH) as Array<TimelineEvent['kind']>).map((t) =>
-                recentActivity.counts[t] > 0 ? (
-                  <BreakdownRow
-                    key={t}
-                    label={TIMELINE_LABELS_TH[t]}
-                    count={recentActivity.counts[t]}
-                    max={activityMax}
-                  />
-                ) : null,
-              )}
+              {recentActivity.entries.map((e) => (
+                <BreakdownRow key={e.kind} label={e.label} count={e.count} max={recentActivity.max} />
+              ))}
             </div>
           )}
         </Section>
