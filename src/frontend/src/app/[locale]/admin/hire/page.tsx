@@ -1,24 +1,32 @@
 'use client'
 
-// hire/page.tsx — Hire Wizard entry point
-// Renders WizardShell + routes step components 1-8
-// Store: useHireWizard (Zustand) — goNext/goBack/jumpTo/isStepValid/reset
+// hire/page.tsx — Hire Wizard entry (Option-1 3-step restructure)
+// Shell + 3 cluster wrappers. State/validation/persist live in
+// useHireWizard store — persist middleware auto-saves draft to
+// localStorage on every setStepData call.
 import { WizardShell } from '@/components/admin/wizard/WizardShell'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
-import StepIdentity from './steps/StepIdentity'
-import StepName from './steps/StepName'
-import StepBiographical from './steps/StepBiographical'
-import StepEmployeeInfo from './steps/StepEmployeeInfo'
-import StepNationalId from './steps/StepNationalId'
-import StepPersonal from './steps/StepPersonal'
-import StepJob from './steps/StepJob'
-import StepCompensation from './steps/StepCompensation'
+import ClusterWho from './clusters/ClusterWho'
+import ClusterJob from './clusters/ClusterJob'
+import ClusterReview from './clusters/ClusterReview'
 
 export default function HirePage() {
-  const { currentStep, maxUnlockedStep, goNext, goBack, jumpTo, isStepValid } = useHireWizard()
+  const {
+    currentStep,
+    maxUnlockedStep,
+    lastSavedAt,
+    goNext,
+    goBack,
+    jumpTo,
+    isStepValid,
+    reset,
+  } = useHireWizard()
 
-  // Step 8 submit ถูก handle ใน StepCompensation (console.log + toast + reset)
-  const handleSubmit = () => undefined
+  const handleSubmit = () => {
+    // TODO: wire to lifecycle action backend (Part B). For now print + reset.
+    console.info('[HirePage] submit', useHireWizard.getState().formData)
+    reset()
+  }
 
   return (
     <div className="h-full">
@@ -26,19 +34,15 @@ export default function HirePage() {
         currentStep={currentStep}
         maxUnlockedStep={maxUnlockedStep}
         isCurrentStepValid={isStepValid(currentStep)}
+        lastSavedAt={lastSavedAt}
         onStepClick={jumpTo}
         onBack={goBack}
         onNext={goNext}
         onSubmit={handleSubmit}
       >
-        {currentStep === 1 && <StepIdentity />}
-        {currentStep === 2 && <StepName />}
-        {currentStep === 3 && <StepBiographical />}
-        {currentStep === 4 && <StepEmployeeInfo />}
-        {currentStep === 5 && <StepNationalId />}
-        {currentStep === 6 && <StepPersonal />}
-        {currentStep === 7 && <StepJob />}
-        {currentStep === 8 && <StepCompensation />}
+        {currentStep === 1 && <ClusterWho />}
+        {currentStep === 2 && <ClusterJob />}
+        {currentStep === 3 && <ClusterReview />}
       </WizardShell>
     </div>
   )

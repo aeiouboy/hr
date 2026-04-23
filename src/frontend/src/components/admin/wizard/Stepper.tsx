@@ -1,15 +1,21 @@
 'use client'
 
-// Stepper.tsx — แสดง visual progress ของ 8 ขั้นตอน Hire Wizard
-// รองรับ states: locked / active / complete (AC-3, AC-5)
+// Stepper.tsx — Humi-skinned 3-step rail for Hire Wizard
+// States: locked (disabled) / active (teal bg) / complete (teal ring + ✓)
+// Each step shows ไทย label + short Thai description so the rail acts
+// as a table-of-contents, not a pure progress bar.
+import { Check } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
 interface StepItem {
   number: number
   labelTh: string
   labelEn: string
+  descTh?: string
 }
 
 interface StepperProps {
-  steps: StepItem[]
+  steps: readonly StepItem[] | StepItem[]
   currentStep: number
   maxUnlockedStep: number
   onStepClick: (step: number) => void
@@ -17,13 +23,11 @@ interface StepperProps {
 
 export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick }: StepperProps) {
   return (
-    <nav aria-label="ขั้นตอน Hire Wizard" className="flex flex-col gap-1 w-full">
-      <ol className="flex flex-col gap-0.5">
+    <nav aria-label="ขั้นตอน Hire Wizard">
+      <ol className="flex flex-col gap-1">
         {steps.map((step) => {
-          // คำนวณ state ของแต่ละ step
           const isActive = step.number === currentStep
           const isComplete = step.number < currentStep
-          // step unlock ถ้า number <= maxUnlockedStep
           const isUnlocked = step.number <= maxUnlockedStep
           const isDisabled = !isUnlocked
 
@@ -31,41 +35,53 @@ export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick }: St
             <li key={step.number} data-testid="step-item">
               <button
                 type="button"
-                onClick={() => {
-                  // ป้องกัน navigation ไปยัง step ที่ยังล็อคอยู่
-                  if (!isDisabled) {
-                    onStepClick(step.number)
-                  }
-                }}
+                onClick={() => !isDisabled && onStepClick(step.number)}
                 disabled={isDisabled}
                 aria-current={isActive ? 'step' : undefined}
                 aria-disabled={isDisabled ? 'true' : undefined}
-                className={[
-                  'w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left text-sm transition-colors',
-                  isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
-                  isActive ? 'bg-blue-50 text-blue-700' : '',
-                  isComplete && !isActive ? 'text-green-700' : '',
-                  !isActive && !isComplete && !isDisabled ? 'text-gray-600 hover:bg-gray-50' : '',
-                ].join(' ')}
+                className={cn(
+                  'flex w-full items-start gap-3 rounded-lg px-3 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
+                  isDisabled && 'cursor-not-allowed opacity-45',
+                  !isDisabled && 'cursor-pointer',
+                  isActive && 'bg-accent-soft',
+                  !isActive && !isDisabled && 'hover:bg-canvas-soft',
+                )}
               >
-                {/* ตัวเลขขั้นตอน หรือ checkmark เมื่อ complete */}
                 <span
-                  className={[
-                    'flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold border',
-                    isActive ? 'bg-blue-600 text-white border-blue-600' : '',
-                    isComplete ? 'bg-green-500 text-white border-green-500' : '',
-                    isDisabled ? 'bg-gray-100 text-gray-400 border-gray-200' : '',
-                    !isActive && !isComplete && !isDisabled ? 'bg-white text-gray-600 border-gray-300' : '',
-                  ].join(' ')}
+                  className={cn(
+                    'mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold transition-colors',
+                    isActive && 'border-accent bg-accent text-white',
+                    isComplete && !isActive && 'border-accent bg-surface text-accent',
+                    !isActive && !isComplete && !isDisabled && 'border-hairline bg-surface text-ink-muted',
+                    isDisabled && 'border-hairline bg-surface text-ink-faint',
+                  )}
                   aria-hidden="true"
                 >
-                  {isComplete ? '✓' : step.number}
+                  {isComplete ? <Check size={14} strokeWidth={3} /> : step.number}
                 </span>
 
-                {/* label ขั้นตอน — ไทยเป็นหลัก */}
-                <span className="flex flex-col min-w-0">
-                  <span className="font-medium whitespace-nowrap">{step.labelTh}</span>
-                  <span className="text-xs text-gray-400 whitespace-nowrap">{step.labelEn}</span>
+                <span className="flex min-w-0 flex-col">
+                  <span
+                    className={cn(
+                      'font-display text-[14px] font-semibold leading-tight',
+                      isActive ? 'text-accent' : isDisabled ? 'text-ink-faint' : 'text-ink',
+                    )}
+                  >
+                    {step.labelTh}
+                  </span>
+                  <span className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-ink-muted">
+                    {step.labelEn}
+                  </span>
+                  {step.descTh && (
+                    <span
+                      className={cn(
+                        'mt-1 text-[11px] leading-snug',
+                        isActive ? 'text-ink-soft' : 'text-ink-muted',
+                      )}
+                    >
+                      {step.descTh}
+                    </span>
+                  )}
                 </span>
               </button>
             </li>

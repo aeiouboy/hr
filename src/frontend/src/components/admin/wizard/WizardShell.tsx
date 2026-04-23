@@ -1,27 +1,29 @@
 'use client'
 
-// WizardShell.tsx — Container หลักของ Hire Wizard
-// รวม Stepper (ซ้าย) + content area (กลาง) + WizardFooter (ล่าง)
-// รองรับ mobile responsive — stepper ซ้อนบนใน mobile (AC-10)
+// WizardShell.tsx — Hire Wizard container (Humi-skinned, 3-step)
+//
+// Option 1 restructure (2026-04-23): 8 visible steps → 3 clusters.
+// formData slice shape unchanged so inner Step*.tsx components
+// still dispatch setStepData('identity' | 'name' | ...) as before.
+//
+// Layout: stepper rail (left, desktop) / mobile progress bar,
+// content area centred inside humi-card, draft-chip in header
+// so admin sees "บันทึกร่างอัตโนมัติ · HH:MM" at a glance.
+import { useEffect, useState } from 'react'
 import { Stepper } from './Stepper'
 import { WizardFooter } from './WizardFooter'
 
-// 8 ขั้นตอน Hire Wizard ตาม spec §5.2
 export const WIZARD_STEPS = [
-  { number: 1, labelTh: 'ข้อมูลระบุตัวตน', labelEn: 'Identity' },
-  { number: 2, labelTh: 'ชื่อ-นามสกุล',   labelEn: 'Name' },
-  { number: 3, labelTh: 'ข้อมูลประวัติ',    labelEn: 'Biographical' },
-  { number: 4, labelTh: 'ข้อมูลพนักงาน',   labelEn: 'Employee Info' },
-  { number: 5, labelTh: 'เลขบัตรประชาชน',  labelEn: 'National ID' },
-  { number: 6, labelTh: 'ข้อมูลส่วนตัว',   labelEn: 'Personal' },
-  { number: 7, labelTh: 'ข้อมูลงาน',       labelEn: 'Job' },
-  { number: 8, labelTh: 'ค่าตอบแทน',       labelEn: 'Compensation' },
+  { number: 1, labelTh: 'ข้อมูลบุคคล',    labelEn: 'Who',    descTh: 'ระบุตัวตน • ชื่อ • บัตรประชาชน • ประวัติ' },
+  { number: 2, labelTh: 'ข้อมูลงาน',       labelEn: 'Job',    descTh: 'Employee Info • ตำแหน่ง • ค่าตอบแทน' },
+  { number: 3, labelTh: 'ตรวจสอบและส่ง',  labelEn: 'Review', descTh: 'ข้อมูลติดต่อ • สรุปก่อน Submit' },
 ] as const
 
 interface WizardShellProps {
   currentStep: number
   maxUnlockedStep: number
   isCurrentStepValid: boolean
+  lastSavedAt?: number | null
   onStepClick: (step: number) => void
   onBack: () => void
   onNext: () => void
@@ -29,47 +31,80 @@ interface WizardShellProps {
   children: React.ReactNode
 }
 
+function formatTime(ts: number): string {
+  const d = new Date(ts)
+  const hh = String(d.getHours()).padStart(2, '0')
+  const mm = String(d.getMinutes()).padStart(2, '0')
+  return `${hh}:${mm}`
+}
+
 export function WizardShell({
   currentStep,
   maxUnlockedStep,
   isCurrentStepValid,
+  lastSavedAt,
   onStepClick,
   onBack,
   onNext,
   onSubmit,
   children,
 }: WizardShellProps) {
+  const step = WIZARD_STEPS[currentStep - 1]
+
+  // Ticks every 30s so "บันทึก X นาทีที่แล้ว" stays fresh without the parent
+  // having to re-render on its own timer.
+  const [, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 30_000)
+    return () => clearInterval(id)
+  }, [])
+
   return (
-    <div className="flex flex-col h-full min-h-0">
-      {/* Header ของ Wizard */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-white">
-        <h1 className="text-xl font-semibold text-gray-900">เพิ่มพนักงานใหม่</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
-          ขั้นตอน {currentStep} จาก {WIZARD_STEPS.length}
-        </p>
+    <div className="flex h-full min-h-0 flex-col">
+      {/* Header — humi-card style without the card chrome so it reads as page section */}
+      <div className="border-b border-hairline bg-canvas-soft px-6 py-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div className="humi-eyebrow">Hire Workflow</div>
+            <h1 className="mt-1 font-display text-[22px] font-semibold leading-tight text-ink">
+              เพิ่มพนักงานใหม่
+            </h1>
+            <p className="mt-1 text-small text-ink-soft">
+              ขั้นตอนที่ {currentStep} จาก {WIZARD_STEPS.length} · {step.labelTh}
+            </p>
+          </div>
+          {lastSavedAt != null && (
+            <span
+              className="humi-draft-chip"
+              title={new Date(lastSavedAt).toLocaleString('th-TH')}
+              aria-live="polite"
+            >
+              บันทึกร่างอัตโนมัติ · {formatTime(lastSavedAt)}
+            </span>
+          )}
+        </div>
       </div>
 
-      {/* Body — Stepper ซ้าย + content ขวา */}
+      {/* Body — stepper rail + form scroll area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Stepper sidebar — hidden บน mobile */}
-        <div className="hidden md:flex flex-col w-56 bg-white border-r border-gray-200 overflow-y-auto py-4 px-2">
+        <aside className="hidden w-64 shrink-0 overflow-y-auto border-r border-hairline bg-surface px-3 py-5 md:block">
           <Stepper
             steps={[...WIZARD_STEPS]}
             currentStep={currentStep}
             maxUnlockedStep={maxUnlockedStep}
             onStepClick={onStepClick}
           />
-        </div>
+        </aside>
 
-        {/* Mobile Stepper — แสดง compact progress bar บน mobile */}
-        <div className="md:hidden w-full border-b border-gray-200 bg-white px-4 py-2">
-          <div className="flex items-center justify-between text-xs text-gray-500">
+        {/* Mobile progress bar */}
+        <div className="w-full border-b border-hairline bg-surface px-4 py-3 md:hidden">
+          <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-ink-muted">
             <span>ขั้นตอน {currentStep}/{WIZARD_STEPS.length}</span>
-            <span>{WIZARD_STEPS[currentStep - 1].labelTh}</span>
+            <span className="text-ink">{step.labelTh}</span>
           </div>
-          <div className="mt-1.5 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-canvas-soft">
             <div
-              className="h-full bg-blue-600 rounded-full transition-all"
+              className="h-full rounded-full bg-accent transition-all"
               style={{ width: `${(currentStep / WIZARD_STEPS.length) * 100}%` }}
               role="progressbar"
               aria-valuenow={currentStep}
@@ -79,15 +114,12 @@ export function WizardShell({
           </div>
         </div>
 
-        {/* Form content area */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-6">
-            {children}
-          </div>
+        {/* Content — max-width container with generous rhythm */}
+        <div className="flex-1 overflow-y-auto bg-canvas">
+          <div className="mx-auto max-w-3xl px-6 py-6">{children}</div>
         </div>
       </div>
 
-      {/* Footer navigation */}
       <WizardFooter
         currentStep={currentStep}
         totalSteps={WIZARD_STEPS.length}

@@ -1,7 +1,11 @@
 'use client'
 
-// WizardFooter.tsx — ปุ่ม Back / Next / Submit ของ Hire Wizard
-// Next disabled ถ้า step ยังไม่ valid (AC-5, AC-7)
+// WizardFooter.tsx — Humi-skinned Back / Next / Submit
+// Accent teal primary + outlined secondary. Disabled state uses
+// canvas-soft instead of a loud greyed-out button so it blends.
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
 interface WizardFooterProps {
   currentStep: number
   totalSteps: number
@@ -19,55 +23,56 @@ export function WizardFooter({
   onNext,
   onSubmit,
 }: WizardFooterProps) {
-  // Step 1 ไม่มีปุ่ม Back
   const isFirstStep = currentStep === 1
-  // Step 8 แสดง Submit แทน Next
   const isLastStep = currentStep === totalSteps
 
+  const primaryClass = cn(
+    'inline-flex items-center gap-2 rounded-md px-5 py-2 text-body font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
+    isCurrentStepValid
+      ? 'bg-accent text-white shadow-sm hover:shadow-md'
+      : 'cursor-not-allowed bg-canvas-soft text-ink-muted',
+  )
+
   return (
-    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-white">
-      {/* ปุ่ม Back */}
+    <div className="flex items-center justify-between border-t border-hairline bg-surface px-6 py-4">
       <div>
         {!isFirstStep && (
           <button
             type="button"
             onClick={onBack}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]"
           >
+            <ArrowLeft size={14} aria-hidden />
             ย้อนกลับ
           </button>
         )}
       </div>
 
-      {/* ปุ่ม Next หรือ Submit */}
-      <div>
+      <div className="flex items-center gap-3">
+        {!isCurrentStepValid && (
+          <span className="text-small text-ink-muted" aria-live="polite">
+            กรอกข้อมูลที่จำเป็นให้ครบก่อนดำเนินการต่อ
+          </span>
+        )}
         {isLastStep ? (
           <button
             type="button"
             onClick={onSubmit}
             disabled={!isCurrentStepValid}
-            className={[
-              'px-6 py-2 text-sm font-medium text-white rounded-md transition-colors',
-              isCurrentStepValid
-                ? 'bg-green-600 hover:bg-green-700'
-                : 'bg-gray-300 cursor-not-allowed',
-            ].join(' ')}
+            className={primaryClass}
           >
-            บันทึก (Submit)
+            <Check size={16} aria-hidden />
+            บันทึกและส่ง
           </button>
         ) : (
           <button
             type="button"
             onClick={onNext}
             disabled={!isCurrentStepValid}
-            className={[
-              'px-6 py-2 text-sm font-medium text-white rounded-md transition-colors',
-              isCurrentStepValid
-                ? 'bg-blue-600 hover:bg-blue-700'
-                : 'bg-gray-300 cursor-not-allowed',
-            ].join(' ')}
+            className={primaryClass}
           >
             ถัดไป
+            <ArrowRight size={16} aria-hidden />
           </button>
         )}
       </div>
