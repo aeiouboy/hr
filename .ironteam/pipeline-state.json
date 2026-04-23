@@ -1,38 +1,74 @@
 {
-  "task": "Humi Profile Edit — FE E2E Clickable (attachment upload + mock workflow approval)",
-  "issue": 12,
+  "task": "HR Phase 1 D1 Foundation \u2014 factory refactor + shared types + delete orphans + fix tests",
+  "issue": 15,
   "repo": "aeiouboy/hr",
-  "run_id": "2026-04-22-humi-profile-edit-e2e",
-  "spec": null,
-  "phase": 1,
-  "phase_name": "Plan",
-  "started_at": "2026-04-22T10:30:00Z",
-  "updated_at": "2026-04-22T10:30:00Z",
-  "completed_phases": [0],
-  "base_branch": "humi/effective-date-gate-issue-9",
-  "working_branch": "humi/profile-edit-e2e",
-  "prior_runs": [
-    {"issue": 9, "verdict": "CLOSED", "note": "EffectiveDateGate wired — inherit base"},
-    {"issue": 3, "verdict": "PASS", "note": "11 screens functional foundation"}
+  "spec": "specs/hr-phase-1-d1-foundation.md",
+  "phase": 2.5,
+  "phase_name": "Dry-Run Validate (Phase 2.5)",
+  "started_at": "2026-04-23T17:15:00Z",
+  "updated_at": "2026-04-23T18:15:00Z",
+  "completed_phases": [
+    0,
+    0.5,
+    1,
+    1.5,
+    2
   ],
   "artifacts": {
-    "spec_path": null,
+    "spec_path": "specs/hr-phase-1-d1-foundation.md",
     "test_report_path": null,
     "screenshot_dir": null
   },
-  "phase_2_5_fixes": [],
-  "test_results": {"frontend": null, "e2e": null},
-  "agents": [],
-  "acceptance_criteria": [
-    {"id": "AC-1", "desc": "Edit form 4 → 15+ fields across 4 sections", "status": "pending"},
-    {"id": "AC-2", "desc": "FileUploadField atom (drag-drop + base64)", "status": "pending"},
-    {"id": "AC-3", "desc": "Attachment enforcement Name/Marital/NationalID/Dependent", "status": "pending"},
-    {"id": "AC-4", "desc": "EffectiveDateGate onConfirm wired to submitChangeRequest", "status": "pending"},
-    {"id": "AC-5", "desc": "Pending badge + Activity tab log with file preview", "status": "pending"},
-    {"id": "AC-6", "desc": "Admin mock approval toggle", "status": "pending"},
-    {"id": "AC-7", "desc": "Toast notifications (save + approve)", "status": "pending"},
-    {"id": "AC-8", "desc": "Mobile responsive drawer <768px", "status": "pending"},
-    {"id": "AC-9", "desc": "i18n th/en parity", "status": "pending"},
-    {"id": "AC-10", "desc": "Playwright E2E scenario", "status": "pending"}
+  "phase_2_5_fixes": [
+    {
+      "file": "src/frontend/src/lib/admin/wizard-template/createClusterWizard.ts",
+      "line": 142,
+      "fix": "Type ReturnType<typeof create<...>> \u2192 UseBoundStore<StoreApi<...>>; added zustand type imports",
+      "reason": "D1.2 agent used wrong return type (curried function vs bound hook) \u2192 20+ TS errors in factory + test"
+    }
+  ],
+  "test_results": {
+    "backend": null,
+    "frontend": null
+  },
+  "agents": [
+    {
+      "id": "batch-1-mk3-delete",
+      "mark": "MK III",
+      "status": "done",
+      "task": "D1.1 delete orphans",
+      "files_created": []
+    },
+    {
+      "id": "batch-1-mk3-imports",
+      "mark": "MK III",
+      "status": "done",
+      "task": "D1.4 fix imports",
+      "files_created": []
+    },
+    {
+      "id": "batch-2-forge-fe",
+      "mark": "Forge Frontend",
+      "status": "done",
+      "task": "D1.2 factory refactor",
+      "files_created": [
+        "createClusterWizard.ts",
+        "createClusterWizard.test.ts"
+      ]
+    },
+    {
+      "id": "batch-2-forge-be",
+      "mark": "Forge Backend",
+      "status": "done",
+      "task": "D1.3 shared types + MARITAL wire",
+      "files_created": [
+        "timeline.ts",
+        "yes-no.ts",
+        "index.ts",
+        "StepBiographical.tsx",
+        "useHireWizard.ts",
+        "hireSchema.ts"
+      ]
+    }
   ]
 }

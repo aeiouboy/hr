@@ -48,11 +48,11 @@ vi.mock('@/lib/admin/utils/cronFormat', () => ({
 // Helpers
 // -----------------------------------------------------------------------
 
-import ReportsHubPage from '@/app/admin/system/reports/page'
-import ReportBuilderPage from '@/app/admin/system/reports/builder/page'
-import ScheduleReportPage from '@/app/admin/system/reports/schedule/page'
-import ReportAutomationPage from '@/app/admin/system/reports/automation/page'
-import FavouriteReportsPage from '@/app/admin/system/reports/favourites/page'
+import ReportsHubPage from '@/app/[locale]/admin/system/reports/page'
+import ReportBuilderPage from '@/app/[locale]/admin/system/reports/builder/page'
+import ScheduleReportPage from '@/app/[locale]/admin/system/reports/schedule/page'
+import ReportAutomationPage from '@/app/[locale]/admin/system/reports/automation/page'
+import FavouriteReportsPage from '@/app/[locale]/admin/system/reports/favourites/page'
 
 // reset store ก่อนทุก test
 beforeEach(() => {

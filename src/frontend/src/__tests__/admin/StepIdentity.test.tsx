@@ -13,7 +13,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { act } from '@testing-library/react'
-import StepIdentity from '@/app/admin/hire/steps/StepIdentity'
+import StepIdentity from '@/app/[locale]/admin/hire/steps/StepIdentity'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 
 // mock loadCompanies เพื่อให้ companies พร้อมทันทีใน jsdom environment

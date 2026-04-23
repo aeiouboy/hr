@@ -1,7 +1,7 @@
 // classifyRehireReason.test.ts — unit tests สำหรับ pure function classifier
 // AC-3 + AC-15: gap=364 → LT1, gap=365 → GE1, gap=366 → GE1, leap year, future date throws
 import { describe, it, expect } from 'vitest'
-import { classifyRehireReason } from '../../src/lib/utils/classifyRehireReason'
+import { classifyRehireReason } from '@/lib/admin/utils/classifyRehireReason'
 
 describe('classifyRehireReason', () => {
   // ---- กรณีทั่วไป (boundary ตาม spec) ----

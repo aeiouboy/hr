@@ -28,10 +28,10 @@ vi.mock('@/lib/admin/store/useUsersPermissions', () => {
   return { useUsersPermissions }
 })
 
-import SystemFeaturesPage from '@/app/admin/system/system-features/page'
-import LanguagePage from '@/app/admin/system/system-features/language/page'
-import EDocumentsPage from '@/app/admin/system/system-features/edocuments/page'
-import DataMigrationPage from '@/app/admin/system/system-features/data-migration/page'
+import SystemFeaturesPage from '@/app/[locale]/admin/system/system-features/page'
+import LanguagePage from '@/app/[locale]/admin/system/system-features/language/page'
+import EDocumentsPage from '@/app/[locale]/admin/system/system-features/edocuments/page'
+import DataMigrationPage from '@/app/[locale]/admin/system/system-features/data-migration/page'
 
 // reset store ก่อนทุก test
 beforeEach(() => {

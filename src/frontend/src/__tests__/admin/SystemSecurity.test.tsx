@@ -33,10 +33,10 @@ vi.mock('@/lib/admin/utils/csvExport', () => ({
   buildCsvText: vi.fn(() => ''),
 }))
 
-import SecurityPage from '@/app/admin/system/security/page'
-import ConsentPage from '@/app/admin/system/security/consent/page'
-import TrafficPage from '@/app/admin/system/security/traffic/page'
-import SecuritySettingsPage from '@/app/admin/system/security/settings/page'
+import SecurityPage from '@/app/[locale]/admin/system/security/page'
+import ConsentPage from '@/app/[locale]/admin/system/security/consent/page'
+import TrafficPage from '@/app/[locale]/admin/system/security/traffic/page'
+import SecuritySettingsPage from '@/app/[locale]/admin/system/security/settings/page'
 
 // reset store ก่อนทุก test
 beforeEach(() => {

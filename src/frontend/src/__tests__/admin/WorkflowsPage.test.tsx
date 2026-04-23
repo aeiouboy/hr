@@ -3,7 +3,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import WorkflowsPage from '@/app/ess/workflows/page'
+import WorkflowsPage from '@/app/[locale]/ess/workflows/page'
 
 describe('WorkflowsPage — workflow list', () => {
   it('แสดง heading "คำขอของฉัน"', () => {

@@ -77,7 +77,7 @@ Object.defineProperty(globalThis, 'window', {
 })
 
 // import หลัง vi.mock เพื่อให้ module graph hook เข้า mock
-import FieldConfigPage from '@/app/admin/self-service/field-config/page'
+import FieldConfigPage from '@/app/[locale]/admin/self-service/field-config/page'
 
 beforeEach(() => {
   vi.clearAllMocks()

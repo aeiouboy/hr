@@ -17,7 +17,7 @@ type StepNumber = 1 | 2 | 3
 interface FormData {
   identity:     { hireDate: string | null; companyCode: string | null; eventReason: string | null }
   name:         { firstNameTh: string; lastNameTh: string; firstNameEn: string; lastNameEn: string }
-  biographical: { dateOfBirth: string | null }
+  biographical: { dateOfBirth: string | null; maritalStatus: string | null }
   employeeInfo: { employeeClass: string | null }
   nationalId:   { value: string }
   personal:     { addressLine1: string }
@@ -28,7 +28,7 @@ interface FormData {
 const initialFormData: FormData = {
   identity:     { hireDate: null, companyCode: null, eventReason: null },
   name:         { firstNameTh: '', lastNameTh: '', firstNameEn: '', lastNameEn: '' },
-  biographical: { dateOfBirth: null },
+  biographical: { dateOfBirth: null, maritalStatus: null },
   employeeInfo: { employeeClass: null },
   nationalId:   { value: '' },
   personal:     { addressLine1: '' },

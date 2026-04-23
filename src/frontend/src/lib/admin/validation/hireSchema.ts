@@ -36,9 +36,10 @@ export const stepNameSchema = z.object({
   lastNameEn: z.string().default(''),
 })
 
-// Step 3 — Biographical: scaffold
+// Step 3 — Biographical: dateOfBirth required; maritalStatus optional scaffold
 export const stepBiographicalSchema = z.object({
   dateOfBirth: z.string().min(1, 'กรุณาระบุวันเกิด'),
+  maritalStatus: z.string().optional(),
 })
 
 // Step 4 — Employee Info: scaffold
