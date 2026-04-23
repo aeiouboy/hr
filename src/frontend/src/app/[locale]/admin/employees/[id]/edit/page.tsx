@@ -25,7 +25,6 @@ import Link from 'next/link'
 import { ArrowLeft, Check } from 'lucide-react'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
-import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import {
   PICKLIST_SALUTATION_EN,
   PICKLIST_GENDER,
@@ -426,10 +425,9 @@ export default function EmployeeEditPage() {
         </div>
       </div>
 
-      {/* ── EffectiveDateGate (spec B1 PoC) — outer wrapper for Edit form ── */}
-      {/* min not set here: Personal Info edit has no hire-date lower bound (spec §9 Decision 4) */}
-      <EffectiveDateGate>
-        {({ effectiveDate }) => (
+      {/* Personal Info edit = direct-edit method per SF DOC-F2B0E487 + audit #22.
+          EffectiveDateGate removed — Pattern 2 reserves effective-dating for state
+          changes (transfer/probation/terminate), not personal-info corrections. */}
       <div className="humi-card">
         <div style={{ marginBottom: 24 }}>
           <h1 className="font-display text-[20px] font-semibold text-ink">
@@ -751,7 +749,7 @@ export default function EmployeeEditPage() {
           </Link>
           <button
             type="button"
-            onClick={() => handleSubmit(effectiveDate)}
+            onClick={() => handleSubmit('')}
             disabled={showBanner}
             className="humi-btn-primary"
             aria-disabled={showBanner}
@@ -760,8 +758,6 @@ export default function EmployeeEditPage() {
           </button>
         </div>
       </div>
-        )}
-      </EffectiveDateGate>
     </div>
   )
 }
