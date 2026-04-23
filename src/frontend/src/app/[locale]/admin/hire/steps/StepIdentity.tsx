@@ -1,8 +1,10 @@
 'use client'
 
 // StepIdentity.tsx — Cluster 1 "Who"
-// BA rows 1-19 + Personal Info row 1 = 20 fields
-// 13 mandatory (*), 7 optional per BA-EC-SUMMARY.md
+// BA rows 1-19 + Personal Info row 1 = 19 input fields.
+// (BA row 12 employeeId is system-generated per BRD #102:2267 — NOT an input,
+// assigned on submit, surfaced on Review cluster + post-save.)
+// 12 mandatory (*), 7 optional per BA-EC-SUMMARY.md
 // Cross-field: DOB < HireDate (BA row 8 col F verbatim)
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
 
@@ -41,14 +43,14 @@ export interface StepIdentityProps {
 
 type FieldErrors = {
   hireDate?: string; companyCode?: string; eventReason?: string; salutationEn?: string
-  firstNameEn?: string; lastNameEn?: string; dateOfBirth?: string; employeeId?: string
+  firstNameEn?: string; lastNameEn?: string; dateOfBirth?: string
   nationalIdCardType?: string; country?: string; nationalId?: string; isPrimary?: string
   salutationLocal?: string
 }
 
 type TouchedState = {
   hireDate: boolean; companyCode: boolean; eventReason: boolean; salutationEn: boolean
-  firstNameEn: boolean; lastNameEn: boolean; dateOfBirth: boolean; employeeId: boolean
+  firstNameEn: boolean; lastNameEn: boolean; dateOfBirth: boolean
   nationalIdCardType: boolean; country: boolean; nationalId: boolean; isPrimary: boolean
   salutationLocal: boolean
 }
@@ -91,7 +93,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   // ── Touched / errors ────────────────────────────────────────────────────────
   const [touched, setTouched] = useState<TouchedState>({
     hireDate: false, companyCode: false, eventReason: false, salutationEn: false,
-    firstNameEn: false, lastNameEn: false, dateOfBirth: false, employeeId: false,
+    firstNameEn: false, lastNameEn: false, dateOfBirth: false,
     nationalIdCardType: false, country: false, nationalId: false, isPrimary: false,
     salutationLocal: false,
   })
@@ -331,20 +333,8 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           className="humi-input w-full max-w-sm" />
       </fieldset>
 
-      {/* ─── BA row 12 — Employee ID (Invariant I1: system-generated per BRD #102 line 2267) ─── */}
-      <fieldset>
-        <label htmlFor="employee-id" className="humi-label">
-          รหัสพนักงาน
-        </label>
-        <div
-          id="employee-id"
-          aria-readonly="true"
-          className="humi-input w-full max-w-xs bg-neutral-50 text-neutral-700 font-mono select-all"
-        >
-          {employeeId}
-        </div>
-        <p className="text-xs text-neutral-500 mt-1">ระบบสร้างอัตโนมัติต่อเนื่องจาก Employee Code Range</p>
-      </fieldset>
+      {/* BA row 12 — Employee ID: system-generated per BRD #102:2267 (Invariant I1).
+          Not rendered on Hire form — assigned on submit, displayed on Review + post-save. */}
 
       {/* ─── BA row 13 — National ID Card Type * ─── */}
       <fieldset>

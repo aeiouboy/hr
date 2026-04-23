@@ -150,7 +150,7 @@ export default function ClusterReview() {
             value={[id.salutationEn, id.firstNameEn, id.middleNameEn, id.lastNameEn].filter(Boolean).join(' ') || '—'}
             ok={identityOk} />
           <SummaryRow label="วันเกิด"                  value={id.dateOfBirth ?? '—'}      ok={identityOk} />
-          <SummaryRow label="รหัสพนักงาน"               value={id.employeeId || '—'}       ok={identityOk} />
+          <SummaryRow label="รหัสพนักงาน (ระบบจะกำหนด)" value={id.employeeId || '—'}       ok={identityOk} />
           <SummaryRow label="ประเภทบัตร"               value={id.nationalIdCardType ?? '—'} ok={identityOk} />
           <SummaryRow label="เลขบัตร"                  value={id.nationalId || '—'}        ok={identityOk} />
           <SummaryRow label="ประเทศ"                   value={id.country ?? '—'}           ok={identityOk} />
