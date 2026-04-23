@@ -23,6 +23,7 @@ import {
   ArrowRightLeft,
   UserX,
   UserCheck,
+  FileText,
   Lock,
   CalendarDays,
   Building2,
@@ -204,7 +205,7 @@ export default function EmployeeDetailPage() {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 
-  // C8 guardrail: exactly 5 action cards per Plan §0.2 + §4
+  // 6 action cards — all active after Phase 1 Batch 2 (BRD #109/117/110/111-115/93/102)
   const ACTION_CARDS: ActionCard[] = [
     {
       icon: ClipboardCheck,
@@ -223,23 +224,30 @@ export default function EmployeeDetailPage() {
     {
       icon: ArrowRightLeft,
       label: 'โอนย้าย',
-      desc: 'เปลี่ยนหน่วยงานหรือตำแหน่ง',
+      desc: 'เปลี่ยนบริษัท หน่วยงาน ตำแหน่ง',
       href: `/${locale}/admin/employees/${empId}/transfer`,
-      locked: true,
+      locked: false,
     },
     {
       icon: UserX,
-      label: 'ออกจากงาน',
-      desc: 'บันทึกการสิ้นสุดการจ้างงาน',
+      label: 'สิ้นสุดสภาพพนักงาน',
+      desc: 'บันทึกการลาออกหรือสิ้นสุดการจ้างงาน',
       href: `/${locale}/admin/employees/${empId}/terminate`,
-      locked: true,
+      locked: false,
+    },
+    {
+      icon: FileText,
+      label: 'ต่อสัญญา',
+      desc: 'ต่ออายุสัญญาการจ้างงาน',
+      href: `/${locale}/admin/employees/${empId}/contract-renewal`,
+      locked: false,
     },
     {
       icon: UserCheck,
-      label: 'รับกลับเข้าทำงาน',
-      desc: 'Rehire พนักงานที่ออกไปแล้ว',
+      label: 'จ้างซ้ำ',
+      desc: 'รับกลับเข้าทำงานหลังสิ้นสุดสภาพ',
       href: `/${locale}/admin/employees/${empId}/rehire`,
-      locked: true,
+      locked: false,
     },
   ]
 
