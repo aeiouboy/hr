@@ -23,6 +23,7 @@ import Link from 'next/link'
 import { RefreshCcw } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ContractRenewalEvent } from '@hrms/shared/types/timeline'
 
@@ -143,6 +144,7 @@ export default function ContractRenewalPage() {
   )
 
   // ── Local form state ─────────────────────────────────────────────────────
+  const [gatedEffectiveDate, setGatedEffectiveDate] = useState<string | undefined>(undefined)
   const [newEndDate, setNewEndDate] = useState<string>('')
   const [renewalReason, setRenewalReason] = useState<string>('')
   const [newAllowanceAmount, setNewAllowanceAmount] = useState<string>('')
@@ -175,8 +177,8 @@ export default function ContractRenewalPage() {
       id: `evt-contract-renewal-${Date.now()}`,
       employeeId: empId,
       kind: 'contract_renewal',
-      // effectiveDate = renewal takes effect at old end-date (BRD #93 spec)
-      effectiveDate: currentEndDate,
+      // effectiveDate = gate-confirmed date (BRD #93: renewal takes effect at confirmed date)
+      effectiveDate: gatedEffectiveDate ?? currentEndDate,
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
       newEndDate: newEndDate,
@@ -194,7 +196,7 @@ export default function ContractRenewalPage() {
         `ต่อสัญญาแล้ว — สิ้นสุดสัญญาใหม่ ${formatDateShort(newEndDate)}`,
       )}`,
     )
-  }, [employee, isValid, empId, currentEndDate, newEndDate, renewalReason, append, router, locale])
+  }, [employee, isValid, empId, currentEndDate, gatedEffectiveDate, newEndDate, renewalReason, append, router, locale])
 
   // ── Not found ────────────────────────────────────────────────────────────
   if (!employee) {
@@ -281,6 +283,12 @@ export default function ContractRenewalPage() {
       )}
 
       {/* Contract renewal form */}
+      <EffectiveDateGate
+        min={employee.hire_date || undefined}
+        initialEffectiveDate={gatedEffectiveDate}
+        onEffectiveDateChange={setGatedEffectiveDate}
+      >
+        {() => (
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
           รายละเอียดการต่อสัญญา
@@ -444,6 +452,8 @@ export default function ContractRenewalPage() {
           </button>
         </div>
       </div>
+        )}
+      </EffectiveDateGate>
     </div>
   )
 }
