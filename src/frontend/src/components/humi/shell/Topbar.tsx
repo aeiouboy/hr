@@ -22,7 +22,10 @@
 
 import { Bell, Menu, Moon, Search, Sun } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useUIStore } from '@/stores/ui-store';
+import { cn } from '@/lib/utils';
+import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
 
 export interface TopbarProps {
   /** h2 page title — typically derived from route */
@@ -45,6 +48,13 @@ export function Topbar({
   const isDark = theme === 'dark';
   const [scrolled, setScrolled] = useState(false);
   const topbarRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentLocale = getLocaleFromPath(pathname);
+  const handleLocaleSwitch = (locale: SupportedLocale) => {
+    if (locale === currentLocale) return;
+    router.push(swapLocale(pathname, locale));
+  };
 
   // Elevate topbar shadow once user scrolls past ~4px — adds depth
   // without the "floating disconnected bar" feel of always-on shadow.
@@ -116,6 +126,26 @@ export function Topbar({
       >
         <Search size={18} aria-hidden="true" />
       </button>
+
+      {/* Locale switcher — ย้ายมาจาก Sidebar 2026-04-23 (แก้ overflow) */}
+      <div className="flex items-center gap-1" role="group" aria-label="เลือกภาษา">
+        {(['th', 'en'] as SupportedLocale[]).map((loc) => (
+          <button
+            key={loc}
+            type="button"
+            onClick={() => handleLocaleSwitch(loc)}
+            aria-pressed={currentLocale === loc}
+            className={cn(
+              'h-7 min-w-[32px] rounded-md border px-2 text-[11px] font-semibold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
+              currentLocale === loc
+                ? 'border-[color:var(--color-accent)] bg-accent-soft text-[color:var(--color-accent)]'
+                : 'border-hairline bg-surface text-ink-muted hover:border-[color:var(--color-accent)] hover:text-ink-soft',
+            )}
+          >
+            {loc === 'th' ? 'ไทย' : 'EN'}
+          </button>
+        ))}
+      </div>
 
       <button
         type="button"
