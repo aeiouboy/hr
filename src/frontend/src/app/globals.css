@@ -470,12 +470,20 @@
   padding: 14px 0;
   position: sticky;
   top: 0;
-  background: color-mix(in srgb, var(--color-canvas) 88%, transparent);
+  background: rgba(246, 241, 232, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-hairline);
   z-index: 10;
   transition: box-shadow var(--dur-fast) var(--ease-spring);
+}
+/* Dark-mode topbar: explicit navy rgba override. Cannot use
+   color-mix(var(--color-canvas)...) here because Tailwind v4 / Lightning CSS
+   resolves @theme tokens at build time, baking the light-mode value into
+   literal hex — so color-mix() loses runtime flip. Keep both modes as
+   literal rgba so .dark selector wins at cascade time. */
+.dark .humi-topbar {
+  background: rgba(14, 27, 44, 0.88);
 }
 /* Elevate topbar when page has scrolled — JS adds data-scrolled */
 .humi-topbar[data-scrolled="true"] {

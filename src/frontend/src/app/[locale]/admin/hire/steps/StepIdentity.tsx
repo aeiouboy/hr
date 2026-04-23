@@ -243,6 +243,28 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         {errMsg('salutationEn')}
       </fieldset>
 
+      {/* ─── BA Personal Info row 1 — Salutation (Local) * — paired with EN
+          so the 2-col grid shows them side-by-side (EN for Western docs,
+          Local for Thai/local docs). Previously dangled at end of Step 1
+          which read as a duplicate field. ─── */}
+      <fieldset>
+        <label htmlFor="salutation-local" className="humi-label">
+          คำนำหน้า (Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+        </label>
+        <select id="salutation-local" required aria-required="true"
+          aria-invalid={touched.salutationLocal && !!errors.salutationLocal}
+          value={salutationLocal}
+          onChange={(e) => setSalutationLocal(e.target.value)}
+          onBlur={() => touch('salutationLocal')}
+          className="humi-select w-full max-w-xs">
+          <option value="">— เลือกคำนำหน้า —</option>
+          {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
+            <option key={s.id} value={s.id}>{s.labelTh}</option>
+          ))}
+        </select>
+        {errMsg('salutationLocal')}
+      </fieldset>
+
       {/* ─── BA row 5 — Firstname (EN) * ─── */}
       <fieldset>
         <label htmlFor="first-name-en" className="humi-label">
@@ -436,25 +458,6 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={vnIssuePlace}
           onChange={(e) => setVnIssuePlace(e.target.value)}
           className="humi-input w-full max-w-sm" />
-      </fieldset>
-
-      {/* ─── BA Personal Info row 1 — Salutation (Local) * ─── */}
-      <fieldset>
-        <label htmlFor="salutation-local" className="humi-label">
-          คำนำหน้า (Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-        </label>
-        <select id="salutation-local" required aria-required="true"
-          aria-invalid={touched.salutationLocal && !!errors.salutationLocal}
-          value={salutationLocal}
-          onChange={(e) => setSalutationLocal(e.target.value)}
-          onBlur={() => touch('salutationLocal')}
-          className="humi-select w-full max-w-xs">
-          <option value="">— เลือกคำนำหน้า —</option>
-          {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
-            <option key={s.id} value={s.id}>{s.labelTh} ({s.labelEn})</option>
-          ))}
-        </select>
-        {errMsg('salutationLocal')}
       </fieldset>
 
       <p className="text-xs text-ink-soft">
