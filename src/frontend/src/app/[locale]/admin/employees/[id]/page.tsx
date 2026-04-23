@@ -32,6 +32,7 @@ import {
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
+import { calcAge, calcGeneration, calcYearOfService } from '@/lib/calculations'
 
 // ── Tenure helper ────────────────────────────────────────────
 function calcTenure(hireDateStr: string): string {
@@ -201,6 +202,18 @@ export default function EmployeeDetailPage() {
   const nameTh = `${employee.first_name_th} ${employee.last_name_th}`
   const nameEn = `${employee.first_name_en} ${employee.last_name_en}`
   const tenure = calcTenure(employee.hire_date)
+
+  // Computed fields via lib/calculations (B4 PoC — additive rows only, no existing ACs touched)
+  const asOf = new Date().toISOString().slice(0, 10)
+  const ageResult = employee.date_of_birth ? (() => {
+    try { return calcAge(employee.date_of_birth, asOf) } catch { return null }
+  })() : null
+  const generationResult = employee.date_of_birth ? (() => {
+    try { return calcGeneration(employee.date_of_birth) } catch { return null }
+  })() : null
+  const yosResult = employee.hire_date ? (() => {
+    try { return calcYearOfService(employee.hire_date, [], asOf) } catch { return null }
+  })() : null
   const hireDateFormatted = new Date(employee.hire_date).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
@@ -332,6 +345,28 @@ export default function EmployeeDetailPage() {
             </div>
             <div className="text-body font-medium text-ink">{employee.position_title}</div>
           </div>
+
+          {/* B4 PoC: computed fields — Age / Generation / Year-of-Service */}
+          {ageResult && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุ</div>
+              <div className="text-body font-medium text-ink">{ageResult.display}</div>
+              <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
+            </div>
+          )}
+          {generationResult && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>Generation</div>
+              <div className="text-body font-medium text-ink">{generationResult}</div>
+            </div>
+          )}
+          {yosResult && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุงาน</div>
+              <div className="text-body font-medium text-ink">{yosResult.display}</div>
+              <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
+            </div>
+          )}
         </div>
       </div>
 
