@@ -153,6 +153,74 @@ interface ActionCard {
   desc: string
   href?: string
   locked: boolean
+  lockReason?: string
+}
+
+// ── Status-gated action availability (Ken 2026-04-24 — don't show probation
+//    to a terminated employee). Rules derived from BRD + 2026-04-23 audit:
+//    - terminated: only rehire available
+//    - inactive:   read-only (all locked); user must be reactivated first
+//    - active + in_probation/extended: probation + edit + terminate only
+//    - active + passed (or terminated-prob): all change actions except probation
+//    - contract_renewal: gated to PARTIME (contract-based) employees
+//    - change_type: always available on active employees
+// ─────────────────────────────────────────────────────────────
+type ActionKey =
+  | 'probation' | 'edit' | 'transfer' | 'terminate'
+  | 'contract_renewal' | 'rehire' | 'change_type' | 'promotion'
+
+function actionAvailability(emp: {
+  status: 'active' | 'inactive' | 'terminated'
+  probation_status: 'in_probation' | 'passed' | 'terminated' | 'extended'
+  employee_class: 'PERMANENT' | 'PARTIME'
+}): Record<ActionKey, { ok: boolean; reason?: string }> {
+  const isActive = emp.status === 'active'
+  const isTerminated = emp.status === 'terminated'
+  const isInactive = emp.status === 'inactive'
+  const inProbation = isActive && (emp.probation_status === 'in_probation' || emp.probation_status === 'extended')
+  const passedProb = isActive && emp.probation_status === 'passed'
+  const isPartime = emp.employee_class === 'PARTIME'
+
+  const terminated_reason = isTerminated ? 'พนักงานพ้นสภาพแล้ว — ใช้ "จ้างซ้ำ" ก่อน' : ''
+  const inactive_reason = isInactive ? 'พนักงานไม่ได้ทำงานอยู่ — ต้องเปิดใช้งานก่อน' : ''
+
+  return {
+    probation: inProbation
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'ผ่านทดลองงานแล้ว ไม่ต้องประเมินเพิ่ม' },
+    edit: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : { ok: false, reason: inactive_reason },
+    transfer: (passedProb || (isActive && emp.probation_status !== 'terminated'))
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'รอให้ผ่านทดลองงานก่อน' },
+    terminate: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: 'พนักงานพ้นสภาพไปแล้ว' }
+      : { ok: false, reason: inactive_reason },
+    contract_renewal: (isActive && isPartime)
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'เฉพาะพนักงานสัญญาจ้าง/Part-time เท่านั้น' },
+    rehire: isTerminated
+      ? { ok: true }
+      : { ok: false, reason: 'เฉพาะพนักงานที่พ้นสภาพแล้ว' },
+    change_type: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : { ok: false, reason: inactive_reason },
+    promotion: passedProb
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : isInactive ? { ok: false, reason: inactive_reason }
+      : { ok: false, reason: 'รอให้ผ่านทดลองงานก่อน' },
+  }
 }
 
 export default function EmployeeDetailPage() {
@@ -223,63 +291,72 @@ export default function EmployeeDetailPage() {
   const yijResult       = employee.hire_date ? calcYearsInJob(hireEvents, today) : null
   const yictResult      = employee.hire_date ? calcYearsInCorpTitle(hireEvents, today) : null
   const yipResult       = employee.hire_date ? calcYearsInPosition(hireEvents, today) : null
-  // 7 action cards — 6 original + เปลี่ยนประเภทการจ้าง (CNeXt #06)
+  // Compute status-gated availability once per render
+  const avail = actionAvailability(employee)
   const ACTION_CARDS: ActionCard[] = [
     {
       icon: ClipboardCheck,
       label: 'ประเมินทดลองงาน',
       desc: 'บันทึกผลการประเมินช่วงทดลองงาน',
       href: `/${locale}/admin/employees/${empId}/probation`,
-      locked: false,
+      locked: !avail.probation.ok,
+      lockReason: avail.probation.reason,
     },
     {
       icon: Pencil,
       label: 'แก้ไขข้อมูลส่วนตัว',
-      desc: 'อัปเดตข้อมูล Identity / ชื่อ / ที่อยู่',
+      desc: 'อัปเดตข้อมูลชื่อ ที่อยู่ และข้อมูลส่วนตัว',
       href: `/${locale}/admin/employees/${empId}/edit`,
-      locked: false,
+      locked: !avail.edit.ok,
+      lockReason: avail.edit.reason,
     },
     {
       icon: ArrowRightLeft,
       label: 'โอนย้าย',
       desc: 'เปลี่ยนบริษัท หน่วยงาน ตำแหน่ง',
       href: `/${locale}/admin/employees/${empId}/transfer`,
-      locked: false,
+      locked: !avail.transfer.ok,
+      lockReason: avail.transfer.reason,
     },
     {
       icon: UserX,
       label: 'สิ้นสุดสภาพพนักงาน',
       desc: 'บันทึกการลาออกหรือสิ้นสุดการจ้างงาน',
       href: `/${locale}/admin/employees/${empId}/terminate`,
-      locked: false,
+      locked: !avail.terminate.ok,
+      lockReason: avail.terminate.reason,
     },
     {
       icon: FileText,
       label: 'ต่อสัญญา',
       desc: 'ต่ออายุสัญญาการจ้างงาน',
       href: `/${locale}/admin/employees/${empId}/contract-renewal`,
-      locked: false,
+      locked: !avail.contract_renewal.ok,
+      lockReason: avail.contract_renewal.reason,
     },
     {
       icon: UserCheck,
       label: 'จ้างซ้ำ',
       desc: 'รับกลับเข้าทำงานหลังสิ้นสุดสภาพ',
       href: `/${locale}/admin/employees/${empId}/rehire`,
-      locked: false,
+      locked: !avail.rehire.ok,
+      lockReason: avail.rehire.reason,
     },
     {
       icon: RefreshCw,
       label: 'เปลี่ยนประเภทการจ้าง',
-      desc: 'เปลี่ยนระหว่าง Permanent / Part-time / สัญญาจ้าง',
+      desc: 'เปลี่ยนระหว่างพนักงานประจำกับพนักงานบางเวลา',
       href: `/${locale}/admin/employees/${empId}/change-type`,
-      locked: false,
+      locked: !avail.change_type.ok,
+      lockReason: avail.change_type.reason,
     },
     {
       icon: TrendingUp,
       label: 'เลื่อนตำแหน่ง',
-      desc: 'เลื่อน Job Grade / ปรับตำแหน่ง / เพิ่มเงินเดือน',
+      desc: 'เลื่อนระดับ ปรับตำแหน่ง หรือปรับเงินเดือน',
       href: `/${locale}/admin/employees/${empId}/promotion`,
-      locked: false,
+      locked: !avail.promotion.ok,
+      lockReason: avail.promotion.reason,
     },
   ]
 
@@ -481,7 +558,7 @@ export default function EmployeeDetailPage() {
                     position: 'relative',
                   }}
                   aria-disabled="true"
-                  title="Phase 2 — Coming soon"
+                  title={card.lockReason ?? 'ยังไม่พร้อมใช้งาน'}
                 >
                   <div className="humi-row" style={{ gap: 10, alignItems: 'flex-start' }}>
                     <div
@@ -500,9 +577,11 @@ export default function EmployeeDetailPage() {
                         <Lock size={12} className="text-ink-faint" aria-hidden />
                       </div>
                       <div className="text-small text-ink-faint mt-0.5">{card.desc}</div>
-                      <div className="mt-1.5">
-                        <span className="humi-tag" style={{ fontSize: 10 }}>Phase 2 — Coming soon</span>
-                      </div>
+                      {card.lockReason && (
+                        <div className="mt-1.5 text-small text-ink-muted" style={{ fontSize: 11, lineHeight: 1.4 }}>
+                          {card.lockReason}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

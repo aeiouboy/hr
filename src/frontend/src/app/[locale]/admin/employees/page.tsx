@@ -198,6 +198,7 @@ export default function EmployeesPage() {
   const locale = (params?.locale as string) ?? 'th'
 
   const { setSearchQuery, searchQuery, getFiltered } = useEmployees()
+  const allEmployeesCount = useEmployees((s) => s.all.length)
   const [localQuery, setLocalQuery] = useState(searchQuery)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -207,13 +208,14 @@ export default function EmployeesPage() {
     return () => clearTimeout(t)
   }, [localQuery, setSearchQuery])
 
-  // Recompute filtered list when store query changes
-  const filtered = useMemo(() => getFiltered(), [
+  // Empty-by-default: don't render the full 1K row list until the user actually
+  // types a search. Ken 2026-04-24: "ข้อมูลยังไม่ควรโหลดขึ้นมาถ้ายังไม่มีการ
+  // Search" — avoids accidental-weight first paint + signals search-driven UX.
+  const filtered = useMemo(() => {
+    if (!searchQuery.trim()) return []
+    return getFiltered()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    searchQuery,
-    // re-run when query changes — getFiltered is a stable selector function
-    // that reads current store state each call
-  ])
+  }, [searchQuery])
 
   const handleRowClick = useCallback(
     (id: string) => {
@@ -413,13 +415,25 @@ export default function EmployeesPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100%',
+                minHeight: 220,
                 gap: 8,
+                padding: '40px 20px',
+                textAlign: 'center',
                 color: 'var(--color-ink-muted)',
                 fontSize: 13,
               }}
             >
               <Users2 size={32} style={{ opacity: 0.35 }} aria-hidden />
-              <span>ไม่พบพนักงานที่ตรงกับการค้นหา</span>
+              {searchQuery.trim() ? (
+                <span>ไม่พบพนักงานที่ตรงกับการค้นหา</span>
+              ) : (
+                <>
+                  <span>เริ่มต้นด้วยการค้นหาชื่อหรือรหัสพนักงาน</span>
+                  <span style={{ fontSize: 11, opacity: 0.75 }}>
+                    มีพนักงานทั้งหมด {allEmployeesCount.toLocaleString('th-TH')} คนในระบบ
+                  </span>
+                </>
+              )}
             </div>
           ) : (
             /* Outer div sized to total virtual height — virtualizer positions rows inside */
