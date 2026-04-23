@@ -9,13 +9,13 @@ import { useAdminSelfService } from '@/lib/admin/store/useAdminSelfService'
 
 // 6 editor links ตาม BRD #178-183
 const SS_EDITORS = [
-  { href: '/admin/self-service',              labelTh: 'ภาพรวม',           brd: ''     },
-  { href: '/admin/self-service/field-config', labelTh: 'Field Config',      brd: '#178' },
-  { href: '/admin/self-service/visibility',   labelTh: 'การมองเห็น Field',  brd: '#179' },
-  { href: '/admin/self-service/mandatory',    labelTh: 'Mandatory',         brd: '#180' },
-  { href: '/admin/self-service/readonly',     labelTh: 'Read-Only',         brd: '#181' },
-  { href: '/admin/self-service/quick-actions',labelTh: 'Quick Actions',     brd: '#182' },
-  { href: '/admin/self-service/tiles',        labelTh: 'Tiles & Home',      brd: '#183' },
+  { href: '/admin/self-service',              labelTh: 'ภาพรวม',             brd: ''     },
+  { href: '/admin/self-service/field-config', labelTh: 'รายการฟิลด์',        brd: '#178' },
+  { href: '/admin/self-service/visibility',   labelTh: 'การมองเห็นฟิลด์',    brd: '#179' },
+  { href: '/admin/self-service/mandatory',    labelTh: 'ฟิลด์บังคับกรอก',    brd: '#180' },
+  { href: '/admin/self-service/readonly',     labelTh: 'ฟิลด์อ่านอย่างเดียว', brd: '#181' },
+  { href: '/admin/self-service/quick-actions',labelTh: 'ทางลัดเมนูด่วน',     brd: '#182' },
+  { href: '/admin/self-service/tiles',        labelTh: 'ไทล์หน้าแรก',        brd: '#183' },
 ] as const
 
 export default function SelfServiceLayout({ children }: { children: React.ReactNode }) {
