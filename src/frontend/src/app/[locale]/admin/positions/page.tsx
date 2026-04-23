@@ -75,7 +75,7 @@ const { Page } = createCrudPage<Position>({
     },
     {
       key: 'defaultHeadcount',
-      label: 'Headcount',
+      label: 'จำนวนพนักงาน',
       width: 100,
       render: (p) => `${p.currentHeadcount}/${p.defaultHeadcount}`,
     },
