@@ -31,6 +31,7 @@ import {
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { useEmploymentEvents } from '@/lib/admin/store/useEmploymentEvents'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
 import { calcAge, calcGeneration, calcYearOfService } from '@/lib/calculations'
 
@@ -164,10 +165,20 @@ export default function EmployeeDetailPage() {
   // Timeline store — S3 owns this
   const { seed } = useTimelines()
 
+  // B2 PoC: employment events store
+  const seedFromEmployees = useEmploymentEvents((s) => s.seedFromEmployees)
+  const stateAsOf = useEmploymentEvents((s) => s.stateAsOf)
+
   // Seed HireEvent on mount if not already seeded
   useEffect(() => {
     if (employee) seed(employee)
   }, [employee, seed])
+
+  // B2 PoC: seed employment events from all employees (idempotent — safe to call on every mount)
+  const allEmployees = useEmployees((s) => s.all)
+  useEffect(() => {
+    seedFromEmployees(allEmployees)
+  }, [allEmployees, seedFromEmployees])
 
   // Bug 3 fix: stable reference to avoid infinite loop when byEmployee[empId] is undefined
   // Direct selector `s.byEmployee[empId] ?? []` creates new [] each render → Object.is false → re-render loop
@@ -211,8 +222,17 @@ export default function EmployeeDetailPage() {
   const generationResult = employee.date_of_birth ? (() => {
     try { return calcGeneration(employee.date_of_birth) } catch { return null }
   })() : null
+  // B2 PoC: pull employment events from store + pass to calcYearOfService
+  // snapshot.events = LifecycleEvent[] compatible with B4 (superset shape, duck-type safe)
+  const b2Snapshot = stateAsOf(empId, asOf)
   const yosResult = employee.hire_date ? (() => {
-    try { return calcYearOfService(employee.hire_date, [], asOf) } catch { return null }
+    try {
+      return calcYearOfService(
+        b2Snapshot.hireDate ?? employee.hire_date,
+        b2Snapshot.events,  // B4 duck-types: needs type + effectiveDate + meta only
+        asOf,
+      )
+    } catch { return null }
   })() : null
   const hireDateFormatted = new Date(employee.hire_date).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
