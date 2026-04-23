@@ -29,6 +29,7 @@ import {
   Building2,
   Briefcase,
   RefreshCw,
+  TrendingUp,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -255,6 +256,13 @@ export default function EmployeeDetailPage() {
       label: 'เปลี่ยนประเภทการจ้าง',
       desc: 'เปลี่ยนระหว่าง Permanent / Part-time / สัญญาจ้าง',
       href: `/${locale}/admin/employees/${empId}/change-type`,
+      locked: false,
+    },
+    {
+      icon: TrendingUp,
+      label: 'เลื่อนตำแหน่ง',
+      desc: 'เลื่อน Job Grade / ปรับตำแหน่ง / เพิ่มเงินเดือน',
+      href: `/${locale}/admin/employees/${empId}/promotion`,
       locked: false,
     },
   ]

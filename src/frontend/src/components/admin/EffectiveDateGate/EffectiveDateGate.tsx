@@ -162,13 +162,13 @@ function GateCard({ label, instructions, min, max, onConfirm, inputId }: GateCar
         )}
       </fieldset>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div className="flex justify-stretch sm:justify-end">
         <button
           type="button"
           onClick={handleConfirm}
           disabled={!isValid}
           aria-disabled={!isValid}
-          className="humi-btn humi-btn--primary"
+          className="humi-btn humi-btn--primary w-full sm:w-auto"
           style={{
             padding: '10px 24px',
             borderRadius: 'var(--radius-md)',
@@ -179,6 +179,8 @@ function GateCard({ label, instructions, min, max, onConfirm, inputId }: GateCar
             border: 'none',
             cursor: isValid ? 'pointer' : 'not-allowed',
             transition: 'background 150ms ease',
+            maxWidth: '100%',
+            boxSizing: 'border-box',
           }}
         >
           ยืนยันวันที่มีผล
