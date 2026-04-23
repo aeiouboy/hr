@@ -1,0 +1,107 @@
+'use client'
+
+// ReasonPicker.tsx — Dropdown สำหรับเลือก Event Reason ตาม flow
+// filter ด้วย event code prop: '5584' = REHIRE, '5604' = TRANSFER, '5597' = TERMINATE
+// ใช้ข้อมูลจาก FOEventReason.json (Appendix 2, Rule C8: verbatim — ห้าม invent)
+
+// Thai labels สำหรับแต่ละ event reason code (Rule C10: Thai-primary)
+// ข้อมูล source: Appendix 2 + FOEventReason.json
+const REASON_LABELS: Record<string, string> = {
+  // REHIRE (event=5584)
+  RE_REHIRE_LT1: 'จ้างใหม่ — ออกไม่เกิน 1 ปี (Rehiring LT 1 year)',
+  RE_REHIRE_GE1: 'จ้างใหม่ — ออกเกิน 1 ปี (Rehiring GE 1 year)',
+  // TRANSFER (event=5604)
+  TRN_ROTATION: 'Rotation — สับเปลี่ยนหมุนเวียน',
+  TRN_TRNACCOMP: 'โอนย้ายข้ามบริษัท (Transfer across Company)',
+  TRN_TRNWIC: 'โอนย้ายภายในบริษัท (Transfer within Company)',
+  // TERMINATION (event=5597) — 17 codes verbatim ตาม Appendix 2
+  TERM_RETIRE: 'เกษียณอายุ (Retirement)',
+  TERM_DISMISS: 'ไล่ออก (Dismissal)',
+  TERM_DM: 'ยกเลิกสัญญา DM (Termination DM)',
+  TERM_ENDASSIGN: 'สิ้นสุดงานชั่วคราว (End of Temporary Assignment)',
+  TERM_EOC: 'สิ้นสุดสัญญา (End of Contract)',
+  TERM_ERLRETIRE: 'เกษียณก่อนกำหนด (Early Retirement)',
+  TERM_LAYOFF: 'เลิกจ้าง (Layoff)',
+  TERM_NOSHOW: 'ขาดงาน ไม่มารายงานตัว (No Show)',
+  TERM_PASSAWAY: 'เสียชีวิต (Passed away)',
+  TERM_RESIGN: 'ลาออก (Resignation)',
+  TERM_REORG: 'ปรับโครงสร้างองค์กร (Reorganization)',
+  TERM_TRANS: 'โอนย้ายออกนอกกลุ่ม (Transfer Out)',
+  TERM_UNSUCPROB: 'ผ่านทดลองงานไม่ผ่าน (Unsuccessful probation)',
+  TERM_COVID: 'สถานการณ์ COVID-19',
+  TERM_CRISIS: 'บริหารวิกฤต (Crisis Management)',
+  TERM_ABSENT: 'ขาดงานเกินกำหนด (Absent)',
+  TERM_REDUNDANCY: 'ลดขนาดองค์กร (Redundancy)',
+}
+
+// mapping event code → รายการ reason codes (ตาม Appendix 2 + FOEventReason.json)
+const EVENT_REASONS: Record<string, string[]> = {
+  '5584': ['RE_REHIRE_LT1', 'RE_REHIRE_GE1'],
+  '5604': ['TRN_ROTATION', 'TRN_TRNACCOMP', 'TRN_TRNWIC'],
+  '5597': [
+    'TERM_RETIRE', 'TERM_DISMISS', 'TERM_DM', 'TERM_ENDASSIGN', 'TERM_EOC',
+    'TERM_ERLRETIRE', 'TERM_LAYOFF', 'TERM_NOSHOW', 'TERM_PASSAWAY', 'TERM_RESIGN',
+    'TERM_REORG', 'TERM_TRANS', 'TERM_UNSUCPROB', 'TERM_COVID', 'TERM_CRISIS',
+    'TERM_ABSENT', 'TERM_REDUNDANCY',
+  ],
+}
+
+interface ReasonPickerProps {
+  event: '5584' | '5604' | '5597'
+  value: string | null
+  onChange: (code: string) => void
+  required?: boolean
+  error?: string
+  id?: string
+}
+
+export function ReasonPicker({
+  event,
+  value,
+  onChange,
+  required = false,
+  error,
+  id = 'reason-picker',
+}: ReasonPickerProps) {
+  const options = EVENT_REASONS[event] ?? []
+  const labelId = `${id}-label`
+
+  return (
+    <div>
+      <label id={labelId} htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+        เหตุผล / ประเภทรายการ
+        {required && <span className="ml-1 text-red-500" aria-hidden="true">*</span>}
+      </label>
+
+      <select
+        id={id}
+        aria-labelledby={labelId}
+        aria-required={required}
+        aria-invalid={!!error}
+        value={value ?? ''}
+        onChange={(e) => onChange(e.target.value)}
+        className={[
+          'w-full rounded-md border px-3 py-2 text-sm bg-white text-gray-900',
+          'focus:outline-none focus:ring-2 focus:ring-blue-500',
+          error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300',
+        ].join(' ')}
+      >
+        <option value="" disabled>
+          — เลือกเหตุผล —
+        </option>
+        {options.map((code) => (
+          <option key={code} value={code}>
+            {code} — {REASON_LABELS[code] ?? code}
+          </option>
+        ))}
+      </select>
+
+      {/* Error message */}
+      {error && (
+        <p className="mt-1 text-xs text-red-600" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}

@@ -1,0 +1,2387 @@
+[
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='CG_RETIRE',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "CG_RETIRE",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Change to Retirement",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Change to Retirement",
+    "event": "5585",
+    "includeInWorkExperience": true,
+    "internalCode": "221",
+    "objectId": "221",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='CG_RETIRE',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='CG_RETIRE',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='CG_RETIRE',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='CG_RETIRE',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='COMPROB_COMPROB',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "COMPROB_COMPROB",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Completion of Probation",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Completion of Probation",
+    "event": "5591",
+    "includeInWorkExperience": true,
+    "internalCode": "222",
+    "objectId": "222",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='COMPROB_COMPROB',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='COMPROB_COMPROB',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='COMPROB_COMPROB',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='COMPROB_COMPROB',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINPAY',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_CHGINPAY",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Change in Pay",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Change in Pay",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "223",
+    "objectId": "223",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINPAY',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINPAY',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINPAY',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINPAY',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINSSO',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_CHGINSSO",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Change in SSO Location",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Change in SSO Location",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "224",
+    "objectId": "224",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINSSO',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINSSO',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINSSO',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINSSO',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINTM',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_CHGINTM",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Change in Time",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Change in Time",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "225",
+    "objectId": "225",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINTM',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINTM',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINTM',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINTM',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_SC',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_SC",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465266000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "System Change",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465266000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "System Change",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "230",
+    "objectId": "230",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_SC',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_SC',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_SC',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_SC',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINMGR',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_CHGINMGR",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1556612068000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1556612068000+0000)/",
+    "description": null,
+    "createdOn": "/Date(1556612068000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1556612068000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Change in Manager",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "281",
+    "objectId": "281",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINMGR',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINMGR',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINMGR',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINMGR',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTPROB',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_EXTPROB",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Extend Probation",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Extend Probation",
+    "event": "5601",
+    "includeInWorkExperience": true,
+    "internalCode": "228",
+    "objectId": "228",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTPROB',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTPROB',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTPROB',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTPROB',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTRET',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_EXTRET",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Extend Retirement",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Extend Retirement",
+    "event": "5601",
+    "includeInWorkExperience": true,
+    "internalCode": "229",
+    "objectId": "229",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTRET',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTRET',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTRET',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXTRET',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='POSCHG_POSCHG',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "POSCHG_POSCHG",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465316000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Position Change",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465316000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Position Change",
+    "event": "5589",
+    "includeInWorkExperience": false,
+    "internalCode": "239",
+    "objectId": "239",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='POSCHG_POSCHG',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='POSCHG_POSCHG',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='POSCHG_POSCHG',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='POSCHG_POSCHG',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DM',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DM",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "DATA MIGRATION",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "DATA MIGRATION",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "231",
+    "objectId": "231",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DM',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DM',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DM',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DM',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='HIREDM',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "HIREDM",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "HIRE - DATA MIGRATION",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "HIRE - DATA MIGRATION",
+    "event": "5609",
+    "includeInWorkExperience": false,
+    "internalCode": "232",
+    "objectId": "232",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='HIREDM',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='HIREDM',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='HIREDM',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='HIREDM',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_CORENTRY',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "H_CORENTRY",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "HIRE Corrected Entry",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": "71",
+    "name": "HIRE Corrected Entry",
+    "event": "5609",
+    "includeInWorkExperience": true,
+    "internalCode": "233",
+    "objectId": "233",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_CORENTRY',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_CORENTRY',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_CORENTRY',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_CORENTRY',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_INENTRY',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "H_INENTRY",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "HIRE Incorrect Entry",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": "70",
+    "name": "HIRE Incorrect Entry",
+    "event": "5609",
+    "includeInWorkExperience": false,
+    "internalCode": "234",
+    "objectId": "234",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_INENTRY',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_INENTRY',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_INENTRY',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_INENTRY',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_NEWHIRE',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "H_NEWHIRE",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661760000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "New Hire",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661760000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "New Hire",
+    "event": "5609",
+    "includeInWorkExperience": true,
+    "internalCode": "235",
+    "objectId": "235",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_NEWHIRE',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_NEWHIRE',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_NEWHIRE',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_NEWHIRE',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_RPLMENT',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "H_RPLMENT",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Replacement",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Replacement",
+    "event": "5609",
+    "includeInWorkExperience": true,
+    "internalCode": "236",
+    "objectId": "236",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_RPLMENT',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_RPLMENT',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_RPLMENT',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_RPLMENT',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_TEMPASG',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "H_TEMPASG",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Temporary Assignment",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Temporary Assignment",
+    "event": "5609",
+    "includeInWorkExperience": true,
+    "internalCode": "237",
+    "objectId": "237",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_TEMPASG',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_TEMPASG',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_TEMPASG',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='H_TEMPASG',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='JCHG_EMPTYPE',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "JCHG_EMPTYPE",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Change Employee Type",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Change Employee Type",
+    "event": "5594",
+    "includeInWorkExperience": true,
+    "internalCode": "238",
+    "objectId": "238",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='JCHG_EMPTYPE',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='JCHG_EMPTYPE',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='JCHG_EMPTYPE',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='JCHG_EMPTYPE',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_MERINC',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRCHG_MERINC",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465373000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Merit Increase",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465373000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Merit Increase",
+    "event": "5587",
+    "includeInWorkExperience": false,
+    "internalCode": "241",
+    "objectId": "241",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_MERINC',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_MERINC',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_MERINC',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_MERINC',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_ADJPOS',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRCHG_ADJPOS",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465431000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Adjust Position",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465431000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Adjust Position",
+    "event": "5587",
+    "includeInWorkExperience": false,
+    "internalCode": "240",
+    "objectId": "240",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_ADJPOS',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_ADJPOS',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_ADJPOS',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_ADJPOS',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_PROMO',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRCHG_PROMO",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465453000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Promotion",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465453000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Promotion",
+    "event": "5587",
+    "includeInWorkExperience": false,
+    "internalCode": "242",
+    "objectId": "242",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_PROMO',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_PROMO',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_PROMO',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_PROMO',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALADJ',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRCHG_SALADJ",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465476000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Salary Adjust",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465476000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Salary Adjust",
+    "event": "5587",
+    "includeInWorkExperience": false,
+    "internalCode": "243",
+    "objectId": "243",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALADJ',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALADJ',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALADJ',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALADJ',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALCUT',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRCHG_SALCUT",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465496000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Salary cuts",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465496000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Salary cuts",
+    "event": "5587",
+    "includeInWorkExperience": false,
+    "internalCode": "244",
+    "objectId": "244",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALCUT',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALCUT',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALCUT',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRCHG_SALCUT',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='REORG_REORG',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "REORG_REORG",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465525000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Reorganization",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465525000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Reorganization",
+    "event": "5599",
+    "includeInWorkExperience": false,
+    "internalCode": "247",
+    "objectId": "247",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='REORG_REORG',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='REORG_REORG',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='REORG_REORG',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='REORG_REORG',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_DEMO',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRM_DEMO",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Demotion",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Demotion",
+    "event": "5607",
+    "includeInWorkExperience": true,
+    "internalCode": "245",
+    "objectId": "245",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_DEMO',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_DEMO',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_DEMO',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_DEMO',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_PRM',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "PRM_PRM",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Promotion",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Promotion",
+    "event": "5607",
+    "includeInWorkExperience": true,
+    "internalCode": "246",
+    "objectId": "246",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_PRM',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_PRM',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_PRM',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='PRM_PRM',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RETIRE',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_RETIRE",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1559876153000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Retirement",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1559876153000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Retirement",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "261",
+    "objectId": "261",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RETIRE',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RETIRE',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RETIRE',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RETIRE',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_GE1',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "RE_REHIRE_GE1",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Rehiring  GE 1 year",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Rehiring  GE 1 year",
+    "event": "5584",
+    "includeInWorkExperience": true,
+    "internalCode": "249",
+    "objectId": "249",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_GE1',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_GE1',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_GE1',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_GE1',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_LT1',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "RE_REHIRE_LT1",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Rehiring   LT 1 year",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Rehiring   LT 1 year",
+    "event": "5584",
+    "includeInWorkExperience": true,
+    "internalCode": "250",
+    "objectId": "250",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_LT1',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_LT1',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_LT1',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RE_REHIRE_LT1',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='SUSP_SUSP',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "SUSP_SUSP",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5580",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Suspension",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Suspension",
+    "event": "5606",
+    "includeInWorkExperience": true,
+    "internalCode": "251",
+    "objectId": "251",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='SUSP_SUSP',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='SUSP_SUSP',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='SUSP_SUSP',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='SUSP_SUSP',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DISMISS',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_DISMISS",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Dismissal",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Dismissal",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "252",
+    "objectId": "252",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DISMISS',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DISMISS',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DISMISS',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DISMISS',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DM',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_DM",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Termination (DM)",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Termination (DM)",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "253",
+    "objectId": "253",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DM',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DM',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DM',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_DM',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ENDASSIGN',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_ENDASSIGN",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "End of Temporary Assignment",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "End of Temporary Assignment",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "254",
+    "objectId": "254",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ENDASSIGN',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ENDASSIGN',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ENDASSIGN',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ENDASSIGN',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_EOC',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_EOC",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "End of Contract",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "End of Contract",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "255",
+    "objectId": "255",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_EOC',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_EOC',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_EOC',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_EOC',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ERLRETIRE',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_ERLRETIRE",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Early Retirement",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Early Retirement",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "256",
+    "objectId": "256",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ERLRETIRE',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ERLRETIRE',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ERLRETIRE',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ERLRETIRE',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_LAYOFF',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_LAYOFF",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Layoff",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Layoff",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "257",
+    "objectId": "257",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_LAYOFF',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_LAYOFF',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_LAYOFF',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_LAYOFF',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_NOSHOW',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_NOSHOW",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "No Show",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "No Show",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "258",
+    "objectId": "258",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_NOSHOW',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_NOSHOW',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_NOSHOW',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_NOSHOW',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_PASSAWAY',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_PASSAWAY",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Passed away",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Passed away",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "259",
+    "objectId": "259",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_PASSAWAY',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_PASSAWAY',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_PASSAWAY',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_PASSAWAY',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RESIGN',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_RESIGN",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Resignation",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Resignation",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "260",
+    "objectId": "260",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RESIGN',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RESIGN',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RESIGN',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_RESIGN',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REORG',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_REORG",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1593079822000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1593079822000+0000)/",
+    "description": "Reorganization",
+    "createdOn": "/Date(1593079822000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1593079822000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "Reorganization",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "322",
+    "objectId": "322",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REORG',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REORG',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REORG',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REORG',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_TRANS',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_TRANS",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Transfer Out",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Transfer Out",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "262",
+    "objectId": "262",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_TRANS',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_TRANS',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_TRANS',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_TRANS',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_UNSUCPROB',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_UNSUCPROB",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Unsuccessful probation",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Unsuccessful probation",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "263",
+    "objectId": "263",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_UNSUCPROB',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_UNSUCPROB',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_UNSUCPROB',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_UNSUCPROB',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_ROTATION',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TRN_ROTATION",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Rotation",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Rotation",
+    "event": "5604",
+    "includeInWorkExperience": true,
+    "internalCode": "264",
+    "objectId": "264",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_ROTATION',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_ROTATION',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_ROTATION',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_ROTATION',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNACCOMP',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TRN_TRNACCOMP",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Transfer across Company",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Transfer across Company",
+    "event": "5604",
+    "includeInWorkExperience": true,
+    "internalCode": "265",
+    "objectId": "265",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNACCOMP',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNACCOMP',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNACCOMP',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNACCOMP',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNWIC',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TRN_TRNWIC",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1550661761000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661761000+0000)/",
+    "description": "Transfer within Company",
+    "createdOn": "/Date(1550661761000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1550661761000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Transfer within Company",
+    "event": "5604",
+    "includeInWorkExperience": true,
+    "internalCode": "266",
+    "objectId": "266",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNWIC',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNWIC',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNWIC',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TRN_TRNWIC',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_DC',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_DC",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1557465241000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Data Change",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1557465241000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Data Change",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "226",
+    "objectId": "226",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_DC',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_DC',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_DC',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_DC',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_COVID',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_COVID",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1585374054000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1585374030000+0000)/",
+    "description": "COVID-19 situation",
+    "createdOn": "/Date(1585374030000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1585374054000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "COVID-19 situation",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "301",
+    "objectId": "301",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_COVID',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_COVID',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_COVID',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_COVID',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXCONT',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_EXCONT",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1553080281000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "POIT02",
+    "createdDateTime": "/Date(1550661760000+0000)/",
+    "description": "Extend Contract",
+    "createdOn": "/Date(1550661760000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1553080281000)/",
+    "createdBy": "POIT02",
+    "payrollEvent": null,
+    "name": "Extend Contract",
+    "event": "5601",
+    "includeInWorkExperience": true,
+    "internalCode": "227",
+    "objectId": "227",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXCONT',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXCONT',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXCONT',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_EXCONT',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_CRISIS',startDate=datetime'2020-06-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_CRISIS",
+    "startDate": "/Date(1590969600000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1593157547000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1593157547000+0000)/",
+    "description": "Crisis Management",
+    "createdOn": "/Date(1593157547000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1593157547000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "Crisis Management",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "323",
+    "objectId": "324",
+    "status": "I",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_CRISIS',startDate=datetime'2020-06-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_CRISIS',startDate=datetime'2020-06-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_CRISIS',startDate=datetime'2020-06-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_CRISIS',startDate=datetime'2020-06-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ABSENT',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_ABSENT",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1593157618000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1593079780000+0000)/",
+    "description": "Absent",
+    "createdOn": "/Date(1593079780000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1593157618000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "Absent",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "321",
+    "objectId": "321",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ABSENT',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ABSENT',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ABSENT',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_ABSENT',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINLO',startDate=datetime'1900-01-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "DC_CHGINLO",
+    "startDate": "/Date(-2208988800000)/",
+    "emplStatus": null,
+    "lastModifiedDateTime": "/Date(1593763790000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1593763790000+0000)/",
+    "description": "Change in Location",
+    "createdOn": "/Date(1593763790000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1593763790000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "Change in Location",
+    "event": "5601",
+    "includeInWorkExperience": false,
+    "internalCode": "341",
+    "objectId": "341",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINLO',startDate=datetime'1900-01-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINLO',startDate=datetime'1900-01-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINLO',startDate=datetime'1900-01-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='DC_CHGINLO',startDate=datetime'1900-01-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REDUNDANCY',startDate=datetime'2021-10-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "TERM_REDUNDANCY",
+    "startDate": "/Date(1633046400000)/",
+    "emplStatus": "5581",
+    "lastModifiedDateTime": "/Date(1633578743000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1633578743000+0000)/",
+    "description": "Redundancy",
+    "createdOn": "/Date(1633578743000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1633578743000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "Redundancy",
+    "event": "5597",
+    "includeInWorkExperience": true,
+    "internalCode": "361",
+    "objectId": "361",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REDUNDANCY',startDate=datetime'2021-10-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REDUNDANCY',startDate=datetime'2021-10-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REDUNDANCY',startDate=datetime'2021-10-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='TERM_REDUNDANCY',startDate=datetime'2021-10-01T00:00:00')/eventNav"
+      }
+    }
+  },
+  {
+    "__metadata": {
+      "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RESUSP_RESUSP',startDate=datetime'2021-11-01T00:00:00')",
+      "type": "SFOData.FOEventReason"
+    },
+    "externalCode": "RESUSP_RESUSP",
+    "startDate": "/Date(1635724800000)/",
+    "emplStatus": "5574",
+    "lastModifiedDateTime": "/Date(1637654234000+0000)/",
+    "endDate": "/Date(253402214400000)/",
+    "lastModifiedBy": "20171474",
+    "createdDateTime": "/Date(1637654234000+0000)/",
+    "description": "Return from Suspension",
+    "createdOn": "/Date(1637654234000)/",
+    "deleteRecordsAfterTermination": null,
+    "lastModifiedOn": "/Date(1637654234000)/",
+    "createdBy": "20171474",
+    "payrollEvent": null,
+    "name": "Return from Suspension",
+    "event": "5601",
+    "includeInWorkExperience": true,
+    "internalCode": "248",
+    "objectId": "381",
+    "status": "A",
+    "emplStatusNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RESUSP_RESUSP',startDate=datetime'2021-11-01T00:00:00')/emplStatusNav"
+      }
+    },
+    "descriptionTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RESUSP_RESUSP',startDate=datetime'2021-11-01T00:00:00')/descriptionTranslationNav"
+      }
+    },
+    "nameTranslationNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RESUSP_RESUSP',startDate=datetime'2021-11-01T00:00:00')/nameTranslationNav"
+      }
+    },
+    "eventNav": {
+      "__deferred": {
+        "uri": "https://hcm10preview.sapsf.com/odata/v2/FOEventReason(externalCode='RESUSP_RESUSP',startDate=datetime'2021-11-01T00:00:00')/eventNav"
+      }
+    }
+  }
+]
