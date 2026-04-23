@@ -4,6 +4,7 @@
 // Fields: วันที่เริ่มงาน (Hire Date) + บริษัท (Company typeahead) + Event Reason (dropdown)
 // Validation: Zod stepIdentitySchema — ทุก field บังคับ (required)
 // Store: useHireWizard.setStepData('identity', ...) + isStepValid(1) ผ่าน checkStepValid
+// Picklist source: @hrms/shared/picklists (C7: single source of truth)
 
 import { useState, useEffect, useCallback } from 'react'
 import CompanyTypeahead from '@/components/admin/wizard/CompanyTypeahead'
@@ -11,26 +12,7 @@ import { loadCompanies } from '@/lib/admin/store/loadCompanies'
 import type { Company } from '@/lib/admin/store/loadCompanies'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepIdentitySchema } from '@/lib/admin/validation/hireSchema'
-
-// Thai labels สำหรับ 6 HIRE Event Reason codes — ตาม spec Appendix 2 verbatim (C8)
-const EVENT_REASON_LABELS: Record<string, string> = {
-  H_NEWHIRE:   'พนักงานใหม่',
-  H_RPLMENT:   'แทนที่พนักงานเดิม',
-  H_TEMPASG:   'มอบหมายชั่วคราว',
-  HIREDM:      'ย้ายข้อมูล (Data Migration)',
-  H_CORENTRY:  'แก้ไขรายการ Hire (Corrected Entry)',
-  H_INENTRY:   'Hire Incorrect Entry ⚠️',
-}
-
-// ลำดับ dropdown ตาม spec
-const EVENT_REASON_ORDER = [
-  'H_NEWHIRE',
-  'H_RPLMENT',
-  'H_TEMPASG',
-  'HIREDM',
-  'H_CORENTRY',
-  'H_INENTRY',
-]
+import { PICKLIST_EVENT_REASON_HIRE } from '@hrms/shared/picklists'
 
 // helper — วันนี้ในรูปแบบ ISO 8601 (YYYY-MM-DD) สำหรับ default ของ Hire Date
 function todayISO(): string {
@@ -234,9 +216,9 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           ].join(' ')}
         >
           <option value="">— เลือกสาเหตุ —</option>
-          {EVENT_REASON_ORDER.map((code) => (
-            <option key={code} value={code}>
-              {code} — {EVENT_REASON_LABELS[code] ?? code}
+          {PICKLIST_EVENT_REASON_HIRE.filter((item) => item.active).map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.id} — {item.labelTh}
             </option>
           ))}
         </select>

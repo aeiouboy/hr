@@ -1,0 +1,19 @@
+[
+  { "id": "TERM_RESIGN",     "labelTh": "ลาออก",                    "labelEn": "Resignation",                 "sortOrder": 1,  "active": true },
+  { "id": "TERM_EOC",        "labelTh": "สิ้นสุดสัญญาจ้าง",         "labelEn": "End of Contract",             "sortOrder": 2,  "active": true },
+  { "id": "TERM_RETIRE",     "labelTh": "เกษียณอายุ",               "labelEn": "Retirement",                  "sortOrder": 3,  "active": true },
+  { "id": "TERM_ERLRETIRE",  "labelTh": "เกษียณก่อนกำหนด",          "labelEn": "Early Retirement",            "sortOrder": 4,  "active": true },
+  { "id": "TERM_DISMISS",    "labelTh": "ไล่ออก",                   "labelEn": "Dismissal",                   "sortOrder": 5,  "active": true },
+  { "id": "TERM_LAYOFF",     "labelTh": "ปลดออก (Layoff)",          "labelEn": "Layoff",                      "sortOrder": 6,  "active": true },
+  { "id": "TERM_REORG",      "labelTh": "ปรับโครงสร้างองค์กร",      "labelEn": "Reorganization",              "sortOrder": 7,  "active": true },
+  { "id": "TERM_REDUNDANCY", "labelTh": "ลดจำนวนพนักงาน",           "labelEn": "Redundancy",                  "sortOrder": 8,  "active": true },
+  { "id": "TERM_ENDASSIGN",  "labelTh": "สิ้นสุดการมอบหมายชั่วคราว","labelEn": "End of Temporary Assignment", "sortOrder": 9,  "active": true },
+  { "id": "TERM_UNSUCPROB",  "labelTh": "ไม่ผ่านทดลองงาน",          "labelEn": "Unsuccessful Probation",      "sortOrder": 10, "active": true },
+  { "id": "TERM_PASSAWAY",   "labelTh": "เสียชีวิต",                "labelEn": "Passed Away",                 "sortOrder": 11, "active": true },
+  { "id": "TERM_NOSHOW",     "labelTh": "ไม่มาปฏิบัติงาน",          "labelEn": "No Show",                     "sortOrder": 12, "active": true },
+  { "id": "TERM_TRANS",      "labelTh": "โอนย้ายออก",               "labelEn": "Transfer Out",                "sortOrder": 13, "active": true },
+  { "id": "TERM_DM",         "labelTh": "ย้ายข้อมูล (Data Migration)","labelEn": "Termination (DM)",           "sortOrder": 14, "active": true },
+  { "id": "TERM_COVID",      "labelTh": "สถานการณ์ COVID-19",        "labelEn": "COVID-19 Situation",          "sortOrder": 15, "active": true },
+  { "id": "TERM_CRISIS",     "labelTh": "ภาวะวิกฤต",                "labelEn": "Crisis Management",           "sortOrder": 16, "active": true },
+  { "id": "TERM_ABSENT",     "labelTh": "ขาดงาน",                   "labelEn": "Absent",                      "sortOrder": 17, "active": true }
+]

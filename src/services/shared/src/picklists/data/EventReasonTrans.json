@@ -1,0 +1,5 @@
+[
+  { "id": "TRN_TRNWIC",    "labelTh": "โอนย้ายภายในบริษัท",    "labelEn": "Transfer within Company",  "sortOrder": 1, "active": true },
+  { "id": "TRN_TRNACCOMP", "labelTh": "โอนย้ายข้ามบริษัท",     "labelEn": "Transfer across Company",  "sortOrder": 2, "active": true },
+  { "id": "TRN_ROTATION",  "labelTh": "หมุนเวียนสายงาน",       "labelEn": "Rotation",                 "sortOrder": 3, "active": true }
+]

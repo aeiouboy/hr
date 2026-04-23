@@ -3,21 +3,11 @@
 // StepEmployeeInfo.tsx — Step 4: ข้อมูลพนักงาน (Employee Info)
 // Fields: employeeClass dropdown A-H — required
 // Labels verbatim จาก spec Appendix 3 (C8: ห้าม invent)
+// Picklist source: @hrms/shared/picklists (C7: single source of truth)
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepEmployeeInfoSchema, EMPLOYEE_CLASSES } from '@/lib/admin/validation/hireSchema'
-
-// Labels ตาม Appendix 3 verbatim
-const EMPLOYEE_CLASS_LABELS: Record<typeof EMPLOYEE_CLASSES[number], string> = {
-  A: 'A — Permanent',
-  B: 'B — Expat Outbound',
-  C: 'C — Expat Inbound',
-  D: 'D — Retirement',
-  E: 'E — Temporary',
-  F: 'F — DVT',
-  G: 'G — Internship',
-  H: 'H — Contingent',
-}
+import { PICKLIST_EMPLOYEE_CLASS } from '@hrms/shared/picklists'
 
 export interface StepEmployeeInfoProps {
   onValidChange?: (isValid: boolean) => void
@@ -70,8 +60,8 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           ].join(' ')}
         >
           <option value="">— เลือกประเภทพนักงาน —</option>
-          {EMPLOYEE_CLASSES.map((cls) => (
-            <option key={cls} value={cls}>{EMPLOYEE_CLASS_LABELS[cls]}</option>
+          {PICKLIST_EMPLOYEE_CLASS.filter((item) => item.active).map((item) => (
+            <option key={item.id} value={item.id}>{item.labelTh}</option>
           ))}
         </select>
         {touched && error && (

@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@hrms/shared/picklists": [
+        "../services/shared/src/picklists/index.ts"
       ]
     }
   },
