@@ -161,6 +161,30 @@ export function calcYearsInBU(
 }
 
 /**
+ * F6b — calcYearsInCorpTitle
+ *
+ * Years since last corporate-title change (PROMOTION or DEMOTION).
+ * Corp title resets on the same events as job grade change.
+ * No corp_title_change_date on MockEmployee yet → falls back to HIRE (I11).
+ * Mirrors calcYearsInJobGrade reset logic; separate export per BRD #86.
+ *
+ * @param events - LifecycleEvent[]
+ * @param asOf   - ISO "YYYY-MM-DD" (default: today)
+ */
+export function calcYearsInCorpTitle(
+  events: LifecycleEvent[],
+  asOf: string = new Date().toISOString().slice(0, 10),
+): YearMonth {
+  const resetDate = findLatestResetDate(events, (evt) => {
+    if (evt.type !== 'PROMOTION' && evt.type !== 'DEMOTION') return false
+    // any title change event resets corp-title counter
+    return true
+  })
+  const startDate = resetDate ?? findHireDate(events)
+  return calcFromDate(startDate, asOf)
+}
+
+/**
  * F7 — calcYearsInJobGrade
  *
  * Years since last JG change (PROMOTION or DEMOTION where meta.fromJG !== meta.toJG).
