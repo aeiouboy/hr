@@ -1,0 +1,17 @@
+PASS test/pagination.dto.spec.ts (5.093 s)
+PASS test/http-exception.filter.spec.ts
+PASS test/roles.guard.spec.ts
+PASS src/types/__tests__/timeline.test.ts
+PASS test/logging.interceptor.spec.ts
+PASS test/roles.decorator.spec.ts
+PASS test/auth.guard.spec.ts
+PASS src/picklists/__tests__/yes-no.test.ts
+PASS test/transform.interceptor.spec.ts
+PASS src/validation/toolkit.test.ts
+PASS test/pii-mask.util.spec.ts
+
+Test Suites: 11 passed, 11 total
+Tests:       167 passed, 167 total
+Snapshots:   0 total
+Time:        8.874 s
+Ran all test suites.

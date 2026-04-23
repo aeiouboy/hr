@@ -251,7 +251,7 @@ export default function UserAssignmentPage() {
 
               {/* Role chips */}
               <ChipSelector
-                label="กลุ่มสิทธิ์แอปพลิเคชัน (Role Group)"
+                label="กลุ่มสิทธิ์แอปพลิเคชัน"
                 options={roles.map((r) => ({ id: r.id, name: r.name }))}
                 selected={selectedRoleIds}
                 onToggle={toggleRole}
@@ -260,7 +260,7 @@ export default function UserAssignmentPage() {
 
               {/* Data permission chips */}
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">กลุ่มสิทธิ์ข้อมูล (Data Permission Group)</p>
+                <p className="text-sm font-medium text-gray-700 mb-2">กลุ่มสิทธิ์ข้อมูล</p>
                 <div className="flex flex-wrap gap-2">
                   {dataPermissions.map((dp) => (
                     <button

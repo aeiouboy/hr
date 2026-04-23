@@ -9,8 +9,8 @@ import { CronPicker } from '@/components/admin/admin-system/CronPicker'
 import { formatCron } from '@/lib/admin/utils/cronFormat'
 
 const DELIVERY_OPTIONS = [
-  { value: 'view',       label: 'ดูในระบบ (View)' },
-  { value: 'email',      label: 'อีเมล (Email)' },
+  { value: 'view',       label: 'ดูในระบบ' },
+  { value: 'email',      label: 'อีเมล' },
   { value: 'cg-gateway', label: 'CG Gateway' },
 ] as const
 
@@ -103,7 +103,7 @@ export default function ScheduleReportPage() {
               {activeJobs.map((job) => {
                 const rpt = reports.find((r) => r.id === job.reportId)
                 let freq = job.cron
-                try { freq = formatCron(job.cron) } catch { /* keep raw */ }
+                try { freq = formatCron(job.cron) } catch (err) { console.warn('[formatCron] invalid cron:', job.cron, err) }
                 return (
                   <li key={job.id} className="py-2.5 flex items-start gap-3">
                     <span className="mt-0.5 h-2 w-2 rounded-full bg-green-400 flex-shrink-0" aria-hidden />

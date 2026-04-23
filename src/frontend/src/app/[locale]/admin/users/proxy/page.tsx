@@ -103,7 +103,7 @@ function ProxyModal({
           {/* Delegator */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              ผู้มอบหมาย (Delegator) <span className="text-red-500">*</span>
+              ผู้มอบหมาย <span className="text-red-500">*</span>
             </label>
             <select
               value={delegatorId}
@@ -126,7 +126,7 @@ function ProxyModal({
           {/* Delegatee — excludes delegator ตาม AC-6 */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              ผู้รับมอบหมาย (Delegatee) <span className="text-red-500">*</span>
+              ผู้รับมอบหมาย <span className="text-red-500">*</span>
             </label>
             <select
               value={delegateeId}

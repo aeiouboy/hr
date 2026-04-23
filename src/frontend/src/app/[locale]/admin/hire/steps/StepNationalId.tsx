@@ -1,6 +1,6 @@
 'use client'
 
-// StepNationalId.tsx — Step 5: เลขบัตรประชาชน (National ID)
+// StepNationalId.tsx — Step 5: เลขบัตรประชาชน
 // Fields: nationalId text — 13 digits Thai pattern, required
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
@@ -37,11 +37,11 @@ export default function StepNationalId({ onValidChange }: StepNationalIdProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">ขั้นตอนที่ 5 — เลขบัตรประชาชน (National ID)</h2>
+      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 5 — เลขบัตรประชาชน</h2>
 
       <fieldset>
-        <label htmlFor="national-id" className="block text-sm font-medium text-gray-700 mb-1">
-          เลขบัตรประชาชน (National ID)<span aria-hidden="true" className="ml-1 text-red-500">*</span>
+        <label htmlFor="national-id" className="humi-label">
+          เลขบัตรประชาชน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input
           id="national-id"
@@ -56,19 +56,14 @@ export default function StepNationalId({ onValidChange }: StepNationalIdProps) {
           value={nationalId}
           onChange={(e) => setNationalId(e.target.value)}
           onBlur={() => setTouched(true)}
-          className={[
-            'w-full max-w-xs rounded-md border px-3 py-2 text-sm',
-            'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            'tracking-widest',
-            touched && error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300',
-          ].join(' ')}
+          className="humi-input w-full max-w-xs tracking-widest"
         />
         {touched && error && (
-          <p id="nid-error" role="alert" className="mt-1 text-xs text-red-600">{error}</p>
+          <p id="nid-error" role="alert" className="mt-1 text-xs text-warning">{error}</p>
         )}
       </fieldset>
 
-      <p className="text-xs text-gray-400"><span className="text-red-500">*</span> ช่องที่บังคับกรอก</p>
+      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
     </div>
   )
 }

@@ -1,0 +1,7 @@
+[
+  { "id": "SINGLE", "labelTh": "โสด", "labelEn": "Single", "sortOrder": 1, "active": true },
+  { "id": "MARRIED", "labelTh": "สมรส", "labelEn": "Married", "sortOrder": 2, "active": true },
+  { "id": "DIVORCED", "labelTh": "หย่าร้าง", "labelEn": "Divorced", "sortOrder": 3, "active": true },
+  { "id": "WIDOWED", "labelTh": "คู่สมรสเสียชีวิต", "labelEn": "Widowed", "sortOrder": 4, "active": true },
+  { "id": "SEPARATED", "labelTh": "แยกกันอยู่", "labelEn": "Separated", "sortOrder": 5, "active": true }
+]

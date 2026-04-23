@@ -1,38 +1,25 @@
 {
-  "task": "Humi Profile Edit — FE E2E Clickable (attachment upload + mock workflow approval)",
-  "issue": 12,
+  "task": "HR Phase 1 Build \u2014 Hiring + Probation + Employee Data journey (5 routes, 2 waves)",
+  "issue": 17,
   "repo": "aeiouboy/hr",
-  "run_id": "2026-04-22-humi-profile-edit-e2e",
-  "spec": null,
-  "phase": 1,
-  "phase_name": "Plan",
-  "started_at": "2026-04-22T10:30:00Z",
-  "updated_at": "2026-04-22T10:30:00Z",
-  "completed_phases": [0],
-  "base_branch": "humi/effective-date-gate-issue-9",
-  "working_branch": "humi/profile-edit-e2e",
-  "prior_runs": [
-    {"issue": 9, "verdict": "CLOSED", "note": "EffectiveDateGate wired — inherit base"},
-    {"issue": 3, "verdict": "PASS", "note": "11 screens functional foundation"}
+  "spec": "specs/hr-phase-1-build-journey.md",
+  "phase": 2,
+  "phase_name": "Build Wave 1 (S1+S2+S3 parallel)",
+  "started_at": "2026-04-23T20:15:00Z",
+  "updated_at": "2026-04-23T20:15:00Z",
+  "completed_phases": [
+    0,
+    0.5,
+    1,
+    1.5
   ],
   "artifacts": {
-    "spec_path": null,
-    "test_report_path": null,
-    "screenshot_dir": null
+    "spec_path": "specs/hr-phase-1-build-journey.md"
   },
   "phase_2_5_fixes": [],
-  "test_results": {"frontend": null, "e2e": null},
-  "agents": [],
-  "acceptance_criteria": [
-    {"id": "AC-1", "desc": "Edit form 4 → 15+ fields across 4 sections", "status": "pending"},
-    {"id": "AC-2", "desc": "FileUploadField atom (drag-drop + base64)", "status": "pending"},
-    {"id": "AC-3", "desc": "Attachment enforcement Name/Marital/NationalID/Dependent", "status": "pending"},
-    {"id": "AC-4", "desc": "EffectiveDateGate onConfirm wired to submitChangeRequest", "status": "pending"},
-    {"id": "AC-5", "desc": "Pending badge + Activity tab log with file preview", "status": "pending"},
-    {"id": "AC-6", "desc": "Admin mock approval toggle", "status": "pending"},
-    {"id": "AC-7", "desc": "Toast notifications (save + approve)", "status": "pending"},
-    {"id": "AC-8", "desc": "Mobile responsive drawer <768px", "status": "pending"},
-    {"id": "AC-9", "desc": "i18n th/en parity", "status": "pending"},
-    {"id": "AC-10", "desc": "Playwright E2E scenario", "status": "pending"}
-  ]
+  "test_results": {
+    "backend": null,
+    "frontend": null
+  },
+  "agents": []
 }

@@ -3,7 +3,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import ProfileViewPage from '@/app/ess/profile/page'
+import ProfileViewPage from '@/app/[locale]/ess/profile/page'
 import mockEmployee from '@/data/admin/mockEmployee.json'
 
 describe('ProfileViewPage — 4 section cards', () => {

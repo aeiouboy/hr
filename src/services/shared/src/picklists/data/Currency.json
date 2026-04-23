@@ -1,0 +1,10 @@
+[
+  { "id": "THB", "labelTh": "บาทไทย (THB)",      "labelEn": "Thai Baht (THB)",        "sortOrder": 1, "active": true },
+  { "id": "USD", "labelTh": "ดอลลาร์สหรัฐ (USD)", "labelEn": "US Dollar (USD)",        "sortOrder": 2, "active": true },
+  { "id": "EUR", "labelTh": "ยูโร (EUR)",          "labelEn": "Euro (EUR)",             "sortOrder": 3, "active": true },
+  { "id": "SGD", "labelTh": "ดอลลาร์สิงคโปร์ (SGD)","labelEn": "Singapore Dollar (SGD)","sortOrder": 4, "active": true },
+  { "id": "MYR", "labelTh": "ริงกิตมาเลเซีย (MYR)","labelEn": "Malaysian Ringgit (MYR)","sortOrder": 5, "active": true },
+  { "id": "HKD", "labelTh": "ดอลลาร์ฮ่องกง (HKD)", "labelEn": "Hong Kong Dollar (HKD)", "sortOrder": 6, "active": true },
+  { "id": "JPY", "labelTh": "เยนญี่ปุ่น (JPY)",    "labelEn": "Japanese Yen (JPY)",     "sortOrder": 7, "active": true },
+  { "id": "GBP", "labelTh": "ปอนด์อังกฤษ (GBP)",   "labelEn": "British Pound (GBP)",    "sortOrder": 8, "active": true }
+]

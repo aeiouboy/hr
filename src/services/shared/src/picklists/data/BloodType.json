@@ -1,0 +1,10 @@
+[
+  { "id": "A_POS", "labelTh": "A+", "labelEn": "A+", "sortOrder": 1, "active": true },
+  { "id": "A_NEG", "labelTh": "A-", "labelEn": "A-", "sortOrder": 2, "active": true },
+  { "id": "B_POS", "labelTh": "B+", "labelEn": "B+", "sortOrder": 3, "active": true },
+  { "id": "B_NEG", "labelTh": "B-", "labelEn": "B-", "sortOrder": 4, "active": true },
+  { "id": "AB_POS", "labelTh": "AB+", "labelEn": "AB+", "sortOrder": 5, "active": true },
+  { "id": "AB_NEG", "labelTh": "AB-", "labelEn": "AB-", "sortOrder": 6, "active": true },
+  { "id": "O_POS", "labelTh": "O+", "labelEn": "O+", "sortOrder": 7, "active": true },
+  { "id": "O_NEG", "labelTh": "O-", "labelEn": "O-", "sortOrder": 8, "active": true }
+]

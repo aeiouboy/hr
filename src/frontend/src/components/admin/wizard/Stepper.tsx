@@ -19,11 +19,13 @@ interface StepperProps {
   currentStep: number
   maxUnlockedStep: number
   onStepClick: (step: number) => void
+  /** aria-label บน nav — default "ขั้นตอน Hire Wizard" */
+  stepperLabel?: string
 }
 
-export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick }: StepperProps) {
+export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, stepperLabel = 'ขั้นตอน Hire Wizard' }: StepperProps) {
   return (
-    <nav aria-label="ขั้นตอน Hire Wizard">
+    <nav aria-label={stepperLabel}>
       <ol className="flex flex-col gap-1">
         {steps.map((step) => {
           const isActive = step.number === currentStep

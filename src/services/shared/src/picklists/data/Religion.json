@@ -1,0 +1,12 @@
+[
+  { "id": "BUDDHIST", "labelTh": "พุทธ", "labelEn": "Buddhist", "sortOrder": 1, "active": true },
+  { "id": "MUSLIM", "labelTh": "อิสลาม", "labelEn": "Muslim", "sortOrder": 2, "active": true },
+  { "id": "CHRISTIAN", "labelTh": "คริสต์", "labelEn": "Christian", "sortOrder": 3, "active": true },
+  { "id": "CATHOLIC", "labelTh": "คาทอลิก", "labelEn": "Catholic", "sortOrder": 4, "active": true },
+  { "id": "HINDU", "labelTh": "ฮินดู", "labelEn": "Hindu", "sortOrder": 5, "active": true },
+  { "id": "SIKH", "labelTh": "ซิกห์", "labelEn": "Sikh", "sortOrder": 6, "active": true },
+  { "id": "JUDAISM", "labelTh": "ยูดาย", "labelEn": "Judaism", "sortOrder": 7, "active": true },
+  { "id": "CONFUCIANISM", "labelTh": "ขงจื๊อ", "labelEn": "Confucianism", "sortOrder": 8, "active": true },
+  { "id": "NONE", "labelTh": "ไม่มีศาสนา", "labelEn": "None", "sortOrder": 9, "active": true },
+  { "id": "OTHER", "labelTh": "อื่นๆ", "labelEn": "Other", "sortOrder": 99, "active": true }
+]

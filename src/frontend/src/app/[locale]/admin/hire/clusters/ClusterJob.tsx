@@ -1,40 +1,32 @@
 'use client'
 
-// ClusterJob.tsx — Option-1 merged step 2 of 3 (work assignment cluster)
+// ClusterJob.tsx — Cluster 2 of 3 (Job / Personal Info)
+// D2 S1: StepBiographical ครอบคลุม BA Personal Info rows 2-17 = 12 fields (all mandatory)
+//        StepEmployeeInfo, StepJob, StepCompensation ยังคงอยู่เหมือนเดิม
+import StepBiographical from '../steps/StepBiographical'
 import StepEmployeeInfo from '../steps/StepEmployeeInfo'
 import StepJob from '../steps/StepJob'
 import StepCompensation from '../steps/StepCompensation'
-import { Briefcase, Building2, Wallet } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-
-function SectionHeader({
-  icon: Icon,
-  eyebrow,
-  title,
-  sub,
-}: {
-  icon: LucideIcon
-  eyebrow: string
-  title: string
-  sub: string
-}) {
-  return (
-    <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-        <Icon size={20} aria-hidden />
-      </div>
-      <div>
-        <div className="humi-eyebrow">{eyebrow}</div>
-        <h3 className="humi-section-title">{title}</h3>
-        <p className="humi-section-sub" style={{ marginBottom: 0 }}>{sub}</p>
-      </div>
-    </div>
-  )
-}
+import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
+import { User2, Briefcase, Building2, Wallet } from 'lucide-react'
 
 export default function ClusterJob() {
   return (
     <div className="space-y-5">
+      {/* Personal Info — BA Personal Info rows 2-17 */}
+      <div className="humi-card">
+        <SectionHeader
+          icon={User2}
+          eyebrow="Personal Information"
+          title="ข้อมูลส่วนตัว"
+          sub="ชื่อท้องถิ่น ชื่อเล่น เพศ สัญชาติ กรุ๊ปเลือด สถานภาพ — 12 fields"
+        />
+        <div className="humi-step-section">
+          <StepBiographical />
+        </div>
+      </div>
+
+      {/* Employee Info */}
       <div className="humi-card">
         <SectionHeader
           icon={Briefcase}
@@ -45,6 +37,7 @@ export default function ClusterJob() {
         <div className="humi-step-section"><StepEmployeeInfo /></div>
       </div>
 
+      {/* Job Assignment */}
       <div className="humi-card">
         <SectionHeader
           icon={Building2}
@@ -55,6 +48,7 @@ export default function ClusterJob() {
         <div className="humi-step-section"><StepJob /></div>
       </div>
 
+      {/* Compensation */}
       <div className="humi-card">
         <SectionHeader
           icon={Wallet}

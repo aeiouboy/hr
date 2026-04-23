@@ -28,7 +28,7 @@ vi.mock('@/lib/admin/store/useUsersPermissions', () => {
   return { useUsersPermissions }
 })
 
-import SystemPage from '@/app/admin/system/page'
+import SystemPage from '@/app/[locale]/admin/system/page'
 
 // reset store ก่อนทุก test
 beforeEach(() => {

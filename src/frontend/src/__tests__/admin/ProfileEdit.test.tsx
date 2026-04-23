@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import ProfileEditPage from '@/app/ess/profile/edit/page'
+import ProfileEditPage from '@/app/[locale]/ess/profile/edit/page'
 import { useProfileEdit } from '@/lib/admin/store/useProfileEdit'
 
 // mock next/navigation — ProfileEditPage ใช้ useRouter().push

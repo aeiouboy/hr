@@ -8,6 +8,7 @@
     "src/services/*"
   ],
   "scripts": {
+    "audit:fields": "tsx scripts/audit-field-coverage.ts",
     "dev": "concurrently \"docker compose up -d\" \"echo 'Services starting...'\"",
     "test": "node tests/scripts/verification-test.js",
     "test:verification": "node tests/scripts/verification-test.js",
@@ -41,6 +42,7 @@
     "playwright": "^1.57.0",
     "prettier": "^3.4.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.0"
   },
   "engines": {

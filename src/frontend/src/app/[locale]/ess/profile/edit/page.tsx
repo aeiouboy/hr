@@ -35,7 +35,7 @@ export default function ProfileEditPage() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  // บันทึกร่าง — Zustand persist จัดการ localStorage ให้อัตโนมัติ
+  // บันทึกร่าง จัดการ localStorage ให้อัตโนมัติ
   function handleSaveDraft() {
     showToast('บันทึกร่างแล้ว')
   }

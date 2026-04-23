@@ -70,7 +70,7 @@ export default function ReportAutomationPage() {
             <tbody className="divide-y divide-gray-100">
               {allJobs.map((job) => {
                 let freq = job.cron
-                try { freq = formatCron(job.cron) } catch { /* keep raw */ }
+                try { freq = formatCron(job.cron) } catch (err) { console.warn('[formatCron] invalid cron:', job.cron, err) }
                 const lastRun = job.lastRunAt
                   ? new Date(job.lastRunAt).toLocaleDateString('th-TH')
                   : '—'

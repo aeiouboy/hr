@@ -20,6 +20,7 @@ import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
+import { AdminShell } from '@/components/admin/shell/AdminShell';
 import { useUIStore } from '@/stores/ui-store';
 
 /** href prefix → page title shown in topbar h2.
@@ -74,6 +75,11 @@ function resolveTitle(pathname: string): string {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  if (pathname.startsWith('/th/admin') || pathname.startsWith('/en/admin')) {
+    return <AdminShell>{children}</AdminShell>;
+  }
+
   const title = resolveTitle(pathname);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const { mobileMenuOpen, closeMobileMenu } = useUIStore();

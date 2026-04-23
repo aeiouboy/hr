@@ -1,4 +1,4 @@
-// employment-info/page.tsx — ข้อมูลการจ้างงาน (placeholder — Phase 2)
+// employment-info/page.tsx — ข้อมูลการจ้างงาน (placeholder 2)
 export default function EmploymentInfoPage() {
   return (
     <div className="p-6">

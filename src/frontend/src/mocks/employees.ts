@@ -1,0 +1,187 @@
+// mocks/employees.ts — 1,000 deterministic mock employees (seeded PRNG)
+// Used by useEmployees Zustand store. No real API. Stable across renders.
+//
+// Seeded LCG PRNG: same seed = same output always.
+// Pool: 20 Thai given names + 20 surnames (phonetic EN transliteration paired).
+// Hire date: 2016-2024 range. 85% active, 15% inactive/terminated mix.
+// Probation: 60% in_probation if hire_date within last 119 days.
+
+export interface MockEmployee {
+  employee_id: string
+  first_name_th: string
+  last_name_th: string
+  first_name_en: string
+  last_name_en: string
+  employee_class: 'PERMANENT' | 'PARTIME'
+  date_of_birth: string        // ISO date YYYY-MM-DD
+  hire_date: string            // ISO date YYYY-MM-DD
+  company: 'CEN' | 'CRC' | 'CU' | 'CPN' | 'ROBINSON'
+  position_title: string
+  org_unit: string
+  probation_status: 'in_probation' | 'passed' | 'terminated' | 'extended'
+  status: 'active' | 'inactive' | 'terminated'
+}
+
+// ──────────────────────────────────────────────
+// Name pools
+// ──────────────────────────────────────────────
+
+const GIVEN_TH = [
+  'สมชาย', 'วิภา', 'ณัฐกานต์', 'ประเสริฐ', 'อรณิชา',
+  'ธนพล', 'มาลี', 'สุรชัย', 'กมลรัตน์', 'ปิยะ',
+  'ชญานิษฐ์', 'วรเมธ', 'ศิริพร', 'อนุชา', 'นภัสสร',
+  'ภัทรพล', 'รัตนาภรณ์', 'กิตติพงศ์', 'พิชญา', 'เจษฎา',
+]
+
+const GIVEN_EN = [
+  'Somchai', 'Vipa', 'Nattakarn', 'Prasoet', 'Ornicha',
+  'Tanapon', 'Mali', 'Surachai', 'Kamonrat', 'Piya',
+  'Chayanit', 'Woramet', 'Siriporn', 'Anucha', 'Naphasat',
+  'Pattarapon', 'Rattanaporn', 'Kittipong', 'Pichaya', 'Jetsada',
+]
+
+const SURNAME_TH = [
+  'สุวรรณ', 'จันทร์แดง', 'พรหมมา', 'วัฒนชัย', 'อ่อนสา',
+  'ศิริวงศ์', 'ทองดี', 'มาลาพงษ์', 'นาคประเสริฐ', 'บุญรัตน์',
+  'เจริญกิจ', 'หิรัญรัตน์', 'ปานสุข', 'ธีระพงษ์', 'ลิมประพัฒน์',
+  'รุ่งโรจน์', 'กาญจนาพงศ์', 'สมบัติ', 'อัครเดช', 'วิจิตรวงศ์',
+]
+
+const SURNAME_EN = [
+  'Suwan', 'Chandaeng', 'Prommma', 'Wattanachai', 'Onsa',
+  'Siriwong', 'Thongdi', 'Malapong', 'Nakprasert', 'Boonrat',
+  'Charoengit', 'Hiranrat', 'Pansuk', 'Theeraphong', 'Limpraphat',
+  'Rungrot', 'Kanchanapong', 'Sombat', 'Akradet', 'Wijitwong',
+]
+
+const COMPANIES: Array<MockEmployee['company']> = ['CEN', 'CRC', 'CU', 'CPN', 'ROBINSON']
+
+const POSITIONS = [
+  'HR Business Partner', 'Software Engineer', 'Senior Analyst',
+  'Store Manager', 'Retail Associate', 'Finance Manager',
+  'Data Analyst', 'Marketing Coordinator', 'Logistics Supervisor',
+  'IT Support Specialist', 'Legal Counsel', 'Project Manager',
+  'Procurement Officer', 'Customer Service', 'Operations Manager',
+  'Content Strategist', 'Brand Manager', 'Payroll Specialist',
+  'Security Officer', 'Maintenance Technician',
+]
+
+const ORG_UNITS = [
+  'Sales - Bangkok', 'HR - Head Office', 'Finance - Regional',
+  'IT - Infrastructure', 'Marketing - Central', 'Operations - North',
+  'Logistics - South', 'Legal - Corporate', 'Customer Experience',
+  'Retail - Rama 9', 'Retail - CentralWorld', 'Retail - The Mall',
+  'Digital Commerce', 'Procurement - National', 'Brand Management',
+]
+
+// ──────────────────────────────────────────────
+// Seeded LCG PRNG (mulberry32 variant)
+// ──────────────────────────────────────────────
+
+function makePRNG(seed: number) {
+  let s = seed >>> 0
+  return function (): number {
+    s = Math.imul(1664525, s) + 1013904223
+    return ((s >>> 0) / 0x100000000)
+  }
+}
+
+function rndInt(rnd: () => number, min: number, max: number): number {
+  return Math.floor(rnd() * (max - min + 1)) + min
+}
+
+function pick<T>(rnd: () => number, arr: T[]): T {
+  return arr[rndInt(rnd, 0, arr.length - 1)]
+}
+
+// ──────────────────────────────────────────────
+// Date helpers
+// ──────────────────────────────────────────────
+
+function isoDate(year: number, month: number, day: number): string {
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+}
+
+function randomIsoDate(rnd: () => number, startYear: number, endYear: number): string {
+  const year = rndInt(rnd, startYear, endYear)
+  const month = rndInt(rnd, 1, 12)
+  const maxDay = new Date(year, month, 0).getDate()
+  const day = rndInt(rnd, 1, maxDay)
+  return isoDate(year, month, day)
+}
+
+const TODAY = new Date()
+
+function daysBetween(isoA: string, isoB: Date): number {
+  return Math.floor((isoB.getTime() - new Date(isoA).getTime()) / 86_400_000)
+}
+
+// ──────────────────────────────────────────────
+// Generator
+// ──────────────────────────────────────────────
+
+function generateEmployees(count: number): MockEmployee[] {
+  const rnd = makePRNG(42)  // fixed seed → deterministic
+  const employees: MockEmployee[] = []
+
+  for (let i = 0; i < count; i++) {
+    const num = String(i + 1).padStart(4, '0')
+    const givenIdx = rndInt(rnd, 0, 19)
+    const surnameIdx = rndInt(rnd, 0, 19)
+
+    const first_name_th = GIVEN_TH[givenIdx]
+    const last_name_th = SURNAME_TH[surnameIdx]
+    const first_name_en = GIVEN_EN[givenIdx]
+    const last_name_en = SURNAME_EN[surnameIdx]
+
+    const hire_date = randomIsoDate(rnd, 2016, 2024)
+    const date_of_birth = randomIsoDate(rnd, 1975, 2000)
+
+    const daysEmployed = daysBetween(hire_date, TODAY)
+    const isRecent = daysEmployed <= 119
+
+    // Status: 85% active / 10% inactive / 5% terminated
+    const statusRoll = rnd()
+    let status: MockEmployee['status']
+    if (statusRoll < 0.85) status = 'active'
+    else if (statusRoll < 0.95) status = 'inactive'
+    else status = 'terminated'
+
+    // Probation status
+    let probation_status: MockEmployee['probation_status']
+    if (status === 'terminated') {
+      probation_status = 'terminated'
+    } else if (isRecent) {
+      // 60% in_probation for recent hires; rest split extended/passed
+      const probRoll = rnd()
+      if (probRoll < 0.60) probation_status = 'in_probation'
+      else if (probRoll < 0.80) probation_status = 'extended'
+      else probation_status = 'passed'
+    } else {
+      probation_status = rnd() < 0.05 ? 'extended' : 'passed'
+    }
+
+    const employee_class: MockEmployee['employee_class'] =
+      rnd() < 0.75 ? 'PERMANENT' : 'PARTIME'
+
+    employees.push({
+      employee_id: `EMP-${num}`,
+      first_name_th,
+      last_name_th,
+      first_name_en,
+      last_name_en,
+      employee_class,
+      date_of_birth,
+      hire_date,
+      company: pick(rnd, COMPANIES),
+      position_title: pick(rnd, POSITIONS),
+      org_unit: pick(rnd, ORG_UNITS),
+      probation_status,
+      status,
+    })
+  }
+
+  return employees
+}
+
+export const MOCK_EMPLOYEES: MockEmployee[] = generateEmployees(1000)

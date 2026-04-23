@@ -1,22 +1,19 @@
 'use client'
 
 // EmployeePicker.tsx — Typeahead combobox สำหรับเลือกพนักงาน (Lifecycle wizards)
-// ค้นหาด้วย externalCode / ชื่อ (ไทย/อังกฤษ) / เลขบัตรประชาชน
+// ค้นหาด้วย employee_id / ชื่อ (ไทย/อังกฤษ)
 // Accessibility: role="combobox", aria-labelledby, aria-expanded, aria-activedescendant
-// filter prop: 'Active' = เฉพาะพนักงานที่ยังทำงาน, 'Terminated' = เฉพาะพนักงานที่ออกแล้ว
+// filter prop: 'active' = เฉพาะพนักงานที่ยังทำงาน, 'terminated' = เฉพาะพนักงานที่ออกแล้ว
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
-import type { MockEmployee } from '@/lib/admin/store/useLifecycleWizard'
-import mockEmployeesData from '@/data/admin/mockEmployees.json'
-
-// โหลด mock employees จาก fixture
-const ALL_EMPLOYEES = mockEmployeesData as MockEmployee[]
+import type { MockEmployee } from '@/mocks/employees'
+import { useEmployees } from '@/lib/admin/store/useEmployees'
 
 // จำนวน result สูงสุดใน dropdown
 const MAX_RESULTS = 8
 
 interface EmployeePickerProps {
   onSelect: (emp: MockEmployee) => void
-  filter?: 'Active' | 'Terminated'
+  filter?: 'active' | 'terminated'
   required?: boolean
   value?: MockEmployee | null
   id?: string
@@ -29,17 +26,19 @@ export function EmployeePicker({
   value = null,
   id = 'employee-picker',
 }: EmployeePickerProps) {
-  // pool ที่กรองตาม filter prop แล้ว — คำนวณครั้งเดียว (useMemo ตาม AC-15)
+  const allEmployees = useEmployees((s) => s.all)
+
+  // pool ที่กรองตาม filter prop แล้ว — คำนวณครั้งเดียว
   const employeePool = useMemo(
     () =>
-      filter ? ALL_EMPLOYEES.filter((e) => e.status === filter) : ALL_EMPLOYEES,
-    [filter]
+      filter ? allEmployees.filter((e) => e.status === filter) : allEmployees,
+    [filter, allEmployees]
   )
 
   // format label สำหรับ employee หนึ่งรายการ
   const formatLabel = useCallback((emp: MockEmployee) => {
-    const name = `${emp.firstName.th} ${emp.lastName.th}`
-    return `${emp.externalCode} — ${name}`
+    const name = `${emp.first_name_th} ${emp.last_name_th}`
+    return `${emp.employee_id} — ${name}`
   }, [])
 
   const [inputText, setInputText] = useState<string>(value ? formatLabel(value) : '')
@@ -60,13 +59,12 @@ export function EmployeePicker({
       if (!q) return []
       return employeePool
         .filter((emp) => {
-          const fullNameTh = `${emp.firstName.th} ${emp.lastName.th}`.toLowerCase()
-          const fullNameEn = `${emp.firstName.en} ${emp.lastName.en}`.toLowerCase()
+          const fullNameTh = `${emp.first_name_th} ${emp.last_name_th}`.toLowerCase()
+          const fullNameEn = `${emp.first_name_en} ${emp.last_name_en}`.toLowerCase()
           return (
-            emp.externalCode.toLowerCase().includes(q) ||
+            emp.employee_id.toLowerCase().includes(q) ||
             fullNameTh.includes(q) ||
-            fullNameEn.includes(q) ||
-            emp.nationalId.includes(q)
+            fullNameEn.includes(q)
           )
         })
         .slice(0, MAX_RESULTS)
@@ -175,7 +173,7 @@ export function EmployeePicker({
     <div ref={containerRef} className="relative">
       {/* Label สำหรับ accessibility */}
       <label id={labelId} htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
-        ค้นหาพนักงาน (รหัส / ชื่อ / เลขบัตรประชาชน)
+        ค้นหาพนักงาน (รหัส / ชื่อ)
         {required && <span className="ml-1 text-red-500" aria-hidden="true">*</span>}
       </label>
 
@@ -193,7 +191,7 @@ export function EmployeePicker({
           highlightedIdx >= 0 ? `${id}-option-${highlightedIdx}` : undefined
         }
         autoComplete="off"
-        placeholder="พิมพ์รหัสพนักงาน, ชื่อ, หรือเลขบัตรประชาชน..."
+        placeholder="พิมพ์รหัสพนักงาน หรือชื่อ..."
         value={inputText}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -217,12 +215,12 @@ export function EmployeePicker({
           className="absolute z-50 mt-1 w-full max-h-64 overflow-auto rounded-md border border-gray-200 bg-white shadow-lg"
         >
           {filtered.map((emp, idx) => {
-            const fullName = `${emp.firstName.th} ${emp.lastName.th}`
+            const fullName = `${emp.first_name_th} ${emp.last_name_th}`
             const isHighlighted = idx === highlightedIdx
-            const isSelected = value?.externalCode === emp.externalCode
+            const isSelected = value?.employee_id === emp.employee_id
             return (
               <li
-                key={emp.externalCode}
+                key={emp.employee_id}
                 id={`${id}-option-${idx}`}
                 role="option"
                 aria-selected={isSelected}
@@ -242,7 +240,7 @@ export function EmployeePicker({
               >
                 <div className="flex items-center justify-between">
                   <span>
-                    <span className="font-medium">{emp.externalCode}</span>
+                    <span className="font-medium">{emp.employee_id}</span>
                     <span className={`mx-1 ${isHighlighted ? 'text-blue-200' : 'text-gray-400'}`}>—</span>
                     <span>{fullName}</span>
                   </span>
@@ -250,17 +248,17 @@ export function EmployeePicker({
                   <span
                     className={[
                       'ml-2 text-xs px-1.5 py-0.5 rounded-full font-medium',
-                      emp.status === 'Active'
+                      emp.status === 'active'
                         ? isHighlighted ? 'bg-white text-green-700' : 'bg-green-100 text-green-700'
                         : isHighlighted ? 'bg-white text-red-700' : 'bg-red-100 text-red-700',
                     ].join(' ')}
                   >
-                    {emp.status === 'Active' ? 'ทำงานอยู่' : 'ออกแล้ว'}
+                    {emp.status === 'active' ? 'ทำงานอยู่' : 'ออกแล้ว'}
                   </span>
                 </div>
                 {/* แสดงตำแหน่งเล็กๆ */}
                 <div className={`text-xs mt-0.5 ${isHighlighted ? 'text-blue-200' : 'text-gray-400'}`}>
-                  {emp.position} · {emp.company}
+                  {emp.position_title} · {emp.company}
                 </div>
               </li>
             )

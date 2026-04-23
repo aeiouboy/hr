@@ -1,20 +1,23 @@
 // EmployeePicker.test.tsx — Unit tests สำหรับ EmployeePicker typeahead
-// ครอบคลุม: filter Active/Terminated, search matching (code/name/nationalId), keyboard nav, select emission
+// ครอบคลุม: filter active/terminated, search matching (id/name), keyboard nav, select emission
+//
+// S2 migration: ใช้ MockEmployee จาก @/mocks/employees (snake_case schema)
+// filter prop ใช้ lowercase ('active'/'terminated') ตาม S2 status values
 
 import { describe, it, expect, vi, beforeAll } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import { EmployeePicker } from '@/components/admin/lifecycle/EmployeePicker'
-import employees from '@/data/admin/mockEmployees.json'
-import type { MockEmployee } from '@/lib/admin/store/useLifecycleWizard'
+import { MOCK_EMPLOYEES } from '@/mocks/employees'
+import type { MockEmployee } from '@/mocks/employees'
 
 // jsdom ไม่ implement scrollIntoView — mock เพื่อกัน throw เมื่อ keyboard nav highlight option
 beforeAll(() => {
   Element.prototype.scrollIntoView = vi.fn()
 })
 
-// helper: pick first Active + Terminated จาก fixture
-const activeEmp = (employees as MockEmployee[]).find((e) => e.status === 'Active')!
-const terminatedEmp = (employees as MockEmployee[]).find((e) => e.status === 'Terminated')!
+// helper: pick first active + terminated จาก 1K fixture
+const activeEmp = MOCK_EMPLOYEES.find((e) => e.status === 'active')!
+const terminatedEmp = MOCK_EMPLOYEES.find((e) => e.status === 'terminated')!
 
 describe('EmployeePicker — render + accessibility', () => {
   it('ต้อง render combobox input + label ภาษาไทย', () => {
@@ -34,59 +37,52 @@ describe('EmployeePicker — render + accessibility', () => {
   it('value prop ที่ส่งเข้ามา ต้อง sync label แสดงใน input', () => {
     render(<EmployeePicker onSelect={() => {}} value={activeEmp} />)
     const input = screen.getByRole('combobox') as HTMLInputElement
-    expect(input.value).toContain(activeEmp.externalCode)
-    expect(input.value).toContain(activeEmp.firstName.th)
+    expect(input.value).toContain(activeEmp.employee_id)
+    expect(input.value).toContain(activeEmp.first_name_th)
   })
 })
 
 describe('EmployeePicker — status filter', () => {
-  it('filter="Active" → ค้น externalCode ของ Terminated ต้องไม่เปิด listbox', () => {
-    render(<EmployeePicker onSelect={() => {}} filter="Active" />)
+  it('filter="active" → ค้น employee_id ของ terminated ต้องไม่เปิด listbox', () => {
+    render(<EmployeePicker onSelect={() => {}} filter="active" />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: terminatedEmp.externalCode } })
+    fireEvent.change(input, { target: { value: terminatedEmp.employee_id } })
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
     expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('filter="Terminated" → ค้น externalCode ของ Active ต้องไม่เปิด listbox', () => {
-    render(<EmployeePicker onSelect={() => {}} filter="Terminated" />)
+  it('filter="terminated" → ค้น employee_id ของ active ต้องไม่เปิด listbox', () => {
+    render(<EmployeePicker onSelect={() => {}} filter="terminated" />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.externalCode } })
+    fireEvent.change(input, { target: { value: activeEmp.employee_id } })
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
   })
 
-  it('filter="Terminated" → search ด้วย externalCode ของ Terminated ต้องเจอ', () => {
-    render(<EmployeePicker onSelect={() => {}} filter="Terminated" />)
+  it('filter="terminated" → search ด้วย employee_id ของ terminated ต้องเจอ', () => {
+    render(<EmployeePicker onSelect={() => {}} filter="terminated" />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: terminatedEmp.externalCode } })
+    fireEvent.change(input, { target: { value: terminatedEmp.employee_id } })
     const listbox = screen.getByRole('listbox')
-    expect(within(listbox).getByText(terminatedEmp.externalCode)).toBeInTheDocument()
+    expect(within(listbox).getByText(terminatedEmp.employee_id)).toBeInTheDocument()
   })
 })
 
-describe('EmployeePicker — search matching (code / Thai name / nationalId)', () => {
-  it('ค้นด้วย externalCode prefix ต้องเจอ', () => {
+describe('EmployeePicker — search matching (employee_id / Thai name)', () => {
+  it('ค้นด้วย employee_id prefix ต้องเจอ', () => {
     render(<EmployeePicker onSelect={() => {}} />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.externalCode.slice(0, 4) } })
+    fireEvent.change(input, { target: { value: activeEmp.employee_id.slice(0, 4) } })
     expect(screen.getByRole('listbox')).toBeInTheDocument()
   })
 
-  it('ค้นด้วยชื่อไทย (firstName.th substring) ต้องเจอ', () => {
+  it('ค้นด้วยชื่อไทย (first_name_th substring) ต้องเจอ', () => {
     render(<EmployeePicker onSelect={() => {}} />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.firstName.th } })
+    fireEvent.change(input, { target: { value: activeEmp.first_name_th } })
     const listbox = screen.getByRole('listbox')
     expect(listbox).toBeInTheDocument()
     // แสดงอย่างน้อย 1 row
     expect(within(listbox).getAllByRole('option').length).toBeGreaterThan(0)
-  })
-
-  it('ค้นด้วย nationalId substring (10 หลักแรก) ต้องเจอ', () => {
-    render(<EmployeePicker onSelect={() => {}} />)
-    const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.nationalId.slice(0, 10) } })
-    expect(screen.getByRole('listbox')).toBeInTheDocument()
   })
 
   it('ค้นด้วย string ว่าง ต้องไม่เปิด dropdown', () => {
@@ -112,20 +108,20 @@ describe('EmployeePicker — selection', () => {
     const onSelect = vi.fn()
     render(<EmployeePicker onSelect={onSelect} />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.externalCode } })
+    fireEvent.change(input, { target: { value: activeEmp.employee_id } })
     const listbox = screen.getByRole('listbox')
     const firstOption = within(listbox).getAllByRole('option')[0]
     // component ใช้ onMouseDown (ไม่ใช่ click) เพื่อป้องกัน blur ก่อน select
     fireEvent.mouseDown(firstOption)
     expect(onSelect).toHaveBeenCalledTimes(1)
-    expect(onSelect.mock.calls[0][0]).toHaveProperty('externalCode')
+    expect(onSelect.mock.calls[0][0]).toHaveProperty('employee_id')
   })
 
   it('เลือก option ด้วย Enter key (keyboard nav) → onSelect ถูกเรียก', () => {
     const onSelect = vi.fn()
     render(<EmployeePicker onSelect={onSelect} />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.externalCode } })
+    fireEvent.change(input, { target: { value: activeEmp.employee_id } })
     // ArrowDown ไป highlight row แรก
     fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'Enter' })
@@ -135,7 +131,7 @@ describe('EmployeePicker — selection', () => {
   it('Escape ต้องปิด dropdown (aria-expanded=false)', () => {
     render(<EmployeePicker onSelect={() => {}} />)
     const input = screen.getByRole('combobox')
-    fireEvent.change(input, { target: { value: activeEmp.externalCode } })
+    fireEvent.change(input, { target: { value: activeEmp.employee_id } })
     expect(input).toHaveAttribute('aria-expanded', 'true')
     fireEvent.keyDown(input, { key: 'Escape' })
     expect(input).toHaveAttribute('aria-expanded', 'false')

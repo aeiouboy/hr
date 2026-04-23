@@ -22,7 +22,7 @@ vi.mock('@/lib/admin/store/useUsersPermissions', () => {
   return { useUsersPermissions }
 })
 
-import IntegrationPage from '@/app/admin/system/integration/page'
+import IntegrationPage from '@/app/[locale]/admin/system/integration/page'
 
 // reset store ก่อนทุก test
 beforeEach(() => {

@@ -13,12 +13,12 @@ type PresetKey = 'OWN_DATA' | 'TEAM_DATA' | 'COMPANY_WIDE' | 'GLOBAL'
 const PRESET_CHIPS: { key: PresetKey; label: string; description: string }[] = [
   {
     key: 'OWN_DATA',
-    label: 'ข้อมูลตัวเอง (Own)',
+    label: 'ข้อมูลตัวเอง',
     description: 'เห็นข้อมูลตัวเองเท่านั้น',
   },
   {
     key: 'TEAM_DATA',
-    label: 'ข้อมูลทีม (Team)',
+    label: 'ข้อมูลทีม',
     description: 'เห็นข้อมูลทีมที่ตัวเองดูแล',
   },
   {
@@ -28,7 +28,7 @@ const PRESET_CHIPS: { key: PresetKey; label: string; description: string }[] = [
   },
   {
     key: 'GLOBAL',
-    label: 'ทั่วโลก (Global)',
+    label: 'ทั่วโลก',
     description: 'เห็นข้อมูลทุก entity cross-company',
   },
 ]
@@ -106,7 +106,7 @@ function MultiSelectField({
 }
 
 // -----------------------------------------------------------------------
-// ScopeBuilder component (ตาม BRD #184 dimensions verbatim — Rule C8)
+// ScopeBuilder component (ตาม BRD #184 dimensions verbatim C8)
 // -----------------------------------------------------------------------
 function ScopeBuilder({
   scope,
@@ -126,31 +126,31 @@ function ScopeBuilder({
       </div>
 
       <MultiSelectField
-        label="กลุ่มธุรกิจ (Business Group)"
+        label="กลุ่มธุรกิจ"
         options={BG_OPTIONS}
         value={scope.businessGroups}
         onChange={(v) => onChange({ ...scope, businessGroups: v })}
       />
       <MultiSelectField
-        label="บริษัท (Company)"
+        label="บริษัท"
         options={COMPANY_OPTIONS}
         value={scope.companies}
         onChange={(v) => onChange({ ...scope, companies: v })}
       />
       <MultiSelectField
-        label="หน่วยงาน (Division)"
+        label="หน่วยงาน"
         options={DIVISION_OPTIONS}
         value={scope.divisions}
         onChange={(v) => onChange({ ...scope, divisions: v })}
       />
       <MultiSelectField
-        label="แผนก (Department)"
+        label="แผนก"
         options={DEPT_OPTIONS}
         value={scope.departments}
         onChange={(v) => onChange({ ...scope, departments: v })}
       />
       <MultiSelectField
-        label="กลุ่มพนักงาน (Employee Group)"
+        label="กลุ่มพนักงาน"
         options={EMP_GROUP_OPTIONS}
         value={scope.employeeGroups}
         onChange={(v) => onChange({ ...scope, employeeGroups: v })}
@@ -162,7 +162,7 @@ function ScopeBuilder({
         onChange={(v) => onChange({ ...scope, personalGrades: v })}
       />
 
-      {/* SPD ใหม่ toggle — BRD #184 line 425 */}
+      {/* SPD ใหม่ toggle #184 line 425 */}
       <div className="flex items-center gap-3 pt-2 border-t border-gray-200">
         <input
           type="checkbox"
@@ -295,7 +295,7 @@ function DataPermissionModal({
 
           {/* Custom scope builder */}
           <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">กำหนดขอบเขตเอง (Custom Scope)</p>
+            <p className="text-sm font-medium text-gray-700 mb-2">กำหนดขอบเขตเอง</p>
             <ScopeBuilder scope={customScope} onChange={setCustomScope} />
           </div>
         </div>

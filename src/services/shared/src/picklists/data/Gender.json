@@ -1,0 +1,5 @@
+[
+  { "id": "M", "labelTh": "ชาย", "labelEn": "Male", "sortOrder": 1, "active": true },
+  { "id": "F", "labelTh": "หญิง", "labelEn": "Female", "sortOrder": 2, "active": true },
+  { "id": "X", "labelTh": "ไม่ระบุ / อื่นๆ", "labelEn": "Unspecified / Other", "sortOrder": 3, "active": true }
+]

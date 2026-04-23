@@ -3,7 +3,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import EssHomePage from '@/app/ess/page'
+import EssHomePage from '@/app/[locale]/ess/page'
 import mockEmployee from '@/data/admin/mockEmployee.json'
 
 describe('EssHomePage — greeting', () => {

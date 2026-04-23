@@ -25,6 +25,15 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@hrms/shared/picklists": [
+        "../services/shared/src/picklists/index.ts"
+      ],
+      "@hrms/shared/field-catalog": [
+        "../services/shared/src/field-catalog/index.ts"
+      ],
+      "@hrms/shared/types/timeline": [
+        "../services/shared/src/types/timeline.ts"
       ]
     }
   },
