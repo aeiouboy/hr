@@ -44,6 +44,7 @@ import {
   UserPlus,
   BarChart3,
   Clock,
+  Settings,
   ExternalLink,
   X,
   type LucideIcon,
@@ -107,6 +108,7 @@ const NAV: NavSection[] = [
       { id: 'careers', label: 'ตำแหน่งว่างภายใน', href: '/th/careers', icon: Search },
       { id: 'recruiting', label: 'สรรหา', href: '/th/recruiting', icon: UserPlus },
       { id: 'reports', label: 'รายงาน', href: '/th/reports', icon: BarChart3 },
+      { id: 'admin', label: 'ศูนย์ Admin', href: '/th/admin', icon: Settings },
     ],
   },
 ];

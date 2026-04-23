@@ -59,6 +59,10 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/recruiting',         title: 'สรรหา' },
   { prefix: '/th/reports',            title: 'รายงาน' },
   { prefix: '/en/reports',            title: 'รายงาน' },
+  { prefix: '/th/admin',              title: 'ศูนย์ Admin' },
+  { prefix: '/en/admin',              title: 'ศูนย์ Admin' },
+  { prefix: '/th/ess',                title: 'บริการตนเอง' },
+  { prefix: '/en/ess',                title: 'บริการตนเอง' },
 ];
 
 function resolveTitle(pathname: string): string {
