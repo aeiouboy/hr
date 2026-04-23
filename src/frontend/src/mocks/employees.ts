@@ -14,12 +14,20 @@ export interface MockEmployee {
   last_name_en: string
   employee_class: 'PERMANENT' | 'PARTIME'
   date_of_birth: string        // ISO date YYYY-MM-DD
-  hire_date: string            // ISO date YYYY-MM-DD
+  hire_date: string            // ISO date YYYY-MM-DD — physical start
+  /** Earliest employment start (incl. prior rehires). Equals hire_date if no rehire history. — audit A4 */
+  original_start_date: string  // ISO date YYYY-MM-DD
+  /** Adjusted for prior service credit (tenure math on rehire). Equals hire_date if no adjustment. — audit A4 */
+  seniority_start_date: string // ISO date YYYY-MM-DD
   company: 'CEN' | 'CRC' | 'CU' | 'CPN' | 'ROBINSON'
   position_title: string
+  /** Corporate title = promotion ladder axis (≠ job/functional title). — audit A7/#12 */
+  corporate_title: string
   org_unit: string
   probation_status: 'in_probation' | 'passed' | 'terminated' | 'extended'
   status: 'active' | 'inactive' | 'terminated'
+  /** Job Grade ปัจจุบัน — JG-02/04/06/08/10 (Promotion route uses as fromJG) */
+  job_grade: string
 }
 
 // ──────────────────────────────────────────────
@@ -55,6 +63,8 @@ const SURNAME_EN = [
 ]
 
 const COMPANIES: Array<MockEmployee['company']> = ['CEN', 'CRC', 'CU', 'CPN', 'ROBINSON']
+
+const JOB_GRADES = ['JG-02', 'JG-04', 'JG-06', 'JG-08', 'JG-10']
 
 const POSITIONS = [
   'HR Business Partner', 'Software Engineer', 'Senior Analyst',
@@ -164,6 +174,18 @@ function generateEmployees(count: number): MockEmployee[] {
     const employee_class: MockEmployee['employee_class'] =
       rnd() < 0.75 ? 'PERMANENT' : 'PARTIME'
 
+    const position_title = pick(rnd, POSITIONS)
+    // Default 3 dates tied to hire_date — no rehire history in mock seed, so all 3 equal.
+    // 10% of employees get adjusted seniority_start_date (~1-3 years earlier than hire)
+    // to simulate prior-service credit cases — audit A4.
+    const has_seniority_adjust = rnd() < 0.1 && status !== 'terminated'
+    const seniority_adjust_days = has_seniority_adjust
+      ? Math.floor(rnd() * 1095)   // up to ~3 years
+      : 0
+    const hire_d = new Date(hire_date)
+    const seniority_d = new Date(hire_d.getTime() - seniority_adjust_days * 86400_000)
+    const seniority_start_date = seniority_d.toISOString().slice(0, 10)
+
     employees.push({
       employee_id: `EMP-${num}`,
       first_name_th,
@@ -173,11 +195,15 @@ function generateEmployees(count: number): MockEmployee[] {
       employee_class,
       date_of_birth,
       hire_date,
+      original_start_date: hire_date,
+      seniority_start_date,
       company: pick(rnd, COMPANIES),
-      position_title: pick(rnd, POSITIONS),
+      position_title,
+      corporate_title: position_title,
       org_unit: pick(rnd, ORG_UNITS),
       probation_status,
       status,
+      job_grade: pick(rnd, JOB_GRADES),
     })
   }
 

@@ -28,13 +28,11 @@ import {
   CalendarDays,
   Building2,
   Briefcase,
-  TrendingUp,
+  RefreshCw,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
-import { useEmploymentEvents } from '@/lib/admin/store/useEmploymentEvents'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
-import { calcAge, calcGeneration, calcYearOfService } from '@/lib/calculations'
 
 // ── Tenure helper ────────────────────────────────────────────
 function calcTenure(hireDateStr: string): string {
@@ -166,20 +164,10 @@ export default function EmployeeDetailPage() {
   // Timeline store — S3 owns this
   const { seed } = useTimelines()
 
-  // B2 PoC: employment events store
-  const seedFromEmployees = useEmploymentEvents((s) => s.seedFromEmployees)
-  const stateAsOf = useEmploymentEvents((s) => s.stateAsOf)
-
   // Seed HireEvent on mount if not already seeded
   useEffect(() => {
     if (employee) seed(employee)
   }, [employee, seed])
-
-  // B2 PoC: seed employment events from all employees (idempotent — safe to call on every mount)
-  const allEmployees = useEmployees((s) => s.all)
-  useEffect(() => {
-    seedFromEmployees(allEmployees)
-  }, [allEmployees, seedFromEmployees])
 
   // Bug 3 fix: stable reference to avoid infinite loop when byEmployee[empId] is undefined
   // Direct selector `s.byEmployee[empId] ?? []` creates new [] each render → Object.is false → re-render loop
@@ -214,32 +202,11 @@ export default function EmployeeDetailPage() {
   const nameTh = `${employee.first_name_th} ${employee.last_name_th}`
   const nameEn = `${employee.first_name_en} ${employee.last_name_en}`
   const tenure = calcTenure(employee.hire_date)
-
-  // Computed fields via lib/calculations (B4 PoC — additive rows only, no existing ACs touched)
-  const asOf = new Date().toISOString().slice(0, 10)
-  const ageResult = employee.date_of_birth ? (() => {
-    try { return calcAge(employee.date_of_birth, asOf) } catch { return null }
-  })() : null
-  const generationResult = employee.date_of_birth ? (() => {
-    try { return calcGeneration(employee.date_of_birth) } catch { return null }
-  })() : null
-  // B2 PoC: pull employment events from store + pass to calcYearOfService
-  // snapshot.events = LifecycleEvent[] compatible with B4 (superset shape, duck-type safe)
-  const b2Snapshot = stateAsOf(empId, asOf)
-  const yosResult = employee.hire_date ? (() => {
-    try {
-      return calcYearOfService(
-        b2Snapshot.hireDate ?? employee.hire_date,
-        b2Snapshot.events,  // B4 duck-types: needs type + effectiveDate + meta only
-        asOf,
-      )
-    } catch { return null }
-  })() : null
   const hireDateFormatted = new Date(employee.hire_date).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 
-  // 6 action cards — all active after Phase 1 Batch 2 (BRD #109/117/110/111-115/93/102)
+  // 7 action cards — 6 original + เปลี่ยนประเภทการจ้าง (CNeXt #06)
   const ACTION_CARDS: ActionCard[] = [
     {
       icon: ClipboardCheck,
@@ -284,10 +251,10 @@ export default function EmployeeDetailPage() {
       locked: false,
     },
     {
-      icon: TrendingUp,
-      label: 'เลื่อนตำแหน่ง',
-      desc: 'เลื่อน Job Grade / ปรับตำแหน่ง / เพิ่มเงินเดือน',
-      href: `/${locale}/admin/employees/${empId}/promotion`,
+      icon: RefreshCw,
+      label: 'เปลี่ยนประเภทการจ้าง',
+      desc: 'เปลี่ยนระหว่าง Permanent / Part-time / สัญญาจ้าง',
+      href: `/${locale}/admin/employees/${empId}/change-type`,
       locked: false,
     },
   ]
@@ -355,6 +322,13 @@ export default function EmployeeDetailPage() {
             </div>
             <div className="text-body font-medium text-ink">{hireDateFormatted}</div>
             <div className="text-small text-ink-muted">{tenure}</div>
+            {employee.seniority_start_date !== employee.hire_date && (
+              <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                อายุงานนับจาก {new Date(employee.seniority_start_date).toLocaleDateString('th-TH', {
+                  year: 'numeric', month: 'short', day: 'numeric',
+                })}
+              </div>
+            )}
           </div>
 
           <div>
@@ -372,29 +346,10 @@ export default function EmployeeDetailPage() {
               ตำแหน่ง
             </div>
             <div className="text-body font-medium text-ink">{employee.position_title}</div>
+            {employee.corporate_title && employee.corporate_title !== employee.position_title && (
+              <div className="text-small text-ink-muted">ระดับ {employee.corporate_title}</div>
+            )}
           </div>
-
-          {/* B4 PoC: computed fields — Age / Generation / Year-of-Service */}
-          {ageResult && (
-            <div>
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุ</div>
-              <div className="text-body font-medium text-ink">{ageResult.display}</div>
-              <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
-            </div>
-          )}
-          {generationResult && (
-            <div>
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>Generation</div>
-              <div className="text-body font-medium text-ink">{generationResult}</div>
-            </div>
-          )}
-          {yosResult && (
-            <div>
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุงาน</div>
-              <div className="text-body font-medium text-ink">{yosResult.display}</div>
-              <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
-            </div>
-          )}
         </div>
       </div>
 
