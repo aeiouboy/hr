@@ -145,15 +145,7 @@ export function createCrudPage<TItem extends { id: string }>(
                 key={item.id}
                 role="row"
                 className="humi-emp-row"
-                style={{ display: 'flex', alignItems: 'center', height: 48, borderBottom: '1px solid var(--color-hairline-soft)', cursor: 'pointer' }}
-                onClick={() => openEdit(item)}
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    openEdit(item)
-                  }
-                }}
+                style={{ display: 'flex', alignItems: 'center', height: 48, borderBottom: '1px solid var(--color-hairline-soft)' }}
               >
                 {config.columns.map((col) => (
                   <div
@@ -174,7 +166,15 @@ export function createCrudPage<TItem extends { id: string }>(
                   </div>
                 ))}
                 <div style={{ width: 60, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
-                  <Pencil size={14} aria-hidden style={{ color: 'var(--color-ink-muted)' }} />
+                  <button
+                    type="button"
+                    className="humi-icon-btn"
+                    aria-label={`แก้ไข${config.titleTh}`}
+                    onClick={() => openEdit(item)}
+                    style={{ width: 32, height: 32, minWidth: 32, minHeight: 32, padding: 0 }}
+                  >
+                    <Pencil size={14} aria-hidden style={{ color: 'var(--color-ink-muted)' }} />
+                  </button>
                 </div>
               </div>
             ))
