@@ -21,7 +21,16 @@ const EMAIL_TYPE_LABELS: Record<EmailEntry['type'], string> = {
 
 export default function StepContact() {
   const { formData, setStepData } = useHireWizard()
-  const { phones, emails, jobRelationships } = formData.contact
+  // Defensive destructure — drafts persisted before the Area A2 schema bump
+  // may have no `contact` slice (StepContact crashed with "Cannot destructure
+  // property 'phones' of 'e.contact' as it is undefined" on fresh navigation
+  // while Zustand rehydrated the old shape). Belt-and-braces with the
+  // `migrate` callback in useHireWizard persist config.
+  const {
+    phones = [],
+    emails = [],
+    jobRelationships = [],
+  } = formData.contact ?? {}
 
   // ── Phone helpers ──────────────────────────────────────────────────────────
   function setPhones(next: PhoneEntry[]) {

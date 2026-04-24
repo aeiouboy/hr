@@ -390,6 +390,11 @@ export const useHireWizard = create<HireWizardState>()(
     {
       name: 'hire-wizard-draft',
       storage: createJSONStorage(() => localStorage),
+      // Bump on every schema change — older persisted drafts pass through
+      // `migrate` before rehydrate so downstream components can trust the
+      // shape. Version 2 adds: A2 contact slice (phones[]/emails[]/
+      // jobRelationships[]) and any nested slice added after.
+      version: 2,
       partialize: (state) => ({
         currentStep: state.currentStep,
         maxUnlockedStep: state.maxUnlockedStep,
@@ -397,6 +402,32 @@ export const useHireWizard = create<HireWizardState>()(
         lastSavedAt: state.lastSavedAt,
         employeeClassToggle: state.employeeClassToggle,
       }),
+      migrate: (persisted: unknown, fromVersion: number) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const p = persisted as any
+        if (!p || typeof p !== 'object' || !p.formData) return p
+        const fd = p.formData
+        // A2 contact — fill slice + inner arrays if missing
+        if (!fd.contact || typeof fd.contact !== 'object') {
+          fd.contact = {
+            phones: [{ type: 'mobile', value: '', isPrimary: true }],
+            emails: [{ type: 'personal', value: '', isPrimary: true }],
+            jobRelationships: [],
+          }
+        } else {
+          if (!Array.isArray(fd.contact.phones)) {
+            fd.contact.phones = [{ type: 'mobile', value: '', isPrimary: true }]
+          }
+          if (!Array.isArray(fd.contact.emails)) {
+            fd.contact.emails = [{ type: 'personal', value: '', isPrimary: true }]
+          }
+          if (!Array.isArray(fd.contact.jobRelationships)) {
+            fd.contact.jobRelationships = []
+          }
+        }
+        console.warn(`[useHireWizard] migrated draft from v${fromVersion} → v2`)
+        return p
+      },
     },
   ),
 )
