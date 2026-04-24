@@ -82,7 +82,7 @@ const NAV: NavSection[] = [
     group: 'พื้นที่ทำงานของฉัน',
     items: [
       { id: 'home', label: 'หน้าหลัก', href: '/th/home', icon: Home },
-      { id: 'profile', label: 'โปรไฟล์ของฉัน', href: '/th/employees/me', icon: User },
+      { id: 'profile', label: 'โปรไฟล์ของฉัน', href: '/th/profile/me', icon: User },
       { id: 'timeoff', label: 'ลางาน', href: '/th/timeoff', icon: Calendar, badge: '2' },
       { id: 'benefits', label: 'เงินเดือนและสวัสดิการ', href: '/th/employees/me/benefits', icon: Heart, badge: '1' },
       { id: 'requests', label: 'คำร้องและแบบฟอร์ม', href: '/th/requests', icon: FileText, badge: '1' },
