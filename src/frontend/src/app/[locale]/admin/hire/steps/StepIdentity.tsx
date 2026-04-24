@@ -90,6 +90,15 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   // age คำนวณอัตโนมัติจาก dateOfBirth
   const age = useMemo(() => calcAge(dateOfBirth), [dateOfBirth])
 
+  // #4 — auto-default isPrimary=YES เมื่อเลือก card type ครั้งแรก
+  // SF semantic: type(2) = secondary employment (dual-company). Mockup ตั้ง YES
+  // ให้ default, user เปลี่ยนเป็น NO เองเมื่อเป็น dual-company
+  useEffect(() => {
+    if (nationalIdCardType && !isPrimary) {
+      setIsPrimary('YES')
+    }
+  }, [nationalIdCardType, isPrimary])
+
   // ── Touched / errors ────────────────────────────────────────────────────────
   const [touched, setTouched] = useState<TouchedState>({
     hireDate: false, companyCode: false, eventReason: false, salutationEn: false,
@@ -445,6 +454,9 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
             <option key={y.id} value={y.id}>{y.labelTh}</option>
           ))}
         </select>
+        <p className="mt-1 text-xs text-ink-faint">
+          บัตรหลัก = เอกสารยืนยันตัวตนหลัก — เลือก &ldquo;ไม่ใช่&rdquo; เฉพาะกรณีการจ้างคู่ในเครือ (บัตรรอง)
+        </p>
         {errMsg('isPrimary')}
       </fieldset>
 
