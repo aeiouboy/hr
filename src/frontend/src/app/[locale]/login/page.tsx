@@ -210,7 +210,7 @@ export default function HumiLoginPage() {
             </label>
             <button
               type="submit"
-              className="mt-1.5 inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-3 text-[15px] font-medium text-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="mt-1.5 w-full humi-button humi-button--primary"
             >
               {t('submit')} <ArrowRight size={14} />
             </button>

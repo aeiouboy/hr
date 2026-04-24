@@ -111,7 +111,7 @@ export default function QuickActionsPage() {
         <button
           type="button"
           onClick={addNew}
-          className="px-4 py-2 text-sm font-medium rounded-md bg-teal-600 text-white hover:bg-teal-700 transition-colors"
+          className="humi-button humi-button--primary"
         >
           + เพิ่ม Quick Action
         </button>
@@ -268,8 +268,8 @@ export default function QuickActionsPage() {
             </div>
 
             <div className="flex justify-end gap-3">
-              <button type="button" onClick={() => setEditTarget(null)} className="px-4 py-2 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">ยกเลิก</button>
-              <button type="button" onClick={saveModal} className="px-4 py-2 text-sm rounded-md bg-teal-600 text-white hover:bg-teal-700">บันทึก</button>
+              <button type="button" onClick={() => setEditTarget(null)} className="humi-button humi-button--ghost">ยกเลิก</button>
+              <button type="button" onClick={saveModal} className="humi-button humi-button--primary">บันทึก</button>
             </div>
           </div>
         </div>

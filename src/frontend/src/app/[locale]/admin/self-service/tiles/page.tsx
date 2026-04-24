@@ -304,8 +304,8 @@ export default function TilesPage() {
             </div>
 
             <div className="flex justify-end gap-3">
-              <button type="button" onClick={() => setEditTarget(null)} className="px-4 py-2 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">ยกเลิก</button>
-              <button type="button" onClick={saveModal} className="px-4 py-2 text-sm rounded-md bg-emerald-600 text-white hover:bg-emerald-700">บันทึก</button>
+              <button type="button" onClick={() => setEditTarget(null)} className="humi-button humi-button--ghost">ยกเลิก</button>
+              <button type="button" onClick={saveModal} className="humi-button humi-button--primary">บันทึก</button>
             </div>
           </div>
         </div>
