@@ -101,7 +101,7 @@
     "header": "Header",
     "employeeId": "Employee ID",
     "location": "Location",
-    "ecPersonal": "Employee Center"
+    "ecPersonal": "Employee Info"
   },
   "personal": {
     "title": "Personal Information",

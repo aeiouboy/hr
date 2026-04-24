@@ -17,6 +17,7 @@ import {
   Users,
   AlertCircle,
   Check,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -679,10 +680,20 @@ function ApprovalsTab() {
               <Button variant="ghost" size="sm" className="min-h-[44px] px-4">
                 รายละเอียด
               </Button>
-              <Button variant="ghost" size="sm" className="min-h-[44px] px-4">
+              <Button
+                variant="secondary"
+                size="sm"
+                className="min-h-[44px] px-4"
+                leadingIcon={<X size={14} />}
+              >
                 ปฏิเสธ
               </Button>
-              <Button variant="primary" size="sm" className="min-h-[44px] px-4">
+              <Button
+                variant="primary"
+                size="sm"
+                className="min-h-[44px] px-4"
+                leadingIcon={<Check size={14} />}
+              >
                 อนุมัติ
               </Button>
             </div>

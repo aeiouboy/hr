@@ -15,6 +15,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import {
   Plus,
   Check,
+  X,
   Megaphone,
   FileText,
   ArrowRight,
@@ -255,11 +256,19 @@ export default function HumiHomePage() {
                       {req.dateRangeLabel} &nbsp;•&nbsp; {req.submittedLabel}
                     </div>
                   </div>
-                  <div className="humi-row" style={{ gap: 6 }}>
-                    <Button variant="ghost" size="sm">
+                  <div className="humi-row" style={{ gap: 8 }}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      leadingIcon={<X size={14} />}
+                    >
                       ปฏิเสธ
                     </Button>
-                    <Button variant="primary" size="sm">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      leadingIcon={<Check size={14} />}
+                    >
                       อนุมัติ
                     </Button>
                   </div>

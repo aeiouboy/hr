@@ -101,7 +101,7 @@
     "header": "ส่วนหัว",
     "employeeId": "รหัสพนักงาน",
     "location": "สถานที่",
-    "ecPersonal": "ข้อมูลพนักงาน EC"
+    "ecPersonal": "ข้อมูลพนักงาน"
   },
   "personal": {
     "title": "ข้อมูลส่วนตัว",

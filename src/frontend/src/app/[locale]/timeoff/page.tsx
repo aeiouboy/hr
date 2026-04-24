@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Heart, Coffee, Sun, Plus, Paperclip, AlertCircle } from 'lucide-react';
+import { Check, X, Heart, Coffee, Sun, Plus, Paperclip, AlertCircle } from 'lucide-react';
 import {
   Avatar,
   Button,
@@ -210,10 +210,18 @@ export default function HumiTimeoffPage() {
                     </div>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    <Button variant="ghost" size="sm">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      leadingIcon={<X size={14} />}
+                    >
                       ปฏิเสธ
                     </Button>
-                    <Button variant="primary" size="sm">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      leadingIcon={<Check size={14} />}
+                    >
                       อนุมัติ
                     </Button>
                   </div>
