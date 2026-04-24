@@ -17,9 +17,6 @@ import {
  TrendingDown,
  Banknote,
 } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -487,12 +484,6 @@ export default function PayrollProcessingPage() {
  };
 
  return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 sm:p-6">
  <div className="max-w-4xl mx-auto">
  {/* Page header */}
  <div className="mb-6">
@@ -585,9 +576,6 @@ export default function PayrollProcessingPage() {
  )}
  </div>
  )}
- </div>
- </main>
- </div>
  </div>
  );
 }

@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FileText, Download, AlertCircle, CheckCircle, Clock, FileSpreadsheet } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form-field';
@@ -123,12 +120,6 @@ export default function GovernmentReportsPage() {
  }));
 
  return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 md:p-6">
  <div className="max-w-6xl mx-auto">
  {/* Page header */}
  <div className="mb-6">
@@ -420,9 +411,6 @@ export default function GovernmentReportsPage() {
  </CardContent>
  </Card>
  </div>
- </div>
- </div>
- </main>
  </div>
  </div>
  );

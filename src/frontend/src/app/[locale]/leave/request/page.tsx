@@ -2,9 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { LeaveRequestForm } from '@/components/leave/leave-request-form';
 import { useLeave } from '@/hooks/use-leave';
 import { useToast } from '@/components/ui/toast';
@@ -16,12 +13,6 @@ export default function LeaveRequestPage() {
  const { balances, substituteEmployees, submitting, submitRequest } = useLeave();
 
  return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 sm:p-6">
  <div className="max-w-7xl mx-auto">
  <h1 className="text-2xl font-bold text-ink mb-6">{t('newRequest')}</h1>
  <LeaveRequestForm
@@ -34,9 +25,6 @@ export default function LeaveRequestPage() {
  }}
  onCancel={() => router.push('../leave')}
  />
- </div>
- </main>
- </div>
  </div>
  );
 }

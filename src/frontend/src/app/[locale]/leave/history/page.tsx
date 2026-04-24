@@ -2,9 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { LeaveHistory } from '@/components/leave/leave-history';
 import { LeaveDetail } from '@/components/leave/leave-detail';
 import { useLeave } from '@/hooks/use-leave';
@@ -19,12 +16,7 @@ export default function LeaveHistoryPage() {
  const [detailOpen, setDetailOpen] = useState(false);
 
  return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 sm:p-6">
+ <>
  <div className="max-w-7xl mx-auto">
  <h1 className="text-2xl font-bold text-ink mb-6">{t('history')}</h1>
  <LeaveHistory
@@ -38,8 +30,6 @@ export default function LeaveHistoryPage() {
  }}
  />
  </div>
- </main>
- </div>
 
  <LeaveDetail
  request={selectedRequest}
@@ -47,6 +37,6 @@ export default function LeaveHistoryPage() {
  onClose={() => setDetailOpen(false)}
  onCancel={cancelRequest}
  />
- </div>
+ </>
  );
 }

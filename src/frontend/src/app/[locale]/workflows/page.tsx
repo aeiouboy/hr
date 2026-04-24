@@ -3,9 +3,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Plus } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
@@ -78,15 +75,10 @@ export default function WorkflowsPage() {
   const isPendingTab = activeTab === 'forApproval';
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <Header />
-      <MobileMenu />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="max-w-5xl mx-auto">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+    <>
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
                 <p className="text-sm text-ink-muted mt-0.5">Review and action pending workflow requests</p>
@@ -130,8 +122,6 @@ export default function WorkflowsPage() {
               showActions={isPendingTab}
             />
           </div>
-        </main>
-      </div>
 
       {/* Detail modal */}
       <WorkflowDetailModal
@@ -175,6 +165,6 @@ export default function WorkflowsPage() {
           <Button onClick={handleCreateRequest} disabled={!newRequest.description.trim()}>Submit Request</Button>
         </div>
       </Modal>
-    </div>
+    </>
   );
 }

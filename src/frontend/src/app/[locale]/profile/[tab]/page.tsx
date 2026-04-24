@@ -2,9 +2,6 @@
 
 import { use, useState } from 'react';
 import { useRouter, notFound } from 'next/navigation';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { ProfileHeader } from '@/components/profile/profile-header';
 import { ProfileTabs, type ProfileTabId } from '@/components/profile/profile-tabs';
 import { PersonalInfoTab } from '@/components/profile/tabs/personal-info';
@@ -64,12 +61,7 @@ export default function ProfileTabPage({
  const orgChart = employee?.orgChart as Record<string, unknown> | undefined;
 
  return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 sm:p-6">
+ <>
  <ProfileHeader
  employee={employee}
  loading={loading}
@@ -82,8 +74,6 @@ export default function ProfileTabPage({
  />
  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
  {renderTabContent()}
- </div>
- </main>
  </div>
 
  {/* Org Chart Modal */}
@@ -113,6 +103,6 @@ export default function ProfileTabPage({
  <p className="text-sm text-ink-muted text-center py-8">No org chart data available</p>
  )}
  </Modal>
- </div>
+ </>
  );
 }

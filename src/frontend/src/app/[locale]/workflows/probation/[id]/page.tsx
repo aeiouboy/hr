@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ArrowLeft, CheckCircle, XCircle, Clock, AlertTriangle, Send } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { PersonHero } from '@/components/ui/person-hero';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -79,31 +76,19 @@ export default function ProbationDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-canvas">
-        <Header /><MobileMenu />
-        <div className="flex"><Sidebar />
-          <main className="flex-1 p-6">
-            <Skeleton className="h-8 w-64 mb-4" />
-            <Skeleton className="h-40 w-full mb-6" />
-            <Skeleton className="h-60 w-full" />
-          </main>
-        </div>
-      </div>
+      <>
+        <Skeleton className="h-8 w-64 mb-4" />
+        <Skeleton className="h-40 w-full mb-6" />
+        <Skeleton className="h-60 w-full" />
+      </>
     );
   }
 
   if (!c) {
     return (
-      <div className="min-h-screen bg-canvas">
-        <Header /><MobileMenu />
-        <div className="flex"><Sidebar />
-          <main className="flex-1 p-6">
-            <Card className="p-12 text-center">
-              <p className="text-ink-muted">{t('probation.notFound')} {id}</p>
-            </Card>
-          </main>
-        </div>
-      </div>
+      <Card className="p-12 text-center">
+        <p className="text-ink-muted">{t('probation.notFound')} {id}</p>
+      </Card>
     );
   }
 
@@ -116,13 +101,7 @@ export default function ProbationDetailPage() {
     c.status === 'rejected' ? 'terminated' as const : 'probation' as const;
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <Header />
-      <MobileMenu />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto">
             {/* Back link */}
             <a
               href={`/${locale}/workflows/probation`}
@@ -231,9 +210,6 @@ export default function ProbationDetailPage() {
                 )}
               </div>
             </div>
-          </div>
-        </main>
-      </div>
     </div>
   );
 }

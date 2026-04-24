@@ -3,9 +3,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Calendar, ClipboardList, Wallet, Plus } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { Tabs } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { LeaveBalanceDisplay } from '@/components/leave/leave-balance';
@@ -119,12 +116,7 @@ export default function LeavePage() {
  };
 
  return (
- <div className="min-h-screen bg-canvas">
- <Header />
- <MobileMenu />
- <div className="flex">
- <Sidebar />
- <main className="flex-1 p-4 sm:p-6">
+ <>
  <div className="max-w-7xl mx-auto">
  {/* Page header */}
  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
@@ -149,8 +141,6 @@ export default function LeavePage() {
  {/* Tab content */}
  {renderTabContent()}
  </div>
- </main>
- </div>
 
  {/* Detail modal */}
  <LeaveDetail
@@ -159,6 +149,6 @@ export default function LeavePage() {
  onClose={() => setDetailOpen(false)}
  onCancel={handleCancelRequest}
  />
- </div>
+ </>
  );
 }

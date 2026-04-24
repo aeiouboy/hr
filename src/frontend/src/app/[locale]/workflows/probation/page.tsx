@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Clock, CheckCircle, XCircle, AlertTriangle, ChevronRight } from 'lucide-react';
-import { Header } from '@/components/shared/header';
-import { Sidebar } from '@/components/shared/sidebar';
-import { MobileMenu } from '@/components/shared/mobile-menu';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -58,13 +55,7 @@ export default function ProbationListPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <Header />
-      <MobileMenu />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto">
             {/* Header */}
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-ink">Probation Approval</h1>
@@ -177,8 +168,5 @@ export default function ProbationListPage() {
               </div>
             )}
           </div>
-        </main>
-      </div>
-    </div>
   );
 }
