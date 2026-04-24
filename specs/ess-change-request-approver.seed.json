@@ -1,0 +1,129 @@
+{
+  "goal": "Close aeiouboy/hr#54 — build greenfield ADMIN approver surface at /admin/change-requests that consumes humi-profile-slice.pendingChanges (created by #53 employee submit flow), wired to existing adminApprove/adminReject actions with audit of reason + effective-date awareness. Do NOT unify with use-workflows (generic leave/OT) or workflow-approvals (5-persona) stores — dedicated bridge only.",
+  "taskType": "code",
+  "brownfieldContext": {
+    "projectType": "brownfield",
+    "contextReferences": [
+      "Repo: aeiouboy/hr src/frontend/ (Next.js 16 + React 19)",
+      "EXISTING /admin/self-service/ has field-config / visibility / mandatory / readonly / quick-actions / tiles config subsurfaces — NO approver queue yet",
+      "EXISTING src/frontend/src/stores/humi-profile-slice.ts has pendingChanges[], adminApprove(id), adminReject(id), toggleAdminMode(), attachments[] — zero UI consumers of adminApprove/adminReject to date",
+      "#53 closed (commit 469d057) — employee submit flow at /profile/me now creates PendingChange with optional sectionKey ('emergencyContact'|'address'|'contact'|'bank'|'personal') via submitChangeRequest()",
+      "COEXISTING stores (do NOT unify): use-workflows (generic leave/OT/expense workflows at /workflows/page.tsx), workflow-approvals 5-persona store at /ess/workflows/page.tsx — different domains",
+      "memory/feedback_autopilot_spec_premise_stale.md (2026-04-25) — why grep target surface first",
+      "memory/feedback_zustand_persist_version_migrate.md — nested slice change requires version+migrate",
+      "memory/feedback_stop_asking_execute.md — Ken directive is clear; autonomous run continues",
+      "PendingChange shape: {id, field, oldValue, newValue, effectiveDate, attachmentIds[], requestedAt, status, approvedAt?, sectionKey?}",
+      "ironteam #53 introduced 5 section keys; approver UI groups by sectionKey"
+    ],
+    "existingPatterns": [
+      "Admin surfaces live under src/frontend/src/app/[locale]/admin/<feature>/page.tsx with layout.tsx",
+      "humi-profile-slice adminApprove/adminReject signatures take only changeId — extend minimally with optional reason",
+      "FileAttachment carries base64 data; approver surface can link to attachments referenced in pendingChange.attachmentIds",
+      "Thai-primary labels via next-intl messages/th.json; ess.* branch already exists (extended by #53)"
+    ],
+    "existingDependencies": [
+      "zustand@4 with persist (humi-profile-slice)",
+      "next-intl",
+      "@/components/humi Button/Card/Modal/FormField",
+      "lucide-react icons (Check, X, FileText)",
+      "crypto.randomUUID() for audit log entries"
+    ]
+  },
+  "constraints": [
+    "C1 surgical — create /admin/change-requests NEW route; edit humi-profile-slice minimally (add optional reason? parameter to adminApprove/adminReject); do NOT refactor use-workflows or workflow-approvals",
+    "C3 simplicity — ONE list view + ONE card component + ONE reason modal; no tab/filter abstraction unless genuinely needed",
+    "C6 — no silent catch; console.warn on any guard",
+    "C7 SSoT — consume humi-profile-slice store directly; do NOT create a parallel approval store; do NOT bridge to use-workflows WorkflowItem adapter",
+    "C8 source-grounded — every label traces to #54 issue body OR #53 spec v2 AC-7 pending semantics; 5 section keys from #53 are the authoritative set",
+    "C10 Thai-primary — no SF-paren; no em-dash bilingual duplicates; new i18n keys under ess.approver.* (append to existing ess branch, do NOT touch other keys)",
+    "Rule 22 — target ~5-6 files across all task IDs; no agent > 8 files",
+    "Rule 21 — MK VI writes tests, JARVIS runs them",
+    "Effective date semantic (BRD SH6-SH8): approved CR does NOT auto-apply to employee master on approval timestamp; it marks approvedAt + preserves effectiveDate. Applying effective-date to the master is out of scope (backend/cron)",
+    "ADMIN view only — employee-side workflow list lives at /ess/workflows/ (different store) and is out of scope here"
+  ],
+  "acceptanceCriteria": [
+    { "text": "AC-1: New route /admin/change-requests/page.tsx renders a list of all humi-profile-slice.pendingChanges with status='pending'; each item shows employee identifier (from attachment context or placeholder), sectionKey label (Thai), field label, oldValue→newValue diff, effectiveDate, requestedAt timestamp, and attachment count", "rule": "#54 admin queue + #53 PendingChange shape", "invariant": false },
+    { "text": "AC-2: Each pending item has two primary actions: 'อนุมัติ' and 'ปฏิเสธ'; clicking either opens a shared reason modal with textarea (optional for approve, required for reject) + Confirm/Cancel; confirm calls humi-profile-slice.adminApproveWithReason(id, reason?) or adminRejectWithReason(id, reason?)", "rule": "#54 submit+approve path + audit", "invariant": false },
+    { "text": "AC-3: humi-profile-slice extended — adminApproveWithReason(changeId, reason?: string) and adminRejectWithReason(changeId, reason?: string) variants added; extend PendingChange with optional reason?: string; reason persists to store on decision; existing adminApprove/adminReject signatures preserved (additive, not renamed) for C7 SSoT compatibility", "rule": "C7 + #54 audit invariant", "invariant": true },
+    { "text": "AC-4: List groups by sectionKey with visual Thai labels (ผู้ติดต่อฉุกเฉิน / ที่อยู่ / ข้อมูลติดต่อ / บัญชีธนาคาร / ข้อมูลส่วนตัว); items without sectionKey (legacy single-field CRs from pre-#53) fall into ข้อมูลส่วนตัว group; empty state = 'ไม่มีคำขอรอดำเนินการ'", "rule": "#53 sectionKey semantics + UX grouping", "invariant": false },
+    { "text": "AC-5: Approved and rejected items render in a second list section ('ประวัติคำขอ') below pending list, read-only, with status chip (เขียว/แดง) + approvedAt timestamp + reason (if any); limit last 20 decisions (no pagination scope)", "rule": "#54 audit trail + C3 simplicity", "invariant": false },
+    { "text": "AC-6: After approve/reject, list updates live (via Zustand subscription); pending count in header badge decrements by 1; approved/rejected count in history section increments by 1 — no manual refresh required", "rule": "Zustand live subscription invariant", "invariant": true },
+    { "text": "AC-7: Attachments referenced by pendingChange.attachmentIds are displayed as clickable filenames inside the item card (click → open base64 dataURL in new tab OR download); file icon + size in human-readable units (KB/MB)", "rule": "#54 audit + existing FileAttachment shape", "invariant": false },
+    { "text": "AC-8: C10 Thai-primary — every new visible string Thai via t('ess.approver.*'); grep sweep over new files finds zero bilingual duplicates; Approve/Reject actions = 'อนุมัติ'/'ปฏิเสธ' not English", "rule": "Rule C10", "invariant": true },
+    { "text": "AC-9: Vitest suite — new tests cover AC-1 (list render with multiple sectionKeys), AC-2 (modal open+confirm flow), AC-3 (store action extensions + reason persistence), AC-4 (grouping), AC-6 (live update on approve). Min ≥1 passing test per AC 1/2/3/4/6", "rule": "Rule C2 test evidence", "invariant": false },
+    { "text": "AC-10: Suite green — no regression on existing humi-profile-slice tests or #53's 6 new test files; baseline post-#53 = 1217 pass / 9 fail; post-#54 must maintain or improve", "rule": "C7 non-regression", "invariant": false }
+  ],
+  "ontologySchema": {
+    "name": "EssChangeRequestApprover",
+    "description": "Shape of admin approver surface for humi-profile-slice.pendingChanges",
+    "fields": [
+      { "name": "pendingChanges[].id", "type": "string", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].sectionKey", "type": "SectionKey | undefined", "classification": "system-generated", "required": false },
+      { "name": "pendingChanges[].field", "type": "string", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].oldValue", "type": "string", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].newValue", "type": "string", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].effectiveDate", "type": "ISODate", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].requestedAt", "type": "ISODateTime", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].attachmentIds", "type": "string[]", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].status", "type": "'pending'|'approved'|'rejected'", "classification": "system-generated", "required": true },
+      { "name": "pendingChanges[].approvedAt", "type": "ISODateTime | undefined", "classification": "system-generated", "required": false },
+      { "name": "pendingChanges[].reason", "type": "string | undefined (NEW in #54)", "classification": "user-input", "required": false },
+      { "name": "ReasonModalState.open", "type": "boolean", "classification": "user-input", "required": true },
+      { "name": "ReasonModalState.mode", "type": "'approve'|'reject'", "classification": "user-input", "required": true },
+      { "name": "ReasonModalState.changeId", "type": "string", "classification": "user-input", "required": true },
+      { "name": "ReasonModalState.reason", "type": "string", "classification": "user-input", "required": false }
+    ]
+  },
+  "evaluationPrinciples": [
+    { "name": "surgical", "description": "Rule C1 — new route + minimal slice extension; no refactor of use-workflows / workflow-approvals", "weight": 1 },
+    { "name": "simplicity", "description": "Rule C3 — one list + one card + one modal", "weight": 1 },
+    { "name": "single-source-of-truth", "description": "Rule C7 — consume humi-profile-slice; extend additively (adminApproveWithReason); preserve existing adminApprove/adminReject", "weight": 2 },
+    { "name": "source-grounded", "description": "Rule C8 — every label traces to #54 or #53 sectionKey semantics", "weight": 1 },
+    { "name": "thai-primary", "description": "Rule C10 — no bilingual duplicates", "weight": 1 }
+  ],
+  "exitConditions": [
+    { "name": "issue_closed", "description": "GH issue #54 closed with Phase 5b PASS comment", "criteria": "gh issue closed with AC evidence" },
+    { "name": "all_ac_pass", "description": "All 10 ACs green via G3", "criteria": "gate-g3.ts exit 0" },
+    { "name": "tests_green", "description": "Vitest suite green; no regression vs post-#53 baseline", "criteria": "1217 pass floor maintained" },
+    { "name": "c10_clean", "description": "No bilingual in new approver files", "criteria": "grep gate pass" }
+  ],
+  "scope": {
+    "inScope": [
+      "NEW route: src/frontend/src/app/[locale]/admin/change-requests/page.tsx",
+      "NEW component: src/frontend/src/components/admin/change-requests/ChangeRequestCard.tsx (approve/reject actions + attachment display)",
+      "NEW component: src/frontend/src/components/admin/change-requests/ReasonModal.tsx (shared approve/reject reason capture)",
+      "EDIT humi-profile-slice.ts — add adminApproveWithReason + adminRejectWithReason (additive); extend PendingChange with optional reason?: string",
+      "Append ess.approver.* i18n keys to messages/th.json + en.json",
+      "Vitest: approver-list.test.tsx + reason-modal.test.tsx + humi-profile-slice.approve-reject.test.ts",
+      "Wire link from /admin nav or /admin/self-service to /admin/change-requests (discovery)"
+    ],
+    "outOfScope": [
+      "Unifying humi-profile-slice / use-workflows / workflow-approvals stores — separate consolidation task",
+      "Employee-side workflow list (/ess/workflows/ already owns this surface)",
+      "Backend/cron job that applies approved CRs to employee master on effectiveDate — infrastructure task",
+      "Email/push notification triggers on submit or decision — infrastructure",
+      "Bulk approve/reject — not in #54 scope",
+      "Audit log persistence beyond in-memory store — backend",
+      "Refactor of /workflows/page.tsx or /ess/workflows/page.tsx — different domain"
+    ]
+  },
+  "systemInvariants": [
+    "All profile-data CR approvals route through humi-profile-slice.adminApproveWithReason or adminRejectWithReason — no parallel approval store introduced",
+    "humi-profile-slice remains the SINGLE source of pendingChanges state for profile-data CRs (C7 non-negotiable)",
+    "Approval does NOT mutate the employee master record — it flips status + stores reason + approvedAt; applying the change to master is backend/cron (out of scope)",
+    "PendingChange is immutable except for status, approvedAt, and reason transitions (existing immutability preserved)",
+    "Existing adminApprove(id) and adminReject(id) signatures are preserved as thin wrappers that call the With-Reason variants with undefined reason — zero breaking change to any consumer",
+    "Live subscription invariant — approver list MUST re-render on pendingChanges state change without manual refresh (Zustand's reactive model)",
+    "C10: every new user-facing string Thai-primary via i18n key; English-only labels forbidden"
+  ],
+  "metadata": {
+    "seedId": "seed_1777068871525_54",
+    "version": "1.0.0",
+    "createdAt": "2026-04-25T02:16:00Z",
+    "refinedBy": "jarvis-mkXLII-inline-postGrep",
+    "ambiguityScore": 0.05,
+    "parentSeedId": null,
+    "sourceIssue": "aeiouboy/hr#54",
+    "labels": ["ec-ui", "autopilot:pending"]
+  }
+}

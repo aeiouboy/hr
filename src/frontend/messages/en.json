@@ -3763,6 +3763,38 @@
       "invalidPhone": "Invalid phone number",
       "invalidEmail": "Invalid email address",
       "accountNo": "Account number must be 10-12 digits"
+    },
+    "approver": {
+      "list": {
+        "title": "Pending Change Requests",
+        "pending": "Pending",
+        "history": "Request History",
+        "empty": "No pending change requests"
+      },
+      "card": {
+        "approve": "Approve",
+        "reject": "Reject",
+        "oldValue": "Old Value",
+        "newValue": "New Value",
+        "effectiveDate": "Effective Date",
+        "attachments": "Attachments",
+        "reason": "Reason",
+        "approvedOn": "Approved On",
+        "rejectedOn": "Rejected On"
+      },
+      "modal": {
+        "approveTitle": "Confirm Approval",
+        "rejectTitle": "Confirm Rejection",
+        "reasonLabel": "Reason for Decision",
+        "reasonRequired": "Please provide a reason when rejecting a request",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      },
+      "status": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pending": "Pending Approval"
+      }
     }
   }
 }

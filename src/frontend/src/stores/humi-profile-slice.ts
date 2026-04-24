@@ -100,6 +100,7 @@ export interface PendingChange {
   status: 'pending' | 'approved' | 'rejected';
   approvedAt?: string;         // ISO-8601, set on approve/reject
   sectionKey?: SectionKey;     // NEW v2 — discriminates section-level CRs from single-field CRs
+  reason?: string;             // NEW #54 — captured at approve/reject time; undefined if no reason given
 }
 
 // ════════════════════════════════════════════════════════════
@@ -136,6 +137,8 @@ interface ProfileState {
   submitChangeRequest: (payload: SubmitChangePayload) => string;
   adminApprove: (changeId: string) => void;
   adminReject: (changeId: string) => void;
+  adminApproveWithReason: (changeId: string, reason?: string) => void;  // NEW #54
+  adminRejectWithReason: (changeId: string, reason?: string) => void;   // NEW #54
   toggleAdminMode: () => void;
 }
 
@@ -213,36 +216,48 @@ export const useHumiProfileStore = create<ProfileState>()(
         return id;
       },
 
-      adminApprove: (changeId) => {
+      // ── With-Reason variants — canonical implementation (C7 SSoT) ──────────
+
+      adminApproveWithReason: (changeId, reason) => {
         const { pendingChanges } = get();
         const change = pendingChanges.find((pc) => pc.id === changeId);
         if (!change) {
-          console.warn('[humi-profile-slice] adminApprove: change not found', changeId);
+          console.warn('[humi-profile-slice] adminApproveWithReason: change not found', changeId);
           return;
         }
         set((s) => ({
           pendingChanges: s.pendingChanges.map((pc) =>
             pc.id === changeId
-              ? { ...pc, status: 'approved', approvedAt: new Date().toISOString() }
+              ? { ...pc, status: 'approved', approvedAt: new Date().toISOString(), reason }
               : pc
           ),
         }));
       },
 
-      adminReject: (changeId) => {
+      adminRejectWithReason: (changeId, reason) => {
         const { pendingChanges } = get();
         const change = pendingChanges.find((pc) => pc.id === changeId);
         if (!change) {
-          console.warn('[humi-profile-slice] adminReject: change not found', changeId);
+          console.warn('[humi-profile-slice] adminRejectWithReason: change not found', changeId);
           return;
         }
         set((s) => ({
           pendingChanges: s.pendingChanges.map((pc) =>
             pc.id === changeId
-              ? { ...pc, status: 'rejected', approvedAt: new Date().toISOString() }
+              ? { ...pc, status: 'rejected', approvedAt: new Date().toISOString(), reason }
               : pc
           ),
         }));
+      },
+
+      // ── Legacy wrappers — delegate to With-Reason (preserve existing callers) ──
+
+      adminApprove: (changeId) => {
+        get().adminApproveWithReason(changeId, undefined);
+      },
+
+      adminReject: (changeId) => {
+        get().adminRejectWithReason(changeId, undefined);
       },
 
       toggleAdminMode: () => set((s) => ({ adminMode: !s.adminMode })),

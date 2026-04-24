@@ -3763,6 +3763,38 @@
       "invalidPhone": "เบอร์โทรไม่ถูกต้อง",
       "invalidEmail": "อีเมลไม่ถูกต้อง",
       "accountNo": "เลขที่บัญชีต้องเป็นตัวเลข 10-12 หลัก"
+    },
+    "approver": {
+      "list": {
+        "title": "คำขอแก้ไขข้อมูลรอดำเนินการ",
+        "pending": "รอดำเนินการ",
+        "history": "ประวัติคำขอ",
+        "empty": "ไม่มีคำขอรอดำเนินการ"
+      },
+      "card": {
+        "approve": "อนุมัติ",
+        "reject": "ปฏิเสธ",
+        "oldValue": "ค่าเดิม",
+        "newValue": "ค่าใหม่",
+        "effectiveDate": "วันที่มีผล",
+        "attachments": "เอกสารแนบ",
+        "reason": "เหตุผล",
+        "approvedOn": "อนุมัติเมื่อ",
+        "rejectedOn": "ปฏิเสธเมื่อ"
+      },
+      "modal": {
+        "approveTitle": "ยืนยันการอนุมัติ",
+        "rejectTitle": "ยืนยันการปฏิเสธ",
+        "reasonLabel": "เหตุผลประกอบการตัดสินใจ",
+        "reasonRequired": "โปรดระบุเหตุผลเมื่อปฏิเสธคำขอ",
+        "confirm": "ยืนยัน",
+        "cancel": "ยกเลิก"
+      },
+      "status": {
+        "approved": "อนุมัติแล้ว",
+        "rejected": "ปฏิเสธแล้ว",
+        "pending": "รอการอนุมัติ"
+      }
     }
   }
 }
