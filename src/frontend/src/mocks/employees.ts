@@ -33,6 +33,21 @@ export interface MockEmployee {
   hr_district: string | null
   /** Job Grade ปัจจุบัน — JG-02/04/06/08/10 (Promotion route uses as fromJG) */
   job_grade: string
+  /**
+   * วันเริ่มตำแหน่งปัจจุบัน — A2 mockup: seeded AFTER hire_date สำหรับ ~25% ที่มีประวัติย้ายตำแหน่ง
+   * ใช้คำนวณ Years-in-Position (BRD #88); undefined = ตำแหน่งเดิมตั้งแต่เริ่มงาน
+   */
+  position_start_date?: string
+  /**
+   * วันเริ่ม Job family ปัจจุบัน — A2 mockup: seeded AFTER hire_date สำหรับ ~15% ที่มีประวัติเปลี่ยนสายงาน
+   * ใช้คำนวณ Years-in-Job (BRD #89); undefined = สายงานเดิมตั้งแต่เริ่มงาน
+   */
+  job_start_date?: string
+  /**
+   * วันเริ่ม Corporate Title ปัจจุบัน — A2 mockup: seeded AFTER hire_date สำหรับ ~20% ที่ได้ promotion
+   * ใช้คำนวณ Years-in-Corp-Title (BRD #86); undefined = ระดับเดิมตั้งแต่เริ่มงาน
+   */
+  corp_title_start_date?: string
 }
 
 // ──────────────────────────────────────────────
@@ -218,6 +233,22 @@ function generateEmployees(count: number): MockEmployee[] {
     const seniority_d = new Date(hire_d.getTime() - seniority_adjust_days * 86400_000)
     const seniority_start_date = seniority_d.toISOString().slice(0, 10)
 
+    // A2 mockup: mid-career history dates. Only long-tenure active employees get these.
+    // Reset events must land BETWEEN hire_date and today (6 months grace).
+    const tenureDays = daysBetween(hire_date, TODAY)
+    const eligibleForHistory = status === 'active' && tenureDays > 1095  // > 3 years
+    const mkResetDate = (minDaysAfterHire: number): string | undefined => {
+      if (!eligibleForHistory) return undefined
+      const maxDays = tenureDays - 180  // at least 6 months ago
+      if (maxDays <= minDaysAfterHire) return undefined
+      const offset = minDaysAfterHire + Math.floor(rnd() * (maxDays - minDaysAfterHire))
+      return new Date(hire_d.getTime() + offset * 86400_000).toISOString().slice(0, 10)
+    }
+    // Independent rolls: promotion ~20%, position change ~25%, job change ~15% of eligible
+    const corp_title_start_date = rnd() < 0.20 ? mkResetDate(365) : undefined
+    const position_start_date   = rnd() < 0.25 ? mkResetDate(365) : undefined
+    const job_start_date        = rnd() < 0.15 ? mkResetDate(365) : undefined
+
     employees.push({
       employee_id: `EMP-${num}`,
       first_name_th,
@@ -238,6 +269,9 @@ function generateEmployees(count: number): MockEmployee[] {
       store_branch_code,
       hr_district,
       job_grade: pick(rnd, JOB_GRADES),
+      corp_title_start_date,
+      position_start_date,
+      job_start_date,
     })
   }
 
