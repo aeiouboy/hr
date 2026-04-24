@@ -17,6 +17,8 @@ import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, UserX } from 'lucide-react'
+import { AttachmentDropzone } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
+import type { AttachedFile } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
@@ -51,8 +53,8 @@ interface TerminationData {
   payrollEffectiveDate: string | null
   /** Yes/No per BRD OK_to_Rehire field — null = unset (invalid) */
   okToRehire: boolean | null
-  /** Text placeholder — real attachment upload deferred to Phase 2.5+ */
-  attachmentNote: string
+  /** Mockup files — real upload deferred to Phase 2.5+ */
+  attachmentFiles: AttachedFile[]
 }
 
 interface TerminateForm {
@@ -66,7 +68,7 @@ const INITIAL_FORM: TerminateForm = {
     lastDay: null,
     payrollEffectiveDate: null,
     okToRehire: null,
-    attachmentNote: '',
+    attachmentFiles: [],
   },
 }
 
@@ -556,30 +558,15 @@ export default function TerminatePage() {
 
           <hr className="humi-divider" />
 
-          {/* ── Attachment placeholder (Phase 2.5+ real upload) ── */}
+          {/* ── Attachment (BA row — เอกสารประกอบการเลิกจ้าง) ── */}
           <div style={{ marginBottom: 24 }}>
-            <label
-              htmlFor="attachmentNote"
-              className="text-body font-semibold text-ink"
-              style={{ display: 'block', marginBottom: 6 }}
-            >
-              แนบเอกสาร{' '}
-              <span className="text-small text-ink-muted">(เช่น Resignation Letter)</span>
-            </label>
-            <input
-              id="attachmentNote"
-              type="text"
-              value={termination.attachmentNote}
-              onChange={(e) => patch({ attachmentNote: e.target.value })}
-              placeholder="ระบุชื่อเอกสาร หรือ link (การแนบไฟล์จริงจะเปิดใช้งานใน Phase 2.5+)"
-              className="humi-input"
-              style={{ width: '100%', maxWidth: 480 }}
-              aria-label="บันทึกชื่อเอกสารแนบ"
-              aria-describedby="attachment-hint"
+            <AttachmentDropzone
+              files={termination.attachmentFiles}
+              onFilesChange={(files) => patch({ attachmentFiles: files })}
+              label="เอกสารประกอบการเลิกจ้าง"
+              maxFiles={5}
+              maxSizeMB={10}
             />
-            <p id="attachment-hint" className="text-small text-ink-muted mt-1">
-              Phase 2.5+: อัปโหลดไฟล์จริงจะเปิดใช้งานในรุ่นถัดไป
-            </p>
           </div>
 
           {/* ── Submit button ── */}

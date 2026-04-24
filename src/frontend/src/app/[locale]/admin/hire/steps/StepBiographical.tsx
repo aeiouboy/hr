@@ -7,6 +7,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepBiographicalSchema } from '@/lib/admin/validation/hireSchema'
+import { AttachmentDropzone } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
+import type { AttachedFile } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
 import {
   PICKLIST_MILITARY_STATUS,
   PICKLIST_GENDER,
@@ -51,6 +53,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   const [bloodType,        setBloodType]        = useState(bio.bloodType ?? '')
   const [maritalStatus,    setMaritalStatus]    = useState(bio.maritalStatus ?? '')
   const [maritalStatusSince,setMaritalStatusSince]= useState(bio.maritalStatusSince ?? '')
+  const [attachmentFiles, setAttachmentFiles] = useState<AttachedFile[]>([])
 
   // ── Touched / errors ────────────────────────────────────────────────────────
   const [touched, setTouched] = useState<TouchedState>({
@@ -319,22 +322,16 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       </fieldset>
 
       {/* ─── BA Personal Info row 18 — Attachment (optional) ─── */}
-      <fieldset className="md:col-span-2">
-        <label htmlFor="attachment" className="humi-label">
-          เอกสารแนบ
-        </label>
-        <input
-          id="attachment"
-          type="file"
+      <div className="md:col-span-2">
+        <AttachmentDropzone
+          files={attachmentFiles}
+          onFilesChange={setAttachmentFiles}
+          label="เอกสารแนบ"
           accept="image/*,.pdf"
-          multiple
-          aria-label="เอกสารแนบประวัติส่วนตัว"
-          className="humi-input w-full file:mr-3 file:rounded-md file:border-0 file:bg-canvas-soft file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-ink hover:file:bg-hairline-soft"
+          maxFiles={5}
+          maxSizeMB={5}
         />
-        <p className="mt-1 text-xs text-ink-soft">
-          แนบสำเนาบัตร / ใบรับรองแพทย์ / เอกสารอื่น ๆ — ไม่บังคับ (รองรับ PDF / รูปภาพ)
-        </p>
-      </fieldset>
+      </div>
     </div>
   )
 }
