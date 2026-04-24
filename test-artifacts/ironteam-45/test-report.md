@@ -1,46 +1,51 @@
 # Test Report — HR Phase 1 RIS Finish
 
 **Run ID**: ironteam-45
-**Spec**: specs/hr-phase1-ris-finish.md
+**Spec**: `specs/hr-phase1-ris-finish.md`
 **Generated**: 2026-04-24
+**Executed**: 2026-04-24T14:30:23 (Bangkok)
 
-## AC to Test Mapping
+## Test Run Summary
+
+**Result**: 9 pass / 0 fail / 0 skipped (exit 0)
+**Duration**: 0.997s
+**Test Files**: 2 passed (2)
+Full output: `test-artifacts/ironteam-45/test-output.txt`
+
+## AC → Test Mapping
 
 | AC | Description | Test File | Count | Status |
 |----|-------------|-----------|-------|--------|
-| AC-3 | R1 DOB<HireDate cross-field refine | `src/lib/admin/validation/__tests__/hireSchema.test.ts` | 2 | pending |
-| AC-4 | R2 maritalStatusSince conditional superRefine | `src/lib/admin/validation/__tests__/hireSchema.test.ts` | 4 | pending |
-| AC-5 | R3 VN Issue Place conditional render | `src/app/[locale]/admin/hire/steps/__tests__/StepIdentity.vn-issue-place.test.tsx` | 3 | pending |
+| AC-3 | R1 DOB<HireDate (Zod .refine) | `hireSchema.test.ts` | 2 | ✅ PASS |
+| AC-4 | R2 maritalStatusSince conditional (Zod superRefine) | `hireSchema.test.ts` | 4 | ✅ PASS |
+| AC-5 | R3 VN Issue Place conditional render (RTL) | `StepIdentity.vn-issue-place.test.tsx` | 3 | ✅ PASS |
+| AC-6 | `npx tsc --noEmit` 0 error | baseline pre-existing errors only | — | 🟡 NET-ZERO REGRESSION |
+| AC-7 | SF-drift grep gate | `hireSchema.ts` + `StepIdentity.tsx` diff clean | — | ✅ PASS |
 
-## Test Files Created
+## Test Cases by Category
 
-### File 1: hireSchema.test.ts
-Path: `src/frontend/src/lib/admin/validation/__tests__/hireSchema.test.ts`
+### Zod validation (6 tests)
+- ✅ R1 — hireDate > dateOfBirth → safeParse success
+- ✅ R1 — hireDate <= dateOfBirth → error at path `['dateOfBirth']`
+- ✅ R2 — SINGLE+empty → no superRefine message (only .min(1) triggers)
+- ✅ R2 — MARRIED+empty → error with Thai message "กรุณาระบุวันที่เปลี่ยนสถานภาพสมรส (ยกเว้นโสด)"
+- ✅ R2 — MARRIED+valid → success
+- ✅ R2 — SINGLE+valid → success
 
-**AC-3 R1 cases (2)**:
-- PASS: hireDate > dateOfBirth
-- FAIL: hireDate <= dateOfBirth — path ['dateOfBirth'] + message มี "วันที่เริ่มงาน"
+### React Testing Library (3 tests)
+- ✅ R3 — nationality='VN' → VN Issue Place visible
+- ✅ R3 — nationality='TH' → VN Issue Place hidden
+- ✅ R3 — country='VN' + nationality='TH' (OR condition) → still visible
 
-**AC-4 R2 cases (4)**:
-- PASS: SINGLE + empty since — superRefine ไม่ trigger (ยกเว้นโสด message ไม่ปรากฏ)
-- FAIL: MARRIED + empty since — error path ['maritalStatusSince'] + message "กรุณาระบุวันที่เปลี่ยนสถานภาพสมรส (ยกเว้นโสด)"
-- PASS: MARRIED + valid since — ผ่านทั้ง .min(1) และ superRefine
-- PASS: SINGLE + valid since — superRefine ไม่ trigger
+## Screenshots (Phase 5 — MK IV)
 
-### File 2: StepIdentity.vn-issue-place.test.tsx
-Path: `src/frontend/src/app/[locale]/admin/hire/steps/__tests__/StepIdentity.vn-issue-place.test.tsx`
+| File | Description | AC |
+|------|-------------|-----|
+| `screenshots/ac-5-hire-wizard-entry.png` | Wizard entry — full page, default state (VN Issue Place hidden) | AC-5 |
+| `screenshots/ac-5-vn-field-hidden.png` | ข้อมูลส่วนตัว section — สัญชาติ field visible, VN Issue Place hidden (TH/empty nationality) | AC-5 |
 
-**AC-5 R3 cases (3)**:
-- Case 1: nationality='VN' → getByLabelText(/สถานที่ออกบัตร/) ไม่ null
-- Case 2: nationality='TH' → queryByLabelText(/สถานที่ออกบัตร/) = null
-- Case 3 (bonus): country='VN' + nationality='TH' → OR condition → field แสดง
+**หมายเหตุ AC-5**: VN visible case ใช้ RTL tests (3/3 pass) เป็น primary evidence เนื่องจาก React controlled component ไม่ respond ต่อ Playwright DOM event injection — ตาม pattern `source-plus-test-combo` (mk4-validator expertise)
 
-## Notes
+## Known Issues (non-blocking)
 
-- `hireSchema.test.ts` ใหม่แยกจาก `src/__tests__/admin/hireSchema.test.ts` (existing) ตาม spec path
-- Existing file ครอบคลุม required fields + DOB < HireDate แล้ว — ไฟล์ใหม่เพิ่มเฉพาะ AC-3/AC-4 traceability
-- AC-4 Case 1 (SINGLE+empty): `.min(1)` ยังคง trigger error แต่ superRefine message "(ยกเว้นโสด)" ไม่ปรากฏ — test verify behavior นี้
-
-## Screenshots
-
-_(populated by MK IV in Phase 5)_
+- **tsc baseline**: 5 pre-existing errors in `src/__tests__/` (unchanged test files — `useLifecycleWizard.test.ts`, `UsersRoleGroups.test.tsx`, `humi-phase-b.test.tsx`). Existed at commit `107d2a9` before this run. Our 2-file diff introduced 0 new tsc errors.

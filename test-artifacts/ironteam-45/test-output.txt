@@ -1,0 +1,12 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/lib/admin/validation/__tests__/hireSchema.test.ts (6 tests) 2ms
+ ✓ src/app/[locale]/admin/hire/steps/__tests__/StepIdentity.vn-issue-place.test.tsx (3 tests) 56ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  14:30:23
+   Duration  997ms (transform 158ms, setup 101ms, collect 249ms, tests 58ms, environment 684ms, prepare 118ms)
+
