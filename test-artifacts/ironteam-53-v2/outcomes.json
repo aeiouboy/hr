@@ -1,0 +1,108 @@
+[
+  {
+    "ac": "AC-1",
+    "passed": true,
+    "reasoning": "EmergencyContactList renders multi-row editor with name+relation dropdown+phones sub-list via ContactArrayEditor. Component validates rows (isRowValid/areAllRowsValid exported). Screenshot ac-1-emergency-read.png shows emergency tab read view with existing contacts. Vitest 17/17 pass in EmergencyContactList.test.tsx confirms all multi-row behaviors.",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/screenshots/ac-1-emergency-read.png",
+      "test-artifacts/ironteam-53-v2/screenshots/ac-1-emergency-edit.png",
+      "vitest 17/17 pass (EmergencyContactList.test.tsx)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-2",
+    "passed": true,
+    "reasoning": "Address8Editor renders 8 structured Thai address fields (houseNo, village, soi, road, subdistrict, district, province, postalCode) with required asterisks on 5 mandatory fields. Screenshot ac-2-address-edit.png confirms 2-2-3-1 grid layout. isAddress8Valid exported for submit-button gating. Vitest 15/15 pass.",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/screenshots/ac-2-address-edit.png",
+      "vitest 15/15 pass (Address8Editor.test.tsx)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-3",
+    "passed": true,
+    "reasoning": "ContactArrayEditor handles phone[] and email[] with primary-flag invariant (exactly one primary enforced via setPrimary). Remove disabled when last primary. Screenshot ac-3-contact-multi.png shows phone+email rows each with radio primary button, add buttons, validation error on invalid phone. isContactArrayValid exported. Vitest 21/21 pass.",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/screenshots/ac-3-contact-multi.png",
+      "vitest 21/21 pass (ContactArrayEditor.test.tsx)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-4",
+    "passed": true,
+    "reasoning": "BankDetailsEditor has bankCode dropdown (7 Thai banks), accountNo digits-only with 10-12 char validation + 0/12 counter, holderName required, FileUploadField for bank book attachment (PDF/JPG/PNG ≤5MB). Screenshot ac-4-bank-edit.png confirms all 4 fields. isBankValid exported. Vitest 21/21 pass.",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/screenshots/ac-4-bank-edit.png",
+      "vitest 21/21 pass (BankDetailsEditor.test.tsx)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-5",
+    "passed": true,
+    "reasoning": "Personal Info tab existing fields unaffected — all pre-existing tests still pass. Screenshot ac-read-view.png and ac-1-emergency-edit.png confirm personal form renders correctly alongside new v2 section cards. No regression in humi-functional.test.tsx personal/edit tests (3/3 pass).",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/screenshots/ac-read-view.png",
+      "humi-functional personal-tab tests 3/3 still pass",
+      "full suite diff: net +100 pass from v2 new tests"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-6",
+    "passed": true,
+    "reasoning": "Each section editor (EmergencyContactSectionEditor, AddressSectionEditor, ContactInfoSectionEditor, BankSectionEditor) calls submitChangeRequest with sectionKey discriminator before calling save(). PendingChange.sectionKey? field added to store interface. Vitest 15/15 pass in profile-me.section-submit test.",
+    "evidence": [
+      "vitest 15/15 pass (profile-me.section-submit.test.tsx)",
+      "humi-profile-slice.ts line 102: sectionKey?: SectionKey",
+      "page.tsx line 262: sectionKey: 'emergencyContact'"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-7",
+    "passed": true,
+    "reasoning": "PendingSectionBadge helper renders chip with 'รอการอนุมัติ · {effectiveDate}' when pendingChanges has entry matching sectionKey+status=pending. Screenshot ac-7-pending-chip.png confirms 'ที่อยู่ รอการอนุมัติ · 2026-05-01' badge in h3 heading. Badge blocks duplicate submit via disabled state on submit button when pending exists.",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/screenshots/ac-7-pending-chip.png",
+      "PendingSectionBadge component lines 124-145 of page.tsx",
+      "vitest pass for PendingSectionBadge behavior"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-8",
+    "passed": true,
+    "reasoning": "humi-profile-slice.ts version: 2 set (line 252). migrate() function handles v1→v2 upgrade: maps flat address string to addressStructured.houseNo, initializes emergencyContacts:[], phonesArr, emailsArr from legacy phone/personalEmail fields, bank defaults. Vitest 10/10 pass in humi-profile-slice.v2-migration.test.tsx.",
+    "evidence": [
+      "vitest 10/10 pass (humi-profile-slice.v2-migration.test.tsx)",
+      "humi-profile-slice.ts lines 251-281: version:2 + migrate()"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-9",
+    "passed": true,
+    "reasoning": "C10 grep sweep clean on all 4 new component files and page.tsx v2 additions. No em-dash bilingual patterns, no SF-style (English Label) parens, no English-only headings in JSX. All labels use useTranslations('ess') keys resolving to Thai strings. RELATION_OPTIONS and BANK_LIST use Thai display values. Thai-heading regression test now 11/11 pass after self-heal of mock map (self-heal disclosed below).",
+    "evidence": [
+      "grep sweep: 0 bilingual patterns in EmergencyContactList.tsx, Address8Editor.tsx, BankDetailsEditor.tsx, ContactArrayEditor.tsx",
+      "thai-heading-regression.test.tsx 11/11 pass after self-heal",
+      "messages/th.json confirmed all ess.* keys resolve to Thai"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac": "AC-10",
+    "passed": true,
+    "reasoning": "Full suite after v2 + self-heal: 9 fail / 1217 pass / 5 skip (1231 total). Baseline Gen 7: 9 fail / 1116 pass. Net: +101 pass, 0 net-new failures. The 1 net-new failure (thai-heading regression profile/me) was caused by v2 adding new ess.* i18n keys in h3 headings without updating the test mock map — self-healed by adding 5 ess.sections.* entries to mock. All 9 remaining failures are pre-existing Gen 7 cluster: humi-functional login (1), ProfileEdit (4 — page restructured from SAP-style), WorkflowsPage (4 — dynamic store vs hardcoded mock).",
+    "evidence": [
+      "test-artifacts/ironteam-53-v2/test-output.txt: 9 fail / 1217 pass (post-heal)",
+      "Gen 7 commit c7e020e message: 9 fail baseline documented",
+      "Self-heal: thai-heading-regression.test.tsx mock map +5 ess.sections.* keys"
+    ],
+    "questionsUsed": []
+  }
+]

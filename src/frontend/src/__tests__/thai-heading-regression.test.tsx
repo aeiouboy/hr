@@ -57,6 +57,12 @@ vi.mock('next-intl', () => ({
       headlineLine1: 'ระบบเบื้องหลังที่',
       headlineLine2: 'ทีมของคุณคู่ควร',
       formTitle: 'เข้าสู่ระบบ Humi',
+      // v2 ess section headings — prevent key fallback in h3 (T2b-v2 additions)
+      'sections.address': 'ที่อยู่',
+      'sections.contact': 'ข้อมูลติดต่อ',
+      'sections.bank': 'บัญชีธนาคาร',
+      'sections.emergencyContact': 'ผู้ติดต่อฉุกเฉิน',
+      'sections.personal': 'ข้อมูลส่วนตัว',
     };
     return map[key] ?? key;
   },

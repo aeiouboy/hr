@@ -1,25 +1,38 @@
 {
-  "task": "HR Phase 1 Build \u2014 Hiring + Probation + Employee Data journey (5 routes, 2 waves)",
-  "issue": 17,
+  "task": "[autopilot v2] #53 ESS Self-Service — EXTEND humi-profile-slice (3 new sections + 2 refactors)",
+  "issue": 53,
   "repo": "aeiouboy/hr",
-  "spec": "specs/hr-phase-1-build-journey.md",
+  "spec": "specs/ess-personal-data-edit-v2.md",
+  "seed": "specs/ess-personal-data-edit-v2.seed.json",
   "phase": 2,
-  "phase_name": "Build Wave 1 (S1+S2+S3 parallel)",
-  "started_at": "2026-04-23T20:15:00Z",
-  "updated_at": "2026-04-23T20:15:00Z",
-  "completed_phases": [
-    0,
-    0.5,
-    1,
-    1.5
-  ],
+  "phase_name": "Build",
+  "started_at": "2026-04-24T16:59:00Z",
+  "updated_at": "2026-04-24T17:32:00Z",
+  "completed_phases": [0, 0.5, 1, 1.5, 1.6],
+  "v1_outcome": "HALTED + rolled back — spec premise stale (issue body said /employees/me READ-ONLY; reality = redirect to /profile/me which has edit+CR via humi-profile-slice). Artifacts cleaned. Feedback memory written. Spec v1 kept as learning artifact.",
   "artifacts": {
-    "spec_path": "specs/hr-phase-1-build-journey.md"
+    "spec_path": "specs/ess-personal-data-edit-v2.md",
+    "seed_path": "specs/ess-personal-data-edit-v2.seed.json",
+    "g1_verdict": "PASS 0.0% ambiguity (v2, 2026-04-25 00:32)",
+    "feedback_memory": "memory/feedback_autopilot_spec_premise_stale.md",
+    "test_report_path": null,
+    "screenshot_dir": null
   },
   "phase_2_5_fixes": [],
   "test_results": {
     "backend": null,
     "frontend": null
   },
-  "agents": []
+  "autopilot": {
+    "title_prefix": "ec-ui",
+    "max_failures": 10,
+    "queue_remaining": [54],
+    "previous_run_archived": "issue-45 (PASS 8/8, see sprint-log)"
+  },
+  "agents": [
+    { "task_id": "T1_v2", "mark": "MK III — Builder", "deliverable": "Extend humi-profile-slice.ts — ProfileDraft 5 section shapes, version: 2, migrate(), optional PendingChange.sectionKey", "status": "dispatching", "dispatched_at": null, "completed_at": null, "files_created": [] },
+    { "task_id": "T2_v2", "mark": "Forge Frontend — UI Builder", "deliverable": "4 profile/* components + edit /profile/me/page.tsx + ess.* i18n keys", "status": "pending", "dispatched_at": null, "completed_at": null, "files_created": [] },
+    { "task_id": "T4_v2", "mark": "MK VI — Test Writer", "deliverable": "6 vitest files — migration smoke + AC-1/2/3/4/6/8 tests", "status": "pending", "dispatched_at": null, "completed_at": null, "files_created": [] },
+    { "task_id": "T5_v2", "mark": "MK IV — Validator", "deliverable": "Review + run tests + browser-harness screenshots + outcomes.json for G3", "status": "pending", "dispatched_at": null, "completed_at": null, "files_created": [] }
+  ]
 }

@@ -1,0 +1,177 @@
+{
+  "goal": "Close aeiouboy/hr#53 — ESS Self-Service Personal Data edit at /employees/me: add edit affordances for Emergency Contact / Address / Contact Info / Bank / Personal Info sections, wired through Change Request submit flow (approver UI is out-of-scope — delegated to sibling #54)",
+  "taskType": "code",
+  "brownfieldContext": {
+    "projectType": "brownfield",
+    "contextReferences": [
+      "aeiouboy/hr src/frontend/ (Next.js 16 App Router + React 19)",
+      "Prior run #12 (Humi Profile Edit FE E2E) — FileUploadField atom + 15-field form + Zustand pending/attachments + i18n th/en already in repo",
+      "Issue #54 (sibling) owns approver-side UI — this issue stubs a mock-submit hook that #54 later wires",
+      "memory/feedback_thai_address_8_fields_structured.md — Thai address = 8 structured fields, not textarea",
+      "memory/feedback_duplicate_data_two_formats_one_chip.md — avoid duplicate metric chips; one canonical display",
+      "memory/feedback_humi_button_primitive_over_tailwind.md — actions import <Button> from @/components/humi",
+      "memory/feedback_zustand_persist_version_migrate.md — nested slice shape change requires bump `version: N` + `migrate()`",
+      "expertise: AttachmentDropzone is the canonical atom for any attachment upload"
+    ],
+    "existingPatterns": [
+      "Change Request locale keys already exist in messages/th.json + en.json (changeRequests / workflows nav slot)",
+      "Humi primitives (Button, Card, FormField) live under @/components/humi",
+      "Zustand store pattern for profile draft persist — see existing profile-edit work from #12"
+    ],
+    "existingDependencies": [
+      "next@16",
+      "react@19",
+      "zustand@4 (persist middleware, must bump version on shape change)",
+      "next-intl or similar i18n layer",
+      "@/components/humi primitives",
+      "@/components/admin/AttachmentDropzone"
+    ]
+  },
+  "constraints": [
+    "C1 surgical — reuse existing /employees/me page scaffold; ADD edit affordances and CR submit flow; do NOT rebuild the read view",
+    "C3 simplicity — one shared ChangeRequestSubmitModal, not five per-section modals; one shared pending-state chip component",
+    "C7 SSoT — every section reads/writes via the profile Zustand store; no parallel state for same fields",
+    "C10 — all labels Thai-primary; no SF-style bilingual parens; locale codes (TH)/(EN) allowed only where field is genuinely locale-tagged",
+    "Rule 22 — max ~8 files per agent; split into 2 parallel builders if scope exceeds (Section UI + CR plumbing)",
+    "Approver UI is OUT OF SCOPE — this issue submits to a mock approval endpoint; #54 will replace the mock",
+    "No backend persistence required for this issue — Zustand draft persist + mock fetch for CR submit",
+    "AttachmentDropzone required for any attachment field (marriage cert, address proof) — never raw <input type=file>"
+  ],
+  "acceptanceCriteria": [
+    {
+      "text": "AC-1: Emergency Contact section at /employees/me shows edit button; clicking opens editable form with name, relation (lookup), phone (multi-value per #48 SF parity); supports add/remove contact rows; validates non-empty name + valid phone before enabling submit",
+      "rule": "#53 section 1 (BRD #178-182 self-service)",
+      "invariant": false
+    },
+    {
+      "text": "AC-2: Address section edit form exposes 8 structured Thai fields (houseNo, village, soi, road, subdistrict, district, province, postalCode); province + district + subdistrict are cascading lookups; saving does NOT mutate master — it queues a Change Request",
+      "rule": "#53 section 2 + feedback_thai_address_8_fields_structured.md",
+      "invariant": false
+    },
+    {
+      "text": "AC-3: Contact Info section supports multi-value phone + email arrays (one primary flag per array); labels Thai-only; remove button disabled when only one row remains and that row is flagged primary",
+      "rule": "#53 section 3 + memory #48 SF parity multi-contact pattern",
+      "invariant": false
+    },
+    {
+      "text": "AC-4: Bank / Payment Method edit exposes bank code (lookup from existing BANK picklist), account number (digits only, 10-12 length), account holder name (defaults to employee name, editable); attaches optional bank book image via AttachmentDropzone",
+      "rule": "#53 section 4",
+      "invariant": false
+    },
+    {
+      "text": "AC-5: Personal Info edit covers marital status (lookup MARITAL), children count (integer ≥ 0), spouse name (required when marital=married); changes to marital status prompt for effective date",
+      "rule": "#53 section 5",
+      "invariant": false
+    },
+    {
+      "text": "AC-6: Each section's 'บันทึก' (save) action opens the shared ChangeRequestSubmitModal with effective date picker (defaults to today, disallows past dates), optional note textarea, and summary of diff (before → after); confirm posts to mock CR endpoint and returns a pending CR id",
+      "rule": "BRD SH6-SH8 (submit → approve → apply with effective date)",
+      "invariant": true
+    },
+    {
+      "text": "AC-7: Section card shows a pending-state chip (Thai label 'รอการอนุมัติ') when a pending CR exists for that section; user cannot open the edit form while a pending CR for the same section is active; clicking the chip reveals pending CR details + cancel action",
+      "rule": "#53 workflow + invariant: one pending CR per section at a time",
+      "invariant": true
+    },
+    {
+      "text": "AC-8: Zustand profile-edit draft store persists across tab reloads with explicit `version: N+1` bump + `migrate()` function; opening a section that had a draft restores the in-progress edit",
+      "rule": "feedback_zustand_persist_version_migrate.md",
+      "invariant": true
+    },
+    {
+      "text": "AC-9: C10 language gate — every new label / toast / chip text is Thai; pre-commit grep gate over new files in src/frontend/ finds zero SF-paren or em-dash bilingual duplicates",
+      "rule": "Rule C10",
+      "invariant": true
+    },
+    {
+      "text": "AC-10: Vitest + Testing Library tests cover AC-1..AC-8 at minimum one passing test per AC; i18n smoke test asserts no missing TH key in the new strings; all suite green (0 fail, 0 unintended skip) via `bun run test`",
+      "rule": "Rule C2 test evidence",
+      "invariant": false
+    }
+  ],
+  "ontologySchema": {
+    "name": "EssPersonalDataEdit",
+    "description": "Shape of the ESS self-service edit flow at /employees/me",
+    "fields": [
+      { "name": "emergencyContact.name", "type": "string", "classification": "user-input", "required": true },
+      { "name": "emergencyContact.relation", "type": "string", "classification": "lookup", "required": true },
+      { "name": "emergencyContact.phones", "type": "string[]", "classification": "user-input", "required": true },
+      { "name": "address.houseNo", "type": "string", "classification": "user-input", "required": true },
+      { "name": "address.village", "type": "string", "classification": "user-input", "required": false },
+      { "name": "address.soi", "type": "string", "classification": "user-input", "required": false },
+      { "name": "address.road", "type": "string", "classification": "user-input", "required": false },
+      { "name": "address.subdistrict", "type": "string", "classification": "lookup", "required": true },
+      { "name": "address.district", "type": "string", "classification": "lookup", "required": true },
+      { "name": "address.province", "type": "string", "classification": "lookup", "required": true },
+      { "name": "address.postalCode", "type": "string", "classification": "derived", "required": true },
+      { "name": "contactInfo.phones", "type": "Phone[]", "classification": "user-input", "required": true },
+      { "name": "contactInfo.emails", "type": "Email[]", "classification": "user-input", "required": true },
+      { "name": "bank.bankCode", "type": "string", "classification": "lookup", "required": true },
+      { "name": "bank.accountNo", "type": "string", "classification": "user-input", "required": true },
+      { "name": "bank.holderName", "type": "string", "classification": "user-input", "required": true },
+      { "name": "bank.bookAttachment", "type": "File", "classification": "user-input", "required": false },
+      { "name": "personal.maritalStatus", "type": "string", "classification": "lookup", "required": true },
+      { "name": "personal.childrenCount", "type": "integer", "classification": "user-input", "required": true },
+      { "name": "personal.spouseName", "type": "string", "classification": "user-input", "required": false },
+      { "name": "cr.id", "type": "string", "classification": "system-generated", "required": true },
+      { "name": "cr.status", "type": "'pending'|'approved'|'rejected'|'cancelled'", "classification": "system-generated", "required": true },
+      { "name": "cr.effectiveDate", "type": "ISODate", "classification": "user-input", "required": true },
+      { "name": "cr.submittedAt", "type": "ISODateTime", "classification": "system-generated", "required": true }
+    ]
+  },
+  "evaluationPrinciples": [
+    { "name": "surgical", "description": "Rule C1 — reuse /employees/me read scaffold, add edit without rebuilding", "weight": 1 },
+    { "name": "simplicity", "description": "Rule C3 — one shared CR modal + one pending chip component, not five per-section copies", "weight": 1 },
+    { "name": "single-source-of-truth", "description": "Rule C7 — every section reads/writes via one profile-edit Zustand store", "weight": 1 },
+    { "name": "source-grounded", "description": "Rule C8 — every label and flow traces to issue body or BRD SH6-SH8 verbatim", "weight": 1 },
+    { "name": "thai-primary", "description": "Rule C10 — no SF-style bilingual labels anywhere", "weight": 1 }
+  ],
+  "exitConditions": [
+    { "name": "issue_closed", "description": "GH issue #53 closed with Phase 5b PASS comment", "criteria": "gh issue closed with AC evidence table" },
+    { "name": "all_ac_pass", "description": "All 10 ACs green through G3 gate", "criteria": "gate-g3.ts exit 0" },
+    { "name": "tests_green", "description": "Vitest suite green, 0 unintended skips", "criteria": "bun run test exit 0" },
+    { "name": "c10_clean", "description": "No new bilingual labels, em-dash bilingual duplicates, or SF-style parens in touched files", "criteria": "pre-commit grep gate passes" }
+  ],
+  "scope": {
+    "inScope": [
+      "5 editable sections at /employees/me (Emergency Contact / Address / Contact Info / Bank / Personal Info)",
+      "Shared ChangeRequestSubmitModal with effective date picker, diff summary, note field",
+      "Shared pending-state chip + cancel-own-CR affordance",
+      "Zustand profile-edit store with version+migrate persist",
+      "AttachmentDropzone wiring for bank book image",
+      "i18n keys for new labels (th + en)",
+      "Vitest unit tests for AC-1..AC-8",
+      "Mock CR submit endpoint (fetch wrapper returning a fake id)"
+    ],
+    "outOfScope": [
+      "Approver UI and approval decision flow — owned by sibling issue #54",
+      "Real backend persistence / Prisma migrations — mock endpoint only",
+      "Notifications to approver (push / email) — #54 or later",
+      "Bulk edit across employees — not ESS",
+      "HR admin override of pending CR — not ESS",
+      "Profile photo + name change — handled by separate flow (different BRD)",
+      "Document viewer / download of attached bank book — read-only view is #54"
+    ]
+  },
+  "systemInvariants": [
+    "All personal-data edits route through a Change Request — no direct mutation of the employee master record (BRD SH6-SH8)",
+    "A Change Request carries an effective date; the change applies on the effective date, not on the approval timestamp",
+    "At most one pending CR per (employee, section) at any time — UI must block a second edit while one is pending",
+    "User can cancel their own pending CR; user cannot cancel another user's CR",
+    "Zustand persist shape change requires both `version` bump and a `migrate()` path — silent shape drift = hydration crash (from feedback memory)",
+    "Every user-facing string in new code is Thai-primary; bilingual duplicates or SF-style parens fail the C10 pre-commit gate",
+    "Every attachment field uses AttachmentDropzone — no raw <input type=file> in new code (per mk3-builder expertise pattern)"
+  ],
+  "metadata": {
+    "seedId": "seed_1777049778117_53",
+    "version": "1.0.0",
+    "createdAt": "2026-04-24T16:56:18.117Z",
+    "refinedAt": "2026-04-24T16:58:00.000Z",
+    "refinedBy": "jarvis-mkXLII-inline",
+    "ambiguityScore": 0.08,
+    "interviewId": null,
+    "parentSeedId": null,
+    "sourceIssue": "aeiouboy/hr#53",
+    "labels": ["ec-ui", "autopilot:pending"]
+  }
+}

@@ -19,9 +19,14 @@ import {
   useHumiProfileStore,
   type ProfileTab,
   type PendingChange,
+  type SectionKey,
 } from '@/stores/humi-profile-slice';
 import { FileUploadField } from '@/components/humi/FileUploadField';
 import { Modal } from '@/components/ui/modal';
+import { EmergencyContactList, areAllRowsValid } from '@/components/profile/EmergencyContactList';
+import { Address8Editor, isAddress8Valid } from '@/components/profile/Address8Editor';
+import { BankDetailsEditor, isBankValid } from '@/components/profile/BankDetailsEditor';
+import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/ContactArrayEditor';
 
 // Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
@@ -114,16 +119,42 @@ const FORM_DEFAULTS: EditFormValues = {
   militaryStatus: 'completed',
 };
 
+// ── PendingSectionBadge — shared chip shown on section headers with pending CR ──
+
+function PendingSectionBadge({ section }: { section: SectionKey }) {
+  const pending = useHumiProfileStore((s) =>
+    s.pendingChanges.find((pc) => pc.sectionKey === section && pc.status === 'pending')
+  );
+  const tEss = useTranslations('ess');
+  if (!pending) return null;
+  return (
+    <span
+      className="humi-chip"
+      style={{
+        background: 'var(--color-butter-50)',
+        color: 'var(--color-ink-soft)',
+        fontSize: 12,
+        padding: '2px 8px',
+        borderRadius: 999,
+        marginLeft: 8,
+      }}
+    >
+      {tEss('changeRequest.pending')} · {pending.effectiveDate}
+    </span>
+  );
+}
+
 export default function HumiProfileMePage() {
   const t = useTranslations('humiProfile');
   const tEdit = useTranslations('profileEdit');
   const tPending = useTranslations('pending');
   const tToast = useTranslations('profileToast');
   const tActivity = useTranslations('activityLog');
+  const tEss = useTranslations('ess');
   const p = HUMI_MY_PROFILE;
 
   const {
-    activeTab, isEditing, draft, save, setTab, startEdit, updateDraft, cancelEdit,
+    activeTab, isEditing, draft, save, saved, setTab, startEdit, updateDraft, cancelEdit,
     pendingChanges, attachments,
     submitChangeRequest,
   } = useHumiProfileStore();
@@ -210,6 +241,175 @@ export default function HumiProfileMePage() {
     ['documents', t('tabDocs')],
     ['activity', t('tabTax')],
   ];
+
+  // ── Inline section editor sub-components (v2 additive) ────────────────────
+  // Each captures draft/updateDraft/saved/submitChangeRequest/showToast/save from closure.
+  // Hooks order: all hooks are declared at top of HumiProfileMePage above; these
+  // sub-components are plain function objects, not React components — they are
+  // called via JSX only inside the return block, so no conditional hooks issue.
+
+  function EmergencyContactSectionEditor() {
+    const rows = draft.emergencyContacts ?? [];
+    const today = new Date().toISOString().slice(0, 10);
+
+    function handleSubmit() {
+      submitChangeRequest({
+        field: 'emergencyContacts',
+        oldValue: JSON.stringify(saved.emergencyContacts ?? []),
+        newValue: JSON.stringify(rows),
+        effectiveDate: today,
+        attachmentIds: [],
+        sectionKey: 'emergencyContact',
+      });
+      save();
+      showToast(tEss('changeRequest.submit'));
+    }
+
+    return (
+      <div style={{ marginTop: 16 }}>
+        <EmergencyContactList
+          value={rows}
+          onChange={(updated) => updateDraft({ emergencyContacts: updated })}
+        />
+        <div style={{ marginTop: 12 }}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmit}
+            disabled={!areAllRowsValid(rows)}
+          >
+            {tEss('changeRequest.submit')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  function AddressSectionEditor() {
+    const addr = draft.addressStructured ?? {
+      houseNo: '', village: '', soi: '', road: '',
+      subdistrict: '', district: '', province: '', postalCode: '',
+    };
+    const today = new Date().toISOString().slice(0, 10);
+
+    function handleSubmit() {
+      submitChangeRequest({
+        field: 'addressStructured',
+        oldValue: JSON.stringify(saved.addressStructured ?? {}),
+        newValue: JSON.stringify(addr),
+        effectiveDate: today,
+        attachmentIds: [],
+        sectionKey: 'address',
+      });
+      save();
+      showToast(tEss('changeRequest.submit'));
+    }
+
+    return (
+      <div style={{ marginTop: 16 }}>
+        <Address8Editor
+          value={addr}
+          onChange={(updated) => updateDraft({ addressStructured: updated })}
+        />
+        <div style={{ marginTop: 12 }}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmit}
+            disabled={!isAddress8Valid(addr)}
+          >
+            {tEss('changeRequest.submit')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  function ContactInfoSectionEditor() {
+    const phones = draft.phonesArr ?? [];
+    const emails = draft.emailsArr ?? [];
+    const today = new Date().toISOString().slice(0, 10);
+
+    function handleSubmit() {
+      submitChangeRequest({
+        field: 'contactInfo',
+        oldValue: JSON.stringify({ phones: saved.phonesArr ?? [], emails: saved.emailsArr ?? [] }),
+        newValue: JSON.stringify({ phones, emails }),
+        effectiveDate: today,
+        attachmentIds: [],
+        sectionKey: 'contact',
+      });
+      save();
+      showToast(tEss('changeRequest.submit'));
+    }
+
+    return (
+      <div style={{ marginTop: 16 }}>
+        <ContactArrayEditor
+          kind="phone"
+          value={phones}
+          onChange={(updated) => updateDraft({ phonesArr: updated })}
+        />
+        <div style={{ marginTop: 12 }}>
+          <ContactArrayEditor
+            kind="email"
+            value={emails}
+            onChange={(updated) => updateDraft({ emailsArr: updated })}
+          />
+        </div>
+        <div style={{ marginTop: 12 }}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmit}
+            disabled={
+              !isContactArrayValid(phones, 'phone') ||
+              !isContactArrayValid(emails, 'email')
+            }
+          >
+            {tEss('changeRequest.submit')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  function BankSectionEditor() {
+    const bankData = draft.bank ?? { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null };
+    const today = new Date().toISOString().slice(0, 10);
+
+    function handleSubmit() {
+      submitChangeRequest({
+        field: 'bank',
+        oldValue: JSON.stringify(saved.bank ?? {}),
+        newValue: JSON.stringify(bankData),
+        effectiveDate: today,
+        attachmentIds: bankData.bookAttachmentId ? [bankData.bookAttachmentId] : [],
+        sectionKey: 'bank',
+      });
+      save();
+      showToast(tEss('changeRequest.submit'));
+    }
+
+    return (
+      <div style={{ marginTop: 16 }}>
+        <BankDetailsEditor
+          value={bankData}
+          onChange={(updated) => updateDraft({ bank: updated })}
+        />
+        <div style={{ marginTop: 12 }}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmit}
+            disabled={!isBankValid(bankData)}
+          >
+            {tEss('changeRequest.submit')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pb-8">
@@ -777,6 +977,81 @@ export default function HumiProfileMePage() {
         </div>
       )}
 
+      {/* ── Personal tab — Address card (v2 additive) ─────────────────────── */}
+      {panelKey === 'personal' && (
+        <div className="humi-card" style={{ marginTop: 16 }}>
+          <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+            {tEss('sections.address')}
+            <PendingSectionBadge section="address" />
+          </h3>
+          {isEditing ? (
+            <AddressSectionEditor />
+          ) : (
+            <div style={{ color: 'var(--color-ink-soft)', fontSize: 14, marginTop: 8 }}>
+              {saved.addressStructured?.houseNo
+                ? [
+                    saved.addressStructured.houseNo,
+                    saved.addressStructured.village,
+                    saved.addressStructured.soi,
+                    saved.addressStructured.road,
+                    saved.addressStructured.subdistrict,
+                    saved.addressStructured.district,
+                    saved.addressStructured.province,
+                    saved.addressStructured.postalCode,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')
+                : saved.address}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Personal tab — Contact Info multi-value card (v2 additive) ───── */}
+      {panelKey === 'personal' && (
+        <div className="humi-card" style={{ marginTop: 16 }}>
+          <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+            {tEss('sections.contact')}
+            <PendingSectionBadge section="contact" />
+          </h3>
+          {isEditing ? (
+            <ContactInfoSectionEditor />
+          ) : (
+            <div style={{ fontSize: 14, marginTop: 8 }}>
+              {saved.phonesArr?.length
+                ? saved.phonesArr.map((ph, i) => (
+                    <div key={i}>{ph.primary && '★ '}{ph.value}</div>
+                  ))
+                : saved.phone}
+              {saved.emailsArr?.length
+                ? saved.emailsArr.map((em, i) => (
+                    <div key={i}>{em.primary && '★ '}{em.value}</div>
+                  ))
+                : saved.personalEmail}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Personal tab — Bank card (v2 additive) ───────────────────────── */}
+      {panelKey === 'personal' && (
+        <div className="humi-card" style={{ marginTop: 16 }}>
+          <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+            {tEss('sections.bank')}
+            <PendingSectionBadge section="bank" />
+          </h3>
+          {isEditing ? (
+            <BankSectionEditor />
+          ) : (
+            <div style={{ fontSize: 14, marginTop: 8, color: 'var(--color-ink-soft)' }}>
+              {saved.bank?.bankCode
+                ? `${saved.bank.bankCode} · ${saved.bank.accountNo} · ${saved.bank.holderName}`
+                : '—'}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── Job/Compensation tab ──────────────────────────────────────────── */}
       {panelKey === 'job' && (
         <div className="grid gap-4 md:grid-cols-2">
@@ -837,42 +1112,38 @@ export default function HumiProfileMePage() {
         <div className="humi-card">
           <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
             {t('emergencyTitle')}
+            <PendingSectionBadge section="emergencyContact" />
           </h3>
-          <p
-            style={{
-              color: 'var(--color-ink-muted)',
-              fontSize: 13,
-              marginTop: 6,
-            }}
-          >
+          <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
             {t('emergencyHelp')}
           </p>
-          <div
-            className="grid gap-3.5 md:grid-cols-2"
-            style={{ marginTop: 16 }}
-          >
-            {p.emergency.map((c) => (
-              <div
-                key={c.name}
-                className="humi-card humi-card--tight"
-                style={{ background: 'var(--color-canvas-soft)' }}
-              >
-                <div className="humi-row">
-                  <span className={AVATAR_TONE_MAP[c.tone]} aria-hidden>
-                    {c.initials}
-                  </span>
-                  <div>
-                    <div style={{ fontWeight: 600, color: 'var(--color-ink)' }}>
-                      {c.name}
-                    </div>
-                    <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
-                      {c.relation} · {c.phone}
+          {isEditing ? (
+            <EmergencyContactSectionEditor />
+          ) : (
+            <div className="grid gap-3.5 md:grid-cols-2" style={{ marginTop: 16 }}>
+              {p.emergency.map((c) => (
+                <div
+                  key={c.name}
+                  className="humi-card humi-card--tight"
+                  style={{ background: 'var(--color-canvas-soft)' }}
+                >
+                  <div className="humi-row">
+                    <span className={AVATAR_TONE_MAP[c.tone]} aria-hidden>
+                      {c.initials}
+                    </span>
+                    <div>
+                      <div style={{ fontWeight: 600, color: 'var(--color-ink)' }}>
+                        {c.name}
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                        {c.relation} · {c.phone}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

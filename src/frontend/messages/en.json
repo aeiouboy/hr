@@ -3716,5 +3716,53 @@
     "requestedAt": "Requested at",
     "attachments": "Attachments",
     "preview": "Preview"
+  },
+  "ess": {
+    "sections": {
+      "emergencyContact": "Emergency Contact",
+      "address": "Address",
+      "contact": "Contact Info",
+      "bank": "Bank Account",
+      "personal": "Personal Info"
+    },
+    "changeRequest": {
+      "submit": "Submit for Approval",
+      "pending": "Pending Approval",
+      "cancel": "Cancel Request",
+      "effectiveDate": "Effective Date",
+      "note": "Additional Note (optional)"
+    },
+    "emergencyContact": {
+      "add": "Add Contact",
+      "name": "Full Name",
+      "relation": "Relationship"
+    },
+    "address": {
+      "houseNo": "House No.",
+      "village": "Village",
+      "soi": "Soi",
+      "road": "Road",
+      "subdistrict": "Subdistrict",
+      "district": "District",
+      "province": "Province",
+      "postalCode": "Postal Code"
+    },
+    "bank": {
+      "code": "Bank",
+      "accountNo": "Account No.",
+      "holder": "Account Holder",
+      "book": "Bank Book Copy"
+    },
+    "contact": {
+      "addPhone": "Add Phone",
+      "addEmail": "Add Email",
+      "primary": "Primary"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidPhone": "Invalid phone number",
+      "invalidEmail": "Invalid email address",
+      "accountNo": "Account number must be 10-12 digits"
+    }
   }
 }

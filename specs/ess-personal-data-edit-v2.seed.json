@@ -1,0 +1,142 @@
+{
+  "goal": "Close aeiouboy/hr#53 by EXTENDING humi-profile-slice + /profile/me to add 3 missing ESS sections (Emergency Contact multi-row, Address 8-field structured, Bank) + upgrade Contact Info flat fields to multi-value Phone[]/Email[], wired through the existing submitChangeRequest() flow — NOT by creating parallel store or CR primitives.",
+  "taskType": "code",
+  "brownfieldContext": {
+    "projectType": "brownfield",
+    "contextReferences": [
+      "aeiouboy/hr src/frontend/ (Next.js 16 App Router + React 19)",
+      "EXISTING src/frontend/src/stores/humi-profile-slice.ts — Zustand persist `humi-profile-v1`, ProfileDraft flat shape (nickname/phone/personalEmail/address), submitChangeRequest(SubmitChangePayload) with field=string, PendingChange{id, field, oldValue, newValue, effectiveDate, attachmentIds, requestedAt, status, approvedAt?}, addAttachment/removeAttachment, adminApprove/adminReject, toggleAdminMode",
+      "EXISTING src/frontend/src/app/[locale]/profile/me/page.tsx — 1385-line page from ironteam #12 with 21-field personal-info form, SLICE_TO_PANEL map (personal/employment→job/compensation→emergency/documents→docs/activity→tax), FileUploadField primitive, ATTACHMENT_REQUIRED_FIELDS set",
+      "memory/feedback_autopilot_spec_premise_stale.md (2026-04-25) — this spec v2 supersedes v1 which assumed /employees/me was READ-ONLY (wrong — it's a redirect to /profile/me)",
+      "memory/feedback_zustand_persist_version_migrate.md — nested slice shape change requires version: N bump + migrate()",
+      "memory/feedback_thai_address_8_fields_structured.md — Thai address is 8 structured fields, not textarea",
+      "memory/feedback_humi_button_primitive_over_tailwind.md — actions import <Button> from @/components/humi",
+      "memory/feedback_duplicate_data_two_formats_one_chip.md — avoid duplicate metric chips",
+      "ironteam #12 retrospectively closed 2026-04-24 — /profile/me is canonical ESS view, builder must treat it as the single integration point",
+      "Sibling issue #54 owns approver UI — spec v2 treats HR-approval-side flow as out of scope"
+    ],
+    "existingPatterns": [
+      "humi-profile-slice submit pattern: caller builds SubmitChangePayload{field, oldValue, newValue, effectiveDate, attachmentIds} → store returns change id",
+      "PendingChange.field is string — for section-level CRs, extend with optional sectionKey OR encode 'sectionName:fieldName' in field (spec picks sectionKey — cleaner)",
+      "/profile/me renders tabs via SLICE_TO_PANEL mapping compensation→emergency — Emergency Contact section UI will render under that slice key",
+      "FileUploadField is the in-use attachment primitive; AttachmentDropzone is newer Ken directive 2026-04-24 — builder picks one per section"
+    ],
+    "existingDependencies": [
+      "zustand@4 with persist middleware (name: 'humi-profile-v1', partialize excludes isEditing/draft)",
+      "next-intl",
+      "@/components/humi (Button/Card/Modal/FormField)",
+      "@/components/humi/FileUploadField",
+      "@/components/admin/AttachmentDropzone/AttachmentDropzone",
+      "lucide-react icons"
+    ]
+  },
+  "constraints": [
+    "C1 surgical — edit humi-profile-slice.ts AND /profile/me/page.tsx in place; do not touch any other consumer of humi-profile-slice",
+    "C3 simplicity — ONE migrate() function; no new factories over the existing store",
+    "C7 SSoT (non-negotiable) — reuse existing submitChangeRequest(), PendingChange, FileUploadField OR AttachmentDropzone, existing Modal primitive; forbidden: new profile-edit-draft store, new PendingChangeChip type, new ChangeRequestSubmitModal when existing Modal pattern works",
+    "C10 Thai-primary; no SF-paren; no em-dash bilingual duplicates; locale codes (TH)/(EN) allowed only where field is genuinely locale-tagged (salutationTh/En is a legitimate existing case)",
+    "Rule 22 — 4 new profile/* components + 1 slice edit + 1 page edit ≈ 6-7 files total; no agent exceeds ~8 files (split only if explicitly listed)",
+    "Rule 21 split — MK VI writes tests, JARVIS runs tests via Bash (no test execution inside MK VI dispatch)",
+    "Persist migration MUST use version: 2 + migrate() — ref feedback_zustand_persist_version_migrate.md; storage name stays 'humi-profile-v1' (don't rename; version field alone controls migration)",
+    "Approver UI out of scope — #54 owns it; spec v2 stubs no approver surface",
+    "Attachment primitive choice documented at top of each new component file (one line comment explaining FileUploadField vs AttachmentDropzone pick)"
+  ],
+  "acceptanceCriteria": [
+    { "text": "AC-1: Emergency Contact section visible at /profile/me (slice key = compensation or a new dedicated key in SLICE_TO_PANEL). Renders multi-row list via EmergencyContactList (add/remove rows; validate each row non-empty name + at least one valid phone); save button disabled when a PendingChange with sectionKey='emergencyContact' is pending; clicking save triggers existing submitChangeRequest() once (one PendingChange created per submit invariant)", "rule": "#53 section 1 + BRD SH6-SH8 submit→approve→effective-date", "invariant": false },
+    { "text": "AC-2: Address section renders 8 structured Thai fields (houseNo required, village/soi/road optional, subdistrict+district+province required, postalCode required; postalCode derived-readonly if province+district+subdistrict cascade produces one, else user-typed). v1 flat `address` string migrates to `addressStructured.houseNo` best-effort + other 7 fields empty on v1→v2 hydration (tested via pre-seeded localStorage — no hydration crash)", "rule": "#53 section 2 + feedback_thai_address_8_fields_structured.md + feedback_zustand_persist_version_migrate.md", "invariant": false },
+    { "text": "AC-3: Contact Info section renders multi-value Phone[] + Email[] arrays via ContactArrayEditor; invariant: exactly ONE primary per array at all times; remove button disabled when array length === 1 OR the target row is the only primary; add button appends a non-primary row with empty value; validation: phone = 9-10 digits, email matches basic /.+@.+\\..+/ pattern", "rule": "#53 section 3 + memory #48 SF parity multi-contact pattern", "invariant": true },
+    { "text": "AC-4: Bank Details section renders via BankDetailsEditor with bankCode dropdown (inline list KBANK/SCB/BBL/KTB/BAY/TTB/CIMB as Thai labels), accountNo input (digits-only, length 10-12 enforced via inputmode+regex), holderName default to employee's fullName (editable), optional bookAttachment field using FileUploadField OR AttachmentDropzone (choice documented in file header with one-line rationale)", "rule": "#53 section 4", "invariant": false },
+    { "text": "AC-5: Personal Info tab/render continues to work with all 21 existing fields from ironteam #12 (no regression). Pre-existing humi personal-info tests remain green after v2 edit", "rule": "#53 section 5 + #12 retrospective closure", "invariant": true },
+    { "text": "AC-6: Submitting ANY section's save creates exactly ONE PendingChange via existing submitChangeRequest() with `sectionKey` populated on the returned PendingChange (field carries a section-level identifier like 'section:emergencyContact' OR sectionKey is the primary discriminator and field becomes a composite). Spec v2 extends PendingChange with optional `sectionKey?: SectionKey` — if builder picks field-encoding instead, that's also acceptable but must be consistent across sections", "rule": "BRD SH6-SH8 + existing store API", "invariant": true },
+    { "text": "AC-7: Each section header displays pending-state chip (Thai `รอการอนุมัติ` + effective date) when a PendingChange with matching sectionKey exists; reuse existing pending render pattern from /profile/me if present, else a minimal inline chip component embedded in /profile/me (do NOT create a new shared chip file unless strictly reused across 2+ sections)", "rule": "#53 workflow + C7 SSoT", "invariant": true },
+    { "text": "AC-8: Persist version: 2 bump on humi-profile-slice; migrate(persistedState, version) runs on v1-persisted state without error and produces a v2-shaped draft. Vitest smoke test pre-seeds localStorage with v1 shape, imports store, asserts draft.addressStructured is populated and no hydration throw", "rule": "feedback_zustand_persist_version_migrate.md", "invariant": true },
+    { "text": "AC-9: C10 Thai-primary — every new visible string (labels/placeholders/toast/chip) is Thai; pre-commit grep gate over touched files finds zero SF-paren or em-dash bilingual duplicates in new components", "rule": "Rule C10", "invariant": true },
+    { "text": "AC-10: Vitest suite green — new tests in __tests__/profile/ pass (≥1 per AC-1..AC-4 + AC-6 + AC-8); existing humi tests continue passing (measure baseline pre-T1, re-measure post-T3, diff must not introduce regressions). Exit 0 via `bun run test`", "rule": "Rule C2 test evidence + C7 non-regression", "invariant": false }
+  ],
+  "ontologySchema": {
+    "name": "EssPersonalDataEditV2",
+    "description": "Extended shape of humi-profile-slice ProfileDraft after v2 migrate",
+    "fields": [
+      { "name": "draft.nickname", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.emergencyContacts", "type": "EmergencyContactRow[]", "classification": "user-input", "required": true },
+      { "name": "draft.emergencyContacts[].name", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.emergencyContacts[].relation", "type": "string", "classification": "lookup", "required": true },
+      { "name": "draft.emergencyContacts[].phones", "type": "string[]", "classification": "user-input", "required": true },
+      { "name": "draft.addressStructured.houseNo", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.addressStructured.village", "type": "string", "classification": "user-input", "required": false },
+      { "name": "draft.addressStructured.soi", "type": "string", "classification": "user-input", "required": false },
+      { "name": "draft.addressStructured.road", "type": "string", "classification": "user-input", "required": false },
+      { "name": "draft.addressStructured.subdistrict", "type": "string", "classification": "lookup", "required": true },
+      { "name": "draft.addressStructured.district", "type": "string", "classification": "lookup", "required": true },
+      { "name": "draft.addressStructured.province", "type": "string", "classification": "lookup", "required": true },
+      { "name": "draft.addressStructured.postalCode", "type": "string", "classification": "derived", "required": true },
+      { "name": "draft.phones", "type": "Phone[]", "classification": "user-input", "required": true },
+      { "name": "draft.phones[].value", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.phones[].primary", "type": "boolean", "classification": "user-input", "required": true },
+      { "name": "draft.emails", "type": "Email[]", "classification": "user-input", "required": true },
+      { "name": "draft.emails[].value", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.emails[].primary", "type": "boolean", "classification": "user-input", "required": true },
+      { "name": "draft.bank.bankCode", "type": "string", "classification": "lookup", "required": true },
+      { "name": "draft.bank.accountNo", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.bank.holderName", "type": "string", "classification": "user-input", "required": true },
+      { "name": "draft.bank.bookAttachment", "type": "FileAttachment | null", "classification": "user-input", "required": false },
+      { "name": "pendingChanges[].sectionKey", "type": "'emergencyContact'|'address'|'contact'|'bank'|'personal' | undefined", "classification": "system-generated", "required": false },
+      { "name": "_persist.version", "type": "2", "classification": "system-generated", "required": true }
+    ]
+  },
+  "evaluationPrinciples": [
+    { "name": "surgical", "description": "Rule C1 — edit humi-profile-slice + /profile/me in place; no parallel store/modal", "weight": 1 },
+    { "name": "simplicity", "description": "Rule C3 — one migrate(); no abstraction over existing store", "weight": 1 },
+    { "name": "single-source-of-truth", "description": "Rule C7 — reuse submitChangeRequest/PendingChange/FileUploadField; new types only for row-shape DTOs", "weight": 2 },
+    { "name": "source-grounded", "description": "Rule C8 — every field + label traces to issue body, BRD SH6-SH8, or existing humi-profile-slice shape", "weight": 1 },
+    { "name": "thai-primary", "description": "Rule C10 — no SF-style bilingual labels in new code", "weight": 1 }
+  ],
+  "exitConditions": [
+    { "name": "issue_closed", "description": "GH issue #53 closed with Phase 5b PASS comment referencing v2 spec", "criteria": "gh issue closed with AC evidence table" },
+    { "name": "all_ac_pass", "description": "All 10 ACs green through G3 gate", "criteria": "gate-g3.ts exit 0" },
+    { "name": "migration_clean", "description": "v1→v2 migrate() tested via pre-seeded localStorage; no hydration throw", "criteria": "AC-8 vitest passes" },
+    { "name": "no_regression", "description": "Existing humi profile tests baseline maintained; #12's 21-field form still works", "criteria": "AC-5 + AC-10 pre/post diff shows no net regression" },
+    { "name": "c10_clean", "description": "No new bilingual labels; grep gate on touched files clean", "criteria": "pre-commit grep exit 0" }
+  ],
+  "scope": {
+    "inScope": [
+      "Extend humi-profile-slice ProfileDraft with 5 section shapes (emergencyContacts / addressStructured / phones / emails / bank)",
+      "Bump persist version: 2 + migrate() from v1 flat address",
+      "Extend PendingChange with optional sectionKey (or field-encoding — builder choice)",
+      "Create 4 profile/* components: EmergencyContactList / Address8Editor / BankDetailsEditor / ContactArrayEditor",
+      "Edit /profile/me/page.tsx to render 3 new section blocks + refactor Contact Info to arrays",
+      "Wire each section save into existing submitChangeRequest() with sectionKey",
+      "Append ess.* i18n keys to th.json + en.json",
+      "Vitest tests: migration smoke + 5 AC tests (AC-1/2/3/4/6) + AC-8 migration test"
+    ],
+    "outOfScope": [
+      "Approver UI and approval decision flow — sibling #54",
+      "Global refactor of other humi-profile-slice consumers — surgical to /profile/me only",
+      "Replace FileUploadField globally with AttachmentDropzone — separate consolidation",
+      "Live province-district-subdistrict cascade via real picklist pipeline — static list for v2",
+      "Prisma migration / real backend persistence — FE mock via humi-profile-slice",
+      "Bulk edit / HR admin override — not ESS",
+      "Profile photo / legal name change — separate BRD"
+    ]
+  },
+  "systemInvariants": [
+    "All ESS personal-data edits route through existing submitChangeRequest() — forbidden to add a parallel submit wrapper (C7 SSoT)",
+    "humi-profile-slice remains the SINGLE source of profile draft + pendingChanges + attachments state; no parallel store may be introduced (C7 non-negotiable in v2)",
+    "Zustand persist name stays 'humi-profile-v1'; migration is controlled by version: N field, not by renaming the storage key (avoids orphaning user data)",
+    "A PendingChange is immutable once created except for status + approvedAt transitions (existing adminApprove/adminReject semantics preserved)",
+    "One primary per ContactArrayEditor array (Phone[] or Email[]) at all times; remove-last-primary action must be blocked in UI (not just logged)",
+    "Migration v1→v2 MUST preserve existing v1 data (nickname/phone/personalEmail flat values move into matching v2 slots; flat address moves to addressStructured.houseNo best-effort) — no user data loss on hydration",
+    "Every user-facing string in new components is Thai-primary (C10); bilingual duplicates fail pre-commit grep gate"
+  ],
+  "metadata": {
+    "seedId": "seed_1777049778117_53_v2",
+    "version": "2.0.0",
+    "createdAt": "2026-04-25T00:30:00Z",
+    "refinedBy": "jarvis-mkXLII-inline-postGrep",
+    "ambiguityScore": 0.05,
+    "parentSeedId": "seed_1777049778117_53",
+    "supersedes": "specs/ess-personal-data-edit.seed.json",
+    "sourceIssue": "aeiouboy/hr#53",
+    "labels": ["ec-ui", "autopilot:pending", "v2-post-rollback"]
+  }
+}

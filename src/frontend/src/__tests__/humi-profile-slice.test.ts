@@ -47,8 +47,8 @@ function resetStore() {
   useHumiProfileStore.setState({
     activeTab: 'personal',
     isEditing: false,
-    draft: { nickname: 'จงรักษ์', phone: '+66 (02) 555-0188', personalEmail: 'test@test.com', address: 'test' },
-    saved: { nickname: 'จงรักษ์', phone: '+66 (02) 555-0188', personalEmail: 'test@test.com', address: 'test' },
+    draft: { nickname: 'จงรักษ์', phone: '+66 (02) 555-0188', personalEmail: 'test@test.com', address: 'test', emergencyContacts: [], addressStructured: { houseNo: '', village: '', soi: '', road: '', subdistrict: '', district: '', province: '', postalCode: '' }, phonesArr: [{ value: '+66 (02) 555-0188', primary: true }], emailsArr: [{ value: 'test@test.com', primary: true }], bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null } },
+    saved: { nickname: 'จงรักษ์', phone: '+66 (02) 555-0188', personalEmail: 'test@test.com', address: 'test', emergencyContacts: [], addressStructured: { houseNo: '', village: '', soi: '', road: '', subdistrict: '', district: '', province: '', postalCode: '' }, phonesArr: [{ value: '+66 (02) 555-0188', primary: true }], emailsArr: [{ value: 'test@test.com', primary: true }], bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null } },
     attachments: [],
     pendingChanges: [],
     adminMode: false,

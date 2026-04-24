@@ -3716,5 +3716,53 @@
     "requestedAt": "ส่งคำขอเมื่อ",
     "attachments": "เอกสารแนบ",
     "preview": "ดูเอกสาร"
+  },
+  "ess": {
+    "sections": {
+      "emergencyContact": "ผู้ติดต่อฉุกเฉิน",
+      "address": "ที่อยู่",
+      "contact": "ข้อมูลติดต่อ",
+      "bank": "บัญชีธนาคาร",
+      "personal": "ข้อมูลส่วนตัว"
+    },
+    "changeRequest": {
+      "submit": "ส่งคำขออนุมัติ",
+      "pending": "รอการอนุมัติ",
+      "cancel": "ยกเลิกคำขอ",
+      "effectiveDate": "วันที่มีผล",
+      "note": "หมายเหตุเพิ่มเติม (ถ้ามี)"
+    },
+    "emergencyContact": {
+      "add": "เพิ่มผู้ติดต่อ",
+      "name": "ชื่อ-นามสกุล",
+      "relation": "ความสัมพันธ์"
+    },
+    "address": {
+      "houseNo": "บ้านเลขที่",
+      "village": "หมู่บ้าน",
+      "soi": "ซอย",
+      "road": "ถนน",
+      "subdistrict": "แขวง/ตำบล",
+      "district": "เขต/อำเภอ",
+      "province": "จังหวัด",
+      "postalCode": "รหัสไปรษณีย์"
+    },
+    "bank": {
+      "code": "ธนาคาร",
+      "accountNo": "เลขที่บัญชี",
+      "holder": "ชื่อเจ้าของบัญชี",
+      "book": "สำเนาหน้าสมุดบัญชี"
+    },
+    "contact": {
+      "addPhone": "เพิ่มเบอร์โทร",
+      "addEmail": "เพิ่มอีเมล",
+      "primary": "เบอร์หลัก"
+    },
+    "validation": {
+      "required": "จำเป็นต้องกรอก",
+      "invalidPhone": "เบอร์โทรไม่ถูกต้อง",
+      "invalidEmail": "อีเมลไม่ถูกต้อง",
+      "accountNo": "เลขที่บัญชีต้องเป็นตัวเลข 10-12 หลัก"
+    }
   }
 }

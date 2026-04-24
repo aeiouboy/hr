@@ -3,11 +3,54 @@ import { persist } from 'zustand/middleware';
 
 export type ProfileTab = 'personal' | 'employment' | 'compensation' | 'documents' | 'activity';
 
+// ── v2 nested types ────────────────────────────────────────────────────────────
+
+export interface EmergencyContactRow {
+  id: string;        // stable local id for React keys
+  name: string;
+  relation: string;  // one of ['บิดา','มารดา','คู่สมรส','บุตร','พี่น้อง','อื่นๆ']
+  phones: string[];  // at least one
+}
+
+export interface Address8 {
+  houseNo: string;
+  village: string;
+  soi: string;
+  road: string;
+  subdistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+}
+
+export interface PhoneEntry { value: string; primary: boolean; label?: string }
+export interface EmailEntry { value: string; primary: boolean; label?: string }
+
+export interface BankDetails {
+  bankCode: string;           // '' | 'KBANK' | 'SCB' | 'BBL' | 'KTB' | 'BAY' | 'TTB' | 'CIMB'
+  accountNo: string;          // digits only; UI validates 10-12
+  holderName: string;
+  bookAttachmentId: string | null;  // ref into attachments[] (existing array)
+}
+
+// ── sectionKey discriminator ───────────────────────────────────────────────────
+
+export type SectionKey = 'emergencyContact' | 'address' | 'contact' | 'bank' | 'personal';
+
+// ── ProfileDraft ───────────────────────────────────────────────────────────────
+
 interface ProfileDraft {
+  // legacy (kept for back-compat — existing /profile/me renders from these; clean up later)
   nickname: string;
-  phone: string;
-  personalEmail: string;
-  address: string;
+  phone: string;           // deprecated in favor of phonesArr
+  personalEmail: string;   // deprecated in favor of emailsArr
+  address: string;         // deprecated in favor of addressStructured
+  // v2 additions
+  emergencyContacts: EmergencyContactRow[];
+  addressStructured: Address8;
+  phonesArr: PhoneEntry[];
+  emailsArr: EmailEntry[];
+  bank: BankDetails;
 }
 
 const DRAFT_DEFAULTS: ProfileDraft = {
@@ -15,6 +58,21 @@ const DRAFT_DEFAULTS: ProfileDraft = {
   phone: '+66 (02) 555-0188',
   personalEmail: 'jongrak.tanaka@proton.me',
   address: '241 ถ.สุขุมวิท แขวงคลองตัน กรุงเทพฯ 10110',
+  // v2 defaults
+  emergencyContacts: [],
+  addressStructured: {
+    houseNo: '',
+    village: '',
+    soi: '',
+    road: '',
+    subdistrict: '',
+    district: '',
+    province: '',
+    postalCode: '',
+  },
+  phonesArr: [{ value: '+66 (02) 555-0188', primary: true }],
+  emailsArr: [{ value: 'jongrak.tanaka@proton.me', primary: true }],
+  bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null },
 };
 
 // ════════════════════════════════════════════════════════════
@@ -41,6 +99,7 @@ export interface PendingChange {
   requestedAt: string;         // ISO-8601
   status: 'pending' | 'approved' | 'rejected';
   approvedAt?: string;         // ISO-8601, set on approve/reject
+  sectionKey?: SectionKey;     // NEW v2 — discriminates section-level CRs from single-field CRs
 }
 
 // ════════════════════════════════════════════════════════════
@@ -53,6 +112,7 @@ export interface SubmitChangePayload {
   newValue: string;
   effectiveDate: string;
   attachmentIds: string[];
+  sectionKey?: SectionKey;     // NEW v2 — optional section discriminator
 }
 
 interface ProfileState {
@@ -147,6 +207,7 @@ export const useHumiProfileStore = create<ProfileState>()(
           attachmentIds: payload.attachmentIds,
           requestedAt: new Date().toISOString(),
           status: 'pending',
+          ...(payload.sectionKey !== undefined && { sectionKey: payload.sectionKey }),
         };
         set((s) => ({ pendingChanges: [...s.pendingChanges, change] }));
         return id;
@@ -187,7 +248,37 @@ export const useHumiProfileStore = create<ProfileState>()(
       toggleAdminMode: () => set((s) => ({ adminMode: !s.adminMode })),
     }),
     {
-      name: 'humi-profile-v1',
+      name: 'humi-profile-v1',          // KEEP name — version controls migration
+      version: 2,
+      migrate: (persistedState: any, version: number): ProfileState => {
+        if (!persistedState) return persistedState;
+        if (version < 2) {
+          // v1 → v2: best-effort map flat address -> addressStructured.houseNo
+          const v1Saved = persistedState.saved ?? DRAFT_DEFAULTS;
+          const v1Draft = persistedState.draft ?? DRAFT_DEFAULTS;
+          const upgrade = (d: any): ProfileDraft => ({
+            nickname: d.nickname ?? DRAFT_DEFAULTS.nickname,
+            phone: d.phone ?? DRAFT_DEFAULTS.phone,
+            personalEmail: d.personalEmail ?? DRAFT_DEFAULTS.personalEmail,
+            address: d.address ?? DRAFT_DEFAULTS.address,
+            emergencyContacts: [],
+            addressStructured: {
+              houseNo: typeof d.address === 'string' ? d.address : '',
+              village: '', soi: '', road: '',
+              subdistrict: '', district: '', province: '', postalCode: '',
+            },
+            phonesArr: d.phone ? [{ value: d.phone, primary: true }] : [],
+            emailsArr: d.personalEmail ? [{ value: d.personalEmail, primary: true }] : [],
+            bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null },
+          });
+          return {
+            ...persistedState,
+            saved: upgrade(v1Saved),
+            draft: upgrade(v1Draft),
+          } as ProfileState;
+        }
+        return persistedState as ProfileState;
+      },
       // persist stable fields + new attachment/change state; exclude transient editing
       partialize: (s) => ({
         activeTab: s.activeTab,
