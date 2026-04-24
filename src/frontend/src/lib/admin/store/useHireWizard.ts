@@ -118,7 +118,16 @@ interface FormData {
 
   // Legacy slices — ยังคง interface เดิมเพื่อ backward compat กับ test suite
   name:         { firstNameTh: string; lastNameTh: string; firstNameEn: string; lastNameEn: string }
-  employeeInfo: { employeeClass: string | null }
+  employeeInfo: {
+    employeeClass: string | null
+    // Employment Details (Area C — SF Image 15)
+    originalStartDate: string
+    seniorityStartDate: string
+    retirementDate: string
+    pfServiceDate: string
+    dvtPreviousId: string
+    cgPreviousEmployeeId: string
+  }
   nationalId:   { value: string }
   personal:     { addressLine1: string }
   job: {
@@ -133,6 +142,18 @@ interface FormData {
     jobGradeLabel: string | null
     storeBranchCode: string | null
     hrDistrict: string | null
+    // Time Information (Area C — SF Image 15)
+    workSchedule: string
+    holidayTypeCondition: string
+    timeManagementStatus: string
+    otFlag: string
+    standardWeeklyHours: number
+    dailyWorkingHours: number
+    workingDaysPerWeek: number
+    fte: number
+    holidayCalendar: string
+    timeProfile: string
+    timeRecordingVariant: string
   }
   compensation: { baseSalary: number | null }
 }
@@ -189,7 +210,16 @@ const initialFormData: FormData = {
   },
   // Legacy slices
   name:         { firstNameTh: '', lastNameTh: '', firstNameEn: '', lastNameEn: '' },
-  employeeInfo: { employeeClass: null },
+  employeeInfo: {
+    employeeClass: null,
+    // Employment Details (Area C — SF Image 15)
+    originalStartDate: '',
+    seniorityStartDate: '',
+    retirementDate: '',
+    pfServiceDate: '',
+    dvtPreviousId: '',
+    cgPreviousEmployeeId: '',
+  },
   nationalId:   { value: '' },
   personal:     { addressLine1: '' },
   job: {
@@ -204,6 +234,18 @@ const initialFormData: FormData = {
     jobGradeLabel: null,
     storeBranchCode: null,
     hrDistrict: null,
+    // Time Information (Area C — SF Image 15)
+    workSchedule: '',
+    holidayTypeCondition: '',
+    timeManagementStatus: '',
+    otFlag: '',
+    standardWeeklyHours: 40,
+    dailyWorkingHours: 8,
+    workingDaysPerWeek: 5,
+    fte: 1,
+    holidayCalendar: '',
+    timeProfile: '',
+    timeRecordingVariant: '',
   },
   compensation: { baseSalary: null },
 }
