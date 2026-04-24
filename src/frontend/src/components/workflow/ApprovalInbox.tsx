@@ -6,7 +6,7 @@
 // advances the state machine to the next step automatically.
 
 import { useMemo, useState } from 'react';
-import { ArrowRight, Check, X, Clock, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Check, X, Clock, CheckCircle2, Paperclip, Download } from 'lucide-react';
 import {
   useWorkflowApprovals,
   STEP_LABEL,
@@ -14,6 +14,7 @@ import {
   type ApprovalRequest,
 } from '@/stores/workflow-approvals';
 import { useAuthStore } from '@/stores/auth-store';
+import { Button } from '@/components/humi';
 import type { Role } from '@/lib/rbac';
 
 interface ApprovalInboxProps {
@@ -204,25 +205,75 @@ function RequestCard({
         </div>
       </div>
 
+      {/* Attachments — required for name-change per SF policy */}
+      {req.attachments && req.attachments.length > 0 && (
+        <div
+          style={{
+            marginTop: 12,
+            borderTop: '1px solid var(--color-hairline-soft)',
+            paddingTop: 12,
+          }}
+        >
+          <div className="humi-eyebrow" style={{ marginBottom: 8 }}>
+            <Paperclip size={11} className="inline mr-1" aria-hidden />
+            เอกสารแนบ ({req.attachments.length})
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {req.attachments.map((a, i) => (
+              <div
+                key={`${a.filename}-${i}`}
+                className="humi-row"
+                style={{
+                  gap: 10,
+                  fontSize: 13,
+                  padding: '8px 12px',
+                  background: 'var(--color-canvas-soft)',
+                  borderRadius: 8,
+                  border: '1px solid var(--color-hairline)',
+                }}
+              >
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <span className="block text-small font-medium text-ink truncate" title={a.filename}>
+                    {a.filename}
+                  </span>
+                  <span className="block text-small text-ink-muted">
+                    {(a.size / 1024).toFixed(0)} KB · {a.mimeType}
+                  </span>
+                </span>
+                <a
+                  href={a.dataUrl}
+                  download={a.filename}
+                  className="humi-row inline-flex items-center gap-1 text-small font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+                  style={{ padding: '4px 8px' }}
+                >
+                  <Download size={12} aria-hidden />
+                  ดาวน์โหลด
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Actions */}
       {mode === 'none' ? (
         <div className="humi-row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 16 }}>
-          <button
-            type="button"
-            className="humi-btn-secondary"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => { setMode('reject'); setComment(''); }}
           >
-            <X size={14} aria-hidden style={{ display: 'inline', marginRight: 4 }} />
+            <X size={14} aria-hidden />
             ปฏิเสธ
-          </button>
-          <button
-            type="button"
-            className="humi-btn-primary"
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
             onClick={() => { setMode('approve'); setComment(''); }}
           >
-            <Check size={14} aria-hidden style={{ display: 'inline', marginRight: 4 }} />
+            <Check size={14} aria-hidden />
             อนุมัติ
-          </button>
+          </Button>
         </div>
       ) : (
         <div style={{ marginTop: 14, borderTop: '1px solid var(--color-hairline-soft)', paddingTop: 14 }}>
@@ -245,26 +296,21 @@ function RequestCard({
             autoFocus
           />
           <div className="humi-row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
-            <button
-              type="button"
-              className="humi-btn-secondary"
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => { setMode('none'); setComment(''); }}
             >
               ยกเลิก
-            </button>
-            <button
-              type="button"
-              className={mode === 'approve' ? 'humi-btn-primary' : 'humi-btn-secondary'}
-              style={
-                mode === 'reject'
-                  ? { background: 'var(--color-danger)', color: 'white' }
-                  : undefined
-              }
+            </Button>
+            <Button
+              variant={mode === 'approve' ? 'primary' : 'danger'}
+              size="sm"
               onClick={submit}
               disabled={mode === 'reject' && !comment.trim()}
             >
               ยืนยัน{mode === 'approve' ? 'อนุมัติ' : 'ปฏิเสธ'}
-            </button>
+            </Button>
           </div>
         </div>
       )}

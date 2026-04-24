@@ -16,70 +16,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ArrowRight, Check } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
-import type { Role } from '@/lib/rbac';
-
-type DemoUser = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  roles: Role[];
-};
-
-const DEMO_USERS: Record<string, DemoUser> = {
-  'admin@humi.test': {
-    id: 'ADM001',
-    name: 'ผู้ดูแลระบบ HR',
-    email: 'admin@humi.test',
-    password: 'admin2026',
-    roles: ['hr_admin', 'hr_manager', 'spd', 'hrbp', 'manager', 'employee'],
-  },
-  'spd@humi.test': {
-    id: 'SPD001',
-    name: 'ดารณี ล. (SPD)',
-    email: 'spd@humi.test',
-    password: 'spd2026',
-    roles: ['spd', 'employee'],
-  },
-  'hrbp@humi.test': {
-    id: 'HRB001',
-    name: 'วิทยา ส. (HRBP)',
-    email: 'hrbp@humi.test',
-    password: 'hrbp2026',
-    roles: ['hrbp', 'employee'],
-  },
-  'manager@humi.test': {
-    id: 'MGR001',
-    name: 'พิชญ์ ม. (หัวหน้าทีม)',
-    email: 'manager@humi.test',
-    password: 'manager2026',
-    roles: ['manager', 'employee'],
-  },
-  'employee@humi.test': {
-    id: 'EMP001',
-    name: 'สมชาย ใจดี',
-    email: 'employee@humi.test',
-    password: 'employee2026',
-    roles: ['employee'],
-  },
-};
-
-// Role-priority landing table — first role (highest priority) wins.
-const ROLE_LANDING: Array<[Role, string]> = [
-  ['hr_admin', '/admin'],
-  ['hr_manager', '/admin'],
-  ['spd', '/spd/inbox'],
-  ['hrbp', '/hrbp/inbox'],
-  ['manager', '/manager/inbox'],
-  ['employee', '/home'],
-];
-
-function landingForRoles(roles: Role[], locale: string): string {
-  for (const [role, path] of ROLE_LANDING) {
-    if (roles.includes(role)) return `/${locale}${path}`;
-  }
-  return `/${locale}/home`;
-}
+import { DEMO_USERS, landingForRoles } from '@/lib/demo-users';
 
 export default function HumiLoginPage() {
   const t = useTranslations('humiLogin');

@@ -12,8 +12,6 @@ import { useWorkflowApprovals, STEP_LABEL, type ApprovalStep } from '@/stores/wo
 import { useAuthStore } from '@/stores/auth-store';
 
 const STATUS_STYLE: Record<ApprovalStep, string> = {
-  pending_manager: 'bg-amber-50 text-amber-700 border border-amber-200',
-  pending_hrbp: 'bg-amber-50 text-amber-700 border border-amber-200',
   pending_spd: 'bg-amber-50 text-amber-700 border border-amber-200',
   approved: 'bg-green-50 text-green-700 border border-green-200',
   rejected: 'bg-red-50 text-red-700 border border-red-200',

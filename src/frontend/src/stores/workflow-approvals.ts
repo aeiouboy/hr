@@ -2,17 +2,18 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { Role } from '@/lib/rbac';
 
-// workflow-approvals — shared Zustand store for the 5-persona approval journey.
-// One request moves through: submitter → manager → hrbp → spd → done.
-// `currentApprover` is the persona who must act next; `audit` records every
-// approve/reject touch so the full chain can render in the detail view.
+// workflow-approvals — shared Zustand store for personal-info change requests.
+//
+// Per BRD #166 + code comment at ess/profile/edit/page.tsx ("รอ SPD อนุมัติ"),
+// the canonical chain for a personal-info change is ONE step:
+//   Employee submit → pending_spd → approved | rejected
+//
+// Earlier drafts routed requests through manager → hrbp → spd. That was an
+// enterprise-style assumption, not grounded in Humi's BRD. Leave / lifecycle
+// workflows (Manager approves leave, HRBP manages lifecycle) are separate
+// queues handled by different stores — not this one.
 
-export type ApprovalStep =
-  | 'pending_manager'
-  | 'pending_hrbp'
-  | 'pending_spd'
-  | 'approved'
-  | 'rejected';
+export type ApprovalStep = 'pending_spd' | 'approved' | 'rejected';
 
 export type FieldDiff = {
   /** Dotted path, e.g. 'contact.phone' / 'names.lastNameLocal' */
@@ -21,6 +22,14 @@ export type FieldDiff = {
   label: string;
   before: string;
   after: string;
+};
+
+export type Attachment = {
+  filename: string;
+  mimeType: string;
+  size: number;
+  /** Data URL (base64). Persisted in localStorage — keep files under 5 MB. */
+  dataUrl: string;
 };
 
 export type AuditEntry = {
@@ -40,28 +49,27 @@ export type ApprovalRequest = {
   submittedAt: string;
   currentStep: ApprovalStep;
   diffs: FieldDiff[];
+  /** Required for name changes (marriage cert / deed poll / nationality cert). */
+  attachments?: Attachment[];
   audit: AuditEntry[];
 };
 
 interface WorkflowState {
   requests: ApprovalRequest[];
-  addRequest: (r: Omit<ApprovalRequest, 'id' | 'submittedAt' | 'currentStep' | 'audit'>) => string;
+  addRequest: (
+    r: Omit<ApprovalRequest, 'id' | 'submittedAt' | 'currentStep' | 'audit'>,
+  ) => string;
   approve: (id: string, by: { role: Role; name: string }, comment?: string) => void;
   reject: (id: string, by: { role: Role; name: string }, reason: string) => void;
   /** Dev/demo reset — wipes the list */
   clear: () => void;
 }
 
-const STEP_ORDER: ApprovalStep[] = [
-  'pending_manager',
-  'pending_hrbp',
-  'pending_spd',
-  'approved',
-];
-
-function nextStep(current: ApprovalStep): ApprovalStep {
-  const idx = STEP_ORDER.indexOf(current);
-  return idx >= 0 && idx < STEP_ORDER.length - 1 ? STEP_ORDER[idx + 1] : 'approved';
+// 1-step chain — SPD is the sole approver. `approve()` jumps straight to
+// 'approved' regardless of who clicks. Kept as a function for future
+// multi-step workflows without reshaping the call sites.
+function nextStep(_current: ApprovalStep): ApprovalStep {
+  return 'approved';
 }
 
 function generateId(): string {
@@ -81,7 +89,7 @@ export const useWorkflowApprovals = create<WorkflowState>()(
           ...payload,
           id,
           submittedAt: now,
-          currentStep: 'pending_manager',
+          currentStep: 'pending_spd',
           audit: [
             {
               actorRole: payload.submittedBy.role,
@@ -91,6 +99,8 @@ export const useWorkflowApprovals = create<WorkflowState>()(
             },
           ],
         };
+        // New requests go straight to SPD (the sole approver per BRD #166)
+        req.currentStep = 'pending_spd';
         set((state) => ({ requests: [req, ...state.requests] }));
         return id;
       },
@@ -146,9 +156,7 @@ export const useWorkflowApprovals = create<WorkflowState>()(
 );
 
 export const STEP_LABEL: Record<ApprovalStep, string> = {
-  pending_manager: 'รอหัวหน้า',
-  pending_hrbp: 'รอ HRBP',
-  pending_spd: 'รอ SPD',
+  pending_spd: 'รอ SPD อนุมัติ',
   approved: 'อนุมัติแล้ว',
   rejected: 'ถูกปฏิเสธ',
 };

@@ -26,6 +26,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useUIStore } from '@/stores/ui-store';
 import { cn } from '@/lib/utils';
 import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
+import { PersonaSwitcher } from '@/components/humi/shell/PersonaSwitcher';
 
 export interface TopbarProps {
   /** h2 page title — typically derived from route */
@@ -169,6 +170,7 @@ export function Topbar({
         <Bell size={18} aria-hidden="true" />
         <span className="humi-dot-badge" aria-hidden="true" />
       </button>
+      <PersonaSwitcher />
       {actions}
     </div>
   );

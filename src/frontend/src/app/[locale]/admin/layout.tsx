@@ -1,8 +1,9 @@
 'use client';
 
 // admin/layout.tsx — role guard for /{locale}/admin/**
-// Client-side check: requires 'hr_admin' role in Zustand auth-store.
-// Non-admin → redirect to /{locale}/login.
+//   - Not signed in   → redirect to /login
+//   - Signed in, not admin → redirect to /home (don't force a re-login just
+//     because the persona switcher swapped roles; that looks like a logout)
 // Server-side enforcement is the Keycloak/NextAuth layer in src/lib/auth.ts
 // once /api/auth/[...nextauth] is activated.
 
@@ -18,8 +19,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const isAdmin = roles.includes('hr_admin');
 
   useEffect(() => {
-    if (!isAuthenticated || !isAdmin) {
+    if (!isAuthenticated) {
       router.replace(`/${locale}/login`);
+    } else if (!isAdmin) {
+      router.replace(`/${locale}/home`);
     }
   }, [isAuthenticated, isAdmin, locale, router]);
 

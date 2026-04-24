@@ -1,14 +1,40 @@
 {
   "id": "E001",
-  "firstNameTh": "ชงรัก",
-  "lastNameTh": "ธนะ",
+  "firstNameTh": "จงรักษ์",
+  "lastNameTh": "ทานากะ",
+  "middleNameTh": "",
   "firstNameEn": "Chongrak",
-  "lastNameEn": "Thana",
+  "lastNameEn": "Tanaka",
+  "middleNameEn": "",
+  "salutationEn": "Mr.",
+  "salutationLocal": "นาย",
+  "otherTitleTh": "",
+  "nickname": "",
   "dateOfBirth": "1989-01-01",
   "nationalId": "1999920198782",
-  "address": "555/24 สมุทรปราการ",
+  "gender": "Male",
+  "maritalStatus": "Single",
+  "maritalStatusSince": "",
+  "nationality": "Thailand",
+  "militaryStatus": "Completed",
+  "bloodType": "O",
+  "religion": "Buddhism",
+  "country": "Thailand",
+  "disabilityStatus": "",
+  "address": "555/24 ซอยสุขุมวิท 23 แขวงคลองเตย เขตคลองเตย กรุงเทพฯ 10110",
+  "addressDetail": {
+    "houseNo": "555/24",
+    "moo": "",
+    "soi": "สุขุมวิท 23",
+    "road": "สุขุมวิท",
+    "subdistrict": "คลองเตย",
+    "district": "คลองเตย",
+    "province": "กรุงเทพมหานคร",
+    "postalCode": "10110"
+  },
   "emergencyContact": {
     "name": "ชัยชนะ เทพย์ตุ้มเขา",
     "phone": "0865254197"
   }
 }
+

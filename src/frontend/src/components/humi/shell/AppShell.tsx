@@ -23,6 +23,7 @@ import { CommandPalette } from './CommandPalette';
 import { AdminShell } from '@/components/admin/shell/AdminShell';
 import { useUIStore } from '@/stores/ui-store';
 import { useAuthStore } from '@/stores/auth-store';
+import { ensureDemoSeed } from '@/lib/demo-seed';
 
 /** href prefix → page title shown in topbar h2.
  *  Keep 1:1 with Sidebar.tsx NAV items — every sidebar destination MUST have a
@@ -99,6 +100,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       router.replace(`/${locale}/login`);
     }
   }, [isLoginPage, isAuthenticated, locale, router]);
+
+  // Demo seeding — idempotent. Populates SPD inbox with 2 pending + 1
+  // approved request on first mount so personas land on populated data.
+  useEffect(() => {
+    ensureDemoSeed();
+  }, []);
 
   // Auto-close drawer on route change
   useEffect(() => {
