@@ -4,6 +4,7 @@
 // IC/API endpoints table + Teams Viva config form — BRD #192, #194 — Part E Wave 2a
 
 import { useState } from 'react'
+import { Check, AlertTriangle } from 'lucide-react'
 import { useDataManagement } from '@/lib/admin/store/useDataManagement'
 
 type Tab = 'endpoints' | 'teams-viva'
@@ -134,7 +135,7 @@ export default function IntegrationPage() {
           {/* Q10 banner — awaiting BA spec */}
           {teamsVivaConfig.baSpecPending && (
             <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-2">
-              <span className="text-amber-500 flex-shrink-0" aria-hidden>⚠</span>
+              <AlertTriangle size={14} className="text-warning shrink-0" aria-hidden />
               <p className="text-sm text-amber-800">
                 <span className="font-semibold">Q10 — รอ BA Spec:</span>{' '}
                 การเชื่อมต่อ Microsoft Teams Viva รอการระบุ requirements จาก BA ก่อนเปิดใช้งาน (BRD #194)
@@ -202,7 +203,7 @@ export default function IntegrationPage() {
               disabled={teamsVivaConfig.baSpecPending}
               className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {savedViva ? '✓ บันทึกแล้ว' : 'บันทึกการตั้งค่า'}
+              {savedViva ? <span className="inline-flex items-center gap-1.5"><Check size={16}/>บันทึกแล้ว</span> : 'บันทึกการตั้งค่า'}
             </button>
           </div>
         </div>

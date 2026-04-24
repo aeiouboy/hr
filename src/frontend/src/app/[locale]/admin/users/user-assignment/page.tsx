@@ -4,6 +4,7 @@
 // AC-5: UserTypeahead + multi-role chips + multi-permission chips
 // Actor: HRIS Admin (Rule 70)
 import { useState, useMemo, useEffect } from 'react'
+import { Check } from 'lucide-react'
 import { useUsersPermissions } from '@/lib/admin/store/useUsersPermissions'
 import type { UserAssignment } from '@/lib/admin/types/usersPermissions'
 
@@ -130,7 +131,7 @@ function ChipSelector({
               ].join(' ')}
             >
               {opt.name}
-              {isSelected && <span className="ml-1">✓</span>}
+              {isSelected && <Check size={14} className="ml-1" />}
             </button>
           )
         })}
@@ -276,7 +277,7 @@ export default function UserAssignmentPage() {
                       ].join(' ')}
                     >
                       {dp.label}
-                      {selectedDpId === dp.id && <span className="ml-1">✓</span>}
+                      {selectedDpId === dp.id && <Check size={14} className="ml-1" />}
                     </button>
                   ))}
                 </div>

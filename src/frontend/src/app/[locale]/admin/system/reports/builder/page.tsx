@@ -5,6 +5,7 @@
 // BRD #193, #196 — Part E Wave 2a
 
 import { useState } from 'react'
+import { Check } from 'lucide-react'
 import { useDataManagement } from '@/lib/admin/store/useDataManagement'
 
 const ALL_COLUMNS = [
@@ -275,7 +276,7 @@ export default function ReportBuilderPage() {
             disabled={!reportName.trim()}
             className="w-full rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {saved ? '✓ บันทึกแล้ว' : 'บันทึกรายงาน'}
+            {saved ? <span className="inline-flex items-center gap-1.5"><Check size={16}/>บันทึกแล้ว</span> : 'บันทึกรายงาน'}
           </button>
         </div>
       </div>

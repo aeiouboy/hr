@@ -4,6 +4,7 @@
 // BRD #206 — Part E Wave 2a
 
 import { useState } from 'react'
+import { Star } from 'lucide-react'
 import { useDataManagement } from '@/lib/admin/store/useDataManagement'
 
 export default function FavouriteReportsPage() {
@@ -79,7 +80,7 @@ export default function FavouriteReportsPage() {
                       aria-label="ลบออกจากโปรด"
                       className="text-amber-400 hover:text-amber-600 text-lg leading-none transition-colors"
                     >
-                      ★
+                      <Star size={16} fill="currentColor" />
                     </button>
                   </li>
                 )
@@ -109,7 +110,7 @@ export default function FavouriteReportsPage() {
                   aria-label="เพิ่มเป็นโปรด"
                   className="text-gray-300 hover:text-amber-400 text-lg leading-none transition-colors"
                 >
-                  ☆
+                  <Star size={16} fill="none" />
                 </button>
               </li>
             ))}

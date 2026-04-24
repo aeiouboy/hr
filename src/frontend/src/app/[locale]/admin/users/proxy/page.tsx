@@ -4,6 +4,7 @@
 // AC-6: DateRangePicker (native input) + delegatee excludes delegator + audit write-through
 // Actor: Admin (exclusive role — Rule 70)
 import { useState } from 'react'
+import { X } from 'lucide-react'
 import { useUsersPermissions } from '@/lib/admin/store/useUsersPermissions'
 import type { Proxy, ProxyStatus } from '@/lib/admin/types/usersPermissions'
 
@@ -94,7 +95,7 @@ function ProxyModal({
             className="text-gray-400 hover:text-gray-700 p-1 rounded"
             aria-label="ปิด dialog"
           >
-            ✕
+            <X size={14} />
           </button>
         </div>
 

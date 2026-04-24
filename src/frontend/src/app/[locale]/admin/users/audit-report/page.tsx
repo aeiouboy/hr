@@ -4,6 +4,7 @@
 // AC-8: filter bar + DataTable + CSV export (UTF-8 BOM + Thai headers)
 // Actor: Admin / HRIS Admin (Rule 70)
 import { useState, useMemo } from 'react'
+import { Check, X } from 'lucide-react'
 import { useUsersPermissions } from '@/lib/admin/store/useUsersPermissions'
 import { exportToCSV } from '@/lib/admin/utils/csvExport'
 import type { AuditEntry, AuditAction, AuditEntityType } from '@/lib/admin/types/usersPermissions'
@@ -286,15 +287,7 @@ export default function AuditReportPage() {
                     <p className="text-xs text-gray-500 max-w-xs truncate">{entry.description}</p>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <span
-                      className={[
-                        'text-xs',
-                        entry.isSuccess ? 'text-green-600' : 'text-red-500',
-                      ].join(' ')}
-                      title={entry.isSuccess ? 'สำเร็จ' : (entry.errorMessage ?? 'ล้มเหลว')}
-                    >
-                      {entry.isSuccess ? '✓' : '✗'}
-                    </span>
+                    {entry.isSuccess ? <Check size={14} className="text-success" /> : <X size={14} className="text-danger" />}
                   </td>
                 </tr>
               ))}
