@@ -1,12 +1,13 @@
 'use client'
 
-// ClusterWho.tsx — Cluster 1 of 3
-// D2 S1: StepIdentity ครอบคลุม BA rows 1-19 + Personal Info row 1 = 19 input fields.
-// (BA row 12 employeeId is system-generated per BRD #102:2267 — not an input.)
-// 12 mandatory, 7 optional per BA-EC-SUMMARY.md
+// ClusterWho.tsx — Cluster 1 of 3 (Identity + Biographical = "ข้อมูลส่วนบุคคล")
+// Matches WIZARD_STEPS Step 1 promise: "ระบุตัวตน • ชื่อ • บัตรประชาชน • ประวัติ"
+// StepIdentity      = BA Identity rows 1-19 (รหัสพนักงานระบบกำหนด)
+// StepBiographical  = BA Personal Info rows 2-17 (12 mandatory)
 import StepIdentity from '../steps/StepIdentity'
+import StepBiographical from '../steps/StepBiographical'
 import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
-import { Fingerprint } from 'lucide-react'
+import { Fingerprint, User2 } from 'lucide-react'
 
 export default function ClusterWho() {
   return (
@@ -14,12 +15,24 @@ export default function ClusterWho() {
       <div className="humi-card">
         <SectionHeader
           icon={Fingerprint}
-          eyebrow="Identity"
+          eyebrow="ระบุตัวตน"
           title="ข้อมูลระบุตัวตน"
-          sub="วันที่เริ่มงาน บริษัท ชื่อ DOB บัตรประชาชน — 19 fields (รหัสพนักงานระบบกำหนด)"
+          sub="วันที่เริ่มงาน บริษัท ชื่อ วันเกิด บัตรประชาชน"
         />
         <div className="humi-step-section">
           <StepIdentity />
+        </div>
+      </div>
+
+      <div className="humi-card">
+        <SectionHeader
+          icon={User2}
+          eyebrow="ประวัติส่วนตัว"
+          title="ข้อมูลส่วนตัว"
+          sub="ชื่อท้องถิ่น ชื่อเล่น เพศ สัญชาติ กรุ๊ปเลือด สถานภาพสมรส"
+        />
+        <div className="humi-step-section">
+          <StepBiographical />
         </div>
       </div>
 
