@@ -8,7 +8,7 @@
 // Scale note: 50 seed units — POC fine.
 // TODO: ถ้า > 500 nodes ใช้ react-arborist หรือ @tanstack/virtual แทน recursive render
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Plus, ChevronRight, ChevronDown, Building2, X, Search } from 'lucide-react'
 import { useOrgUnits, type OrgUnit } from '@/lib/admin/store/useOrgUnits'
 
@@ -399,6 +399,9 @@ export default function OrganizationPage() {
   const [mode, setMode] = useState<'create' | 'edit'>('create')
   const [query, setQuery] = useState('')
 
+  // Dirty-close guard — snapshot captured at drawer open for comparison
+  const initialEditingRef = useRef<Partial<OrgUnit> | null>(null)
+
   // Search: collect all matching ids
   const matchIds = useMemo<Set<string> | null>(() => {
     const q = query.trim()
@@ -434,33 +437,60 @@ export default function OrganizationPage() {
   }, [])
 
   const openCreate = useCallback(() => {
-    setEditing(createEmptyUnit())
+    const empty = createEmptyUnit()
+    setEditing(empty)
+    initialEditingRef.current = empty
     setMode('create')
     setSelected(null)
   }, [])
 
   const openEdit = useCallback((node: OrgUnit) => {
-    setEditing({ ...node })
+    const snap = { ...node }
+    setEditing(snap)
+    initialEditingRef.current = snap
     setMode('edit')
     setSelected(node.id)
   }, [])
 
-  const close = useCallback(() => {
+  // doClose — bypass dirty check. Used by Save (after persist).
+  const doClose = useCallback(() => {
     setEditing(null)
     setSelected(null)
+    initialEditingRef.current = null
   }, [])
+
+  // requestClose — check unsaved changes before dismiss (scrim / X / Cancel / Escape)
+  const requestClose = useCallback(() => {
+    const initial = initialEditingRef.current
+    const dirty = editing && initial && JSON.stringify(editing) !== JSON.stringify(initial)
+    if (dirty && !window.confirm('คุณมีการแก้ไขที่ยังไม่ได้บันทึก — ต้องการปิดหรือไม่?\n(กดยกเลิกเพื่อกลับไปแก้ต่อ)')) {
+      return
+    }
+    doClose()
+  }, [editing, doClose])
+
+  // Escape key closes drawer (with dirty guard) when open
+  useEffect(() => {
+    if (!editing) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') requestClose()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [editing, requestClose])
 
   const save = useCallback(() => {
     if (!editing) return
     upsert(editing as OrgUnit)
-    close()
-  }, [editing, upsert, close])
+    doClose()
+  }, [editing, upsert, doClose])
 
   const handleDelete = useCallback(() => {
     if (!editing?.id) return
+    if (!window.confirm('ยืนยันการลบหน่วยงาน? — การลบไม่สามารถยกเลิกได้')) return
     remove(editing.id)
-    close()
-  }, [editing, remove, close])
+    doClose()
+  }, [editing, remove, doClose])
 
   // Root nodes — parentId === null
   const roots = useMemo(() => getChildren(null), [getChildren, all])
@@ -560,7 +590,7 @@ export default function OrganizationPage() {
           <div
             className="fixed inset-0 z-30 humi-drawer-scrim"
             aria-hidden="true"
-            onClick={close}
+            onClick={requestClose}
           />
           <div
             role="dialog"
@@ -585,7 +615,7 @@ export default function OrganizationPage() {
                 type="button"
                 className="humi-icon-btn"
                 aria-label="ปิด"
-                onClick={close}
+                onClick={requestClose}
               >
                 <X size={18} aria-hidden />
               </button>
@@ -629,7 +659,7 @@ export default function OrganizationPage() {
                   ลบ
                 </button>
               )}
-              <button type="button" className="humi-btn" onClick={close}>
+              <button type="button" className="humi-btn" onClick={requestClose}>
                 ยกเลิก
               </button>
               <button
