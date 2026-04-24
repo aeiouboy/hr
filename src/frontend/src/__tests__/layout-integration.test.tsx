@@ -19,7 +19,9 @@ const mockPathname = vi.fn().mockReturnValue('/th/home');
 
 vi.mock('next/navigation', () => ({
   usePathname: () => mockPathname(),
-  useRouter: () => ({ push: mockPush }),
+  useRouter: () => ({ push: mockPush, replace: mockPush, back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+  useParams: () => ({ locale: 'th' }),
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 // ── Mock next-intl ───────────────────────────────────────────────────────────
@@ -35,6 +37,29 @@ vi.mock('next/link', () => ({
 }));
 
 // ── Mock next/image — renders as <img> in jsdom ──────────────────────────────
+// Auth-store mock — AppShell returns null on !isAuthenticated + requires _hasHydrated=true
+// before rendering sidebar (race-safe pattern from #48). Test needs both flags true
+// so AppShell proceeds past the gate.
+vi.mock('@/stores/auth-store', () => {
+  const state = {
+    isAuthenticated: true,
+    roles: ['admin'] as string[],
+    _hasHydrated: true,
+    email: 'jongrak@central.co.th',
+    displayName: 'จงรักษ์ ทานากะ',
+    initials: 'จท',
+    setAuth: vi.fn(),
+    clearAuth: vi.fn(),
+    setHasHydrated: vi.fn(),
+  };
+  const useAuthStore = Object.assign(
+    (selector?: (s: typeof state) => unknown) =>
+      selector ? selector(state) : state,
+    { getState: () => state, setState: vi.fn(), subscribe: vi.fn() }
+  );
+  return { useAuthStore };
+});
+
 vi.mock('next/image', () => ({
   default: ({ src, alt, width, height, priority: _p, ...props }: { src: string; alt: string; width?: number; height?: number; priority?: boolean; [k: string]: unknown }) => (
     // eslint-disable-next-line @next/next/no-img-element
@@ -42,7 +67,9 @@ vi.mock('next/image', () => ({
   ),
 }));
 
-// ── Route fixtures (11 Humi routes) ─────────────────────────────────────────
+// ── Route fixtures (10 Humi shell routes) ───────────────────────────────────
+// /th/login is intentionally excluded — AppShell short-circuits on login page
+// (returns <>{children}</> without sidebar/topbar) per AppShell.tsx:183-185.
 const ROUTES = [
   '/th/home',
   '/th/profile/me',
@@ -54,7 +81,6 @@ const ROUTES = [
   '/th/org-chart',
   '/th/announcements',
   '/th/integrations',
-  '/th/login',
 ] as const;
 
 // ── Helper ───────────────────────────────────────────────────────────────────
