@@ -15,6 +15,8 @@ import { ArrowLeft, Star } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
+import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { actionAvailability } from '@/lib/admin/actionAvailability'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ActingEvent } from '@hrms/shared/types/timeline'
 
@@ -148,6 +150,19 @@ export default function ActingPage() {
           <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส &ldquo;{empId}&rdquo;</p>
         </div>
       </div>
+    )
+  }
+
+  // Defense-in-depth (P3)
+  const guard = actionAvailability(employee).acting
+  if (!guard.ok) {
+    return (
+      <ActionGuardBanner
+        actionKey="acting"
+        reason={guard.reason ?? ''}
+        backHref={`/${locale}/admin/employees/${empId}`}
+        actionLabel="มอบหมายปฏิบัติการ"
+      />
     )
   }
 
