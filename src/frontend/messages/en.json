@@ -3557,7 +3557,11 @@
     "ssoGoogle": "Sign in with Google Workspace",
     "ssoGeneric": "Sign in with SSO",
     "newMember": "New here?",
-    "setupAccount": "Contact HR"
+    "setupAccount": "Contact HR",
+    "brandLogoAlt": "Humi logo",
+    "errorTitle": "Sign-in failed",
+    "errorUnknownUser": "Account not found.",
+    "errorBadPassword": "Incorrect password"
   },
   "shell": {
     "theme": {

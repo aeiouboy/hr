@@ -16,12 +16,13 @@
 // ════════════════════════════════════════════════════════════
 
 import { useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
 import { AdminShell } from '@/components/admin/shell/AdminShell';
 import { useUIStore } from '@/stores/ui-store';
+import { useAuthStore } from '@/stores/auth-store';
 
 /** href prefix → page title shown in topbar h2.
  *  Keep 1:1 with Sidebar.tsx NAV items — every sidebar destination MUST have a
@@ -75,6 +76,27 @@ function resolveTitle(pathname: string): string {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
+  const isLoginPage = pathname === '/th/login' || pathname === '/en/login';
+  const locale = pathname.startsWith('/en') ? 'en' : 'th';
+
+  // Global auth gate — every route except /login requires a session.
+  // Role check for /admin/* lives in app/[locale]/admin/layout.tsx.
+  useEffect(() => {
+    if (!isLoginPage && !isAuthenticated) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [isLoginPage, isAuthenticated, locale, router]);
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   if (pathname.startsWith('/th/admin') || pathname.startsWith('/en/admin')) {
     return <AdminShell>{children}</AdminShell>;

@@ -2,31 +2,81 @@
 
 // ════════════════════════════════════════════════════════════
 // /login — Humi sign-in screen
-// 1:1 port of docs/design-ref/shelfly-bundle/project/screens/login.jsx
-// No existing auth wiring in this repo (verified: no middleware,
-// no /login route, no auth page).  Form handler posts to /th/home
-// via client navigation — same as reference onNav('home').  When
-// MSAL/NextAuth is added later, replace handleSubmit only.
-// This page uses a full-viewport overlay (.humi-login-wrap) so it
-// visually covers the AppShell layout.
+// Visual shell = 1:1 port of docs/design-ref/shelfly-bundle/project/screens/login.jsx
+// Auth layer (2026-04-24 jarvis/login-admin):
+//   - Real Humi logo (humi-logo-white-v3.png, Rungrote-locked G8)
+//   - Mock credentials map → sets Zustand auth-store
+//   - Role-based redirect: hr_admin → /{locale}/admin, else /{locale}/home
+// Replace DEMO_USERS + handleSubmit when MSAL/NextAuth-Keycloak is wired.
 // ════════════════════════════════════════════════════════════
 
 import { useState, type FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ArrowRight, Check, Globe, ShieldCheck } from 'lucide-react';
+import { useAuthStore } from '@/stores/auth-store';
+import type { Role } from '@/lib/rbac';
+
+type DemoUser = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  roles: Role[];
+};
+
+const DEMO_USERS: Record<string, DemoUser> = {
+  'admin@humi.test': {
+    id: 'ADM001',
+    name: 'ผู้ดูแลระบบ HR',
+    email: 'admin@humi.test',
+    password: 'admin2026',
+    roles: ['hr_admin', 'hr_manager', 'manager', 'employee'],
+  },
+  'employee@humi.test': {
+    id: 'EMP001',
+    name: 'สมชาย ใจดี',
+    email: 'employee@humi.test',
+    password: 'employee2026',
+    roles: ['employee'],
+  },
+};
 
 export default function HumiLoginPage() {
   const t = useTranslations('humiLogin');
   const router = useRouter();
-  const [email, setEmail] = useState('jongrak.t@humi.co.th');
-  const [pw, setPw] = useState('••••••••••');
+  const params = useParams<{ locale: string }>();
+  const locale = params?.locale ?? 'th';
+  const setUser = useAuthStore((s) => s.setUser);
+
+  const [email, setEmail] = useState('admin@humi.test');
+  const [pw, setPw] = useState('');
   const [remember, setRemember] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO(auth): swap for MSAL/NextAuth when wired. Visual port only.
-    router.push('/th/home');
+    const user = DEMO_USERS[email.trim().toLowerCase()];
+    if (!user) {
+      setError(t('errorUnknownUser'));
+      return;
+    }
+    if (pw !== user.password) {
+      setError(t('errorBadPassword'));
+      return;
+    }
+    setError(null);
+    setUser({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      roles: user.roles,
+    });
+    const target = user.roles.includes('hr_admin')
+      ? `/${locale}/admin`
+      : `/${locale}/home`;
+    router.push(target);
   }
 
   return (
@@ -47,20 +97,14 @@ export default function HumiLoginPage() {
         />
 
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: 36,
-              letterSpacing: '-0.04em',
-              color: 'var(--color-canvas-soft)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 2,
-            }}
-          >
-            <span>{t('brand')}</span>
-          </div>
+          <Image
+            src="/humi-logo-white-v3.png"
+            alt={t('brandLogoAlt')}
+            width={140}
+            height={48}
+            priority
+            style={{ height: 40, width: 'auto', display: 'block' }}
+          />
         </div>
 
         <div style={{ marginTop: 'auto', position: 'relative', zIndex: 1 }}>
@@ -151,6 +195,17 @@ export default function HumiLoginPage() {
           >
             {t('formHelp')}
           </p>
+
+          {error && (
+            <div
+              role="alert"
+              className="mt-5 rounded-md border border-hairline bg-canvas-soft px-3 py-2"
+              style={{ fontSize: 13, color: 'var(--color-ink)' }}
+            >
+              <strong style={{ fontWeight: 600 }}>{t('errorTitle')}:</strong>{' '}
+              {error}
+            </div>
+          )}
 
           <div className="humi-col mt-7" style={{ gap: 14 }}>
             <label className="humi-field">
