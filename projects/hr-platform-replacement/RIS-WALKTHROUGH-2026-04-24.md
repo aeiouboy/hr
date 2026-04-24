@@ -183,13 +183,13 @@
 
 ---
 
-#### `/employees/me/profile` — โปรไฟล์ของฉัน
+#### `/profile/me` — โปรไฟล์ของฉัน
 
 ![screenshot-TBD](./screenshots/employees-me-profile.png)
 
 | Path | Happy Path Steps | Expected Behavior |
 |------|-----------------|-------------------|
-| `/employees/me/profile` | 1. เปิด route | - header แสดงชื่อพนักงาน (TH) + eyebrow "โปรไฟล์ของฉัน" |
+| `/profile/me` | 1. เปิด route | - header แสดงชื่อพนักงาน (TH) + eyebrow "โปรไฟล์ของฉัน" |
 | | 2. ดู 3 section cards | - section 1 "ข้อมูลติดต่อ": ชื่อ (TH) / อีเมล / โทรศัพท์ / ที่อยู่ |
 | | 3. ดู section ตำแหน่งงาน | - section 2 "ตำแหน่งงาน": ตำแหน่ง / บริษัท / หน่วยงาน |
 | | 4. ดู section ข้อมูลส่วนตัว | - section 3 "ข้อมูลส่วนตัว": วันเกิด / วันเริ่มงาน / chip "อายุงาน N ปี" |
