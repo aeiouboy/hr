@@ -20,6 +20,8 @@ const TIMELINE_LABELS_TH: Record<TimelineEvent['kind'], string> = {
   rehire: 'กลับเข้าทำงาน',
   contract_renewal: 'ต่อสัญญา',
   promotion: 'เลื่อนตำแหน่ง',
+  acting_start: 'เริ่มรักษาการ',
+  acting_end: 'สิ้นสุดรักษาการ',
 }
 
 interface StatCardProps {
@@ -162,6 +164,8 @@ export default function ReportsPage() {
       rehire: 0,
       contract_renewal: 0,
       promotion: 0,
+      acting_start: 0,
+      acting_end: 0,
     }
     let total = 0
     for (const events of Object.values(byEmployee)) {
