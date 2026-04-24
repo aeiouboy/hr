@@ -120,6 +120,16 @@ export const stepBiographicalSchema = z.object({
   /** BA Personal Info row 17 — Marital Status Since * */
   maritalStatusSince: z.string().min(1, 'กรุณาระบุวันที่เปลี่ยนสถานภาพสมรส'),
 })
+.superRefine((data, ctx) => {
+  // R2: maritalStatusSince required เมื่อ maritalStatus ≠ SINGLE (BRD Personal Info row 17)
+  if (data.maritalStatus !== 'SINGLE' && !data.maritalStatusSince) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'กรุณาระบุวันที่เปลี่ยนสถานภาพสมรส (ยกเว้นโสด)',
+      path: ['maritalStatusSince'],
+    })
+  }
+})
 
 export type StepBiographicalData = z.infer<typeof stepBiographicalSchema>
 

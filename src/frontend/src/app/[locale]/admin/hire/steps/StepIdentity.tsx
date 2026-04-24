@@ -58,6 +58,7 @@ type TouchedState = {
 export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   const { formData, setStepData } = useHireWizard()
   const id = formData.identity
+  const nationality = formData.biographical?.nationality ?? ''
   const allEmployees = useEmployees((s) => s.all)
 
   // employeeId is system-generated per BRD #102 line 2267 (Invariant I1)
@@ -460,17 +461,19 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         {errMsg('isPrimary')}
       </fieldset>
 
-      {/* ─── BA row 19 — [VN] Issue Place — optional ─── */}
-      <fieldset>
-        <label htmlFor="vn-issue-place" className="humi-label">
-          สถานที่ออกบัตร
-          <span className="ml-1 text-xs text-ink-muted">(เฉพาะสัญชาติเวียดนาม)</span>
-        </label>
-        <input id="vn-issue-place" type="text" placeholder="สถานที่ออกบัตร (optional)"
-          value={vnIssuePlace}
-          onChange={(e) => setVnIssuePlace(e.target.value)}
-          className="humi-input w-full" />
-      </fieldset>
+      {/* ─── BA row 19 — [VN] Issue Place — optional (เวียดนามเท่านั้น) ─── */}
+      {(country === 'VN' || nationality === 'VN') && (
+        <fieldset>
+          <label htmlFor="vn-issue-place" className="humi-label">
+            สถานที่ออกบัตร
+            <span className="ml-1 text-xs text-ink-muted">(เฉพาะสัญชาติเวียดนาม)</span>
+          </label>
+          <input id="vn-issue-place" type="text" placeholder="สถานที่ออกบัตร (optional)"
+            value={vnIssuePlace}
+            onChange={(e) => setVnIssuePlace(e.target.value)}
+            className="humi-input w-full" />
+        </fieldset>
+      )}
 
       <p className="text-xs text-ink-soft">
         <span className="humi-asterisk">*</span> ช่องที่บังคับกรอก
