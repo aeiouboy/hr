@@ -91,8 +91,138 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
           <option value="CASH">เงินสด</option>
           <option value="CHEQUE">เช็ค</option>
         </select>
-        <p className="mt-1 text-xs text-ink-faint">วิธี default = โอนธนาคาร — ปรับได้ที่ Cost Distribution (Sprint ถัดไป)</p>
       </fieldset>
+
+      {/* Cost Distribution — audit #13b (BRD #119) — mockup stub */}
+      <fieldset className="md:col-span-2">
+        <CostDistributionSection />
+      </fieldset>
+    </div>
+  )
+}
+
+// ─── Cost Distribution section (BRD #119 — optional, split budget across cost centers) ───
+const MOCK_COST_CENTERS = [
+  { code: 'CC-HQ-HR',     label: 'สำนักงานใหญ่ — HR' },
+  { code: 'CC-HQ-FIN',    label: 'สำนักงานใหญ่ — การเงิน' },
+  { code: 'CC-HQ-IT',     label: 'สำนักงานใหญ่ — IT' },
+  { code: 'CC-RETAIL-TH', label: 'ค้าปลีก — ไทย' },
+  { code: 'CC-RETAIL-VN', label: 'ค้าปลีก — เวียดนาม' },
+  { code: 'CC-CORPORATE', label: 'Corporate — ส่วนกลาง' },
+]
+
+interface CostSplit {
+  id: string
+  costCenter: string
+  pct: string
+}
+
+function CostDistributionSection() {
+  const [rows, setRows] = useState<CostSplit[]>([])
+  const [showSection, setShowSection] = useState(false)
+
+  const sum = rows.reduce((acc, r) => acc + (parseFloat(r.pct) || 0), 0)
+  const sumOk = rows.length === 0 || Math.abs(sum - 100) < 0.01
+
+  const addRow = () => {
+    setRows((prev) => [...prev, { id: crypto.randomUUID(), costCenter: '', pct: '' }])
+  }
+  const removeRow = (id: string) => {
+    setRows((prev) => prev.filter((r) => r.id !== id))
+  }
+  const updateRow = (id: string, field: 'costCenter' | 'pct', value: string) => {
+    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: value } : r)))
+  }
+
+  if (!showSection) {
+    return (
+      <button
+        type="button"
+        onClick={() => { setShowSection(true); addRow() }}
+        className="humi-button humi-button--ghost"
+        style={{ display: 'inline-flex', gap: 6 }}
+      >
+        <span>+ แบ่งค่าใช้จ่ายข้าม cost center</span>
+      </button>
+    )
+  }
+
+  return (
+    <div className="humi-card humi-card--cream" style={{ padding: 16 }}>
+      <div className="humi-row" style={{ marginBottom: 12, gap: 8 }}>
+        <div style={{ flex: 1 }}>
+          <div className="humi-eyebrow">การกระจายค่าใช้จ่าย</div>
+          <p className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+            แบ่งงบประมาณเงินเดือนข้ามหน่วยบัญชี — รวมต้องเท่ากับ 100%
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => { setShowSection(false); setRows([]) }}
+          className="text-xs text-ink-muted hover:text-warning"
+          aria-label="ปิด cost distribution"
+        >
+          ปิดส่วนนี้
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        {rows.map((row) => (
+          <div key={row.id} className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_120px_auto] md:items-end">
+            <div>
+              <label className="humi-label text-xs" htmlFor={`cc-${row.id}`}>หน่วยบัญชี</label>
+              <select
+                id={`cc-${row.id}`}
+                value={row.costCenter}
+                onChange={(e) => updateRow(row.id, 'costCenter', e.target.value)}
+                className="humi-select w-full"
+              >
+                <option value="">— เลือกหน่วยบัญชี —</option>
+                {MOCK_COST_CENTERS.map((cc) => (
+                  <option key={cc.code} value={cc.code}>{cc.code} — {cc.label}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="humi-label text-xs" htmlFor={`pct-${row.id}`}>สัดส่วน (%)</label>
+              <input
+                id={`pct-${row.id}`}
+                type="number"
+                min={0}
+                max={100}
+                step={0.01}
+                value={row.pct}
+                onChange={(e) => updateRow(row.id, 'pct', e.target.value)}
+                placeholder="0-100"
+                className="humi-input w-full"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => removeRow(row.id)}
+              className="text-xs text-ink-muted hover:text-warning"
+              aria-label="ลบแถวนี้"
+              style={{ padding: '8px 12px' }}
+            >
+              ลบ
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="humi-row" style={{ marginTop: 12, gap: 8, justifyContent: 'space-between' }}>
+        <button
+          type="button"
+          onClick={addRow}
+          className="humi-button humi-button--ghost text-sm"
+        >
+          + เพิ่มแถว
+        </button>
+        <div className="text-sm">
+          รวม: <span className={sumOk ? 'text-accent font-semibold' : 'text-warning font-semibold'}>{sum.toFixed(2)}%</span>
+          {!sumOk && <span className="ml-2 text-xs text-warning">(ต้องเท่ากับ 100)</span>}
+        </div>
+      </div>
     </div>
   )
 }
