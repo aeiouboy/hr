@@ -125,39 +125,6 @@ export default function HumiLoginPage() {
             {t('headlineLine2')}
           </h1>
           <p className="humi-login-body">{t('intro')}</p>
-
-          <div className="humi-login-quote">
-            <div className="humi-login-quote-body">
-              &ldquo;{t('quoteBody')}&rdquo;
-            </div>
-            <div className="humi-row" style={{ marginTop: 14, gap: 10 }}>
-              <span
-                className="humi-avatar humi-avatar--sage"
-                aria-hidden
-              >
-                ดล
-              </span>
-              <div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: 'var(--color-canvas-soft)',
-                    fontWeight: 600,
-                  }}
-                >
-                  {t('quoteAuthor')}
-                </div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    color: 'rgba(231, 227, 216, 0.6)',
-                  }}
-                >
-                  {t('quoteRole')}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
