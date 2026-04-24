@@ -280,19 +280,29 @@ export default function EmployeeDetailPage() {
   })
 
   // ── A8: computed fields — display-layer only (BRD #86-92) ───
-  // Build minimal HIRE event from hire_date for fallback path in all calcYearsInX functions.
-  // No EmploymentState history yet (A2 pending) → all X-counters fallback to HIRE.
-  const hireEvents: LifecycleEvent[] = employee.hire_date
-    ? [{ type: 'HIRE', effectiveDate: employee.hire_date }]
-    : []
+  // A2 mockup: synthesise LifecycleEvent[] from seeded mid-career dates so Years-in-X
+  // counters reset realistically (differ from tenure). Still snapshot-derived, no store.
+  const lifecycleEvents: LifecycleEvent[] = []
+  if (employee.hire_date) {
+    lifecycleEvents.push({ type: 'HIRE', effectiveDate: employee.hire_date })
+  }
+  if (employee.position_start_date && employee.position_start_date !== employee.hire_date) {
+    lifecycleEvents.push({ type: 'CHANGE_POSITION', effectiveDate: employee.position_start_date })
+  }
+  if (employee.job_start_date && employee.job_start_date !== employee.hire_date) {
+    lifecycleEvents.push({ type: 'CHANGE_JOB', effectiveDate: employee.job_start_date })
+  }
+  if (employee.corp_title_start_date && employee.corp_title_start_date !== employee.hire_date) {
+    lifecycleEvents.push({ type: 'PROMOTION', effectiveDate: employee.corp_title_start_date })
+  }
   const today = new Date().toISOString().slice(0, 10)
 
   const ageResult       = employee.date_of_birth ? calcAge(employee.date_of_birth, today) : null
   const genResult       = employee.date_of_birth ? calcGeneration(employee.date_of_birth) : null
-  const yosResult       = employee.hire_date ? calcYearOfService(employee.hire_date, hireEvents, today) : null
-  const yijResult       = employee.hire_date ? calcYearsInJob(hireEvents, today) : null
-  const yictResult      = employee.hire_date ? calcYearsInCorpTitle(hireEvents, today) : null
-  const yipResult       = employee.hire_date ? calcYearsInPosition(hireEvents, today) : null
+  const yosResult       = employee.hire_date ? calcYearOfService(employee.hire_date, lifecycleEvents, today) : null
+  const yijResult       = employee.hire_date ? calcYearsInJob(lifecycleEvents, today) : null
+  const yictResult      = employee.hire_date ? calcYearsInCorpTitle(lifecycleEvents, today) : null
+  const yipResult       = employee.hire_date ? calcYearsInPosition(lifecycleEvents, today) : null
   // Compute status-gated availability once per render
   const avail = actionAvailability(employee)
   const ACTION_CARDS: ActionCard[] = [
@@ -376,13 +386,15 @@ export default function EmployeeDetailPage() {
         </Link>
       </div>
 
-      {/* ── Section A: Snapshot card ───────────────────────── */}
+      {/* ── Section A1: ข้อมูลส่วนตัว (Person-level — A3 split) ──── */}
       <div className="humi-card humi-grain" style={{ overflow: 'hidden' }}>
         <div
           className="humi-blob humi-blob--teal hidden lg:block"
           style={{ width: 100, height: 130, right: -20, top: -30, opacity: 0.7 }}
           aria-hidden
         />
+
+        <div className="humi-eyebrow" style={{ marginBottom: 12 }}>ข้อมูลส่วนตัว</div>
 
         {/* top row: avatar + name + badges */}
         <div className="humi-row" style={{ alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
@@ -411,7 +423,32 @@ export default function EmployeeDetailPage() {
           </div>
         </div>
 
-        <hr className="humi-divider" />
+        {/* Person-level chips: อายุ + Generation */}
+        {(ageResult || genResult) && (
+          <>
+            <hr className="humi-divider" />
+            <div className="humi-row" style={{ gap: 12, flexWrap: 'wrap' }}>
+              {ageResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุ</div>
+                  <div className="text-body font-semibold text-ink">{ageResult.display}</div>
+                  <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
+                </div>
+              )}
+              {genResult && (
+                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>Generation</div>
+                  <div className="text-body font-semibold text-ink">{genResult}</div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* ── Section A2: ข้อมูลการจ้างงาน (Employment-level — A3 split) ──── */}
+      <div className="humi-card" style={{ overflow: 'hidden' }}>
+        <div className="humi-eyebrow" style={{ marginBottom: 12 }}>ข้อมูลการจ้างงาน</div>
 
         {/* Info grid: hire date, tenure, company, position, org unit */}
         <div
@@ -473,28 +510,6 @@ export default function EmployeeDetailPage() {
               <div className="text-body font-medium text-ink">{employee.hr_district}</div>
             </div>
           )}
-
-          {/* B4 PoC: computed fields — Age / Generation / Year-of-Service */}
-          {ageResult && (
-            <div>
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุ</div>
-              <div className="text-body font-medium text-ink">{ageResult.display}</div>
-              <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
-            </div>
-          )}
-          {genResult && (
-            <div>
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>Generation</div>
-              <div className="text-body font-medium text-ink">{genResult}</div>
-            </div>
-          )}
-          {yosResult && (
-            <div>
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>อายุงาน</div>
-              <div className="text-body font-medium text-ink">{yosResult.display}</div>
-              <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
-            </div>
-          )}
         </div>
 
         {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ── */}
@@ -502,15 +517,6 @@ export default function EmployeeDetailPage() {
           <>
             <hr className="humi-divider" />
             <div className="humi-row" style={{ gap: 12, flexWrap: 'wrap' }}>
-              {ageResult && (
-                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
-                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุ</div>
-                  <div className="text-body font-semibold text-ink">{ageResult.display}</div>
-                  {genResult && (
-                    <div className="text-small text-ink-muted">{genResult}</div>
-                  )}
-                </div>
-              )}
               {yosResult && (
                 <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
                   <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>

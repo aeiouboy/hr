@@ -6,9 +6,11 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
 import type { MockEmployee } from '@/mocks/employees'
 
-// Build initial HireEvent from a MockEmployee fixture (seeded on first load)
+// Build initial timeline from a MockEmployee fixture (seeded on first load).
+// A2 mockup: also emits PROMOTION + TRANSFER events when seeded mid-career dates exist,
+// so Section B shows real-looking employment history (not only HIRE).
 export function buildInitialTimeline(emp: MockEmployee): TimelineEvent[] {
-  return [
+  const events: TimelineEvent[] = [
     {
       id: `evt-hire-${emp.employee_id}`,
       employeeId: emp.employee_id,
@@ -20,6 +22,36 @@ export function buildInitialTimeline(emp: MockEmployee): TimelineEvent[] {
       position: emp.position_title,
     } satisfies TimelineEvent,
   ]
+
+  if (emp.position_start_date && emp.position_start_date !== emp.hire_date) {
+    events.push({
+      id: `evt-xfer-${emp.employee_id}`,
+      employeeId: emp.employee_id,
+      kind: 'transfer',
+      effectiveDate: emp.position_start_date,
+      recordedAt: `${emp.position_start_date}T00:00:00Z`,
+      actorUserId: 'system',
+      fromOrgUnit: emp.org_unit,
+      toOrgUnit: emp.org_unit,
+      fromPosition: 'ตำแหน่งเดิม',
+      toPosition: emp.position_title,
+    } satisfies TimelineEvent)
+  }
+
+  if (emp.corp_title_start_date && emp.corp_title_start_date !== emp.hire_date) {
+    events.push({
+      id: `evt-promo-${emp.employee_id}`,
+      employeeId: emp.employee_id,
+      kind: 'promotion',
+      effectiveDate: emp.corp_title_start_date,
+      recordedAt: `${emp.corp_title_start_date}T00:00:00Z`,
+      actorUserId: 'system',
+      fromTitle: 'ระดับก่อนหน้า',
+      toTitle: emp.corporate_title,
+    } satisfies TimelineEvent)
+  }
+
+  return events
 }
 
 interface TimelinesState {
