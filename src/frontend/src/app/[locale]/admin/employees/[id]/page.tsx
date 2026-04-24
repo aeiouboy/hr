@@ -280,21 +280,18 @@ export default function EmployeeDetailPage() {
   })
 
   // ── A8: computed fields — display-layer only (BRD #86-92) ───
-  // A2 mockup: synthesise LifecycleEvent[] from seeded mid-career dates so Years-in-X
-  // counters reset realistically (differ from tenure). Still snapshot-derived, no store.
-  const lifecycleEvents: LifecycleEvent[] = []
-  if (employee.hire_date) {
-    lifecycleEvents.push({ type: 'HIRE', effectiveDate: employee.hire_date })
-  }
-  if (employee.position_start_date && employee.position_start_date !== employee.hire_date) {
-    lifecycleEvents.push({ type: 'CHANGE_POSITION', effectiveDate: employee.position_start_date })
-  }
-  if (employee.job_start_date && employee.job_start_date !== employee.hire_date) {
-    lifecycleEvents.push({ type: 'CHANGE_JOB', effectiveDate: employee.job_start_date })
-  }
-  if (employee.corp_title_start_date && employee.corp_title_start_date !== employee.hire_date) {
-    lifecycleEvents.push({ type: 'PROMOTION', effectiveDate: employee.corp_title_start_date })
-  }
+  // A2 mockup: derive LifecycleEvent[] from the live Timeline (single source).
+  // Includes both seeded mid-career events AND any user-submitted events from
+  // /promotion + /transfer routes — so action submit visibly resets the chips.
+  const lifecycleEvents: LifecycleEvent[] = events.flatMap((evt): LifecycleEvent[] => {
+    switch (evt.kind) {
+      case 'hire':    return [{ type: 'HIRE',            effectiveDate: evt.effectiveDate }]
+      case 'rehire':  return [{ type: 'REHIRE',          effectiveDate: evt.effectiveDate }]
+      case 'transfer': return [{ type: 'CHANGE_POSITION', effectiveDate: evt.effectiveDate }]
+      case 'promotion': return [{ type: 'PROMOTION',      effectiveDate: evt.effectiveDate }]
+      default: return []  // probation_assess / terminate / contract_renewal — irrelevant for counters
+    }
+  })
   const today = new Date().toISOString().slice(0, 10)
 
   const ageResult       = employee.date_of_birth ? calcAge(employee.date_of_birth, today) : null
@@ -545,6 +542,13 @@ export default function EmployeeDetailPage() {
                   <div className="text-small text-ink-muted">{yipResult.decimal} ปี</div>
                 </div>
               )}
+            </div>
+            <div
+              className="text-small text-ink-faint"
+              style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5 }}
+            >
+              ตัวเลขนับจาก event ล่าสุดของแต่ละประเภท — โอนย้าย/เปลี่ยนตำแหน่ง/เลื่อนระดับ จะ reset counter
+              ที่เกี่ยวข้องโดยอัตโนมัติ ดูประวัติเต็มได้ที่ Timeline ด้านล่าง
             </div>
           </>
         )}
