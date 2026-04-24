@@ -7,6 +7,8 @@
 // Attachment ย้ายไป StepBiographical (Step 1) ใน PR #35 — ไม่ต้องซ้ำที่นี่
 import { useState } from 'react'
 import { useHireWizard, sliceValid } from '@/lib/admin/store/useHireWizard'
+import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
 import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { ClipboardCheck, Check, AlertCircle, UserCheck } from 'lucide-react'
 
@@ -33,6 +35,7 @@ export default function ClusterReview() {
   const id  = formData.identity
   const bio = formData.biographical
   const rev = formData.review
+  const allEmployees = useEmployees((s) => s.all)
 
   // ── BA Personal Info rows 6-9 — EN name readonly mirror จาก Identity ─────
   const salutationEnReview = rev.salutationEnReview  ?? id.salutationEn  ?? ''
@@ -148,7 +151,7 @@ export default function ClusterReview() {
             value={[id.salutationEn, id.firstNameEn, id.middleNameEn, id.lastNameEn].filter(Boolean).join(' ') || '—'}
             ok={identityOk} />
           <SummaryRow label="วันเกิด"                   value={id.dateOfBirth ?? '—'}         ok={identityOk} />
-          <SummaryRow label="รหัสพนักงาน (ระบบจะกำหนด)" value={id.employeeId || '—'}           ok={identityOk} />
+          <SummaryRow label="รหัสพนักงาน (ระบบสร้าง)"    value={id.employeeId || nextEmployeeCode(allEmployees) || '—'} ok={true} />
           <SummaryRow label="ประเภทบัตร"                value={id.nationalIdCardType ?? '—'}  ok={identityOk} />
           <SummaryRow label="เลขบัตร"                   value={id.nationalId || '—'}          ok={identityOk} />
           <SummaryRow label="ประเทศ"                    value={id.country ?? '—'}             ok={identityOk} />

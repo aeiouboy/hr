@@ -361,8 +361,15 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           className="humi-input w-full" />
       </fieldset>
 
-      {/* BA row 12 — Employee ID: system-generated per BRD #102:2267 (Invariant I1).
-          Not rendered on Hire form — assigned on submit, displayed on Review + post-save. */}
+      {/* BA row 12 — Employee ID: system-generated per BRD #102:2267 — readonly display */}
+      <fieldset>
+        <label className="humi-label">
+          รหัสพนักงาน <span className="text-xs text-ink-muted ml-1">(ระบบสร้างอัตโนมัติ)</span>
+        </label>
+        <div className="humi-readonly-display px-3 py-2 bg-canvas-soft border border-hairline rounded text-ink font-mono" aria-readonly="true" aria-label="รหัสพนักงานที่ระบบจะสร้างให้">
+          {employeeId}
+        </div>
+      </fieldset>
 
       {/* ─── BA row 13 — National ID Card Type * ─── */}
       <fieldset>
