@@ -1,0 +1,373 @@
+[
+  {
+    "id": "CG_RETIRE",
+    "labelTh": "Change to Retirement",
+    "labelEn": "Change to Retirement",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "COMPROB_COMPROB",
+    "labelTh": "Completion of Probation",
+    "labelEn": "Completion of Probation",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "DC_CHGINPAY",
+    "labelTh": "Change in Pay",
+    "labelEn": "Change in Pay",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "DC_CHGINSSO",
+    "labelTh": "Change in SSO Location",
+    "labelEn": "Change in SSO Location",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "DC_CHGINTM",
+    "labelTh": "Change in Time",
+    "labelEn": "Change in Time",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "DC_SC",
+    "labelTh": "System Change",
+    "labelEn": "System Change",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "DC_CHGINMGR",
+    "labelTh": "Change in Manager",
+    "labelEn": "Change in Manager",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "DC_EXTPROB",
+    "labelTh": "Extend Probation",
+    "labelEn": "Extend Probation",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "DC_EXTRET",
+    "labelTh": "Extend Retirement",
+    "labelEn": "Extend Retirement",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "POSCHG_POSCHG",
+    "labelTh": "Position Change",
+    "labelEn": "Position Change",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "DM",
+    "labelTh": "DATA MIGRATION",
+    "labelEn": "DATA MIGRATION",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "HIREDM",
+    "labelTh": "HIRE - DATA MIGRATION",
+    "labelEn": "HIRE - DATA MIGRATION",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "H_CORENTRY",
+    "labelTh": "HIRE Corrected Entry",
+    "labelEn": "HIRE Corrected Entry",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "H_INENTRY",
+    "labelTh": "HIRE Incorrect Entry",
+    "labelEn": "HIRE Incorrect Entry",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "H_NEWHIRE",
+    "labelTh": "New Hire",
+    "labelEn": "New Hire",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "H_RPLMENT",
+    "labelTh": "Replacement",
+    "labelEn": "Replacement",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "H_TEMPASG",
+    "labelTh": "Temporary Assignment",
+    "labelEn": "Temporary Assignment",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "JCHG_EMPTYPE",
+    "labelTh": "Change Employee Type",
+    "labelEn": "Change Employee Type",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "PRCHG_MERINC",
+    "labelTh": "Merit Increase",
+    "labelEn": "Merit Increase",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "PRCHG_ADJPOS",
+    "labelTh": "Adjust Position",
+    "labelEn": "Adjust Position",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "PRCHG_PROMO",
+    "labelTh": "Promotion",
+    "labelEn": "Promotion",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "PRCHG_SALADJ",
+    "labelTh": "Salary Adjust",
+    "labelEn": "Salary Adjust",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "PRCHG_SALCUT",
+    "labelTh": "Salary cuts",
+    "labelEn": "Salary cuts",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "REORG_REORG",
+    "labelTh": "Reorganization",
+    "labelEn": "Reorganization",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "PRM_DEMO",
+    "labelTh": "Demotion",
+    "labelEn": "Demotion",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "PRM_PRM",
+    "labelTh": "Promotion",
+    "labelEn": "Promotion",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "TERM_RETIRE",
+    "labelTh": "Retirement",
+    "labelEn": "Retirement",
+    "sortOrder": 27,
+    "active": true
+  },
+  {
+    "id": "RE_REHIRE_GE1",
+    "labelTh": "Rehiring  GE 1 year",
+    "labelEn": "Rehiring  GE 1 year",
+    "sortOrder": 28,
+    "active": true
+  },
+  {
+    "id": "RE_REHIRE_LT1",
+    "labelTh": "Rehiring   LT 1 year",
+    "labelEn": "Rehiring   LT 1 year",
+    "sortOrder": 29,
+    "active": true
+  },
+  {
+    "id": "SUSP_SUSP",
+    "labelTh": "Suspension",
+    "labelEn": "Suspension",
+    "sortOrder": 30,
+    "active": true
+  },
+  {
+    "id": "TERM_DISMISS",
+    "labelTh": "Dismissal",
+    "labelEn": "Dismissal",
+    "sortOrder": 31,
+    "active": true
+  },
+  {
+    "id": "TERM_DM",
+    "labelTh": "Termination (DM)",
+    "labelEn": "Termination (DM)",
+    "sortOrder": 32,
+    "active": true
+  },
+  {
+    "id": "TERM_ENDASSIGN",
+    "labelTh": "End of Temporary Assignment",
+    "labelEn": "End of Temporary Assignment",
+    "sortOrder": 33,
+    "active": true
+  },
+  {
+    "id": "TERM_EOC",
+    "labelTh": "End of Contract",
+    "labelEn": "End of Contract",
+    "sortOrder": 34,
+    "active": true
+  },
+  {
+    "id": "TERM_ERLRETIRE",
+    "labelTh": "Early Retirement",
+    "labelEn": "Early Retirement",
+    "sortOrder": 35,
+    "active": true
+  },
+  {
+    "id": "TERM_LAYOFF",
+    "labelTh": "Layoff",
+    "labelEn": "Layoff",
+    "sortOrder": 36,
+    "active": true
+  },
+  {
+    "id": "TERM_NOSHOW",
+    "labelTh": "No Show",
+    "labelEn": "No Show",
+    "sortOrder": 37,
+    "active": true
+  },
+  {
+    "id": "TERM_PASSAWAY",
+    "labelTh": "Passed away",
+    "labelEn": "Passed away",
+    "sortOrder": 38,
+    "active": true
+  },
+  {
+    "id": "TERM_RESIGN",
+    "labelTh": "Resignation",
+    "labelEn": "Resignation",
+    "sortOrder": 39,
+    "active": true
+  },
+  {
+    "id": "TERM_REORG",
+    "labelTh": "Reorganization",
+    "labelEn": "Reorganization",
+    "sortOrder": 40,
+    "active": true
+  },
+  {
+    "id": "TERM_TRANS",
+    "labelTh": "Transfer Out",
+    "labelEn": "Transfer Out",
+    "sortOrder": 41,
+    "active": true
+  },
+  {
+    "id": "TERM_UNSUCPROB",
+    "labelTh": "Unsuccessful probation",
+    "labelEn": "Unsuccessful probation",
+    "sortOrder": 42,
+    "active": true
+  },
+  {
+    "id": "TRN_ROTATION",
+    "labelTh": "Rotation",
+    "labelEn": "Rotation",
+    "sortOrder": 43,
+    "active": true
+  },
+  {
+    "id": "TRN_TRNACCOMP",
+    "labelTh": "Transfer across Company",
+    "labelEn": "Transfer across Company",
+    "sortOrder": 44,
+    "active": true
+  },
+  {
+    "id": "TRN_TRNWIC",
+    "labelTh": "Transfer within Company",
+    "labelEn": "Transfer within Company",
+    "sortOrder": 45,
+    "active": true
+  },
+  {
+    "id": "DC_DC",
+    "labelTh": "Data Change",
+    "labelEn": "Data Change",
+    "sortOrder": 46,
+    "active": true
+  },
+  {
+    "id": "TERM_COVID",
+    "labelTh": "COVID-19 situation",
+    "labelEn": "COVID-19 situation",
+    "sortOrder": 47,
+    "active": true
+  },
+  {
+    "id": "DC_EXCONT",
+    "labelTh": "Extend Contract",
+    "labelEn": "Extend Contract",
+    "sortOrder": 48,
+    "active": true
+  },
+  {
+    "id": "TERM_CRISIS",
+    "labelTh": "Crisis Management",
+    "labelEn": "Crisis Management",
+    "sortOrder": 49,
+    "active": false
+  },
+  {
+    "id": "TERM_ABSENT",
+    "labelTh": "Absent",
+    "labelEn": "Absent",
+    "sortOrder": 50,
+    "active": true
+  },
+  {
+    "id": "DC_CHGINLO",
+    "labelTh": "Change in Location",
+    "labelEn": "Change in Location",
+    "sortOrder": 51,
+    "active": true
+  },
+  {
+    "id": "TERM_REDUNDANCY",
+    "labelTh": "Redundancy",
+    "labelEn": "Redundancy",
+    "sortOrder": 52,
+    "active": true
+  },
+  {
+    "id": "RESUSP_RESUSP",
+    "labelTh": "Return from Suspension",
+    "labelEn": "Return from Suspension",
+    "sortOrder": 53,
+    "active": true
+  }
+]

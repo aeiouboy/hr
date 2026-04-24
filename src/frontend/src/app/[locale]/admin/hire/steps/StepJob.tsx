@@ -8,6 +8,7 @@ import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepJobSchema } from '@/lib/admin/validation/hireSchema'
 import { loadBusinessUnits } from '@/lib/admin/store/loadBusinessUnits'
 import type { BusinessUnit } from '@/lib/admin/store/loadBusinessUnits'
+import { PICKLIST_CORPORATE_TITLE } from '@hrms/shared/picklists'
 
 // Retail picklists — audit A6/#11 (8 store codes + 5 HR districts)
 const STORE_BRANCH_OPTIONS = [
@@ -124,12 +125,15 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           <p role="alert" className="mt-1 text-xs text-warning">{errors.businessUnit}</p>)}
       </fieldset>
 
-      {/* Corporate Title — audit A7/#12 (promotion ladder axis) — mockup stub */}
+      {/* Corporate Title — audit A7/#12 — wired to SF PICKLIST_CORPORATE_TITLE (17 items) */}
       <fieldset>
         <label htmlFor="corporate-title" className="humi-label">ระดับองค์กร</label>
-        <input id="corporate-title" type="text"
-          placeholder="เช่น ผู้จัดการอาวุโส"
-          className="humi-input w-full" />
+        <select id="corporate-title" className="humi-select w-full">
+          <option value="">— เลือกระดับองค์กร —</option>
+          {PICKLIST_CORPORATE_TITLE.filter((c) => c.active).map((c) => (
+            <option key={c.id} value={c.id}>{c.labelTh}</option>
+          ))}
+        </select>
         <p className="mt-1 text-xs text-ink-faint">สำหรับ promotion ladder — ระดับองค์กร ≠ ตำแหน่งงาน</p>
       </fieldset>
 

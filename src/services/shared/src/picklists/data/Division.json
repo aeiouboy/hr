@@ -1,0 +1,3061 @@
+[
+  {
+    "id": "99999999",
+    "labelTh": "MIGRATION FUNCTION",
+    "labelEn": "MIGRATION FUNCTION",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "20000000",
+    "labelTh": "Accounting",
+    "labelEn": "Accounting",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "20000002",
+    "labelTh": "Administration",
+    "labelEn": "Administration",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "20000004",
+    "labelTh": "Audit",
+    "labelEn": "Audit",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "20000007",
+    "labelTh": "Business Strategy",
+    "labelEn": "Business Strategy",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "20000009",
+    "labelTh": "Call Center",
+    "labelEn": "Call Center",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "20000013",
+    "labelTh": "Central Embassy",
+    "labelEn": "Central Embassy",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "20000014",
+    "labelTh": "CEO Office",
+    "labelEn": "CEO Office",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "20000015",
+    "labelTh": "CFO&IR",
+    "labelEn": "CFO&IR",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "20000018",
+    "labelTh": "CIS",
+    "labelEn": "CIS",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "20000019",
+    "labelTh": "CJD",
+    "labelEn": "CJD",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "20000020",
+    "labelTh": "CJF",
+    "labelEn": "CJF",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "20000021",
+    "labelTh": "CMC & SDO",
+    "labelEn": "CMC & SDO",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "20000023",
+    "labelTh": "Corporate Finance",
+    "labelEn": "Corporate Finance",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "20000026",
+    "labelTh": "Corporate Structure",
+    "labelEn": "Corporate Structure",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "20000027",
+    "labelTh": "Credit Management",
+    "labelEn": "Credit Management",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "20000028",
+    "labelTh": "CTO",
+    "labelEn": "CTO",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "20000030",
+    "labelTh": "Data Analyst",
+    "labelEn": "Data Analyst",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "20000032",
+    "labelTh": "Distributor & Licensee",
+    "labelEn": "Distributor & Licensee",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "20000033",
+    "labelTh": "E-Commerce",
+    "labelEn": "E-Commerce",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "20000035",
+    "labelTh": "Environment Health & Safety",
+    "labelEn": "Environment Health & Safety",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "20000040",
+    "labelTh": "Family Office",
+    "labelEn": "Family Office",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "20000041",
+    "labelTh": "FAST",
+    "labelEn": "FAST",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "20000042",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "20000046",
+    "labelTh": "Financial Product",
+    "labelEn": "Financial Product",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "20000047",
+    "labelTh": "Food & Beverage",
+    "labelEn": "Food & Beverage",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "20000049",
+    "labelTh": "Franchise",
+    "labelEn": "Franchise",
+    "sortOrder": 27,
+    "active": true
+  },
+  {
+    "id": "20000051",
+    "labelTh": "HCDS's Office",
+    "labelEn": "HCDS's Office",
+    "sortOrder": 28,
+    "active": true
+  },
+  {
+    "id": "20000057",
+    "labelTh": "Indonesia Project",
+    "labelEn": "Indonesia Project",
+    "sortOrder": 29,
+    "active": true
+  },
+  {
+    "id": "20000060",
+    "labelTh": "Internal Audit",
+    "labelEn": "Internal Audit",
+    "sortOrder": 30,
+    "active": true
+  },
+  {
+    "id": "20000061",
+    "labelTh": "International Brands",
+    "labelEn": "International Brands",
+    "sortOrder": 31,
+    "active": true
+  },
+  {
+    "id": "20000063",
+    "labelTh": "Inventory Control",
+    "labelEn": "Inventory Control",
+    "sortOrder": 32,
+    "active": true
+  },
+  {
+    "id": "20000064",
+    "labelTh": "iProcurement",
+    "labelEn": "iProcurement",
+    "sortOrder": 33,
+    "active": true
+  },
+  {
+    "id": "20000067",
+    "labelTh": "Legal",
+    "labelEn": "Legal",
+    "sortOrder": 34,
+    "active": true
+  },
+  {
+    "id": "20000071",
+    "labelTh": "Logistics / Depot",
+    "labelEn": "Logistics / Depot",
+    "sortOrder": 35,
+    "active": true
+  },
+  {
+    "id": "20000073",
+    "labelTh": "LP",
+    "labelEn": "LP",
+    "sortOrder": 36,
+    "active": true
+  },
+  {
+    "id": "20000074",
+    "labelTh": "Merger & Acquisition",
+    "labelEn": "Merger & Acquisition",
+    "sortOrder": 37,
+    "active": true
+  },
+  {
+    "id": "20000075",
+    "labelTh": "Maintenance & Engineering",
+    "labelEn": "Maintenance & Engineering",
+    "sortOrder": 38,
+    "active": true
+  },
+  {
+    "id": "20000076",
+    "labelTh": "Management Associate",
+    "labelEn": "Management Associate",
+    "sortOrder": 39,
+    "active": true
+  },
+  {
+    "id": "20000078",
+    "labelTh": "Marks & Spencer",
+    "labelEn": "Marks & Spencer",
+    "sortOrder": 40,
+    "active": true
+  },
+  {
+    "id": "20000080",
+    "labelTh": "Merchandise & Buying",
+    "labelEn": "Merchandise & Buying",
+    "sortOrder": 41,
+    "active": true
+  },
+  {
+    "id": "20000081",
+    "labelTh": "MUJI",
+    "labelEn": "MUJI",
+    "sortOrder": 42,
+    "active": true
+  },
+  {
+    "id": "20000083",
+    "labelTh": "Nonmerch & Admin",
+    "labelEn": "Nonmerch & Admin",
+    "sortOrder": 43,
+    "active": true
+  },
+  {
+    "id": "20000086",
+    "labelTh": "Online/Omni Channel",
+    "labelEn": "Online/Omni Channel",
+    "sortOrder": 44,
+    "active": true
+  },
+  {
+    "id": "20000088",
+    "labelTh": "Operations (BOH)",
+    "labelEn": "Operations (BOH)",
+    "sortOrder": 45,
+    "active": true
+  },
+  {
+    "id": "20000089",
+    "labelTh": "Own Brand Merchandise",
+    "labelEn": "Own Brand Merchandise",
+    "sortOrder": 46,
+    "active": true
+  },
+  {
+    "id": "20000092",
+    "labelTh": "President Office",
+    "labelEn": "President Office",
+    "sortOrder": 47,
+    "active": true
+  },
+  {
+    "id": "20000093",
+    "labelTh": "President Office-People with Disability",
+    "labelEn": "President Office-People with Disability",
+    "sortOrder": 48,
+    "active": true
+  },
+  {
+    "id": "20000094",
+    "labelTh": "Procurement",
+    "labelEn": "Procurement",
+    "sortOrder": 49,
+    "active": true
+  },
+  {
+    "id": "20000097",
+    "labelTh": "Property",
+    "labelEn": "Property",
+    "sortOrder": 50,
+    "active": true
+  },
+  {
+    "id": "20000098",
+    "labelTh": "Property Leasing",
+    "labelEn": "Property Leasing",
+    "sortOrder": 51,
+    "active": true
+  },
+  {
+    "id": "20000102",
+    "labelTh": "Replenishment & Supply Chain",
+    "labelEn": "Replenishment & Supply Chain",
+    "sortOrder": 52,
+    "active": true
+  },
+  {
+    "id": "20000103",
+    "labelTh": "Replenishment Center",
+    "labelEn": "Replenishment Center",
+    "sortOrder": 53,
+    "active": true
+  },
+  {
+    "id": "20000105",
+    "labelTh": "Retail Merchandise",
+    "labelEn": "Retail Merchandise",
+    "sortOrder": 54,
+    "active": true
+  },
+  {
+    "id": "20000106",
+    "labelTh": "RIS",
+    "labelEn": "RIS",
+    "sortOrder": 55,
+    "active": true
+  },
+  {
+    "id": "20000110",
+    "labelTh": "Siwilai",
+    "labelEn": "Siwilai",
+    "sortOrder": 56,
+    "active": true
+  },
+  {
+    "id": "20000112",
+    "labelTh": "Store Design",
+    "labelEn": "Store Design",
+    "sortOrder": 57,
+    "active": true
+  },
+  {
+    "id": "20000113",
+    "labelTh": "Store Development",
+    "labelEn": "Store Development",
+    "sortOrder": 58,
+    "active": true
+  },
+  {
+    "id": "20000114",
+    "labelTh": "Store Finance",
+    "labelEn": "Store Finance",
+    "sortOrder": 59,
+    "active": true
+  },
+  {
+    "id": "20000116",
+    "labelTh": "Treasury",
+    "labelEn": "Treasury",
+    "sortOrder": 60,
+    "active": true
+  },
+  {
+    "id": "20000117",
+    "labelTh": "Visual Merchandise",
+    "labelEn": "Visual Merchandise",
+    "sortOrder": 61,
+    "active": true
+  },
+  {
+    "id": "20000118",
+    "labelTh": "Warehouse",
+    "labelEn": "Warehouse",
+    "sortOrder": 62,
+    "active": true
+  },
+  {
+    "id": "20000122",
+    "labelTh": "Strategy",
+    "labelEn": "Strategy",
+    "sortOrder": 63,
+    "active": true
+  },
+  {
+    "id": "20000123",
+    "labelTh": "Central Payment",
+    "labelEn": "Central Payment",
+    "sortOrder": 64,
+    "active": true
+  },
+  {
+    "id": "20000125",
+    "labelTh": "Customers&Sales Development",
+    "labelEn": "Customers&Sales Development",
+    "sortOrder": 65,
+    "active": true
+  },
+  {
+    "id": "20000126",
+    "labelTh": "Brand Trading",
+    "labelEn": "Brand Trading",
+    "sortOrder": 66,
+    "active": true
+  },
+  {
+    "id": "20000127",
+    "labelTh": "MIS / Technology",
+    "labelEn": "MIS / Technology",
+    "sortOrder": 67,
+    "active": true
+  },
+  {
+    "id": "20000128",
+    "labelTh": "Cycling",
+    "labelEn": "Cycling",
+    "sortOrder": 68,
+    "active": true
+  },
+  {
+    "id": "20000129",
+    "labelTh": "Site Location Acquisition",
+    "labelEn": "Site Location Acquisition",
+    "sortOrder": 69,
+    "active": true
+  },
+  {
+    "id": "20000130",
+    "labelTh": "Auto1",
+    "labelEn": "Auto1",
+    "sortOrder": 70,
+    "active": true
+  },
+  {
+    "id": "20000133",
+    "labelTh": "Account",
+    "labelEn": "Account",
+    "sortOrder": 71,
+    "active": true
+  },
+  {
+    "id": "20000192",
+    "labelTh": "Site Acquisition",
+    "labelEn": "Site Acquisition",
+    "sortOrder": 72,
+    "active": true
+  },
+  {
+    "id": "20000193",
+    "labelTh": "Marketing & Corporate Office",
+    "labelEn": "Marketing & Corporate Office",
+    "sortOrder": 73,
+    "active": true
+  },
+  {
+    "id": "20000134",
+    "labelTh": "CFRO",
+    "labelEn": "CFRO",
+    "sortOrder": 74,
+    "active": true
+  },
+  {
+    "id": "20000135",
+    "labelTh": "Commercial",
+    "labelEn": "Commercial",
+    "sortOrder": 75,
+    "active": true
+  },
+  {
+    "id": "20000136",
+    "labelTh": "Corporate Strategy Office",
+    "labelEn": "Corporate Strategy Office",
+    "sortOrder": 76,
+    "active": true
+  },
+  {
+    "id": "20000137",
+    "labelTh": "Development",
+    "labelEn": "Development",
+    "sortOrder": 77,
+    "active": true
+  },
+  {
+    "id": "20000138",
+    "labelTh": "Excellence & Sustainable Development",
+    "labelEn": "Excellence & Sustainable Development",
+    "sortOrder": 78,
+    "active": true
+  },
+  {
+    "id": "20000140",
+    "labelTh": "Government Affairs & Land Acquisition - Institutional",
+    "labelEn": "Government Affairs & Land Acquisition - Institutional",
+    "sortOrder": 79,
+    "active": true
+  },
+  {
+    "id": "20000142",
+    "labelTh": "International Business Development",
+    "labelEn": "International Business Development",
+    "sortOrder": 80,
+    "active": true
+  },
+  {
+    "id": "20000143",
+    "labelTh": "Land Acquisition - Private",
+    "labelEn": "Land Acquisition - Private",
+    "sortOrder": 81,
+    "active": true
+  },
+  {
+    "id": "20000146",
+    "labelTh": "Management Office",
+    "labelEn": "Management Office",
+    "sortOrder": 82,
+    "active": true
+  },
+  {
+    "id": "20000148",
+    "labelTh": "Project Management Office",
+    "labelEn": "Project Management Office",
+    "sortOrder": 83,
+    "active": true
+  },
+  {
+    "id": "20000150",
+    "labelTh": "REIT Management",
+    "labelEn": "REIT Management",
+    "sortOrder": 84,
+    "active": true
+  },
+  {
+    "id": "20000151",
+    "labelTh": "Residential Development",
+    "labelEn": "Residential Development",
+    "sortOrder": 85,
+    "active": true
+  },
+  {
+    "id": "20000153",
+    "labelTh": "Accounting & Finance",
+    "labelEn": "Accounting & Finance",
+    "sortOrder": 86,
+    "active": true
+  },
+  {
+    "id": "20000154",
+    "labelTh": "Beauty",
+    "labelEn": "Beauty",
+    "sortOrder": 87,
+    "active": true
+  },
+  {
+    "id": "20000155",
+    "labelTh": "Casio Watch",
+    "labelEn": "Casio Watch",
+    "sortOrder": 88,
+    "active": false
+  },
+  {
+    "id": "20000156",
+    "labelTh": "Corporate CMG",
+    "labelEn": "Corporate CMG",
+    "sortOrder": 89,
+    "active": true
+  },
+  {
+    "id": "20000158",
+    "labelTh": "DPC- Data Processing Center",
+    "labelEn": "DPC- Data Processing Center",
+    "sortOrder": 90,
+    "active": false
+  },
+  {
+    "id": "20000159",
+    "labelTh": "G2000",
+    "labelEn": "G2000",
+    "sortOrder": 91,
+    "active": false
+  },
+  {
+    "id": "20000160",
+    "labelTh": "Hardline",
+    "labelEn": "Hardline",
+    "sortOrder": 92,
+    "active": false
+  },
+  {
+    "id": "20000161",
+    "labelTh": "Human Resources & General Affairs",
+    "labelEn": "Human Resources & General Affairs",
+    "sortOrder": 93,
+    "active": true
+  },
+  {
+    "id": "20000162",
+    "labelTh": "Import Fashion & Footwear",
+    "labelEn": "Import Fashion & Footwear",
+    "sortOrder": 94,
+    "active": true
+  },
+  {
+    "id": "20000163",
+    "labelTh": "Licensed & Own Brands",
+    "labelEn": "Licensed & Own Brands",
+    "sortOrder": 95,
+    "active": true
+  },
+  {
+    "id": "20000164",
+    "labelTh": "Omnichannel & E-Commerce",
+    "labelEn": "Omnichannel & E-Commerce",
+    "sortOrder": 96,
+    "active": true
+  },
+  {
+    "id": "20000165",
+    "labelTh": "Operation Excellence",
+    "labelEn": "Operation Excellence",
+    "sortOrder": 97,
+    "active": false
+  },
+  {
+    "id": "20000167",
+    "labelTh": "Corparate Marketing",
+    "labelEn": "Corparate Marketing",
+    "sortOrder": 98,
+    "active": false
+  },
+  {
+    "id": "20000168",
+    "labelTh": "Corporate Strategy & Development",
+    "labelEn": "Corporate Strategy & Development",
+    "sortOrder": 99,
+    "active": false
+  },
+  {
+    "id": "20000169",
+    "labelTh": "Finance & Accounting",
+    "labelEn": "Finance & Accounting",
+    "sortOrder": 100,
+    "active": true
+  },
+  {
+    "id": "20000171",
+    "labelTh": "KFC",
+    "labelEn": "KFC",
+    "sortOrder": 101,
+    "active": true
+  },
+  {
+    "id": "20000172",
+    "labelTh": "Logistics",
+    "labelEn": "Logistics",
+    "sortOrder": 102,
+    "active": true
+  },
+  {
+    "id": "20000173",
+    "labelTh": "Mister Donut",
+    "labelEn": "Mister Donut",
+    "sortOrder": 103,
+    "active": true
+  },
+  {
+    "id": "20000174",
+    "labelTh": "New Business Development",
+    "labelEn": "New Business Development",
+    "sortOrder": 104,
+    "active": true
+  },
+  {
+    "id": "20000176",
+    "labelTh": "President Office",
+    "labelEn": "President Office",
+    "sortOrder": 105,
+    "active": true
+  },
+  {
+    "id": "20000177",
+    "labelTh": "QA",
+    "labelEn": "QA",
+    "sortOrder": 106,
+    "active": true
+  },
+  {
+    "id": "20000178",
+    "labelTh": "R & D",
+    "labelEn": "R & D",
+    "sortOrder": 107,
+    "active": true
+  },
+  {
+    "id": "20000180",
+    "labelTh": "Admin & General",
+    "labelEn": "Admin & General",
+    "sortOrder": 108,
+    "active": true
+  },
+  {
+    "id": "20000182",
+    "labelTh": "Corporate Administrations",
+    "labelEn": "Corporate Administrations",
+    "sortOrder": 109,
+    "active": true
+  },
+  {
+    "id": "20000183",
+    "labelTh": "Corporate Finance & Administrations",
+    "labelEn": "Corporate Finance & Administrations",
+    "sortOrder": 110,
+    "active": true
+  },
+  {
+    "id": "20000184",
+    "labelTh": "Corporate Human Resources",
+    "labelEn": "Corporate Human Resources",
+    "sortOrder": 111,
+    "active": true
+  },
+  {
+    "id": "20000185",
+    "labelTh": "Corporate Marketing",
+    "labelEn": "Corporate Marketing",
+    "sortOrder": 112,
+    "active": true
+  },
+  {
+    "id": "20000186",
+    "labelTh": "Corporate Operations",
+    "labelEn": "Corporate Operations",
+    "sortOrder": 113,
+    "active": true
+  },
+  {
+    "id": "20000188",
+    "labelTh": "Corporate Procurement",
+    "labelEn": "Corporate Procurement",
+    "sortOrder": 114,
+    "active": true
+  },
+  {
+    "id": "20000189",
+    "labelTh": "Corporate Project Management",
+    "labelEn": "Corporate Project Management",
+    "sortOrder": 115,
+    "active": true
+  },
+  {
+    "id": "20000190",
+    "labelTh": "Corporate Sales",
+    "labelEn": "Corporate Sales",
+    "sortOrder": 116,
+    "active": true
+  },
+  {
+    "id": "20000191",
+    "labelTh": "Executive Office",
+    "labelEn": "Executive Office",
+    "sortOrder": 117,
+    "active": true
+  },
+  {
+    "id": "20000195",
+    "labelTh": "Property Management & Development",
+    "labelEn": "Property Management & Development",
+    "sortOrder": 118,
+    "active": true
+  },
+  {
+    "id": "20000012",
+    "labelTh": "The 1",
+    "labelEn": "The 1",
+    "sortOrder": 119,
+    "active": true
+  },
+  {
+    "id": "20000197",
+    "labelTh": "Fashion",
+    "labelEn": "Fashion",
+    "sortOrder": 120,
+    "active": true
+  },
+  {
+    "id": "20000198",
+    "labelTh": "Food",
+    "labelEn": "Food",
+    "sortOrder": 121,
+    "active": true
+  },
+  {
+    "id": "20000199",
+    "labelTh": "Group",
+    "labelEn": "Group",
+    "sortOrder": 122,
+    "active": true
+  },
+  {
+    "id": "20000200",
+    "labelTh": "Home",
+    "labelEn": "Home",
+    "sortOrder": 123,
+    "active": true
+  },
+  {
+    "id": "20000201",
+    "labelTh": "Lan Chi",
+    "labelEn": "Lan Chi",
+    "sortOrder": 124,
+    "active": true
+  },
+  {
+    "id": "20000202",
+    "labelTh": "Nguyen Kim",
+    "labelEn": "Nguyen Kim",
+    "sortOrder": 125,
+    "active": true
+  },
+  {
+    "id": "20000209",
+    "labelTh": "Non-Store Channel",
+    "labelEn": "Non-Store Channel",
+    "sortOrder": 126,
+    "active": true
+  },
+  {
+    "id": "20000210",
+    "labelTh": "Construction & Procurement",
+    "labelEn": "Construction & Procurement",
+    "sortOrder": 127,
+    "active": true
+  },
+  {
+    "id": "20000211",
+    "labelTh": "Business Expansion",
+    "labelEn": "Business Expansion",
+    "sortOrder": 128,
+    "active": true
+  },
+  {
+    "id": "20000131",
+    "labelTh": "Product Master",
+    "labelEn": "Product Master",
+    "sortOrder": 129,
+    "active": false
+  },
+  {
+    "id": "20000214",
+    "labelTh": "SCC",
+    "labelEn": "SCC",
+    "sortOrder": 130,
+    "active": true
+  },
+  {
+    "id": "20000212",
+    "labelTh": "Franchise Business & New Format",
+    "labelEn": "Franchise Business & New Format",
+    "sortOrder": 131,
+    "active": true
+  },
+  {
+    "id": "20000008",
+    "labelTh": "Merchandising Logistic & Shipping",
+    "labelEn": "Merchandising Logistic & Shipping",
+    "sortOrder": 132,
+    "active": false
+  },
+  {
+    "id": "20000058",
+    "labelTh": "Information Advisory Center",
+    "labelEn": "Information Advisory Center",
+    "sortOrder": 133,
+    "active": true
+  },
+  {
+    "id": "20000059",
+    "labelTh": "Interior Design & Construction",
+    "labelEn": "Interior Design & Construction",
+    "sortOrder": 134,
+    "active": true
+  },
+  {
+    "id": "20000205",
+    "labelTh": "Internal Stock Control",
+    "labelEn": "Internal Stock Control",
+    "sortOrder": 135,
+    "active": false
+  },
+  {
+    "id": "20000206",
+    "labelTh": "Property Management - Special Region",
+    "labelEn": "Property Management - Special Region",
+    "sortOrder": 136,
+    "active": true
+  },
+  {
+    "id": "20000208",
+    "labelTh": "Property Management",
+    "labelEn": "Property Management",
+    "sortOrder": 137,
+    "active": true
+  },
+  {
+    "id": "20000213",
+    "labelTh": "Buying & Merchandising",
+    "labelEn": "Buying & Merchandising",
+    "sortOrder": 138,
+    "active": true
+  },
+  {
+    "id": "20000215",
+    "labelTh": "Accounting, Procurement and Workplace Management",
+    "labelEn": "Accounting, Procurement and Workplace Management",
+    "sortOrder": 139,
+    "active": true
+  },
+  {
+    "id": "20000216",
+    "labelTh": "Property Operation",
+    "labelEn": "Property Operation",
+    "sortOrder": 140,
+    "active": true
+  },
+  {
+    "id": "20000217",
+    "labelTh": "Business Planning and Policy",
+    "labelEn": "Business Planning and Policy",
+    "sortOrder": 141,
+    "active": true
+  },
+  {
+    "id": "20000218",
+    "labelTh": "Legal & TMIS",
+    "labelEn": "Legal & TMIS",
+    "sortOrder": 142,
+    "active": true
+  },
+  {
+    "id": "20000219",
+    "labelTh": "Common Ground",
+    "labelEn": "Common Ground",
+    "sortOrder": 143,
+    "active": true
+  },
+  {
+    "id": "20000220",
+    "labelTh": "GLAND",
+    "labelEn": "GLAND",
+    "sortOrder": 144,
+    "active": true
+  },
+  {
+    "id": "20000221",
+    "labelTh": "Phenomenon Creation",
+    "labelEn": "Phenomenon Creation",
+    "sortOrder": 145,
+    "active": true
+  },
+  {
+    "id": "20000222",
+    "labelTh": "DCEO Office",
+    "labelEn": "DCEO Office",
+    "sortOrder": 146,
+    "active": true
+  },
+  {
+    "id": "20000223",
+    "labelTh": "Strategic Development and Analysis",
+    "labelEn": "Strategic Development and Analysis",
+    "sortOrder": 147,
+    "active": true
+  },
+  {
+    "id": "20000225",
+    "labelTh": "New Business Channel",
+    "labelEn": "New Business Channel",
+    "sortOrder": 148,
+    "active": true
+  },
+  {
+    "id": "20000085",
+    "labelTh": "Online & Omni Channel CRM",
+    "labelEn": "Online & Omni Channel CRM",
+    "sortOrder": 149,
+    "active": false
+  },
+  {
+    "id": "20000226",
+    "labelTh": "Supply Chain & Improvement",
+    "labelEn": "Supply Chain & Improvement",
+    "sortOrder": 150,
+    "active": true
+  },
+  {
+    "id": "20000228",
+    "labelTh": "Residential Development - Site",
+    "labelEn": "Residential Development - Site",
+    "sortOrder": 151,
+    "active": true
+  },
+  {
+    "id": "20000229",
+    "labelTh": "Alternative Assets",
+    "labelEn": "Alternative Assets",
+    "sortOrder": 152,
+    "active": true
+  },
+  {
+    "id": "20000230",
+    "labelTh": "Office Property",
+    "labelEn": "Office Property",
+    "sortOrder": 153,
+    "active": true
+  },
+  {
+    "id": "20000231",
+    "labelTh": "Hotel Property",
+    "labelEn": "Hotel Property",
+    "sortOrder": 154,
+    "active": true
+  },
+  {
+    "id": "20000233",
+    "labelTh": "New Function",
+    "labelEn": "New Function",
+    "sortOrder": 155,
+    "active": true
+  },
+  {
+    "id": "20000232",
+    "labelTh": "Business Planning",
+    "labelEn": "Business Planning",
+    "sortOrder": 156,
+    "active": true
+  },
+  {
+    "id": "20000246",
+    "labelTh": "Commercialization",
+    "labelEn": "Commercialization",
+    "sortOrder": 157,
+    "active": true
+  },
+  {
+    "id": "20000234",
+    "labelTh": "HCDS's Office - Chidlom",
+    "labelEn": "HCDS's Office - Chidlom",
+    "sortOrder": 158,
+    "active": true
+  },
+  {
+    "id": "20000235",
+    "labelTh": "HCDS's Office - Silom",
+    "labelEn": "HCDS's Office - Silom",
+    "sortOrder": 159,
+    "active": true
+  },
+  {
+    "id": "20000236",
+    "labelTh": "CPD",
+    "labelEn": "CPD",
+    "sortOrder": 160,
+    "active": true
+  },
+  {
+    "id": "20000237",
+    "labelTh": "Audit & Risk Management Committee",
+    "labelEn": "Audit & Risk Management Committee",
+    "sortOrder": 161,
+    "active": true
+  },
+  {
+    "id": "20000238",
+    "labelTh": "Chief of Staff",
+    "labelEn": "Chief of Staff",
+    "sortOrder": 162,
+    "active": true
+  },
+  {
+    "id": "20000239",
+    "labelTh": "Corporate Development",
+    "labelEn": "Corporate Development",
+    "sortOrder": 163,
+    "active": true
+  },
+  {
+    "id": "20000240",
+    "labelTh": "CRC President Office",
+    "labelEn": "CRC President Office",
+    "sortOrder": 164,
+    "active": true
+  },
+  {
+    "id": "20000241",
+    "labelTh": "Group Strategy & Development",
+    "labelEn": "Group Strategy & Development",
+    "sortOrder": 165,
+    "active": true
+  },
+  {
+    "id": "20000242",
+    "labelTh": "Jariya's Office",
+    "labelEn": "Jariya's Office",
+    "sortOrder": 166,
+    "active": true
+  },
+  {
+    "id": "20000243",
+    "labelTh": "CG Sports Club - Silom",
+    "labelEn": "CG Sports Club - Silom",
+    "sortOrder": 167,
+    "active": true
+  },
+  {
+    "id": "20000245",
+    "labelTh": "Partner Management",
+    "labelEn": "Partner Management",
+    "sortOrder": 168,
+    "active": true
+  },
+  {
+    "id": "20000248",
+    "labelTh": "Corporate Business Development",
+    "labelEn": "Corporate Business Development",
+    "sortOrder": 169,
+    "active": true
+  },
+  {
+    "id": "20000006",
+    "labelTh": "Business Development",
+    "labelEn": "Business Development",
+    "sortOrder": 170,
+    "active": true
+  },
+  {
+    "id": "20000054",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 171,
+    "active": true
+  },
+  {
+    "id": "20000065",
+    "labelTh": "IT",
+    "labelEn": "IT",
+    "sortOrder": 172,
+    "active": true
+  },
+  {
+    "id": "20000072",
+    "labelTh": "Loss Prevention",
+    "labelEn": "Loss Prevention",
+    "sortOrder": 173,
+    "active": true
+  },
+  {
+    "id": "20000077",
+    "labelTh": "Marketing",
+    "labelEn": "Marketing",
+    "sortOrder": 174,
+    "active": true
+  },
+  {
+    "id": "20000079",
+    "labelTh": "Merchandise",
+    "labelEn": "Merchandise",
+    "sortOrder": 175,
+    "active": true
+  },
+  {
+    "id": "20000084",
+    "labelTh": "Online",
+    "labelEn": "Online",
+    "sortOrder": 176,
+    "active": true
+  },
+  {
+    "id": "20000087",
+    "labelTh": "Operations",
+    "labelEn": "Operations",
+    "sortOrder": 177,
+    "active": true
+  },
+  {
+    "id": "20000095",
+    "labelTh": "Project",
+    "labelEn": "Project",
+    "sortOrder": 178,
+    "active": true
+  },
+  {
+    "id": "20000100",
+    "labelTh": "Quality Assurance",
+    "labelEn": "Quality Assurance",
+    "sortOrder": 179,
+    "active": true
+  },
+  {
+    "id": "20000124",
+    "labelTh": "Omnichannel",
+    "labelEn": "Omnichannel",
+    "sortOrder": 180,
+    "active": true
+  },
+  {
+    "id": "20000144",
+    "labelTh": "Leasing",
+    "labelEn": "Leasing",
+    "sortOrder": 181,
+    "active": true
+  },
+  {
+    "id": "20000244",
+    "labelTh": "Asset Leasing",
+    "labelEn": "Asset Leasing",
+    "sortOrder": 182,
+    "active": true
+  },
+  {
+    "id": "20000250",
+    "labelTh": "Data Processing & Customer Service Center",
+    "labelEn": "Data Processing & Customer Service Center",
+    "sortOrder": 183,
+    "active": true
+  },
+  {
+    "id": "20000052",
+    "labelTh": "v FIX",
+    "labelEn": "v FIX",
+    "sortOrder": 184,
+    "active": false
+  },
+  {
+    "id": "20000091",
+    "labelTh": "Store Design & Planogram",
+    "labelEn": "Store Design & Planogram",
+    "sortOrder": 185,
+    "active": false
+  },
+  {
+    "id": "20000141",
+    "labelTh": "People Group",
+    "labelEn": "People Group",
+    "sortOrder": 186,
+    "active": false
+  },
+  {
+    "id": "20000196",
+    "labelTh": "Strategy & Business Development",
+    "labelEn": "Strategy & Business Development",
+    "sortOrder": 187,
+    "active": false
+  },
+  {
+    "id": "20000207",
+    "labelTh": "Finance, Accounting and Risk Management",
+    "labelEn": "Finance, Accounting and Risk Management",
+    "sortOrder": 188,
+    "active": false
+  },
+  {
+    "id": "20000227",
+    "labelTh": "New Sales Channels",
+    "labelEn": "New Sales Channels",
+    "sortOrder": 189,
+    "active": false
+  },
+  {
+    "id": "20000247",
+    "labelTh": "CG Corporate Finance",
+    "labelEn": "CG Corporate Finance",
+    "sortOrder": 190,
+    "active": false
+  },
+  {
+    "id": "20000251",
+    "labelTh": "v FIX",
+    "labelEn": "v FIX",
+    "sortOrder": 191,
+    "active": true
+  },
+  {
+    "id": "20000252",
+    "labelTh": "Store Design & Planogram",
+    "labelEn": "Store Design & Planogram",
+    "sortOrder": 192,
+    "active": true
+  },
+  {
+    "id": "20000253",
+    "labelTh": "People Group",
+    "labelEn": "People Group",
+    "sortOrder": 193,
+    "active": true
+  },
+  {
+    "id": "20000254",
+    "labelTh": "Strategy & Business Development",
+    "labelEn": "Strategy & Business Development",
+    "sortOrder": 194,
+    "active": true
+  },
+  {
+    "id": "20000255",
+    "labelTh": "Finance, Accounting and Risk Management",
+    "labelEn": "Finance, Accounting and Risk Management",
+    "sortOrder": 195,
+    "active": true
+  },
+  {
+    "id": "20000256",
+    "labelTh": "New Sales Channels",
+    "labelEn": "New Sales Channels",
+    "sortOrder": 196,
+    "active": true
+  },
+  {
+    "id": "20000257",
+    "labelTh": "CG Corporate Finance",
+    "labelEn": "CG Corporate Finance",
+    "sortOrder": 197,
+    "active": true
+  },
+  {
+    "id": "20000259",
+    "labelTh": "Technology",
+    "labelEn": "Technology",
+    "sortOrder": 198,
+    "active": true
+  },
+  {
+    "id": "20000260",
+    "labelTh": "B2B & Alternative Channels",
+    "labelEn": "B2B & Alternative Channels",
+    "sortOrder": 199,
+    "active": true
+  },
+  {
+    "id": "20000261",
+    "labelTh": "Corporate Strategy",
+    "labelEn": "Corporate Strategy",
+    "sortOrder": 200,
+    "active": true
+  },
+  {
+    "id": "20000262",
+    "labelTh": "MIS",
+    "labelEn": "MIS",
+    "sortOrder": 201,
+    "active": true
+  },
+  {
+    "id": "20000263",
+    "labelTh": "Major Domestics Appliances",
+    "labelEn": "Major Domestics Appliances",
+    "sortOrder": 202,
+    "active": true
+  },
+  {
+    "id": "20000264",
+    "labelTh": "Service Center",
+    "labelEn": "Service Center",
+    "sortOrder": 203,
+    "active": true
+  },
+  {
+    "id": "20000265",
+    "labelTh": "Pet'N Me",
+    "labelEn": "Pet'N Me",
+    "sortOrder": 204,
+    "active": true
+  },
+  {
+    "id": "20000266",
+    "labelTh": "CEO Department Store",
+    "labelEn": "CEO Department Store",
+    "sortOrder": 205,
+    "active": true
+  },
+  {
+    "id": "20000016",
+    "labelTh": "CGO",
+    "labelEn": "CGO",
+    "sortOrder": 206,
+    "active": true
+  },
+  {
+    "id": "20000267",
+    "labelTh": "Procurement and Service Center",
+    "labelEn": "Procurement and Service Center",
+    "sortOrder": 207,
+    "active": true
+  },
+  {
+    "id": "20000268",
+    "labelTh": "goWOW-Operations",
+    "labelEn": "goWOW-Operations",
+    "sortOrder": 208,
+    "active": true
+  },
+  {
+    "id": "20000269",
+    "labelTh": "Data and Digital",
+    "labelEn": "Data and Digital",
+    "sortOrder": 209,
+    "active": true
+  },
+  {
+    "id": "20000270",
+    "labelTh": "Casio Megabrand",
+    "labelEn": "Casio Megabrand",
+    "sortOrder": 210,
+    "active": true
+  },
+  {
+    "id": "20000271",
+    "labelTh": "Facility Management",
+    "labelEn": "Facility Management",
+    "sortOrder": 211,
+    "active": true
+  },
+  {
+    "id": "20000166",
+    "labelTh": "Watches & Hardline",
+    "labelEn": "Watches & Hardline",
+    "sortOrder": 212,
+    "active": false
+  },
+  {
+    "id": "20000039",
+    "labelTh": "Factory",
+    "labelEn": "Factory",
+    "sortOrder": 213,
+    "active": false
+  },
+  {
+    "id": "20000224",
+    "labelTh": "Dyson",
+    "labelEn": "Dyson",
+    "sortOrder": 214,
+    "active": false
+  },
+  {
+    "id": "20000204",
+    "labelTh": "Data Processing Center",
+    "labelEn": "Data Processing Center",
+    "sortOrder": 215,
+    "active": false
+  },
+  {
+    "id": "20000203",
+    "labelTh": "Warehouse & Logistics",
+    "labelEn": "Warehouse & Logistics",
+    "sortOrder": 216,
+    "active": false
+  },
+  {
+    "id": "20000249",
+    "labelTh": "Garmin",
+    "labelEn": "Garmin",
+    "sortOrder": 217,
+    "active": false
+  },
+  {
+    "id": "20000119",
+    "labelTh": "Procurement Service Center and General Affairs",
+    "labelEn": "Procurement Service Center and General Affairs",
+    "sortOrder": 218,
+    "active": false
+  },
+  {
+    "id": "20000272",
+    "labelTh": "VVIP",
+    "labelEn": "VVIP",
+    "sortOrder": 219,
+    "active": true
+  },
+  {
+    "id": "20000273",
+    "labelTh": "Commercial Workgroup",
+    "labelEn": "Commercial Workgroup",
+    "sortOrder": 220,
+    "active": true
+  },
+  {
+    "id": "20000274",
+    "labelTh": "Community Mall Business",
+    "labelEn": "Community Mall Business",
+    "sortOrder": 221,
+    "active": true
+  },
+  {
+    "id": "20000275",
+    "labelTh": "Hotel Business",
+    "labelEn": "Hotel Business",
+    "sortOrder": 222,
+    "active": true
+  },
+  {
+    "id": "20000276",
+    "labelTh": "Digital Transformation",
+    "labelEn": "Digital Transformation",
+    "sortOrder": 223,
+    "active": true
+  },
+  {
+    "id": "20000277",
+    "labelTh": "Fashion Category",
+    "labelEn": "Fashion Category",
+    "sortOrder": 224,
+    "active": true
+  },
+  {
+    "id": "20000278",
+    "labelTh": "Mall Marketing",
+    "labelEn": "Mall Marketing",
+    "sortOrder": 225,
+    "active": true
+  },
+  {
+    "id": "20000334",
+    "labelTh": "Customer Services",
+    "labelEn": "Customer Services",
+    "sortOrder": 226,
+    "active": true
+  },
+  {
+    "id": "20000335",
+    "labelTh": "Digital Merchandising",
+    "labelEn": "Digital Merchandising",
+    "sortOrder": 227,
+    "active": true
+  },
+  {
+    "id": "20000336",
+    "labelTh": "DO-Central",
+    "labelEn": "DO-Central",
+    "sortOrder": 228,
+    "active": true
+  },
+  {
+    "id": "20000337",
+    "labelTh": "DO-Hanoi",
+    "labelEn": "DO-Hanoi",
+    "sortOrder": 229,
+    "active": true
+  },
+  {
+    "id": "20000338",
+    "labelTh": "DO-HCM",
+    "labelEn": "DO-HCM",
+    "sortOrder": 230,
+    "active": true
+  },
+  {
+    "id": "20000339",
+    "labelTh": "DO-North",
+    "labelEn": "DO-North",
+    "sortOrder": 231,
+    "active": true
+  },
+  {
+    "id": "20000340",
+    "labelTh": "DO-South",
+    "labelEn": "DO-South",
+    "sortOrder": 232,
+    "active": true
+  },
+  {
+    "id": "20000341",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 233,
+    "active": true
+  },
+  {
+    "id": "20000342",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 234,
+    "active": true
+  },
+  {
+    "id": "20000343",
+    "labelTh": "Hypermarket CEO's Office",
+    "labelEn": "Hypermarket CEO's Office",
+    "sortOrder": 235,
+    "active": true
+  },
+  {
+    "id": "20000344",
+    "labelTh": "Logistics",
+    "labelEn": "Logistics",
+    "sortOrder": 236,
+    "active": true
+  },
+  {
+    "id": "20000345",
+    "labelTh": "OMNI Channels",
+    "labelEn": "OMNI Channels",
+    "sortOrder": 237,
+    "active": true
+  },
+  {
+    "id": "20000346",
+    "labelTh": "Online Marketing",
+    "labelEn": "Online Marketing",
+    "sortOrder": 238,
+    "active": true
+  },
+  {
+    "id": "20000347",
+    "labelTh": "Openning",
+    "labelEn": "Openning",
+    "sortOrder": 239,
+    "active": true
+  },
+  {
+    "id": "20000348",
+    "labelTh": "Product",
+    "labelEn": "Product",
+    "sortOrder": 240,
+    "active": true
+  },
+  {
+    "id": "20000349",
+    "labelTh": "Strategy",
+    "labelEn": "Strategy",
+    "sortOrder": 241,
+    "active": true
+  },
+  {
+    "id": "20000350",
+    "labelTh": "Supply Chain Operations",
+    "labelEn": "Supply Chain Operations",
+    "sortOrder": 242,
+    "active": true
+  },
+  {
+    "id": "20000351",
+    "labelTh": "Telesales",
+    "labelEn": "Telesales",
+    "sortOrder": 243,
+    "active": true
+  },
+  {
+    "id": "20000352",
+    "labelTh": "Marketing & Communication",
+    "labelEn": "Marketing & Communication",
+    "sortOrder": 244,
+    "active": true
+  },
+  {
+    "id": "20000353",
+    "labelTh": "Security",
+    "labelEn": "Security",
+    "sortOrder": 245,
+    "active": true
+  },
+  {
+    "id": "20000354",
+    "labelTh": "Business Control",
+    "labelEn": "Business Control",
+    "sortOrder": 246,
+    "active": true
+  },
+  {
+    "id": "20000355",
+    "labelTh": "Buying Support",
+    "labelEn": "Buying Support",
+    "sortOrder": 247,
+    "active": true
+  },
+  {
+    "id": "20000356",
+    "labelTh": "Design",
+    "labelEn": "Design",
+    "sortOrder": 248,
+    "active": true
+  },
+  {
+    "id": "20000357",
+    "labelTh": "Digital Marketing",
+    "labelEn": "Digital Marketing",
+    "sortOrder": 249,
+    "active": true
+  },
+  {
+    "id": "20000358",
+    "labelTh": "F&B Development",
+    "labelEn": "F&B Development",
+    "sortOrder": 250,
+    "active": true
+  },
+  {
+    "id": "20000359",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 251,
+    "active": true
+  },
+  {
+    "id": "20000360",
+    "labelTh": "Finance Control",
+    "labelEn": "Finance Control",
+    "sortOrder": 252,
+    "active": true
+  },
+  {
+    "id": "20000361",
+    "labelTh": "go!",
+    "labelEn": "go!",
+    "sortOrder": 253,
+    "active": true
+  },
+  {
+    "id": "20000362",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 254,
+    "active": true
+  },
+  {
+    "id": "20000363",
+    "labelTh": "Marketing",
+    "labelEn": "Marketing",
+    "sortOrder": 255,
+    "active": true
+  },
+  {
+    "id": "20000364",
+    "labelTh": "Merchandise",
+    "labelEn": "Merchandise",
+    "sortOrder": 256,
+    "active": true
+  },
+  {
+    "id": "20000365",
+    "labelTh": "Operations",
+    "labelEn": "Operations",
+    "sortOrder": 257,
+    "active": true
+  },
+  {
+    "id": "20000366",
+    "labelTh": "Project",
+    "labelEn": "Project",
+    "sortOrder": 258,
+    "active": true
+  },
+  {
+    "id": "20000367",
+    "labelTh": "Quality Control",
+    "labelEn": "Quality Control",
+    "sortOrder": 259,
+    "active": true
+  },
+  {
+    "id": "20000368",
+    "labelTh": "Sales & Services",
+    "labelEn": "Sales & Services",
+    "sortOrder": 260,
+    "active": true
+  },
+  {
+    "id": "20000369",
+    "labelTh": "Store Chain",
+    "labelEn": "Store Chain",
+    "sortOrder": 261,
+    "active": true
+  },
+  {
+    "id": "20000370",
+    "labelTh": "Strategy & Project",
+    "labelEn": "Strategy & Project",
+    "sortOrder": 262,
+    "active": true
+  },
+  {
+    "id": "20000371",
+    "labelTh": "Supermarket CEO's Office",
+    "labelEn": "Supermarket CEO's Office",
+    "sortOrder": 263,
+    "active": true
+  },
+  {
+    "id": "20000372",
+    "labelTh": "Supply Chain",
+    "labelEn": "Supply Chain",
+    "sortOrder": 264,
+    "active": true
+  },
+  {
+    "id": "20000373",
+    "labelTh": "Tops Operations",
+    "labelEn": "Tops Operations",
+    "sortOrder": 265,
+    "active": true
+  },
+  {
+    "id": "20000374",
+    "labelTh": "Trade Marketing",
+    "labelEn": "Trade Marketing",
+    "sortOrder": 266,
+    "active": true
+  },
+  {
+    "id": "20000375",
+    "labelTh": "B2B",
+    "labelEn": "B2B",
+    "sortOrder": 267,
+    "active": true
+  },
+  {
+    "id": "20000376",
+    "labelTh": "Business Control",
+    "labelEn": "Business Control",
+    "sortOrder": 268,
+    "active": true
+  },
+  {
+    "id": "20000377",
+    "labelTh": "Category",
+    "labelEn": "Category",
+    "sortOrder": 269,
+    "active": true
+  },
+  {
+    "id": "20000378",
+    "labelTh": "Customer Services",
+    "labelEn": "Customer Services",
+    "sortOrder": 270,
+    "active": true
+  },
+  {
+    "id": "20000379",
+    "labelTh": "Expansion",
+    "labelEn": "Expansion",
+    "sortOrder": 271,
+    "active": true
+  },
+  {
+    "id": "20000380",
+    "labelTh": "F&B",
+    "labelEn": "F&B",
+    "sortOrder": 272,
+    "active": true
+  },
+  {
+    "id": "20000381",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 273,
+    "active": true
+  },
+  {
+    "id": "20000382",
+    "labelTh": "go! WOW",
+    "labelEn": "go! WOW",
+    "sortOrder": 274,
+    "active": true
+  },
+  {
+    "id": "20000383",
+    "labelTh": "Graphic Design",
+    "labelEn": "Graphic Design",
+    "sortOrder": 275,
+    "active": true
+  },
+  {
+    "id": "20000384",
+    "labelTh": "Home",
+    "labelEn": "Home",
+    "sortOrder": 276,
+    "active": true
+  },
+  {
+    "id": "20000385",
+    "labelTh": "Home & Entertainment",
+    "labelEn": "Home & Entertainment",
+    "sortOrder": 277,
+    "active": true
+  },
+  {
+    "id": "20000386",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 278,
+    "active": true
+  },
+  {
+    "id": "20000387",
+    "labelTh": "Import, Export & Warehousing",
+    "labelEn": "Import, Export & Warehousing",
+    "sortOrder": 279,
+    "active": true
+  },
+  {
+    "id": "20000388",
+    "labelTh": "Interior Design",
+    "labelEn": "Interior Design",
+    "sortOrder": 280,
+    "active": true
+  },
+  {
+    "id": "20000389",
+    "labelTh": "Inventory Check",
+    "labelEn": "Inventory Check",
+    "sortOrder": 281,
+    "active": true
+  },
+  {
+    "id": "20000390",
+    "labelTh": "Kubo",
+    "labelEn": "Kubo",
+    "sortOrder": 282,
+    "active": true
+  },
+  {
+    "id": "20000391",
+    "labelTh": "Logistics",
+    "labelEn": "Logistics",
+    "sortOrder": 283,
+    "active": true
+  },
+  {
+    "id": "20000392",
+    "labelTh": "Look Kool",
+    "labelEn": "Look Kool",
+    "sortOrder": 284,
+    "active": true
+  },
+  {
+    "id": "20000393",
+    "labelTh": "Maintenance & MEP",
+    "labelEn": "Maintenance & MEP",
+    "sortOrder": 285,
+    "active": true
+  },
+  {
+    "id": "20000394",
+    "labelTh": "Marketing",
+    "labelEn": "Marketing",
+    "sortOrder": 286,
+    "active": true
+  },
+  {
+    "id": "20000395",
+    "labelTh": "Marketing & CRM",
+    "labelEn": "Marketing & CRM",
+    "sortOrder": 287,
+    "active": true
+  },
+  {
+    "id": "20000396",
+    "labelTh": "Merchandise",
+    "labelEn": "Merchandise",
+    "sortOrder": 288,
+    "active": true
+  },
+  {
+    "id": "20000397",
+    "labelTh": "Merchandise & Sourcing",
+    "labelEn": "Merchandise & Sourcing",
+    "sortOrder": 289,
+    "active": true
+  },
+  {
+    "id": "20000398",
+    "labelTh": "Merchandise Planning",
+    "labelEn": "Merchandise Planning",
+    "sortOrder": 290,
+    "active": true
+  },
+  {
+    "id": "20000399",
+    "labelTh": "Operations",
+    "labelEn": "Operations",
+    "sortOrder": 291,
+    "active": true
+  },
+  {
+    "id": "20000400",
+    "labelTh": "Purchasing",
+    "labelEn": "Purchasing",
+    "sortOrder": 292,
+    "active": true
+  },
+  {
+    "id": "20000401",
+    "labelTh": "Quality Control",
+    "labelEn": "Quality Control",
+    "sortOrder": 293,
+    "active": true
+  },
+  {
+    "id": "20000402",
+    "labelTh": "R&D",
+    "labelEn": "R&D",
+    "sortOrder": 294,
+    "active": true
+  },
+  {
+    "id": "20000403",
+    "labelTh": "Replenishment & Delivery Consolidation",
+    "labelEn": "Replenishment & Delivery Consolidation",
+    "sortOrder": 295,
+    "active": true
+  },
+  {
+    "id": "20000404",
+    "labelTh": "Retail Establishment",
+    "labelEn": "Retail Establishment",
+    "sortOrder": 296,
+    "active": true
+  },
+  {
+    "id": "20000405",
+    "labelTh": "SEO",
+    "labelEn": "SEO",
+    "sortOrder": 297,
+    "active": true
+  },
+  {
+    "id": "20000406",
+    "labelTh": "Site Development",
+    "labelEn": "Site Development",
+    "sortOrder": 298,
+    "active": true
+  },
+  {
+    "id": "20000407",
+    "labelTh": "Sourcing Strategy",
+    "labelEn": "Sourcing Strategy",
+    "sortOrder": 299,
+    "active": true
+  },
+  {
+    "id": "20000408",
+    "labelTh": "Store Design & Brand Development",
+    "labelEn": "Store Design & Brand Development",
+    "sortOrder": 300,
+    "active": true
+  },
+  {
+    "id": "20000409",
+    "labelTh": "Visual Merchandise",
+    "labelEn": "Visual Merchandise",
+    "sortOrder": 301,
+    "active": true
+  },
+  {
+    "id": "20000410",
+    "labelTh": "B2B",
+    "labelEn": "B2B",
+    "sortOrder": 302,
+    "active": true
+  },
+  {
+    "id": "20000411",
+    "labelTh": "Business Control",
+    "labelEn": "Business Control",
+    "sortOrder": 303,
+    "active": true
+  },
+  {
+    "id": "20000412",
+    "labelTh": "E-commerce",
+    "labelEn": "E-commerce",
+    "sortOrder": 304,
+    "active": true
+  },
+  {
+    "id": "20000413",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 305,
+    "active": true
+  },
+  {
+    "id": "20000414",
+    "labelTh": "I&D",
+    "labelEn": "I&D",
+    "sortOrder": 306,
+    "active": true
+  },
+  {
+    "id": "20000415",
+    "labelTh": "Marketing",
+    "labelEn": "Marketing",
+    "sortOrder": 307,
+    "active": true
+  },
+  {
+    "id": "20000416",
+    "labelTh": "Merchandise",
+    "labelEn": "Merchandise",
+    "sortOrder": 308,
+    "active": true
+  },
+  {
+    "id": "20000417",
+    "labelTh": "NK's CEO Office",
+    "labelEn": "NK's CEO Office",
+    "sortOrder": 309,
+    "active": true
+  },
+  {
+    "id": "20000418",
+    "labelTh": "Store Operations",
+    "labelEn": "Store Operations",
+    "sortOrder": 310,
+    "active": true
+  },
+  {
+    "id": "20000419",
+    "labelTh": "Supply Chain",
+    "labelEn": "Supply Chain",
+    "sortOrder": 311,
+    "active": true
+  },
+  {
+    "id": "20000420",
+    "labelTh": "Additional Income",
+    "labelEn": "Additional Income",
+    "sortOrder": 312,
+    "active": true
+  },
+  {
+    "id": "20000421",
+    "labelTh": "Asset and Admin Management",
+    "labelEn": "Asset and Admin Management",
+    "sortOrder": 313,
+    "active": true
+  },
+  {
+    "id": "20000422",
+    "labelTh": "Business Control",
+    "labelEn": "Business Control",
+    "sortOrder": 314,
+    "active": true
+  },
+  {
+    "id": "20000423",
+    "labelTh": "Concept & Development",
+    "labelEn": "Concept & Development",
+    "sortOrder": 315,
+    "active": true
+  },
+  {
+    "id": "20000424",
+    "labelTh": "Concept Design",
+    "labelEn": "Concept Design",
+    "sortOrder": 316,
+    "active": true
+  },
+  {
+    "id": "20000425",
+    "labelTh": "Cost & Contract Management",
+    "labelEn": "Cost & Contract Management",
+    "sortOrder": 317,
+    "active": true
+  },
+  {
+    "id": "20000426",
+    "labelTh": "F&B Administration",
+    "labelEn": "F&B Administration",
+    "sortOrder": 318,
+    "active": true
+  },
+  {
+    "id": "20000427",
+    "labelTh": "F&B and New Concepts",
+    "labelEn": "F&B and New Concepts",
+    "sortOrder": 319,
+    "active": true
+  },
+  {
+    "id": "20000428",
+    "labelTh": "F&B Business Control",
+    "labelEn": "F&B Business Control",
+    "sortOrder": 320,
+    "active": true
+  },
+  {
+    "id": "20000429",
+    "labelTh": "F&B HR",
+    "labelEn": "F&B HR",
+    "sortOrder": 321,
+    "active": true
+  },
+  {
+    "id": "20000430",
+    "labelTh": "F&B Operations",
+    "labelEn": "F&B Operations",
+    "sortOrder": 322,
+    "active": true
+  },
+  {
+    "id": "20000431",
+    "labelTh": "Facility Maintenance",
+    "labelEn": "Facility Maintenance",
+    "sortOrder": 323,
+    "active": true
+  },
+  {
+    "id": "20000432",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 324,
+    "active": true
+  },
+  {
+    "id": "20000433",
+    "labelTh": "Leasing",
+    "labelEn": "Leasing",
+    "sortOrder": 325,
+    "active": true
+  },
+  {
+    "id": "20000434",
+    "labelTh": "Leasing & Marketing",
+    "labelEn": "Leasing & Marketing",
+    "sortOrder": 326,
+    "active": true
+  },
+  {
+    "id": "20000435",
+    "labelTh": "Leasing Administration",
+    "labelEn": "Leasing Administration",
+    "sortOrder": 327,
+    "active": true
+  },
+  {
+    "id": "20000436",
+    "labelTh": "Leasing Key Accounts",
+    "labelEn": "Leasing Key Accounts",
+    "sortOrder": 328,
+    "active": true
+  },
+  {
+    "id": "20000437",
+    "labelTh": "Leasing Management System",
+    "labelEn": "Leasing Management System",
+    "sortOrder": 329,
+    "active": true
+  },
+  {
+    "id": "20000438",
+    "labelTh": "Mall Operations",
+    "labelEn": "Mall Operations",
+    "sortOrder": 330,
+    "active": true
+  },
+  {
+    "id": "20000439",
+    "labelTh": "Market Insight",
+    "labelEn": "Market Insight",
+    "sortOrder": 331,
+    "active": true
+  },
+  {
+    "id": "20000440",
+    "labelTh": "Marketing & Communications",
+    "labelEn": "Marketing & Communications",
+    "sortOrder": 332,
+    "active": true
+  },
+  {
+    "id": "20000441",
+    "labelTh": "National Training",
+    "labelEn": "National Training",
+    "sortOrder": 333,
+    "active": true
+  },
+  {
+    "id": "20000442",
+    "labelTh": "New Projects",
+    "labelEn": "New Projects",
+    "sortOrder": 334,
+    "active": true
+  },
+  {
+    "id": "20000443",
+    "labelTh": "Project & Quality Management",
+    "labelEn": "Project & Quality Management",
+    "sortOrder": 335,
+    "active": true
+  },
+  {
+    "id": "20000444",
+    "labelTh": "Property - Front Office",
+    "labelEn": "Property - Front Office",
+    "sortOrder": 336,
+    "active": true
+  },
+  {
+    "id": "20000445",
+    "labelTh": "Property CEO's office",
+    "labelEn": "Property CEO's office",
+    "sortOrder": 337,
+    "active": true
+  },
+  {
+    "id": "20000446",
+    "labelTh": "Retail Delivery",
+    "labelEn": "Retail Delivery",
+    "sortOrder": 338,
+    "active": true
+  },
+  {
+    "id": "20000447",
+    "labelTh": "Retail Development",
+    "labelEn": "Retail Development",
+    "sortOrder": 339,
+    "active": true
+  },
+  {
+    "id": "20000448",
+    "labelTh": "Shopping Mall Operations",
+    "labelEn": "Shopping Mall Operations",
+    "sortOrder": 340,
+    "active": true
+  },
+  {
+    "id": "20000449",
+    "labelTh": "SOP",
+    "labelEn": "SOP",
+    "sortOrder": 341,
+    "active": true
+  },
+  {
+    "id": "20000450",
+    "labelTh": "Strategy & Planning",
+    "labelEn": "Strategy & Planning",
+    "sortOrder": 342,
+    "active": true
+  },
+  {
+    "id": "20000451",
+    "labelTh": "Administration",
+    "labelEn": "Administration",
+    "sortOrder": 343,
+    "active": true
+  },
+  {
+    "id": "20000452",
+    "labelTh": "BD & Corporate Strategy",
+    "labelEn": "BD & Corporate Strategy",
+    "sortOrder": 344,
+    "active": true
+  },
+  {
+    "id": "20000453",
+    "labelTh": "Business Control",
+    "labelEn": "Business Control",
+    "sortOrder": 345,
+    "active": true
+  },
+  {
+    "id": "20000454",
+    "labelTh": "Columbia",
+    "labelEn": "Columbia",
+    "sortOrder": 346,
+    "active": true
+  },
+  {
+    "id": "20000455",
+    "labelTh": "Content",
+    "labelEn": "Content",
+    "sortOrder": 347,
+    "active": true
+  },
+  {
+    "id": "20000456",
+    "labelTh": "CRC Sports & Lifestyle CEO's Office",
+    "labelEn": "CRC Sports & Lifestyle CEO's Office",
+    "sortOrder": 348,
+    "active": true
+  },
+  {
+    "id": "20000457",
+    "labelTh": "Crocs",
+    "labelEn": "Crocs",
+    "sortOrder": 349,
+    "active": true
+  },
+  {
+    "id": "20000458",
+    "labelTh": "Digital Platform",
+    "labelEn": "Digital Platform",
+    "sortOrder": 350,
+    "active": true
+  },
+  {
+    "id": "20000459",
+    "labelTh": "Dyson Viet Nam",
+    "labelEn": "Dyson Viet Nam",
+    "sortOrder": 351,
+    "active": true
+  },
+  {
+    "id": "20000460",
+    "labelTh": "Ecommerce",
+    "labelEn": "Ecommerce",
+    "sortOrder": 352,
+    "active": true
+  },
+  {
+    "id": "20000461",
+    "labelTh": "Fila",
+    "labelEn": "Fila",
+    "sortOrder": 353,
+    "active": true
+  },
+  {
+    "id": "20000462",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 354,
+    "active": true
+  },
+  {
+    "id": "20000463",
+    "labelTh": "International Brands",
+    "labelEn": "International Brands",
+    "sortOrder": 355,
+    "active": true
+  },
+  {
+    "id": "20000464",
+    "labelTh": "Logistics OPS",
+    "labelEn": "Logistics OPS",
+    "sortOrder": 356,
+    "active": true
+  },
+  {
+    "id": "20000465",
+    "labelTh": "Maintenance",
+    "labelEn": "Maintenance",
+    "sortOrder": 357,
+    "active": true
+  },
+  {
+    "id": "20000466",
+    "labelTh": "Marketing",
+    "labelEn": "Marketing",
+    "sortOrder": 358,
+    "active": true
+  },
+  {
+    "id": "20000467",
+    "labelTh": "Marketplace",
+    "labelEn": "Marketplace",
+    "sortOrder": 359,
+    "active": true
+  },
+  {
+    "id": "20000468",
+    "labelTh": "Merchandise",
+    "labelEn": "Merchandise",
+    "sortOrder": 360,
+    "active": true
+  },
+  {
+    "id": "20000469",
+    "labelTh": "Merchandising",
+    "labelEn": "Merchandising",
+    "sortOrder": 361,
+    "active": true
+  },
+  {
+    "id": "20000470",
+    "labelTh": "Online-SuperSports",
+    "labelEn": "Online-SuperSports",
+    "sortOrder": 362,
+    "active": true
+  },
+  {
+    "id": "20000471",
+    "labelTh": "Operations",
+    "labelEn": "Operations",
+    "sortOrder": 363,
+    "active": true
+  },
+  {
+    "id": "20000472",
+    "labelTh": "Outlet & Wholesales",
+    "labelEn": "Outlet & Wholesales",
+    "sortOrder": 364,
+    "active": true
+  },
+  {
+    "id": "20000473",
+    "labelTh": "Planning",
+    "labelEn": "Planning",
+    "sortOrder": 365,
+    "active": true
+  },
+  {
+    "id": "20000474",
+    "labelTh": "Projects",
+    "labelEn": "Projects",
+    "sortOrder": 366,
+    "active": true
+  },
+  {
+    "id": "20000475",
+    "labelTh": "Replenishment",
+    "labelEn": "Replenishment",
+    "sortOrder": 367,
+    "active": true
+  },
+  {
+    "id": "20000476",
+    "labelTh": "Sales",
+    "labelEn": "Sales",
+    "sortOrder": 368,
+    "active": true
+  },
+  {
+    "id": "20000477",
+    "labelTh": "Service Center",
+    "labelEn": "Service Center",
+    "sortOrder": 369,
+    "active": true
+  },
+  {
+    "id": "20000478",
+    "labelTh": "Skechers",
+    "labelEn": "Skechers",
+    "sortOrder": 370,
+    "active": true
+  },
+  {
+    "id": "20000479",
+    "labelTh": "Stock Control",
+    "labelEn": "Stock Control",
+    "sortOrder": 371,
+    "active": true
+  },
+  {
+    "id": "20000480",
+    "labelTh": "Supersports",
+    "labelEn": "Supersports",
+    "sortOrder": 372,
+    "active": true
+  },
+  {
+    "id": "20000481",
+    "labelTh": "Supply Chain Management",
+    "labelEn": "Supply Chain Management",
+    "sortOrder": 373,
+    "active": true
+  },
+  {
+    "id": "20000482",
+    "labelTh": "Training",
+    "labelEn": "Training",
+    "sortOrder": 374,
+    "active": true
+  },
+  {
+    "id": "20000483",
+    "labelTh": "Under Armour and New Balance",
+    "labelEn": "Under Armour and New Balance",
+    "sortOrder": 375,
+    "active": true
+  },
+  {
+    "id": "20000484",
+    "labelTh": "Visual Merchandise",
+    "labelEn": "Visual Merchandise",
+    "sortOrder": 376,
+    "active": true
+  },
+  {
+    "id": "20000485",
+    "labelTh": "Application Development",
+    "labelEn": "Application Development",
+    "sortOrder": 377,
+    "active": true
+  },
+  {
+    "id": "20000486",
+    "labelTh": "CEO's Office",
+    "labelEn": "CEO's Office",
+    "sortOrder": 378,
+    "active": true
+  },
+  {
+    "id": "20000487",
+    "labelTh": "Commercial",
+    "labelEn": "Commercial",
+    "sortOrder": 379,
+    "active": true
+  },
+  {
+    "id": "20000488",
+    "labelTh": "Commercial-Business Control",
+    "labelEn": "Commercial-Business Control",
+    "sortOrder": 380,
+    "active": true
+  },
+  {
+    "id": "20000489",
+    "labelTh": "Commercial-Direct Import",
+    "labelEn": "Commercial-Direct Import",
+    "sortOrder": 381,
+    "active": true
+  },
+  {
+    "id": "20000490",
+    "labelTh": "Commercial-FMCG",
+    "labelEn": "Commercial-FMCG",
+    "sortOrder": 382,
+    "active": true
+  },
+  {
+    "id": "20000491",
+    "labelTh": "Commercial-Fresh Food",
+    "labelEn": "Commercial-Fresh Food",
+    "sortOrder": 383,
+    "active": true
+  },
+  {
+    "id": "20000492",
+    "labelTh": "Commercial-Non-Food",
+    "labelEn": "Commercial-Non-Food",
+    "sortOrder": 384,
+    "active": true
+  },
+  {
+    "id": "20000493",
+    "labelTh": "Commercial-Private Label",
+    "labelEn": "Commercial-Private Label",
+    "sortOrder": 385,
+    "active": true
+  },
+  {
+    "id": "20000494",
+    "labelTh": "Commercial-Quality Control",
+    "labelEn": "Commercial-Quality Control",
+    "sortOrder": 386,
+    "active": true
+  },
+  {
+    "id": "20000495",
+    "labelTh": "Commercial-Supermarket",
+    "labelEn": "Commercial-Supermarket",
+    "sortOrder": 387,
+    "active": true
+  },
+  {
+    "id": "20000496",
+    "labelTh": "Commercial-System & Support",
+    "labelEn": "Commercial-System & Support",
+    "sortOrder": 388,
+    "active": true
+  },
+  {
+    "id": "20000497",
+    "labelTh": "Corporate Affairs",
+    "labelEn": "Corporate Affairs",
+    "sortOrder": 389,
+    "active": true
+  },
+  {
+    "id": "20000498",
+    "labelTh": "Sales Operations",
+    "labelEn": "Sales Operations",
+    "sortOrder": 390,
+    "active": true
+  },
+  {
+    "id": "20000499",
+    "labelTh": "OMNI Channels",
+    "labelEn": "OMNI Channels",
+    "sortOrder": 391,
+    "active": true
+  },
+  {
+    "id": "20000500",
+    "labelTh": "Demand Planning & Replenishment",
+    "labelEn": "Demand Planning & Replenishment",
+    "sortOrder": 392,
+    "active": true
+  },
+  {
+    "id": "20000501",
+    "labelTh": "F&A Technology and Project",
+    "labelEn": "F&A Technology and Project",
+    "sortOrder": 393,
+    "active": true
+  },
+  {
+    "id": "20000502",
+    "labelTh": "FAST",
+    "labelEn": "FAST",
+    "sortOrder": 394,
+    "active": true
+  },
+  {
+    "id": "20000503",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 395,
+    "active": true
+  },
+  {
+    "id": "20000504",
+    "labelTh": "Finance-Non-Merchandise Procurement",
+    "labelEn": "Finance-Non-Merchandise Procurement",
+    "sortOrder": 396,
+    "active": true
+  },
+  {
+    "id": "20000505",
+    "labelTh": "Finance-Property & Expansion",
+    "labelEn": "Finance-Property & Expansion",
+    "sortOrder": 397,
+    "active": true
+  },
+  {
+    "id": "20000506",
+    "labelTh": "Finance-Reporting",
+    "labelEn": "Finance-Reporting",
+    "sortOrder": 398,
+    "active": true
+  },
+  {
+    "id": "20000507",
+    "labelTh": "Finance-Treasury & Holdings",
+    "labelEn": "Finance-Treasury & Holdings",
+    "sortOrder": 399,
+    "active": true
+  },
+  {
+    "id": "20000508",
+    "labelTh": "Finance-Value Creation",
+    "labelEn": "Finance-Value Creation",
+    "sortOrder": 400,
+    "active": true
+  },
+  {
+    "id": "20000509",
+    "labelTh": "Fresh Food",
+    "labelEn": "Fresh Food",
+    "sortOrder": 401,
+    "active": true
+  },
+  {
+    "id": "20000510",
+    "labelTh": "Government Relations",
+    "labelEn": "Government Relations",
+    "sortOrder": 402,
+    "active": true
+  },
+  {
+    "id": "20000511",
+    "labelTh": "Group HR",
+    "labelEn": "Group HR",
+    "sortOrder": 403,
+    "active": true
+  },
+  {
+    "id": "20000512",
+    "labelTh": "BD & MD",
+    "labelEn": "BD & MD",
+    "sortOrder": 404,
+    "active": true
+  },
+  {
+    "id": "20000513",
+    "labelTh": "Business Development",
+    "labelEn": "Business Development",
+    "sortOrder": 405,
+    "active": true
+  },
+  {
+    "id": "20000514",
+    "labelTh": "Customer Services & Telesales",
+    "labelEn": "Customer Services & Telesales",
+    "sortOrder": 406,
+    "active": true
+  },
+  {
+    "id": "20000515",
+    "labelTh": "Expansion",
+    "labelEn": "Expansion",
+    "sortOrder": 407,
+    "active": true
+  },
+  {
+    "id": "20000516",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 408,
+    "active": true
+  },
+  {
+    "id": "20000517",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 409,
+    "active": true
+  },
+  {
+    "id": "20000518",
+    "labelTh": "IFRS Reporting",
+    "labelEn": "IFRS Reporting",
+    "sortOrder": 410,
+    "active": true
+  },
+  {
+    "id": "20000519",
+    "labelTh": "Information Technology",
+    "labelEn": "Information Technology",
+    "sortOrder": 411,
+    "active": true
+  },
+  {
+    "id": "20000520",
+    "labelTh": "Internal Audit",
+    "labelEn": "Internal Audit",
+    "sortOrder": 412,
+    "active": true
+  },
+  {
+    "id": "20000521",
+    "labelTh": "International Corporate Affairs",
+    "labelEn": "International Corporate Affairs",
+    "sortOrder": 413,
+    "active": true
+  },
+  {
+    "id": "20000522",
+    "labelTh": "IT Delivery",
+    "labelEn": "IT Delivery",
+    "sortOrder": 414,
+    "active": true
+  },
+  {
+    "id": "20000523",
+    "labelTh": "IT Operations",
+    "labelEn": "IT Operations",
+    "sortOrder": 415,
+    "active": true
+  },
+  {
+    "id": "20000524",
+    "labelTh": "IT Procurement",
+    "labelEn": "IT Procurement",
+    "sortOrder": 416,
+    "active": true
+  },
+  {
+    "id": "20000525",
+    "labelTh": "IT Security",
+    "labelEn": "IT Security",
+    "sortOrder": 417,
+    "active": true
+  },
+  {
+    "id": "20000526",
+    "labelTh": "IT-Data",
+    "labelEn": "IT-Data",
+    "sortOrder": 418,
+    "active": true
+  },
+  {
+    "id": "20000527",
+    "labelTh": "Land Acquisition & Expansion",
+    "labelEn": "Land Acquisition & Expansion",
+    "sortOrder": 419,
+    "active": true
+  },
+  {
+    "id": "20000528",
+    "labelTh": "Land Acquisition & Expansion Strategy",
+    "labelEn": "Land Acquisition & Expansion Strategy",
+    "sortOrder": 420,
+    "active": true
+  },
+  {
+    "id": "20000529",
+    "labelTh": "Legal",
+    "labelEn": "Legal",
+    "sortOrder": 421,
+    "active": true
+  },
+  {
+    "id": "20000530",
+    "labelTh": "Marketing & Design",
+    "labelEn": "Marketing & Design",
+    "sortOrder": 422,
+    "active": true
+  },
+  {
+    "id": "20000531",
+    "labelTh": "Operations",
+    "labelEn": "Operations",
+    "sortOrder": 423,
+    "active": true
+  },
+  {
+    "id": "20000532",
+    "labelTh": "Logistics Operations",
+    "labelEn": "Logistics Operations",
+    "sortOrder": 424,
+    "active": true
+  },
+  {
+    "id": "20000533",
+    "labelTh": "Operational F&A",
+    "labelEn": "Operational F&A",
+    "sortOrder": 425,
+    "active": true
+  },
+  {
+    "id": "20000534",
+    "labelTh": "Operations Audit",
+    "labelEn": "Operations Audit",
+    "sortOrder": 426,
+    "active": true
+  },
+  {
+    "id": "20000535",
+    "labelTh": "PR & Communications",
+    "labelEn": "PR & Communications",
+    "sortOrder": 427,
+    "active": true
+  },
+  {
+    "id": "20000536",
+    "labelTh": "Recruitment",
+    "labelEn": "Recruitment",
+    "sortOrder": 428,
+    "active": true
+  },
+  {
+    "id": "20000537",
+    "labelTh": "Reporting & Productivity",
+    "labelEn": "Reporting & Productivity",
+    "sortOrder": 429,
+    "active": true
+  },
+  {
+    "id": "20000538",
+    "labelTh": "Security",
+    "labelEn": "Security",
+    "sortOrder": 430,
+    "active": true
+  },
+  {
+    "id": "20000539",
+    "labelTh": "Shared Applications",
+    "labelEn": "Shared Applications",
+    "sortOrder": 431,
+    "active": true
+  },
+  {
+    "id": "20000540",
+    "labelTh": "Supply Chain",
+    "labelEn": "Supply Chain",
+    "sortOrder": 432,
+    "active": true
+  },
+  {
+    "id": "20000541",
+    "labelTh": "Supply Chain Strategy",
+    "labelEn": "Supply Chain Strategy",
+    "sortOrder": 433,
+    "active": true
+  },
+  {
+    "id": "20000542",
+    "labelTh": "Taxation",
+    "labelEn": "Taxation",
+    "sortOrder": 434,
+    "active": true
+  },
+  {
+    "id": "20000333",
+    "labelTh": "Business Control",
+    "labelEn": "Business Control",
+    "sortOrder": 435,
+    "active": true
+  },
+  {
+    "id": "20000544",
+    "labelTh": "HR",
+    "labelEn": "HR",
+    "sortOrder": 436,
+    "active": true
+  },
+  {
+    "id": "20000545",
+    "labelTh": "TEST",
+    "labelEn": "TEST",
+    "sortOrder": 437,
+    "active": true
+  }
+]

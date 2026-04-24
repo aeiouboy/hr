@@ -7,6 +7,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepCompensationSchema } from '@/lib/admin/validation/hireSchema'
+import { PICKLIST_PAY_FREQUENCY } from '@hrms/shared/picklists'
 
 export interface StepCompensationProps {
   onValidChange?: (isValid: boolean) => void
@@ -83,10 +84,20 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
         </select>
       </fieldset>
 
+      {/* Pay Frequency — audit #13 / BRD #120 — wired to SF PICKLIST_PAY_FREQUENCY (6 items) */}
+      <fieldset>
+        <label htmlFor="pay-frequency" className="humi-label">ความถี่การจ่ายเงิน</label>
+        <select id="pay-frequency" defaultValue="MON" className="humi-select w-full">
+          {PICKLIST_PAY_FREQUENCY.filter((f) => f.active).map((f) => (
+            <option key={f.id} value={f.id}>{f.labelTh}</option>
+          ))}
+        </select>
+      </fieldset>
+
       {/* Payment Method — audit #13 (BRD #118) — mockup stub */}
-      <fieldset className="md:col-span-2">
+      <fieldset>
         <label htmlFor="payment-method" className="humi-label">วิธีรับเงินเดือน</label>
-        <select id="payment-method" defaultValue="TRANSFER" className="humi-select w-full md:max-w-sm">
+        <select id="payment-method" defaultValue="TRANSFER" className="humi-select w-full">
           <option value="TRANSFER">โอนเงินผ่านธนาคาร</option>
           <option value="CASH">เงินสด</option>
           <option value="CHEQUE">เช็ค</option>

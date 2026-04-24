@@ -1,0 +1,310 @@
+[
+  {
+    "id": "10000000",
+    "labelTh": "CDS",
+    "labelEn": "CDS",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "10000001",
+    "labelTh": "RBS",
+    "labelEn": "RBS",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "10000002",
+    "labelTh": "SSP",
+    "labelEn": "SSP",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "10000003",
+    "labelTh": "CFR",
+    "labelEn": "CFR",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "10000004",
+    "labelTh": "CFM",
+    "labelEn": "CFM",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "10000005",
+    "labelTh": "CHG",
+    "labelEn": "CHG",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "10000006",
+    "labelTh": "PWB",
+    "labelEn": "PWB",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "10000007",
+    "labelTh": "B2S",
+    "labelEn": "B2S",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "10000008",
+    "labelTh": "OFM",
+    "labelEn": "OFM",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "10000009",
+    "labelTh": "CPN",
+    "labelEn": "CPN",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "10000010",
+    "labelTh": "CMG",
+    "labelEn": "CMG",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "10000011",
+    "labelTh": "CRG",
+    "labelEn": "CRG",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "10000012",
+    "labelTh": "CHR",
+    "labelEn": "CHR",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "10000014",
+    "labelTh": "SCM",
+    "labelEn": "SCM",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "10000015",
+    "labelTh": "Retail Food Corporate",
+    "labelEn": "Retail Food Corporate",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "10000017",
+    "labelTh": "FAST",
+    "labelEn": "FAST",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "10000018",
+    "labelTh": "CG HR",
+    "labelEn": "CG HR",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "10000019",
+    "labelTh": "RIS",
+    "labelEn": "RIS",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "10000020",
+    "labelTh": "T1C",
+    "labelEn": "T1C",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "10000021",
+    "labelTh": "Audit",
+    "labelEn": "Audit",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "10000023",
+    "labelTh": "CGO",
+    "labelEn": "CGO",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "10000024",
+    "labelTh": "CNG",
+    "labelEn": "CNG",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "99999999",
+    "labelTh": "999",
+    "labelEn": "999",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "10000026",
+    "labelTh": "CGV",
+    "labelEn": "CGV",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "99999CMG",
+    "labelTh": "99999CMG",
+    "labelEn": "99999CMG",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "99999CPN",
+    "labelTh": "99999CPN",
+    "labelEn": "99999CPN",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "10000022",
+    "labelTh": "BD",
+    "labelEn": "BD",
+    "sortOrder": 27,
+    "active": true
+  },
+  {
+    "id": "10000013",
+    "labelTh": "CU",
+    "labelEn": "CU",
+    "sortOrder": 28,
+    "active": true
+  },
+  {
+    "id": "10000016",
+    "labelTh": "CRC",
+    "labelEn": "CRC",
+    "sortOrder": 29,
+    "active": true
+  },
+  {
+    "id": "10000042",
+    "labelTh": "CPT",
+    "labelEn": "CPT",
+    "sortOrder": 30,
+    "active": true
+  },
+  {
+    "id": "10000027",
+    "labelTh": "CFW",
+    "labelEn": "CFW",
+    "sortOrder": 31,
+    "active": true
+  },
+  {
+    "id": "10000044",
+    "labelTh": "Supermarket",
+    "labelEn": "Supermarket",
+    "sortOrder": 32,
+    "active": true
+  },
+  {
+    "id": "10000045",
+    "labelTh": "Home & Entertainment",
+    "labelEn": "Home & Entertainment",
+    "sortOrder": 33,
+    "active": true
+  },
+  {
+    "id": "10000046",
+    "labelTh": "Property",
+    "labelEn": "Property",
+    "sortOrder": 34,
+    "active": true
+  },
+  {
+    "id": "10000047",
+    "labelTh": "CRC Sport & Lifestyle",
+    "labelEn": "CRC Sport & Lifestyle",
+    "sortOrder": 35,
+    "active": true
+  },
+  {
+    "id": "10000048",
+    "labelTh": "Nguyen Kim",
+    "labelEn": "Nguyen Kim",
+    "sortOrder": 36,
+    "active": true
+  },
+  {
+    "id": "10000049",
+    "labelTh": "Group HO",
+    "labelEn": "Group HO",
+    "sortOrder": 37,
+    "active": true
+  },
+  {
+    "id": "10000043",
+    "labelTh": "Hypermarket",
+    "labelEn": "Hypermarket",
+    "sortOrder": 38,
+    "active": true
+  },
+  {
+    "id": "10000057",
+    "labelTh": "Supermarket",
+    "labelEn": "Supermarket",
+    "sortOrder": 39,
+    "active": true
+  },
+  {
+    "id": "10000056",
+    "labelTh": "Supermarket",
+    "labelEn": "Supermarket",
+    "sortOrder": 40,
+    "active": true
+  },
+  {
+    "id": "10000075",
+    "labelTh": "CDG",
+    "labelEn": "CDG",
+    "sortOrder": 41,
+    "active": true
+  },
+  {
+    "id": "10000076",
+    "labelTh": "CEH",
+    "labelEn": "CEH",
+    "sortOrder": 42,
+    "active": true
+  },
+  {
+    "id": "10000077",
+    "labelTh": "MJT",
+    "labelEn": "MJT",
+    "sortOrder": 43,
+    "active": true
+  },
+  {
+    "id": "10000078",
+    "labelTh": "SWL",
+    "labelEn": "SWL",
+    "sortOrder": 44,
+    "active": true
+  }
+]

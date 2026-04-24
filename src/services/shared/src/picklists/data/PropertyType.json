@@ -1,0 +1,163 @@
+[
+  {
+    "id": "CFR",
+    "labelTh": "TOPS-Plaza",
+    "labelEn": "TOPS-Plaza",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "BIG",
+    "labelTh": "Big C",
+    "labelEn": "Big C",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "WHS",
+    "labelTh": "Warehouse",
+    "labelEn": "Warehouse",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "OFF",
+    "labelTh": "CG Office",
+    "labelEn": "CG Office",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "CHR",
+    "labelTh": "Hotel",
+    "labelEn": "Hotel",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "GAS",
+    "labelTh": "Gas Station",
+    "labelEn": "Gas Station",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "FAC",
+    "labelTh": "Factory",
+    "labelEn": "Factory",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "HOS",
+    "labelTh": "Hospital",
+    "labelEn": "Hospital",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "OTH",
+    "labelTh": "Others",
+    "labelEn": "Others",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "CPN",
+    "labelTh": "Central Pattana",
+    "labelEn": "Central Pattana",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "CDS",
+    "labelTh": "Central Department Store",
+    "labelEn": "Central Department Store",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "CHG",
+    "labelTh": "Thai Watsadu",
+    "labelEn": "Thai Watsadu",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "RBS",
+    "labelTh": "Robinson Department Store",
+    "labelEn": "Robinson Department Store",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "MAL",
+    "labelTh": "The Mall",
+    "labelEn": "The Mall",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "TES",
+    "labelTh": "Tesco Lotus",
+    "labelEn": "Tesco Lotus",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "RES",
+    "labelTh": "Residential",
+    "labelEn": "Residential",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "CON",
+    "labelTh": "Condo",
+    "labelEn": "Condo",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "TOU",
+    "labelTh": "Tourist",
+    "labelEn": "Tourist",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "MKT",
+    "labelTh": "Market",
+    "labelEn": "Market",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "TRN",
+    "labelTh": "Transport Hub",
+    "labelEn": "Transport Hub",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "SPM",
+    "labelTh": "Shopping mall",
+    "labelEn": "Shopping mall",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "IND",
+    "labelTh": "Industrial Area",
+    "labelEn": "Industrial Area",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "UNI",
+    "labelTh": "University",
+    "labelEn": "University",
+    "sortOrder": 23,
+    "active": true
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "A04",
+    "labelTh": "Warehouse and Distribution",
+    "labelEn": "Warehouse and Distribution",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "A05",
+    "labelTh": "Factory",
+    "labelEn": "Factory",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "A01",
+    "labelTh": "Back Office",
+    "labelEn": "Back Office",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "A02",
+    "labelTh": "Back Support Front",
+    "labelEn": "Back Support Front",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "A03",
+    "labelTh": "Front",
+    "labelEn": "Front",
+    "sortOrder": 5,
+    "active": true
+  }
+]

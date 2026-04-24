@@ -1,0 +1,121 @@
+[
+  {
+    "id": "CDS",
+    "labelTh": "01-CDS",
+    "labelEn": "01-CDS",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "RBS",
+    "labelTh": "02-RBS",
+    "labelEn": "02-RBS",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "SSP",
+    "labelTh": "03-SSP",
+    "labelEn": "03-SSP",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "SCM",
+    "labelTh": "04-SCM",
+    "labelEn": "04-SCM",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "CFR",
+    "labelTh": "05-CFR",
+    "labelEn": "05-CFR",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "CFM",
+    "labelTh": "06-CFM",
+    "labelEn": "06-CFM",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "OFM",
+    "labelTh": "07-OFM",
+    "labelEn": "07-OFM",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "B2S",
+    "labelTh": "08-B2S",
+    "labelEn": "08-B2S",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "CHG",
+    "labelTh": "09-CHG",
+    "labelEn": "09-CHG",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "PWB",
+    "labelTh": "10-PWB",
+    "labelEn": "10-PWB",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "CPN",
+    "labelTh": "11-CPN",
+    "labelEn": "11-CPN",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "CMG",
+    "labelTh": "12-CMG",
+    "labelEn": "12-CMG",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "CRG",
+    "labelTh": "13-CRG",
+    "labelEn": "13-CRG",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "CHR",
+    "labelTh": "14-CHR",
+    "labelEn": "14-CHR",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "SU",
+    "labelTh": "15-SU",
+    "labelEn": "15-SU",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "ALL",
+    "labelTh": "* Public",
+    "labelEn": "* Public",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "CG",
+    "labelTh": "* CG",
+    "labelEn": "* CG",
+    "sortOrder": 17,
+    "active": true
+  }
+]

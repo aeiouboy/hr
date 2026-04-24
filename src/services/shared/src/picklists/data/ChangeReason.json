@@ -1,0 +1,44 @@
+[
+  {
+    "id": "4",
+    "labelTh": "Update Key Position",
+    "labelEn": "Update Key Position",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "5",
+    "labelTh": "Rename",
+    "labelEn": "Rename",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "2",
+    "labelTh": "Restructure",
+    "labelEn": "Restructure",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "6",
+    "labelTh": "Modify",
+    "labelEn": "Modify",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "3",
+    "labelTh": "Disestablishment",
+    "labelEn": "Disestablishment",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "1",
+    "labelTh": "New Position",
+    "labelEn": "New Position",
+    "sortOrder": 6,
+    "active": true
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "BE01",
+    "labelTh": "BE WT for Config 1",
+    "labelEn": "BE WT for Config 1",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "VN_1004",
+    "labelTh": "Vietnam: Hourly Rate",
+    "labelEn": "Vietnam: Hourly Rate",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "VN_1000",
+    "labelTh": "Vietnam: Salary",
+    "labelEn": "Vietnam: Salary",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "TH_1004",
+    "labelTh": "Hourly Rate-T/P/S",
+    "labelEn": "Hourly Rate-T/P/S",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "TH_1003",
+    "labelTh": "DVT/Intern Rate-T",
+    "labelEn": "DVT/Intern Rate-T",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "TH_1002",
+    "labelTh": "Daily Rate-T/P/S",
+    "labelEn": "Daily Rate-T/P/S",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "TH_1001",
+    "labelTh": "Salary(Grsup)-T/P/S",
+    "labelEn": "Salary(Grsup)-T/P/S",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "TH_1000",
+    "labelTh": "Salary-T/P/S",
+    "labelEn": "Salary-T/P/S",
+    "sortOrder": 8,
+    "active": true
+  }
+]

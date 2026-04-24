@@ -1,0 +1,191 @@
+[
+  {
+    "id": "SCM",
+    "labelTh": "SCM",
+    "labelEn": "SCM",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "PWB",
+    "labelTh": "PWB",
+    "labelEn": "PWB",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "OFM",
+    "labelTh": "OFM",
+    "labelEn": "OFM",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "CRG",
+    "labelTh": "CRG",
+    "labelEn": "CRG",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "CPN",
+    "labelTh": "CPN",
+    "labelEn": "CPN",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "CMG",
+    "labelTh": "CMG",
+    "labelEn": "CMG",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "CHR",
+    "labelTh": "CHR",
+    "labelEn": "CHR",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "CHG",
+    "labelTh": "CHG",
+    "labelEn": "CHG",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "CFR",
+    "labelTh": "CFR",
+    "labelEn": "CFR",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "CFM",
+    "labelTh": "CFM",
+    "labelEn": "CFM",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "B2S",
+    "labelTh": "B2S",
+    "labelEn": "B2S",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "SSP",
+    "labelTh": "SSP",
+    "labelEn": "SSP",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "RBS",
+    "labelTh": "RBS",
+    "labelEn": "RBS",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "CDS",
+    "labelTh": "CDS",
+    "labelEn": "CDS",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "999",
+    "labelTh": "MIGRATION PROFILE",
+    "labelEn": "MIGRATION PROFILE",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "SU-CMC & SDO",
+    "labelTh": "SU-CMC & SDO",
+    "labelEn": "SU-CMC & SDO",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "SU-MA",
+    "labelTh": "SU-MA",
+    "labelEn": "SU-MA",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "SU-INTERNAL AUDIT",
+    "labelTh": "SU-INTERNAL AUDIT",
+    "labelEn": "SU-INTERNAL AUDIT",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "SU-CIS",
+    "labelTh": "SU-CIS",
+    "labelEn": "SU-CIS",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "SU-T1C",
+    "labelTh": "SU-T1C",
+    "labelEn": "SU-T1C",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "SU-CNG",
+    "labelTh": "SU-CNG",
+    "labelEn": "SU-CNG",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "SU-CGO",
+    "labelTh": "SU-CGO",
+    "labelEn": "SU-CGO",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "SU-OTHER",
+    "labelTh": "SU-OTHER",
+    "labelEn": "SU-OTHER",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "SU-FAST",
+    "labelTh": "SU-FAST",
+    "labelEn": "SU-FAST",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "SU-BD",
+    "labelTh": "SU-BD",
+    "labelEn": "SU-BD",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "SU-RIS",
+    "labelTh": "SU-RIS",
+    "labelEn": "SU-RIS",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "SU-HR",
+    "labelTh": "SU-HR",
+    "labelEn": "SU-HR",
+    "sortOrder": 27,
+    "active": true
+  }
+]

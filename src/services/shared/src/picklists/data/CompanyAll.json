@@ -1,0 +1,1150 @@
+[
+  {
+    "id": "C001",
+    "labelTh": "CDS",
+    "labelEn": "CDS",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "C002",
+    "labelTh": "RBS",
+    "labelEn": "RBS",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "C003",
+    "labelTh": "SSP",
+    "labelEn": "SSP",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "C004",
+    "labelTh": "CFR",
+    "labelEn": "CFR",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "C005",
+    "labelTh": "CRG",
+    "labelEn": "CRG",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "C006",
+    "labelTh": "B2S",
+    "labelEn": "B2S",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "C008",
+    "labelTh": "OFM",
+    "labelEn": "OFM",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "C010",
+    "labelTh": "PWB",
+    "labelEn": "PWB",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "C011",
+    "labelTh": "CHG",
+    "labelEn": "CHG",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "C012",
+    "labelTh": "TWT",
+    "labelEn": "TWT",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "C013",
+    "labelTh": "HCD",
+    "labelEn": "HCD",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "C014",
+    "labelTh": "CIS",
+    "labelEn": "CIS",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "C015",
+    "labelTh": "RIS",
+    "labelEn": "RIS",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "C031",
+    "labelTh": "CEH",
+    "labelEn": "CEH",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "C032",
+    "labelTh": "MJT",
+    "labelEn": "MJT",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "C033",
+    "labelTh": "RBSCR",
+    "labelEn": "RBSCR",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "C034",
+    "labelTh": "RBSRR",
+    "labelEn": "RBSRR",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "C035",
+    "labelTh": "RBSUD",
+    "labelEn": "RBSUD",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "C036",
+    "labelTh": "RBSCM",
+    "labelEn": "RBSCM",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "C037",
+    "labelTh": "RBSHY",
+    "labelEn": "RBSHY",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "C038",
+    "labelTh": "RBSNS",
+    "labelEn": "RBSNS",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "C039",
+    "labelTh": "RBSPK",
+    "labelEn": "RBSPK",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "C040",
+    "labelTh": "CMK",
+    "labelEn": "CMK",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "C041",
+    "labelTh": "CGO",
+    "labelEn": "CGO",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "C042",
+    "labelTh": "CNG",
+    "labelEn": "CNG",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "C043",
+    "labelTh": "MEB",
+    "labelEn": "MEB",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "C044",
+    "labelTh": "TPS",
+    "labelEn": "TPS",
+    "sortOrder": 27,
+    "active": true
+  },
+  {
+    "id": "C045",
+    "labelTh": "CMI",
+    "labelEn": "CMI",
+    "sortOrder": 28,
+    "active": true
+  },
+  {
+    "id": "C047",
+    "labelTh": "HWS",
+    "labelEn": "HWS",
+    "sortOrder": 29,
+    "active": true
+  },
+  {
+    "id": "C048",
+    "labelTh": "PRD",
+    "labelEn": "PRD",
+    "sortOrder": 30,
+    "active": true
+  },
+  {
+    "id": "C049",
+    "labelTh": "PT2",
+    "labelEn": "PT2",
+    "sortOrder": 31,
+    "active": true
+  },
+  {
+    "id": "C050",
+    "labelTh": "PT3",
+    "labelEn": "PT3",
+    "sortOrder": 32,
+    "active": true
+  },
+  {
+    "id": "C051",
+    "labelTh": "PT4",
+    "labelEn": "PT4",
+    "sortOrder": 33,
+    "active": true
+  },
+  {
+    "id": "C052",
+    "labelTh": "SCC",
+    "labelEn": "SCC",
+    "sortOrder": 34,
+    "active": true
+  },
+  {
+    "id": "C053",
+    "labelTh": "TNG",
+    "labelEn": "TNG",
+    "sortOrder": 35,
+    "active": true
+  },
+  {
+    "id": "C054",
+    "labelTh": "TSD",
+    "labelEn": "TSD",
+    "sortOrder": 36,
+    "active": true
+  },
+  {
+    "id": "C055",
+    "labelTh": "CPD",
+    "labelEn": "CPD",
+    "sortOrder": 37,
+    "active": true
+  },
+  {
+    "id": "C056",
+    "labelTh": "CRGI",
+    "labelEn": "CRGI",
+    "sortOrder": 38,
+    "active": true
+  },
+  {
+    "id": "C057",
+    "labelTh": "CRGM",
+    "labelEn": "CRGM",
+    "sortOrder": 39,
+    "active": true
+  },
+  {
+    "id": "C058",
+    "labelTh": "CMG",
+    "labelEn": "CMG",
+    "sortOrder": 40,
+    "active": true
+  },
+  {
+    "id": "C059",
+    "labelTh": "CTC",
+    "labelEn": "CTC",
+    "sortOrder": 41,
+    "active": true
+  },
+  {
+    "id": "C060",
+    "labelTh": "CGF",
+    "labelEn": "CGF",
+    "sortOrder": 42,
+    "active": true
+  },
+  {
+    "id": "C061",
+    "labelTh": "CTT",
+    "labelEn": "CTT",
+    "sortOrder": 43,
+    "active": true
+  },
+  {
+    "id": "C062",
+    "labelTh": "CMD",
+    "labelEn": "CMD",
+    "sortOrder": 44,
+    "active": true
+  },
+  {
+    "id": "C063",
+    "labelTh": "KMS",
+    "labelEn": "KMS",
+    "sortOrder": 45,
+    "active": true
+  },
+  {
+    "id": "C064",
+    "labelTh": "CMS",
+    "labelEn": "CMS",
+    "sortOrder": 46,
+    "active": true
+  },
+  {
+    "id": "C065",
+    "labelTh": "TBS",
+    "labelEn": "TBS",
+    "sortOrder": 47,
+    "active": true
+  },
+  {
+    "id": "C066",
+    "labelTh": "CPN",
+    "labelEn": "CPN",
+    "sortOrder": 48,
+    "active": true
+  },
+  {
+    "id": "C067",
+    "labelTh": "CCW",
+    "labelEn": "CCW",
+    "sortOrder": 49,
+    "active": true
+  },
+  {
+    "id": "C068",
+    "labelTh": "CCM",
+    "labelEn": "CCM",
+    "sortOrder": 50,
+    "active": true
+  },
+  {
+    "id": "C069",
+    "labelTh": "CR9",
+    "labelEn": "CR9",
+    "sortOrder": 51,
+    "active": true
+  },
+  {
+    "id": "C070",
+    "labelTh": "CKK",
+    "labelEn": "CKK",
+    "sortOrder": 52,
+    "active": true
+  },
+  {
+    "id": "C071",
+    "labelTh": "CCB",
+    "labelEn": "CCB",
+    "sortOrder": 53,
+    "active": true
+  },
+  {
+    "id": "C072",
+    "labelTh": "CDV",
+    "labelEn": "CDV",
+    "sortOrder": 54,
+    "active": true
+  },
+  {
+    "id": "C073",
+    "labelTh": "CR2",
+    "labelEn": "CR2",
+    "sortOrder": 55,
+    "active": true
+  },
+  {
+    "id": "C074",
+    "labelTh": "CR3",
+    "labelEn": "CR3",
+    "sortOrder": 56,
+    "active": true
+  },
+  {
+    "id": "C075",
+    "labelTh": "CRT",
+    "labelEn": "CRT",
+    "sortOrder": 57,
+    "active": true
+  },
+  {
+    "id": "C076",
+    "labelTh": "CFA",
+    "labelEn": "CFA",
+    "sortOrder": 58,
+    "active": true
+  },
+  {
+    "id": "C077",
+    "labelTh": "CKR",
+    "labelEn": "CKR",
+    "sortOrder": 59,
+    "active": true
+  },
+  {
+    "id": "C078",
+    "labelTh": "CPY",
+    "labelEn": "CPY",
+    "sortOrder": 60,
+    "active": true
+  },
+  {
+    "id": "C079",
+    "labelTh": "CRY",
+    "labelEn": "CRY",
+    "sortOrder": 61,
+    "active": true
+  },
+  {
+    "id": "C080",
+    "labelTh": "CBN",
+    "labelEn": "CBN",
+    "sortOrder": 62,
+    "active": true
+  },
+  {
+    "id": "C081",
+    "labelTh": "CRM",
+    "labelEn": "CRM",
+    "sortOrder": 63,
+    "active": true
+  },
+  {
+    "id": "C082",
+    "labelTh": "CGCW",
+    "labelEn": "CGCW",
+    "sortOrder": 64,
+    "active": true
+  },
+  {
+    "id": "C083",
+    "labelTh": "CGLB",
+    "labelEn": "CGLB",
+    "sortOrder": 65,
+    "active": true
+  },
+  {
+    "id": "C084",
+    "labelTh": "CHBR",
+    "labelEn": "CHBR",
+    "sortOrder": 66,
+    "active": true
+  },
+  {
+    "id": "C085",
+    "labelTh": "CKBR",
+    "labelEn": "CKBR",
+    "sortOrder": 67,
+    "active": true
+  },
+  {
+    "id": "C086",
+    "labelTh": "CSBR",
+    "labelEn": "CSBR",
+    "sortOrder": 68,
+    "active": true
+  },
+  {
+    "id": "C087",
+    "labelTh": "CHY",
+    "labelEn": "CHY",
+    "sortOrder": 69,
+    "active": true
+  },
+  {
+    "id": "C088",
+    "labelTh": "CKR",
+    "labelEn": "CKR",
+    "sortOrder": 70,
+    "active": true
+  },
+  {
+    "id": "C089",
+    "labelTh": "CKT",
+    "labelEn": "CKT",
+    "sortOrder": 71,
+    "active": true
+  },
+  {
+    "id": "C090",
+    "labelTh": "CSV",
+    "labelEn": "CSV",
+    "sortOrder": 72,
+    "active": true
+  },
+  {
+    "id": "C091",
+    "labelTh": "CVP",
+    "labelEn": "CVP",
+    "sortOrder": 73,
+    "active": true
+  },
+  {
+    "id": "C092",
+    "labelTh": "CLM",
+    "labelEn": "CLM",
+    "sortOrder": 74,
+    "active": true
+  },
+  {
+    "id": "C093",
+    "labelTh": "CIM",
+    "labelEn": "CIM",
+    "sortOrder": 75,
+    "active": true
+  },
+  {
+    "id": "C094",
+    "labelTh": "COSI",
+    "labelEn": "COSI",
+    "sortOrder": 76,
+    "active": true
+  },
+  {
+    "id": "C095",
+    "labelTh": "CHQ",
+    "labelEn": "CHQ",
+    "sortOrder": 77,
+    "active": true
+  },
+  {
+    "id": "C096",
+    "labelTh": "HTI",
+    "labelEn": "HTI",
+    "sortOrder": 78,
+    "active": true
+  },
+  {
+    "id": "C102",
+    "labelTh": "OML",
+    "labelEn": "OML",
+    "sortOrder": 79,
+    "active": true
+  },
+  {
+    "id": "C103",
+    "labelTh": "FTP",
+    "labelEn": "FTP",
+    "sortOrder": 80,
+    "active": true
+  },
+  {
+    "id": "C104",
+    "labelTh": "OOF",
+    "labelEn": "OOF",
+    "sortOrder": 81,
+    "active": true
+  },
+  {
+    "id": "C105",
+    "labelTh": "T1C",
+    "labelEn": "T1C",
+    "sortOrder": 82,
+    "active": true
+  },
+  {
+    "id": "C106",
+    "labelTh": "CPM",
+    "labelEn": "CPM",
+    "sortOrder": 83,
+    "active": true
+  },
+  {
+    "id": "Cxxx",
+    "labelTh": "Cxxx",
+    "labelEn": "Cxxx",
+    "sortOrder": 84,
+    "active": true
+  },
+  {
+    "id": "C108",
+    "labelTh": "PBL",
+    "labelEn": "PBL",
+    "sortOrder": 85,
+    "active": true
+  },
+  {
+    "id": "C112",
+    "labelTh": "CGV",
+    "labelEn": "CGV",
+    "sortOrder": 86,
+    "active": true
+  },
+  {
+    "id": "C046",
+    "labelTh": "CRC",
+    "labelEn": "CRC",
+    "sortOrder": 87,
+    "active": true
+  },
+  {
+    "id": "C109",
+    "labelTh": "CVL",
+    "labelEn": "CVL",
+    "sortOrder": 88,
+    "active": true
+  },
+  {
+    "id": "C110",
+    "labelTh": "CGT",
+    "labelEn": "CGT",
+    "sortOrder": 89,
+    "active": true
+  },
+  {
+    "id": "C111",
+    "labelTh": "PHN",
+    "labelEn": "PHN",
+    "sortOrder": 90,
+    "active": true
+  },
+  {
+    "id": "C113",
+    "labelTh": "GLD",
+    "labelEn": "GLD",
+    "sortOrder": 91,
+    "active": true
+  },
+  {
+    "id": "C009",
+    "labelTh": "ODP",
+    "labelEn": "ODP",
+    "sortOrder": 92,
+    "active": true
+  },
+  {
+    "id": "C115",
+    "labelTh": "CTI",
+    "labelEn": "CTI",
+    "sortOrder": 93,
+    "active": true
+  },
+  {
+    "id": "C116",
+    "labelTh": "RSM",
+    "labelEn": "RSM",
+    "sortOrder": 94,
+    "active": true
+  },
+  {
+    "id": "C117",
+    "labelTh": "RSD",
+    "labelEn": "RSD",
+    "sortOrder": 95,
+    "active": true
+  },
+  {
+    "id": "C118",
+    "labelTh": "CPA",
+    "labelEn": "CPA",
+    "sortOrder": 96,
+    "active": true
+  },
+  {
+    "id": "C119",
+    "labelTh": "TNW",
+    "labelEn": "TNW",
+    "sortOrder": 97,
+    "active": true
+  },
+  {
+    "id": "C120",
+    "labelTh": "CFM",
+    "labelEn": "CFM",
+    "sortOrder": 98,
+    "active": true
+  },
+  {
+    "id": "9999",
+    "labelTh": "DUMMY",
+    "labelEn": "DUMMY",
+    "sortOrder": 99,
+    "active": true
+  },
+  {
+    "id": "V001",
+    "labelTh": "EBA",
+    "labelEn": "EBA",
+    "sortOrder": 100,
+    "active": true
+  },
+  {
+    "id": "V002",
+    "labelTh": "EBT",
+    "labelEn": "EBT",
+    "sortOrder": 101,
+    "active": true
+  },
+  {
+    "id": "V003",
+    "labelTh": "ESBHP",
+    "labelEn": "ESBHP",
+    "sortOrder": 102,
+    "active": true
+  },
+  {
+    "id": "V004",
+    "labelTh": "GTSD",
+    "labelEn": "GTSD",
+    "sortOrder": 103,
+    "active": true
+  },
+  {
+    "id": "V005",
+    "labelTh": "EBGC",
+    "labelEn": "EBGC",
+    "sortOrder": 104,
+    "active": true
+  },
+  {
+    "id": "V006",
+    "labelTh": "GTSDD",
+    "labelEn": "GTSDD",
+    "sortOrder": 105,
+    "active": true
+  },
+  {
+    "id": "V007",
+    "labelTh": "GTHP",
+    "labelEn": "GTHP",
+    "sortOrder": 106,
+    "active": true
+  },
+  {
+    "id": "V008",
+    "labelTh": "VNMT",
+    "labelEn": "VNMT",
+    "sortOrder": 107,
+    "active": true
+  },
+  {
+    "id": "V009",
+    "labelTh": "EBHUE",
+    "labelEn": "EBHUE",
+    "sortOrder": 108,
+    "active": true
+  },
+  {
+    "id": "V010",
+    "labelTh": "EBV",
+    "labelEn": "EBV",
+    "sortOrder": 109,
+    "active": true
+  },
+  {
+    "id": "V011",
+    "labelTh": "EBPT",
+    "labelEn": "EBPT",
+    "sortOrder": 110,
+    "active": true
+  },
+  {
+    "id": "V012",
+    "labelTh": "EBVP",
+    "labelEn": "EBVP",
+    "sortOrder": 111,
+    "active": true
+  },
+  {
+    "id": "V013",
+    "labelTh": "EBND",
+    "labelEn": "EBND",
+    "sortOrder": 112,
+    "active": true
+  },
+  {
+    "id": "V014",
+    "labelTh": "VN",
+    "labelEn": "VN",
+    "sortOrder": 113,
+    "active": true
+  },
+  {
+    "id": "V015",
+    "labelTh": "GeTr",
+    "labelEn": "GeTr",
+    "sortOrder": 114,
+    "active": true
+  },
+  {
+    "id": "V016",
+    "labelTh": "NG",
+    "labelEn": "NG",
+    "sortOrder": 115,
+    "active": true
+  },
+  {
+    "id": "V017",
+    "labelTh": "EBTH",
+    "labelEn": "EBTH",
+    "sortOrder": 116,
+    "active": true
+  },
+  {
+    "id": "V018",
+    "labelTh": "EBHD",
+    "labelEn": "EBHD",
+    "sortOrder": 117,
+    "active": true
+  },
+  {
+    "id": "V019",
+    "labelTh": "EBCT",
+    "labelEn": "EBCT",
+    "sortOrder": 118,
+    "active": true
+  },
+  {
+    "id": "V020",
+    "labelTh": "EBS",
+    "labelEn": "EBS",
+    "sortOrder": 119,
+    "active": true
+  },
+  {
+    "id": "V021",
+    "labelTh": "EBBD",
+    "labelEn": "EBBD",
+    "sortOrder": 120,
+    "active": true
+  },
+  {
+    "id": "V022",
+    "labelTh": "NP",
+    "labelEn": "NP",
+    "sortOrder": 121,
+    "active": true
+  },
+  {
+    "id": "V023",
+    "labelTh": "NPRE",
+    "labelEn": "NPRE",
+    "sortOrder": 122,
+    "active": true
+  },
+  {
+    "id": "V024",
+    "labelTh": "EBTP",
+    "labelEn": "EBTP",
+    "sortOrder": 123,
+    "active": true
+  },
+  {
+    "id": "V025",
+    "labelTh": "EBMT",
+    "labelEn": "EBMT",
+    "sortOrder": 124,
+    "active": true
+  },
+  {
+    "id": "V026",
+    "labelTh": "CDV",
+    "labelEn": "CDV",
+    "sortOrder": 125,
+    "active": true
+  },
+  {
+    "id": "V027",
+    "labelTh": "EBNC",
+    "labelEn": "EBNC",
+    "sortOrder": 126,
+    "active": true
+  },
+  {
+    "id": "V028",
+    "labelTh": "VNSMT",
+    "labelEn": "VNSMT",
+    "sortOrder": 127,
+    "active": true
+  },
+  {
+    "id": "V029",
+    "labelTh": "NKTiG",
+    "labelEn": "NKTiG",
+    "sortOrder": 128,
+    "active": true
+  },
+  {
+    "id": "V030",
+    "labelTh": "HC",
+    "labelEn": "HC",
+    "sortOrder": 129,
+    "active": true
+  },
+  {
+    "id": "V031",
+    "labelTh": "DDTV",
+    "labelEn": "DDTV",
+    "sortOrder": 130,
+    "active": true
+  },
+  {
+    "id": "V032",
+    "labelTh": "VNBL",
+    "labelEn": "VNBL",
+    "sortOrder": 131,
+    "active": true
+  },
+  {
+    "id": "V033",
+    "labelTh": "VNTN",
+    "labelEn": "VNTN",
+    "sortOrder": 132,
+    "active": true
+  },
+  {
+    "id": "V034",
+    "labelTh": "RECES",
+    "labelEn": "RECES",
+    "sortOrder": 133,
+    "active": true
+  },
+  {
+    "id": "V035",
+    "labelTh": "RDVN",
+    "labelEn": "RDVN",
+    "sortOrder": 134,
+    "active": true
+  },
+  {
+    "id": "V036",
+    "labelTh": "CRCVN",
+    "labelEn": "CRCVN",
+    "sortOrder": 135,
+    "active": true
+  },
+  {
+    "id": "V037",
+    "labelTh": "TTS",
+    "labelEn": "TTS",
+    "sortOrder": 136,
+    "active": true
+  },
+  {
+    "id": "V038",
+    "labelTh": "TTSBR",
+    "labelEn": "TTSBR",
+    "sortOrder": 137,
+    "active": true
+  },
+  {
+    "id": "V039",
+    "labelTh": "EBH",
+    "labelEn": "EBH",
+    "sortOrder": 138,
+    "active": true
+  },
+  {
+    "id": "V040",
+    "labelTh": "NK",
+    "labelEn": "NK",
+    "sortOrder": 139,
+    "active": true
+  },
+  {
+    "id": "V041",
+    "labelTh": "CNNK1",
+    "labelEn": "CNNK1",
+    "sortOrder": 140,
+    "active": true
+  },
+  {
+    "id": "V042",
+    "labelTh": "CNNK2",
+    "labelEn": "CNNK2",
+    "sortOrder": 141,
+    "active": true
+  },
+  {
+    "id": "V043",
+    "labelTh": "NKMT",
+    "labelEn": "NKMT",
+    "sortOrder": 142,
+    "active": true
+  },
+  {
+    "id": "V044",
+    "labelTh": "NKBMT",
+    "labelEn": "NKBMT",
+    "sortOrder": 143,
+    "active": true
+  },
+  {
+    "id": "V045",
+    "labelTh": "NKLX",
+    "labelEn": "NKLX",
+    "sortOrder": 144,
+    "active": true
+  },
+  {
+    "id": "V046",
+    "labelTh": "NKCT",
+    "labelEn": "NKCT",
+    "sortOrder": 145,
+    "active": true
+  },
+  {
+    "id": "V047",
+    "labelTh": "NKBD",
+    "labelEn": "NKBD",
+    "sortOrder": 146,
+    "active": true
+  },
+  {
+    "id": "V048",
+    "labelTh": "NKNT",
+    "labelEn": "NKNT",
+    "sortOrder": 147,
+    "active": true
+  },
+  {
+    "id": "V049",
+    "labelTh": "NKHP",
+    "labelEn": "NKHP",
+    "sortOrder": 148,
+    "active": true
+  },
+  {
+    "id": "V050",
+    "labelTh": "10BTT",
+    "labelEn": "10BTT",
+    "sortOrder": 149,
+    "active": true
+  },
+  {
+    "id": "V051",
+    "labelTh": "HDNK",
+    "labelEn": "HDNK",
+    "sortOrder": 150,
+    "active": true
+  },
+  {
+    "id": "V052",
+    "labelTh": "NKTC",
+    "labelEn": "NKTC",
+    "sortOrder": 151,
+    "active": true
+  },
+  {
+    "id": "V053",
+    "labelTh": "KVNK",
+    "labelEn": "KVNK",
+    "sortOrder": 152,
+    "active": true
+  },
+  {
+    "id": "V054",
+    "labelTh": "KVHN",
+    "labelEn": "KVHN",
+    "sortOrder": 153,
+    "active": true
+  },
+  {
+    "id": "V055",
+    "labelTh": "KVBD",
+    "labelEn": "KVBD",
+    "sortOrder": 154,
+    "active": true
+  },
+  {
+    "id": "V056",
+    "labelTh": "KVCT",
+    "labelEn": "KVCT",
+    "sortOrder": 155,
+    "active": true
+  },
+  {
+    "id": "V057",
+    "labelTh": "KVST",
+    "labelEn": "KVST",
+    "sortOrder": 156,
+    "active": true
+  },
+  {
+    "id": "V058",
+    "labelTh": "NKDN",
+    "labelEn": "NKDN",
+    "sortOrder": 157,
+    "active": true
+  },
+  {
+    "id": "V059",
+    "labelTh": "SINCO",
+    "labelEn": "SINCO",
+    "sortOrder": 158,
+    "active": true
+  },
+  {
+    "id": "V060",
+    "labelTh": "HMNK",
+    "labelEn": "HMNK",
+    "sortOrder": 159,
+    "active": true
+  },
+  {
+    "id": "V061",
+    "labelTh": "NKTG",
+    "labelEn": "NKTG",
+    "sortOrder": 160,
+    "active": true
+  },
+  {
+    "id": "V062",
+    "labelTh": "NKSMT",
+    "labelEn": "NKSMT",
+    "sortOrder": 161,
+    "active": true
+  },
+  {
+    "id": "V063",
+    "labelTh": "GTF",
+    "labelEn": "GTF",
+    "sortOrder": 162,
+    "active": true
+  },
+  {
+    "id": "V000",
+    "labelTh": "EBD",
+    "labelEn": "EBD",
+    "sortOrder": 163,
+    "active": true
+  },
+  {
+    "id": "C159",
+    "labelTh": "ATI",
+    "labelEn": "ATI",
+    "sortOrder": 164,
+    "active": true
+  }
+]

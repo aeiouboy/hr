@@ -1,0 +1,23 @@
+[
+  {
+    "id": "MA",
+    "labelTh": "Management Associate",
+    "labelEn": "Management Associate",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "OT",
+    "labelTh": "Operation Trainee",
+    "labelEn": "Operation Trainee",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "MT",
+    "labelTh": "Management Trainee",
+    "labelEn": "Management Trainee",
+    "sortOrder": 3,
+    "active": true
+  }
+]
