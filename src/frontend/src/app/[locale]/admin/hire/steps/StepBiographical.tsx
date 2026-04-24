@@ -114,11 +114,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">
-        Cluster 2 — Job
-      </h2>
-
+    <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
       {/* ─── BA Personal Info row 2 — Other Title (TH) * ─── */}
       <fieldset>
         <label htmlFor="other-title-th" className="humi-label">
@@ -130,7 +126,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={otherTitleTh}
           onChange={(e) => setOtherTitleTh(e.target.value)}
           onBlur={() => touch('otherTitleTh')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('otherTitleTh')}
       </fieldset>
 
@@ -145,7 +141,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={firstNameLocal}
           onChange={(e) => setFirstNameLocal(e.target.value)}
           onBlur={() => touch('firstNameLocal')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('firstNameLocal')}
       </fieldset>
 
@@ -160,7 +156,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={lastNameLocal}
           onChange={(e) => setLastNameLocal(e.target.value)}
           onBlur={() => touch('lastNameLocal')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('lastNameLocal')}
       </fieldset>
 
@@ -175,7 +171,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={middleNameLocal}
           onChange={(e) => setMiddleNameLocal(e.target.value)}
           onBlur={() => touch('middleNameLocal')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('middleNameLocal')}
       </fieldset>
 
@@ -190,7 +186,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
           onBlur={() => touch('nickname')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('nickname')}
       </fieldset>
 
@@ -204,7 +200,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={militaryStatus}
           onChange={(e) => setMilitaryStatus(e.target.value)}
           onBlur={() => touch('militaryStatus')}
-          className="humi-select w-full max-w-sm">
+          className="humi-select w-full">
           <option value="">— เลือกสถานะ —</option>
           {PICKLIST_MILITARY_STATUS.filter((m) => m.active).map((m) => (
             <option key={m.id} value={m.id}>{m.labelTh}</option>
@@ -223,7 +219,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={gender}
           onChange={(e) => setGender(e.target.value)}
           onBlur={() => touch('gender')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือกเพศ —</option>
           {PICKLIST_GENDER.filter((g) => g.active).map((g) => (
             <option key={g.id} value={g.id}>{g.labelTh}</option>
@@ -242,7 +238,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={nationality}
           onChange={(e) => setNationality(e.target.value)}
           onBlur={() => touch('nationality')}
-          className="humi-select w-full max-w-sm">
+          className="humi-select w-full">
           <option value="">— เลือกสัญชาติ —</option>
           {PICKLIST_NATIONALITY.filter((n) => n.active).map((n) => (
             <option key={n.id} value={n.id}>{n.labelTh}</option>
@@ -261,7 +257,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={foreigner}
           onChange={(e) => setForeigner(e.target.value)}
           onBlur={() => touch('foreigner')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือก —</option>
           {PICKLIST_YES_NO.filter((y) => y.active).map((y) => (
             <option key={y.id} value={y.id}>{y.labelTh}</option>
@@ -280,7 +276,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={bloodType}
           onChange={(e) => setBloodType(e.target.value)}
           onBlur={() => touch('bloodType')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือกกรุ๊ปเลือด —</option>
           {PICKLIST_BLOOD_TYPE.filter((b) => b.active).map((b) => (
             <option key={b.id} value={b.id}>{b.labelTh}</option>
@@ -299,7 +295,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={maritalStatus}
           onChange={(e) => setMaritalStatus(e.target.value)}
           onBlur={() => touch('maritalStatus')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือกสถานภาพ —</option>
           {PICKLIST_MARITAL_STATUS.filter((m) => m.active).map((m) => (
             <option key={m.id} value={m.id}>{m.labelTh}</option>
@@ -318,13 +314,27 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           value={maritalStatusSince}
           onChange={(e) => setMaritalStatusSince(e.target.value)}
           onBlur={() => touch('maritalStatusSince')}
-          className="humi-input w-full max-w-xs" />
+          className="humi-input w-full" />
         {errMsg('maritalStatusSince')}
       </fieldset>
 
-      <p className="text-xs text-ink-soft">
-        <span className="humi-asterisk">*</span> ช่องที่บังคับกรอก
-      </p>
+      {/* ─── BA Personal Info row 18 — Attachment (optional) ─── */}
+      <fieldset className="md:col-span-2">
+        <label htmlFor="attachment" className="humi-label">
+          เอกสารแนบ
+        </label>
+        <input
+          id="attachment"
+          type="file"
+          accept="image/*,.pdf"
+          multiple
+          aria-label="เอกสารแนบประวัติส่วนตัว"
+          className="humi-input w-full file:mr-3 file:rounded-md file:border-0 file:bg-canvas-soft file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-ink hover:file:bg-hairline-soft"
+        />
+        <p className="mt-1 text-xs text-ink-soft">
+          แนบสำเนาบัตร / ใบรับรองแพทย์ / เอกสารอื่น ๆ — ไม่บังคับ (รองรับ PDF / รูปภาพ)
+        </p>
+      </fieldset>
     </div>
   )
 }
