@@ -6,8 +6,9 @@
 // StepBiographical  = BA Personal Info rows 2-17 (12 mandatory)
 import StepIdentity from '../steps/StepIdentity'
 import StepBiographical from '../steps/StepBiographical'
+import StepContact from '../steps/StepContact'
 import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
-import { Fingerprint, User2 } from 'lucide-react'
+import { Fingerprint, User2, Phone } from 'lucide-react'
 
 export default function ClusterWho() {
   return (
@@ -33,6 +34,18 @@ export default function ClusterWho() {
         />
         <div className="humi-step-section">
           <StepBiographical />
+        </div>
+      </div>
+
+      <div className="humi-card">
+        <SectionHeader
+          icon={Phone}
+          eyebrow="ข้อมูลติดต่อ"
+          title="ข้อมูลการติดต่อ"
+          sub="เบอร์โทร อีเมล บุคคลที่เกี่ยวข้อง"
+        />
+        <div className="humi-step-section">
+          <StepContact />
         </div>
       </div>
 

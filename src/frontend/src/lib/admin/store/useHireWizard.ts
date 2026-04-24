@@ -16,6 +16,11 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 // ประเภท step number — จำกัดเป็น 1-3 เท่านั้น (Who / Job / Review)
 type StepNumber = 1 | 2 | 3
 
+// ── A2: Multi-value Contact types ────────────────────────────────────────────
+export interface PhoneEntry { type: 'mobile' | 'office' | 'home'; value: string; isPrimary: boolean }
+export interface EmailEntry { type: 'personal' | 'work'; value: string; isPrimary: boolean }
+export interface JobRelationship { relationshipType: string; name: string }
+
 // employeeClass toggle — BA cols H/I (Permanent vs Partime field visibility)
 export type EmployeeClassToggle = 'PERMANENT' | 'PARTIME'
 
@@ -104,6 +109,13 @@ interface FormData {
     attachmentName: string | null
   }
 
+  // ── A2: Contact Information ── phones / emails / job relationships
+  contact: {
+    phones: PhoneEntry[]           // default [{type:'mobile', value:'', isPrimary:true}]
+    emails: EmailEntry[]           // default [{type:'personal', value:'', isPrimary:true}]
+    jobRelationships: JobRelationship[]  // default []
+  }
+
   // Legacy slices — ยังคง interface เดิมเพื่อ backward compat กับ test suite
   name:         { firstNameTh: string; lastNameTh: string; firstNameEn: string; lastNameEn: string }
   employeeInfo: { employeeClass: string | null }
@@ -156,6 +168,12 @@ const initialFormData: FormData = {
     lastNameEnReview: '',
     middleNameEnReview: '',
     attachmentName: null,
+  },
+  // ── A2: Contact ──
+  contact: {
+    phones: [{ type: 'mobile' as const, value: '', isPrimary: true }],
+    emails: [{ type: 'personal' as const, value: '', isPrimary: true }],
+    jobRelationships: [],
   },
   // Legacy slices
   name:         { firstNameTh: '', lastNameTh: '', firstNameEn: '', lastNameEn: '' },
@@ -224,6 +242,13 @@ const sliceValid = {
       d.biographical.maritalStatusSince
     ),
   review: (_d: FormData) => true,
+  // A2: contact — at least 1 phone with value + at least 1 email with valid format
+  contact: (d: FormData) => {
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const hasPhone = d.contact.phones.some((p) => p.value.trim() !== '')
+    const hasEmail = d.contact.emails.some((e) => EMAIL_RE.test(e.value.trim()))
+    return hasPhone && hasEmail
+  },
   // Legacy validators — kept for backward compat with existing tests
   name:         (d: FormData) => d.name.firstNameTh.trim() !== '' && d.name.lastNameTh.trim() !== '',
   employeeInfo: (d: FormData) => !!d.employeeInfo.employeeClass,
