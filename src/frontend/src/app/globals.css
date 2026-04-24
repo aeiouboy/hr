@@ -616,6 +616,95 @@
 }
 } /* end @layer components for humi-icon-btn */
 
+/* ─── Button token — unified across app ─────────────────────────────────────
+   Single source of truth for all action buttons. Two name aliases:
+   `.humi-button` (new — StepCompensation, ActionGuardBanner) and
+   `.humi-btn`    (legacy — all B-action pages + createCrudPage factory).
+   Both share identical base; variants are BEM modifiers.
+   --color-accent-hover not in :root → use filter:brightness(0.93) on primary. */
+@layer components {
+.humi-button,
+.humi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 120ms ease;
+  cursor: pointer;
+  line-height: 1.2;
+  min-height: 36px;
+  text-decoration: none;
+  font-family: inherit;
+}
+.humi-button:focus-visible,
+.humi-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+.humi-button:disabled,
+.humi-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* -- primary (teal solid) -- */
+.humi-button--primary,
+.humi-btn--primary,
+.humi-btn-primary {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.humi-button--primary:hover:not(:disabled),
+.humi-btn--primary:hover:not(:disabled),
+.humi-btn-primary:hover:not(:disabled) {
+  filter: brightness(0.93);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* -- ghost (bordered) -- */
+.humi-button--ghost,
+.humi-btn--ghost,
+.humi-btn-secondary {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-hairline);
+}
+.humi-button--ghost:hover:not(:disabled),
+.humi-btn--ghost:hover:not(:disabled),
+.humi-btn-secondary:hover:not(:disabled) {
+  background: var(--color-canvas-soft);
+}
+
+/* -- danger (pumpkin solid) -- */
+.humi-button--danger,
+.humi-btn--danger {
+  background: var(--color-danger);
+  color: white;
+}
+.humi-button--danger:hover:not(:disabled),
+.humi-btn--danger:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+/* -- danger-soft (text only) -- */
+.humi-button--danger-soft,
+.humi-btn--danger-soft {
+  background: transparent;
+  color: var(--color-danger);
+  border-color: transparent;
+}
+.humi-button--danger-soft:hover:not(:disabled),
+.humi-btn--danger-soft:hover:not(:disabled) {
+  background: var(--color-danger-soft);
+}
+} /* end @layer components for humi-button/humi-btn */
+
 /* Ported from styles.css:289-294 (.icon-btn .dot-badge) — using
    warning amber (no coral in Humi token palette per NO-RED). */
 .humi-dot-badge {

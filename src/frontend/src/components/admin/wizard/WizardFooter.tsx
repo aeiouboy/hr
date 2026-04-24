@@ -40,7 +40,7 @@ export function WizardFooter({
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 min-h-[44px] text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]"
+            className="humi-button humi-button--ghost"
           >
             <ArrowLeft size={14} aria-hidden />
             ย้อนกลับ

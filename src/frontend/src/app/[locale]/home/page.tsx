@@ -110,14 +110,14 @@ export default function HumiHomePage() {
           <div className="humi-row" style={{ marginTop: 22, gap: 10, flexWrap: 'wrap' }}>
             <Link
               href="/th/timeoff"
-              className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-body font-medium text-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+              className="humi-button humi-button--primary"
             >
               <Check size={16} />
               {t('ctaApprove')}
             </Link>
             <Link
               href="/th/announcements"
-              className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="humi-button humi-button--ghost"
             >
               <Megaphone size={16} />
               {t('ctaAnnouncements')}

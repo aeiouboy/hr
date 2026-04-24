@@ -120,14 +120,14 @@ export default function AdminDashboardPage() {
           <div className="humi-row" style={{ marginTop: 22, gap: 10, flexWrap: 'wrap' }}>
             <Link
               href="/th/admin/hire"
-              className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-body font-medium text-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+              className="humi-button humi-button--primary"
             >
               <UserPlus size={16} />
               จ้างพนักงานใหม่
             </Link>
             <Link
               href="/th/admin/employees"
-              className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-4 py-2 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="humi-button humi-button--ghost"
             >
               <Users size={16} />
               ดูข้อมูลพนักงาน
