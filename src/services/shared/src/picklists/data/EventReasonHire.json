@@ -1,8 +1,8 @@
 [
-  { "id": "H_NEWHIRE",   "labelTh": "พนักงานใหม่",                         "labelEn": "New Hire",                   "sortOrder": 1, "active": true },
-  { "id": "H_RPLMENT",   "labelTh": "แทนที่พนักงานเดิม",                    "labelEn": "Replacement",                "sortOrder": 2, "active": true },
-  { "id": "H_TEMPASG",   "labelTh": "มอบหมายชั่วคราว",                     "labelEn": "Temporary Assignment",       "sortOrder": 3, "active": true },
-  { "id": "HIREDM",      "labelTh": "ย้ายข้อมูล (Data Migration)",          "labelEn": "HIRE - Data Migration",      "sortOrder": 4, "active": true },
-  { "id": "H_CORENTRY",  "labelTh": "แก้ไขรายการ Hire (Corrected Entry)",   "labelEn": "HIRE Corrected Entry",       "sortOrder": 5, "active": true },
-  { "id": "H_INENTRY",   "labelTh": "Hire รายการผิดพลาด (Incorrect Entry)", "labelEn": "HIRE Incorrect Entry",       "sortOrder": 6, "active": true }
+  { "id": "H_NEWHIRE",   "labelTh": "พนักงานใหม่",            "labelEn": "New Hire",              "sortOrder": 1, "active": true },
+  { "id": "H_RPLMENT",   "labelTh": "แทนที่พนักงานเดิม",       "labelEn": "Replacement",           "sortOrder": 2, "active": true },
+  { "id": "H_TEMPASG",   "labelTh": "มอบหมายชั่วคราว",        "labelEn": "Temporary Assignment",  "sortOrder": 3, "active": true },
+  { "id": "HIREDM",      "labelTh": "ย้ายข้อมูลระบบ",          "labelEn": "HIRE - Data Migration", "sortOrder": 4, "active": true },
+  { "id": "H_CORENTRY",  "labelTh": "แก้ไขรายการรับเข้าทำงาน",  "labelEn": "HIRE Corrected Entry",  "sortOrder": 5, "active": true },
+  { "id": "H_INENTRY",   "labelTh": "รายการรับเข้าผิดพลาด",     "labelEn": "HIRE Incorrect Entry",  "sortOrder": 6, "active": true }
 ]

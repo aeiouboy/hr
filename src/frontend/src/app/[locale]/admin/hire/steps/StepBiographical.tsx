@@ -186,7 +186,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         </label>
         <input id="nickname" type="text" required aria-required="true"
           aria-invalid={touched.nickname && !!errors.nickname}
-          placeholder="ชื่อเล่น (EN/TH)"
+          placeholder="ชื่อเล่น"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
           onBlur={() => touch('nickname')}

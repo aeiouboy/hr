@@ -1,10 +1,10 @@
 [
-  { "id": "A", "labelTh": "A — พนักงานประจำ (Permanent)", "labelEn": "A — Permanent", "sortOrder": 1, "active": true },
-  { "id": "B", "labelTh": "B — ส่งออกต่างประเทศ (Expat Outbound)", "labelEn": "B — Expat Outbound", "sortOrder": 2, "active": true },
-  { "id": "C", "labelTh": "C — รับเข้าจากต่างประเทศ (Expat Inbound)", "labelEn": "C — Expat Inbound", "sortOrder": 3, "active": true },
-  { "id": "D", "labelTh": "D — เกษียณอายุ (Retirement)", "labelEn": "D — Retirement", "sortOrder": 4, "active": true },
-  { "id": "E", "labelTh": "E — พนักงานชั่วคราว (Temporary)", "labelEn": "E — Temporary", "sortOrder": 5, "active": true },
+  { "id": "A", "labelTh": "A — พนักงานประจำ", "labelEn": "A — Permanent", "sortOrder": 1, "active": true },
+  { "id": "B", "labelTh": "B — ส่งออกต่างประเทศ", "labelEn": "B — Expat Outbound", "sortOrder": 2, "active": true },
+  { "id": "C", "labelTh": "C — รับเข้าจากต่างประเทศ", "labelEn": "C — Expat Inbound", "sortOrder": 3, "active": true },
+  { "id": "D", "labelTh": "D — เกษียณอายุ", "labelEn": "D — Retirement", "sortOrder": 4, "active": true },
+  { "id": "E", "labelTh": "E — พนักงานชั่วคราว", "labelEn": "E — Temporary", "sortOrder": 5, "active": true },
   { "id": "F", "labelTh": "F — DVT", "labelEn": "F — DVT", "sortOrder": 6, "active": true },
-  { "id": "G", "labelTh": "G — นักศึกษาฝึกงาน (Internship)", "labelEn": "G — Internship", "sortOrder": 7, "active": true },
-  { "id": "H", "labelTh": "H — พนักงานสัญญาจ้าง (Contingent)", "labelEn": "H — Contingent", "sortOrder": 8, "active": true }
+  { "id": "G", "labelTh": "G — นักศึกษาฝึกงาน", "labelEn": "G — Internship", "sortOrder": 7, "active": true },
+  { "id": "H", "labelTh": "H — พนักงานสัญญาจ้าง", "labelEn": "H — Contingent", "sortOrder": 8, "active": true }
 ]

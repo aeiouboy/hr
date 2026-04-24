@@ -49,7 +49,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
       {/* เงินเดือนพื้นฐาน */}
       <fieldset>
         <label htmlFor="base-salary" className="humi-label">
-          เงินเดือนพื้นฐาน (Base Salary — บาท)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เงินเดือนพื้นฐาน (บาท)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <div className="relative max-w-xs">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink-muted select-none">฿</span>
