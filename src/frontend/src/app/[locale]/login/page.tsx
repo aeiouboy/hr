@@ -107,7 +107,7 @@ export default function HumiLoginPage() {
           />
         </div>
 
-        <div style={{ marginTop: 'auto', position: 'relative', zIndex: 1 }}>
+        <div style={{ marginTop: 48, position: 'relative', zIndex: 1, maxWidth: 460 }}>
           <div
             style={{
               fontSize: 11,
