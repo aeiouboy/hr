@@ -15,6 +15,8 @@ import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
+import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
@@ -163,6 +165,19 @@ export default function PromotionPage() {
           <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส &ldquo;{empId}&rdquo;</p>
         </div>
       </div>
+    )
+  }
+
+  // Defense-in-depth — block action if employee status disallows (P3)
+  const guard = actionAvailability(employee).promotion
+  if (!guard.ok) {
+    return (
+      <ActionGuardBanner
+        actionKey="promotion"
+        reason={guard.reason ?? ''}
+        backHref={`/${locale}/admin/employees/${empId}`}
+        actionLabel="เลื่อนตำแหน่ง"
+      />
     )
   }
 

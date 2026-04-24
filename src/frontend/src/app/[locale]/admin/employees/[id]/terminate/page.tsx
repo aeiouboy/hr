@@ -21,6 +21,8 @@ import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
+import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { actionAvailability } from '@/lib/admin/actionAvailability'
 import type { MockEmployee } from '@/mocks/employees'
 import type { TerminateEvent } from '@hrms/shared/types/timeline'
 
@@ -350,6 +352,19 @@ export default function TerminatePage() {
           <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส &ldquo;{empId}&rdquo;</p>
         </div>
       </div>
+    )
+  }
+
+  // Defense-in-depth (P3)
+  const guard = actionAvailability(employee).terminate
+  if (!guard.ok) {
+    return (
+      <ActionGuardBanner
+        actionKey="terminate"
+        reason={guard.reason ?? ''}
+        backHref={`/${locale}/admin/employees/${empId}`}
+        actionLabel="สิ้นสุดการจ้างงาน"
+      />
     )
   }
 

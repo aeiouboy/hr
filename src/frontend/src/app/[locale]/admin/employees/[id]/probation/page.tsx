@@ -22,6 +22,8 @@ import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
+import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { actionAvailability } from '@/lib/admin/actionAvailability'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ProbationEvent } from '@hrms/shared/types/timeline'
 
@@ -378,6 +380,19 @@ export default function ProbationAssessPage() {
           <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส &ldquo;{empId}&rdquo;</p>
         </div>
       </div>
+    )
+  }
+
+  // Defense-in-depth (P3) — block if status disallows
+  const guard = actionAvailability(employee).probation
+  if (!guard.ok) {
+    return (
+      <ActionGuardBanner
+        actionKey="probation"
+        reason={guard.reason ?? ''}
+        backHref={`/${locale}/admin/employees/${empId}`}
+        actionLabel="ประเมินทดลองงาน"
+      />
     )
   }
 
