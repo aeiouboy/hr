@@ -37,9 +37,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   useEffect(() => { validate(employeeClass) }, [employeeClass, validate])
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 4 — ข้อมูลพนักงาน</h2>
-
+    <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
       <fieldset>
         <label htmlFor="employee-class" className="humi-label">
           ประเภทพนักงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
@@ -53,7 +51,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           value={employeeClass}
           onChange={(e) => setEmployeeClass(e.target.value)}
           onBlur={() => setTouched(true)}
-          className="humi-select w-full max-w-xs"
+          className="humi-select w-full"
         >
           <option value="">— เลือกประเภทพนักงาน —</option>
           {PICKLIST_EMPLOYEE_CLASS.filter((item) => item.active).map((item) => (
@@ -64,8 +62,6 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           <p id="eclass-error" role="alert" className="mt-1 text-xs text-warning">{error}</p>
         )}
       </fieldset>
-
-      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
     </div>
   )
 }

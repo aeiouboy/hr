@@ -86,79 +86,93 @@ export default function StepJob({ onValidChange }: StepJobProps) {
   }, [position, businessUnit, storeBranchCode, hrDistrict, validate])
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 7 — ข้อมูลงาน</h2>
+    <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
+      {/* ตำแหน่งงาน */}
+      <fieldset>
+        <label htmlFor="position" className="humi-label">
+          ตำแหน่งงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+        </label>
+        <input id="position" type="text" required aria-required="true"
+          aria-invalid={touched.position && !!errors.position}
+          placeholder="ระบุตำแหน่งงาน" value={position}
+          onChange={(e) => setPosition(e.target.value)}
+          onBlur={() => touch('position')}
+          className="humi-input w-full" />
+        {touched.position && errors.position && (
+          <p role="alert" className="mt-1 text-xs text-warning">{errors.position}</p>)}
+      </fieldset>
 
-      {/* Row 1: ตำแหน่งงาน + หน่วยธุรกิจ */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {/* ตำแหน่งงาน */}
-        <fieldset>
-          <label htmlFor="position" className="humi-label">
-            ตำแหน่งงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-          </label>
-          <input id="position" type="text" required aria-required="true"
-            aria-invalid={touched.position && !!errors.position}
-            placeholder="ระบุตำแหน่งงาน" value={position}
-            onChange={(e) => setPosition(e.target.value)}
-            onBlur={() => touch('position')}
-            className="humi-input w-full" />
-          {touched.position && errors.position && (
-            <p role="alert" className="mt-1 text-xs text-warning">{errors.position}</p>)}
-        </fieldset>
+      {/* Business Unit dropdown */}
+      <fieldset>
+        <label htmlFor="business-unit" className="humi-label">
+          หน่วยธุรกิจ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+        </label>
+        <select id="business-unit" required aria-required="true"
+          aria-invalid={touched.businessUnit && !!errors.businessUnit}
+          value={businessUnit}
+          onChange={(e) => setBusinessUnit(e.target.value)}
+          onBlur={() => touch('businessUnit')}
+          className="humi-select w-full">
+          <option value="">— เลือกหน่วยธุรกิจ —</option>
+          {businessUnits.map((bu) => (
+            <option key={bu.code} value={bu.code}>
+              {bu.code} — {bu.labelTh || bu.labelEn}
+            </option>
+          ))}
+        </select>
+        {touched.businessUnit && errors.businessUnit && (
+          <p role="alert" className="mt-1 text-xs text-warning">{errors.businessUnit}</p>)}
+      </fieldset>
 
-        {/* Business Unit dropdown */}
-        <fieldset>
-          <label htmlFor="business-unit" className="humi-label">
-            หน่วยธุรกิจ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-          </label>
-          <select id="business-unit" required aria-required="true"
-            aria-invalid={touched.businessUnit && !!errors.businessUnit}
-            value={businessUnit}
-            onChange={(e) => setBusinessUnit(e.target.value)}
-            onBlur={() => touch('businessUnit')}
-            className="humi-select w-full">
-            <option value="">— เลือกหน่วยธุรกิจ —</option>
-            {businessUnits.map((bu) => (
-              <option key={bu.code} value={bu.code}>
-                {bu.code} — {bu.labelTh || bu.labelEn}
-              </option>
-            ))}
-          </select>
-          {touched.businessUnit && errors.businessUnit && (
-            <p role="alert" className="mt-1 text-xs text-warning">{errors.businessUnit}</p>)}
-        </fieldset>
-      </div>
+      {/* Corporate Title — audit A7/#12 (promotion ladder axis) — mockup stub */}
+      <fieldset>
+        <label htmlFor="corporate-title" className="humi-label">ระดับองค์กร</label>
+        <input id="corporate-title" type="text"
+          placeholder="เช่น ผู้จัดการอาวุโส"
+          className="humi-input w-full" />
+        <p className="mt-1 text-xs text-ink-faint">สำหรับ promotion ladder — ระดับองค์กร ≠ ตำแหน่งงาน</p>
+      </fieldset>
 
-      {/* Row 2: สาขา/หน่วยงาน + เขต HR — retail optional — audit A6/#11 */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <fieldset>
-          <label htmlFor="store-branch-code" className="humi-label">สาขา/หน่วยงาน</label>
-          <select id="store-branch-code"
-            value={storeBranchCode}
-            onChange={(e) => setStoreBranchCode(e.target.value)}
-            className="humi-select w-full">
-            <option value="">— ไม่ระบุ / ไม่ใช่สาขา —</option>
-            {STORE_BRANCH_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </fieldset>
+      {/* Job Grade — audit #12 (JG-02/04/06/08/10) — mockup stub */}
+      <fieldset>
+        <label htmlFor="job-grade" className="humi-label">เกรดงาน (JG)</label>
+        <select id="job-grade" className="humi-select w-full">
+          <option value="">— เลือกเกรดงาน —</option>
+          <option value="JG-02">JG-02</option>
+          <option value="JG-04">JG-04</option>
+          <option value="JG-06">JG-06</option>
+          <option value="JG-08">JG-08</option>
+          <option value="JG-10">JG-10</option>
+        </select>
+      </fieldset>
 
-        <fieldset>
-          <label htmlFor="hr-district" className="humi-label">เขต HR</label>
-          <select id="hr-district"
-            value={hrDistrict}
-            onChange={(e) => setHrDistrict(e.target.value)}
-            className="humi-select w-full">
-            <option value="">— ไม่ระบุ / ไม่ใช่สาขา —</option>
-            {HR_DISTRICT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </fieldset>
-      </div>
+      {/* Store / Branch — retail optional — audit A6/#11 */}
+      <fieldset>
+        <label htmlFor="store-branch-code" className="humi-label">สาขา/หน่วยงาน</label>
+        <select id="store-branch-code"
+          value={storeBranchCode}
+          onChange={(e) => setStoreBranchCode(e.target.value)}
+          className="humi-select w-full">
+          <option value="">— ไม่ระบุ / ไม่ใช่สาขา —</option>
+          {STORE_BRANCH_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+      </fieldset>
 
-      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
+      {/* HR District — retail optional — audit A6/#11 */}
+      <fieldset>
+        <label htmlFor="hr-district" className="humi-label">เขต HR</label>
+        <select id="hr-district"
+          value={hrDistrict}
+          onChange={(e) => setHrDistrict(e.target.value)}
+          className="humi-select w-full">
+          <option value="">— ไม่ระบุ / ไม่ใช่สาขา —</option>
+          {HR_DISTRICT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+      </fieldset>
     </div>
   )
 }

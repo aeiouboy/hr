@@ -43,15 +43,13 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
   useEffect(() => { validate(salaryInput) }, [salaryInput, validate])
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-ink">ขั้นตอนที่ 8 — ค่าตอบแทน</h2>
-
+    <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
       {/* เงินเดือนพื้นฐาน */}
       <fieldset>
         <label htmlFor="base-salary" className="humi-label">
           เงินเดือนพื้นฐาน (บาท)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
-        <div className="relative max-w-xs">
+        <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink-muted select-none">฿</span>
           <input
             id="base-salary"
@@ -74,7 +72,27 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
         )}
       </fieldset>
 
-      <p className="text-xs text-ink-soft"><span className="humi-asterisk">*</span> ช่องที่บังคับกรอก</p>
+      {/* Currency — audit #13 (non-TH support per BRD #120) — mockup stub */}
+      <fieldset>
+        <label htmlFor="currency" className="humi-label">สกุลเงิน</label>
+        <select id="currency" defaultValue="THB" className="humi-select w-full">
+          <option value="THB">บาทไทย (THB)</option>
+          <option value="USD">ดอลลาร์สหรัฐ (USD)</option>
+          <option value="SGD">ดอลลาร์สิงคโปร์ (SGD)</option>
+          <option value="JPY">เยนญี่ปุ่น (JPY)</option>
+        </select>
+      </fieldset>
+
+      {/* Payment Method — audit #13 (BRD #118) — mockup stub */}
+      <fieldset className="md:col-span-2">
+        <label htmlFor="payment-method" className="humi-label">วิธีรับเงินเดือน</label>
+        <select id="payment-method" defaultValue="TRANSFER" className="humi-select w-full md:max-w-sm">
+          <option value="TRANSFER">โอนเงินผ่านธนาคาร</option>
+          <option value="CASH">เงินสด</option>
+          <option value="CHEQUE">เช็ค</option>
+        </select>
+        <p className="mt-1 text-xs text-ink-faint">วิธี default = โอนธนาคาร — ปรับได้ที่ Cost Distribution (Sprint ถัดไป)</p>
+      </fieldset>
     </div>
   )
 }
