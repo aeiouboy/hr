@@ -11,14 +11,14 @@ import { useJobs, type Job } from '@/lib/admin/store/useJobs'
 // Constants
 // ──────────────────────────────────────────────
 
-const FAMILY_OPTIONS = [
-  'HR',
-  'Engineering',
-  'Procurement',
-  'Sales',
-  'Operations',
-  'Finance',
-] as const
+const FAMILY_OPTIONS: Array<{ value: string; labelTh: string }> = [
+  { value: 'HR',          labelTh: 'ทรัพยากรบุคคล' },
+  { value: 'Engineering', labelTh: 'วิศวกรรม' },
+  { value: 'Procurement', labelTh: 'จัดซื้อจัดจ้าง' },
+  { value: 'Sales',       labelTh: 'การขาย' },
+  { value: 'Operations',  labelTh: 'ปฏิบัติการ' },
+  { value: 'Finance',     labelTh: 'การเงิน' },
+]
 
 const LEVEL_OPTIONS: Array<{ value: Job['level']; labelTh: string }> = [
   { value: 'JUNIOR',   labelTh: 'เจ้าหน้าที่' },
@@ -142,7 +142,7 @@ const { Page } = createCrudPage<Job>({
           onChange={(e) => onChange({ family: e.target.value })}
         >
           {FAMILY_OPTIONS.map((f) => (
-            <option key={f} value={f}>{f}</option>
+            <option key={f.value} value={f.value}>{f.labelTh}</option>
           ))}
         </select>
       </label>
