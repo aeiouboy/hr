@@ -126,7 +126,7 @@ describe('useProfileEdit — submit flow', () => {
     const { result } = renderHook(() => useProfileEdit())
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
-    let submitPromise: Promise<void>
+    let submitPromise: Promise<string | null>
     act(() => {
       submitPromise = result.current.submit()
     })

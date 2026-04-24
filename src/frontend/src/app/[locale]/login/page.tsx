@@ -16,32 +16,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ArrowRight, Check } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
-import type { Role } from '@/lib/rbac';
-
-type DemoUser = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  roles: Role[];
-};
-
-const DEMO_USERS: Record<string, DemoUser> = {
-  'admin@humi.test': {
-    id: 'ADM001',
-    name: 'ผู้ดูแลระบบ HR',
-    email: 'admin@humi.test',
-    password: 'admin2026',
-    roles: ['hr_admin', 'hr_manager', 'manager', 'employee'],
-  },
-  'employee@humi.test': {
-    id: 'EMP001',
-    name: 'สมชาย ใจดี',
-    email: 'employee@humi.test',
-    password: 'employee2026',
-    roles: ['employee'],
-  },
-};
+import { DEMO_USERS, landingForRoles } from '@/lib/demo-users';
 
 export default function HumiLoginPage() {
   const t = useTranslations('humiLogin');
@@ -73,10 +48,7 @@ export default function HumiLoginPage() {
       email: user.email,
       roles: user.roles,
     });
-    const target = user.roles.includes('hr_admin')
-      ? `/${locale}/admin`
-      : `/${locale}/home`;
-    router.push(target);
+    router.push(landingForRoles(user.roles, locale));
   }
 
   return (

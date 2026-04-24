@@ -44,12 +44,16 @@ import {
   UserPlus,
   BarChart3,
   Clock,
+  ClipboardList,
+  Inbox,
   Settings,
   ExternalLink,
   X,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/stores/auth-store';
+import type { Role } from '@/lib/rbac';
 // Locale helpers — moved to Topbar with locale switcher (2026-04-23)
 
 export interface SidebarProps {
@@ -70,6 +74,8 @@ type NavItem = {
   icon: LucideIcon;
   badge?: string;
   external?: boolean;
+  /** If set, item only renders when the current user has at least one of these roles. */
+  roles?: Role[];
 };
 
 type NavSection = {
@@ -86,7 +92,14 @@ const NAV: NavSection[] = [
       { id: 'timeoff', label: 'ลางาน', href: '/th/timeoff', icon: Calendar, badge: '2' },
       { id: 'benefits', label: 'เงินเดือนและสวัสดิการ', href: '/th/employees/me/benefits', icon: Heart, badge: '1' },
       { id: 'requests', label: 'คำร้องและแบบฟอร์ม', href: '/th/requests', icon: FileText, badge: '1' },
+      { id: 'my-workflows', label: 'คำขอของฉัน', href: '/th/ess/workflows', icon: ClipboardList },
       { id: 'time-attendance', label: 'เวลา & การเข้างาน', href: 'https://cnext-time.centralgroup.com', icon: Clock, external: true },
+    ],
+  },
+  {
+    group: 'กล่องอนุมัติ',
+    items: [
+      { id: 'spd-inbox', label: 'กล่องอนุมัติ SPD', href: '/th/spd/inbox', icon: Inbox, roles: ['spd', 'hr_admin', 'hr_manager'] },
     ],
   },
   {
@@ -120,6 +133,7 @@ function stripLocale(path: string): string {
 
 export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
+  const userRoles = useAuthStore((s) => s.roles);
   // Compare without locale prefix so /en/home matches href="/th/home"
   const barePath = stripLocale(pathname);
   const currentLocale = pathname.match(/^\/(th|en)/)?.[1] ?? 'th';
@@ -127,6 +141,13 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
     const bareHref = stripLocale(href);
     return barePath === bareHref || barePath.startsWith(bareHref + '/');
   };
+  // Role-gated nav — items/sections with `roles` render only when the current
+  // user owns at least one matching role.
+  const hasRoleFor = (item: NavItem) =>
+    !item.roles || item.roles.some((r) => userRoles.includes(r));
+  const visibleSections = NAV
+    .map((section) => ({ ...section, items: section.items.filter(hasRoleFor) }))
+    .filter((section) => section.items.length > 0);
   return (
     <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
       <div className="humi-brand">
@@ -163,7 +184,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
       </div>
 
       <nav className="humi-nav" aria-label="เมนูหลัก">
-        {NAV.map((section) => (
+        {visibleSections.map((section) => (
           <div key={section.group} className="humi-nav-section">
             <div className="humi-nav-label">{section.group}</div>
             {section.items.map((item) => {
