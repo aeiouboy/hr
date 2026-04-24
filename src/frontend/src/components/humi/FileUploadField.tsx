@@ -13,7 +13,7 @@
 // ════════════════════════════════════════════════════════════
 
 import { useCallback, useId, useRef, useState } from 'react';
-import { FileText, ImageIcon, X } from 'lucide-react';
+import { FileText, ImageIcon, UploadCloud, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHumiProfileStore } from '@/stores/humi-profile-slice';
 
@@ -201,43 +201,135 @@ export function FileUploadField({
         </label>
       )}
 
-      {/* Drop zone */}
+      {/*
+       * Unified card container — drop zone + preview list live inside one
+       * raised surface so they read as a single visual unit (Humi elevation:
+       * shadow-card on canvas, lifts to shadow-md on dragOver).
+       */}
       <div
-        role="button"
-        tabIndex={0}
-        aria-label={label ?? 'อัปโหลดไฟล์'}
-        aria-required={required || undefined}
-        onClick={() => inputRef.current?.click()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            inputRef.current?.click();
-          }
-        }}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
         className={cn(
-          'flex flex-col items-center justify-center gap-2 rounded-lg cursor-pointer',
-          'border-2 border-dashed px-4 py-6',
-          'bg-[var(--color-canvas-soft)] text-[var(--color-ink-muted)]',
-          'transition-[border-color,background-color] duration-[var(--dur-fast)]',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
+          'rounded-[var(--radius-md)] bg-surface',
+          'transition-shadow duration-[var(--dur-base)] ease-[var(--ease-spring)]',
           isDragOver
-            ? 'border-accent bg-accent-soft/30'
-            : 'border-[var(--color-hairline)] hover:border-accent hover:bg-accent-soft/20'
+            ? 'shadow-[var(--shadow-md)]'
+            : 'shadow-[var(--shadow-card)]'
         )}
       >
-        <FileText size={24} aria-hidden className="text-[var(--color-ink-muted)]" />
-        <p className="text-small text-center">
-          ลากไฟล์มาวางที่นี่ หรือ{' '}
-          <span className="font-medium text-accent underline underline-offset-2">
-            คลิกเพื่อเลือกไฟล์
-          </span>
-        </p>
-        <p className="text-small text-[var(--color-ink-muted)]">
-          PDF, JPG, PNG — สูงสุด {maxSizeMB} MB
-        </p>
+        {/* Drop zone */}
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label={label ?? 'อัปโหลดไฟล์'}
+          aria-required={required || undefined}
+          onClick={() => inputRef.current?.click()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              inputRef.current?.click();
+            }
+          }}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={cn(
+            'flex flex-col items-center justify-center gap-3 cursor-pointer',
+            'rounded-[var(--radius-md)] px-6 py-10 min-h-[180px]',
+            'border border-dashed',
+            'transition-[background-color,border-color] duration-[var(--dur-fast)]',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
+            isDragOver
+              ? 'border-accent bg-accent-soft/30'
+              : 'border-hairline bg-canvas-soft hover:border-accent hover:bg-accent-soft/15'
+          )}
+        >
+          {/* Icon bubble — teal fill on dragOver, surface+hairline at rest */}
+          <div
+            aria-hidden
+            className={cn(
+              'flex h-14 w-14 items-center justify-center rounded-full',
+              'transition-[background-color,color,border-color] duration-[var(--dur-fast)]',
+              isDragOver
+                ? 'bg-accent text-white border border-transparent'
+                : 'bg-surface text-accent border border-hairline'
+            )}
+          >
+            <UploadCloud size={28} strokeWidth={1.75} />
+          </div>
+
+          {/* Primary CTA */}
+          <p className="text-body text-center font-medium text-ink">
+            {isDragOver ? (
+              'วางไฟล์ได้เลย'
+            ) : (
+              <>
+                ลากไฟล์มาวางที่นี่ หรือ{' '}
+                <span className="font-semibold text-accent underline underline-offset-2">
+                  คลิกเพื่อเลือกไฟล์
+                </span>
+              </>
+            )}
+          </p>
+
+          {/* Format/size hint */}
+          <p className="text-small text-ink-muted">
+            PDF, JPG, PNG — สูงสุด {maxSizeMB} MB
+          </p>
+        </div>
+
+        {/* Preview list — inside same card, separated by hairline divider */}
+        {previews.length > 0 && (
+          <ul
+            className="flex flex-col divide-y divide-hairline border-t border-hairline"
+            aria-label="ไฟล์ที่อัปโหลดแล้ว"
+          >
+            {previews.map((item) => (
+              <li
+                key={item.id}
+                className="flex items-center gap-3 px-4 py-3"
+              >
+                {/* File type icon */}
+                <span className="shrink-0 text-ink-muted" aria-hidden>
+                  {item.mimeType.startsWith('image/') ? (
+                    <ImageIcon size={16} />
+                  ) : (
+                    <FileText size={16} />
+                  )}
+                </span>
+
+                {/* Filename + size */}
+                <span className="flex-1 min-w-0">
+                  <span
+                    className="block text-small font-medium text-ink truncate"
+                    title={item.filename}
+                  >
+                    {item.filename}
+                  </span>
+                  <span className="block text-small text-ink-muted">
+                    {item.sizeKb} KB
+                  </span>
+                </span>
+
+                {/* Remove button */}
+                <button
+                  type="button"
+                  aria-label={`ลบ ${item.filename}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemove(item.id);
+                  }}
+                  className={cn(
+                    'shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full',
+                    'text-ink-muted hover:text-ink hover:bg-canvas-soft',
+                    'transition-colors duration-[var(--dur-fast)]',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 focus-visible:ring-offset-surface'
+                  )}
+                >
+                  <X size={14} aria-hidden />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {/* Hidden file input */}
@@ -269,62 +361,7 @@ export function FileUploadField({
 
       {/* Helper text (shown when no error) */}
       {!error && helperText && (
-        <p className="text-small text-[var(--color-ink-muted)]">{helperText}</p>
-      )}
-
-      {/* Preview list */}
-      {previews.length > 0 && (
-        <ul className="flex flex-col gap-2 mt-1" aria-label="ไฟล์ที่อัปโหลดแล้ว">
-          {previews.map((item) => (
-            <li
-              key={item.id}
-              className={cn(
-                'flex items-center gap-3 rounded-md px-3 py-2',
-                'border border-[var(--color-hairline)] bg-surface'
-              )}
-            >
-              {/* File type icon */}
-              <span className="shrink-0 text-[var(--color-ink-muted)]" aria-hidden>
-                {item.mimeType.startsWith('image/') ? (
-                  <ImageIcon size={16} />
-                ) : (
-                  <FileText size={16} />
-                )}
-              </span>
-
-              {/* Filename + size */}
-              <span className="flex-1 min-w-0">
-                <span
-                  className="block text-small font-medium text-ink truncate"
-                  title={item.filename}
-                >
-                  {item.filename}
-                </span>
-                <span className="block text-small text-[var(--color-ink-muted)]">
-                  {item.sizeKb} KB
-                </span>
-              </span>
-
-              {/* Remove button */}
-              <button
-                type="button"
-                aria-label={`ลบ ${item.filename}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemove(item.id);
-                }}
-                className={cn(
-                  'shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full',
-                  'text-[var(--color-ink-muted)] hover:text-ink hover:bg-[var(--color-canvas-soft)]',
-                  'transition-colors duration-[var(--dur-fast)]',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 focus-visible:ring-offset-surface'
-                )}
-              >
-                <X size={14} aria-hidden />
-              </button>
-            </li>
-          ))}
-        </ul>
+        <p className="text-small text-ink-muted">{helperText}</p>
       )}
     </div>
   );
