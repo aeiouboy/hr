@@ -18,8 +18,15 @@ const mockPush = vi.fn();
 
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn().mockReturnValue('/th/home'),
-  useRouter: vi.fn().mockReturnValue({ push: mockPush }),
+  useRouter: vi.fn().mockReturnValue({
+    push: mockPush,
+    replace: mockPush,
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
   useParams: vi.fn().mockReturnValue({ locale: 'th' }),
+  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
 }));
 
 vi.mock('next-intl', () => ({

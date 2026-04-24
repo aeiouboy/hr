@@ -74,6 +74,7 @@ function mockFileReaderError() {
 vi.mock('lucide-react', () => ({
   FileText: () => React.createElement('span', { 'data-testid': 'icon-file-text' }),
   ImageIcon: () => React.createElement('span', { 'data-testid': 'icon-image' }),
+  UploadCloud: () => React.createElement('span', { 'data-testid': 'icon-upload-cloud' }),
   X: () => React.createElement('span', { 'data-testid': 'icon-x' }),
 }));
 
