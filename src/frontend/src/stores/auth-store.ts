@@ -11,8 +11,11 @@ interface AuthState {
   email: string | null;
   roles: Role[];
   isAuthenticated: boolean;
+  // hydration guard: false until persist rehydrates from localStorage
+  _hasHydrated: boolean;
   setUser: (user: { id: string; name: string; email: string; roles: Role[] }) => void;
   clearUser: () => void;
+  setHasHydrated: (v: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -23,6 +26,7 @@ export const useAuthStore = create<AuthState>()(
       email: null,
       roles: [],
       isAuthenticated: false,
+      _hasHydrated: false,
       setUser: (user) =>
         set({
           userId: user.id,
@@ -39,10 +43,22 @@ export const useAuthStore = create<AuthState>()(
           roles: [],
           isAuthenticated: false,
         }),
+      setHasHydrated: (v) => set({ _hasHydrated: v }),
     }),
     {
       name: 'humi-auth',
       storage: createJSONStorage(() => localStorage),
+      // exclude _hasHydrated from persist so it always starts false and set to true after rehydrate
+      partialize: (state) => ({
+        userId: state.userId,
+        username: state.username,
+        email: state.email,
+        roles: state.roles,
+        isAuthenticated: state.isAuthenticated,
+      }),
+      onRehydrateStorage: () => (state) => {
+        if (state) state.setHasHydrated(true);
+      },
     },
   ),
 );

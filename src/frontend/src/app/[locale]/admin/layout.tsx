@@ -14,14 +14,19 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const params = useParams<{ locale: string }>();
   const locale = params?.locale ?? 'th';
-  const { isAuthenticated, roles } = useAuthStore();
+  const { isAuthenticated, roles, _hasHydrated } = useAuthStore();
   const isAdmin = roles.includes('hr_admin');
 
   useEffect(() => {
+    // wait for Zustand persist rehydration before redirecting
+    if (!_hasHydrated) return;
     if (!isAuthenticated || !isAdmin) {
       router.replace(`/${locale}/login`);
     }
-  }, [isAuthenticated, isAdmin, locale, router]);
+  }, [_hasHydrated, isAuthenticated, isAdmin, locale, router]);
+
+  // show nothing until hydrated (avoids flash-redirect)
+  if (!_hasHydrated) return null;
 
   if (!isAuthenticated || !isAdmin) {
     return null;

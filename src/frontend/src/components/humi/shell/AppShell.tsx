@@ -82,6 +82,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const hasHydrated = useAuthStore((s) => s._hasHydrated);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const { mobileMenuOpen, closeMobileMenu } = useUIStore();
   // Refs for focus management — return focus to hamburger when drawer closes,
@@ -95,10 +96,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // Global auth gate — every route except /login requires a session.
   // Role check for /admin/* lives in app/[locale]/admin/layout.tsx.
   useEffect(() => {
+    // wait for Zustand persist rehydration before redirecting
+    if (!hasHydrated) return;
     if (!isLoginPage && !isAuthenticated) {
       router.replace(`/${locale}/login`);
     }
-  }, [isLoginPage, isAuthenticated, locale, router]);
+  }, [hasHydrated, isLoginPage, isAuthenticated, locale, router]);
 
   // Auto-close drawer on route change
   useEffect(() => {
