@@ -15,6 +15,9 @@ import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
+import PositionLookup from '@/components/admin/PositionLookup'
+import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
+import type { Position, PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
 import type { PromotionEvent } from '@hrms/shared/types/timeline'
 
@@ -98,7 +101,7 @@ export default function PromotionPage() {
     if (employee) seed(employee)
   }, [employee, seed])
 
-  const [toCorporateTitle, setToCorporateTitle] = useState('')
+  const [selectedPosition, setSelectedPosition] = useState<PositionCascade | null>(null)
   const [salaryChangePct, setSalaryChangePct] = useState('')
   const [notes, setNotes] = useState('')
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
@@ -112,7 +115,7 @@ export default function PromotionPage() {
   const salaryPct = salaryChangePct !== '' ? parseFloat(salaryChangePct) : undefined
   const salaryInvalid = salaryChangePct !== '' && (isNaN(salaryPct!) || !isSalaryPctValid(salaryPct!))
 
-  const isFormValid = !!toCorporateTitle.trim() && !salaryInvalid && !!effectiveDate
+  const isFormValid = !!selectedPosition && !salaryInvalid && !!effectiveDate
 
   const doSubmit = useCallback(() => {
     if (!employee || !isFormValid || !effectiveDate) return
@@ -120,6 +123,8 @@ export default function PromotionPage() {
       setSalaryError('ระบุ 0–50 เท่านั้น')
       return
     }
+
+    if (!selectedPosition) return
 
     const event: PromotionEvent = {
       id: `evt-prm-${Date.now()}`,
@@ -129,7 +134,7 @@ export default function PromotionPage() {
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
       fromTitle: currentTitle,
-      toTitle: toCorporateTitle.trim(),
+      toTitle: selectedPosition.titleTh,
       salaryChangePct: salaryPct,
       notes: notes.trim() || undefined,
     }
@@ -139,7 +144,7 @@ export default function PromotionPage() {
     router.push(
       `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการเลื่อนตำแหน่งเรียบร้อยแล้ว')}`,
     )
-  }, [employee, isFormValid, effectiveDate, salaryInvalid, empId, currentTitle, toCorporateTitle, salaryPct, notes, append, router, locale])
+  }, [employee, isFormValid, effectiveDate, salaryInvalid, empId, currentTitle, selectedPosition, salaryPct, notes, append, router, locale])
 
   if (!employee) {
     return (
@@ -223,25 +228,16 @@ export default function PromotionPage() {
               </div>
             </div>
 
-            {/* ── เลื่อนไปเป็น (required) ── */}
+            {/* ── เลื่อนไปเป็น (required, picks active Position from master per BRD #95 cascade) ── */}
             <div style={{ marginBottom: 20 }}>
-              <label
-                htmlFor="toCorporateTitle"
-                className="text-body font-semibold text-ink"
-                style={{ display: 'block', marginBottom: 6 }}
-              >
-                เลื่อนไปเป็น (ระดับ/ตำแหน่งใหม่) <span style={{ color: 'var(--color-danger)' }}>*</span>
-              </label>
-              <input
+              <PositionLookup
                 id="toCorporateTitle"
-                type="text"
-                value={toCorporateTitle}
-                onChange={(e) => setToCorporateTitle(e.target.value)}
-                placeholder="เช่น ผู้จัดการอาวุโส"
-                className="humi-input"
-                style={{ maxWidth: 400 }}
-                aria-label="ตำแหน่งใหม่หลังเลื่อน"
-                aria-required="true"
+                positionMaster={MOCK_POSITION_MASTER}
+                required
+                label="เลื่อนไปเป็น (ระดับ/ตำแหน่งใหม่)"
+                placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+                filter={(p: Position) => p.active}
+                onSelect={setSelectedPosition}
               />
             </div>
 
