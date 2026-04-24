@@ -4,7 +4,7 @@
   { "id": "TERM_RETIRE",     "labelTh": "เกษียณอายุ",               "labelEn": "Retirement",                  "sortOrder": 3,  "active": true },
   { "id": "TERM_ERLRETIRE",  "labelTh": "เกษียณก่อนกำหนด",          "labelEn": "Early Retirement",            "sortOrder": 4,  "active": true },
   { "id": "TERM_DISMISS",    "labelTh": "ไล่ออก",                   "labelEn": "Dismissal",                   "sortOrder": 5,  "active": true },
-  { "id": "TERM_LAYOFF",     "labelTh": "ปลดออก (Layoff)",          "labelEn": "Layoff",                      "sortOrder": 6,  "active": true },
+  { "id": "TERM_LAYOFF",     "labelTh": "ปลดออก",                   "labelEn": "Layoff",                      "sortOrder": 6,  "active": true },
   { "id": "TERM_REORG",      "labelTh": "ปรับโครงสร้างองค์กร",      "labelEn": "Reorganization",              "sortOrder": 7,  "active": true },
   { "id": "TERM_REDUNDANCY", "labelTh": "ลดจำนวนพนักงาน",           "labelEn": "Redundancy",                  "sortOrder": 8,  "active": true },
   { "id": "TERM_ENDASSIGN",  "labelTh": "สิ้นสุดการมอบหมายชั่วคราว","labelEn": "End of Temporary Assignment", "sortOrder": 9,  "active": true },

@@ -102,10 +102,26 @@ for (const file of jsonFiles) {
 
 // ---- emit index.ts ---------------------------------------------------------
 
+// Standalone picklist re-exports — D2 S1 added picklists living as their own .ts
+// modules (not driven by JSON yet). Generator preserves them so future re-runs
+// don't break consumers.
+const STANDALONE_REEXPORTS: ReadonlyArray<{ const: string; type: string; module: string }> = [
+  { const: 'PICKLIST_COUNTRY_ISO',       type: 'CountryISOId',     module: './country-iso' },
+  { const: 'PICKLIST_ID_CARD_TYPE',      type: 'IdCardTypeId',     module: './id-card-type' },
+  { const: 'PICKLIST_COMPANY',           type: 'CompanyId',        module: './company' },
+  { const: 'PICKLIST_SALUTATION_EN',     type: 'SalutationEnId',   module: './salutation-en' },
+  { const: 'PICKLIST_MILITARY_STATUS',   type: 'MilitaryStatusId', module: './military-status' },
+  { const: 'PICKLIST_YES_NO',            type: 'YesNoId',          module: './yes-no' },
+]
+
 const lines: string[] = [
   '// GENERATED — do not edit manually; run generate.ts',
   `// Generated at: ${new Date().toISOString()}`,
-  `// Source: picklists/data/ (${entries.length} picklists)`,
+  `// Source: picklists/data/ (${entries.length} picklists) + ${STANDALONE_REEXPORTS.length} standalone re-exports`,
+  ...STANDALONE_REEXPORTS.flatMap((r) => [
+    `export { ${r.const} } from '${r.module}'`,
+    `export type { ${r.type} } from '${r.module}'`,
+  ]),
   '',
   '/** A single picklist entry with Thai and English labels. */',
   'export interface PicklistItem {',

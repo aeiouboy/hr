@@ -272,7 +272,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         </label>
         <input id="first-name-en" type="text" required aria-required="true"
           aria-invalid={touched.firstNameEn && !!errors.firstNameEn}
-          placeholder="First name (EN)"
+          placeholder="ชื่อ ภาษาอังกฤษ"
           value={firstNameEn}
           onChange={(e) => setFirstNameEn(e.target.value)}
           onBlur={() => touch('firstNameEn')}
@@ -285,7 +285,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <label htmlFor="middle-name-en" className="humi-label">
           ชื่อกลาง (EN)
         </label>
-        <input id="middle-name-en" type="text" placeholder="Middle name (optional)"
+        <input id="middle-name-en" type="text" placeholder="ชื่อกลาง ภาษาอังกฤษ — ไม่บังคับ"
           value={middleNameEn}
           onChange={(e) => setMiddleNameEn(e.target.value)}
           className="humi-input w-full max-w-sm" />
@@ -298,7 +298,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         </label>
         <input id="last-name-en" type="text" required aria-required="true"
           aria-invalid={touched.lastNameEn && !!errors.lastNameEn}
-          placeholder="Last name (EN)"
+          placeholder="นามสกุล ภาษาอังกฤษ"
           value={lastNameEn}
           onChange={(e) => setLastNameEn(e.target.value)}
           onBlur={() => touch('lastNameEn')}

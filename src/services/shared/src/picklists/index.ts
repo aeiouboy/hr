@@ -1,7 +1,6 @@
 // GENERATED — do not edit manually; run generate.ts
-// Generated at: 2026-04-23T08:14:25.759Z
-// Source: picklists/data/ (10 picklists)
-// Extended (D2 S1 — 37 BA fields): +COUNTRY_ISO +ID_CARD_TYPE +COMPANY +SALUTATION_EN +MILITARY_STATUS
+// Generated at: 2026-04-24T04:01:20.767Z
+// Source: picklists/data/ (10 picklists) + 6 standalone re-exports
 export { PICKLIST_COUNTRY_ISO } from './country-iso'
 export type { CountryISOId } from './country-iso'
 export { PICKLIST_ID_CARD_TYPE } from './id-card-type'
@@ -145,35 +144,35 @@ export const PICKLIST_CURRENCY: readonly PicklistItem[] = [
 export const PICKLIST_EMPLOYEE_CLASS: readonly PicklistItem[] = [
   {
     "id": "A",
-    "labelTh": "A — พนักงานประจำ (Permanent)",
+    "labelTh": "A — พนักงานประจำ",
     "labelEn": "A — Permanent",
     "sortOrder": 1,
     "active": true
   },
   {
     "id": "B",
-    "labelTh": "B — ส่งออกต่างประเทศ (Expat Outbound)",
+    "labelTh": "B — ส่งออกต่างประเทศ",
     "labelEn": "B — Expat Outbound",
     "sortOrder": 2,
     "active": true
   },
   {
     "id": "C",
-    "labelTh": "C — รับเข้าจากต่างประเทศ (Expat Inbound)",
+    "labelTh": "C — รับเข้าจากต่างประเทศ",
     "labelEn": "C — Expat Inbound",
     "sortOrder": 3,
     "active": true
   },
   {
     "id": "D",
-    "labelTh": "D — เกษียณอายุ (Retirement)",
+    "labelTh": "D — เกษียณอายุ",
     "labelEn": "D — Retirement",
     "sortOrder": 4,
     "active": true
   },
   {
     "id": "E",
-    "labelTh": "E — พนักงานชั่วคราว (Temporary)",
+    "labelTh": "E — พนักงานชั่วคราว",
     "labelEn": "E — Temporary",
     "sortOrder": 5,
     "active": true
@@ -187,14 +186,14 @@ export const PICKLIST_EMPLOYEE_CLASS: readonly PicklistItem[] = [
   },
   {
     "id": "G",
-    "labelTh": "G — นักศึกษาฝึกงาน (Internship)",
+    "labelTh": "G — นักศึกษาฝึกงาน",
     "labelEn": "G — Internship",
     "sortOrder": 7,
     "active": true
   },
   {
     "id": "H",
-    "labelTh": "H — พนักงานสัญญาจ้าง (Contingent)",
+    "labelTh": "H — พนักงานสัญญาจ้าง",
     "labelEn": "H — Contingent",
     "sortOrder": 8,
     "active": true
@@ -225,21 +224,21 @@ export const PICKLIST_EVENT_REASON_HIRE: readonly PicklistItem[] = [
   },
   {
     "id": "HIREDM",
-    "labelTh": "ย้ายข้อมูล (Data Migration)",
+    "labelTh": "ย้ายข้อมูลระบบ",
     "labelEn": "HIRE - Data Migration",
     "sortOrder": 4,
     "active": true
   },
   {
     "id": "H_CORENTRY",
-    "labelTh": "แก้ไขรายการ Hire (Corrected Entry)",
+    "labelTh": "แก้ไขรายการรับเข้าทำงาน",
     "labelEn": "HIRE Corrected Entry",
     "sortOrder": 5,
     "active": true
   },
   {
     "id": "H_INENTRY",
-    "labelTh": "Hire รายการผิดพลาด (Incorrect Entry)",
+    "labelTh": "รายการรับเข้าผิดพลาด",
     "labelEn": "HIRE Incorrect Entry",
     "sortOrder": 6,
     "active": true
@@ -284,7 +283,7 @@ export const PICKLIST_EVENT_REASON_TERM: readonly PicklistItem[] = [
   },
   {
     "id": "TERM_LAYOFF",
-    "labelTh": "ปลดออก (Layoff)",
+    "labelTh": "ปลดออก",
     "labelEn": "Layoff",
     "sortOrder": 6,
     "active": true
