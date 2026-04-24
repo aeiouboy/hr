@@ -75,9 +75,19 @@ function resolveTitle(pathname: string): string {
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  // ── ALL hooks declared first (Rules of Hooks: no conditional calls) ──
+  // Early returns for /login, unauthenticated, and /admin live AFTER all
+  // hooks register, so the hooks count stays constant across every render
+  // regardless of which shell variant this instance eventually renders.
   const pathname = usePathname();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const { mobileMenuOpen, closeMobileMenu } = useUIStore();
+  // Refs for focus management — return focus to hamburger when drawer closes,
+  // and focus the first interactive element inside drawer when it opens.
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+  const triggerSnapshotRef = useRef<HTMLElement | null>(null);
 
   const isLoginPage = pathname === '/th/login' || pathname === '/en/login';
   const locale = pathname.startsWith('/en') ? 'en' : 'th';
@@ -89,26 +99,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       router.replace(`/${locale}/login`);
     }
   }, [isLoginPage, isAuthenticated, locale, router]);
-
-  if (isLoginPage) {
-    return <>{children}</>;
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  if (pathname.startsWith('/th/admin') || pathname.startsWith('/en/admin')) {
-    return <AdminShell>{children}</AdminShell>;
-  }
-
-  const title = resolveTitle(pathname);
-  const [paletteOpen, setPaletteOpen] = useState(false);
-  const { mobileMenuOpen, closeMobileMenu } = useUIStore();
-  // Refs for focus management — return focus to hamburger when drawer closes,
-  // and focus the first interactive element inside drawer when it opens.
-  const drawerRef = useRef<HTMLDivElement | null>(null);
-  const triggerSnapshotRef = useRef<HTMLElement | null>(null);
 
   // Auto-close drawer on route change
   useEffect(() => {
@@ -178,6 +168,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, []);
+
+  // ── Conditional returns (safe — all hooks above ran unconditionally) ──
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  if (pathname.startsWith('/th/admin') || pathname.startsWith('/en/admin')) {
+    return <AdminShell>{children}</AdminShell>;
+  }
+
+  const title = resolveTitle(pathname);
 
   return (
     <div className="humi-app">
