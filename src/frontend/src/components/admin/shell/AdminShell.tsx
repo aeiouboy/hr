@@ -12,8 +12,6 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/admin/hire', title: 'Hire Employee' },
   { prefix: '/th/admin/employees', title: 'พนักงาน' },
   { prefix: '/en/admin/employees', title: 'Employees' },
-  { prefix: '/th/admin/employment-info', title: 'ข้อมูลการจ้างงาน' },
-  { prefix: '/en/admin/employment-info', title: 'Employment Info' },
   { prefix: '/th/admin/reports', title: 'รายงาน (Admin)' },
   { prefix: '/en/admin/reports', title: 'Reports (Admin)' },
   { prefix: '/th/admin/self-service', title: 'Self-Service Config' },

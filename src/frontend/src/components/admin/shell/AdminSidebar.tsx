@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   UserPlus,
   Users,
-  Briefcase,
   BarChart3,
   Sliders,
   UserCog,
@@ -43,7 +42,6 @@ const NAV: NavSection[] = [
     items: [
       { id: 'hire', label: 'รับพนักงานใหม่', href: '/th/admin/hire', icon: UserPlus },
       { id: 'employees', label: 'พนักงาน', href: '/th/admin/employees', icon: Users },
-      { id: 'employment-info', label: 'ข้อมูลการจ้างงาน', href: '/th/admin/employment-info', icon: Briefcase },
     ],
   },
   {
