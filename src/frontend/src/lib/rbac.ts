@@ -1,9 +1,18 @@
-export type Role ='employee' |'manager' |'hr_admin' |'hr_manager';
+export type Role =
+ | 'employee'
+ | 'manager'
+ | 'hrbp'           // HR Business Partner — org-level; first-line approver for BU
+ | 'spd'            // Strategic People Development — personal-info final approver (BRD #166)
+ | 'hr_admin'
+ | 'hr_manager';
 
-// Role hierarchy: hr_manager > hr_admin > manager > employee
+// Role hierarchy (for implicit permission inheritance):
+//   hr_manager > hr_admin > spd > hrbp > manager > employee
 const ROLE_HIERARCHY: Record<Role, Role[]> = {
- hr_manager: ['hr_admin','manager','employee'],
- hr_admin: ['manager','employee'],
+ hr_manager: ['hr_admin','spd','hrbp','manager','employee'],
+ hr_admin: ['spd','hrbp','manager','employee'],
+ spd: ['hrbp','manager','employee'],
+ hrbp: ['manager','employee'],
  manager: ['employee'],
  employee: [],
 };
