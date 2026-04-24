@@ -73,10 +73,11 @@ describe('SystemPage — /admin/system landing hub', () => {
     expect(consentWidget?.textContent).toContain('2')
   })
 
-  it('TC-SYS-5: stat widget "Endpoints" แสดงค่า 2 (seed 2 endpoints)', () => {
+  it('TC-SYS-5: stat widget "จุดเชื่อมต่อ" แสดงค่า 2 (seed 2 endpoints)', () => {
     render(<SystemPage />)
-    expect(screen.getByText('Endpoints')).toBeInTheDocument()
-    const endpointWidget = screen.getByText('Endpoints').closest('div')
+    // Page Thai-ified: "Endpoints" → "จุดเชื่อมต่อ" (Rule C10)
+    expect(screen.getByText('จุดเชื่อมต่อ')).toBeInTheDocument()
+    const endpointWidget = screen.getByText('จุดเชื่อมต่อ').closest('div')
     expect(endpointWidget?.textContent).toContain('2')
   })
 })

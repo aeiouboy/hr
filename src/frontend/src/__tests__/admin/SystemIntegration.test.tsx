@@ -72,6 +72,7 @@ describe('IntegrationPage — IC/API Endpoints + Teams Viva', () => {
 
     // seed baSpecPending=true → ต้องมี Q10 banner
     expect(screen.getByText(/Q10/i)).toBeInTheDocument()
-    expect(screen.getByText(/รอ BA Spec/i)).toBeInTheDocument()
+    // "รอ BA Spec" appears in multiple places (banner + status chip) — use getAllByText
+    expect(screen.getAllByText(/รอ BA Spec/i).length).toBeGreaterThan(0)
   })
 })
