@@ -62,12 +62,14 @@ describe('AC-4: Sidebar — 17 total nav items', () => {
     expect(screen.getByText('บริษัท')).toBeInTheDocument();
   });
 
-  it('renders exactly 17 clickable nav items total (links + external anchor) (AC-4)', () => {
+  it('renders exactly 19 clickable nav items total (links + external anchor) (AC-4)', () => {
     render(<Sidebar />);
     // All nav items render as <a> (Next Link mock + external <a>)
+    // Updated 2026-04-24: 17 → 19 items after 5-persona worktree merge added
+    // /th/spd/inbox + /th/ess/workflows sidebar entries.
     const nav = screen.getByRole('navigation', { name: 'เมนูหลัก' });
     const allLinks = within(nav).getAllByRole('link');
-    expect(allLinks).toHaveLength(17);
+    expect(allLinks).toHaveLength(19);
   });
 
   it('พื้นที่ทำงานของฉัน group has 6 items (5 internal + 1 T&A external) (AC-4)', () => {

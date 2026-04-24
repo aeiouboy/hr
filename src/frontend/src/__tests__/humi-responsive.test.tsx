@@ -26,8 +26,15 @@ import { AppShell } from '@/components/humi/shell/AppShell';
 // ── Mock next/navigation ─────────────────────────────────────────────────────
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn().mockReturnValue('/th/home'),
-  useRouter: vi.fn().mockReturnValue({ push: vi.fn() }),
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
   useParams: vi.fn().mockReturnValue({ locale: 'th' }),
+  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
 }));
 
 // ── Mock next-intl ───────────────────────────────────────────────────────────
