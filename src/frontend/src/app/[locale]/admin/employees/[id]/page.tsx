@@ -40,21 +40,6 @@ import type { TimelineEvent } from '@hrms/shared/types/timeline'
 import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsInCorpTitle, calcYearsInPosition } from '@/lib/calculations'
 import type { LifecycleEvent } from '@/lib/calculations'
 
-// ── Tenure helper ────────────────────────────────────────────
-function calcTenure(hireDateStr: string): string {
-  const hire = new Date(hireDateStr)
-  const now = new Date()
-  let years = now.getFullYear() - hire.getFullYear()
-  let months = now.getMonth() - hire.getMonth()
-  if (months < 0) {
-    years -= 1
-    months += 12
-  }
-  if (years === 0) return `${months} เดือน`
-  if (months === 0) return `${years} ปี`
-  return `${years} ปี ${months} เดือน`
-}
-
 // ── Avatar color by status ───────────────────────────────────
 function avatarClass(status: string): string {
   switch (status) {
@@ -225,7 +210,6 @@ export default function EmployeeDetailPage() {
 
   const nameTh = `${employee.first_name_th} ${employee.last_name_th}`
   const nameEn = `${employee.first_name_en} ${employee.last_name_en}`
-  const tenure = calcTenure(employee.hire_date)
   const hireDateFormatted = new Date(employee.hire_date).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
@@ -388,7 +372,6 @@ export default function EmployeeDetailPage() {
                 <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
                   <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุ</div>
                   <div className="text-body font-semibold text-ink">{ageResult.display}</div>
-                  <div className="text-small text-ink-muted">{ageResult.decimal} ปี</div>
                 </div>
               )}
               {genResult && (
@@ -417,7 +400,6 @@ export default function EmployeeDetailPage() {
               วันที่เริ่มงาน
             </div>
             <div className="text-body font-medium text-ink">{hireDateFormatted}</div>
-            <div className="text-small text-ink-muted">{tenure}</div>
             {employee.seniority_start_date !== employee.hire_date && (
               <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
                 อายุงานนับจาก {new Date(employee.seniority_start_date).toLocaleDateString('th-TH', {
@@ -497,49 +479,66 @@ export default function EmployeeDetailPage() {
           )
         })()}
 
-        {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ── */}
-        {employee.hire_date && (
-          <>
-            <hr className="humi-divider" />
-            <div className="humi-row" style={{ gap: 12, flexWrap: 'wrap' }}>
-              {yosResult && (
-                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
-                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>
-                  <div className="text-body font-semibold text-ink">{yosResult.display}</div>
-                  <div className="text-small text-ink-muted">{yosResult.decimal} ปี</div>
+        {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ──
+            Auto-collapse: when an employee has never transferred / changed position /
+            been promoted, all 4 counters equal hire-date tenure — showing 4 identical
+            chips is noise. Collapse to a single "อายุงาน" chip unless the values
+            actually diverge (any movement in the timeline resets one counter). */}
+        {employee.hire_date && yosResult && (() => {
+          const counters = [yosResult, yijResult, yictResult, yipResult].filter(
+            (c): c is NonNullable<typeof c> => c !== null,
+          )
+          const uniqueDisplays = new Set(counters.map((c) => c.display))
+          const collapsed = uniqueDisplays.size <= 1
+
+          return (
+            <>
+              <hr className="humi-divider" />
+              <div className="humi-row" style={{ gap: 12, flexWrap: 'wrap' }}>
+                {collapsed ? (
+                  <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                    <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>
+                    <div className="text-body font-semibold text-ink">{yosResult.display}</div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
+                      <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>
+                      <div className="text-body font-semibold text-ink">{yosResult.display}</div>
+                    </div>
+                    {yijResult && (
+                      <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
+                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในตำแหน่ง</div>
+                        <div className="text-body font-semibold text-ink">{yijResult.display}</div>
+                      </div>
+                    )}
+                    {yictResult && (
+                      <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
+                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในระดับ</div>
+                        <div className="text-body font-semibold text-ink">{yictResult.display}</div>
+                      </div>
+                    )}
+                    {yipResult && (
+                      <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 130 }}>
+                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานที่ตำแหน่งนี้</div>
+                        <div className="text-body font-semibold text-ink">{yipResult.display}</div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+              {!collapsed && (
+                <div
+                  className="text-small text-ink-faint"
+                  style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5 }}
+                >
+                  ตัวเลขนับจาก event ล่าสุดของแต่ละประเภท — โอนย้าย/เปลี่ยนตำแหน่ง/เลื่อนระดับ จะ reset counter
+                  ที่เกี่ยวข้องโดยอัตโนมัติ ดูประวัติเต็มได้ที่ Timeline ด้านล่าง
                 </div>
               )}
-              {yijResult && (
-                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
-                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในตำแหน่ง</div>
-                  <div className="text-body font-semibold text-ink">{yijResult.display}</div>
-                  <div className="text-small text-ink-muted">{yijResult.decimal} ปี</div>
-                </div>
-              )}
-              {yictResult && (
-                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
-                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในระดับ</div>
-                  <div className="text-body font-semibold text-ink">{yictResult.display}</div>
-                  <div className="text-small text-ink-muted">{yictResult.decimal} ปี</div>
-                </div>
-              )}
-              {yipResult && (
-                <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 130 }}>
-                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานที่ตำแหน่งนี้</div>
-                  <div className="text-body font-semibold text-ink">{yipResult.display}</div>
-                  <div className="text-small text-ink-muted">{yipResult.decimal} ปี</div>
-                </div>
-              )}
-            </div>
-            <div
-              className="text-small text-ink-faint"
-              style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5 }}
-            >
-              ตัวเลขนับจาก event ล่าสุดของแต่ละประเภท — โอนย้าย/เปลี่ยนตำแหน่ง/เลื่อนระดับ จะ reset counter
-              ที่เกี่ยวข้องโดยอัตโนมัติ ดูประวัติเต็มได้ที่ Timeline ด้านล่าง
-            </div>
-          </>
-        )}
+            </>
+          )
+        })()}
       </div>
 
       {/* ── Section B: Timeline event log ─────────────────── */}
