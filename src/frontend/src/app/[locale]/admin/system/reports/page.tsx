@@ -4,6 +4,7 @@
 // BRD #193, #196, #206, #207, #164 — Part E Wave 2a
 
 import Link from 'next/link'
+import { Star } from 'lucide-react'
 import { useDataManagement } from '@/lib/admin/store/useDataManagement'
 import { formatCron } from '@/lib/admin/utils/cronFormat'
 
@@ -80,7 +81,7 @@ export default function ReportsHubPage() {
                         aria-label={isFav ? 'ยกเลิกโปรด' : 'เพิ่มโปรด'}
                         className="text-lg leading-none hover:scale-110 transition-transform"
                       >
-                        {isFav ? '★' : '☆'}
+                        <Star size={16} fill={isFav ? 'currentColor' : 'none'} />
                       </button>
                     </td>
                     <td className="px-4 py-2.5 text-gray-500 text-xs whitespace-nowrap">

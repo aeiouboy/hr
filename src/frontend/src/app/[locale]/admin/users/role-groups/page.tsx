@@ -3,6 +3,7 @@
 // role-groups/page.tsx — Application Role Group (BRD #185)
 // AC-3: list + create/edit modal + capabilities matrix (Menu × View/Edit/Enable/Disable)
 import { useState } from 'react'
+import { X } from 'lucide-react'
 import { useUsersPermissions } from '@/lib/admin/store/useUsersPermissions'
 import type { RoleGroup } from '@/lib/admin/types/usersPermissions'
 
@@ -172,7 +173,7 @@ function RoleGroupModal({
             className="text-gray-400 hover:text-gray-700 p-1 rounded"
             aria-label="ปิด dialog"
           >
-            ✕
+            <X size={14} />
           </button>
         </div>
 

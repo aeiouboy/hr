@@ -4,6 +4,7 @@
 // AC: unsigned count + send reminder CTA (mock) + signed/pending/expired list
 
 import { useState } from 'react'
+import { Check } from 'lucide-react'
 import { useDataManagement } from '@/lib/admin/store/useDataManagement'
 import type { ConsentRecord } from '@/lib/admin/types/dataManagement'
 
@@ -94,7 +95,7 @@ export default function ConsentPage() {
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-amber-500 rounded-lg hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
           aria-label={`ส่ง Reminder ให้พนักงาน ${pending} คนที่รอลงนาม`}
         >
-          {reminderSent ? '✓ ส่ง Reminder แล้ว' : `ส่ง Reminder (${pending} คน)`}
+          {reminderSent ? <span className="inline-flex items-center gap-1.5"><Check size={16}/>ส่ง Reminder แล้ว</span> : `ส่ง Reminder (${pending} คน)`}
         </button>
       </div>
 

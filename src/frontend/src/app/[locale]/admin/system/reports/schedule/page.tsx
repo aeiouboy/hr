@@ -4,6 +4,7 @@
 // CronPicker UI + delivery select (View/Email/CG-Gateway) — BRD #196 — Part E Wave 2a
 
 import { useState } from 'react'
+import { Check } from 'lucide-react'
 import { useDataManagement } from '@/lib/admin/store/useDataManagement'
 import { CronPicker } from '@/components/admin/admin-system/CronPicker'
 import { formatCron } from '@/lib/admin/utils/cronFormat'
@@ -87,7 +88,7 @@ export default function ScheduleReportPage() {
             disabled={!selectedReportId}
             className="w-full rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {saved ? '✓ บันทึกแล้ว' : 'บันทึกกำหนดการ'}
+            {saved ? <span className="inline-flex items-center gap-1.5"><Check size={16}/>บันทึกแล้ว</span> : 'บันทึกกำหนดการ'}
           </button>
         </div>
 
