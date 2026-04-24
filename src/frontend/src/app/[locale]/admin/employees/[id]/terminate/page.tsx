@@ -19,6 +19,7 @@ import Link from 'next/link'
 import { ArrowLeft, UserX } from 'lucide-react'
 import { AttachmentDropzone } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
 import type { AttachedFile } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
@@ -28,23 +29,9 @@ import { actionAvailability } from '@/lib/admin/actionAvailability'
 import type { MockEmployee } from '@/mocks/employees'
 import type { TerminateEvent } from '@hrms/shared/types/timeline'
 
-// ─── Picklist stub (BRD #113: role-based visibility deferred Phase 2.5+) ────
-
-/**
- * Stub picklist — 5 reason codes with Thai labels.
- * Real picklist integration deferred; role-based visibility deferred to Phase 2.5+ RBAC.
- * BA validation pending — BRD #111 approval chain Employee→Manager→HRBP→SPD
- * deferred to Phase 2.5 backend.
- */
-const TERMINATION_REASONS = [
-  { code: 'RESIGN',        labelTh: 'ลาออก' },
-  { code: 'RETIRE',        labelTh: 'เกษียณอายุ' },
-  { code: 'LAYOFF',        labelTh: 'เลิกจ้าง/ปรับโครงสร้าง' },
-  { code: 'MISCONDUCT',    labelTh: 'ผิดวินัยร้ายแรง' },
-  { code: 'CONTRACT_END',  labelTh: 'สัญญาจ้างสิ้นสุด' },
-] as const
-
 // ─── Form shape ───────────────────────────────────────────────────────────────
+// Reason codes: use canonical SF Appendix 2 (17 TERM_* codes) via ReasonPicker.
+// BRD #113 role-based visibility deferred Phase 2.5+ RBAC.
 
 interface TerminationData {
   reasonCode: string
@@ -428,28 +415,15 @@ export default function TerminatePage() {
             บันทึกการสิ้นสุดการจ้างงาน
           </div>
 
-          {/* ── Reason code picklist ── */}
+          {/* ── Reason code picklist — 17 canonical TERM_* codes via ReasonPicker ── */}
           <div style={{ marginBottom: 20 }}>
-            <label
-              htmlFor="reasonCode"
-              className="text-body font-semibold text-ink"
-              style={{ display: 'block', marginBottom: 6 }}
-            >
-              สาเหตุการลาออก <span style={{ color: 'var(--color-danger)' }}>*</span>
-            </label>
-            <select
+            <ReasonPicker
+              event="5597"
               id="reasonCode"
               value={termination.reasonCode}
-              onChange={(e) => patch({ reasonCode: e.target.value })}
-              className="humi-input"
-              style={{ maxWidth: 360 }}
-              aria-required="true"
-            >
-              <option value="">— เลือกสาเหตุ —</option>
-              {TERMINATION_REASONS.map(({ code, labelTh }) => (
-                <option key={code} value={code}>{labelTh}</option>
-              ))}
-            </select>
+              onChange={(code) => patch({ reasonCode: code })}
+              required
+            />
           </div>
 
           {/* ── Reason note textarea ── */}
