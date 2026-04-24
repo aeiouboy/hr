@@ -1,0 +1,926 @@
+[
+  {
+    "id": "99999999",
+    "labelTh": "MIGRATION JOB Family / Sub-Family",
+    "labelEn": "MIGRATION JOB Family / Sub-Family",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "BDA",
+    "labelTh": "Business Development",
+    "labelEn": "Business Development",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "BDB",
+    "labelTh": "Business Development - Land Acquisition",
+    "labelEn": "Business Development - Land Acquisition",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "CSA",
+    "labelTh": "Customer Service",
+    "labelEn": "Customer Service",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "CSB",
+    "labelTh": "Customer Service - Call/Contact Center",
+    "labelEn": "Customer Service - Call/Contact Center",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "EAC",
+    "labelTh": "Engineering & Architecture - Architecture",
+    "labelEn": "Engineering & Architecture - Architecture",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "EMA",
+    "labelTh": "Executive/Management",
+    "labelEn": "Executive/Management",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "FAA",
+    "labelTh": "Finance",
+    "labelEn": "Finance",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "FAB",
+    "labelTh": "Finance - Accounting",
+    "labelEn": "Finance - Accounting",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "FAD",
+    "labelTh": "Finance - Investor Relations",
+    "labelEn": "Finance - Investor Relations",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "FBA",
+    "labelTh": "Food & Beverages",
+    "labelEn": "Food & Beverages",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "FBB",
+    "labelTh": "Food & Beverages - Recipe Development",
+    "labelEn": "Food & Beverages - Recipe Development",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "FBC",
+    "labelTh": "Food & Beverages - F&B Kitchen",
+    "labelEn": "Food & Beverages - F&B Kitchen",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "FBD",
+    "labelTh": "Food & Beverages - F&B Service",
+    "labelEn": "Food & Beverages - F&B Service",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "GAA",
+    "labelTh": "General Affairs",
+    "labelEn": "General Affairs",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "GAB",
+    "labelTh": "General Affairs - Executive Assistance/Secretariat",
+    "labelEn": "General Affairs - Executive Assistance/Secretariat",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "GAC",
+    "labelTh": "General Affairs - Government/Corporate Affairs",
+    "labelEn": "General Affairs - Government/Corporate Affairs",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "GAD",
+    "labelTh": "General Affairs - General Administrative",
+    "labelEn": "General Affairs - General Administrative",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "HRA",
+    "labelTh": "Human Resources",
+    "labelEn": "Human Resources",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "HRB",
+    "labelTh": "Human Resources - HR Business Partner",
+    "labelEn": "Human Resources - HR Business Partner",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "HTA",
+    "labelTh": "Hospitality",
+    "labelEn": "Hospitality",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "HTB",
+    "labelTh": "Hospitality - Hotel Operations Management",
+    "labelEn": "Hospitality - Hotel Operations Management",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "HTC",
+    "labelTh": "Hospitality - Front/Concierge",
+    "labelEn": "Hospitality - Front/Concierge",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "HTD",
+    "labelTh": "Hospitality - Entertainment & Recreation",
+    "labelEn": "Hospitality - Entertainment & Recreation",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "HTE",
+    "labelTh": "Hospitality - Esthetics",
+    "labelEn": "Hospitality - Esthetics",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "HTF",
+    "labelTh": "Hospitality - Housekeeping/Public Area/Laundry",
+    "labelEn": "Hospitality - Housekeeping/Public Area/Laundry",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "IAA",
+    "labelTh": "Internal Audit",
+    "labelEn": "Internal Audit",
+    "sortOrder": 27,
+    "active": true
+  },
+  {
+    "id": "IAB",
+    "labelTh": "Internal Audit - Process & Operation Audit",
+    "labelEn": "Internal Audit - Process & Operation Audit",
+    "sortOrder": 28,
+    "active": true
+  },
+  {
+    "id": "IAC",
+    "labelTh": "Internal Audit - Stock Count",
+    "labelEn": "Internal Audit - Stock Count",
+    "sortOrder": 29,
+    "active": true
+  },
+  {
+    "id": "LCB",
+    "labelTh": "Legal & Compliance - Contract Management",
+    "labelEn": "Legal & Compliance - Contract Management",
+    "sortOrder": 30,
+    "active": true
+  },
+  {
+    "id": "MKA",
+    "labelTh": "Brand Mgmt & Marketing",
+    "labelEn": "Brand Mgmt & Marketing",
+    "sortOrder": 31,
+    "active": true
+  },
+  {
+    "id": "MKB",
+    "labelTh": "Brand Mgmt & Marketing - Marketing Communications",
+    "labelEn": "Brand Mgmt & Marketing - Marketing Communications",
+    "sortOrder": 32,
+    "active": true
+  },
+  {
+    "id": "MKC",
+    "labelTh": "Brand Mgmt & Marketing - Sales Promotion",
+    "labelEn": "Brand Mgmt & Marketing - Sales Promotion",
+    "sortOrder": 33,
+    "active": true
+  },
+  {
+    "id": "MKD",
+    "labelTh": "Brand Mgmt & Marketing - CRM",
+    "labelEn": "Brand Mgmt & Marketing - CRM",
+    "sortOrder": 34,
+    "active": true
+  },
+  {
+    "id": "MKE",
+    "labelTh": "Brand Mgmt & Marketing - Digital Marketing",
+    "labelEn": "Brand Mgmt & Marketing - Digital Marketing",
+    "sortOrder": 35,
+    "active": true
+  },
+  {
+    "id": "MKH",
+    "labelTh": "Brand Mgmt & Marketing - Visual Merchandising",
+    "labelEn": "Brand Mgmt & Marketing - Visual Merchandising",
+    "sortOrder": 36,
+    "active": true
+  },
+  {
+    "id": "MKI",
+    "labelTh": "Brand Mgmt & Marketing - Sustainable Development",
+    "labelEn": "Brand Mgmt & Marketing - Sustainable Development",
+    "sortOrder": 37,
+    "active": true
+  },
+  {
+    "id": "PRA",
+    "labelTh": "Production",
+    "labelEn": "Production",
+    "sortOrder": 38,
+    "active": true
+  },
+  {
+    "id": "PRB",
+    "labelTh": "Production - Production Planning",
+    "labelEn": "Production - Production Planning",
+    "sortOrder": 39,
+    "active": true
+  },
+  {
+    "id": "PSA",
+    "labelTh": "Professional Services",
+    "labelEn": "Professional Services",
+    "sortOrder": 40,
+    "active": true
+  },
+  {
+    "id": "PSB",
+    "labelTh": "Professional Services - Consulting Service",
+    "labelEn": "Professional Services - Consulting Service",
+    "sortOrder": 41,
+    "active": true
+  },
+  {
+    "id": "PSC",
+    "labelTh": "Professional Services - Publishing & Printing",
+    "labelEn": "Professional Services - Publishing & Printing",
+    "sortOrder": 42,
+    "active": true
+  },
+  {
+    "id": "PSD",
+    "labelTh": "Professional Services - Instructional Service",
+    "labelEn": "Professional Services - Instructional Service",
+    "sortOrder": 43,
+    "active": true
+  },
+  {
+    "id": "PSE",
+    "labelTh": "Professional Services - Insurance/Broker",
+    "labelEn": "Professional Services - Insurance/Broker",
+    "sortOrder": 44,
+    "active": true
+  },
+  {
+    "id": "PSF",
+    "labelTh": "Professional Services - Business Process Improvement",
+    "labelEn": "Professional Services - Business Process Improvement",
+    "sortOrder": 45,
+    "active": true
+  },
+  {
+    "id": "PSG",
+    "labelTh": "Professional Services - Other Specialized Service",
+    "labelEn": "Professional Services - Other Specialized Service",
+    "sortOrder": 46,
+    "active": true
+  },
+  {
+    "id": "PTA",
+    "labelTh": "Property Mgmt & Development",
+    "labelEn": "Property Mgmt & Development",
+    "sortOrder": 47,
+    "active": true
+  },
+  {
+    "id": "PTB",
+    "labelTh": "Property Mgmt & Development - Property Management",
+    "labelEn": "Property Mgmt & Development - Property Management",
+    "sortOrder": 48,
+    "active": true
+  },
+  {
+    "id": "PTC",
+    "labelTh": "Property Mgmt & Development - Property Development",
+    "labelEn": "Property Mgmt & Development - Property Development",
+    "sortOrder": 49,
+    "active": true
+  },
+  {
+    "id": "QAA",
+    "labelTh": "Quality Assurance",
+    "labelEn": "Quality Assurance",
+    "sortOrder": 50,
+    "active": true
+  },
+  {
+    "id": "QAB",
+    "labelTh": "Quality Assurance - Food safety",
+    "labelEn": "Quality Assurance - Food safety",
+    "sortOrder": 51,
+    "active": true
+  },
+  {
+    "id": "RKA",
+    "labelTh": "Risk Management",
+    "labelEn": "Risk Management",
+    "sortOrder": 52,
+    "active": true
+  },
+  {
+    "id": "SLA",
+    "labelTh": "Sales",
+    "labelEn": "Sales",
+    "sortOrder": 53,
+    "active": true
+  },
+  {
+    "id": "SLB",
+    "labelTh": "Sales - Direct Sales",
+    "labelEn": "Sales - Direct Sales",
+    "sortOrder": 54,
+    "active": true
+  },
+  {
+    "id": "SLC",
+    "labelTh": "Sales - Telesales",
+    "labelEn": "Sales - Telesales",
+    "sortOrder": 55,
+    "active": true
+  },
+  {
+    "id": "SLE",
+    "labelTh": "Sales - Leasing",
+    "labelEn": "Sales - Leasing",
+    "sortOrder": 56,
+    "active": true
+  },
+  {
+    "id": "SPA",
+    "labelTh": "Corporate Strategy",
+    "labelEn": "Corporate Strategy",
+    "sortOrder": 57,
+    "active": true
+  },
+  {
+    "id": "SPC",
+    "labelTh": "Corporate Strategy - Merger & Acquisition",
+    "labelEn": "Corporate Strategy - Merger & Acquisition",
+    "sortOrder": 58,
+    "active": true
+  },
+  {
+    "id": "STA",
+    "labelTh": "Store Sales & Operations",
+    "labelEn": "Store Sales & Operations",
+    "sortOrder": 59,
+    "active": true
+  },
+  {
+    "id": "STB",
+    "labelTh": "Store Sales & Operations - Store Operations",
+    "labelEn": "Store Sales & Operations - Store Operations",
+    "sortOrder": 60,
+    "active": true
+  },
+  {
+    "id": "STC",
+    "labelTh": "Store Sales & Operations - Store sales",
+    "labelEn": "Store Sales & Operations - Store sales",
+    "sortOrder": 61,
+    "active": true
+  },
+  {
+    "id": "STD",
+    "labelTh": "Store Sales & Operations - Specialist Sales",
+    "labelEn": "Store Sales & Operations - Specialist Sales",
+    "sortOrder": 62,
+    "active": true
+  },
+  {
+    "id": "STE",
+    "labelTh": "Store Sales & Operations - Cashier Service",
+    "labelEn": "Store Sales & Operations - Cashier Service",
+    "sortOrder": 63,
+    "active": true
+  },
+  {
+    "id": "BDC",
+    "labelTh": "Business Development - Business Solution & Innovation",
+    "labelEn": "Business Development - Business Solution & Innovation",
+    "sortOrder": 64,
+    "active": true
+  },
+  {
+    "id": "BMD",
+    "labelTh": "Merchandising - Buying",
+    "labelEn": "Merchandising - Buying",
+    "sortOrder": 65,
+    "active": true
+  },
+  {
+    "id": "CSC",
+    "labelTh": "Customer Service - Parking Service",
+    "labelEn": "Customer Service - Parking Service",
+    "sortOrder": 66,
+    "active": true
+  },
+  {
+    "id": "FAE",
+    "labelTh": "Finance - Financial Planning & Analysis",
+    "labelEn": "Finance - Financial Planning & Analysis",
+    "sortOrder": 67,
+    "active": true
+  },
+  {
+    "id": "FAF",
+    "labelTh": "Finance - F&A Operations",
+    "labelEn": "Finance - F&A Operations",
+    "sortOrder": 68,
+    "active": true
+  },
+  {
+    "id": "FAG",
+    "labelTh": "Finance - F&A Reporting",
+    "labelEn": "Finance - F&A Reporting",
+    "sortOrder": 69,
+    "active": true
+  },
+  {
+    "id": "FAH",
+    "labelTh": "Finance - Treasury",
+    "labelEn": "Finance - Treasury",
+    "sortOrder": 70,
+    "active": true
+  },
+  {
+    "id": "GAE",
+    "labelTh": "Driver / Messenger / Housekeeper",
+    "labelEn": "Driver / Messenger / Housekeeper",
+    "sortOrder": 71,
+    "active": true
+  },
+  {
+    "id": "HRF",
+    "labelTh": "Human Resources - Total Reward",
+    "labelEn": "Human Resources - Total Reward",
+    "sortOrder": 72,
+    "active": true
+  },
+  {
+    "id": "HRG",
+    "labelTh": "Human Resources - HR Communication and Engagement",
+    "labelEn": "Human Resources - HR Communication and Engagement",
+    "sortOrder": 73,
+    "active": true
+  },
+  {
+    "id": "HRH",
+    "labelTh": "Human Resources - Recruitment/Talent Acquisition",
+    "labelEn": "Human Resources - Recruitment/Talent Acquisition",
+    "sortOrder": 74,
+    "active": true
+  },
+  {
+    "id": "ITE",
+    "labelTh": "Digital & Information Technology - Product Owner/Manager",
+    "labelEn": "Digital & Information Technology - Product Owner/Manager",
+    "sortOrder": 75,
+    "active": true
+  },
+  {
+    "id": "ITF",
+    "labelTh": "Digital & Information Technology -  IT Security, Risk, Compliance",
+    "labelEn": "Digital & Information Technology -  IT Security, Risk, Compliance",
+    "sortOrder": 76,
+    "active": true
+  },
+  {
+    "id": "ITG",
+    "labelTh": "Digital & Information Technology - UX/UI",
+    "labelEn": "Digital & Information Technology - UX/UI",
+    "sortOrder": 77,
+    "active": true
+  },
+  {
+    "id": "ITH",
+    "labelTh": "Digital & Information Technology - Innovation",
+    "labelEn": "Digital & Information Technology - Innovation",
+    "sortOrder": 78,
+    "active": true
+  },
+  {
+    "id": "ITI",
+    "labelTh": "Digital & Information Technology - Data Science/Analytics",
+    "labelEn": "Digital & Information Technology - Data Science/Analytics",
+    "sortOrder": 79,
+    "active": true
+  },
+  {
+    "id": "LCC",
+    "labelTh": "Risk Mgmt., Legal & Compliance - Legal",
+    "labelEn": "Risk Mgmt., Legal & Compliance - Legal",
+    "sortOrder": 80,
+    "active": true
+  },
+  {
+    "id": "LCD",
+    "labelTh": "Risk Mgmt., Legal & Compliance - Compliance",
+    "labelEn": "Risk Mgmt., Legal & Compliance - Compliance",
+    "sortOrder": 81,
+    "active": true
+  },
+  {
+    "id": "LCE",
+    "labelTh": "Risk Mgmt., Legal & Compliance - Risk Management",
+    "labelEn": "Risk Mgmt., Legal & Compliance - Risk Management",
+    "sortOrder": 82,
+    "active": true
+  },
+  {
+    "id": "LDH",
+    "labelTh": "Supply Chain and Logistics Mgmt - Supply Chain Management",
+    "labelEn": "Supply Chain and Logistics Mgmt - Supply Chain Management",
+    "sortOrder": 83,
+    "active": true
+  },
+  {
+    "id": "LDI",
+    "labelTh": "Supply Chain and Logistics Mgmt - Inventory Management",
+    "labelEn": "Supply Chain and Logistics Mgmt - Inventory Management",
+    "sortOrder": 84,
+    "active": true
+  },
+  {
+    "id": "MKJ",
+    "labelTh": "Brand Mgmt & Marketing - Event Marketing",
+    "labelEn": "Brand Mgmt & Marketing - Event Marketing",
+    "sortOrder": 85,
+    "active": true
+  },
+  {
+    "id": "MKK",
+    "labelTh": "Brand Mgmt & Marketing - Public Relation",
+    "labelEn": "Brand Mgmt & Marketing - Public Relation",
+    "sortOrder": 86,
+    "active": true
+  },
+  {
+    "id": "PDA",
+    "labelTh": "Property Development",
+    "labelEn": "Property Development",
+    "sortOrder": 87,
+    "active": true
+  },
+  {
+    "id": "PDB",
+    "labelTh": "Property Development - Land & Site Acquisition",
+    "labelEn": "Property Development - Land & Site Acquisition",
+    "sortOrder": 88,
+    "active": true
+  },
+  {
+    "id": "PMA",
+    "labelTh": "Property Management",
+    "labelEn": "Property Management",
+    "sortOrder": 89,
+    "active": true
+  },
+  {
+    "id": "PMB",
+    "labelTh": "Property Management - Residential Property Mgmt.",
+    "labelEn": "Property Management - Residential Property Mgmt.",
+    "sortOrder": 90,
+    "active": true
+  },
+  {
+    "id": "PMC",
+    "labelTh": "Property Management - Tenant Relation",
+    "labelEn": "Property Management - Tenant Relation",
+    "sortOrder": 91,
+    "active": true
+  },
+  {
+    "id": "QAC",
+    "labelTh": "Quality Assurance - Quality Management",
+    "labelEn": "Quality Assurance - Quality Management",
+    "sortOrder": 92,
+    "active": true
+  },
+  {
+    "id": "SDA",
+    "labelTh": "Store Development",
+    "labelEn": "Store Development",
+    "sortOrder": 93,
+    "active": true
+  },
+  {
+    "id": "SDB",
+    "labelTh": "Store Development - Store Concept & Design",
+    "labelEn": "Store Development - Store Concept & Design",
+    "sortOrder": 94,
+    "active": true
+  },
+  {
+    "id": "SLF",
+    "labelTh": "Sales - After Sales",
+    "labelEn": "Sales - After Sales",
+    "sortOrder": 95,
+    "active": true
+  },
+  {
+    "id": "SLG",
+    "labelTh": "Relationship/Account Manager",
+    "labelEn": "Relationship/Account Manager",
+    "sortOrder": 96,
+    "active": true
+  },
+  {
+    "id": "SSA",
+    "labelTh": "Sustainability",
+    "labelEn": "Sustainability",
+    "sortOrder": 97,
+    "active": true
+  },
+  {
+    "id": "SSB",
+    "labelTh": "Sustainability - CSV/CSR",
+    "labelEn": "Sustainability - CSV/CSR",
+    "sortOrder": 98,
+    "active": true
+  },
+  {
+    "id": "BIA",
+    "labelTh": "Business Intelligence & Analytics",
+    "labelEn": "Business Intelligence & Analytics",
+    "sortOrder": 99,
+    "active": true
+  },
+  {
+    "id": "BIB",
+    "labelTh": "Business Intelligence & Analytics - Business Intelligence",
+    "labelEn": "Business Intelligence & Analytics - Business Intelligence",
+    "sortOrder": 100,
+    "active": true
+  },
+  {
+    "id": "BIC",
+    "labelTh": "Business Intelligence & Analytics - Analytics",
+    "labelEn": "Business Intelligence & Analytics - Analytics",
+    "sortOrder": 101,
+    "active": true
+  },
+  {
+    "id": "BMA",
+    "labelTh": "Merchandising",
+    "labelEn": "Merchandising",
+    "sortOrder": 102,
+    "active": true
+  },
+  {
+    "id": "BMB",
+    "labelTh": "Merchandising - Space Range & Display",
+    "labelEn": "Merchandising - Space Range & Display",
+    "sortOrder": 103,
+    "active": true
+  },
+  {
+    "id": "BMC",
+    "labelTh": "Merchandising - Product Development",
+    "labelEn": "Merchandising - Product Development",
+    "sortOrder": 104,
+    "active": true
+  },
+  {
+    "id": "EAA",
+    "labelTh": "Engineering & Maintenance",
+    "labelEn": "Engineering & Maintenance",
+    "sortOrder": 105,
+    "active": true
+  },
+  {
+    "id": "EAB",
+    "labelTh": "Engineering & Maintenance - Engineering",
+    "labelEn": "Engineering & Maintenance - Engineering",
+    "sortOrder": 106,
+    "active": true
+  },
+  {
+    "id": "EAD",
+    "labelTh": "Engineering & Maintenance - Maintenance Technician",
+    "labelEn": "Engineering & Maintenance - Maintenance Technician",
+    "sortOrder": 107,
+    "active": true
+  },
+  {
+    "id": "EAE",
+    "labelTh": "Engineering & Maintenance - Service & Installation Technician",
+    "labelEn": "Engineering & Maintenance - Service & Installation Technician",
+    "sortOrder": 108,
+    "active": true
+  },
+  {
+    "id": "EAF",
+    "labelTh": "Engineering & Maintenance - Technical Specialist",
+    "labelEn": "Engineering & Maintenance - Technical Specialist",
+    "sortOrder": 109,
+    "active": true
+  },
+  {
+    "id": "FAC",
+    "labelTh": "Finance - Merger & Acquisition and Investment",
+    "labelEn": "Finance - Merger & Acquisition and Investment",
+    "sortOrder": 110,
+    "active": true
+  },
+  {
+    "id": "HRC",
+    "labelTh": "Organization Development",
+    "labelEn": "Organization Development",
+    "sortOrder": 111,
+    "active": true
+  },
+  {
+    "id": "HRD",
+    "labelTh": "HR Development",
+    "labelEn": "HR Development",
+    "sortOrder": 112,
+    "active": true
+  },
+  {
+    "id": "HRE",
+    "labelTh": "HR Shared Service",
+    "labelEn": "HR Shared Service",
+    "sortOrder": 113,
+    "active": true
+  },
+  {
+    "id": "ITA",
+    "labelTh": "Digital & Information Technology",
+    "labelEn": "Digital & Information Technology",
+    "sortOrder": 114,
+    "active": true
+  },
+  {
+    "id": "ITB",
+    "labelTh": "Digital & Information Technology - Technology and Application Development",
+    "labelEn": "Digital & Information Technology - Technology and Application Development",
+    "sortOrder": 115,
+    "active": true
+  },
+  {
+    "id": "ITC",
+    "labelTh": "Digital & Information Technology - IT Infrastructure",
+    "labelEn": "Digital & Information Technology - IT Infrastructure",
+    "sortOrder": 116,
+    "active": true
+  },
+  {
+    "id": "ITD",
+    "labelTh": "Digital & Information Technology - IT Services",
+    "labelEn": "Digital & Information Technology - IT Services",
+    "sortOrder": 117,
+    "active": true
+  },
+  {
+    "id": "LCA",
+    "labelTh": "Risk Mgmt., Legal & Compliance",
+    "labelEn": "Risk Mgmt., Legal & Compliance",
+    "sortOrder": 118,
+    "active": true
+  },
+  {
+    "id": "LDA",
+    "labelTh": "Supply Chain and Logistics Mgmt",
+    "labelEn": "Supply Chain and Logistics Mgmt",
+    "sortOrder": 119,
+    "active": true
+  },
+  {
+    "id": "LDB",
+    "labelTh": "Supply Chain and Logistics Mgmt - Replenishment",
+    "labelEn": "Supply Chain and Logistics Mgmt - Replenishment",
+    "sortOrder": 120,
+    "active": true
+  },
+  {
+    "id": "LDC",
+    "labelTh": "Supply Chain and Logistics Mgmt - Warehouse Management",
+    "labelEn": "Supply Chain and Logistics Mgmt - Warehouse Management",
+    "sortOrder": 121,
+    "active": true
+  },
+  {
+    "id": "LDD",
+    "labelTh": "Supply Chain and Logistics Mgmt - Transportation and Logistics",
+    "labelEn": "Supply Chain and Logistics Mgmt - Transportation and Logistics",
+    "sortOrder": 122,
+    "active": true
+  },
+  {
+    "id": "LDE",
+    "labelTh": "Supply Chain and Logistics Mgmt - Non-Merchandising Procurement",
+    "labelEn": "Supply Chain and Logistics Mgmt - Non-Merchandising Procurement",
+    "sortOrder": 123,
+    "active": true
+  },
+  {
+    "id": "LDF",
+    "labelTh": "Supply Chain and Logistics Mgmt - Import-Export",
+    "labelEn": "Supply Chain and Logistics Mgmt - Import-Export",
+    "sortOrder": 124,
+    "active": true
+  },
+  {
+    "id": "LDG",
+    "labelTh": "Supply Chain and Logistics Mgmt - Goods Receiving",
+    "labelEn": "Supply Chain and Logistics Mgmt - Goods Receiving",
+    "sortOrder": 125,
+    "active": true
+  },
+  {
+    "id": "LPA",
+    "labelTh": "Health Safety and Environment",
+    "labelEn": "Health Safety and Environment",
+    "sortOrder": 126,
+    "active": true
+  },
+  {
+    "id": "LPB",
+    "labelTh": "Health Safety and Environment - Loss Prevention",
+    "labelEn": "Health Safety and Environment - Loss Prevention",
+    "sortOrder": 127,
+    "active": true
+  },
+  {
+    "id": "LPC",
+    "labelTh": "Health Safety and Environment - Safety",
+    "labelEn": "Health Safety and Environment - Safety",
+    "sortOrder": 128,
+    "active": true
+  },
+  {
+    "id": "MKF",
+    "labelTh": "Brand Mgmt & Marketing - Market Research / Intelligence",
+    "labelEn": "Brand Mgmt & Marketing - Market Research / Intelligence",
+    "sortOrder": 129,
+    "active": true
+  },
+  {
+    "id": "MKG",
+    "labelTh": "Brand Mgmt & Marketing - Marketing Art & Design",
+    "labelEn": "Brand Mgmt & Marketing - Marketing Art & Design",
+    "sortOrder": 130,
+    "active": true
+  },
+  {
+    "id": "SLD",
+    "labelTh": "Sales - Online/Omnichannel Sales",
+    "labelEn": "Sales - Online/Omnichannel Sales",
+    "sortOrder": 131,
+    "active": true
+  },
+  {
+    "id": "SPB",
+    "labelTh": "Corporate Strategy - Corporate Planning",
+    "labelEn": "Corporate Strategy - Corporate Planning",
+    "sortOrder": 132,
+    "active": true
+  }
+]

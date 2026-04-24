@@ -1,0 +1,16 @@
+[
+  {
+    "id": "F",
+    "labelTh": "Full-time",
+    "labelEn": "Full-time",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "P",
+    "labelTh": "Part-time",
+    "labelEn": "Part-time",
+    "sortOrder": 2,
+    "active": true
+  }
+]

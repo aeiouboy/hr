@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "labelTh": "1 - Clocking",
+    "labelEn": "1 - Clocking",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "2",
+    "labelTh": "2 - Clocking No Deduct",
+    "labelEn": "2 - Clocking No Deduct",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "3",
+    "labelTh": "3 - Clocking No Tardy",
+    "labelEn": "3 - Clocking No Tardy",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "4",
+    "labelTh": "4 - Clocking No Early",
+    "labelEn": "4 - Clocking No Early",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "5",
+    "labelTh": "5 - Flex Time",
+    "labelEn": "5 - Flex Time",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "9",
+    "labelTh": "9 - Exempt",
+    "labelEn": "9 - Exempt",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "99",
+    "labelTh": "99 - Acting/Concurrent",
+    "labelEn": "99 - Acting/Concurrent",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "10",
+    "labelTh": "10 - 4-Times Clocking",
+    "labelEn": "10 - 4-Times Clocking",
+    "sortOrder": 8,
+    "active": true
+  }
+]

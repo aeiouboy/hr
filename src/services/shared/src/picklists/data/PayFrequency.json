@@ -1,0 +1,44 @@
+[
+  {
+    "id": "NON",
+    "labelTh": "None",
+    "labelEn": "None",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "MON",
+    "labelTh": "Monthly",
+    "labelEn": "Monthly",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "DLY",
+    "labelTh": "Daily",
+    "labelEn": "Daily",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "BIW",
+    "labelTh": "Bi-Weekly",
+    "labelEn": "Bi-Weekly",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "WKY",
+    "labelTh": "Weekly",
+    "labelEn": "Weekly",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "SMY",
+    "labelTh": "Semi-Monthly",
+    "labelEn": "Semi-Monthly",
+    "sortOrder": 6,
+    "active": true
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "CHR",
+    "labelTh": "CHR",
+    "labelEn": "CHR",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "999",
+    "labelTh": "MIGRATION BUSINESS GROUP",
+    "labelEn": "MIGRATION BUSINESS GROUP",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "CRG",
+    "labelTh": "CRG",
+    "labelEn": "CRG",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "CFG",
+    "labelTh": "CFG",
+    "labelEn": "CFG",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "CHG",
+    "labelTh": "CHG",
+    "labelEn": "CHG",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "CDG",
+    "labelTh": "CDG",
+    "labelEn": "CDG",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "PWB",
+    "labelTh": "PWB",
+    "labelEn": "PWB",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "CPN",
+    "labelTh": "CPN",
+    "labelEn": "CPN",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "CMG",
+    "labelTh": "CMG",
+    "labelEn": "CMG",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "COL",
+    "labelTh": "COL",
+    "labelEn": "COL",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "CU",
+    "labelTh": "CU",
+    "labelEn": "CU",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "Retail Food",
+    "labelTh": "Retail Food",
+    "labelEn": "Retail Food",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "Central Retail Corporation",
+    "labelTh": "Central Retail Corporation",
+    "labelEn": "Central Retail Corporation",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "CGV",
+    "labelTh": "CGV",
+    "labelEn": "CGV",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "CGVN",
+    "labelTh": "CG Vietnam",
+    "labelEn": "CG Vietnam",
+    "sortOrder": 15,
+    "active": true
+  }
+]

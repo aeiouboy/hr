@@ -1,0 +1,44 @@
+[
+  {
+    "id": "TDP",
+    "labelTh": "Total Deduction Period",
+    "labelEn": "Total Deduction Period",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "DLY",
+    "labelTh": "Daily",
+    "labelEn": "Daily",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "NON",
+    "labelTh": "None",
+    "labelEn": "None",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "MON",
+    "labelTh": "Monthly",
+    "labelEn": "Monthly",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "ANN",
+    "labelTh": "Annual",
+    "labelEn": "Annual",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "HRS",
+    "labelTh": "Hourly",
+    "labelEn": "Hourly",
+    "sortOrder": 6,
+    "active": true
+  }
+]

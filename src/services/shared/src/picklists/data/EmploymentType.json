@@ -1,0 +1,331 @@
+[
+  {
+    "id": "13",
+    "labelTh": "13",
+    "labelEn": "13",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "Y8",
+    "labelTh": "Y8 - Daily 08",
+    "labelEn": "Y8 - Daily 08",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "14",
+    "labelTh": "14",
+    "labelEn": "14",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "Y9",
+    "labelTh": "Y9 - Daily 09",
+    "labelEn": "Y9 - Daily 09",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "15",
+    "labelTh": "15",
+    "labelEn": "15",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "YA",
+    "labelTh": "YA - Daily 10",
+    "labelEn": "YA - Daily 10",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "16",
+    "labelTh": "16",
+    "labelEn": "16",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "YB",
+    "labelTh": "YB - Daily 11",
+    "labelEn": "YB - Daily 11",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "17",
+    "labelTh": "17",
+    "labelEn": "17",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "18",
+    "labelTh": "18",
+    "labelEn": "18",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "19",
+    "labelTh": "19",
+    "labelEn": "19",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "20",
+    "labelTh": "20",
+    "labelEn": "20",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "21",
+    "labelTh": "21",
+    "labelEn": "21",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "22",
+    "labelTh": "22",
+    "labelEn": "22",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "23",
+    "labelTh": "23",
+    "labelEn": "23",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "24",
+    "labelTh": "24",
+    "labelEn": "24",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "25",
+    "labelTh": "25",
+    "labelEn": "25",
+    "sortOrder": 17,
+    "active": true
+  },
+  {
+    "id": "26",
+    "labelTh": "26",
+    "labelEn": "26",
+    "sortOrder": 18,
+    "active": true
+  },
+  {
+    "id": "27",
+    "labelTh": "27",
+    "labelEn": "27",
+    "sortOrder": 19,
+    "active": true
+  },
+  {
+    "id": "P1",
+    "labelTh": "P1 - รายวัน",
+    "labelEn": "P1 - Daily",
+    "sortOrder": 20,
+    "active": true
+  },
+  {
+    "id": "P2",
+    "labelTh": "P2 - รายเดือน",
+    "labelEn": "P2 - Monthly",
+    "sortOrder": 21,
+    "active": true
+  },
+  {
+    "id": "P3",
+    "labelTh": "P3 - รายชัวโมง",
+    "labelEn": "P3 - Hourly",
+    "sortOrder": 22,
+    "active": true
+  },
+  {
+    "id": "D1",
+    "labelTh": "D1 - Partner university",
+    "labelEn": "D1 - Partner university",
+    "sortOrder": 23,
+    "active": true
+  },
+  {
+    "id": "D2",
+    "labelTh": "D2 - Other university",
+    "labelEn": "D2 - Other university",
+    "sortOrder": 24,
+    "active": true
+  },
+  {
+    "id": "T2",
+    "labelTh": "T2 - นักศึกษาฝึกงาน",
+    "labelEn": "T2 - Student trainee",
+    "sortOrder": 25,
+    "active": true
+  },
+  {
+    "id": "C2",
+    "labelTh": "C2 - Outsource",
+    "labelEn": "C2 - Outsource",
+    "sortOrder": 26,
+    "active": true
+  },
+  {
+    "id": "C3",
+    "labelTh": "C3 - หมอ",
+    "labelEn": "C3 - Doctor",
+    "sortOrder": 27,
+    "active": true
+  },
+  {
+    "id": "C4",
+    "labelTh": "C4 - พยาบาล",
+    "labelEn": "C4 - Nurse",
+    "sortOrder": 28,
+    "active": true
+  },
+  {
+    "id": "C5",
+    "labelTh": "C5 - โรงพยาบาล",
+    "labelEn": "C5 - Hospital",
+    "sortOrder": 29,
+    "active": true
+  },
+  {
+    "id": "C6",
+    "labelTh": "C6 - ตำรวจ",
+    "labelEn": "C6 - Police",
+    "sortOrder": 30,
+    "active": true
+  },
+  {
+    "id": "UC",
+    "labelTh": "Unclassified",
+    "labelEn": "Unclassified",
+    "sortOrder": 31,
+    "active": true
+  },
+  {
+    "id": "T1",
+    "labelTh": "T1 - CG Internship",
+    "labelEn": "T1 - CG Internship",
+    "sortOrder": 32,
+    "active": true
+  },
+  {
+    "id": "X7",
+    "labelTh": "X7 - Piecework 07",
+    "labelEn": "X7 - Piecework 07",
+    "sortOrder": 33,
+    "active": true
+  },
+  {
+    "id": "C1",
+    "labelTh": "C1 - Consultant",
+    "labelEn": "C1 - Consultant",
+    "sortOrder": 34,
+    "active": true
+  },
+  {
+    "id": "X8",
+    "labelTh": "X8 - Piecework 08",
+    "labelEn": "X8 - Piecework 08",
+    "sortOrder": 35,
+    "active": true
+  },
+  {
+    "id": "X9",
+    "labelTh": "X9 - Piecework 09",
+    "labelEn": "X9 - Piecework 09",
+    "sortOrder": 36,
+    "active": true
+  },
+  {
+    "id": "XA",
+    "labelTh": "XA - Piecework 10",
+    "labelEn": "XA - Piecework 10",
+    "sortOrder": 37,
+    "active": true
+  },
+  {
+    "id": "10",
+    "labelTh": "10",
+    "labelEn": "10",
+    "sortOrder": 38,
+    "active": true
+  },
+  {
+    "id": "XB",
+    "labelTh": "XB - Piecework 11",
+    "labelEn": "XB - Piecework 11",
+    "sortOrder": 39,
+    "active": true
+  },
+  {
+    "id": "11",
+    "labelTh": "11",
+    "labelEn": "11",
+    "sortOrder": 40,
+    "active": true
+  },
+  {
+    "id": "Y7",
+    "labelTh": "Y7 - Daily 07",
+    "labelEn": "Y7 - Daily 07",
+    "sortOrder": 41,
+    "active": true
+  },
+  {
+    "id": "12",
+    "labelTh": "12",
+    "labelEn": "12",
+    "sortOrder": 42,
+    "active": true
+  },
+  {
+    "id": "07",
+    "labelTh": "07",
+    "labelEn": "07",
+    "sortOrder": 43,
+    "active": true
+  },
+  {
+    "id": "08",
+    "labelTh": "08",
+    "labelEn": "08",
+    "sortOrder": 44,
+    "active": true
+  },
+  {
+    "id": "09",
+    "labelTh": "09",
+    "labelEn": "09",
+    "sortOrder": 45,
+    "active": true
+  },
+  {
+    "id": "P5",
+    "labelTh": "P5 - พนง.อีเว้นท์",
+    "labelEn": "P5 - Event",
+    "sortOrder": 46,
+    "active": true
+  },
+  {
+    "id": "T3",
+    "labelTh": "T3 - Student trainee [H]",
+    "labelEn": "T3 - Student trainee [H]",
+    "sortOrder": 47,
+    "active": true
+  }
+]

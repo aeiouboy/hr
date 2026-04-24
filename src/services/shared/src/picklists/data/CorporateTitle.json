@@ -1,0 +1,121 @@
+[
+  {
+    "id": "69",
+    "labelTh": "Chief Executive Officer",
+    "labelEn": "Chief Executive Officer",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "70",
+    "labelTh": "Non CG Management_1",
+    "labelEn": "Non CG Management_1",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "71",
+    "labelTh": "Non CG Management_2",
+    "labelEn": "Non CG Management_2",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "90",
+    "labelTh": "Unclassified",
+    "labelEn": "Unclassified",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "10",
+    "labelTh": "Staff",
+    "labelEn": "Staff",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "15",
+    "labelTh": "Department Manager",
+    "labelEn": "Department Manager",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "20",
+    "labelTh": "Division Manager",
+    "labelEn": "Division Manager",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "25",
+    "labelTh": "General Manager",
+    "labelEn": "General Manager",
+    "sortOrder": 8,
+    "active": true
+  },
+  {
+    "id": "30",
+    "labelTh": "Assistant Vice President",
+    "labelEn": "Assistant Vice President",
+    "sortOrder": 9,
+    "active": true
+  },
+  {
+    "id": "35",
+    "labelTh": "Vice President",
+    "labelEn": "Vice President",
+    "sortOrder": 10,
+    "active": true
+  },
+  {
+    "id": "40",
+    "labelTh": "Senior Vice President",
+    "labelEn": "Senior Vice President",
+    "sortOrder": 11,
+    "active": true
+  },
+  {
+    "id": "45",
+    "labelTh": "Executive Vice President",
+    "labelEn": "Executive Vice President",
+    "sortOrder": 12,
+    "active": true
+  },
+  {
+    "id": "50",
+    "labelTh": "Senior Executive Vice President",
+    "labelEn": "Senior Executive Vice President",
+    "sortOrder": 13,
+    "active": true
+  },
+  {
+    "id": "55",
+    "labelTh": "President",
+    "labelEn": "President",
+    "sortOrder": 14,
+    "active": true
+  },
+  {
+    "id": "60",
+    "labelTh": "Chief Operating Officer",
+    "labelEn": "Chief Operating Officer",
+    "sortOrder": 15,
+    "active": true
+  },
+  {
+    "id": "61",
+    "labelTh": "Chief Financial Officer",
+    "labelEn": "Chief Financial Officer",
+    "sortOrder": 16,
+    "active": true
+  },
+  {
+    "id": "11",
+    "labelTh": "NA",
+    "labelEn": "NA",
+    "sortOrder": 17,
+    "active": true
+  }
+]

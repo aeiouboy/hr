@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "labelTh": "Spouse",
+    "labelEn": "Spouse",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "2",
+    "labelTh": "Father",
+    "labelEn": "Father",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "3",
+    "labelTh": "Mother",
+    "labelEn": "Mother",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "4",
+    "labelTh": "Child",
+    "labelEn": "Child",
+    "sortOrder": 4,
+    "active": true
+  }
+]

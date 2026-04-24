@@ -1,0 +1,58 @@
+[
+  {
+    "id": "A",
+    "labelTh": "A - พนักงานประจำ",
+    "labelEn": "A - Permanent",
+    "sortOrder": 1,
+    "active": true
+  },
+  {
+    "id": "B",
+    "labelTh": "B - พนักงานคนไทยที่ไปทำงานต่างประเทศ",
+    "labelEn": "B - Expat Outbound",
+    "sortOrder": 2,
+    "active": true
+  },
+  {
+    "id": "C",
+    "labelTh": "C - พนักงานต่างชาติที่มาทำงานที่ไทย",
+    "labelEn": "C - Expat Inbound",
+    "sortOrder": 3,
+    "active": true
+  },
+  {
+    "id": "D",
+    "labelTh": "D - พนักงานสัญญาจ้างหลังเกษียณ",
+    "labelEn": "D - Retirement",
+    "sortOrder": 4,
+    "active": true
+  },
+  {
+    "id": "E",
+    "labelTh": "E - พนักงานชั่วคราว",
+    "labelEn": "E - Temporary",
+    "sortOrder": 5,
+    "active": true
+  },
+  {
+    "id": "F",
+    "labelTh": "F - ทวิภาคี",
+    "labelEn": "F - DVT",
+    "sortOrder": 6,
+    "active": true
+  },
+  {
+    "id": "G",
+    "labelTh": "G - นักศึกษาฝึกงาน",
+    "labelEn": "G - Internship",
+    "sortOrder": 7,
+    "active": true
+  },
+  {
+    "id": "H",
+    "labelTh": "H - บุคคลภายนอกที่จ่ายเงิน",
+    "labelEn": "H - Contingent Worker",
+    "sortOrder": 8,
+    "active": true
+  }
+]
