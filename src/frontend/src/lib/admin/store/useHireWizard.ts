@@ -121,7 +121,19 @@ interface FormData {
   employeeInfo: { employeeClass: string | null }
   nationalId:   { value: string }
   personal:     { addressLine1: string }
-  job:          { position: string; businessUnit: string | null; storeBranchCode: string | null; hrDistrict: string | null }
+  job: {
+    position: string
+    businessUnit: string | null
+    businessUnitLabel: string | null
+    branch: string | null
+    branchLabel: string | null
+    jobCode: string | null
+    jobLabel: string | null
+    jobGrade: string | null
+    jobGradeLabel: string | null
+    storeBranchCode: string | null
+    hrDistrict: string | null
+  }
   compensation: { baseSalary: number | null }
 }
 
@@ -180,7 +192,19 @@ const initialFormData: FormData = {
   employeeInfo: { employeeClass: null },
   nationalId:   { value: '' },
   personal:     { addressLine1: '' },
-  job:          { position: '', businessUnit: null, storeBranchCode: null, hrDistrict: null },
+  job: {
+    position: '',
+    businessUnit: null,
+    businessUnitLabel: null,
+    branch: null,
+    branchLabel: null,
+    jobCode: null,
+    jobLabel: null,
+    jobGrade: null,
+    jobGradeLabel: null,
+    storeBranchCode: null,
+    hrDistrict: null,
+  },
   compensation: { baseSalary: null },
 }
 
