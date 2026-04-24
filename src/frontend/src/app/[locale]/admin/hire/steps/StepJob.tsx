@@ -8,7 +8,11 @@ import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepJobSchema } from '@/lib/admin/validation/hireSchema'
 import { loadBusinessUnits } from '@/lib/admin/store/loadBusinessUnits'
 import type { BusinessUnit } from '@/lib/admin/store/loadBusinessUnits'
-import { PICKLIST_CORPORATE_TITLE } from '@hrms/shared/picklists'
+import {
+  PICKLIST_CORPORATE_TITLE,
+  PICKLIST_DIVISION,
+  PICKLIST_JOB_FUNCTION,
+} from '@hrms/shared/picklists'
 
 // Retail picklists — audit A6/#11 (8 store codes + 5 HR districts)
 const STORE_BRANCH_OPTIONS = [
@@ -148,6 +152,35 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           <option value="JG-08">JG-08</option>
           <option value="JG-10">JG-10</option>
         </select>
+      </fieldset>
+
+      {/* Division — BRD #2 5-tier org cascade (437 SF divisions) */}
+      <fieldset>
+        <label htmlFor="division" className="humi-label">ส่วนงาน (Division)</label>
+        <input
+          id="division"
+          list="division-options"
+          placeholder="พิมพ์หรือเลือก Division"
+          className="humi-input w-full"
+        />
+        <datalist id="division-options">
+          {PICKLIST_DIVISION.filter((d) => d.active).slice(0, 100).map((d) => (
+            <option key={d.id} value={`${d.id} — ${d.labelEn}`} />
+          ))}
+        </datalist>
+        <p className="mt-1 text-xs text-ink-faint">มี {PICKLIST_DIVISION.length} รายการ — Sprint 2 จะเปลี่ยนเป็น cascade จาก BU</p>
+      </fieldset>
+
+      {/* Job Function — BRD #2 + audit A6 (132 SF functions) */}
+      <fieldset>
+        <label htmlFor="job-function" className="humi-label">ฝ่ายงาน (Function)</label>
+        <select id="job-function" className="humi-select w-full">
+          <option value="">— เลือกฝ่ายงาน —</option>
+          {PICKLIST_JOB_FUNCTION.filter((f) => f.active).map((f) => (
+            <option key={f.id} value={f.id}>{f.id} — {f.labelEn}</option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-ink-faint">{PICKLIST_JOB_FUNCTION.length} functions — Sprint 2 จะ filter ตาม BU</p>
       </fieldset>
 
       {/* Store / Branch — retail optional — audit A6/#11 */}
