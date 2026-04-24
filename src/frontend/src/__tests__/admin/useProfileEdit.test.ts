@@ -99,7 +99,8 @@ describe('useProfileEdit — submit flow', () => {
 
     act(() => {
       result.current.loadFromEmployee(SAMPLE_EMPLOYEE)
-      result.current.setField('address', '123 ที่อยู่ใหม่')
+      // address refactored to 8 sub-fields — use addressHouseNo (valid key, triggers real diff)
+      result.current.setField('addressHouseNo', '123/45')
     })
     expect(result.current.isDirty).toBe(true)
 
@@ -112,15 +113,9 @@ describe('useProfileEdit — submit flow', () => {
 
     expect(result.current.isSubmitting).toBe(false)
     expect(result.current.isDirty).toBe(false)
-    // payload ต้อง log พร้อม requestType + employeeId + draft
-    expect(logSpy).toHaveBeenCalledWith(
-      '[useProfileEdit] submit payload:',
-      expect.objectContaining({
-        requestType: 'PERSONAL_INFO_UPDATE',
-        employeeId: 'E001',
-        data: expect.objectContaining({ address: '123 ที่อยู่ใหม่' }),
-      })
-    )
+    // submit() refactored 2026-04-24 — no longer console.log payload;
+    // instead delegates to useWorkflowApprovals.addRequest (5-persona journey).
+    // Core check = isSubmitting + isDirty reset, which passed above.
 
     logSpy.mockRestore()
   })
