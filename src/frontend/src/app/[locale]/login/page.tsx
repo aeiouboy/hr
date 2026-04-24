@@ -14,7 +14,7 @@ import { useState, type FormEvent } from 'react';
 import Image from 'next/image';
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowRight, Check, Globe, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
 import type { Role } from '@/lib/rbac';
 
@@ -306,30 +306,20 @@ export default function HumiLoginPage() {
               type="button"
               className="inline-flex items-center justify-center gap-2 rounded-md border border-hairline bg-surface px-4 py-3 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <Globe size={15} /> {t('ssoGoogle')}
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 23 23"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
+              >
+                <rect x="1" y="1" width="10" height="10" fill="#f25022" />
+                <rect x="12" y="1" width="10" height="10" fill="#7fba00" />
+                <rect x="1" y="12" width="10" height="10" fill="#00a4ef" />
+                <rect x="12" y="12" width="10" height="10" fill="#ffb900" />
+              </svg>
+              {t('ssoMicrosoft')}
             </button>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-hairline bg-surface px-4 py-3 text-body font-medium text-ink transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <ShieldCheck size={15} /> {t('ssoGeneric')}
-            </button>
-          </div>
-
-          <div
-            style={{
-              marginTop: 28,
-              fontSize: 13,
-              color: 'var(--color-ink-muted)',
-            }}
-          >
-            {t('newMember')}{' '}
-            <a
-              href="mailto:hr@humi.co.th"
-              className="font-semibold text-ink hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              {t('setupAccount')}
-            </a>
           </div>
         </form>
       </section>
