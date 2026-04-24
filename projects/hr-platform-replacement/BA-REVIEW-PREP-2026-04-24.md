@@ -1,7 +1,7 @@
 # BA Review Prep — Companion Meta Doc
 
 **Date**: 2026-04-24
-**Audience**: BA team (Antonio + peers)
+**Audience**: BA team
 **Purpose**: summary companion สำหรับ BA review ครอบคลุม 4 หัวข้อรวมใน 1 doc (workbook sync + open issues + duplicate-risk + event-reason alignment)
 
 **Companion packet** (send together):
