@@ -182,7 +182,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={hireDate}
           onChange={(e) => setHireDate(e.target.value)}
           onBlur={() => touch('hireDate')}
-          className="humi-input w-full max-w-xs" />
+          className="humi-input w-full" />
         {errMsg('hireDate')}
       </fieldset>
 
@@ -196,7 +196,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={companyCode}
           onChange={(e) => setCompanyCode(e.target.value)}
           onBlur={() => touch('companyCode')}
-          className="humi-select w-full max-w-sm">
+          className="humi-select w-full">
           <option value="">— เลือกบริษัท —</option>
           {PICKLIST_COMPANY.filter((c) => c.active).map((c) => (
             <option key={c.id} value={c.id}>{c.id} — {c.labelTh}</option>
@@ -215,7 +215,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={eventReason}
           onChange={(e) => setEventReason(e.target.value)}
           onBlur={() => touch('eventReason')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือกสาเหตุ —</option>
           {PICKLIST_EVENT_REASON_HIRE.filter((r) => r.active).map((r) => (
             <option key={r.id} value={r.id}>{r.id} — {r.labelTh}</option>
@@ -234,7 +234,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={salutationEn}
           onChange={(e) => setSalutationEn(e.target.value)}
           onBlur={() => touch('salutationEn')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือกคำนำหน้า —</option>
           {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
             <option key={s.id} value={s.id}>{s.labelEn}</option>
@@ -256,7 +256,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={salutationLocal}
           onChange={(e) => setSalutationLocal(e.target.value)}
           onBlur={() => touch('salutationLocal')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือกคำนำหน้า —</option>
           {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
             <option key={s.id} value={s.id}>{s.labelTh}</option>
@@ -276,7 +276,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={firstNameEn}
           onChange={(e) => setFirstNameEn(e.target.value)}
           onBlur={() => touch('firstNameEn')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('firstNameEn')}
       </fieldset>
 
@@ -288,7 +288,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <input id="middle-name-en" type="text" placeholder="ชื่อกลาง ภาษาอังกฤษ — ไม่บังคับ"
           value={middleNameEn}
           onChange={(e) => setMiddleNameEn(e.target.value)}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
       </fieldset>
 
       {/* ─── BA row 7 — Lastname (EN) * ─── */}
@@ -302,7 +302,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={lastNameEn}
           onChange={(e) => setLastNameEn(e.target.value)}
           onBlur={() => touch('lastNameEn')}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
         {errMsg('lastNameEn')}
       </fieldset>
 
@@ -316,7 +316,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={dateOfBirth}
           onChange={(e) => setDateOfBirth(e.target.value)}
           onBlur={() => touch('dateOfBirth')}
-          className="humi-input w-full max-w-xs" />
+          className="humi-input w-full" />
         {errMsg('dateOfBirth')}
         {/* อายุคำนวณอัตโนมัติ */}
         {age !== null && (
@@ -332,7 +332,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <select id="country-of-birth"
           value={countryOfBirth}
           onChange={(e) => setCountryOfBirth(e.target.value)}
-          className="humi-select w-full max-w-sm">
+          className="humi-select w-full">
           <option value="">— เลือกประเทศ (optional) —</option>
           {PICKLIST_COUNTRY_ISO.filter((c) => c.active).map((c) => (
             <option key={c.id} value={c.id}>{c.labelTh}</option>
@@ -348,7 +348,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <input id="region-of-birth" type="text" placeholder="จังหวัด/ภูมิภาค (optional)"
           value={regionOfBirth}
           onChange={(e) => setRegionOfBirth(e.target.value)}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
       </fieldset>
 
       {/* BA row 12 — Employee ID: system-generated per BRD #102:2267 (Invariant I1).
@@ -364,7 +364,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={nationalIdCardType}
           onChange={(e) => setNationalIdCardType(e.target.value)}
           onBlur={() => touch('nationalIdCardType')}
-          className="humi-select w-full max-w-sm">
+          className="humi-select w-full">
           <option value="">— เลือกประเภทบัตร —</option>
           {PICKLIST_ID_CARD_TYPE.filter((t) => t.active).map((t) => (
             <option key={t.id} value={t.id}>{t.labelTh}</option>
@@ -383,7 +383,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={country}
           onChange={(e) => setCountry(e.target.value)}
           onBlur={() => touch('country')}
-          className="humi-select w-full max-w-sm">
+          className="humi-select w-full">
           <option value="">— เลือกประเทศ —</option>
           {PICKLIST_COUNTRY_ISO.filter((c) => c.active).map((c) => (
             <option key={c.id} value={c.id}>{c.labelTh}</option>
@@ -403,7 +403,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={nationalId}
           onChange={(e) => setNationalId(e.target.value)}
           onBlur={() => touch('nationalId')}
-          className="humi-input w-full max-w-xs" />
+          className="humi-input w-full" />
         {errMsg('nationalId')}
       </fieldset>
 
@@ -415,7 +415,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <input id="issue-date" type="date"
           value={issueDate}
           onChange={(e) => setIssueDate(e.target.value)}
-          className="humi-input w-full max-w-xs" />
+          className="humi-input w-full" />
       </fieldset>
 
       {/* ─── BA row 17 — Expiry Date — optional ─── */}
@@ -426,7 +426,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <input id="expiry-date" type="date"
           value={expiryDate}
           onChange={(e) => setExpiryDate(e.target.value)}
-          className="humi-input w-full max-w-xs" />
+          className="humi-input w-full" />
       </fieldset>
 
       {/* ─── BA row 18 — Is Primary * ─── */}
@@ -439,7 +439,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           value={isPrimary}
           onChange={(e) => setIsPrimary(e.target.value)}
           onBlur={() => touch('isPrimary')}
-          className="humi-select w-full max-w-xs">
+          className="humi-select w-full">
           <option value="">— เลือก —</option>
           {PICKLIST_YES_NO.filter((y) => y.active).map((y) => (
             <option key={y.id} value={y.id}>{y.labelTh}</option>
@@ -457,7 +457,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <input id="vn-issue-place" type="text" placeholder="สถานที่ออกบัตร (optional)"
           value={vnIssuePlace}
           onChange={(e) => setVnIssuePlace(e.target.value)}
-          className="humi-input w-full max-w-sm" />
+          className="humi-input w-full" />
       </fieldset>
 
       <p className="text-xs text-ink-soft">
