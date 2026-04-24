@@ -7,7 +7,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepCompensationSchema } from '@/lib/admin/validation/hireSchema'
-import { PICKLIST_PAY_FREQUENCY } from '@hrms/shared/picklists'
+import { PICKLIST_PAY_FREQUENCY, PICKLIST_PAY_COMPONENT_GROUP } from '@hrms/shared/picklists'
 
 export interface StepCompensationProps {
   onValidChange?: (isValid: boolean) => void
@@ -112,15 +112,11 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
   )
 }
 
-// ─── Cost Distribution section (BRD #119 — optional, split budget across cost centers) ───
-const MOCK_COST_CENTERS = [
-  { code: 'CC-HQ-HR',     label: 'สำนักงานใหญ่ — HR' },
-  { code: 'CC-HQ-FIN',    label: 'สำนักงานใหญ่ — การเงิน' },
-  { code: 'CC-HQ-IT',     label: 'สำนักงานใหญ่ — IT' },
-  { code: 'CC-RETAIL-TH', label: 'ค้าปลีก — ไทย' },
-  { code: 'CC-RETAIL-VN', label: 'ค้าปลีก — เวียดนาม' },
-  { code: 'CC-CORPORATE', label: 'Corporate — ส่วนกลาง' },
-]
+// ─── Cost Distribution section (BRD #119) — source: FOPayComponentGroup (9 SF groups) ───
+// Replaced hardcoded stub with real SF PayComponentGroup picklist
+const COST_CENTERS = PICKLIST_PAY_COMPONENT_GROUP
+  .filter((g) => g.active)
+  .map((g) => ({ code: g.id, label: g.labelEn }))
 
 interface CostSplit {
   id: string
@@ -189,7 +185,7 @@ function CostDistributionSection() {
                 className="humi-select w-full"
               >
                 <option value="">— เลือกหน่วยบัญชี —</option>
-                {MOCK_COST_CENTERS.map((cc) => (
+                {COST_CENTERS.map((cc) => (
                   <option key={cc.code} value={cc.code}>{cc.code} — {cc.label}</option>
                 ))}
               </select>
