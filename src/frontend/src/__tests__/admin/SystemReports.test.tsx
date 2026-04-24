@@ -69,7 +69,8 @@ beforeEach(() => {
 describe('ReportsHubPage — Reporting hub landing', () => {
   it('TC-RPT-1: แสดง heading "รายงาน"', () => {
     render(<ReportsHubPage />)
-    expect(screen.getByRole('heading', { name: /รายงาน/ })).toBeInTheDocument()
+    // Multiple headings match /รายงาน/ (page title + subtitles); at-least-one = pass
+    expect(screen.getAllByRole('heading', { name: /รายงาน/ }).length).toBeGreaterThan(0)
   })
 
   it('TC-RPT-2: แสดง 4 quick link cards (สร้างรายงาน, กำหนดเวลา, งานอัตโนมัติ, รายงานโปรด)', () => {
@@ -177,8 +178,9 @@ describe('ReportAutomationPage — jobs list + pause/resume toggle', () => {
   it('TC-RPT-11: แสดง heading "งานอัตโนมัติ" + stat widgets (ทำงาน / หยุดชั่วคราว)', () => {
     render(<ReportAutomationPage />)
     expect(screen.getByRole('heading', { name: /งานอัตโนมัติ/i })).toBeInTheDocument()
-    expect(screen.getByText('ทำงาน')).toBeInTheDocument()
-    expect(screen.getByText('หยุดชั่วคราว')).toBeInTheDocument()
+    // Stat widgets + buttons both render "ทำงาน"/"หยุดชั่วคราว" — use getAllByText
+    expect(screen.getAllByText('ทำงาน').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('หยุดชั่วคราว').length).toBeGreaterThan(0)
   })
 
   it('TC-RPT-12: ปุ่ม "หยุด" เมื่อ click → เปลี่ยนเป็น "เริ่ม" (pause/resume toggle)', () => {
@@ -199,7 +201,7 @@ describe('ReportAutomationPage — jobs list + pause/resume toggle', () => {
 describe('FavouriteReportsPage — favourite list + toggle', () => {
   it('TC-RPT-13: แสดง heading "รายงานโปรด" + count จาก seed (seed 3 favourites)', () => {
     render(<FavouriteReportsPage />)
-    expect(screen.getByRole('heading', { name: /รายงานโปรด/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('heading', { name: /รายงานโปรด/i }).length).toBeGreaterThan(0)
     // text เช่น "รายงานโปรด (3)"
     expect(screen.getByText(/รายงานโปรด \(3\)/i)).toBeInTheDocument()
   })
