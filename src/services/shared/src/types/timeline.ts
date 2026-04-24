@@ -1,6 +1,6 @@
 // timeline.ts — TimelineEvent discriminated union for EC-Core lifecycle tracking
 // Types only — no runtime logic, no schema, no handlers.
-// Variants: 7 types from Plan §4 (C8: ห้าม invent additional variants).
+// Variants: 8 types from Plan §4 + Audit #19 ActingEvent (C8: ห้าม invent additional variants).
 
 export type TimelineEventKind =
   | 'hire'
@@ -10,6 +10,8 @@ export type TimelineEventKind =
   | 'rehire'
   | 'contract_renewal'
   | 'promotion'
+  | 'acting_start'
+  | 'acting_end'
 
 export interface TimelineEventBase {
   id: string
@@ -64,6 +66,12 @@ export interface PromotionEvent extends TimelineEventBase {
   salaryChangePct?: number
 }
 
+export interface ActingEvent extends TimelineEventBase {
+  kind: 'acting_start' | 'acting_end'
+  position: string      // target position title
+  isPrimary?: boolean   // default false — acting = secondary unless flagged
+}
+
 export type TimelineEvent =
   | HireEvent
   | ProbationEvent
@@ -72,3 +80,4 @@ export type TimelineEvent =
   | RehireEvent
   | ContractRenewalEvent
   | PromotionEvent
+  | ActingEvent

@@ -32,6 +32,7 @@ import {
   TrendingUp,
   MapPin,
   Network,
+  Star,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -102,6 +103,8 @@ const EVENT_LABELS: Record<string, string> = {
   rehire: 'รับกลับเข้าทำงาน',
   contract_renewal: 'ต่อสัญญา',
   promotion: 'เลื่อนตำแหน่ง',
+  acting_start: 'เริ่มรักษาการ',
+  acting_end: 'สิ้นสุดรักษาการ',
 }
 
 const EVENT_DOT_CLASS: Record<string, string> = {
@@ -112,6 +115,8 @@ const EVENT_DOT_CLASS: Record<string, string> = {
   rehire: 'bg-success',
   contract_renewal: 'bg-sage',
   promotion: 'bg-butter',
+  acting_start: 'bg-accent',
+  acting_end: 'bg-ink-faint',
 }
 
 function TimelineRow({ event }: { event: TimelineEvent }) {
@@ -169,7 +174,7 @@ interface ActionCard {
 // ─────────────────────────────────────────────────────────────
 type ActionKey =
   | 'probation' | 'edit' | 'transfer' | 'terminate'
-  | 'contract_renewal' | 'rehire' | 'change_type' | 'promotion'
+  | 'contract_renewal' | 'rehire' | 'change_type' | 'promotion' | 'acting'
 
 function actionAvailability(emp: {
   status: 'active' | 'inactive' | 'terminated'
@@ -222,6 +227,10 @@ function actionAvailability(emp: {
       : isTerminated ? { ok: false, reason: terminated_reason }
       : isInactive ? { ok: false, reason: inactive_reason }
       : { ok: false, reason: 'รอให้ผ่านทดลองงานก่อน' },
+    acting: isActive
+      ? { ok: true }
+      : isTerminated ? { ok: false, reason: terminated_reason }
+      : { ok: false, reason: inactive_reason },
   }
 }
 
@@ -367,6 +376,14 @@ export default function EmployeeDetailPage() {
       locked: !avail.promotion.ok,
       lockReason: avail.promotion.reason,
     },
+    {
+      icon: Star,
+      label: 'มอบหมายปฏิบัติการ',
+      desc: 'กำหนดรักษาการตำแหน่ง',
+      href: `/${locale}/admin/employees/${empId}/acting`,
+      locked: !avail.acting.ok,
+      lockReason: avail.acting.reason,
+    },
   ]
 
   return (
@@ -508,6 +525,35 @@ export default function EmployeeDetailPage() {
             </div>
           )}
         </div>
+
+        {/* ── Acting chip — open acting roles derived from timeline ── */}
+        {(() => {
+          const openActingRoles = events
+            .filter((e) => e.kind === 'acting_start')
+            .filter((start) =>
+              !events.some(
+                (end) =>
+                  end.kind === 'acting_end' &&
+                  end.effectiveDate > start.effectiveDate &&
+                  (end as import('@hrms/shared/types/timeline').ActingEvent).position ===
+                    (start as import('@hrms/shared/types/timeline').ActingEvent).position,
+              ),
+            )
+            .map((e) => (e as import('@hrms/shared/types/timeline').ActingEvent).position)
+
+          if (openActingRoles.length === 0) return null
+          return (
+            <div className="humi-row" style={{ gap: 6, flexWrap: 'wrap', marginTop: 12 }}>
+              <span
+                className="humi-tag humi-tag--accent"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+              >
+                <Star size={11} aria-hidden />
+                กำลังรักษาการ: {openActingRoles.join(', ')}
+              </span>
+            </div>
+          )
+        })()}
 
         {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ── */}
         {employee.hire_date && (
