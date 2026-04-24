@@ -29,6 +29,28 @@ vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
 }));
 
+// Auth-store mock — AppShell + Topbar render null / hide features without this.
+// Same pattern as layout-integration.test.tsx + humi-responsive.test.tsx.
+vi.mock('@/stores/auth-store', () => {
+  const state = {
+    isAuthenticated: true,
+    roles: ['admin'] as string[],
+    _hasHydrated: true,
+    email: 'jongrak@central.co.th',
+    displayName: 'จงรักษ์ ทานากะ',
+    initials: 'จท',
+    setAuth: vi.fn(),
+    clearAuth: vi.fn(),
+    setHasHydrated: vi.fn(),
+  };
+  const useAuthStore = Object.assign(
+    (selector?: (s: typeof state) => unknown) =>
+      selector ? selector(state) : state,
+    { getState: () => state, setState: vi.fn(), subscribe: vi.fn() }
+  );
+  return { useAuthStore };
+});
+
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {

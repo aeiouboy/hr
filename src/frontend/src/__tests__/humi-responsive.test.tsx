@@ -106,6 +106,28 @@ vi.mock('next/link', () => ({
 }));
 
 // ── Mock next/image ───────────────────────────────────────────────────────────
+// Auth-store mock — AppShell returns null on !isAuthenticated.
+// Same pattern as layout-integration.test.tsx (Gen 1 fix).
+vi.mock('@/stores/auth-store', () => {
+  const state = {
+    isAuthenticated: true,
+    roles: ['admin'] as string[],
+    _hasHydrated: true,
+    email: 'jongrak@central.co.th',
+    displayName: 'จงรักษ์ ทานากะ',
+    initials: 'จท',
+    setAuth: vi.fn(),
+    clearAuth: vi.fn(),
+    setHasHydrated: vi.fn(),
+  };
+  const useAuthStore = Object.assign(
+    (selector?: (s: typeof state) => unknown) =>
+      selector ? selector(state) : state,
+    { getState: () => state, setState: vi.fn(), subscribe: vi.fn() }
+  );
+  return { useAuthStore };
+});
+
 vi.mock('next/image', () => ({
   default: ({ src, alt, width, height, priority: _p, ...props }: { src: string; alt: string; width?: number; height?: number; priority?: boolean; [k: string]: unknown }) => (
     // eslint-disable-next-line @next/next/no-img-element
