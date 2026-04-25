@@ -1,0 +1,19 @@
+[
+  {
+    "passed": true,
+    "reasoning": "BRD #176 Team Reports complete (LAST in MSS sequence) — NEW MovementEvent interface in hooks, MOCK_MOVEMENT 8 records covering 3 types (joiner/leaver/transfer), NEW tab 'รายงานทีม', renderReports() with 2 sub-sections + CSV placeholder. Section A: HTML/CSS gradient bars by department (ฝ่ายไอที 3 / ฝ่ายการเงิน 2 / ฝ่ายขาย 1) — NO chart lib (Q3=HTML/CSS bars per autopilot default). Section B: timeline list with 3 type-coded badges (เข้าใหม่ teal / ย้าย butter / ออก coral) + date filter chips (เดือนนี้/30 วันล่าสุด/ทั้งหมด). Section C: ส่งออก CSV button placeholder with TODO comment for backend phase. 28 new tests + 95+ regression = 114/114 PASS. Schema reuse: department from #77.",
+    "evidence": [
+      "Commit 38bacdc: 3 files changed (manager-dashboard-page.tsx +110 LOC / use-manager-dashboard.ts MovementEvent+MOCK_MOVEMENT / new test 28 tests)",
+      "Vitest 114/114 PASS: team-tab (19) + org-chart-tab (18) + positions-tab (30) + reports-tab (28) + smoke (19)",
+      "Playwright DOM eval: รายงานทีม tab clickable, sectionA present, sectionB present, csvButton present, deptCounts [ไอที 3, การเงิน 2, ขาย 1], movementTypes 3/3 types found",
+      "Screenshot test-artifacts/run-79/screenshots/reports-tab.png — full reports tab with gradient bars + timeline + CSV button rendered",
+      "Audit doc Section 5 #79 spec satisfied (Q2=transfers included, Q3=HTML/CSS bars no dep)"
+    ],
+    "questionsUsed": [
+      "Are Section A headcount bars rendered without chart lib?",
+      "Are Section B 3 movement types (joiner/leaver/transfer) all represented?",
+      "Is CSV button a placeholder with TODO comment for backend?"
+    ],
+    "failureReason": null
+  }
+]
