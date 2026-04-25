@@ -26,6 +26,7 @@ import {
 import { FileUploadField } from '@/components/humi/FileUploadField';
 import { Modal } from '@/components/ui/modal';
 import { EmergencyContactList, areAllRowsValid } from '@/components/profile/EmergencyContactList';
+import { DependentsEditor, areAllDependentsValid } from '@/components/profile/DependentsEditor';
 import { Address8Editor, isAddress8Valid } from '@/components/profile/Address8Editor';
 import { BankDetailsEditor, isBankValid } from '@/components/profile/BankDetailsEditor';
 import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/ContactArrayEditor';
@@ -282,6 +283,43 @@ export default function HumiProfileMePage() {
             size="sm"
             onClick={handleSubmit}
             disabled={!areAllRowsValid(rows)}
+          >
+            {tEss('changeRequest.submit')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  function DependentsSectionEditor() {
+    const rows = draft.dependents ?? [];
+    const today = new Date().toISOString().slice(0, 10);
+
+    function handleSubmit() {
+      submitChangeRequest({
+        field: 'dependents',
+        oldValue: JSON.stringify(saved.dependents ?? []),
+        newValue: JSON.stringify(rows),
+        effectiveDate: today,
+        attachmentIds: [],
+        sectionKey: 'dependents',
+      });
+      save();
+      showToast(tEss('changeRequest.submit'));
+    }
+
+    return (
+      <div style={{ marginTop: 16 }}>
+        <DependentsEditor
+          value={rows}
+          onChange={(updated) => updateDraft({ dependents: updated })}
+        />
+        <div style={{ marginTop: 12 }}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmit}
+            disabled={!areAllDependentsValid(rows)}
           >
             {tEss('changeRequest.submit')}
           </Button>
@@ -1136,42 +1174,89 @@ export default function HumiProfileMePage() {
 
       {/* ── Emergency contacts tab ────────────────────────────────────────── */}
       {panelKey === 'emergency' && (
-        <div className="humi-card">
-          <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
-            {t('emergencyTitle')}
-            <PendingSectionBadge section="emergencyContact" />
-          </h3>
-          <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
-            {t('emergencyHelp')}
-          </p>
-          {isEditing ? (
-            <EmergencyContactSectionEditor />
-          ) : (
-            <div className="grid gap-3.5 md:grid-cols-2" style={{ marginTop: 16 }}>
-              {p.emergency.map((c) => (
-                <div
-                  key={c.name}
-                  className="humi-card humi-card--tight"
-                  style={{ background: 'var(--color-canvas-soft)' }}
-                >
-                  <div className="humi-row">
-                    <span className={AVATAR_TONE_MAP[c.tone]} aria-hidden>
-                      {c.initials}
-                    </span>
-                    <div>
-                      <div style={{ fontWeight: 600, color: 'var(--color-ink)' }}>
-                        {c.name}
-                      </div>
-                      <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
-                        {c.relation} · {c.phone}
+        <>
+          <div className="humi-card">
+            <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+              {t('emergencyTitle')}
+              <PendingSectionBadge section="emergencyContact" />
+            </h3>
+            <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
+              {t('emergencyHelp')}
+            </p>
+            {isEditing ? (
+              <EmergencyContactSectionEditor />
+            ) : (
+              <div className="grid gap-3.5 md:grid-cols-2" style={{ marginTop: 16 }}>
+                {p.emergency.map((c) => (
+                  <div
+                    key={c.name}
+                    className="humi-card humi-card--tight"
+                    style={{ background: 'var(--color-canvas-soft)' }}
+                  >
+                    <div className="humi-row">
+                      <span className={AVATAR_TONE_MAP[c.tone]} aria-hidden>
+                        {c.initials}
+                      </span>
+                      <div>
+                        <div style={{ fontWeight: 600, color: 'var(--color-ink)' }}>
+                          {c.name}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                          {c.relation} · {c.phone}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ── ผู้อุปการะ (BRD #20) ────────────────────────────────────────── */}
+          <div className="humi-card" style={{ marginTop: 16 }}>
+            <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+              ผู้อุปการะ
+              <PendingSectionBadge section="dependents" />
+            </h3>
+            <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
+              สมาชิกในครอบครัวที่ได้รับสวัสดิการ
+            </p>
+            {isEditing ? (
+              <DependentsSectionEditor />
+            ) : (
+              <div className="grid gap-3.5 md:grid-cols-2" style={{ marginTop: 16 }}>
+                {(saved.dependents ?? []).map((dep) => (
+                  <div
+                    key={dep.id}
+                    className="humi-card humi-card--tight"
+                    style={{ background: 'var(--color-canvas-soft)' }}
+                  >
+                    <div className="humi-row">
+                      {dep.tone && dep.initials ? (
+                        <span className={AVATAR_TONE_MAP[dep.tone]} aria-hidden>
+                          {dep.initials}
+                        </span>
+                      ) : null}
+                      <div>
+                        <div style={{ fontWeight: 600, color: 'var(--color-ink)' }}>
+                          {dep.fullNameTh}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                          {dep.relation === 'spouse' ? 'คู่สมรส'
+                            : dep.relation === 'child' ? 'บุตร'
+                            : dep.relation === 'father' ? 'บิดา'
+                            : dep.relation === 'mother' ? 'มารดา'
+                            : 'อื่นๆ'}
+                          {dep.dateOfBirth ? ` · เกิด ${dep.dateOfBirth}` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
       )}
 
       {/* ── Docs tab ─────────────────────────────────────────────────────── */}

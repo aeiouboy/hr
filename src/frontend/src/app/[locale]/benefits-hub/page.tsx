@@ -315,10 +315,10 @@ function BenefitsTab() {
               key={d.id}
               className="flex items-center gap-3 rounded-[var(--radius-md)] border border-hairline p-3"
             >
-              <Avatar name={d.name} tone={d.tone} size="sm" />
+              <Avatar name={d.fullNameTh} tone={d.tone ?? 'ink'} size="sm" />
               <div className="min-w-0">
                 <p className="truncate text-body font-semibold text-ink">
-                  {d.name}
+                  {d.fullNameTh}
                 </p>
                 <p className="text-small text-ink-muted">{d.relation}</p>
               </div>

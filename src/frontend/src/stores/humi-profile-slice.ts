@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { HUMI_DEPENDENTS, type HumiDependent } from '@/lib/humi-mock-data';
 
 export type ProfileTab = 'personal' | 'employment' | 'compensation' | 'documents' | 'activity';
 
@@ -35,7 +36,7 @@ export interface BankDetails {
 
 // ── sectionKey discriminator ───────────────────────────────────────────────────
 
-export type SectionKey = 'emergencyContact' | 'address' | 'contact' | 'bank' | 'personal' | 'termination';
+export type SectionKey = 'emergencyContact' | 'address' | 'contact' | 'bank' | 'personal' | 'termination' | 'dependents';
 
 // ── ProfileDraft ───────────────────────────────────────────────────────────────
 
@@ -51,6 +52,8 @@ interface ProfileDraft {
   phonesArr: PhoneEntry[];
   emailsArr: EmailEntry[];
   bank: BankDetails;
+  // v4 additions
+  dependents: HumiDependent[];
 }
 
 const DRAFT_DEFAULTS: ProfileDraft = {
@@ -73,6 +76,7 @@ const DRAFT_DEFAULTS: ProfileDraft = {
   phonesArr: [{ value: '+66 (02) 555-0188', primary: true }],
   emailsArr: [{ value: 'jongrak.tanaka@proton.me', primary: true }],
   bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null },
+  dependents: HUMI_DEPENDENTS,
 };
 
 // ════════════════════════════════════════════════════════════
@@ -264,9 +268,36 @@ export const useHumiProfileStore = create<ProfileState>()(
     }),
     {
       name: 'humi-profile-v1',          // KEEP name — version controls migration
-      version: 3,
+      version: 4,
       migrate: (persistedState: any, version: number): ProfileState => {
         if (!persistedState) return persistedState;
+        if (version < 4 && version >= 3) {
+          // v3 → v4: add dependents[] — enrich legacy minimal rows to new shape
+          const enrichDraft = (d: any) => ({
+            ...d,
+            dependents: Array.isArray(d?.dependents) && d.dependents.length > 0
+              ? d.dependents.map((dep: any) => ({
+                  id: dep.id ?? crypto.randomUUID(),
+                  fullNameTh: dep.fullNameTh ?? dep.name ?? '',
+                  fullNameEn: dep.fullNameEn ?? '',
+                  relation: dep.relation ?? 'other',
+                  dateOfBirth: dep.dateOfBirth ?? '',
+                  nationalId: dep.nationalId,
+                  idCopyFileId: dep.idCopyFileId,
+                  hasInsurance: dep.hasInsurance ?? false,
+                  isCentralEmployee: dep.isCentralEmployee ?? false,
+                  name: dep.name,
+                  initials: dep.initials,
+                  tone: dep.tone,
+                }))
+              : HUMI_DEPENDENTS,
+          });
+          return {
+            ...persistedState,
+            saved: enrichDraft(persistedState.saved),
+            draft: enrichDraft(persistedState.draft),
+          } as ProfileState;
+        }
         if (version < 3 && version >= 2) {
           // v2 → v3: no-op — SectionKey enum extended with 'termination'; pendingChanges schema unchanged
           return persistedState as ProfileState;
@@ -289,6 +320,7 @@ export const useHumiProfileStore = create<ProfileState>()(
             phonesArr: d.phone ? [{ value: d.phone, primary: true }] : [],
             emailsArr: d.personalEmail ? [{ value: d.personalEmail, primary: true }] : [],
             bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null },
+            dependents: HUMI_DEPENDENTS,
           });
           return {
             ...persistedState,

@@ -1258,18 +1258,66 @@ export const HUMI_BENEFIT_PLANS: HumiBenefitPlan[] = [
   },
 ];
 
+export type DependentRelation = 'spouse' | 'father' | 'mother' | 'child' | 'other';
+
+export const DEPENDENT_RELATION_LABELS: Record<DependentRelation, string> = {
+  spouse: 'คู่สมรส',
+  father: 'บิดา',
+  mother: 'มารดา',
+  child: 'บุตร',
+  other: 'อื่นๆ',
+};
+
 export interface HumiDependent {
   id: string;
-  name: string;
-  initials: string;
-  tone: AvatarTone;
-  relation: string;
+  fullNameTh: string;
+  fullNameEn: string;
+  relation: DependentRelation;
+  dateOfBirth: string;        // ISO yyyy-MM-dd
+  nationalId?: string;
+  idCopyFileId?: string;
+  hasInsurance: boolean;
+  isCentralEmployee: boolean;
+
+  // Legacy display-only (kept for backward compat)
+  name?: string;        // = fullNameTh for back-compat
+  initials?: string;
+  tone?: AvatarTone;
 }
 
 export const HUMI_DEPENDENTS: HumiDependent[] = [
-  { id: 'dep-1', name: 'ปณิดา ทานากะ', initials: 'ปท', tone: 'teal', relation: 'คู่สมรส' },
-  { id: 'dep-2', name: 'ไอริส ทานากะ', initials: 'อท', tone: 'butter', relation: 'บุตร · 8 ขวบ' },
-  { id: 'dep-3', name: 'นิโก้ ทานากะ', initials: 'นท', tone: 'sage', relation: 'บุตร · 4 ขวบ' },
+  {
+    id: 'dep-1',
+    fullNameTh: 'ปณิดา ทานากะ',
+    fullNameEn: 'Panida Tanaka',
+    relation: 'spouse',
+    dateOfBirth: '1992-06-12',
+    nationalId: '1-1099-22444-66-2',
+    idCopyFileId: 'mock-file-spouse-1',
+    hasInsurance: true,
+    isCentralEmployee: false,
+    name: 'ปณิดา ทานากะ', initials: 'ปท', tone: 'teal',
+  },
+  {
+    id: 'dep-2',
+    fullNameTh: 'ไอริส ทานากะ',
+    fullNameEn: 'Iris Tanaka',
+    relation: 'child',
+    dateOfBirth: '2017-08-04',
+    hasInsurance: true,
+    isCentralEmployee: false,
+    name: 'ไอริส ทานากะ', initials: 'อท', tone: 'butter',
+  },
+  {
+    id: 'dep-3',
+    fullNameTh: 'นิโก้ ทานากะ',
+    fullNameEn: 'Niko Tanaka',
+    relation: 'child',
+    dateOfBirth: '2021-11-22',
+    hasInsurance: true,
+    isCentralEmployee: false,
+    name: 'นิโก้ ทานากะ', initials: 'นท', tone: 'sage',
+  },
 ];
 
 export interface HumiClaimAllowance {
