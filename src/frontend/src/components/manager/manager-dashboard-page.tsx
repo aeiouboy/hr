@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
  Users,
  UserCheck,
@@ -23,6 +23,7 @@ import {
  User,
  Network,
  GitBranch,
+ LayoutList,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -31,10 +32,10 @@ import { Modal } from '@/components/ui/modal';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs } from '@/components/ui/tabs';
 import { useManagerDashboard } from '@/hooks/use-manager-dashboard';
-import type { TeamMember, PendingApproval, OrgNode } from '@/hooks/use-manager-dashboard';
+import type { TeamMember, PendingApproval, OrgNode, Position } from '@/hooks/use-manager-dashboard';
 import { cn } from '@/lib/utils';
 
-type TabKey ='overview' |'team' |'org-chart' |'approvals' |'calendar';
+type TabKey ='overview' |'team' |'org-chart' |'positions' |'approvals' |'calendar';
 
 const SEVERITY_STYLES: Record<string, string> = {
  critical:'border-l-4 border-l-red-500 bg-danger-tint',
@@ -101,12 +102,14 @@ function OrgNodeItem({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
 export function ManagerDashboardPage() {
  const t = useTranslations('managerDashboard');
  const pathname = usePathname();
+ const router = useRouter();
  const locale = pathname.startsWith('/th') ?'th' :'en';
 
  const {
  team, approvals, alerts, calendarEvents, orgChart, stats, loading,
  calMonth, calYear, setCalMonth, setCalYear,
  approveRequest, rejectRequest,
+ positions,
  } = useManagerDashboard();
 
  const [activeTab, setActiveTab] = useState<TabKey>('overview');
@@ -115,11 +118,14 @@ export function ManagerDashboardPage() {
  const [deptFilter, setDeptFilter] = useState<string>('all');
  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
  const [orgMode, setOrgMode] = useState<'สายตรง' |'สายไขว้'>('สายตรง');
+ const [positionDeptFilter, setPositionDeptFilter] = useState<string>('all');
+ const [positionStatusFilter, setPositionStatusFilter] = useState<string>('all');
 
  const tabs = [
  { key:'overview', label: t('teamOverview') },
  { key:'team', label: t('teamMembers') },
  { key:'org-chart', label:'แผนผังทีม' },
+ { key:'positions', label:'ตำแหน่งและอัตรากำลัง' },
  { key:'approvals', label: `${t('pendingApprovals')} (${approvals.length})` },
  { key:'calendar', label: t('teamCalendar') },
  ];
@@ -547,6 +553,140 @@ export function ManagerDashboardPage() {
  </Card>
  );
 
+ const renderPositions = () => {
+ const uniquePosDepts = Array.from(new Set(positions.map((p: Position) => p.department))).sort();
+
+ const filtered = positions.filter((p: Position) => {
+  const deptMatch = positionDeptFilter ==='all' || p.department === positionDeptFilter;
+  const statusMatch = positionStatusFilter ==='all' || (positionStatusFilter ==='active' && p.headcountBudget > 0);
+  return deptMatch && statusMatch;
+ });
+
+ const totalPositions = filtered.length;
+ const totalVacancy = filtered.reduce((sum: number, p: Position) => sum + Math.max(0, p.headcountBudget - p.headcountActual), 0);
+ const totalBudget = filtered.reduce((sum: number, p: Position) => sum + p.headcountBudget, 0);
+ const vacancyRate = totalBudget > 0 ? Math.round((totalVacancy / totalBudget) * 100) : 0;
+
+ return (
+  <div className="space-y-4">
+   {/* Stat Cards */}
+   <div className="grid grid-cols-3 gap-4">
+    <div className="rounded-md border p-4 bg-accent-tint">
+     <div className="flex items-center gap-2 mb-2">
+      <LayoutList className="h-5 w-5 text-accent" />
+      <span className="text-xs text-ink-muted uppercase tracking-wider">รวมตำแหน่ง</span>
+     </div>
+     <p className="text-2xl font-bold text-ink">{totalPositions}</p>
+    </div>
+    <div className="rounded-md border p-4 bg-warning-tint">
+     <div className="flex items-center gap-2 mb-2">
+      <Users className="h-5 w-5 text-warning" />
+      <span className="text-xs text-ink-muted uppercase tracking-wider">ตำแหน่งว่าง</span>
+     </div>
+     <p className="text-2xl font-bold text-ink">{totalVacancy}</p>
+    </div>
+    <div className="rounded-md border p-4 bg-danger-tint">
+     <div className="flex items-center gap-2 mb-2">
+      <Building className="h-5 w-5 text-danger" />
+      <span className="text-xs text-ink-muted uppercase tracking-wider">อัตราว่าง %</span>
+     </div>
+     <p className="text-2xl font-bold text-ink">{vacancyRate}%</p>
+    </div>
+   </div>
+
+   <Card>
+    <CardHeader>
+     <div className="flex flex-col gap-3">
+      <CardTitle className="flex items-center gap-2">
+       <LayoutList className="h-5 w-5 text-accent" />
+       ตำแหน่งและอัตรากำลัง ({filtered.length})
+      </CardTitle>
+      {/* Filter chips: dept */}
+      <div className="flex flex-wrap gap-2">
+       <button
+        onClick={() => setPositionDeptFilter('all')}
+        className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionDeptFilter ==='all' ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised')}
+       >
+        ทุกหน่วยงาน
+       </button>
+       {uniquePosDepts.map((dept: string) => (
+        <button
+         key={dept}
+         onClick={() => setPositionDeptFilter(dept)}
+         className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionDeptFilter === dept ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised')}
+        >
+         {dept}
+        </button>
+       ))}
+      </div>
+      {/* Filter chips: status */}
+      <div className="flex flex-wrap gap-2">
+       {[
+        { key:'all', label:'ทั้งหมด' },
+        { key:'active', label:'มีอัตรากำลัง' },
+       ].map(({ key, label }) => (
+        <button
+         key={key}
+         onClick={() => setPositionStatusFilter(key)}
+         className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionStatusFilter === key ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}
+        >
+         {label}
+        </button>
+       ))}
+      </div>
+     </div>
+    </CardHeader>
+    <CardContent>
+     <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+       <thead>
+        <tr className="border-b border-hairline">
+         <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">รหัสตำแหน่ง</th>
+         <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">ชื่อตำแหน่ง</th>
+         <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">หน่วยงาน</th>
+         <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">ศูนย์ต้นทุน</th>
+         <th className="text-right py-2 px-3 text-xs font-medium text-ink-muted">อัตรากำลังจริง</th>
+         <th className="text-right py-2 px-3 text-xs font-medium text-ink-muted">อัตรากำลังเป้าหมาย</th>
+         <th className="text-right py-2 px-3 text-xs font-medium text-ink-muted">ตำแหน่งว่าง</th>
+        </tr>
+       </thead>
+       <tbody>
+        {filtered.map((p: Position) => {
+         const vacancy = Math.max(0, p.headcountBudget - p.headcountActual);
+         return (
+          <tr
+           key={p.positionCode}
+           className="border-b border-hairline last:border-0 hover:bg-surface-raised/30 transition cursor-pointer"
+           onClick={() => router.push(`/${locale}/admin/positions`)}
+          >
+           <td className="py-2.5 px-3 text-xs text-ink-muted font-mono">{p.positionCode}</td>
+           <td className="py-2.5 px-3 text-sm font-medium text-ink">{p.positionTitle}</td>
+           <td className="py-2.5 px-3 text-xs text-ink">{p.department}</td>
+           <td className="py-2.5 px-3 text-xs text-ink-muted font-mono">{p.costCenter}</td>
+           <td className="py-2.5 px-3 text-xs text-ink text-right">{p.headcountActual}</td>
+           <td className="py-2.5 px-3 text-xs text-ink text-right">{p.headcountBudget}</td>
+           <td className="py-2.5 px-3 text-right">
+            {vacancy > 0 ? (
+             <Badge variant="warning">{vacancy}</Badge>
+            ) : (
+             <Badge variant="success">0</Badge>
+            )}
+           </td>
+          </tr>
+         );
+        })}
+       </tbody>
+      </table>
+      {filtered.length === 0 && (
+       <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลตำแหน่ง</p>
+      )}
+     </div>
+    </CardContent>
+   </Card>
+  </div>
+ );
+ };
+
  const renderCalendar = () => (
  <Card>
  <CardHeader>
@@ -627,6 +767,7 @@ export function ManagerDashboardPage() {
  {activeTab ==='overview' && renderOverview()}
  {activeTab ==='team' && renderTeam()}
  {activeTab ==='org-chart' && renderOrgChart()}
+ {activeTab ==='positions' && renderPositions()}
  {activeTab ==='approvals' && renderApprovals()}
  {activeTab ==='calendar' && renderCalendar()}
 

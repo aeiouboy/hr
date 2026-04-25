@@ -19,6 +19,7 @@ import type { TeamMember } from '@/hooks/use-manager-dashboard';
 // Mock next/navigation
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn(() => '/th/manager-dashboard'),
+  useRouter: vi.fn(() => ({ push: vi.fn() })),
 }));
 
 // Mock use-manager-dashboard hook so tests run offline without API calls
@@ -125,6 +126,7 @@ vi.mock('@/hooks/use-manager-dashboard', async () => {
       rejectRequest: vi.fn(),
       bulkApprove: vi.fn(),
       bulkReject: vi.fn(),
+      positions: [],
     })),
   };
 });

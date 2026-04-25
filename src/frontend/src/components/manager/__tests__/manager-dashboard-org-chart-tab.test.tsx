@@ -18,6 +18,7 @@ import type { OrgNode } from '@/hooks/use-manager-dashboard';
 
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn(() => '/th/manager-dashboard'),
+  useRouter: vi.fn(() => ({ push: vi.fn() })),
 }));
 
 const MOCK_ORG_TREE: OrgNode = {
@@ -82,6 +83,7 @@ vi.mock('@/hooks/use-manager-dashboard', async () => {
       rejectRequest: vi.fn(),
       bulkApprove: vi.fn(),
       bulkReject: vi.fn(),
+      positions: [],
     })),
   };
 });

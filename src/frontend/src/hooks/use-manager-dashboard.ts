@@ -56,6 +56,15 @@ export interface TeamStats {
  inProbation: number;
 }
 
+export interface Position {
+ positionCode: string;
+ positionTitle: string;
+ department: string;
+ costCenter: string;
+ headcountActual: number;
+ headcountBudget: number;
+}
+
 const MOCK_TEAM: TeamMember[] = [
  { id:'EMP001', name:'สมชาย ใจดี', position:'Senior Developer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId: null, managerName: null, avatar:'สช', status:'active', joinDate:'2023-06-15' },
  { id:'EMP002', name:'พลอย สุขสวัสดิ์', position:'UX Designer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId:'EMP001', managerName:'สมชาย ใจดี', avatar:'พส', status:'active', joinDate:'2024-01-10' },
@@ -93,6 +102,16 @@ const MOCK_CALENDAR: CalendarEvent[] = [
  { id:'CE008', date:'2026-02-17', employeeName:'Ploy S.', type:'annual_leave', label:'Annual Leave' },
  { id:'CE009', date:'2026-02-10', employeeName:'Malee S.', type:'sick_leave', label:'Sick Leave' },
  { id:'CE010', date:'2026-02-03', employeeName:'Krit T.', type:'shift', label:'Morning Shift' },
+];
+
+export const MOCK_POSITIONS: Position[] = [
+ { positionCode:'POS-IT-001', positionTitle:'นักพัฒนาซอฟต์แวร์อาวุโส', department:'ฝ่ายไอที', costCenter:'CC-1001', headcountActual: 3, headcountBudget: 4 },
+ { positionCode:'POS-IT-002', positionTitle:'นักออกแบบ UX/UI', department:'ฝ่ายไอที', costCenter:'CC-1001', headcountActual: 1, headcountBudget: 2 },
+ { positionCode:'POS-IT-003', positionTitle:'วิศวกร DevOps', department:'ฝ่ายไอที', costCenter:'CC-1001', headcountActual: 2, headcountBudget: 2 },
+ { positionCode:'POS-FIN-001', positionTitle:'นักวิเคราะห์ธุรกิจ', department:'ฝ่ายการเงิน', costCenter:'CC-2001', headcountActual: 2, headcountBudget: 3 },
+ { positionCode:'POS-FIN-002', positionTitle:'นักบัญชีอาวุโส', department:'ฝ่ายการเงิน', costCenter:'CC-2001', headcountActual: 1, headcountBudget: 1 },
+ { positionCode:'POS-SALES-001', positionTitle:'ผู้จัดการฝ่ายขาย', department:'ฝ่ายขาย', costCenter:'CC-3001', headcountActual: 1, headcountBudget: 2 },
+ { positionCode:'POS-SALES-002', positionTitle:'ตัวแทนขาย', department:'ฝ่ายขาย', costCenter:'CC-3001', headcountActual: 3, headcountBudget: 3 },
 ];
 
 // Build hierarchy from managerId chain (Direct mode base).
@@ -266,5 +285,6 @@ export function useManagerDashboard() {
  team, approvals, alerts, calendarEvents, orgChart, stats, loading,
  calMonth, calYear, setCalMonth, setCalYear,
  approveRequest, rejectRequest, bulkApprove, bulkReject,
+ positions: MOCK_POSITIONS,
  };
 }
