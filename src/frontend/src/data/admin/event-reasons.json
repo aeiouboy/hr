@@ -1,0 +1,532 @@
+{
+  "_doc": "T1 #88 — Ported from SF QAS sf-qas-workflow-2026-04-25.json (public event metadata, no PII)",
+  "sourceFile": "sf-qas-workflow-2026-04-25.json",
+  "sourceTimestamp": "2026-04-25T15:06:34.947Z",
+  "count": 52,
+  "eventReasons": [
+    {
+      "id": "event-221",
+      "internalCode": "221",
+      "externalCode": "CG_RETIRE",
+      "name": "Change to Retirement",
+      "nameTh": "เปลี่ยนเป็นเกษียณอายุ",
+      "description": "Change to Retirement",
+      "event": "5585",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-222",
+      "internalCode": "222",
+      "externalCode": "COMPROB_COMPROB",
+      "name": "Completion of Probation",
+      "nameTh": "ผ่านทดลองงาน",
+      "description": "Completion of Probation",
+      "event": "5591",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-223",
+      "internalCode": "223",
+      "externalCode": "DC_CHGINPAY",
+      "name": "Change in Pay",
+      "description": "Change in Pay",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-224",
+      "internalCode": "224",
+      "externalCode": "DC_CHGINSSO",
+      "name": "Change in SSO Location",
+      "description": "Change in SSO Location",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-225",
+      "internalCode": "225",
+      "externalCode": "DC_CHGINTM",
+      "name": "Change in Time",
+      "description": "Change in Time",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-230",
+      "internalCode": "230",
+      "externalCode": "DC_SC",
+      "name": "System Change",
+      "description": "System Change",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-281",
+      "internalCode": "281",
+      "externalCode": "DC_CHGINMGR",
+      "name": "Change in Manager",
+      "description": null,
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-228",
+      "internalCode": "228",
+      "externalCode": "DC_EXTPROB",
+      "name": "Extend Probation",
+      "description": "Extend Probation",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-229",
+      "internalCode": "229",
+      "externalCode": "DC_EXTRET",
+      "name": "Extend Retirement",
+      "description": "Extend Retirement",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-239",
+      "internalCode": "239",
+      "externalCode": "POSCHG_POSCHG",
+      "name": "Position Change",
+      "description": "Position Change",
+      "event": "5589",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-231",
+      "internalCode": "231",
+      "externalCode": "DM",
+      "name": "DATA MIGRATION",
+      "description": "DATA MIGRATION",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-232",
+      "internalCode": "232",
+      "externalCode": "HIREDM",
+      "name": "HIRE - DATA MIGRATION",
+      "description": "HIRE - DATA MIGRATION",
+      "event": "5609",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-233",
+      "internalCode": "233",
+      "externalCode": "H_CORENTRY",
+      "name": "HIRE Corrected Entry",
+      "description": "HIRE Corrected Entry",
+      "event": "5609",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-234",
+      "internalCode": "234",
+      "externalCode": "H_INENTRY",
+      "name": "HIRE Incorrect Entry",
+      "description": "HIRE Incorrect Entry",
+      "event": "5609",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-235",
+      "internalCode": "235",
+      "externalCode": "H_NEWHIRE",
+      "name": "New Hire",
+      "description": "New Hire",
+      "event": "5609",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-236",
+      "internalCode": "236",
+      "externalCode": "H_RPLMENT",
+      "name": "Replacement",
+      "description": "Replacement",
+      "event": "5609",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-237",
+      "internalCode": "237",
+      "externalCode": "H_TEMPASG",
+      "name": "Temporary Assignment",
+      "description": "Temporary Assignment",
+      "event": "5609",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-238",
+      "internalCode": "238",
+      "externalCode": "JCHG_EMPTYPE",
+      "name": "Change Employee Type",
+      "description": "Change Employee Type",
+      "event": "5594",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-241",
+      "internalCode": "241",
+      "externalCode": "PRCHG_MERINC",
+      "name": "Merit Increase",
+      "description": "Merit Increase",
+      "event": "5587",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-240",
+      "internalCode": "240",
+      "externalCode": "PRCHG_ADJPOS",
+      "name": "Adjust Position",
+      "description": "Adjust Position",
+      "event": "5587",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-242",
+      "internalCode": "242",
+      "externalCode": "PRCHG_PROMO",
+      "name": "Promotion",
+      "nameTh": "เลื่อนตำแหน่ง",
+      "description": "Promotion",
+      "event": "5587",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-243",
+      "internalCode": "243",
+      "externalCode": "PRCHG_SALADJ",
+      "name": "Salary Adjust",
+      "description": "Salary Adjust",
+      "event": "5587",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-244",
+      "internalCode": "244",
+      "externalCode": "PRCHG_SALCUT",
+      "name": "Salary cuts",
+      "description": "Salary cuts",
+      "event": "5587",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-247",
+      "internalCode": "247",
+      "externalCode": "REORG_REORG",
+      "name": "Reorganization",
+      "description": "Reorganization",
+      "event": "5599",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-245",
+      "internalCode": "245",
+      "externalCode": "PRM_DEMO",
+      "name": "Demotion",
+      "description": "Demotion",
+      "event": "5607",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-246",
+      "internalCode": "246",
+      "externalCode": "PRM_PRM",
+      "name": "Promotion",
+      "nameTh": "เลื่อนตำแหน่ง",
+      "description": "Promotion",
+      "event": "5607",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-261",
+      "internalCode": "261",
+      "externalCode": "TERM_RETIRE",
+      "name": "Retirement",
+      "description": "Retirement",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-249",
+      "internalCode": "249",
+      "externalCode": "RE_REHIRE_GE1",
+      "name": "Rehiring New hire",
+      "description": "Rehiring New hire",
+      "event": "5584",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-251",
+      "internalCode": "251",
+      "externalCode": "SUSP_SUSP",
+      "name": "Suspension",
+      "description": "Suspension",
+      "event": "5606",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-252",
+      "internalCode": "252",
+      "externalCode": "TERM_DISMISS",
+      "name": "Dismissal",
+      "description": "Dismissal",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-253",
+      "internalCode": "253",
+      "externalCode": "TERM_DM",
+      "name": "Termination (DM)",
+      "description": "Termination (DM)",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-254",
+      "internalCode": "254",
+      "externalCode": "TERM_ENDASSIGN",
+      "name": "End of Temporary Assignment",
+      "description": "End of Temporary Assignment",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-255",
+      "internalCode": "255",
+      "externalCode": "TERM_EOC",
+      "name": "End of Contract",
+      "description": "End of Contract",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-256",
+      "internalCode": "256",
+      "externalCode": "TERM_ERLRETIRE",
+      "name": "Early Retirement",
+      "description": "Early Retirement",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-257",
+      "internalCode": "257",
+      "externalCode": "TERM_LAYOFF",
+      "name": "Layoff",
+      "description": "Layoff",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-258",
+      "internalCode": "258",
+      "externalCode": "TERM_NOSHOW",
+      "name": "No Show",
+      "description": "No Show",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-259",
+      "internalCode": "259",
+      "externalCode": "TERM_PASSAWAY",
+      "name": "Passed away",
+      "description": "Passed away",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-260",
+      "internalCode": "260",
+      "externalCode": "TERM_RESIGN",
+      "name": "Resignation",
+      "description": "Resignation",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-322",
+      "internalCode": "322",
+      "externalCode": "TERM_REORG",
+      "name": "Reorganization",
+      "description": "Reorganization",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-262",
+      "internalCode": "262",
+      "externalCode": "TERM_TRANS",
+      "name": "Transfer Out",
+      "description": "Transfer Out",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-263",
+      "internalCode": "263",
+      "externalCode": "TERM_UNSUCPROB",
+      "name": "Unsuccessful probation",
+      "description": "Unsuccessful probation",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-264",
+      "internalCode": "264",
+      "externalCode": "TRN_ROTATION",
+      "name": "Rotation",
+      "description": "Rotation",
+      "event": "5604",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-265",
+      "internalCode": "265",
+      "externalCode": "TRN_TRNACCOMP",
+      "name": "Transfer across Company",
+      "description": "Transfer across Company",
+      "event": "5604",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-266",
+      "internalCode": "266",
+      "externalCode": "TRN_TRNWIC",
+      "name": "Transfer within Company",
+      "description": "Transfer within Company",
+      "event": "5604",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-226",
+      "internalCode": "226",
+      "externalCode": "DC_DC",
+      "name": "Data Change",
+      "description": "Data Change",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-301",
+      "internalCode": "301",
+      "externalCode": "TERM_COVID",
+      "name": "COVID-19 situation",
+      "description": "COVID-19 situation",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-227",
+      "internalCode": "227",
+      "externalCode": "DC_EXCONT",
+      "name": "Extend Contract",
+      "description": "Extend Contract",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-321",
+      "internalCode": "321",
+      "externalCode": "TERM_ABSENT",
+      "name": "Absent",
+      "description": "Absent",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-341",
+      "internalCode": "341",
+      "externalCode": "DC_CHGINLO",
+      "name": "Change in Location",
+      "description": "Change in Location",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-361",
+      "internalCode": "361",
+      "externalCode": "TERM_REDUNDANCY",
+      "name": "Redundancy",
+      "description": "Redundancy",
+      "event": "5597",
+      "category": "lifecycle",
+      "status": "active"
+    },
+    {
+      "id": "event-248",
+      "internalCode": "248",
+      "externalCode": "RESUSP_RESUSP",
+      "name": "Return from Suspension",
+      "description": "Return from Suspension",
+      "event": "5601",
+      "category": "other",
+      "status": "active"
+    },
+    {
+      "id": "event-250",
+      "internalCode": "250",
+      "externalCode": "RE_REHIRE_LT1",
+      "name": "Rehiring Replacement",
+      "description": "Rehiring Replacement",
+      "event": "5584",
+      "category": "lifecycle",
+      "status": "active"
+    }
+  ]
+}

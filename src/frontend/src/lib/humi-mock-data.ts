@@ -26,6 +26,28 @@ export interface HumiEmployee {
   status: EmployeeStatus;
   /** Tailwind-ish token class for avatar tint (reads tokens, not raw hex) */
   avatarTone: 'teal' | 'indigo' | 'sage' | 'butter' | 'ink';
+
+  // SF Parity fields (T1 #88 — Port SF data, all optional for backwards compat)
+  /** EN given name (SF parity: PerPersonal.firstName) */
+  firstNameEn?: string;
+  /** EN family name (SF parity: PerPersonal.lastName) */
+  lastNameEn?: string;
+  /** Preferred name / nickname (SF parity: PerPersonal.preferredName) */
+  nickname?: string;
+  /** Picklist value: 'single' | 'married' | 'divorced' | 'widowed' (SF: ECT_marital) */
+  maritalStatus?: 'single' | 'married' | 'divorced' | 'widowed';
+  /** Religion picklist (SF: ECT_religion) */
+  religion?: 'buddhist' | 'christian' | 'muslim' | 'hindu' | 'other' | 'none';
+  /** ABO blood type */
+  bloodType?: 'A' | 'B' | 'AB' | 'O';
+  /** Nationality code (ISO 3166-1 alpha-2 lowercased; SF: PerPersonal.nationality) */
+  nationality?: string;
+  /** Thai national ID (13 digits, masked at render) */
+  nationalId?: string;
+  /** Reporting manager id (RBAC scoping, T2 AC-5) */
+  managerId?: string;
+  /** Business unit id (RBAC scoping, T2 AC-5) */
+  businessUnitId?: string;
 }
 
 export const HUMI_EMPLOYEES: HumiEmployee[] = [
