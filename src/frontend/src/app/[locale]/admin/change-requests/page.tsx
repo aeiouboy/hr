@@ -48,6 +48,7 @@ export default function ChangeRequestsPage() {
       contact: [],
       bank: [],
       personal: [],
+      termination: [],
     };
     pending.forEach((pc) => {
       const key = pc.sectionKey ?? 'personal';

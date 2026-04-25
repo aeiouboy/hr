@@ -3513,7 +3513,10 @@
     "profileFieldNickname": "ชื่อเล่น",
     "profileFieldPhone": "เบอร์มือถือ",
     "profileFieldEmail": "อีเมลส่วนตัว",
-    "profileFieldAddress": "ที่อยู่"
+    "profileFieldAddress": "ที่อยู่",
+    "resignationSectionEyebrow": "การลาออก",
+    "resignationSectionDesc": "ยื่นคำขอลาออกและติดตามสถานะ",
+    "resignationSectionLink": "ดูคำขอลาออก"
   },
   "humiAnnouncements": {
     "subtitle": "ฟีดของทีมและบริษัท",

@@ -11,7 +11,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Check, FileText, Download, Pencil, X } from 'lucide-react';
+import Link from 'next/link';
+import { Check, FileText, Download, Pencil, X, FileX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
 import { HUMI_MY_PROFILE } from '@/lib/humi-mock-data';
@@ -1054,6 +1055,7 @@ export default function HumiProfileMePage() {
 
       {/* ── Job/Compensation tab ──────────────────────────────────────────── */}
       {panelKey === 'job' && (
+        <>
         <div className="grid gap-4 md:grid-cols-2">
           <FieldCard eyebrow={t('jobEyebrow')} title={t('jobTitle')} rows={p.job} labelW={160} />
           <div className="humi-col" style={{ gap: 16 }}>
@@ -1105,6 +1107,24 @@ export default function HumiProfileMePage() {
             </div>
           </div>
         </div>
+
+        {/* ── การลาออก link — Ken U1: keep as separate page ─────────────── */}
+        <div className="humi-card" style={{ marginTop: 16 }}>
+          <div className="humi-eyebrow">{t('resignationSectionEyebrow')}</div>
+          <div className="humi-row" style={{ marginTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="humi-row" style={{ gap: 10 }}>
+              <FileX className="h-5 w-5 text-ink-muted" aria-hidden />
+              <span style={{ fontSize: 14, color: 'var(--color-ink)' }}>{t('resignationSectionDesc')}</span>
+            </div>
+            <Link
+              href="/th/resignation"
+              className="text-sm font-medium text-accent hover:underline"
+            >
+              {t('resignationSectionLink')}
+            </Link>
+          </div>
+        </div>
+        </>
       )}
 
       {/* ── Emergency contacts tab ────────────────────────────────────────── */}
