@@ -1,0 +1,18 @@
+[
+  {
+    "passed": true,
+    "reasoning": "BRD #175 Org Chart Direct/Matrix toggle complete — TabKey union extended with 'org-chart' (label แผนผังทีม), renderOrgChart() recursive tree with 2-button toggle (สายตรง / สายไขว้), Matrix mode shows dottedLineManagerId tags inline, overview right col replaced with CTA card, MOCK_ORG populated with 2 dotted-line records (พลอย→กฤษ, ณัฐพงศ์→มาลี), 56/56 vitest PASS. Schema reused from #77 lock (managerId chain). Visual verified via Playwright with full-page screenshot showing Matrix mode active with proper tree hierarchy + dotted-line tags.",
+    "evidence": [
+      "Commit 6f3c96a: 4 files changed (manager-dashboard-page.tsx +110 LOC / use-manager-dashboard.ts MOCK_ORG / manager-dashboard-api.ts OrgNode interface / new test file 18 tests)",
+      "Vitest 56/56 PASS: team-tab.test (19) + org-chart-tab.test (18) + screens.smoke (19)",
+      "Playwright DOM eval: tab 'แผนผังทีม' clickable, 2 toggle buttons (สายตรง/สายไขว้), Matrix mode after-click shows 'สายไขว้' tags + 5 distinct names",
+      "Screenshot test-artifacts/run-78/screenshots/org-chart-matrix-mode.png — full tab + tree + Matrix tags rendered",
+      "Audit doc Section 5 #78 spec satisfied"
+    ],
+    "questionsUsed": [
+      "Does the new org-chart tab render with Direct/Matrix toggle and dotted-line tags?",
+      "Is overview right col CTA replacement working without regression?"
+    ],
+    "failureReason": null
+  }
+]
