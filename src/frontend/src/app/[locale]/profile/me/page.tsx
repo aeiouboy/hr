@@ -16,7 +16,9 @@ import Link from 'next/link';
 import { Check, FileText, Download, Pencil, X, FileX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
-import { HUMI_MY_PROFILE } from '@/lib/humi-mock-data';
+import { HUMI_MY_PROFILE, HUMI_EMPLOYEES, type HumiEmployee } from '@/lib/humi-mock-data';
+import { SF_PARITY_NEW_EMPLOYEES, withSfParity } from '@/lib/humi-mock-data-sf-parity';
+import { useAuthStore } from '@/stores/auth-store';
 import {
   useHumiProfileStore,
   type ProfileTab,
@@ -123,6 +125,82 @@ const FORM_DEFAULTS: EditFormValues = {
   militaryStatus: 'completed',
 };
 
+// T2 #89 — Persona → SF-parity employee mapping for /profile/me view-as.
+// Drives Personal tab content from ported HUMI_EMPLOYEES + SF_PARITY_OVERLAY,
+// not hardcoded FORM_DEFAULTS. When admin@ uses TopbarPersonaSwitcher to
+// view-as a role, /profile/me reflects that persona's employee record.
+const EMP_BY_LOGIN: Record<string, string> = {
+  'admin@humi.test':    'emp-005', // ผู้อำนวยการฝ่ายกลยุทธ์
+  'spd@humi.test':      'emp-001', // ผู้จัดการฝ่ายทรัพยากรบุคคล
+  'hrbp@humi.test':     'emp-007', // หัวหน้าทีมพัฒนาองค์กร
+  'manager@humi.test':  'emp-002', // นักวิเคราะห์การเงินอาวุโส
+  'employee@humi.test': 'emp-003', // วิศวกรซอฟต์แวร์อาวุโส
+};
+
+// All 100 ported employees with SF parity overlay applied.
+const ALL_PORTED_EMPLOYEES: HumiEmployee[] = [
+  ...HUMI_EMPLOYEES.map(withSfParity),
+  ...SF_PARITY_NEW_EMPLOYEES,
+];
+
+const MARITAL_TH: Record<string, string> = {
+  single: 'โสด',
+  married: 'สมรส',
+  divorced: 'หย่า',
+  widowed: 'หม้าย',
+};
+
+const RELIGION_TH: Record<string, string> = {
+  buddhist: 'พุทธ',
+  christian: 'คริสต์',
+  muslim: 'อิสลาม',
+  hindu: 'ฮินดู',
+  other: 'อื่นๆ',
+  none: 'ไม่ระบุ',
+};
+
+const NATIONALITY_TH: Record<string, string> = {
+  th: 'ไทย',
+  lao: 'ลาว',
+  myanmar: 'พม่า',
+  vietnam: 'เวียดนาม',
+};
+
+/** Mask Thai national ID: keep first + last 4 digits, mask middle. */
+export function maskNationalId(nid: string | undefined): string {
+  if (!nid) return '—';
+  const clean = nid.replace(/\D/g, '');
+  if (clean.length !== 13) return nid;
+  return `${clean[0]}-${clean.slice(1, 5).replace(/./g, 'X')}-${clean.slice(5, 9).replace(/./g, 'X')}-${clean.slice(9, 11)}-${clean[11]}${clean[12]}`;
+}
+
+/** Find ported employee for the current login email. Falls back to null. */
+export function employeeForLogin(email: string | null | undefined): HumiEmployee | null {
+  if (!email) return null;
+  const id = EMP_BY_LOGIN[email];
+  if (!id) return null;
+  return ALL_PORTED_EMPLOYEES.find((e) => e.id === id) ?? null;
+}
+
+/** Derive form defaults from a ported employee (T2 #89). Existing FORM_DEFAULTS
+ *  serves as fallback for fields not covered by HumiEmployee shape. */
+export function deriveFormValuesFromEmployee(emp: HumiEmployee | null): EditFormValues {
+  if (!emp) return FORM_DEFAULTS;
+  return {
+    ...FORM_DEFAULTS,
+    firstNameTh: emp.firstNameTh,
+    lastNameTh: emp.lastNameTh,
+    firstNameEn: emp.firstNameEn ?? FORM_DEFAULTS.firstNameEn,
+    lastNameEn: emp.lastNameEn ?? FORM_DEFAULTS.lastNameEn,
+    nickname: emp.nickname ?? FORM_DEFAULTS.nickname,
+    maritalStatus: emp.maritalStatus ? (MARITAL_TH[emp.maritalStatus] ?? FORM_DEFAULTS.maritalStatus) : FORM_DEFAULTS.maritalStatus,
+    religion: emp.religion ?? FORM_DEFAULTS.religion,
+    bloodType: emp.bloodType ?? FORM_DEFAULTS.bloodType,
+    nationality: emp.nationality ? (NATIONALITY_TH[emp.nationality] ?? FORM_DEFAULTS.nationality) : FORM_DEFAULTS.nationality,
+    nationalId: maskNationalId(emp.nationalId),
+  };
+}
+
 // ── PendingSectionBadge — shared chip shown on section headers with pending CR ──
 
 function PendingSectionBadge({ section }: { section: SectionKey }) {
@@ -169,7 +247,12 @@ export default function HumiProfileMePage() {
   const [showToastOk, setShowToastOk] = useState(false);
 
   // Full form state (local — submitted via single-step modal)
-  const [formValues, setFormValues] = useState<EditFormValues>(FORM_DEFAULTS);
+  // T2 #89 — derive defaults from ported HUMI_EMPLOYEES + SF parity, keyed by current login (auth-store
+  //          email reflects view-as persona via switchPersona). Falls back to FORM_DEFAULTS.
+  const currentEmail = useAuthStore((s) => s.email);
+  const portedEmployee = employeeForLogin(currentEmail);
+  const initialFormValues = deriveFormValuesFromEmployee(portedEmployee);
+  const [formValues, setFormValues] = useState<EditFormValues>(initialFormValues);
   const [pendingAttachmentIds, setPendingAttachmentIds] = useState<string[]>([]);
   const [activeEditField, setActiveEditField] = useState<keyof EditFormValues | null>(null);
   const [gateOpen, setGateOpen] = useState(false);
