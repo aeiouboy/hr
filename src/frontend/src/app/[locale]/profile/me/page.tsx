@@ -29,6 +29,7 @@ import { EmergencyContactList, areAllRowsValid } from '@/components/profile/Emer
 import { Address8Editor, isAddress8Valid } from '@/components/profile/Address8Editor';
 import { BankDetailsEditor, isBankValid } from '@/components/profile/BankDetailsEditor';
 import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/ContactArrayEditor';
+import CompensationSummary from '@/components/profile/CompensationSummary';
 
 // Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'docs' | 'tax';
@@ -1127,6 +1128,9 @@ export default function HumiProfileMePage() {
             </Link>
           </div>
         </div>
+
+        {/* ── BRD #170 ESS Compensation Summary ─────────────────────────── */}
+        <CompensationSummary />
         </>
       )}
 
