@@ -1,0 +1,18 @@
+[
+  {
+    "passed": true,
+    "reasoning": "BRD #177 Position & Vacancy Overview complete — NEW Position interface in hooks, MOCK_POSITIONS 7 records (3 IT + 2 Finance + 2 Sales matching #77 dept distribution), NEW tab 'ตำแหน่งและอัตรากำลัง' with TabKey extension, 3 stat cards (รวมตำแหน่ง 7 / ตำแหน่งว่าง 4 / อัตราว่าง 24%), 7-col table (รหัสตำแหน่ง / ชื่อตำแหน่ง / หน่วยงาน / ศูนย์ต้นทุน / อัตรากำลังจริง / อัตรากำลังเป้าหมาย / ตำแหน่งว่าง), vacancy computed inline (budget - actual), dept + status filter chips. Schema reuse: costCenter from #77 lock. 86/86 vitest PASS. Visual verified via Playwright.",
+    "evidence": [
+      "Commit 19e3808: 5 files changed (manager-dashboard-page.tsx +XX LOC / use-manager-dashboard.ts Position+MOCK_POSITIONS / new test 30 tests / 2 existing test mocks patched for useRouter)",
+      "Vitest 86/86 PASS: team-tab (19) + org-chart-tab (18) + positions-tab (30) + smoke (19)",
+      "Playwright DOM eval: tab clickable, 3 stat cards rendered (7 / 4 / 24%), 8 rows (7 data + header)",
+      "Screenshot test-artifacts/run-80/screenshots/positions-tab.png — full table + stat cards rendered",
+      "Audit doc Section 5 #80 spec satisfied (with route correction: /admin/positions vs audit's /admin/org/positions)"
+    ],
+    "questionsUsed": [
+      "Are 3 stat cards rendered with computed Total/Vacancy/Rate %?",
+      "Does vacancy column compute correctly per row from budget - actual?"
+    ],
+    "failureReason": null
+  }
+]
