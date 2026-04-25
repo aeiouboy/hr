@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/__tests__/humi-mock-data-years-in-x.test.ts (6 tests) 6ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  19:43:24
+   Duration  1.67s (transform 139ms, setup 122ms, collect 111ms, tests 6ms, environment 642ms, prepare 118ms)
+

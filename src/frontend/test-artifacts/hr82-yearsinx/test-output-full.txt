@@ -1,0 +1,3217 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/__tests__/employee-profile.test.tsx (57 tests) 16ms
+ ✓ src/__tests__/humi-profile-slice.test.ts (25 tests) 41ms
+ ❯ src/lib/__tests__/i18n-completeness.test.ts (48 tests | 1 failed) 249ms
+   × Thai translation quality > all EN values are non-Thai (no accidental Thai in EN) 24ms
+     → expected [ …(3) ] to deeply equal []
+stderr | src/__tests__/FileUploadField.test.tsx > Validation — file size > file > 5MB shows error message and does NOT call addAttachment
+[FileUploadField] rejected size: 6291456 bytes
+
+stderr | src/__tests__/FileUploadField.test.tsx > Validation — MIME type > .exe (application/octet-stream) is rejected with error message
+[FileUploadField] rejected mime: application/octet-stream
+
+stderr | src/__tests__/FileUploadField.test.tsx > Validation — MIME type > text/plain MIME is rejected
+[FileUploadField] rejected mime: text/plain
+
+ ✓ src/__tests__/FileUploadField.test.tsx (15 tests) 670ms
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I2 — onSelect emits full PositionCascade payload > cascade values match the selected position
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I2 — onSelect emits full PositionCascade payload > cascade values match the selected position
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I6 — keyboard ArrowDown/Enter/Escape > aria-expanded reflects open state
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I10 — selected chip renders + เปลี่ยน clears > selecting position shows chip
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I10 — selected chip renders + เปลี่ยน clears > selecting position shows chip
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I10 — selected chip renders + เปลี่ยน clears > clicking เปลี่ยน restores input field and calls onSelect(null)
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I10 — selected chip renders + เปลี่ยน clears > clicking เปลี่ยน restores input field and calls onSelect(null)
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I12 — Thai-primary chip with EN secondary > chip shows Thai title as primary and English title as secondary
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/__tests__/humi-responsive.test.tsx > AC-1 + AC-7 — AppShell mobile drawer > drawer panel has fixed inset-y-0 left-0 z-40 when mobileMenuOpen=true
+An update to Topbar inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AppShell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/humi-responsive.test.tsx > AC-1 + AC-7 — AppShell mobile drawer > backdrop has fixed inset-0 bg-ink/40 when mobileMenuOpen=true
+An update to Topbar inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AppShell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/humi-responsive.test.tsx > AC-1 + AC-7 — AppShell mobile drawer > no drawer panel rendered when mobileMenuOpen=false
+An update to Topbar inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AppShell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > I12 — Thai-primary chip with EN secondary > chip shows Thai title as primary and English title as secondary
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > E6 — long Thai title shows truncated chip > chip renders without overflow for 80-char title
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > E6 — long Thai title shows truncated chip > chip renders without overflow for 80-char title
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+stderr | src/components/admin/PositionLookup/PositionLookup.test.tsx > E8 — Unicode NFC normalization > matches Thai text regardless of NFC vs NFD form
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+[PositionLookup] Orphan managerPositionCode "POS-00002" on position "POS-00001"
+
+ ✓ src/components/admin/PositionLookup/PositionLookup.test.tsx (30 tests) 1758ms
+   ✓ I1 — only active positions in search results > typing a query does not show inactive positions 372ms
+ ✓ src/components/__tests__/effective-date-gate.test.tsx (39 tests) 1773ms
+stderr | src/__tests__/admin/useUsersPermissions.test.ts > createProxy validation > ถ้า startDate > endDate → ไม่สร้าง proxy (list ไม่เพิ่ม)
+[useUsersPermissions] createProxy: startDate (2026-12-31) ต้องไม่เกิน endDate (2026-01-01)
+
+stderr | src/__tests__/admin/useUsersPermissions.test.ts > deleteRole > ลบ system role ไม่ได้ — list ต้องเท่าเดิม
+[useUsersPermissions] deleteRole: role "role-employee" เป็น system role — ห้าม delete
+
+ ✓ src/__tests__/admin/useUsersPermissions.test.ts (19 tests) 83ms
+ ✓ src/lib/admin/store/__tests__/useEmploymentEvents.test.ts (22 tests) 44ms
+ ✓ src/components/admin/EffectiveDateGate/EffectiveDateGate.test.tsx (21 tests) 891ms
+ ✓ src/__tests__/humi-responsive.test.tsx (32 tests) 3940ms
+   ✓ AC-1 + AC-7 — AppShell mobile drawer > drawer panel has fixed inset-y-0 left-0 z-40 when mobileMenuOpen=true 538ms
+   ✓ AC-1 + AC-7 — AppShell mobile drawer > backdrop has fixed inset-0 bg-ink/40 when mobileMenuOpen=true 377ms
+ ✓ src/__tests__/humi-reference-smoke.test.tsx (25 tests) 4807ms
+   ✓ AC-4 smoke — /home > renders greeting section with Thai greeting text 1573ms
+ ✓ src/components/humi/__tests__/DataTable.test.tsx (18 tests) 675ms
+ ✓ src/__tests__/admin/useDataManagement.test.ts (28 tests) 165ms
+ ❯ src/__tests__/humi-functional.test.tsx (42 tests | 1 failed) 5789ms
+   ✓ AC-3 — /profile/me functional > clicking employment tab changes activeTab in Zustand store 1400ms
+   ✓ AC-3 — /profile/me functional > clicking edit button enters draft mode 419ms
+   ✓ AC-3 — /profile/me functional > clicking save after edit calls save and shows toast 481ms
+   ✓ AC-13 — /timeoff functional > renders validation error when fromDate > toDate 418ms
+   × AC-13 — /login functional > submitting login form calls router.push to /th/home 100ms
+     → expected "spy" to be called with arguments: [ '/th/home' ]
+
+Received: 
+
+
+
+Number of calls: 0
+
+ ✓ src/app/[locale]/__tests__/screens.smoke.test.tsx (19 tests) 1700ms
+   ✓ Dashboard — home/page.tsx (AC-2, AC-6) > render ไม่ crash (no throw) 465ms
+ ✓ src/components/manager/__tests__/manager-dashboard-reports-tab.test.tsx (28 tests) 2993ms
+ ✓ src/__tests__/ContactArrayEditor.test.tsx (21 tests) 204ms
+ ✓ src/__tests__/admin/AdminSelfServiceEditors.test.tsx (16 tests) 255ms
+ ✓ src/__tests__/humi-phase-b.test.tsx (14 tests) 952ms
+   ✓ b1 — OrgChartPage zoom/pan canvas > ZoomIn button increments transform scale 652ms
+ ✓ src/components/manager/__tests__/manager-dashboard-positions-tab.test.tsx (30 tests) 2737ms
+ ✓ src/components/manager/__tests__/manager-dashboard-team-tab.test.tsx (19 tests) 1369ms
+ ✓ src/__tests__/reason-modal.test.tsx (8 tests) 300ms
+stderr | src/__tests__/approver-list.test.tsx > empty state > Test 1: 0 pending → renders empty state key
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/approver-list.test.tsx > grouping by sectionKey > Test 2: 5 pending with 5 different sectionKeys → 5 group headings; each has 1 card
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/approver-list.test.tsx > grouping by sectionKey > Test 3: pending without sectionKey falls into personal group
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/approver-list.test.tsx > history section > Test 4: approved + rejected items appear in history, not in pending groups
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/approver-list.test.tsx > AC-6 live update > Test 5: approve via store → pending empties; history shows approved item
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ChangeRequestsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/__tests__/approver-list.test.tsx (5 tests) 282ms
+ ✓ src/__tests__/profile-me.section-submit.test.tsx (17 tests) 11ms
+ ✓ src/components/humi/__tests__/Nav.test.tsx (18 tests) 517ms
+ ✓ src/__tests__/humi-profile-slice.v2-migration.test.ts (10 tests) 10ms
+ ↓ src/__tests__/admin/StepIdentity.test.tsx (5 tests | 5 skipped)
+ ✓ src/__tests__/thai-heading-regression.test.tsx (11 tests) 1517ms
+   ✓ AC-7 — Thai headings regression — /home > home page has h1/h3 with Thai text 353ms
+ ✓ src/components/__tests__/sf-parity-sidebar.test.tsx (20 tests) 849ms
+ ✓ src/components/__tests__/sf-parity-employment.test.tsx (20 tests) 986ms
+ ✓ src/__tests__/admin/SystemReports.test.tsx (14 tests) 1218ms
+   ✓ ReportsHubPage — Reporting hub landing > TC-RPT-1: แสดง heading "รายงาน" 474ms
+ ✓ src/__tests__/EmergencyContactList.test.tsx (17 tests) 147ms
+ ✓ src/__tests__/admin/SystemSecurity.test.tsx (17 tests) 1072ms
+ ✓ src/components/manager/__tests__/manager-dashboard-org-chart-tab.test.tsx (18 tests) 1497ms
+ ✓ src/__tests__/BankDetailsEditor.test.tsx (21 tests) 159ms
+ ✓ src/__tests__/admin/useAdminSelfService.test.ts (8 tests) 83ms
+ ✓ src/lib/admin/wizard-template/__tests__/createClusterWizard.test.ts (10 tests) 10ms
+ ✓ src/components/humi/__tests__/Toggle.test.tsx (18 tests) 323ms
+ ✓ src/__tests__/humi-profile-slice.v3-migration.test.ts (5 tests) 7ms
+ ✓ src/components/humi/__tests__/Button.test.tsx (20 tests) 378ms
+ ✓ src/lib/calculations/__tests__/calcYearsInX.test.ts (21 tests) 10ms
+ ✓ src/components/__tests__/sf-parity-personal.test.tsx (17 tests) 586ms
+ ✓ src/__tests__/humi-profile-slice.approve-reject.test.ts (7 tests) 8ms
+ ✓ src/lib/admin/store/__tests__/state-fold.test.ts (15 tests) 23ms
+stderr | src/__tests__/admin/useLifecycleWizard.test.ts > useLifecycleWizard — setStepData > setStepData("transfer", ...) บน flow="rehire" ต้อง ignore และ warn (flow mismatch)
+[useLifecycleWizard] setStepData: flow mismatch — active=rehire, requested=transfer
+
+ ✓ src/__tests__/admin/useLifecycleWizard.test.ts (12 tests) 53ms
+ ✓ src/__tests__/admin/AdminSS-FieldConfig.test.tsx (6 tests) 579ms
+ ✓ src/lib/admin/store/__tests__/lifecycle-validator.test.ts (21 tests) 24ms
+ ✓ src/components/__tests__/employment-edit.test.tsx (14 tests) 1098ms
+   ✓ AC-2: EmploymentTab — edit pencil visible > renders at least one edit pencil button in Employment Details (AC-2) 356ms
+stderr | src/__tests__/resignation-page.timeline.test.tsx > AC-4: ResignationPage timeline แสดง "submitted" step หลัง submit > AC-4: หลัง submit สำเร็จ → timeline renders step 1 (submitted) active
+An update to ResignationPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/resignation-page.timeline.test.tsx > AC-4: ResignationPage timeline แสดง "submitted" step หลัง submit > AC-4: step 1 (submitted) ต้องมี active class (bg-brand) — first step always active หลัง submit
+An update to ResignationPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/resignation-page.timeline.test.tsx > AC-4: ResignationPage timeline แสดง "submitted" step หลัง submit > AC-4: ก่อน submit → ไม่มี timeline (แสดง empty state แทน)
+An update to ResignationPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/__tests__/resignation-page.timeline.test.tsx (3 tests) 177ms
+ ✓ src/__tests__/admin/AdminSSLifecycle.test.tsx (8 tests) 83ms
+stderr | src/components/humi/__tests__/QuickActionsTile.test.tsx > QuickActionsTile — AC-3 NAVIGATION > user-event click บน link ไม่ throw error
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at Timeout._onTimeout (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/living/nodes/HTMLHyperlinkElementUtils-impl.js:81:7)
+    at listOnTimeout (node:internal/timers:608:17)
+    at processTimers (node:internal/timers:543:7) undefined
+
+ ✓ src/__tests__/Address8Editor.test.tsx (15 tests) 226ms
+ ✓ src/components/humi/__tests__/QuickActionsTile.test.tsx (19 tests) 547ms
+stderr | src/__tests__/profile-me.resign-link.test.tsx > AC-5: profile/me Employment tab มี link ไปยัง /resignation > AC-5: ต้องมี <a> ที่ href ประกอบด้วย "resignation"
+An update to HumiProfileMePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/profile-me.resign-link.test.tsx > AC-5: profile/me Employment tab มี link ไปยัง /resignation > AC-5: resignation link ต้องมี Thai label (ดูคำขอลาออก)
+An update to HumiProfileMePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/profile-me.resign-link.test.tsx > AC-5: profile/me Employment tab มี link ไปยัง /resignation > AC-5: resignation link href ต้องมี path "/resignation"
+An update to HumiProfileMePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/__tests__/profile-me.resign-link.test.tsx (3 tests) 523ms
+   ✓ AC-5: profile/me Employment tab มี link ไปยัง /resignation > AC-5: ต้องมี <a> ที่ href ประกอบด้วย "resignation" 454ms
+ ✓ src/__tests__/admin/StepBiographical-marital.test.tsx (13 tests) 1562ms
+ ✓ src/__tests__/admin/UsersAudit.test.tsx (12 tests) 92ms
+ ✓ src/components/__tests__/personal-info-edit.test.tsx (12 tests) 1365ms
+ ✓ src/__tests__/admin/EmployeePicker.test.tsx (14 tests) 890ms
+   ✓ EmployeePicker — render + accessibility > ต้อง render combobox input + label ภาษาไทย 306ms
+stderr | src/__tests__/admin/UsersAssignment.test.tsx > Proxy Date Range Validation > TC-PX-1: createProxy startDate > endDate → ไม่สร้าง proxy (invalid date range)
+[useUsersPermissions] createProxy: startDate (2026-12-31) ต้องไม่เกิน endDate (2026-01-01)
+
+ ✓ src/__tests__/admin/UsersAssignment.test.tsx (9 tests) 63ms
+stderr | src/__tests__/admin/useHireWizard.test.ts > useHireWizard — jumpTo gating > jumpTo(step > maxUnlockedStep) ต้องไม่เปลี่ยน currentStep
+[useHireWizard] jumpTo: step 3 ยังถูกล็อคอยู่ (max: 1)
+
+ ✓ src/__tests__/admin/useHireWizard.test.ts (10 tests) 109ms
+stderr | src/__tests__/use-resignation.ssot.test.ts > AC-2 (runtime): store update → hook re-renders พร้อม record ใหม่ > AC-2: ก่อน submit — record เป็น null (ไม่มี termination ใน store)
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/use-resignation.ssot.test.ts > AC-2 (runtime): store update → hook re-renders พร้อม record ใหม่ > AC-2: หลัง submitChangeRequest โดยตรง → hook เห็น record ทันที (reactive)
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/use-resignation.ssot.test.ts > AC-2 (runtime): store update → hook re-renders พร้อม record ใหม่ > AC-2: record.status เป็น "submitted" เมื่อ PendingChange.status="pending"
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/__tests__/use-resignation.ssot.test.ts (5 tests) 36ms
+ ✓ src/__tests__/layout-integration.test.tsx (50 tests) 4941ms
+   ✓ AC-1 — sidebar element present on all routes > sidebar visible at /th/home 382ms
+ ✓ src/__tests__/admin/visibilityMatrix.test.ts (17 tests) 8ms
+ ✓ src/lib/calculations/__tests__/calcYearOfService.test.ts (13 tests) 9ms
+stderr | src/__tests__/admin/useProfileEdit.test.ts > useProfileEdit — submit flow > submit ต้องตั้ง isSubmitting=true ระหว่างรัน
+[useProfileEdit] submit: no field changes — skip
+
+ ✓ src/__tests__/admin/useProfileEdit.test.ts (8 tests) 594ms
+ ✓ src/lib/admin/validation/__tests__/hireSchema.test.ts (6 tests) 9ms
+ ✓ src/__tests__/admin/hireSchema.test.ts (13 tests) 11ms
+ ✓ src/__tests__/admin/SystemFeatures.test.tsx (9 tests) 716ms
+   ✓ SystemFeaturesPage — hub landing > TC-SF-1: แสดง heading "System Features" + current language indicator (seed=th → "ภาษาไทย") 366ms
+ ✓ src/components/__tests__/edit-pencil.test.tsx (12 tests) 504ms
+   ✓ EditPencilButton — icon > renders a button element 338ms
+stderr | src/__tests__/admin/UsersRoleGroups.test.tsx > Delete Role Protection > TC-RG-5: ลบ system role (role-employee) ไม่ได้ — list ต้องไม่เปลี่ยน
+[useUsersPermissions] deleteRole: role "role-employee" เป็น system role — ห้าม delete
+
+ ✓ src/__tests__/admin/UsersRoleGroups.test.tsx (6 tests) 74ms
+ ✓ src/lib/calculations/__tests__/calcAge.test.ts (28 tests) 10ms
+ ✓ src/__tests__/admin/EffectiveDatePicker.test.tsx (11 tests) 167ms
+stderr | src/__tests__/use-resignation.submit.test.ts > AC-1: submitResignation เพิ่ม PendingChange ที่ sectionKey="termination" > AC-1: หลัง submitResignation ต้องมี entry ใน pendingChanges พร้อม sectionKey="termination"
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/use-resignation.submit.test.ts > AC-1: submitResignation เพิ่ม PendingChange ที่ sectionKey="termination" > AC-1: PendingChange ต้องมี field="employmentStatus" + newValue เท่ากับ reasonCode ที่ส่งเข้ามา
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/use-resignation.submit.test.ts > AC-1: submitResignation เพิ่ม PendingChange ที่ sectionKey="termination" > AC-1: effectiveDate ใน PendingChange ต้องตรงกับ lastWorkingDate ที่ส่งเข้ามา
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/use-resignation.submit.test.ts > AC-1: submitResignation เพิ่ม PendingChange ที่ sectionKey="termination" > AC-1: PendingChange ต้องมี status="pending" หลัง submit (ยังรอ SPD approve)
+An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/__tests__/use-resignation.submit.test.ts (4 tests) 44ms
+ ✓ src/__tests__/admin/ReasonPicker.test.tsx (11 tests) 337ms
+ ✓ src/__tests__/humi-mock-data-years-in-x.test.ts (6 tests) 5ms
+ ✓ src/components/humi/__tests__/Modal.responsive.test.tsx (6 tests) 123ms
+ ✓ src/__tests__/admin/mockEmployees.test.ts (7 tests) 8ms
+ ✓ src/__tests__/admin/seed-loaders.test.ts (8 tests) 29ms
+ ✓ src/__tests__/ReasonPicker.modes.test.tsx (5 tests) 250ms
+ ✓ src/__tests__/admin/Stepper.test.tsx (4 tests) 557ms
+ ✓ src/__tests__/admin/classifyRehireReason.test.ts (15 tests) 4ms
+ ✓ src/__tests__/admin/SystemLandingHub.test.tsx (5 tests) 288ms
+stderr | src/__tests__/admin/ProfileEdit.test.tsx > ProfileEditPage — ส่งเพื่ออนุมัติ > คลิก "ส่งเพื่ออนุมัติ" ต้องเรียก submit store + แสดง toast success
+[useProfileEdit] submit: no field changes — skip
+
+ ✓ src/lib/__tests__/leave.test.ts (14 tests) 6ms
+ ✓ src/app/[locale]/admin/employees/[id]/promotion/__tests__/page.test.tsx (19 tests) 43ms
+ ✓ src/lib/__tests__/rbac.test.ts (13 tests) 5ms
+ ✓ src/__tests__/admin/ProfileView.test.tsx (4 tests) 384ms
+   ✓ ProfileViewPage — 4 section cards > แสดง section ข้อมูลส่วนตัว พร้อมชื่อไทยและอังกฤษของพนักงาน 337ms
+ ✓ src/app/[locale]/admin/hire/steps/__tests__/StepIdentity.vn-issue-place.test.tsx (3 tests) 587ms
+   ✓ AC-5 R3 VN Issue Place — conditional render ตาม nationality/country > Case 1: nationality="VN" → สถานที่ออกบัตร input ต้องแสดง 301ms
+ ✓ src/__tests__/admin/SystemIntegration.test.tsx (5 tests) 378ms
+ ✓ src/__tests__/admin/EssHomePage.test.tsx (6 tests) 327ms
+ ✓ src/lib/__tests__/date.test.ts (11 tests) 25ms
+ ❯ src/__tests__/admin/WorkflowsPage.test.tsx (5 tests | 4 failed) 157ms
+   × WorkflowsPage — workflow list > แสดง 2 workflow entries ใน list 33ms
+     → Unable to find an accessible element with the role "list" and name `/รายการคำขอของฉัน/i`
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "คำขอของฉัน":
+  [36m<h1[39m
+    [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-body text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  link:
+
+  Name "ยื่นคำขอใหม่":
+  [36m<a[39m
+    [33mclass[39m=[32m"humi-btn-primary"[39m
+    [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+    [33mstyle[39m=[32m"align-self: flex-start;"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-8"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 20px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-row"[39m
+        [33mstyle[39m=[32m"justify-content: space-between; flex-wrap: wrap; gap: 10px;"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mคำขอของฉัน[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+          [36m>[39m
+            [0mประวัติคำขอแก้ไขข้อมูลและสถานะการอนุมัติ[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"humi-btn-primary"[39m
+          [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+          [33mstyle[39m=[32m"align-self: flex-start;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"14"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mstyle[39m=[32m"display: inline; margin-right: 4px;"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"14"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mยื่นคำขอใหม่[0m
+        [36m</a>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-card humi-card--cream"[39m
+        [33mstyle[39m=[32m"text-align: center; padding: 40px;"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-body text-ink-muted"[39m
+        [36m>[39m
+          [0mยังไม่มีคำขอที่คุณส่ง[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+        [36m>[39m
+          [0mคลิก "ยื่นคำขอใหม่" ด้านบนเพื่อเริ่มคำขอแก้ไขข้อมูล[0m
+        [36m</p>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   × WorkflowsPage — workflow list > รายการแรกต้อง status "รออนุมัติ" (pending badge) 7ms
+     → Unable to find an element with the text: รออนุมัติ. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-8"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 20px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-row"[39m
+        [33mstyle[39m=[32m"justify-content: space-between; flex-wrap: wrap; gap: 10px;"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mคำขอของฉัน[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+          [36m>[39m
+            [0mประวัติคำขอแก้ไขข้อมูลและสถานะการอนุมัติ[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"humi-btn-primary"[39m
+          [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+          [33mstyle[39m=[32m"align-self: flex-start;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"14"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mstyle[39m=[32m"display: inline; margin-right: 4px;"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"14"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mยื่นคำขอใหม่[0m
+        [36m</a>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-card humi-card--cream"[39m
+        [33mstyle[39m=[32m"text-align: center; padding: 40px;"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-body text-ink-muted"[39m
+        [36m>[39m
+          [0mยังไม่มีคำขอที่คุณส่ง[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+        [36m>[39m
+          [0mคลิก "ยื่นคำขอใหม่" ด้านบนเพื่อเริ่มคำขอแก้ไขข้อมูล[0m
+        [36m</p>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   × WorkflowsPage — workflow list > รายการที่สองต้อง status "อนุมัติแล้ว" (approved badge) 6ms
+     → Unable to find an element with the text: อนุมัติแล้ว. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-8"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 20px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-row"[39m
+        [33mstyle[39m=[32m"justify-content: space-between; flex-wrap: wrap; gap: 10px;"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mคำขอของฉัน[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+          [36m>[39m
+            [0mประวัติคำขอแก้ไขข้อมูลและสถานะการอนุมัติ[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"humi-btn-primary"[39m
+          [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+          [33mstyle[39m=[32m"align-self: flex-start;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"14"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mstyle[39m=[32m"display: inline; margin-right: 4px;"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"14"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mยื่นคำขอใหม่[0m
+        [36m</a>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-card humi-card--cream"[39m
+        [33mstyle[39m=[32m"text-align: center; padding: 40px;"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-body text-ink-muted"[39m
+        [36m>[39m
+          [0mยังไม่มีคำขอที่คุณส่ง[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+        [36m>[39m
+          [0mคลิก "ยื่นคำขอใหม่" ด้านบนเพื่อเริ่มคำขอแก้ไขข้อมูล[0m
+        [36m</p>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   × WorkflowsPage — workflow list > "ยื่นคำขอใหม่" button ต้อง link ไป /ess/profile/edit 15ms
+     → expect(element).toHaveAttribute("href", "/ess/profile/edit") // element.getAttribute("href") === "/ess/profile/edit"
+
+Expected the element to have attribute:
+  href="/ess/profile/edit"
+Received:
+  href="/th/ess/profile/edit"
+stderr | src/__tests__/admin/ProfileEdit.test.tsx > ProfileEditPage — ส่งเพื่ออนุมัติ > ระหว่าง submit — ปุ่มต้องแสดง loading state "กำลังส่ง..." เมื่อ isSubmitting=true
+An update to ProfileEditPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ❯ src/__tests__/admin/ProfileEdit.test.tsx (6 tests | 4 failed) 4610ms
+   × ProfileEditPage — 4 sections render > แสดง 4 section headings: ชื่อ-นามสกุล, วันเกิด, ที่อยู่, ผู้ติดต่อฉุกเฉิน 939ms
+     → Unable to find an accessible element with the role "heading" and name "ชื่อ-นามสกุล"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "แก้ไขข้อมูลส่วนตัว":
+  [36m<h1[39m
+    [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-xs text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-base font-medium text-ink"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm text-ink font-mono"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Salutation (EN) *":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"salutationEn"[39m
+    [33mrequired[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Salutation (Local) *":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"salutationLocal"[39m
+    [33mrequired[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Other Title (TH)":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"otherTitleTh"[39m
+  [36m/>[39m
+
+  Name "Marital Status":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"maritalStatus"[39m
+  [36m/>[39m
+
+  Name "Military Status":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"militaryStatus"[39m
+  [36m/>[39m
+
+  Name "Country/Region *":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"country"[39m
+    [33mrequired[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Disability Status":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"disabilityStatus"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  option:
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Mr.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Mr."[39m
+  [36m/>[39m
+
+  Name "Mrs.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Mrs."[39m
+  [36m/>[39m
+
+  Name "Ms.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Ms."[39m
+  [36m/>[39m
+
+  Name "Miss":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Miss"[39m
+  [36m/>[39m
+
+  Name "Dr.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Dr."[39m
+  [36m/>[39m
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "นาย":
+  [36m<option[39m
+    [33mvalue[39m=[32m"นาย"[39m
+  [36m/>[39m
+
+  Name "นาง":
+  [36m<option[39m
+    [33mvalue[39m=[32m"นาง"[39m
+  [36m/>[39m
+
+  Name "นางสาว":
+  [36m<option[39m
+    [33mvalue[39m=[32m"นางสาว"[39m
+  [36m/>[39m
+
+  Name "ดร.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"ดร."[39m
+  [36m/>[39m
+
+  Name "No Selection":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "ร้อยเอก":
+  [36m<option[39m
+    [33mvalue[39m=[32m"ร้อยเอก"[39m
+  [36m/>[39m
+
+  Name "พ.ต.ท.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"พ.ต.ท."[39m
+  [36m/>[39m
+
+  Name "ศ.ดร.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"ศ.ดร."[39m
+  [36m/>[39m
+
+  Name "Single":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Single"[39m
+  [36m/>[39m
+
+  Name "Married":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Married"[39m
+  [36m/>[39m
+
+  Name "Divorced":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Divorced"[39m
+  [36m/>[39m
+
+  Name "Widowed":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Widowed"[39m
+  [36m/>[39m
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Completed":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Completed"[39m
+  [36m/>[39m
+
+  Name "Exempted":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Exempted"[39m
+  [36m/>[39m
+
+  Name "Studying RTC":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Studying RTC"[39m
+  [36m/>[39m
+
+  Name "Pending":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Pending"[39m
+  [36m/>[39m
+
+  Name "N/A":
+  [36m<option[39m
+    [33mvalue[39m=[32m"N/A"[39m
+  [36m/>[39m
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Thailand":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Thailand"[39m
+  [36m/>[39m
+
+  Name "Vietnam":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Vietnam"[39m
+  [36m/>[39m
+
+  Name "Malaysia":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Malaysia"[39m
+  [36m/>[39m
+
+  Name "— ไม่ระบุ —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "None":
+  [36m<option[39m
+    [33mvalue[39m=[32m"None"[39m
+  [36m/>[39m
+
+  Name "Physical":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Physical"[39m
+  [36m/>[39m
+
+  Name "Visual":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Visual"[39m
+  [36m/>[39m
+
+  Name "Hearing":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Hearing"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Firstname (EN) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"firstNameEn"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Chongrak"[39m
+  [36m/>[39m
+
+  Name "Middle Name (EN)":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"middleNameEn"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Lastname (EN) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"lastNameEn"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Tanaka"[39m
+  [36m/>[39m
+
+  Name "Nickname (EN/TH)":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"nickname"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Firstname (Local) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"firstNameTh"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"จงรักษ์"[39m
+  [36m/>[39m
+
+  Name "Middle Name (Local)":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"middleNameTh"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Lastname (Local) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"lastNameTh"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"ทานากะ"[39m
+  [36m/>[39m
+
+  Name "Gender":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mid[39m=[32m"gender"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Male"[39m
+  [36m/>[39m
+
+  Name "Nationality *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mid[39m=[32m"nationality"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Thailand"[39m
+  [36m/>[39m
+
+  Name "Blood Type":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mid[39m=[32m"bloodType"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"O"[39m
+  [36m/>[39m
+
+  Name "Religion":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"religion"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Buddhism"[39m
+  [36m/>[39m
+
+  Name "บ้านเลขที่ *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressHouseNo"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"555/24"[39m
+  [36m/>[39m
+
+  Name "หมู่":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressMoo"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "ซอย":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressSoi"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"สุขุมวิท 23"[39m
+  [36m/>[39m
+
+  Name "ถนน":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressRoad"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"สุขุมวิท"[39m
+  [36m/>[39m
+
+  Name "ตำบล/แขวง *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressSubdistrict"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"คลองเตย"[39m
+  [36m/>[39m
+
+  Name "อำเภอ/เขต *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressDistrict"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"คลองเตย"[39m
+  [36m/>[39m
+
+  Name "จังหวัด *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressProvince"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"กรุงเทพมหานคร"[39m
+  [36m/>[39m
+
+  Name "รหัสไปรษณีย์ *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressPostalCode"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mpattern[39m=[32m"[0-9]{5}"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"10110"[39m
+  [36m/>[39m
+
+  Name "ชื่อ-นามสกุล *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"emergencyContactName"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"ชัยชนะ เทพย์ตุ้มเขา"[39m
+  [36m/>[39m
+
+  Name "เบอร์โทรศัพท์ *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"emergencyContactPhone"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"tel"[39m
+    [33mvalue[39m=[32m"0865254197"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "ยังไม่มีเอกสารแนบ ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์ · สูงสุด 5 MB":
+  [36m<div[39m
+    [33mclass[39m=[32m"flex flex-col items-center justify-center gap-2 rounded-xl cursor-pointer border border-dashed py-12 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border-hairline hover:bg-canvas-soft focus-visible:ring-accent"[39m
+    [33mrole[39m=[32m"button"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "ข้อมูลเพิ่มเติม (Global Information)":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33mclass[39m=[32m"flex items-center gap-2 w-full px-5 py-4 text-left hover:bg-canvas-soft/50 transition-colors"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "บันทึกร่าง":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 rounded-md font-medium font-sans transition-[background,border,box-shadow,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-canvas disabled:pointer-events-none disabled:opacity-50 select-none whitespace-nowrap bg-transparent border border-transparent hover:bg-accent-soft/70 active:bg-accent-soft h-10 px-4 text-body"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "ส่งเพื่ออนุมัติ":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 rounded-md font-medium font-sans transition-[background,border,box-shadow,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-canvas disabled:pointer-events-none disabled:opacity-50 select-none whitespace-nowrap bg-accent shadow-sm hover:shadow-md hover:bg-[color-mix(in_oklab,var(--color-accent)_92%,black)] active:bg-[color-mix(in_oklab,var(--color-accent)_85%,black)] h-10 px-4 text-body"[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-24"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+        [36m>[39m
+          [0mแก้ไขข้อมูลส่วนตัว[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+        [36m>[39m
+          [0mการแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33mnovalidate[39m=[32m""[39m
+        [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 16px;"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+            [33mfor[39m=[32m"effective-date"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-calendar-days inline mr-1"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"12"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"12"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 2v4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 2v4"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mrx[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mx[39m=[32m"3"[39m
+                [33my[39m=[32m"4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M3 10h18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 18h.01"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mการเปลี่ยนแปลงนี้จะมีผลเมื่อไหร่?[0m
+            [36m<span[39m
+              [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+            [36m>[39m
+              [0m*[0m
+            [36m</span>[39m
+          [36m</label>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted max-w-xs"[39m
+            [33mid[39m=[32m"effective-date"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mtype[39m=[32m"date"[39m
+            [33mvalue[39m=[32m"2026-04-25"[39m
+          [36m/>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 20px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"humi-eyebrow mb-4"[39m
+          [36m>[39m
+            [0mข้อมูลส่วนตัว (Personal Information)[0m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"salutationEn"[39m
+              [36m>[39m
+                [0mSalutation (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<select[39m
+                [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+                [33mid[39m=[32m"salutationEn"[39m
+                [33mrequired[39m=[32m""[39m
+              [36m>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0m— เลือก —[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mr."[39m
+                [36m>[39m
+                  [0mMr.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mrs."[39m
+                [36m>[39m
+                  [0mMrs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Ms."[39m
+                [36m>[39m
+                  [0mMs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Miss"[39m
+                [36m>[39m
+                  [0mMiss[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Dr."[39m
+                [36m>[39m
+                  [0mDr.[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</div>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"firstNameEn"[39m
+              [36m>[39m
+                [0mFirstname (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mclass[39m=[32m"w-full rounded-md border border...
+   × ProfileEditPage — 4 sections render > National ID section ต้องแสดงเป็น read-only (ไม่มี editable input) 187ms
+     → Unable to find an element with the text: เลขบัตรประชาชน. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-24"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+        [36m>[39m
+          [0mแก้ไขข้อมูลส่วนตัว[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+        [36m>[39m
+          [0mการแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33mnovalidate[39m=[32m""[39m
+        [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 16px;"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+            [33mfor[39m=[32m"effective-date"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-calendar-days inline mr-1"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"12"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"12"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 2v4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 2v4"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mrx[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mx[39m=[32m"3"[39m
+                [33my[39m=[32m"4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M3 10h18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 18h.01"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mการเปลี่ยนแปลงนี้จะมีผลเมื่อไหร่?[0m
+            [36m<span[39m
+              [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+            [36m>[39m
+              [0m*[0m
+            [36m</span>[39m
+          [36m</label>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted max-w-xs"[39m
+            [33mid[39m=[32m"effective-date"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mtype[39m=[32m"date"[39m
+            [33mvalue[39m=[32m"2026-04-25"[39m
+          [36m/>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 20px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"humi-eyebrow mb-4"[39m
+          [36m>[39m
+            [0mข้อมูลส่วนตัว (Personal Information)[0m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"salutationEn"[39m
+              [36m>[39m
+                [0mSalutation (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<select[39m
+                [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+                [33mid[39m=[32m"salutationEn"[39m
+                [33mrequired[39m=[32m""[39m
+              [36m>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0m— เลือก —[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mr."[39m
+                [36m>[39m
+                  [0mMr.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mrs."[39m
+                [36m>[39m
+                  [0mMrs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Ms."[39m
+                [36m>[39m
+                  [0mMs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Miss"[39m
+                [36m>[39m
+                  [0mMiss[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Dr."[39m
+                [36m>[39m
+                  [0mDr.[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</div>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"firstNameEn"[39m
+              [36m>[39m
+                [0mFirstname (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mclass[39m=[32m"w-full rounded-md border border...
+   × ProfileEditPage — 4 sections render > required fields ต้องมี asterisk (*) กำกับ 72ms
+     → expected 0 to be greater than or equal to 4
+   × ProfileEditPage — ส่งเพื่ออนุมัติ > คลิก "ส่งเพื่ออนุมัติ" ต้องเรียก submit store + แสดง toast success 3163ms
+     → expected 'ไม่มีการเปลี่ยนแปลงให้ส่ง — กรุณาแก้ไ…' to contain 'ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว'
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"pb-24"[39m
+        [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"fixed top-4 right-4 z-50 rounded-md bg-accent text-white px-4 py-3 text-sm shadow-lg"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0mไม่มีการเปลี่ยนแปลงให้ส่ง — กรุณาแก้ไขข้อมูลก่อน[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mแก้ไขข้อมูลส่วนตัว[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+          [36m>[39m
+            [0mการแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<form[39m
+          [33mnovalidate[39m=[32m""[39m
+          [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"humi-card"[39m
+            [33mstyle[39m=[32m"padding: 16px;"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+              [33mfor[39m=[32m"effective-date"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-calendar-days inline mr-1"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"12"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"12"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 2v4"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 2v4"[39m
+                [36m/>[39m
+                [36m<rect[39m
+                  [33mheight[39m=[32m"18"[39m
+                  [33mrx[39m=[32m"2"[39m
+                  [33mwidth[39m=[32m"18"[39m
+                  [33mx[39m=[32m"3"[39m
+                  [33my[39m=[32m"4"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 10h18"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 14h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 14h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 14h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 18h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 18h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 18h.01"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mการเปลี่ยนแปลงนี้จะมีผลเมื่อไหร่?[0m
+              [36m<span[39m
+                [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+              [36m>[39m
+                [0m*[0m
+              [36m</span>[39m
+            [36m</label>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted max-w-xs"[39m
+              [33mid[39m=[32m"effective-date"[39m
+              [33mrequired[39m=[32m""[39m
+              [33mtype[39m=[32m"date"[39m
+              [33mvalue[39m=[32m"2026-04-25"[39m
+            [36m/>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"humi-card"[39m
+            [33mstyle[39m=[32m"padding: 20px;"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"humi-eyebrow mb-4"[39m
+            [36m>[39m
+              [0mข้อมูลส่วนตัว (Personal Information)[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                  [33mfor[39m=[32m"salutationEn"[39m
+                [36m>[39m
+                  [0mSalutation (EN)[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                  [36m>[39m
+                    [0m*[0m
+                  [36m</span>[39m
+                [36m</label>[39m
+                [36m<select[39m
+                  [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+                  [33mid[39m=[32m"salutationEn"[39m
+                  [33mrequired[39m=[32m""[39m
+                [36m>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m>[39m
+                    [0m— เลือก —[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Mr."[39m
+                  [36m>[39m
+                    [0mMr.[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Mrs."[39m
+                  [36m>[39m
+                    [0mMrs.[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Ms."[39m
+                  [36m>[39m
+                    [0mMs.[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Miss"[39m
+                  [36m>[39m
+                    [0mMiss[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Dr."[39m
+                  [36m>[39m
+                    [0mDr.[0m
+              ...
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/humi-functional.test.tsx > AC-13 — /login functional > submitting login form calls router.push to /th/home
+AssertionError: expected "spy" to be called with arguments: [ '/th/home' ]
+
+Received: 
+
+
+
+Number of calls: 0
+
+ ❯ src/__tests__/humi-functional.test.tsx:591:22
+    589|     await user.click(submitBtn);
+    590| 
+    591|     expect(mockPush).toHaveBeenCalledWith('/th/home');
+       |                      ^
+    592|   });
+    593| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/__tests__/admin/ProfileEdit.test.tsx > ProfileEditPage — 4 sections render > แสดง 4 section headings: ชื่อ-นามสกุล, วันเกิด, ที่อยู่, ผู้ติดต่อฉุกเฉิน
+TestingLibraryElementError: Unable to find an accessible element with the role "heading" and name "ชื่อ-นามสกุล"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "แก้ไขข้อมูลส่วนตัว":
+  [36m<h1[39m
+    [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-xs text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-base font-medium text-ink"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm text-ink font-mono"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Salutation (EN) *":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"salutationEn"[39m
+    [33mrequired[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Salutation (Local) *":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"salutationLocal"[39m
+    [33mrequired[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Other Title (TH)":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"otherTitleTh"[39m
+  [36m/>[39m
+
+  Name "Marital Status":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"maritalStatus"[39m
+  [36m/>[39m
+
+  Name "Military Status":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"militaryStatus"[39m
+  [36m/>[39m
+
+  Name "Country/Region *":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"country"[39m
+    [33mrequired[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Disability Status":
+  [36m<select[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"disabilityStatus"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  option:
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Mr.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Mr."[39m
+  [36m/>[39m
+
+  Name "Mrs.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Mrs."[39m
+  [36m/>[39m
+
+  Name "Ms.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Ms."[39m
+  [36m/>[39m
+
+  Name "Miss":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Miss"[39m
+  [36m/>[39m
+
+  Name "Dr.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Dr."[39m
+  [36m/>[39m
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "นาย":
+  [36m<option[39m
+    [33mvalue[39m=[32m"นาย"[39m
+  [36m/>[39m
+
+  Name "นาง":
+  [36m<option[39m
+    [33mvalue[39m=[32m"นาง"[39m
+  [36m/>[39m
+
+  Name "นางสาว":
+  [36m<option[39m
+    [33mvalue[39m=[32m"นางสาว"[39m
+  [36m/>[39m
+
+  Name "ดร.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"ดร."[39m
+  [36m/>[39m
+
+  Name "No Selection":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "ร้อยเอก":
+  [36m<option[39m
+    [33mvalue[39m=[32m"ร้อยเอก"[39m
+  [36m/>[39m
+
+  Name "พ.ต.ท.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"พ.ต.ท."[39m
+  [36m/>[39m
+
+  Name "ศ.ดร.":
+  [36m<option[39m
+    [33mvalue[39m=[32m"ศ.ดร."[39m
+  [36m/>[39m
+
+  Name "Single":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Single"[39m
+  [36m/>[39m
+
+  Name "Married":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Married"[39m
+  [36m/>[39m
+
+  Name "Divorced":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Divorced"[39m
+  [36m/>[39m
+
+  Name "Widowed":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Widowed"[39m
+  [36m/>[39m
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Completed":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Completed"[39m
+  [36m/>[39m
+
+  Name "Exempted":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Exempted"[39m
+  [36m/>[39m
+
+  Name "Studying RTC":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Studying RTC"[39m
+  [36m/>[39m
+
+  Name "Pending":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Pending"[39m
+  [36m/>[39m
+
+  Name "N/A":
+  [36m<option[39m
+    [33mvalue[39m=[32m"N/A"[39m
+  [36m/>[39m
+
+  Name "— เลือก —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Thailand":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Thailand"[39m
+  [36m/>[39m
+
+  Name "Vietnam":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Vietnam"[39m
+  [36m/>[39m
+
+  Name "Malaysia":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Malaysia"[39m
+  [36m/>[39m
+
+  Name "— ไม่ระบุ —":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "None":
+  [36m<option[39m
+    [33mvalue[39m=[32m"None"[39m
+  [36m/>[39m
+
+  Name "Physical":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Physical"[39m
+  [36m/>[39m
+
+  Name "Visual":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Visual"[39m
+  [36m/>[39m
+
+  Name "Hearing":
+  [36m<option[39m
+    [33mvalue[39m=[32m"Hearing"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Firstname (EN) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"firstNameEn"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Chongrak"[39m
+  [36m/>[39m
+
+  Name "Middle Name (EN)":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"middleNameEn"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Lastname (EN) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"lastNameEn"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Tanaka"[39m
+  [36m/>[39m
+
+  Name "Nickname (EN/TH)":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"nickname"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Firstname (Local) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"firstNameTh"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"จงรักษ์"[39m
+  [36m/>[39m
+
+  Name "Middle Name (Local)":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"middleNameTh"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Lastname (Local) *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"lastNameTh"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"ทานากะ"[39m
+  [36m/>[39m
+
+  Name "Gender":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mid[39m=[32m"gender"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Male"[39m
+  [36m/>[39m
+
+  Name "Nationality *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mid[39m=[32m"nationality"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Thailand"[39m
+  [36m/>[39m
+
+  Name "Blood Type":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mid[39m=[32m"bloodType"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"O"[39m
+  [36m/>[39m
+
+  Name "Religion":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"religion"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"Buddhism"[39m
+  [36m/>[39m
+
+  Name "บ้านเลขที่ *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressHouseNo"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"555/24"[39m
+  [36m/>[39m
+
+  Name "หมู่":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressMoo"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "ซอย":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressSoi"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"สุขุมวิท 23"[39m
+  [36m/>[39m
+
+  Name "ถนน":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressRoad"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"สุขุมวิท"[39m
+  [36m/>[39m
+
+  Name "ตำบล/แขวง *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressSubdistrict"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"คลองเตย"[39m
+  [36m/>[39m
+
+  Name "อำเภอ/เขต *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressDistrict"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"คลองเตย"[39m
+  [36m/>[39m
+
+  Name "จังหวัด *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressProvince"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"กรุงเทพมหานคร"[39m
+  [36m/>[39m
+
+  Name "รหัสไปรษณีย์ *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"addressPostalCode"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mpattern[39m=[32m"[0-9]{5}"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"10110"[39m
+  [36m/>[39m
+
+  Name "ชื่อ-นามสกุล *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"emergencyContactName"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"ชัยชนะ เทพย์ตุ้มเขา"[39m
+  [36m/>[39m
+
+  Name "เบอร์โทรศัพท์ *":
+  [36m<input[39m
+    [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+    [33mid[39m=[32m"emergencyContactPhone"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"tel"[39m
+    [33mvalue[39m=[32m"0865254197"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "ยังไม่มีเอกสารแนบ ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์ · สูงสุด 5 MB":
+  [36m<div[39m
+    [33mclass[39m=[32m"flex flex-col items-center justify-center gap-2 rounded-xl cursor-pointer border border-dashed py-12 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border-hairline hover:bg-canvas-soft focus-visible:ring-accent"[39m
+    [33mrole[39m=[32m"button"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "ข้อมูลเพิ่มเติม (Global Information)":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33mclass[39m=[32m"flex items-center gap-2 w-full px-5 py-4 text-left hover:bg-canvas-soft/50 transition-colors"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "บันทึกร่าง":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 rounded-md font-medium font-sans transition-[background,border,box-shadow,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-canvas disabled:pointer-events-none disabled:opacity-50 select-none whitespace-nowrap bg-transparent border border-transparent hover:bg-accent-soft/70 active:bg-accent-soft h-10 px-4 text-body"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "ส่งเพื่ออนุมัติ":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 rounded-md font-medium font-sans transition-[background,border,box-shadow,color] duration-[var(--dur-fast)] ease-[var(--ease-spring)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-canvas disabled:pointer-events-none disabled:opacity-50 select-none whitespace-nowrap bg-accent shadow-sm hover:shadow-md hover:bg-[color-mix(in_oklab,var(--color-accent)_92%,black)] active:bg-[color-mix(in_oklab,var(--color-accent)_85%,black)] h-10 px-4 text-body"[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-24"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+        [36m>[39m
+          [0mแก้ไขข้อมูลส่วนตัว[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+        [36m>[39m
+          [0mการแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33mnovalidate[39m=[32m""[39m
+        [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 16px;"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+            [33mfor[39m=[32m"effective-date"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-calendar-days inline mr-1"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"12"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"12"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 2v4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 2v4"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mrx[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mx[39m=[32m"3"[39m
+                [33my[39m=[32m"4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M3 10h18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 18h.01"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mการเปลี่ยนแปลงนี้จะมีผลเมื่อไหร่?[0m
+            [36m<span[39m
+              [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+            [36m>[39m
+              [0m*[0m
+            [36m</span>[39m
+          [36m</label>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted max-w-xs"[39m
+            [33mid[39m=[32m"effective-date"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mtype[39m=[32m"date"[39m
+            [33mvalue[39m=[32m"2026-04-25"[39m
+          [36m/>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 20px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"humi-eyebrow mb-4"[39m
+          [36m>[39m
+            [0mข้อมูลส่วนตัว (Personal Information)[0m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"salutationEn"[39m
+              [36m>[39m
+                [0mSalutation (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<select[39m
+                [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+                [33mid[39m=[32m"salutationEn"[39m
+                [33mrequired[39m=[32m""[39m
+              [36m>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0m— เลือก —[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mr."[39m
+                [36m>[39m
+                  [0mMr.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mrs."[39m
+                [36m>[39m
+                  [0mMrs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Ms."[39m
+                [36m>[39m
+                  [0mMs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Miss"[39m
+                [36m>[39m
+                  [0mMiss[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Dr."[39m
+                [36m>[39m
+                  [0mDr.[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</div>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"firstNameEn"[39m
+              [36m>[39m
+                [0mFirstname (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mclass[39m=[32m"w-full rounded-md border border...
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/__tests__/admin/ProfileEdit.test.tsx:31:19
+     29| 
+     30|     // ใช้ heading role (h2) เพื่อแยกจาก field label ที่ชื่อซ้ำกัน (เช…
+     31|     expect(screen.getByRole('heading', { level: 2, name: 'ชื่อ-นามสกุล…
+       |                   ^
+     32|     expect(screen.getByRole('heading', { level: 2, name: 'วันเกิด' }))…
+     33|     expect(screen.getByRole('heading', { level: 2, name: 'ที่อยู่' }))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/__tests__/admin/ProfileEdit.test.tsx > ProfileEditPage — 4 sections render > National ID section ต้องแสดงเป็น read-only (ไม่มี editable input)
+TestingLibraryElementError: Unable to find an element with the text: เลขบัตรประชาชน. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-24"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+        [36m>[39m
+          [0mแก้ไขข้อมูลส่วนตัว[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+        [36m>[39m
+          [0mการแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33mnovalidate[39m=[32m""[39m
+        [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 16px;"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+            [33mfor[39m=[32m"effective-date"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-calendar-days inline mr-1"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"12"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"12"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 2v4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 2v4"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mrx[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mx[39m=[32m"3"[39m
+                [33my[39m=[32m"4"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M3 10h18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 14h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M8 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 18h.01"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M16 18h.01"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mการเปลี่ยนแปลงนี้จะมีผลเมื่อไหร่?[0m
+            [36m<span[39m
+              [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+            [36m>[39m
+              [0m*[0m
+            [36m</span>[39m
+          [36m</label>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted max-w-xs"[39m
+            [33mid[39m=[32m"effective-date"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mtype[39m=[32m"date"[39m
+            [33mvalue[39m=[32m"2026-04-25"[39m
+          [36m/>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"humi-card"[39m
+          [33mstyle[39m=[32m"padding: 20px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"humi-eyebrow mb-4"[39m
+          [36m>[39m
+            [0mข้อมูลส่วนตัว (Personal Information)[0m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"salutationEn"[39m
+              [36m>[39m
+                [0mSalutation (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<select[39m
+                [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+                [33mid[39m=[32m"salutationEn"[39m
+                [33mrequired[39m=[32m""[39m
+              [36m>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0m— เลือก —[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mr."[39m
+                [36m>[39m
+                  [0mMr.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Mrs."[39m
+                [36m>[39m
+                  [0mMrs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Ms."[39m
+                [36m>[39m
+                  [0mMs.[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Miss"[39m
+                [36m>[39m
+                  [0mMiss[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"Dr."[39m
+                [36m>[39m
+                  [0mDr.[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</div>[39m
+            [36m<div>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                [33mfor[39m=[32m"firstNameEn"[39m
+              [36m>[39m
+                [0mFirstname (EN)[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                [36m>[39m
+                  [0m*[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mclass[39m=[32m"w-full rounded-md border border...
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/__tests__/admin/ProfileEdit.test.tsx:41:19
+     39| 
+     40|     // มี section เลขบัตรประชาชน
+     41|     expect(screen.getByText('เลขบัตรประชาชน')).toBeInTheDocument()
+       |                   ^
+     42| 
+     43|     // label ที่อธิบายว่าแก้ไขไม่ได้ต้องปรากฏ
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/__tests__/admin/ProfileEdit.test.tsx > ProfileEditPage — 4 sections render > required fields ต้องมี asterisk (*) กำกับ
+AssertionError: expected 0 to be greater than or equal to 4
+ ❯ src/__tests__/admin/ProfileEdit.test.tsx:56:30
+     54|     const asterisks = container.querySelectorAll('span.text-red-500')
+     55|     // ต้องมี * อย่างน้อย 4 ตัว
+     56|     expect(asterisks.length).toBeGreaterThanOrEqual(4)
+       |                              ^
+     57|   })
+     58| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/__tests__/admin/ProfileEdit.test.tsx > ProfileEditPage — ส่งเพื่ออนุมัติ > คลิก "ส่งเพื่ออนุมัติ" ต้องเรียก submit store + แสดง toast success
+AssertionError: expected 'ไม่มีการเปลี่ยนแปลงให้ส่ง — กรุณาแก้ไ…' to contain 'ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว'
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"pb-24"[39m
+        [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"fixed top-4 right-4 z-50 rounded-md bg-accent text-white px-4 py-3 text-sm shadow-lg"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0mไม่มีการเปลี่ยนแปลงให้ส่ง — กรุณาแก้ไขข้อมูลก่อน[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mแก้ไขข้อมูลส่วนตัว[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-1 text-sm text-ink-muted"[39m
+          [36m>[39m
+            [0mการแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<form[39m
+          [33mnovalidate[39m=[32m""[39m
+          [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 16px;"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"humi-card"[39m
+            [33mstyle[39m=[32m"padding: 16px;"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+              [33mfor[39m=[32m"effective-date"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-calendar-days inline mr-1"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"12"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"12"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 2v4"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 2v4"[39m
+                [36m/>[39m
+                [36m<rect[39m
+                  [33mheight[39m=[32m"18"[39m
+                  [33mrx[39m=[32m"2"[39m
+                  [33mwidth[39m=[32m"18"[39m
+                  [33mx[39m=[32m"3"[39m
+                  [33my[39m=[32m"4"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 10h18"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 14h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 14h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 14h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 18h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 18h.01"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 18h.01"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mการเปลี่ยนแปลงนี้จะมีผลเมื่อไหร่?[0m
+              [36m<span[39m
+                [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+              [36m>[39m
+                [0m*[0m
+              [36m</span>[39m
+            [36m</label>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted max-w-xs"[39m
+              [33mid[39m=[32m"effective-date"[39m
+              [33mrequired[39m=[32m""[39m
+              [33mtype[39m=[32m"date"[39m
+              [33mvalue[39m=[32m"2026-04-25"[39m
+            [36m/>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"humi-card"[39m
+            [33mstyle[39m=[32m"padding: 20px;"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"humi-eyebrow mb-4"[39m
+            [36m>[39m
+              [0mข้อมูลส่วนตัว (Personal Information)[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"block text-xs font-medium text-ink-soft mb-1"[39m
+                  [33mfor[39m=[32m"salutationEn"[39m
+                [36m>[39m
+                  [0mSalutation (EN)[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"ml-1 text-[color:var(--color-danger)]"[39m
+                  [36m>[39m
+                    [0m*[0m
+                  [36m</span>[39m
+                [36m</label>[39m
+                [36m<select[39m
+                  [33mclass[39m=[32m"w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:bg-canvas-soft disabled:text-ink-muted"[39m
+                  [33mid[39m=[32m"salutationEn"[39m
+                  [33mrequired[39m=[32m""[39m
+                [36m>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m>[39m
+                    [0m— เลือก —[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Mr."[39m
+                  [36m>[39m
+                    [0mMr.[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Mrs."[39m
+                  [36m>[39m
+                    [0mMrs.[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Ms."[39m
+                  [36m>[39m
+                    [0mMs.[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Miss"[39m
+                  [36m>[39m
+                    [0mMiss[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"Dr."[39m
+                  [36m>[39m
+                    [0mDr.[0m
+              ...
+
+Expected: "ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว"
+Received: "ไม่มีการเปลี่ยนแปลงให้ส่ง — กรุณาแก้ไขข้อมูลก่อน"
+
+ ❯ __vi_import_1__.waitFor.timeout src/__tests__/admin/ProfileEdit.test.tsx:93:36
+     91|         const toast = screen.queryByRole('status')
+     92|         expect(toast).not.toBeNull()
+     93|         expect(toast!.textContent).toContain('ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว')
+       |                                    ^
+     94|       },
+     95|       { timeout: 3000 }
+ ❯ runWithExpensiveErrorDiagnosticsDisabled ../../node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback ../../node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback ../../node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  src/__tests__/admin/WorkflowsPage.test.tsx > WorkflowsPage — workflow list > แสดง 2 workflow entries ใน list
+TestingLibraryElementError: Unable to find an accessible element with the role "list" and name `/รายการคำขอของฉัน/i`
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "คำขอของฉัน":
+  [36m<h1[39m
+    [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-body text-ink-muted"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  link:
+
+  Name "ยื่นคำขอใหม่":
+  [36m<a[39m
+    [33mclass[39m=[32m"humi-btn-primary"[39m
+    [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+    [33mstyle[39m=[32m"align-self: flex-start;"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-8"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 20px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-row"[39m
+        [33mstyle[39m=[32m"justify-content: space-between; flex-wrap: wrap; gap: 10px;"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mคำขอของฉัน[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+          [36m>[39m
+            [0mประวัติคำขอแก้ไขข้อมูลและสถานะการอนุมัติ[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"humi-btn-primary"[39m
+          [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+          [33mstyle[39m=[32m"align-self: flex-start;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"14"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mstyle[39m=[32m"display: inline; margin-right: 4px;"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"14"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mยื่นคำขอใหม่[0m
+        [36m</a>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-card humi-card--cream"[39m
+        [33mstyle[39m=[32m"text-align: center; padding: 40px;"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-body text-ink-muted"[39m
+        [36m>[39m
+          [0mยังไม่มีคำขอที่คุณส่ง[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+        [36m>[39m
+          [0mคลิก "ยื่นคำขอใหม่" ด้านบนเพื่อเริ่มคำขอแก้ไขข้อมูล[0m
+        [36m</p>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/__tests__/admin/WorkflowsPage.test.tsx:18:25
+     16|     render(<WorkflowsPage />)
+     17| 
+     18|     const list = screen.getByRole('list', { name: /รายการคำขอของฉัน/i })
+       |                         ^
+     19|     const items = list.querySelectorAll('li')
+     20|     expect(items).toHaveLength(2)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  src/__tests__/admin/WorkflowsPage.test.tsx > WorkflowsPage — workflow list > รายการแรกต้อง status "รออนุมัติ" (pending badge)
+TestingLibraryElementError: Unable to find an element with the text: รออนุมัติ. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-8"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 20px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-row"[39m
+        [33mstyle[39m=[32m"justify-content: space-between; flex-wrap: wrap; gap: 10px;"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mคำขอของฉัน[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+          [36m>[39m
+            [0mประวัติคำขอแก้ไขข้อมูลและสถานะการอนุมัติ[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"humi-btn-primary"[39m
+          [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+          [33mstyle[39m=[32m"align-self: flex-start;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"14"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mstyle[39m=[32m"display: inline; margin-right: 4px;"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"14"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mยื่นคำขอใหม่[0m
+        [36m</a>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-card humi-card--cream"[39m
+        [33mstyle[39m=[32m"text-align: center; padding: 40px;"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-body text-ink-muted"[39m
+        [36m>[39m
+          [0mยังไม่มีคำขอที่คุณส่ง[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+        [36m>[39m
+          [0mคลิก "ยื่นคำขอใหม่" ด้านบนเพื่อเริ่มคำขอแก้ไขข้อมูล[0m
+        [36m</p>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/__tests__/admin/WorkflowsPage.test.tsx:27:19
+     25| 
+     26|     // badge "รออนุมัติ" ต้องปรากฏ
+     27|     expect(screen.getByText('รออนุมัติ')).toBeInTheDocument()
+       |                   ^
+     28|   })
+     29| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  src/__tests__/admin/WorkflowsPage.test.tsx > WorkflowsPage — workflow list > รายการที่สองต้อง status "อนุมัติแล้ว" (approved badge)
+TestingLibraryElementError: Unable to find an element with the text: อนุมัติแล้ว. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"pb-8"[39m
+      [33mstyle[39m=[32m"display: flex; flex-direction: column; gap: 20px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-row"[39m
+        [33mstyle[39m=[32m"justify-content: space-between; flex-wrap: wrap; gap: 10px;"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-display text-[22px] font-semibold text-ink"[39m
+          [36m>[39m
+            [0mคำขอของฉัน[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+          [36m>[39m
+            [0mประวัติคำขอแก้ไขข้อมูลและสถานะการอนุมัติ[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"humi-btn-primary"[39m
+          [33mhref[39m=[32m"/th/ess/profile/edit"[39m
+          [33mstyle[39m=[32m"align-self: flex-start;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"14"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mstyle[39m=[32m"display: inline; margin-right: 4px;"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"14"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mยื่นคำขอใหม่[0m
+        [36m</a>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"humi-card humi-card--cream"[39m
+        [33mstyle[39m=[32m"text-align: center; padding: 40px;"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-body text-ink-muted"[39m
+        [36m>[39m
+          [0mยังไม่มีคำขอที่คุณส่ง[0m
+        [36m</p>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-small text-ink-muted mt-1"[39m
+        [36m>[39m
+          [0mคลิก "ยื่นคำขอใหม่" ด้านบนเพื่อเริ่มคำขอแก้ไขข้อมูล[0m
+        [36m</p>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/__tests__/admin/WorkflowsPage.test.tsx:34:19
+     32| 
+     33|     // badge "อนุมัติแล้ว" ต้องปรากฏ
+     34|     expect(screen.getByText('อนุมัติแล้ว')).toBeInTheDocument()
+       |                   ^
+     35|   })
+     36| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  src/__tests__/admin/WorkflowsPage.test.tsx > WorkflowsPage — workflow list > "ยื่นคำขอใหม่" button ต้อง link ไป /ess/profile/edit
+Error: expect(element).toHaveAttribute("href", "/ess/profile/edit") // element.getAttribute("href") === "/ess/profile/edit"
+
+Expected the element to have attribute:
+  href="/ess/profile/edit"
+Received:
+  href="/th/ess/profile/edit"
+ ❯ src/__tests__/admin/WorkflowsPage.test.tsx:42:28
+     40|     const newRequestLink = screen.getByRole('link', { name: /ยื่นคำขอใ…
+     41|     expect(newRequestLink).toBeInTheDocument()
+     42|     expect(newRequestLink).toHaveAttribute('href', '/ess/profile/edit')
+       |                            ^
+     43|   })
+     44| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  src/lib/__tests__/i18n-completeness.test.ts > Thai translation quality > all EN values are non-Thai (no accidental Thai in EN)
+AssertionError: expected [ …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- Array []
++ Array [
++   "humiProfile.resignationSectionDesc = \"ยื่นคำขอลาออกและติดตามสถานะ\"",
++   "humiProfile.resignationSectionEyebrow = \"การลาออก\"",
++   "humiProfile.resignationSectionLink = \"ดูคำขอลาออก\"",
++ ]
+
+ ❯ src/lib/__tests__/i18n-completeness.test.ts:487:22
+    485|       }
+    486|     }
+    487|     expect(thaiInEn).toEqual([]);
+       |                      ^
+    488|   });
+    489| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+ Test Files  4 failed | 86 passed | 1 skipped (91)
+      Tests  10 failed | 1381 passed | 5 skipped (1396)
+   Start at  19:43:36
+   Duration  27.12s (transform 7.67s, setup 9.46s, collect 32.97s, tests 63.74s, environment 81.18s, prepare 11.01s)
+

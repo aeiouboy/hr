@@ -1,0 +1,37 @@
+[
+  {
+    "ac_index": 0,
+    "ac_text": "lifecycleEvents exported from HUMI_MY_PROFILE with correct shape (type, effectiveDate, optional meta)",
+    "passed": true,
+    "evidence": "src/__tests__/humi-mock-data-years-in-x.test.ts — tests 1-2 PASS (6/6 total)",
+    "reasoning": "HUMI_LIFECYCLE_EVENTS has 4 events with correct LifecycleEvent shape; exposed as HUMI_MY_PROFILE.lifecycleEvents; test validates structure"
+  },
+  {
+    "ac_index": 1,
+    "ac_text": "5 Years-in-X row labels present in Employment Details / Organization Information sections",
+    "passed": true,
+    "evidence": "CDP DOM scan confirmed: 'Year of service', 'Current Years in Job', 'Current Years in Corporate Title', 'Current Years in Position', 'Current Years in BU' — all 5 present; screenshots ac-2-employment-details.png + ac-5-org-info-bu-row.png",
+    "reasoning": "All 5 rows visible in browser via CDP text extraction and visual screenshot verification"
+  },
+  {
+    "ac_index": 2,
+    "ac_text": "buildDisplay format — values show Thai display string (e.g., '7 ปี 1 เดือน') not hardcoded placeholder",
+    "passed": true,
+    "evidence": "CDP DOM values: Year of service=7 ปี 1 เดือน / Current Years in Job=2 ปี 6 เดือน / Current Years in Corporate Title=2 ปี 3 เดือน / Current Years in Position=2 ปี 6 เดือน / Current Years in BU=7 ปี 1 เดือน",
+    "reasoning": "All display values are Thai-format computed strings, no 'X.X ปี (computed)' placeholder remains"
+  },
+  {
+    "ac_index": 3,
+    "ac_text": "No hardcoded '*.* ปี (computed)' strings remain in humi-mock-data.ts",
+    "passed": true,
+    "evidence": "grep -n 'computed' src/lib/humi-mock-data.ts — 0 matches in data rows (only 1 hit in comment line 1003 which is a section header comment, not a data value)",
+    "reasoning": "All 4 hardcoded placeholders replaced with _yos.display / _yij.display / _yict.display / _yip.display"
+  },
+  {
+    "ac_index": 4,
+    "ac_text": "'Current Years in BU' row present in Organization Information section (new row added by this commit)",
+    "passed": true,
+    "evidence": "CDP DOM: line [84]='Current Years in BU' / line [85]='7 ปี 1 เดือน' — screenshot ac-5-org-info-bu-row.png shows row under Business Unit/Function in Organization Information section",
+    "reasoning": "New row added at correct location in humi-mock-data.ts line 1089; visible in browser under Organization Information header"
+  }
+]
