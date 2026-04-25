@@ -65,6 +65,14 @@ export interface Position {
  headcountBudget: number;
 }
 
+export interface MovementEvent {
+ id: string;
+ date: string;             // ISO 'YYYY-MM-DD'
+ type: 'joiner' | 'leaver' | 'transfer';
+ employeeName: string;     // Thai name
+ details: string;          // Thai context
+}
+
 const MOCK_TEAM: TeamMember[] = [
  { id:'EMP001', name:'สมชาย ใจดี', position:'Senior Developer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId: null, managerName: null, avatar:'สช', status:'active', joinDate:'2023-06-15' },
  { id:'EMP002', name:'พลอย สุขสวัสดิ์', position:'UX Designer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId:'EMP001', managerName:'สมชาย ใจดี', avatar:'พส', status:'active', joinDate:'2024-01-10' },
@@ -112,6 +120,17 @@ export const MOCK_POSITIONS: Position[] = [
  { positionCode:'POS-FIN-002', positionTitle:'นักบัญชีอาวุโส', department:'ฝ่ายการเงิน', costCenter:'CC-2001', headcountActual: 1, headcountBudget: 1 },
  { positionCode:'POS-SALES-001', positionTitle:'ผู้จัดการฝ่ายขาย', department:'ฝ่ายขาย', costCenter:'CC-3001', headcountActual: 1, headcountBudget: 2 },
  { positionCode:'POS-SALES-002', positionTitle:'ตัวแทนขาย', department:'ฝ่ายขาย', costCenter:'CC-3001', headcountActual: 3, headcountBudget: 3 },
+];
+
+export const MOCK_MOVEMENT: MovementEvent[] = [
+ { id:'MV001', date:'2026-04-20', type:'joiner', employeeName:'วิชัย มั่นคง', details:'เข้าฝ่ายไอที' },
+ { id:'MV002', date:'2026-04-15', type:'transfer', employeeName:'พลอย สุขสวัสดิ์', details:'ย้าย ฝ่ายไอที → ฝ่ายขาย' },
+ { id:'MV003', date:'2026-04-10', type:'leaver', employeeName:'ประทีป วงศ์สว่าง', details:'ออกจากบริษัท' },
+ { id:'MV004', date:'2026-04-05', type:'joiner', employeeName:'สุดา ทองคำ', details:'เข้าฝ่ายการเงิน' },
+ { id:'MV005', date:'2026-03-28', type:'transfer', employeeName:'ณัฐพงศ์ แก้วสาย', details:'ย้าย ฝ่ายขาย → ฝ่ายไอที' },
+ { id:'MV006', date:'2026-03-20', type:'leaver', employeeName:'กานต์ รุ่งเรือง', details:'ออกจากบริษัท' },
+ { id:'MV007', date:'2026-03-15', type:'joiner', employeeName:'มนัส พันธุ์ดี', details:'เข้าฝ่ายขาย' },
+ { id:'MV008', date:'2026-03-08', type:'transfer', employeeName:'รัชนี บุญศรี', details:'ย้าย ฝ่ายการเงิน → ฝ่ายไอที' },
 ];
 
 // Build hierarchy from managerId chain (Direct mode base).
@@ -286,5 +305,6 @@ export function useManagerDashboard() {
  calMonth, calYear, setCalMonth, setCalYear,
  approveRequest, rejectRequest, bulkApprove, bulkReject,
  positions: MOCK_POSITIONS,
+ movementEvents: MOCK_MOVEMENT,
  };
 }

@@ -24,6 +24,8 @@ import {
  Network,
  GitBranch,
  LayoutList,
+ FileBarChart,
+ Download,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -32,10 +34,10 @@ import { Modal } from '@/components/ui/modal';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs } from '@/components/ui/tabs';
 import { useManagerDashboard } from '@/hooks/use-manager-dashboard';
-import type { TeamMember, PendingApproval, OrgNode, Position } from '@/hooks/use-manager-dashboard';
+import type { TeamMember, PendingApproval, OrgNode, Position, MovementEvent } from '@/hooks/use-manager-dashboard';
 import { cn } from '@/lib/utils';
 
-type TabKey ='overview' |'team' |'org-chart' |'positions' |'approvals' |'calendar';
+type TabKey ='overview' |'team' |'org-chart' |'positions' |'reports' |'approvals' |'calendar';
 
 const SEVERITY_STYLES: Record<string, string> = {
  critical:'border-l-4 border-l-red-500 bg-danger-tint',
@@ -110,6 +112,7 @@ export function ManagerDashboardPage() {
  calMonth, calYear, setCalMonth, setCalYear,
  approveRequest, rejectRequest,
  positions,
+ movementEvents,
  } = useManagerDashboard();
 
  const [activeTab, setActiveTab] = useState<TabKey>('overview');
@@ -120,12 +123,14 @@ export function ManagerDashboardPage() {
  const [orgMode, setOrgMode] = useState<'สายตรง' |'สายไขว้'>('สายตรง');
  const [positionDeptFilter, setPositionDeptFilter] = useState<string>('all');
  const [positionStatusFilter, setPositionStatusFilter] = useState<string>('all');
+ const [movementFilter, setMovementFilter] = useState<'เดือนนี้' | '30 วันล่าสุด' | 'ทั้งหมด'>('เดือนนี้');
 
  const tabs = [
  { key:'overview', label: t('teamOverview') },
  { key:'team', label: t('teamMembers') },
  { key:'org-chart', label:'แผนผังทีม' },
  { key:'positions', label:'ตำแหน่งและอัตรากำลัง' },
+ { key:'reports', label:'รายงานทีม' },
  { key:'approvals', label: `${t('pendingApprovals')} (${approvals.length})` },
  { key:'calendar', label: t('teamCalendar') },
  ];
@@ -750,6 +755,132 @@ export function ManagerDashboardPage() {
  </Card>
  );
 
+ const renderReports = () => {
+ // Aggregate headcount per department from MOCK_TEAM (SSoT — reuse team state)
+ const deptCounts: Record<string, number> = {};
+ team.forEach((m) => {
+  deptCounts[m.department] = (deptCounts[m.department] ?? 0) + 1;
+ });
+ const maxCount = Math.max(...Object.values(deptCounts), 1);
+
+ // Date range filter logic
+ const now = new Date();
+ const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+ const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+ const filteredMovement = (movementEvents ?? []).filter((ev: MovementEvent) => {
+  const evDate = new Date(ev.date);
+  if (movementFilter === 'เดือนนี้') return evDate >= startOfMonth;
+  if (movementFilter === '30 วันล่าสุด') return evDate >= thirtyDaysAgo;
+  return true; // ทั้งหมด
+ }).sort((a: MovementEvent, b: MovementEvent) => b.date.localeCompare(a.date));
+
+ const MOVEMENT_BADGE: Record<string, { label: string; cls: string }> = {
+  joiner:   { label:'เข้าใหม่', cls:'bg-teal-100 text-teal-700 border-teal-300' },
+  leaver:   { label:'ออก',     cls:'bg-red-100 text-red-600 border-red-300' },
+  transfer: { label:'ย้าย',    cls:'bg-amber-100 text-amber-700 border-amber-300' },
+ };
+
+ return (
+  <div className="space-y-6">
+   {/* Section A — อัตรากำลังตามหน่วยงาน */}
+   <Card>
+    <CardHeader>
+     <CardTitle className="flex items-center gap-2">
+      <FileBarChart className="h-5 w-5 text-accent" />
+      อัตรากำลังตามหน่วยงาน
+     </CardTitle>
+    </CardHeader>
+    <CardContent>
+     <div className="space-y-3">
+      {Object.entries(deptCounts).map(([dept, count]) => {
+       const pct = Math.round((count / maxCount) * 100);
+       return (
+        <div key={dept} className="flex items-center gap-3">
+         <span className="text-sm text-ink w-32 shrink-0 truncate">{dept}</span>
+         <div className="flex-1 bg-surface-raised rounded-full h-6 overflow-hidden">
+          <div
+           className="h-full rounded-full flex items-center px-2"
+           style={{ width: `${pct}%`, background: 'linear-gradient(90deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 60%, white))' }}
+          >
+           <span className="text-[11px] font-medium text-white leading-none">{count}</span>
+          </div>
+         </div>
+         <span className="text-xs text-ink-muted w-6 text-right shrink-0">{count}</span>
+        </div>
+       );
+      })}
+      {Object.keys(deptCounts).length === 0 && (
+       <p className="text-sm text-ink-muted text-center py-4">ไม่พบข้อมูล</p>
+      )}
+     </div>
+    </CardContent>
+   </Card>
+
+   {/* Section B — การเคลื่อนไหวของทีม */}
+   <Card>
+    <CardHeader>
+     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <CardTitle className="flex items-center gap-2">
+       <Users className="h-5 w-5 text-accent" />
+       การเคลื่อนไหวของทีม
+      </CardTitle>
+      {/* Section C — Export CSV button (placeholder) */}
+      <Button
+       variant="outline"
+       size="sm"
+       className="gap-1.5 shrink-0"
+       onClick={() => {
+        // TODO(backend-phase): wire CSV export endpoint
+        console.log('TODO: backend phase wire CSV export');
+       }}
+      >
+       <Download className="h-4 w-4" />
+       ส่งออก CSV
+      </Button>
+     </div>
+     {/* Date range filter chips */}
+     <div className="flex flex-wrap gap-2 mt-2">
+      {(['เดือนนี้', '30 วันล่าสุด', 'ทั้งหมด'] as const).map((label) => (
+       <button
+        key={label}
+        onClick={() => setMovementFilter(label)}
+        className={cn(
+         'px-3 py-1.5 rounded-full text-xs font-medium transition',
+         movementFilter === label ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted hover:bg-surface-raised',
+        )}
+       >
+        {label}
+       </button>
+      ))}
+     </div>
+    </CardHeader>
+    <CardContent>
+     {filteredMovement.length === 0 ? (
+      <p className="text-sm text-ink-muted text-center py-6">ไม่มีการเคลื่อนไหวในช่วงนี้</p>
+     ) : (
+      <div className="space-y-2">
+       {filteredMovement.map((ev: MovementEvent) => {
+        const badge = MOVEMENT_BADGE[ev.type];
+        return (
+         <div key={ev.id} className="flex items-center gap-3 p-3 rounded-md border border-hairline hover:bg-surface-raised/30 transition">
+          <span className="text-xs text-ink-muted w-24 shrink-0">{ev.date}</span>
+          <span className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium border shrink-0', badge.cls)}>
+           {badge.label}
+          </span>
+          <span className="text-sm font-medium text-ink shrink-0">{ev.employeeName}</span>
+          <span className="text-xs text-ink-muted truncate">{ev.details}</span>
+         </div>
+        );
+       })}
+      </div>
+     )}
+    </CardContent>
+   </Card>
+  </div>
+ );
+ };
+
  return (
  <div className="space-y-6">
  <div>
@@ -768,6 +899,7 @@ export function ManagerDashboardPage() {
  {activeTab ==='team' && renderTeam()}
  {activeTab ==='org-chart' && renderOrgChart()}
  {activeTab ==='positions' && renderPositions()}
+ {activeTab ==='reports' && renderReports()}
  {activeTab ==='approvals' && renderApprovals()}
  {activeTab ==='calendar' && renderCalendar()}
 
