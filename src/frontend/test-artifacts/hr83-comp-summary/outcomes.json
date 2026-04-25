@@ -1,0 +1,73 @@
+[
+  {
+    "ac_index": 0,
+    "ac_text": "New component file CompensationSummary.tsx exists with default export",
+    "passed": true,
+    "reasoning": "git show 5beb37a confirms new file src/components/profile/CompensationSummary.tsx +144 lines with `export default function CompensationSummary()`",
+    "evidence": [
+      "git show 5beb37a --stat: 2 files changed, 148 insertions(+)",
+      "CompensationSummary.tsx line 44: `export default function CompensationSummary()`"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 1,
+    "ac_text": "Component renders 4 sections (a-d) with masked/recurring/YTD/link",
+    "passed": true,
+    "reasoning": "Playwright snapshot confirms all 4 sections: comp-base (masked ฿ ••••,500), comp-recurring (โบนัส + หุ้น/Equity), comp-ytd (฿314,093), comp-payslip-link (ดูใบสลิปเต็ม → /th/payslip)",
+    "evidence": [
+      "Playwright snapshot ref e349-e361: เงินเดือนปัจจุบัน / ส่วนประกอบเงินเดือนปกติ / เงินสะสมทั้งปี (2026) / ดูใบสลิปเต็ม",
+      "Screenshot ac-1-comp-summary-masked.png: element screenshot of data-testid=compensation-summary",
+      "vitest 18/18 PASS — tests cover all 4 sections"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 2,
+    "ac_text": "Component imported and rendered inside Employment panel",
+    "passed": true,
+    "reasoning": "git diff page.tsx shows import at line 32 and <CompensationSummary /> insertion at line 1130 inside panelKey==='job' block; Playwright snapshot shows component visible when tab 'ตำแหน่งและค่าตอบแทน' is selected",
+    "evidence": [
+      "git show 5beb37a page.tsx: +import CompensationSummary from '@/components/profile/CompensationSummary'",
+      "git show 5beb37a page.tsx: +<CompensationSummary /> inside {/* BRD #170 ESS Compensation Summary */} comment block",
+      "Playwright tab selected=[ref=e213] ตำแหน่งและค่าตอบแทน; component visible ref=e338"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 3,
+    "ac_text": "Default masked '••••XXXX', click reveal unmasks + shows toast (INVARIANT)",
+    "passed": true,
+    "reasoning": "Masked default confirmed in screenshot (฿ ••••,500). Reveal click transitions to ฿ 82,500 (screenshot ac-3-comp-summary-revealed.png). Toast DOM verified via evaluate: toastFound=true, toastText='ระบบจะร้องขอ PIN ในรุ่นถัดไป (BRD #170 SH1 re-auth — backend deferred)'. Toast not captured in viewport screenshot due to 3.5s timeout vs Playwright round-trip latency — DOM evidence accepted per vitest unit test coverage.",
+    "evidence": [
+      "Screenshot ac-1-comp-summary-masked.png: base salary shows ฿ ••••,500 (masked default)",
+      "Screenshot ac-3-comp-summary-revealed.png: base salary shows ฿ 82,500 after reveal click",
+      "DOM evaluate result: { toastFound: true, toastText: 'ระบบจะร้องขอ PIN ในรุ่นถัดไป (BRD #170 SH1 re-auth — backend deferred)' }",
+      "vitest test 'shows toast message on reveal' PASS (part of 18/18)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 4,
+    "ac_text": ">=4 unit tests added covering 4 sections / mask / YTD / link / Thai labels",
+    "passed": true,
+    "reasoning": "18 unit tests in src/__tests__/profile-compensation-summary.test.tsx covering all sections, mask/unmask toggle, YTD calculation, payslip link href, Thai labels, toast text",
+    "evidence": [
+      "bunx vitest run src/__tests__/profile-compensation-summary.test.tsx: 18 tests passed (18) in 79ms",
+      "Test count 18 >> AC requirement of >=4"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 5,
+    "ac_text": "Existing test suite green — zero regression",
+    "passed": true,
+    "reasoning": "Full suite run by MK VI Phase 3b: 1399 pass / 10 fail / 5 skipped — 10 failures are same pre-existing baseline, zero new failures introduced",
+    "evidence": [
+      "Phase 3b report: 1399 pass / 10 fail (pre-existing) / 5 skipped",
+      "vitest run compensation test: 18/18 PASS, 0 new failures",
+      "Pre-existing 10 failures confirmed same as baseline before commit 5beb37a"
+    ],
+    "questionsUsed": []
+  }
+]

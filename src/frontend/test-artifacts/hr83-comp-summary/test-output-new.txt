@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/__tests__/profile-compensation-summary.test.tsx (18 tests) 80ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  20:19:51
+   Duration  986ms (transform 75ms, setup 43ms, collect 117ms, tests 80ms, environment 350ms, prepare 69ms)
+
