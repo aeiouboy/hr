@@ -1635,3 +1635,30 @@ export const REVIEW_TONE_CLASS: Record<'butter' | 'sage' | 'muted', string> = {
   sage: 'bg-[color:var(--color-success-soft)] text-[color:var(--color-success)]',
   muted: 'bg-[color:var(--color-canvas-soft)] text-ink-muted',
 };
+
+// ─── /me/documents BRD #173 ESS document library ─────────────────────
+
+export type HrDocType = 'employment-letter' | 'income-cert' | 'tax-form' | 'payslip-archive';
+
+export interface HumiHrDoc {
+  id: string;
+  name: string;
+  type: HrDocType;
+  issuedDate: string; // ISO yyyy-MM-dd
+  downloadUrl: string;
+}
+
+export const HR_DOC_TYPE_LABELS: Record<HrDocType, string> = {
+  'employment-letter': 'หนังสือรับรองการทำงาน',
+  'income-cert': 'หนังสือรับรองเงินเดือน',
+  'tax-form': '50 ทวิ / ภงด.91',
+  'payslip-archive': 'สลิปเงินเดือนสะสม',
+};
+
+export const HUMI_HR_DOCS: HumiHrDoc[] = [
+  { id: 'doc-1', name: 'หนังสือรับรองการทำงาน — เม.ย. 2569', type: 'employment-letter', issuedDate: '2026-04-10', downloadUrl: '/mock/employment-letter-2026-04.pdf' },
+  { id: 'doc-2', name: 'หนังสือรับรองเงินเดือน — มี.ค. 2569', type: 'income-cert', issuedDate: '2026-03-25', downloadUrl: '/mock/income-cert-2026-03.pdf' },
+  { id: 'doc-3', name: '50 ทวิ ภงด.91 ปี 2568', type: 'tax-form', issuedDate: '2026-02-28', downloadUrl: '/mock/tax-50tawi-2025.pdf' },
+  { id: 'doc-4', name: 'สลิปเงินเดือนสะสม Q1/2569', type: 'payslip-archive', issuedDate: '2026-04-01', downloadUrl: '/mock/payslip-archive-q1-2569.pdf' },
+  { id: 'doc-5', name: 'หนังสือรับรองการทำงาน — ม.ค. 2569', type: 'employment-letter', issuedDate: '2026-01-15', downloadUrl: '/mock/employment-letter-2026-01.pdf' },
+];

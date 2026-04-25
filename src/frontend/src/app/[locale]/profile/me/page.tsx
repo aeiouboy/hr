@@ -1176,6 +1176,18 @@ export default function HumiProfileMePage() {
 
       {/* ── Docs tab ─────────────────────────────────────────────────────── */}
       {panelKey === 'docs' && (
+        <>
+          {/* BRD #173 — link to full Documents library */}
+          <div className="humi-row" style={{ justifyContent: 'flex-end', marginBottom: 12 }}>
+            <Link
+              href={`/${locale}/me/documents`}
+              className="humi-tag"
+              style={{ padding: '6px 12px', color: 'var(--color-accent)', textDecoration: 'underline', fontSize: 13 }}
+              data-testid="profile-me-docs-library-link"
+            >
+              ดูเอกสารทั้งหมด →
+            </Link>
+          </div>
         <div className="humi-card">
           <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
             {t('docsTitle')}
@@ -1218,6 +1230,7 @@ export default function HumiProfileMePage() {
             ))}
           </ul>
         </div>
+        </>
       )}
 
       {/* ── Activity tab (tax panel key = activity) — shows pendingChanges ─ */}
