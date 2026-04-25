@@ -14,6 +14,7 @@ import React from 'react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import { useHumiProfileStore } from '@/stores/humi-profile-slice';
+import { useAuthStore } from '@/stores/auth-store';
 
 // ── next-intl mock: t(key) returns key verbatim ───────────────────────────────
 vi.mock('next-intl', () => ({
@@ -128,6 +129,16 @@ beforeEach(() => {
   uuidCounter = 0;
   localStorageMock.clear();
   resetStore();
+  // T3 #90 — page now gates by SPD/HR Admin role; tests assume approver context.
+  useAuthStore.setState({
+    userId: 'TEST-SPD',
+    username: 'tester',
+    email: 'spd@humi.test',
+    roles: ['spd', 'employee'],
+    isAuthenticated: true,
+    originalUser: null,
+    _hasHydrated: true,
+  } as any);
 });
 
 afterEach(() => {

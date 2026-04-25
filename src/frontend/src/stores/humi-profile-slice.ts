@@ -268,9 +268,17 @@ export const useHumiProfileStore = create<ProfileState>()(
     }),
     {
       name: 'humi-profile-v1',          // KEEP name — version controls migration
-      version: 4,
+      version: 5,
       migrate: (persistedState: any, version: number): ProfileState => {
         if (!persistedState) return persistedState;
+        if (version < 5 && version >= 4) {
+          // v4 → v5 (T3 #90): no schema break — PendingChange already supports
+          // field-level changes via `field: string`. Bump version to lock in
+          // post-#85 Dependents shape + signal field-level CR support
+          // (e.g. field='first_name_th' / 'marital_status').
+          // Preserve v4 saved/draft/dependents schema verbatim.
+          return persistedState as ProfileState;
+        }
         if (version < 4 && version >= 3) {
           // v3 → v4: add dependents[] — enrich legacy minimal rows to new shape
           const enrichDraft = (d: any) => ({

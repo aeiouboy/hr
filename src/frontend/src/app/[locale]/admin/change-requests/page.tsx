@@ -5,6 +5,13 @@ import { useTranslations } from 'next-intl';
 import { useHumiProfileStore, type SectionKey } from '@/stores/humi-profile-slice';
 import { ChangeRequestCard } from '@/components/admin/change-requests/ChangeRequestCard';
 import { ReasonModal } from '@/components/admin/change-requests/ReasonModal';
+import { useAuthStore } from '@/stores/auth-store';
+import { hasAnyRole, type Role } from '@/lib/rbac';
+
+// T3 #90 — RBAC gate. SPD is the canonical approver per BRD #166 (1-step).
+// hr_admin + hr_manager inherit via ROLE_HIERARCHY (rbac.ts) — they see
+// the queue too. Manager / HRBP / Employee = no access.
+const APPROVER_ROLES: Role[] = ['spd', 'hr_admin', 'hr_manager'];
 
 // ════════════════════════════════════════════════════════════
 // /admin/change-requests — HR admin approver queue.
@@ -30,6 +37,10 @@ function formatDate(iso: string): string {
 export default function ChangeRequestsPage() {
   const t = useTranslations();
 
+  // T3 #90 AC-3 + AC-7 — RBAC gate by currentRole (drives view-as switcher).
+  const currentRoles = useAuthStore((s) => s.roles);
+  const canApprove = hasAnyRole(currentRoles, APPROVER_ROLES);
+
   const [modalState, setModalState] = useState<{
     open: boolean;
     mode: 'approve' | 'reject';
@@ -38,6 +49,19 @@ export default function ChangeRequestsPage() {
 
   const pendingChanges = useHumiProfileStore((s) => s.pendingChanges);
   const attachments = useHumiProfileStore((s) => s.attachments);
+
+  if (!canApprove) {
+    return (
+      <div className="humi-card" data-testid="change-requests-no-access">
+        <h3 className="font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+          ไม่มีสิทธิ์เข้าถึง
+        </h3>
+        <p className="mt-2 text-ink-soft" style={{ fontSize: 14 }}>
+          คิวอนุมัติคำขอแก้ไขข้อมูลส่วนบุคคล สงวนสิทธิ์เฉพาะผู้อนุมัติ (SPD) ตาม BRD #166
+        </p>
+      </div>
+    );
+  }
 
   // Group pending CRs by sectionKey; items without sectionKey fall into 'personal'
   const grouped = useMemo(() => {
