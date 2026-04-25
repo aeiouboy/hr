@@ -28,3 +28,6 @@ export type { ToggleProps } from './Toggle';
 
 export { Modal } from './Modal';
 export type { ModalProps } from './Modal';
+
+export { QuickActionsTile, DEFAULT_ESS_ACTIONS } from './QuickActionsTile';
+export type { QuickActionsTileProps, QuickAction } from './QuickActionsTile';

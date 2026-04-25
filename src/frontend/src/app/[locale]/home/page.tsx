@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
+import { QuickActionsTile } from '@/components/humi/QuickActionsTile';
 import {
   HUMI_PENDING_REQUESTS,
   HUMI_EMPLOYEES,
@@ -213,6 +214,11 @@ export default function HumiHomePage() {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Row 1.5 — Quick Actions */}
+      <div style={{ marginTop: 20 }}>
+        <QuickActionsTile />
       </div>
 
       {/* Row 2 — approvals + docs */}
