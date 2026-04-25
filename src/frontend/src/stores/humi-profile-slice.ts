@@ -35,7 +35,7 @@ export interface BankDetails {
 
 // ── sectionKey discriminator ───────────────────────────────────────────────────
 
-export type SectionKey = 'emergencyContact' | 'address' | 'contact' | 'bank' | 'personal';
+export type SectionKey = 'emergencyContact' | 'address' | 'contact' | 'bank' | 'personal' | 'termination';
 
 // ── ProfileDraft ───────────────────────────────────────────────────────────────
 
@@ -264,9 +264,13 @@ export const useHumiProfileStore = create<ProfileState>()(
     }),
     {
       name: 'humi-profile-v1',          // KEEP name — version controls migration
-      version: 2,
+      version: 3,
       migrate: (persistedState: any, version: number): ProfileState => {
         if (!persistedState) return persistedState;
+        if (version < 3 && version >= 2) {
+          // v2 → v3: no-op — SectionKey enum extended with 'termination'; pendingChanges schema unchanged
+          return persistedState as ProfileState;
+        }
         if (version < 2) {
           // v1 → v2: best-effort map flat address -> addressStructured.houseNo
           const v1Saved = persistedState.saved ?? DRAFT_DEFAULTS;

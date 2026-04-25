@@ -32,6 +32,11 @@ const REASON_LABELS: Record<string, string> = {
   TERM_CRISIS: 'บริหารวิกฤต (Crisis Management)',
   TERM_ABSENT: 'ขาดงานเกินกำหนด (Absent)',
   TERM_REDUNDANCY: 'ลดขนาดองค์กร (Redundancy)',
+  // ESS voluntary subset — Ken U2 (4 codes, mode='ess-voluntary' เท่านั้น)
+  RESIGN_PERSONAL: 'ลาออกด้วยเหตุส่วนตัว',
+  RESIGN_STUDY: 'ลาออกเพื่อศึกษาต่อ',
+  RESIGN_FAMILY: 'ลาออกด้วยเหตุครอบครัว',
+  RESIGN_OTHER: 'ลาออกด้วยเหตุอื่น',
 }
 
 // mapping event code → รายการ reason codes (ตาม Appendix 2 + FOEventReason.json)
@@ -46,6 +51,9 @@ const EVENT_REASONS: Record<string, string[]> = {
   ],
 }
 
+// ESS voluntary subset — filter EVENT_REASONS['5597'] to these 4 codes (Ken U2)
+const ESS_VOLUNTARY_CODES = ['RESIGN_PERSONAL', 'RESIGN_STUDY', 'RESIGN_FAMILY', 'RESIGN_OTHER'] as const;
+
 interface ReasonPickerProps {
   event: '5584' | '5604' | '5597'
   value: string | null
@@ -53,6 +61,8 @@ interface ReasonPickerProps {
   required?: boolean
   error?: string
   id?: string
+  /** mode='ess-voluntary': แสดงเฉพาะ 4 RESIGN_* codes (employee self-service). Default 'admin' = 17 TERM_* codes. */
+  mode?: 'admin' | 'ess-voluntary'
 }
 
 export function ReasonPicker({
@@ -62,8 +72,12 @@ export function ReasonPicker({
   required = false,
   error,
   id = 'reason-picker',
+  mode = 'admin',
 }: ReasonPickerProps) {
-  const options = EVENT_REASONS[event] ?? []
+  const allOptions = EVENT_REASONS[event] ?? []
+  const options = mode === 'ess-voluntary' && event === '5597'
+    ? ESS_VOLUNTARY_CODES.filter((c) => allOptions.includes(c))
+    : allOptions
   const labelId = `${id}-label`
 
   return (
