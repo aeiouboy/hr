@@ -1,0 +1,3 @@
+ Test Files  4 failed | 88 passed | 1 skipped (93)
+      Tests  10 failed | 1424 passed | 6 skipped (1440)
+   Duration  13.60s (transform 3.41s, setup 4.24s, collect 16.00s, tests 31.62s, environment 31.39s, prepare 4.47s)
