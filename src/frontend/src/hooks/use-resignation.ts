@@ -1,113 +1,105 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+// use-resignation.ts — subscribe humi-profile-slice (C7 SSoT)
+// ไม่ใช้ useState สำหรับ termination state — อ่านจาก store เท่านั้น
 
-export type ResignationStatus ='draft' |'submitted' |'in_progress' |'completed';
+import { useCallback } from 'react';
+import { useHumiProfileStore } from '@/stores/humi-profile-slice';
+
+export type ResignationStatus = 'draft' | 'submitted' | 'in_progress' | 'completed';
 
 export interface ClearanceItem {
- id: string;
- title: string;
- responsibleParty: string;
- status:'pending' |'in_progress' |'completed';
- signedOffDate?: string;
- notes?: string;
+  id: string;
+  title: string;
+  responsibleParty: string;
+  status: 'pending' | 'in_progress' | 'completed';
+  signedOffDate?: string;
+  notes?: string;
 }
 
 export interface ResignationRecord {
- id: string;
- employeeId: string;
- employeeName: string;
- resignationDate: string;
- lastWorkingDate: string;
- reasonType: string;
- reasonDetails: string;
- noticePeriod: number;
- status: ResignationStatus;
- submittedDate?: string;
- exitInterviewDate?: string;
- clearanceItems: ClearanceItem[];
- settlement?: {
- outstandingSalary: number;
- leaveEncashment: number;
- bonus: number;
- loanDeductions: number;
- pfBalance: number;
- netPayable: number;
- };
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  resignationDate: string;
+  lastWorkingDate: string;
+  reasonType: string;
+  reasonDetails: string;
+  noticePeriod: number;
+  status: ResignationStatus;
+  submittedDate?: string;
+  exitInterviewDate?: string;
+  clearanceItems: ClearanceItem[];
+  settlement?: {
+    outstandingSalary: number;
+    leaveEncashment: number;
+    bonus: number;
+    loanDeductions: number;
+    pfBalance: number;
+    netPayable: number;
+  };
 }
 
-const MOCK_RESIGNATION: ResignationRecord = {
- id:'RES001', employeeId:'EMP009', employeeName:'Worrawut Sutthisak',
- resignationDate:'2026-02-01', lastWorkingDate:'2026-03-01',
- reasonType:'personal', reasonDetails:'Relocating to another city',
- noticePeriod: 30, status:'in_progress', submittedDate:'2026-02-01',
- exitInterviewDate:'2026-02-25',
- clearanceItems: [
- { id:'CLR001', title:'Return Laptop & Equipment', responsibleParty:'IT Department', status:'completed', signedOffDate:'2026-02-20' },
- { id:'CLR002', title:'Return Access Card & Keys', responsibleParty:'Admin', status:'completed', signedOffDate:'2026-02-20' },
- { id:'CLR003', title:'Knowledge Transfer', responsibleParty:'Manager', status:'in_progress' },
- { id:'CLR004', title:'Outstanding Leave Settlement', responsibleParty:'HR', status:'pending' },
- { id:'CLR005', title:'Final Payroll Processing', responsibleParty:'Payroll', status:'pending' },
- { id:'CLR006', title:'Benefits Termination', responsibleParty:'HR', status:'pending' },
- ],
- settlement: {
- outstandingSalary: 45000,
- leaveEncashment: 12500,
- bonus: 0,
- loanDeductions: 5000,
- pfBalance: 180000,
- netPayable: 52500,
- },
-};
+// clearanceItems mock — out-of-scope to persist (Sprint 2 backend wire-up)
+const MOCK_CLEARANCE_ITEMS: ClearanceItem[] = [
+  { id: 'CLR001', title: 'คืนอุปกรณ์และครุภัณฑ์', responsibleParty: 'IT', status: 'pending' },
+  { id: 'CLR002', title: 'คืนบัตรผ่านและกุญแจ', responsibleParty: 'Admin', status: 'pending' },
+  { id: 'CLR003', title: 'ส่งมอบงาน', responsibleParty: 'ผู้บังคับบัญชา', status: 'pending' },
+  { id: 'CLR004', title: 'จัดการวันลาคงเหลือ', responsibleParty: 'HR', status: 'pending' },
+];
 
 export function useResignation() {
- const [record, setRecord] = useState<ResignationRecord | null>(null);
- const [loading, setLoading] = useState(true);
+  // AC-2: อ่านจาก store เท่านั้น — ห้าม useState<ResignationRecord>
+  const pendingChanges = useHumiProfileStore((s) => s.pendingChanges);
+  const submitChangeRequest = useHumiProfileStore((s) => s.submitChangeRequest);
 
- useEffect(() => {
- const timer = setTimeout(() => {
- setRecord(MOCK_RESIGNATION);
- setLoading(false);
- }, 300);
- return () => clearTimeout(timer);
- }, []);
+  const terminationChange = pendingChanges.find((pc) => pc.sectionKey === 'termination');
 
- const updateClearanceItem = useCallback(async (itemId: string, status: ClearanceItem['status']) => {
- setRecord((prev) => {
- if (!prev) return prev;
- const clearanceItems = prev.clearanceItems.map((item) =>
- item.id === itemId ? { ...item, status, signedOffDate: status ==='completed' ? new Date().toISOString().split('T')[0] : item.signedOffDate } : item
- );
- return { ...prev, clearanceItems };
- });
- }, []);
+  // Map PendingChange → ResignationRecord shape (backward-compat with 3-tab render)
+  const record: ResignationRecord | null = terminationChange
+    ? {
+        id: terminationChange.id,
+        employeeId: 'EMP000',
+        employeeName: 'Current User',
+        resignationDate: terminationChange.requestedAt.split('T')[0],
+        lastWorkingDate: terminationChange.effectiveDate,
+        reasonType: terminationChange.newValue,
+        reasonDetails: terminationChange.reason ?? '',
+        noticePeriod: 30,
+        status: terminationChange.status === 'pending' ? 'submitted' : (terminationChange.status as ResignationStatus),
+        submittedDate: terminationChange.requestedAt.split('T')[0],
+        clearanceItems: MOCK_CLEARANCE_ITEMS,
+      }
+    : null;
 
- const submitResignation = useCallback(async (data: { lastWorkingDate: string; reason: string; handoverNotes: string }) => {
- await new Promise((r) => setTimeout(r, 300));
- const newRecord: ResignationRecord = {
- id: `RES${Date.now()}`,
- employeeId:'EMP000',
- employeeName:'Current User',
- resignationDate: new Date().toISOString().split('T')[0],
- lastWorkingDate: data.lastWorkingDate,
- reasonType:'personal',
- reasonDetails: data.reason,
- noticePeriod: 30,
- status:'submitted',
- submittedDate: new Date().toISOString().split('T')[0],
- clearanceItems: [
- { id:'CLR001', title:'Return Laptop & Equipment', responsibleParty:'IT Department', status:'pending' },
- { id:'CLR002', title:'Return Access Card & Keys', responsibleParty:'Admin', status:'pending' },
- { id:'CLR003', title:'Knowledge Transfer', responsibleParty:'Manager', status:'pending' },
- { id:'CLR004', title:'Outstanding Leave Settlement', responsibleParty:'HR', status:'pending' },
- ],
- };
- setRecord(newRecord);
- }, []);
+  const loading = false; // store is synchronous + persisted — no async needed
 
- const clearanceProgress = record
- ? Math.round((record.clearanceItems.filter((i) => i.status ==='completed').length / record.clearanceItems.length) * 100)
- : 0;
+  const updateClearanceItem = useCallback((_itemId: string, _status: ClearanceItem['status']) => {
+    // Sprint 2: wire to backend; for now no-op (clearanceItems are mock)
+  }, []);
 
- return { record, loading, updateClearanceItem, clearanceProgress, submitResignation };
+  const submitResignation = useCallback(
+    async (data: { lastWorkingDate: string; reason: string; handoverNotes: string }) => {
+      // AC-1: dispatch ผ่าน submitChangeRequest (C7 SSoT)
+      submitChangeRequest({
+        sectionKey: 'termination',
+        field: 'employmentStatus',
+        oldValue: 'active',
+        newValue: data.reason,
+        effectiveDate: data.lastWorkingDate,
+        attachmentIds: [],
+      });
+    },
+    [submitChangeRequest],
+  );
+
+  const clearanceProgress = record
+    ? Math.round(
+        (record.clearanceItems.filter((i) => i.status === 'completed').length /
+          record.clearanceItems.length) *
+          100,
+      )
+    : 0;
+
+  return { record, loading, updateClearanceItem, clearanceProgress, submitResignation };
 }

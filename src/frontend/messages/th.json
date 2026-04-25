@@ -2857,7 +2857,11 @@
     "paymentDetails": "รายละเอียดการชำระเงิน",
     "paymentDate": "วันที่จ่ายเงินคาดการณ์",
     "bankAccount": "บัญชีธนาคาร",
-    "tbd": "รอกำหนด"
+    "tbd": "รอกำหนด",
+    "startResignationTitle": "เริ่มกระบวนการลาออก",
+    "handoverNotes": "บันทึกการส่งมอบงาน",
+    "handoverNotesPlaceholder": "รายละเอียดการส่งมอบงานและงานที่ค้างอยู่...",
+    "cancel": "ยกเลิก"
   },
   "medicalClaims": {
     "title": "สิทธิประโยชน์ด้านการรักษาพยาบาล",

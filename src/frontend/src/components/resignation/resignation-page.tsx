@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FileX, CheckCircle, Clock, Circle } from 'lucide-react';
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -43,50 +44,45 @@ export function ResignationPage() {
  </div>
  {showForm ? (
  <Card>
- <CardHeader><CardTitle>Start Resignation Process</CardTitle></CardHeader>
+ <CardHeader><CardTitle>{t('startResignationTitle')}</CardTitle></CardHeader>
  <CardContent>
  <div className="space-y-4">
  <div className="space-y-1">
  <label htmlFor="lastWorkingDate" className="block text-sm font-medium text-ink-soft">
- Last Working Date <span className="text-danger ml-0.5">*</span>
+ {t('lastWorkingDate')} <span className="text-danger ml-0.5">*</span>
  </label>
  <input
  id="lastWorkingDate"
  type="date"
  value={formData.lastWorkingDate}
  onChange={(e) => setFormData((p) => ({ ...p, lastWorkingDate: e.target.value }))}
- className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+ className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
  />
  </div>
- <div className="space-y-1">
- <label htmlFor="reason" className="block text-sm font-medium text-ink-soft">
- Reason <span className="text-danger ml-0.5">*</span>
- </label>
- <textarea
- id="reason"
- value={formData.reason}
- onChange={(e) => setFormData((p) => ({ ...p, reason: e.target.value }))}
- rows={3}
- placeholder="Please provide your reason for resignation..."
- className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y min-h-[80px]"
+ <ReasonPicker
+ event="5597"
+ mode="ess-voluntary"
+ value={formData.reason || null}
+ onChange={(code) => setFormData((p) => ({ ...p, reason: code }))}
+ required
+ id="resignation-reason"
  />
- </div>
  <div className="space-y-1">
- <label htmlFor="handoverNotes" className="block text-sm font-medium text-ink-soft">Handover Notes</label>
+ <label htmlFor="handoverNotes" className="block text-sm font-medium text-ink-soft">{t('handoverNotes')}</label>
  <textarea
  id="handoverNotes"
  value={formData.handoverNotes}
  onChange={(e) => setFormData((p) => ({ ...p, handoverNotes: e.target.value }))}
  rows={3}
- placeholder="Notes about knowledge transfer and pending tasks..."
- className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y min-h-[80px]"
+ placeholder={t('handoverNotesPlaceholder')}
+ className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y min-h-[80px]"
  />
  </div>
  </div>
  <div className="flex justify-end gap-3 mt-6">
- <Button variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
  <Button onClick={handleSubmitResignation} disabled={!formData.lastWorkingDate || !formData.reason}>
- Submit Resignation
+ {t('submitResignation')}
  </Button>
  </div>
  </CardContent>

@@ -2140,7 +2140,11 @@
     "paymentDetails": "Payment Details",
     "paymentDate": "Expected Payment Date",
     "bankAccount": "Bank Account",
-    "tbd": "To be determined"
+    "tbd": "To be determined",
+    "startResignationTitle": "Start Resignation Process",
+    "handoverNotes": "Handover Notes",
+    "handoverNotesPlaceholder": "Notes about knowledge transfer and pending tasks...",
+    "cancel": "Cancel"
   },
   "training": {
     "title": "Training Records",
