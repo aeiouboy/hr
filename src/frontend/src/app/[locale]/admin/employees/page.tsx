@@ -151,13 +151,15 @@ const EmployeeRow = ({
         }
       }}
       className="humi-emp-row"
+      // CSS var so sticky cells inherit hover state without overriding row class
+      data-row="true"
     >
-      {/* Employee ID */}
-      <div style={{ width: COLUMNS[0].width, flexShrink: 0, padding: '0 12px', fontSize: 12, fontWeight: 600, color: 'var(--color-ink-muted)', fontFamily: 'var(--font-mono)' }}>
+      {/* Employee ID — sticky-left so identity stays visible during horizontal scroll */}
+      <div className="humi-emp-sticky" style={{ width: COLUMNS[0].width, flexShrink: 0, padding: '0 12px', fontSize: 12, fontWeight: 600, color: 'var(--color-ink-muted)', fontFamily: 'var(--font-mono)', position: 'sticky', left: 0, zIndex: 1, background: 'var(--row-bg)' }}>
         {employee.employee_id}
       </div>
-      {/* Name TH */}
-      <div style={{ width: COLUMNS[1].width, flexShrink: 0, padding: '0 12px', fontSize: 13, fontWeight: 500, color: 'var(--color-ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+      {/* Name TH — sticky-left, pinned right after Employee ID */}
+      <div className="humi-emp-sticky" style={{ width: COLUMNS[1].width, flexShrink: 0, padding: '0 12px', fontSize: 13, fontWeight: 500, color: 'var(--color-ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', position: 'sticky', left: COLUMNS[0].width, zIndex: 1, background: 'var(--row-bg)' }}>
         {employee.first_name_th} {employee.last_name_th}
       </div>
       {/* Employee class */}
@@ -386,26 +388,40 @@ export default function EmployeesPage() {
               zIndex: 2,
             }}
           >
-            {COLUMNS.map((col) => (
-              <div
-                key={col.key}
-                role="columnheader"
-                style={{
-                  width: col.key === 'position_title' ? undefined : col.width,
-                  flex: col.key === 'position_title' ? 1 : undefined,
-                  minWidth: col.key === 'position_title' ? col.width : undefined,
-                  flexShrink: col.key === 'position_title' ? undefined : 0,
-                  padding: '0 12px',
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-ink-muted)',
-                }}
-              >
-                {col.label}
-              </div>
-            ))}
+            {COLUMNS.map((col, idx) => {
+              const stickyLeft =
+                idx === 0 ? 0 : idx === 1 ? COLUMNS[0].width : undefined
+              const isSticky = stickyLeft !== undefined
+              return (
+                <div
+                  key={col.key}
+                  role="columnheader"
+                  style={{
+                    width: col.key === 'position_title' ? undefined : col.width,
+                    flex: col.key === 'position_title' ? 1 : undefined,
+                    minWidth: col.key === 'position_title' ? col.width : undefined,
+                    flexShrink: col.key === 'position_title' ? undefined : 0,
+                    padding: '0 12px',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--color-ink-muted)',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    ...(isSticky && {
+                      position: 'sticky',
+                      left: stickyLeft,
+                      background: 'var(--color-canvas)',
+                      zIndex: 3,
+                    }),
+                  }}
+                >
+                  {col.label}
+                </div>
+              )
+            })}
           </div>
           {filtered.length === 0 ? (
             <div
@@ -461,9 +477,10 @@ export default function EmployeesPage() {
         </div>
       </div>
 
-      {/* Row hover style — injected once */}
+      {/* Row hover + sticky-left cell bg — injected once */}
       <style>{`
-        .humi-emp-row:hover { background: var(--color-canvas); }
+        .humi-emp-row { --row-bg: var(--color-surface); }
+        .humi-emp-row:hover { background: var(--color-canvas); --row-bg: var(--color-canvas); }
         .humi-emp-row:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
       `}</style>
     </div>
