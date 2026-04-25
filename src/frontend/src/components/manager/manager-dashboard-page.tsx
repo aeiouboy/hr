@@ -110,6 +110,7 @@ export function ManagerDashboardPage() {
  const [activeTab, setActiveTab] = useState<TabKey>('overview');
  const [confirmAction, setConfirmAction] = useState<{ id: string; action:'approve' |'reject' } | null>(null);
  const [teamFilter, setTeamFilter] = useState<string>('all');
+ const [deptFilter, setDeptFilter] = useState<string>('all');
  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
 
  const tabs = [
@@ -119,7 +120,17 @@ export function ManagerDashboardPage() {
  { key:'calendar', label: t('teamCalendar') },
  ];
 
- const filteredTeam = teamFilter ==='all' ? team : team.filter((m) => m.status === teamFilter);
+ const uniqueDepts = useMemo(
+  () => Array.from(new Set(team.map((m) => m.department))).sort(),
+  [team],
+ );
+
+ const filteredTeam = useMemo(() => {
+  let result = teamFilter ==='all' ? team : team.filter((m) => m.status === teamFilter);
+  if (deptFilter !== 'all') result = result.filter((m) => m.department === deptFilter);
+  return result;
+ }, [team, teamFilter, deptFilter]);
+
  const visibleAlerts = alerts.filter((a) => !dismissedAlerts.has(a.id));
 
  const handleConfirmAction = () => {
@@ -320,11 +331,16 @@ export function ManagerDashboardPage() {
  );
 
  const renderTeam = () => (
+ // TODO(backend-phase): wire useAuthStore().permissions
+ //   field-level visibility gate per BRD #174 AC2
+ //   currently mockup-proof — all fields visible
  <Card>
  <CardHeader>
+ <div className="flex flex-col gap-3">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
  <CardTitle>{t('teamMembers')} ({filteredTeam.length})</CardTitle>
- <div className="flex gap-2">
+ {/* ตัวกรองสถานะ */}
+ <div className="flex flex-wrap gap-2">
  {['all','active','on-leave','probation'].map((f) => (
  <button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised')}>
  {f ==='all' ? t('filters.all') : f ==='active' ? t('filters.active') : f ==='on-leave' ? t('filters.onLeave') : t('filters.probation')}
@@ -332,20 +348,59 @@ export function ManagerDashboardPage() {
  ))}
  </div>
  </div>
+ {/* ตัวกรองหน่วยงาน (AC-3) */}
+ {uniqueDepts.length > 0 && (
+ <div className="flex flex-wrap gap-2">
+ <button onClick={() => setDeptFilter('all')} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', deptFilter ==='all' ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>
+ ทุกหน่วยงาน
+ </button>
+ {uniqueDepts.map((dept) => (
+ <button key={dept} onClick={() => setDeptFilter(dept)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', deptFilter === dept ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>
+ {dept}
+ </button>
+ ))}
+ </div>
+ )}
+ </div>
  </CardHeader>
  <CardContent>
- {/* Grid view */}
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+ {/* Table view — AC-2: แสดง หน่วยงาน / ศูนย์ต้นทุน / หัวหน้างาน */}
+ <div className="overflow-x-auto">
+ <table className="w-full text-sm">
+ <thead>
+ <tr className="border-b border-hairline">
+ <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">พนักงาน</th>
+ <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">หน่วยงาน</th>
+ <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">ศูนย์ต้นทุน</th>
+ <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">หัวหน้างาน</th>
+ <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">สถานะ</th>
+ </tr>
+ </thead>
+ <tbody>
  {filteredTeam.map((m) => (
- <a key={m.id} href={`/profile?id=${m.id}`} className="flex items-center gap-3 p-3 rounded-md border border-hairline hover:bg-surface-raised/50 transition">
- <div className="h-10 w-10 rounded-full bg-surface-raised flex items-center justify-center text-sm font-medium text-ink-muted shrink-0">{m.avatar}</div>
- <div className="min-w-0 flex-1">
- <p className="text-sm font-medium text-ink truncate">{m.name}</p>
+ <tr key={m.id} className="border-b border-hairline last:border-0 hover:bg-surface-raised/30 transition">
+ <td className="py-2.5 px-3">
+ <a href={`/profile?id=${m.id}`} className="flex items-center gap-2 group">
+ <div className="h-8 w-8 rounded-full bg-surface-raised flex items-center justify-center text-xs font-medium text-ink-muted shrink-0">{m.avatar}</div>
+ <div className="min-w-0">
+ <p className="text-sm font-medium text-ink group-hover:text-brand transition truncate">{m.name}</p>
  <p className="text-xs text-ink-muted truncate">{m.position}</p>
  </div>
- <Badge variant={STATUS_BADGE[m.status]?.variant ??'neutral'}>{STATUS_BADGE[m.status]?.label ?? m.status}</Badge>
  </a>
+ </td>
+ <td className="py-2.5 px-3 text-xs text-ink">{m.department}</td>
+ <td className="py-2.5 px-3 text-xs text-ink-muted font-mono">{m.costCenter || '—'}</td>
+ <td className="py-2.5 px-3 text-xs text-ink">{m.managerName ?? '—'}</td>
+ <td className="py-2.5 px-3">
+ <Badge variant={STATUS_BADGE[m.status]?.variant ??'neutral'}>{STATUS_BADGE[m.status]?.label ?? m.status}</Badge>
+ </td>
+ </tr>
  ))}
+ </tbody>
+ </table>
+ {filteredTeam.length === 0 && (
+ <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลสมาชิก</p>
+ )}
  </div>
  </CardContent>
  </Card>

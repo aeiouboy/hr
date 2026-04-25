@@ -10,6 +10,9 @@ export interface TeamMember {
  name: string;
  position: string;
  department: string;
+ costCenter: string;
+ managerId: string | null;
+ managerName: string | null;
  avatar: string;
  status:'active' |'on-leave' |'probation';
  joinDate: string;
@@ -54,12 +57,12 @@ export interface TeamStats {
 }
 
 const MOCK_TEAM: TeamMember[] = [
- { id:'EMP001', name:'Somchai Jaidee', position:'Senior Developer', department:'IT', avatar:'SJ', status:'active', joinDate:'2023-06-15' },
- { id:'EMP002', name:'Ploy Suksawat', position:'UX Designer', department:'IT', avatar:'PS', status:'active', joinDate:'2024-01-10' },
- { id:'EMP003', name:'Nattapong Kaewsai', position:'QA Engineer', department:'IT', avatar:'NK', status:'on-leave', joinDate:'2023-09-01' },
- { id:'EMP004', name:'Ratchanee Boonsri', position:'Junior Developer', department:'IT', avatar:'RB', status:'probation', joinDate:'2025-12-01', probationEnd:'2026-05-31' },
- { id:'EMP005', name:'Krit Tanawan', position:'DevOps Engineer', department:'IT', avatar:'KT', status:'active', joinDate:'2024-03-15' },
- { id:'EMP006', name:'Malee Sriphan', position:'Business Analyst', department:'IT', avatar:'MS', status:'active', joinDate:'2022-11-20' },
+ { id:'EMP001', name:'สมชาย ใจดี', position:'Senior Developer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId: null, managerName: null, avatar:'สช', status:'active', joinDate:'2023-06-15' },
+ { id:'EMP002', name:'พลอย สุขสวัสดิ์', position:'UX Designer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId:'EMP001', managerName:'สมชาย ใจดี', avatar:'พส', status:'active', joinDate:'2024-01-10' },
+ { id:'EMP003', name:'ณัฐพงศ์ แก้วสาย', position:'QA Engineer', department:'ฝ่ายไอที', costCenter:'CC-1001', managerId:'EMP001', managerName:'สมชาย ใจดี', avatar:'ณก', status:'on-leave', joinDate:'2023-09-01' },
+ { id:'EMP004', name:'รัชนี บุญศรี', position:'Junior Developer', department:'ฝ่ายการเงิน', costCenter:'CC-2001', managerId:'EMP006', managerName:'มาลี ศรีพันธ์', avatar:'รบ', status:'probation', joinDate:'2025-12-01', probationEnd:'2026-05-31' },
+ { id:'EMP005', name:'กฤษ ตระหนักวงศ์', position:'DevOps Engineer', department:'ฝ่ายขาย', costCenter:'CC-3001', managerId: null, managerName: null, avatar:'กต', status:'active', joinDate:'2024-03-15' },
+ { id:'EMP006', name:'มาลี ศรีพันธ์', position:'Business Analyst', department:'ฝ่ายการเงิน', costCenter:'CC-2001', managerId:'EMP005', managerName:'กฤษ ตระหนักวงศ์', avatar:'มศ', status:'active', joinDate:'2022-11-20' },
 ];
 
 const MOCK_APPROVALS: PendingApproval[] = [
@@ -143,6 +146,9 @@ export function useManagerDashboard() {
  name: m.name,
  position: m.position,
  department: m.department,
+ costCenter: '',
+ managerId: null,
+ managerName: null,
  avatar: m.name.split('').map((n) => n[0]).join('').slice(0, 2),
  status: m.status ==='present' ?'active' : m.status ==='leave' ?'on-leave' : m.status ==='wfh' ?'active' :'active',
  joinDate:'',
