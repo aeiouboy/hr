@@ -11,6 +11,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Check, FileText, Download, Pencil, X, FileX } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -152,6 +153,8 @@ export default function HumiProfileMePage() {
   const tToast = useTranslations('profileToast');
   const tActivity = useTranslations('activityLog');
   const tEss = useTranslations('ess');
+  const params = useParams();
+  const locale = (params?.locale as string) ?? 'th';
   const p = HUMI_MY_PROFILE;
 
   const {
@@ -1117,7 +1120,7 @@ export default function HumiProfileMePage() {
               <span style={{ fontSize: 14, color: 'var(--color-ink)' }}>{t('resignationSectionDesc')}</span>
             </div>
             <Link
-              href="/th/resignation"
+              href={`/${locale}/resignation`}
               className="text-sm font-medium text-accent hover:underline"
             >
               {t('resignationSectionLink')}

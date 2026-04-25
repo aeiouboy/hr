@@ -1,0 +1,124 @@
+[
+  {
+    "ac_id": "AC-1",
+    "passed": true,
+    "ac_compliance": true,
+    "score": 1.0,
+    "goal_alignment": 1.0,
+    "drift_score": 0.0,
+    "uncertainty": 0.05,
+    "reasoning": "submitResignation calls submitChangeRequest({sectionKey:'termination', field:'employmentStatus', ...}) directly. Test use-resignation.submit.test.ts 4/4 pass: pendingChanges[0].sectionKey === 'termination' asserted. No intermediate state mechanism invented (C3 compliant). PendingChange.id, requestedAt, status='pending' all set by store action.",
+    "questions_used": [
+      "Does submitResignation call submitChangeRequest with sectionKey='termination' (not local setState)?",
+      "Does the resulting PendingChange array entry have sectionKey === 'termination'?"
+    ],
+    "evidence": [
+      "src/frontend/src/hooks/use-resignation.ts:84-91 — submitChangeRequest({sectionKey:'termination', ...})",
+      "src/__tests__/use-resignation.submit.test.ts: 4/4 pass",
+      "test-output.txt: ✓ use-resignation.submit.test.ts (4 tests)"
+    ]
+  },
+  {
+    "ac_id": "AC-2",
+    "passed": true,
+    "ac_compliance": true,
+    "score": 1.0,
+    "goal_alignment": 1.0,
+    "drift_score": 0.0,
+    "uncertainty": 0.0,
+    "reasoning": "Static: grep 'useState.*ResignationRecord' src/hooks/use-resignation.ts returns 0 matches. Runtime: use-resignation.ssot.test.ts 5/5 pass — includes reactive test: store.submitChangeRequest → hook sees record without re-mount. C7 SSoT invariant held: single source is humi-profile-slice.pendingChanges.",
+    "questions_used": [
+      "Does use-resignation.ts contain any useState<ResignationRecord>?",
+      "When store updates pendingChanges, does useResignation reactively return the new record?"
+    ],
+    "evidence": [
+      "src/frontend/src/hooks/use-resignation.ts:53-54 — useHumiProfileStore selector, no useState for record",
+      "grep 'useState.*ResignationRecord' → 0 matches (verified in Phase 4)",
+      "src/__tests__/use-resignation.ssot.test.ts: 5/5 pass",
+      "test-output.txt: ✓ use-resignation.ssot.test.ts (5 tests)"
+    ]
+  },
+  {
+    "ac_id": "AC-3",
+    "passed": true,
+    "ac_compliance": true,
+    "score": 1.0,
+    "goal_alignment": 1.0,
+    "drift_score": 0.0,
+    "uncertainty": 0.0,
+    "reasoning": "ReasonPicker.tsx: ESS_VOLUNTARY_CODES = ['RESIGN_PERSONAL','RESIGN_STUDY','RESIGN_FAMILY','RESIGN_OTHER']. When mode='ess-voluntary' && event='5597', options filtered to exactly these 4 codes. RTL test counts options === 4. Labels are Thai-primary (no bilingual parens). Browser snapshot confirms combobox has 4 options + disabled placeholder. Screenshot evidence captured.",
+    "questions_used": [
+      "When mode='ess-voluntary', does ReasonPicker show exactly 4 RESIGN_* options (not 17 TERM_*)?",
+      "Are the 4 option labels Thai-primary (no SF-bilingual parens)?"
+    ],
+    "evidence": [
+      "src/components/admin/lifecycle/ReasonPicker.tsx:55 — ESS_VOLUNTARY_CODES constant",
+      "src/components/admin/lifecycle/ReasonPicker.tsx:78-80 — mode filter logic",
+      "src/__tests__/ReasonPicker.modes.test.tsx: 5/5 pass",
+      "Playwright snapshot: combobox options = [RESIGN_PERSONAL, RESIGN_STUDY, RESIGN_FAMILY, RESIGN_OTHER] only",
+      "test-artifacts/ess-termination-2026-04-25T1400/screenshots/ac3-resignation-form-reasonpicker.png"
+    ]
+  },
+  {
+    "ac_id": "AC-4",
+    "passed": true,
+    "ac_compliance": true,
+    "score": 1.0,
+    "goal_alignment": 1.0,
+    "drift_score": 0.0,
+    "uncertainty": 0.05,
+    "reasoning": "useResignation maps PendingChange.status='pending' → ResignationRecord.status='submitted'. ResignationPage timeline renders ['submitted','in_progress','completed'] steps; step 0 (submitted) gets bg-brand class when record.status='submitted'. Tests: resignation-page.timeline.test.tsx 3/3 pass — timeline text includes 'submitted', bg-brand badge count >= 1, empty state shows before submit.",
+    "questions_used": [
+      "After submitChangeRequest, does the ResignationPage render the timeline (not empty state)?",
+      "Does step 1 (submitted) have the active class (bg-brand) when PendingChange.status='pending'?"
+    ],
+    "evidence": [
+      "src/hooks/use-resignation.ts:69 — status mapping: 'pending' → 'submitted'",
+      "src/components/resignation/resignation-page.tsx:138-152 — timeline render logic",
+      "src/__tests__/resignation-page.timeline.test.tsx: 3/3 pass",
+      "test-output.txt: ✓ resignation-page.timeline.test.tsx (3 tests)"
+    ]
+  },
+  {
+    "ac_id": "AC-5",
+    "passed": true,
+    "ac_compliance": true,
+    "score": 0.95,
+    "goal_alignment": 1.0,
+    "drift_score": 0.05,
+    "uncertainty": 0.05,
+    "reasoning": "profile/me Employment tab (panelKey='job') renders resignation card with <Link href='/{locale}/resignation'> and Thai label 'ดูคำขอลาออก'. RTL tests 3/3 pass. Self-heal applied: builder hardcoded /th/resignation → fixed to /${locale}/resignation using useParams. Drift score 0.05 for minor locale bug (self-healed). Browser screenshot confirms card visible at bottom of employment panel.",
+    "questions_used": [
+      "Does the Employment tab render a link to /resignation with a visible Thai label?",
+      "Is the link href dynamic (/{locale}/) not hardcoded to /th/?"
+    ],
+    "evidence": [
+      "src/app/[locale]/profile/me/page.tsx:1119-1124 — Link href after self-heal",
+      "Playwright evaluate: querySelector('a[href*=resignation]').outerHTML = '<a href=\"/th/resignation\">ดูคำขอลาออก</a>'",
+      "src/__tests__/profile-me.resign-link.test.tsx: 3/3 pass",
+      "test-artifacts/ess-termination-2026-04-25T1400/screenshots/ac5-profile-me-employment-resign-link.png"
+    ]
+  },
+  {
+    "ac_id": "AC-6",
+    "passed": true,
+    "ac_compliance": true,
+    "score": 1.0,
+    "goal_alignment": 1.0,
+    "drift_score": 0.0,
+    "uncertainty": 0.0,
+    "reasoning": "All 25/25 unit tests pass. npm run build exits 0 (0 TS errors, 0 build errors). humi-profile-slice.v3-migration.test.ts 5/5 pass: version=3 in localStorage, v2 state survives migrate(), submitChangeRequest with sectionKey='termination' works post-migration. 10 pre-existing failures in unrelated test files (verified against baseline before changes).",
+    "questions_used": [
+      "Do all 25 ESS-termination tests pass?",
+      "Does npm run build exit 0?",
+      "Does v2→v3 migration preserve existing pendingChanges?"
+    ],
+    "evidence": [
+      "test-output.txt: Tests 25 passed (25), Test Files 6 passed (6)",
+      "npm run build: exits 0, /[locale]/resignation route compiled",
+      "src/__tests__/humi-profile-slice.v3-migration.test.ts: 5/5 pass",
+      "humi-profile-slice.ts:267 — version: 3",
+      "humi-profile-slice.ts:270-272 — v2→v3 no-op migrate branch"
+    ]
+  }
+]
