@@ -76,7 +76,7 @@ export function ReasonPicker({
 }: ReasonPickerProps) {
   const allOptions = EVENT_REASONS[event] ?? []
   const options = mode === 'ess-voluntary' && event === '5597'
-    ? ESS_VOLUNTARY_CODES.filter((c) => allOptions.includes(c))
+    ? ESS_VOLUNTARY_CODES
     : allOptions
   const labelId = `${id}-label`
 
