@@ -12,7 +12,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
-import { stepIdentitySchema } from '@/lib/admin/validation/hireSchema'
+import { stepIdentitySchema, calcAge } from '@/lib/admin/validation/hireSchema'
 import {
   PICKLIST_EVENT_REASON_HIRE,
   PICKLIST_SALUTATION_EN,
@@ -24,17 +24,6 @@ import {
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10)
-}
-
-/** คำนวณอายุจาก dateOfBirth ณ วันนี้ */
-function calcAge(dob: string): number | null {
-  if (!dob) return null
-  const birth = new Date(dob)
-  const today = new Date()
-  let age = today.getFullYear() - birth.getFullYear()
-  const m = today.getMonth() - birth.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
-  return age >= 0 ? age : null
 }
 
 export interface StepIdentityProps {
@@ -125,7 +114,6 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       dateOfBirth:        dateOfBirth  || undefined,
       countryOfBirth:     countryOfBirth || null,
       regionOfBirth,
-      age,
       employeeId:         employeeId   || undefined,
       nationalIdCardType: nationalIdCardType || undefined,
       country:            country      || undefined,

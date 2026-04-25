@@ -1,11 +1,12 @@
 // hireSchema.test.ts — AC-3/AC-4 validator polish unit tests
 // Traceability: specs/hr-phase1-ris-finish.md §4 "Write Tests" + AC-3 + AC-4
 //
-// AC-3 R1: DOB < HireDate cross-field refine (hireSchema.ts line 78-90)
-// AC-4 R2: maritalStatusSince conditional required superRefine (hireSchema.ts line 123-132)
+// AC-3 R1: DOB < HireDate cross-field refine (hireSchema.ts)
+// AC-4 R2: maritalStatusSince conditional required superRefine (hireSchema.ts)
+// AC-5 R3: minimum hire age 15 cross-field refine (hireSchema.ts)
 
 import { describe, it, expect } from 'vitest'
-import { stepIdentitySchema, stepBiographicalSchema } from '@/lib/admin/validation/hireSchema'
+import { stepIdentitySchema, stepBiographicalSchema, calcAge } from '@/lib/admin/validation/hireSchema'
 
 // ── Base valid fixture: stepIdentitySchema (ทุก required field ครบ) ──────────
 const validIdentity = {
@@ -70,6 +71,40 @@ describe('AC-3 R1 DOB<HireDate — stepIdentitySchema cross-field refine', () =>
       const msgs = result.error.issues.map((i) => i.message)
       expect(msgs.some((m) => m.includes('วันที่เริ่มงาน'))).toBe(true)
     }
+  })
+})
+
+// ─── AC-5 R3: minimum hire age (Thai labor law 15 ปี) ────────────────────────
+
+describe('AC-5 R3 อายุพนักงานขั้นต่ำ 15 ปี — stepIdentitySchema cross-field refine', () => {
+  it('FAIL: DOB ทำให้อายุ < 15 ปี — error path ["dateOfBirth"] + message มี "อายุ"', () => {
+    // Regression: ก่อนหน้านี้ปุ่ม "ถัดไป" disable เงียบ ๆ เพราะ schema มี age.positive() ที่ reject 0
+    const result = stepIdentitySchema.safeParse({
+      ...validIdentity,
+      dateOfBirth: '2026-04-16',  // DOB ในปีปัจจุบัน → calcAge = 0
+      hireDate:    '2026-04-25',
+    })
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      const issue = result.error.issues.find(
+        (i) => i.path[0] === 'dateOfBirth' && i.message.includes('อายุ')
+      )
+      expect(issue).toBeDefined()
+      expect(issue?.message).toContain('15 ปี')
+    }
+  })
+
+  it('PASS: DOB ทำให้อายุ ≥ 15 ปี (ผู้ใหญ่)', () => {
+    const result = stepIdentitySchema.safeParse({
+      ...validIdentity,
+      dateOfBirth: '1990-01-15',  // age ~36
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('calcAge helper — null เมื่อ DOB อยู่ในอนาคต', () => {
+    expect(calcAge('')).toBeNull()
+    expect(calcAge('2099-12-31')).toBeNull()
   })
 })
 

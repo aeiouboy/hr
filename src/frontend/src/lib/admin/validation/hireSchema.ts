@@ -2,6 +2,21 @@
 // D2 S1: ขยายจาก 13 → 37 BA fields; cross-field DOB < HireDate เป็น zod refine
 import { z } from 'zod'
 
+// ─── Age helper (shared across schema refine + StepIdentity display) ─────────
+// คำนวณอายุเต็มปี ณ วันนี้ จาก dateOfBirth (ISO yyyy-mm-dd). null เมื่อ DOB ว่างหรืออยู่ในอนาคต.
+export function calcAge(dob: string): number | null {
+  if (!dob) return null
+  const birth = new Date(dob)
+  const today = new Date()
+  let age = today.getFullYear() - birth.getFullYear()
+  const m = today.getMonth() - birth.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
+  return age >= 0 ? age : null
+}
+
+/** กม.แรงงานไทย: อายุขั้นต่ำในการจ้างงาน 15 ปี (พ.ร.บ.คุ้มครองแรงงาน พ.ศ.2541 ม.44) */
+const MIN_HIRE_AGE = 15
+
 // ─── Picklist ID literals (C8: ห้าม invent — ตรงตาม BA-EC-SUMMARY.md) ────────
 
 // 6 HIRE event reason codes — BA row 3, Picklist ID: EventReasonHire
@@ -54,8 +69,8 @@ export const stepIdentitySchema = z.object({
   countryOfBirth: z.string().optional().nullable(),
   /** BA row 10 — Region of Birth — optional */
   regionOfBirth: z.string().default(''),
-  /** BA row 11 — Age * (calculated from DOB; display-only, still required) */
-  age: z.number({ required_error: 'อายุต้องมากกว่า 0' }).positive('อายุต้องมากกว่า 0').optional().nullable(),
+  // BA row 11 (Age) เป็น derived value จาก dateOfBirth — ไม่ใส่ใน schema เพื่อกัน
+  // single-source-of-truth drift (C7); validate ผ่าน .refine ด้านล่างแทน
   /** BA row 12 — Employee ID * */
   employeeId: z.string().min(1, 'กรุณาระบุรหัสพนักงาน'),
   /** BA row 13 — National ID Card Type * */
@@ -85,6 +100,17 @@ export const stepIdentitySchema = z.object({
   },
   {
     message: 'วันที่เริ่มงานต้องหลังวันเกิด (Recent Date should be greater than Date of Birth)',
+    path: ['dateOfBirth'],
+  },
+)
+.refine(
+  (data) => {
+    if (!data.dateOfBirth) return true // individual required check handle empty
+    const age = calcAge(data.dateOfBirth)
+    return age !== null && age >= MIN_HIRE_AGE
+  },
+  {
+    message: `พนักงานต้องอายุอย่างน้อย ${MIN_HIRE_AGE} ปี (พ.ร.บ.คุ้มครองแรงงาน)`,
     path: ['dateOfBirth'],
   },
 )
