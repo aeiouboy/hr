@@ -95,15 +95,40 @@ const MOCK_CALENDAR: CalendarEvent[] = [
  { id:'CE010', date:'2026-02-03', employeeName:'Krit T.', type:'shift', label:'Morning Shift' },
 ];
 
+// Build hierarchy from managerId chain (Direct mode base).
+// dottedLineManagerId = สายไขว้ (Matrix mode overlay):
+//   พลอย → สายตรงถึง สมชาย / สายไขว้ถึง กฤษ
+//   ณัฐพงศ์ → สายตรงถึง สมชาย / สายไขว้ถึง มาลี
 const MOCK_ORG: OrgNode = {
- id:'MGR001',
- name:'You (Manager)',
- position:'IT Manager',
- children: MOCK_TEAM.map((m) => ({
- id: m.id,
- name: m.name,
- position: m.position,
- })),
+ id: 'MGR001',
+ name: 'คุณ (ผู้จัดการ)',
+ position: 'ผู้จัดการไอที',
+ children: [
+  {
+   id: 'EMP001',
+   name: 'สมชาย ใจดี',
+   position: 'Senior Developer',
+   children: [
+    { id: 'EMP002', name: 'พลอย สุขสวัสดิ์', position: 'UX Designer', dottedLineManagerId: 'EMP005' },
+    { id: 'EMP003', name: 'ณัฐพงศ์ แก้วสาย', position: 'QA Engineer', dottedLineManagerId: 'EMP006' },
+   ],
+  },
+  {
+   id: 'EMP005',
+   name: 'กฤษ ตระหนักวงศ์',
+   position: 'DevOps Engineer',
+   children: [
+    {
+     id: 'EMP006',
+     name: 'มาลี ศรีพันธ์',
+     position: 'Business Analyst',
+     children: [
+      { id: 'EMP004', name: 'รัชนี บุญศรี', position: 'Junior Developer' },
+     ],
+    },
+   ],
+  },
+ ],
 };
 
 // Races a promise against a timeout; rejects if the timeout fires first.

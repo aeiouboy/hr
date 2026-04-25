@@ -48,6 +48,7 @@ export interface OrgNode {
  name: string;
  position: string;
  avatar?: string;
+ dottedLineManagerId?: string;
  children?: OrgNode[];
 }
 

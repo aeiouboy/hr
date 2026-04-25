@@ -21,6 +21,8 @@ import {
  Calendar,
  X,
  User,
+ Network,
+ GitBranch,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -32,7 +34,7 @@ import { useManagerDashboard } from '@/hooks/use-manager-dashboard';
 import type { TeamMember, PendingApproval, OrgNode } from '@/hooks/use-manager-dashboard';
 import { cn } from '@/lib/utils';
 
-type TabKey ='overview' |'team' |'approvals' |'calendar';
+type TabKey ='overview' |'team' |'org-chart' |'approvals' |'calendar';
 
 const SEVERITY_STYLES: Record<string, string> = {
  critical:'border-l-4 border-l-red-500 bg-danger-tint',
@@ -112,10 +114,12 @@ export function ManagerDashboardPage() {
  const [teamFilter, setTeamFilter] = useState<string>('all');
  const [deptFilter, setDeptFilter] = useState<string>('all');
  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
+ const [orgMode, setOrgMode] = useState<'สายตรง' |'สายไขว้'>('สายตรง');
 
  const tabs = [
  { key:'overview', label: t('teamOverview') },
  { key:'team', label: t('teamMembers') },
+ { key:'org-chart', label:'แผนผังทีม' },
  { key:'approvals', label: `${t('pendingApprovals')} (${approvals.length})` },
  { key:'calendar', label: t('teamCalendar') },
  ];
@@ -299,32 +303,20 @@ export function ManagerDashboardPage() {
  </Card>
  </div>
 
- {/* Mini Org Chart */}
+ {/* Org Chart CTA */}
  <div className="space-y-4">
- <Card>
- <CardHeader><CardTitle className="flex items-center gap-2"><Building className="h-5 w-5 text-indigo-500" />{t('teamStructure')}</CardTitle></CardHeader>
- <CardContent>
- {orgChart ? (
- <OrgNodeItem node={orgChart} />
- ) : (
- <div className="space-y-3">
- <div className="text-center p-3 bg-brand/10 rounded-md border border-brand/20">
- <p className="text-sm font-semibold text-brand">You (Manager)</p>
- <p className="text-xs text-ink-muted">IT Department</p>
+ <Card className="flex flex-col items-center justify-center text-center p-6 gap-4 min-h-[220px] hover:shadow-1 transition cursor-pointer group" onClick={() => setActiveTab('org-chart')}>
+ <div className="h-14 w-14 rounded-full bg-accent-tint flex items-center justify-center group-hover:scale-105 transition-transform">
+ <Network className="h-7 w-7 text-accent" />
  </div>
- <div className="flex justify-center"><div className="w-px h-4 bg-gray-300" /></div>
- <div className="grid grid-cols-2 gap-2">
- {team.slice(0, 6).map((m) => (
- <a key={m.id} href={`/profile?id=${m.id}`} className="p-2 rounded-md border border-hairline text-center hover:bg-surface-raised/50 transition">
- <div className="h-8 w-8 rounded-full bg-surface-raised mx-auto flex items-center justify-center text-xs font-medium text-ink-muted">{m.avatar}</div>
- <p className="text-xs font-medium text-ink mt-1 truncate">{m.name.split('')[0]}</p>
- <span className={cn('inline-block mt-0.5 h-1.5 w-1.5 rounded-full', m.status ==='active' ?'bg-success-tint0' : m.status ==='on-leave' ?'bg-warning-tint0' :'bg-accent-tint0')} />
- </a>
- ))}
+ <div>
+ <p className="text-base font-semibold text-ink">แผนผังทีม</p>
+ <p className="text-xs text-ink-muted mt-1">สายตรง · สายไขว้</p>
  </div>
- </div>
- )}
- </CardContent>
+ <Button variant="outline" size="sm" className="gap-1.5 group-hover:bg-accent-tint group-hover:text-accent transition" onClick={(e) => { e.stopPropagation(); setActiveTab('org-chart'); }}>
+ <GitBranch className="h-4 w-4" />
+ ดูแผนผังเต็ม
+ </Button>
  </Card>
  </div>
  </div>
@@ -405,6 +397,110 @@ export function ManagerDashboardPage() {
  </CardContent>
  </Card>
  );
+
+ const renderOrgChart = () => {
+ // Build lookup id→name สำหรับ dotted-line label ใน Matrix mode
+ const buildIdMap = (node: OrgNode, acc: Map<string, string> = new Map()): Map<string, string> => {
+  acc.set(node.id, node.name);
+  node.children?.forEach((c) => buildIdMap(c, acc));
+  return acc;
+ };
+ const idMap = orgChart ? buildIdMap(orgChart) : new Map<string, string>();
+
+ function OrgNodeFull({ node, depth = 0 }: { node: OrgNode; depth?: number }) {
+  const [expanded, setExpanded] = useState(depth <= 1);
+  const hasChildren = node.children && node.children.length > 0;
+  const showDotted = orgMode ==='สายไขว้' && !!node.dottedLineManagerId;
+
+  return (
+   <div className={cn(depth > 0 &&'ml-6 border-l border-hairline pl-3')}>
+    <div className="flex items-start gap-2 py-2">
+     {hasChildren ? (
+      <button
+       onClick={() => setExpanded(!expanded)}
+       className="mt-1 p-0.5 rounded hover:bg-surface-raised transition shrink-0"
+       aria-label={expanded ?'ย่อ' :'ขยาย'}
+      >
+       {expanded
+        ? <ChevronLeft className="h-3.5 w-3.5 text-ink-muted rotate-90" />
+        : <ChevronRight className="h-3.5 w-3.5 text-ink-muted" />}
+      </button>
+     ) : <span className="w-4 shrink-0" />}
+
+     <div className="flex-1 min-w-0">
+      <div className="flex flex-wrap items-center gap-2">
+       <div className="h-8 w-8 rounded-full bg-surface-raised flex items-center justify-center text-xs font-medium text-ink-muted shrink-0">
+        {node.avatar
+         ? <img src={node.avatar} alt="" className="h-8 w-8 rounded-full object-cover" />
+         : <User className="h-4 w-4 text-ink-muted" />}
+       </div>
+       <div className="min-w-0">
+        <p className="text-sm font-medium text-ink truncate">{node.name}</p>
+        <p className="text-xs text-ink-muted truncate">{node.position}</p>
+       </div>
+       {showDotted && (
+        <span
+         className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-dashed border-indigo-400 text-[10px] text-indigo-600 bg-indigo-50 shrink-0"
+         title="สายไขว้"
+        >
+         <GitBranch className="h-2.5 w-2.5" />
+         สายไขว้ {idMap.get(node.dottedLineManagerId!) ?? node.dottedLineManagerId}
+        </span>
+       )}
+      </div>
+     </div>
+    </div>
+    {expanded && hasChildren && node.children!.map((child) => (
+     <OrgNodeFull key={child.id} node={child} depth={depth + 1} />
+    ))}
+   </div>
+  );
+ }
+
+ return (
+  <Card>
+   <CardHeader>
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+     <CardTitle className="flex items-center gap-2">
+      <Network className="h-5 w-5 text-accent" />
+      แผนผังทีม
+     </CardTitle>
+     {/* Toggle สายตรง / สายไขว้ */}
+     <div className="flex items-center gap-1 rounded-full border border-hairline p-0.5 bg-surface-raised w-fit">
+      {(['สายตรง', 'สายไขว้'] as const).map((mode) => (
+       <button
+        key={mode}
+        onClick={() => setOrgMode(mode)}
+        className={cn(
+         'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition',
+         orgMode === mode
+          ? 'bg-brand text-white shadow-sm'
+          : 'text-ink-muted hover:text-ink',
+        )}
+       >
+        {mode ==='สายตรง' ? <Users className="h-3.5 w-3.5" /> : <GitBranch className="h-3.5 w-3.5" />}
+        {mode}
+       </button>
+      ))}
+     </div>
+    </div>
+    {orgMode ==='สายไขว้' && (
+     <p className="text-xs text-ink-muted mt-1 flex items-center gap-1">
+      <span className="inline-block w-6 border-t border-dashed border-indigo-400" />
+      หน้าต่างที่มีป้าย <span className="text-indigo-600 font-medium">สายไขว้</span> = มีผู้บังคับบัญชาเพิ่มในโครงสร้าง Matrix
+     </p>
+    )}
+   </CardHeader>
+   <CardContent>
+    {orgChart ? (
+     <OrgNodeFull node={orgChart} />
+    ) : (
+     <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลแผนผัง</p>
+    )}
+   </CardContent>
+  </Card>
+ );
+ };
 
  const renderApprovals = () => (
  <Card>
@@ -530,6 +626,7 @@ export function ManagerDashboardPage() {
 
  {activeTab ==='overview' && renderOverview()}
  {activeTab ==='team' && renderTeam()}
+ {activeTab ==='org-chart' && renderOrgChart()}
  {activeTab ==='approvals' && renderApprovals()}
  {activeTab ==='calendar' && renderCalendar()}
 
