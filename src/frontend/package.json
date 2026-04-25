@@ -10,6 +10,7 @@
     "test:watch": "vitest --watch",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
+    "test:e2e:demo-plus": "playwright test demo-2026-04-26-plus.spec.ts --project=chromium",
     "lint": "next lint"
   },
   "dependencies": {
