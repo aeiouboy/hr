@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+ ✓ src/__tests__/profile-dependents.test.tsx (28 tests) 54ms
+
+ Test Files  1 passed (1)
+      Tests  28 passed (28)
+   Start at  21:25:13
+   Duration  853ms (transform 61ms, setup 43ms, collect 118ms, tests 54ms, environment 320ms, prepare 37ms)
+

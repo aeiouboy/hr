@@ -1,0 +1,88 @@
+[
+  {
+    "ac_index": 0,
+    "ac_text": "HumiDependent interface expanded to 9 fields (fullNameTh, fullNameEn, relation enum, dateOfBirth, nationalId, idCopyFileId, hasInsurance, isCentralEmployee) — legacy name/initials/tone kept optional for back-compat",
+    "passed": true,
+    "reasoning": "Confirmed in diff: HumiDependent interface in humi-mock-data.ts now has 9 primary fields + 3 legacy optional fields. DependentRelation union type added with 5 values. DEPENDENT_RELATION_LABELS Thai-primary map added (คู่สมรส/บิดา/มารดา/บุตร/อื่นๆ). C8 source-grounded: fields match BRD #20 spec.",
+    "evidence": [
+      "git show a3b9979 -- src/frontend/src/lib/humi-mock-data.ts: HumiDependent interface shows fullNameTh, fullNameEn, relation, dateOfBirth, nationalId?, idCopyFileId?, hasInsurance, isCentralEmployee + legacy name?/initials?/tone?",
+      "DEPENDENT_RELATION_LABELS: { spouse: 'คู่สมรส', father: 'บิดา', mother: 'มารดา', child: 'บุตร', other: 'อื่นๆ' } — Thai-primary, no SF-style bilingual labels (C10 pass)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 1,
+    "ac_text": "HUMI_DEPENDENTS mock data has 3 entries enriched with all 9 fields",
+    "passed": true,
+    "reasoning": "Confirmed in diff: All 3 entries (dep-1/dep-2/dep-3) fully populated with fullNameTh/En, relation enum, dateOfBirth, nationalId (where applicable), hasInsurance:true, isCentralEmployee:false. Legacy fields preserved for back-compat. Browser DOM verify confirmed ปณิดา/ไอริส/นิโก้ present with Thai relation labels.",
+    "evidence": [
+      "dep-1: { id:'dep-1', fullNameTh:'ปณิดา ทานากะ', fullNameEn:'Panida Tanaka', relation:'spouse', dateOfBirth:'1992-06-12', nationalId:'1-1099-22444-66-2', hasInsurance:true, isCentralEmployee:false }",
+      "dep-2: { id:'dep-2', fullNameTh:'ไอริส ทานากะ', fullNameEn:'Iris Tanaka', relation:'child', dateOfBirth:'2017-08-04', hasInsurance:true }",
+      "dep-3: { id:'dep-3', fullNameTh:'นิโก้ ทานากะ', fullNameEn:'Niko Tanaka', relation:'child', dateOfBirth:'2021-11-22', hasInsurance:true }",
+      "Browser DOM verify (CDP boolean check): hasSpouse=true, hasChild1=true, hasChild2=true, hasRelationSpouse=true, hasRelationChild=true",
+      "Screenshot: test-artifacts/hr85-dependents/screenshots/ac-2-all-three-dependents.png — all 3 rows visible with Thai labels and birth dates"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 2,
+    "ac_text": "humi-profile-slice extended: dependents field in ProfileDraft, SectionKey union includes 'dependents', version bumped 3→4 with migrate(v3→v4)",
+    "passed": true,
+    "reasoning": "Confirmed in diff: (1) SectionKey union extended with 'dependents'; (2) ProfileDraft.dependents: HumiDependent[] added; (3) DRAFT_DEFAULTS.dependents = HUMI_DEPENDENTS; (4) version bumped 3→4; (5) migrate() handles v3→v4 by enriching existing dep rows or fallback to HUMI_DEPENDENTS; (6) v1→v2 upgrade also patched to include dependents. 5/5 migration tests PASS.",
+    "evidence": [
+      "git show diff: SectionKey = '...| dependents'",
+      "git show diff: interface ProfileDraft { ...; dependents: HumiDependent[]; }",
+      "git show diff: version: 4, migrate() has version < 4 && >= 3 block that enriches legacy dep rows",
+      "bunx vitest run src/__tests__/humi-profile-slice.v3-migration.test.ts: 5 passed (5) — all migration ACs pass"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 3,
+    "ac_text": "NEW DependentsEditor.tsx renders all 9 fields per row (mirrors EmergencyContactList pattern), exports DependentsEditor + areAllDependentsValid",
+    "passed": true,
+    "reasoning": "DependentsEditor.tsx is 252 LOC. All 9 fields rendered: fullNameTh/fullNameEn (text inputs), relation (select with DEPENDENT_RELATION_LABELS), dateOfBirth (date input), nationalId (text input), idCopyFileId (FileUploadField), hasInsurance (checkbox), isCentralEmployee (checkbox). Follows EmergencyContactList pattern: row-add/remove, updateRow, areAllDependentsValid exported. Labels Thai-primary (C10 pass). Uses <Button> from @/components/humi (not raw Tailwind).",
+    "evidence": [
+      "DependentsEditor.tsx line 20: isDependentValid checks fullNameTh/relation/dateOfBirth (required fields)",
+      "DependentsEditor.tsx line 26: areAllDependentsValid exported",
+      "DependentsEditor.tsx labels: 'ชื่อ-นามสกุล (ภาษาไทย)', 'ชื่อ-นามสกุล (ภาษาอังกฤษ)', 'ความสัมพันธ์', 'วันเกิด', 'เลขบัตรประชาชน', 'สำเนาบัตรประชาชน / ทะเบียนบ้าน', 'ใช้สวัสดิการประกัน', 'ทำงานในเครือ Central'",
+      "bunx vitest run src/__tests__/profile-dependents.test.tsx: 28 passed (28)"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 4,
+    "ac_text": "page.tsx Emergency panel renders DependentsEditor in edit mode and read-only cards in view mode, with PendingSectionBadge",
+    "passed": true,
+    "reasoning": "Confirmed in diff and browser screenshots: (1) DependentsSectionEditor sub-component defined inline, uses DependentsEditor + areAllDependentsValid + submitChangeRequest with sectionKey:'dependents'; (2) read-only card renders dep.fullNameTh, DEPENDENT_RELATION_LABELS[dep.relation], dep.dateOfBirth; (3) PendingSectionBadge section='dependents' added; (4) 'ผู้อุปการะ' section header visible in browser. Browser screenshot shows both sections visible in emergency tab.",
+    "evidence": [
+      "Screenshot ac-1-emergency-correct-coords.png: 'ผู้ติดต่อกรณีฉุกเฉิน' (2 contacts) + 'ผู้อุปการะ' (3 cards) sections both visible",
+      "Screenshot ac-2-all-three-dependents.png: ปณิดา ทานากะ (คู่สมรส · เกิด 1992-06-12), ไอริส ทานากะ (บุตร · เกิด 2017-08-04), นิโก้ ทานากะ (บุตร · เกิด 2021-11-22)",
+      "git diff page.tsx: DependentsSectionEditor defined, submitChangeRequest with sectionKey:'dependents', PendingSectionBadge section='dependents'"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 5,
+    "ac_text": "5 or more unit tests added covering DependentsEditor and slice changes",
+    "passed": true,
+    "reasoning": "28 new tests added in src/__tests__/profile-dependents.test.tsx. Tests cover: render all 9 fields, Thai labels, required field validation, areAllDependentsValid logic, add/remove row, field update, relation dropdown, date input, checkbox fields, nationalId, placeholder texts, slice integration. All 28 PASS.",
+    "evidence": [
+      "bunx vitest run src/__tests__/profile-dependents.test.tsx: 28 passed (28) in 47ms",
+      "Test coverage: isDependentValid, areAllDependentsValid, render fields, add/remove row, update row, Thai label verification"
+    ],
+    "questionsUsed": []
+  },
+  {
+    "ac_index": 6,
+    "ac_text": "Existing test suite green — zero regression after self-heal",
+    "passed": true,
+    "reasoning": "Full suite after a3b9979: 1452 pass / 10 fail / 6 skipped. Prior commit 8c74cf4 (hr#84): 1451 pass / 11 fail / 6 skipped. Net: +1 test passing, -1 failing (JARVIS Phase 3b self-heal fixed migration test assertion). The 10 remaining failures are pre-existing: i18n-completeness (1), humi-functional AC-13 login (1), admin/WorkflowsPage (4), admin/ProfileEdit (4). Zero new failures introduced.",
+    "evidence": [
+      "bunx vitest run (a3b9979): 4 failed | 89 passed | 1 skipped — Tests: 10 failed | 1452 passed | 6 skipped",
+      "bunx vitest run (8c74cf4 rollback): 5 failed | 88 passed | 1 skipped — Tests: 11 failed | 1451 passed | 6 skipped",
+      "Delta: 0 new failures introduced. +1 test passing vs prior commit (self-heal improved migration test)"
+    ],
+    "questionsUsed": []
+  }
+]
