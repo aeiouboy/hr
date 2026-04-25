@@ -4,6 +4,15 @@
 // Used by: /home dashboard + /employees list
 // ════════════════════════════════════════════════════════════
 
+import {
+  calcYearOfService,
+  calcYearsInJob,
+  calcYearsInPosition,
+  calcYearsInBU,
+  calcYearsInCorpTitle,
+} from './calculations'
+import type { LifecycleEvent } from './calculations'
+
 export type EmployeeStatus = 'active' | 'leave' | 'terminated';
 
 export interface HumiEmployee {
@@ -997,6 +1006,24 @@ export const HUMI_CHANNELS: HumiChannel[] = [
 // stubs) so demo to HRBP/Rungrote reads as genuine cnext-shaped data.
 // ════════════════════════════════════════════════════════════
 
+// ── BRD #168 — lifecycle events seed for Years-in-X computation
+// Dates derived from SF EC effective-date labels in the job portlet below.
+// HIRE uses Original Start Date (2019-03-01) so Year of Service counts from
+// first day of employment per I11, not re-hire date (2023-10-14).
+const HUMI_LIFECYCLE_EVENTS: LifecycleEvent[] = [
+  { type: 'HIRE', effectiveDate: '2019-03-01', meta: { toBU: 'Central Group HQ' } },
+  { type: 'CHANGE_POSITION', effectiveDate: '2023-10-01' },
+  { type: 'CHANGE_JOB', effectiveDate: '2023-10-01' },
+  { type: 'PROMOTION', effectiveDate: '2024-01-01', meta: { fromJG: 'M3', toJG: 'M4' } },
+]
+
+// calcYearOfService takes (hireDate: string, events, asOf) — pass HIRE date + events
+const _yos  = calcYearOfService('2019-03-01', HUMI_LIFECYCLE_EVENTS)
+const _yij  = calcYearsInJob(HUMI_LIFECYCLE_EVENTS)
+const _yip  = calcYearsInPosition(HUMI_LIFECYCLE_EVENTS)
+const _yibu = calcYearsInBU(HUMI_LIFECYCLE_EVENTS)
+const _yict = calcYearsInCorpTitle(HUMI_LIFECYCLE_EVENTS)
+
 export const HUMI_MY_PROFILE = {
   employeeCode: '30100412',
   nameTh: 'จงรักษ์ ทานากะ',
@@ -1009,6 +1036,7 @@ export const HUMI_MY_PROFILE = {
   status: 'active' as const,
   employmentType: 'Permanent · พนักงานประจำ',
   startLabel: 'Hire Date · 14 ต.ค. 2566',
+  lifecycleEvents: HUMI_LIFECYCLE_EVENTS,
 
   // ── Personal Information (14 fields — SF EC Core "Personal Information" portlet)
   personal: [
@@ -1044,20 +1072,21 @@ export const HUMI_MY_PROFILE = {
     ['Hire Date', '14 ตุลาคม 2566'],
     ['Original Start Date', '1 มีนาคม 2562'],
     ['Seniority Start Date', '1 มีนาคม 2562'],
-    ['Year of service', '5.6 ปี (computed)'],
+    ['Year of service', _yos.display],
     ['Pass Probation Date / Confirm Date', '14 มกราคม 2567'],
     ['Current Job Effective Date', '1 ตุลาคม 2566'],
-    ['Current Years in Job', '1.5 ปี (computed)'],
+    ['Current Years in Job', _yij.display],
     ['Current Corporate Title Effective Date', '1 มกราคม 2567'],
-    ['Current Years in Corporate Title', '1.3 ปี (computed)'],
+    ['Current Years in Corporate Title', _yict.display],
     ['Current Position Effective Date', '1 ตุลาคม 2566'],
-    ['Current Years in Position', '1.5 ปี (computed)'],
+    ['Current Years in Position', _yip.display],
     ['Current Store Branch Effective Date', '1 ตุลาคม 2566'],
     ['──── Organization Information ────', ''],
     ['Company', 'Central Retail Corporation PCL'],
     ['Group', 'Central Retail'],
     ['Business Unit', 'Central Group HQ'],
     ['Function', 'Human Resources'],
+    ['Current Years in BU', _yibu.display],
     ['Organization', 'HR Operations & People Services'],
     ['Position', 'PSN-30412 — HR Manager (HQ)'],
     ['Store/Branch Code', 'HQ-BKK-001'],
