@@ -1,45 +1,44 @@
 [
   {
     "passed": true,
-    "reasoning": "humi-card region with aria-label 'เมนูลัด' renders on /th/home between Row 1 and Row 2 — visually verified via Playwright screenshot + DOM evaluate.",
+    "reasoning": "humi-card region with aria-label 'เมนูลัด' renders on /th/home between Row 1 and Row 2 — visually verified after both heals (locale prefix + benefit-claim swap).",
     "evidence": [
       "src/frontend/src/components/humi/QuickActionsTile.tsx:34 — <div className='humi-card' role='region' aria-label='เมนูลัด'>",
       "src/frontend/src/app/[locale]/home/page.tsx:219-222 — Row 1.5 wrapper inserted between Row 1 (Hero+Presence) and Row 2 (Approvals+Docs)",
-      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home-v2-locale-fix.png — full-page screenshot v2 after locale-prefix heal",
-      "Playwright JS evaluate returned { found: true, rect: { x:292, y:324, w:1592, h:182 } }"
+      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home-v3-benefit-claim.png — full-page screenshot v3 (final after both heals)"
     ],
     "questionsUsed": ["Does the home page render the new humi-card section without breaking layout?"],
     "failureReason": null
   },
   {
     "passed": true,
-    "reasoning": "DEFAULT_ESS_ACTIONS exports exactly 4 baseline items with correct icon, Thai labels, and href that match codebase locale convention (/th/...).",
+    "reasoning": "DEFAULT_ESS_ACTIONS exports exactly 4 baseline items appropriate for ESS daily use: ขอลาหยุด (submit) / สลิปเงินเดือน (lookup) / ดูข้อมูลส่วนตัว (reference) / เบิกสวัสดิการ (benefit transaction). All 4 hrefs use /th/ locale prefix per codebase convention.",
     "evidence": [
-      "src/frontend/src/components/humi/QuickActionsTile.tsx:25-30 — DEFAULT_ESS_ACTIONS array literal with 4 entries (locale prefix /th/ added in heal commit)",
-      "Playwright JS evaluate: linkCount=4, hrefs+aria+text match DEFAULT_ESS_ACTIONS exactly",
-      "Vitest QuickActionsTile.test.tsx 'AC-2 BASELINE ACTIONS' — 6/6 PASS (length + count + 4× label/href via it.each)"
+      "src/frontend/src/components/humi/QuickActionsTile.tsx:25-30 — final DEFAULT_ESS_ACTIONS after heal #2 (resignation removed, benefits-hub added)",
+      "Playwright JS evaluate after heal #2: 4 links with hrefs /th/timeoff /th/payslip /th/profile/me /th/benefits-hub",
+      "Vitest 'AC-2 BASELINE ACTIONS' — 6/6 PASS (length + count + 4× label/href via it.each updated to v3 set)"
     ],
-    "questionsUsed": ["Are all 4 baseline ESS actions present at runtime with correct icon, label, and href?"],
+    "questionsUsed": ["Are the 4 actions appropriate for daily ESS use (high-frequency, positive-tone, no destructive paths)?"],
     "failureReason": null
   },
   {
     "passed": true,
-    "reasoning": "Each action navigates correctly. (1) Direct HEAD probe: all 4 routes return HTTP 200. (2) Playwright programmatic click on 'ขอลาหยุด' link → URL changed /th/home → /th/timeoff → ลางาน page rendered with leave balances. (3) New BEHAVIOR vitest test asserts every href starts with /th/ locale prefix — defends against C8 source-grounding regression.",
+    "reasoning": "Each action navigates correctly (real BEHAVIOR test). Direct HEAD probes: /th/timeoff /th/payslip /th/profile/me /th/benefits-hub all 200. Playwright programmatic click on 'เบิกสวัสดิการ' → URL changed /th/home → /th/benefits-hub → 'เบิกค่าใช้จ่าย' tab loaded with ฿60,000 entitlement + 4 sub-categories. Click on 'ขอลาหยุด' similarly navigated to /th/timeoff. New BEHAVIOR vitest test asserts every href starts with /th/.",
     "evidence": [
-      "Bash curl HTTP probes: /th/timeoff /th/payslip /th/profile/me /th/resignation → 200/200/200/200",
-      "Playwright click on 'ขอลาหยุด' → window.location.pathname === '/th/timeoff' (verified)",
-      "test-artifacts/run-75/screenshots/ac-3-after-click-timeoff.png — viewport screenshot of ลางาน page after click",
-      "Vitest QuickActionsTile.test.tsx 'AC-3 NAVIGATION' — 3/3 PASS (href loop + locale prefix invariant + click no-throw)"
+      "Bash curl HTTP probes: /th/timeoff /th/payslip /th/profile/me /th/benefits-hub → 200/200/200/200",
+      "Playwright click on 'เบิกสวัสดิการ' → window.location.pathname === '/th/benefits-hub' (verified)",
+      "test-artifacts/run-75/screenshots/ac-3-after-click-benefits-hub.png — viewport screenshot of benefits-hub after click",
+      "Vitest 'AC-3 NAVIGATION' — 3/3 PASS (href loop + locale prefix invariant + click no-throw)"
     ],
     "questionsUsed": [
-      "Do all 4 hrefs map to routes that actually load (200)?",
-      "Does click on a tile link actually change the URL to expected path?"
+      "Does click on each tile link change URL to expected path AND load the destination page?",
+      "Does the destination page match the action's intent (ลางาน → time-off; เบิกสวัสดิการ → benefits-hub claims tab)?"
     ],
     "failureReason": null
   },
   {
     "passed": true,
-    "reasoning": "Component signature `function QuickActionsTile({ actions = DEFAULT_ESS_ACTIONS })` — props.actions overrides default. Decouples ESS render from BRD #182 admin config (no rewrite required when admin config lands).",
+    "reasoning": "Component signature `function QuickActionsTile({ actions = DEFAULT_ESS_ACTIONS })`. props.actions overrides default — decouples ESS render from BRD #182 admin config without rewrite.",
     "evidence": [
       "src/frontend/src/components/humi/QuickActionsTile.tsx:32 — default param fallback",
       "Vitest 'AC-4 COMPONENT API' — 3/3 PASS (custom override / empty / multi-count)"
@@ -49,24 +48,24 @@
   },
   {
     "passed": true,
-    "reasoning": "All visible strings Thai-primary. SF-drift triple-grep sweep returned empty for paren-bilingual / em-dash / 3+ Latin chars. Visual screenshot confirms no English in tile.",
+    "reasoning": "All visible strings Thai-primary. SF-drift triple-grep sweep returned empty. Visual screenshot v3 confirms all 4 action labels in Thai script.",
     "evidence": [
       "Bash grep: SF-drift sweep clean (3 patterns × 0 hits)",
       "Vitest 'AC-5 LANGUAGE' — 3/3 PASS",
-      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home-v2-locale-fix.png — visual confirmation"
+      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home-v3-benefit-claim.png — visual confirmation"
     ],
     "questionsUsed": ["Are any user-visible strings English-only or bilingual-duplicate?"],
     "failureReason": null
   },
   {
     "passed": true,
-    "reasoning": "All 7 original /home sections render. Pre-existing screens.smoke.test.tsx 'home/page.tsx render no crash' PASS. Full humi+app sweep 140/140 PASS — zero new failures, zero regressions after locale fix.",
+    "reasoning": "All 7 original /home sections render after both heals. Pre-existing screens.smoke.test.tsx 'home/page.tsx render no crash' PASS. Full humi+app sweep 140/140 PASS — zero new failures, zero regressions across both heal commits.",
     "evidence": [
-      "Vitest full sweep: 140 passed / 9 test files / 1.84s — test-artifacts/run-75/test-output.txt",
+      "Vitest full sweep: 140 passed / 9 test files / 1.83s — last run 16:50:45",
       "Playwright JS evaluate: document.querySelectorAll('.humi-card').length === 8 (7 original + 1 new tile)",
-      "Visual: all 7 original sections still visible in v2 screenshot"
+      "Visual: all 7 original sections still visible in v3 screenshot (Hero, Today Presence, Pending Approvals, Pending Docs, Announcements, Calendar, Week Recognition)"
     ],
-    "questionsUsed": ["Did the locale-prefix heal break any existing section's render or any existing test?"],
+    "questionsUsed": ["Did either heal break any existing section's render or any existing test?"],
     "failureReason": null
   }
 ]

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarPlus, FileText, User, LogOut, type LucideIcon } from 'lucide-react';
+import { CalendarPlus, FileText, User, Wallet, type LucideIcon } from 'lucide-react';
 
 // ════════════════════════════════════════════════════════════
 // QuickActionsTile — ESS home tile, BRD #171
@@ -26,7 +26,7 @@ export const DEFAULT_ESS_ACTIONS: QuickAction[] = [
   { icon: makeIcon(CalendarPlus), labelTh: 'ขอลาหยุด',          href: '/th/timeoff'      },
   { icon: makeIcon(FileText),     labelTh: 'สลิปเงินเดือน',       href: '/th/payslip'      },
   { icon: makeIcon(User),         labelTh: 'ดูข้อมูลส่วนตัว',     href: '/th/profile/me'   },
-  { icon: makeIcon(LogOut),       labelTh: 'ขอลาออก',            href: '/th/resignation'  },
+  { icon: makeIcon(Wallet),       labelTh: 'เบิกสวัสดิการ',       href: '/th/benefits-hub' },
 ];
 
 export function QuickActionsTile({ actions = DEFAULT_ESS_ACTIONS }: QuickActionsTileProps) {
