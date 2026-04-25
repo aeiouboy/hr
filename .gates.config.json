@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "_doc": "Per-repo overrides for core/gate/checks/* (generic mechanism). Each section optional — discovery covers gaps.",
+
+  "sidebar_coverage": {
+    "enabled": true,
+    "config_file": "src/frontend/src/components/humi/shell/Sidebar.tsx",
+    "href_pattern": "href[\\s=:]*[`\"']([^`\"']+)[`\"']",
+    "legacy_marker": "// SIDEBAR_LEGACY:",
+    "exclude_dynamic_routes": true,
+    "legacy_min_reason_chars": 20
+  },
+
+  "token_compliance": {
+    "enabled": true,
+    "primitive_paths": [
+      "@/components/humi/",
+      "@/components/admin/"
+    ],
+    "opt_out_marker": "// HUMI_TOKEN_EXEMPT:",
+    "opt_out_min_reason_chars": 30
+  },
+
+  "validator_presence": {
+    "enabled": true,
+    "toolkit_path": "src/frontend/src/lib/validation/",
+    "resolver_pattern": "zodResolver|safeParse|\\.parse\\(|\\.parseAsync\\(",
+    "opt_out_marker": "// VALIDATION_EXEMPT:"
+  },
+
+  "anti_pattern_registry": {
+    "enabled": false,
+    "_note": "registry_path TBD — populate gates/anti-patterns.json with known incidents (e.g. ff5c583 .positive() on age) in Sprint 2 cleanup"
+  }
+}
