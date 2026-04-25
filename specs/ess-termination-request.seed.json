@@ -1,0 +1,239 @@
+{
+  "goal": "EXTEND existing 912-LOC prior art (resignation-page.tsx + use-resignation.ts + humi-profile-slice.ts) ให้ ESS termination request flow persist ผ่าน humi-profile-slice PendingChange (sectionKey='termination') + แสดง 4 voluntary reason codes + link จาก /profile/me Employment tab.",
+  "taskType": "code",
+  "brownfieldContext": {
+    "projectType": "brownfield",
+    "contextReferences": [
+      "specs/ess-termination-request.md",
+      "specs/ess-termination-request.interview.json",
+      "src/frontend/src/stores/humi-profile-slice.ts:38,92-143,202-217,266-296",
+      "src/frontend/src/components/resignation/resignation-page.tsx:14-106",
+      "src/frontend/src/hooks/use-resignation.ts:1-113",
+      "src/frontend/src/components/admin/lifecycle/ReasonPicker.tsx:17-50"
+    ],
+    "existingPatterns": [
+      "humi-profile-slice PendingChange + submitChangeRequest + sectionKey discriminator",
+      "Zustand persist v2 + migrate() — bump version + add no-op branch when extending enums",
+      "ReasonPicker primitive (event prop filter) — extend with mode='ess-voluntary' instead of duplicating component",
+      "AttachmentDropzone for attachment fields (universal pattern from #50)",
+      "Thai-primary labels (C10) — locale codes (TH)/(EN)/(VN) only allowed in parens",
+      "lucide-react icons no emoji",
+      "design tokens (text-ink, bg-surface, border-hairline) — no Tailwind raw colors"
+    ],
+    "existingDependencies": [
+      "zustand@4",
+      "next-intl",
+      "lucide-react",
+      "vitest + @testing-library/react + jsdom"
+    ]
+  },
+  "constraints": [
+    "Next.js 16 App Router + Zustand 4 + next-intl",
+    "Builder write ≤ 150 LOC (EXTEND not BUILD per Phase 0.6)",
+    "Touch only 5 files: humi-profile-slice.ts / ReasonPicker.tsx / use-resignation.ts / resignation-page.tsx / profile/me/page.tsx",
+    "DO NOT TOUCH: /admin/employees/[id]/terminate (#18 shipped) / SPD approval / payroll cron / e-signing",
+    "DO NOT INVENT new state mechanism — humi-profile-slice = SSoT (C7)",
+    "Thai-primary labels mandatory (C10); reject SF-bilingual paren patterns",
+    "useResignation MUST NOT contain useState<ResignationRecord> (read from store only)"
+  ],
+  "acceptanceCriteria": [
+    {
+      "text": "/resignation submission persists ผ่าน useHumiProfileStore.submitChangeRequest({sectionKey:'termination', ...}) — pendingChanges array ได้ entry ใหม่ที่ sectionKey === 'termination'",
+      "rule": "interview Q4 item 1 + BRD #172",
+      "invariant": false
+    },
+    {
+      "text": "useResignation hook อ่านจาก useHumiProfileStore.pendingChanges ไม่ใช่ local useState — git grep useState.*ResignationRecord returns 0",
+      "rule": "C7 SSoT + interview Q4 item 2",
+      "invariant": true
+    },
+    {
+      "text": "ReasonPicker mode='ess-voluntary' แสดงเฉพาะ 4 codes (RESIGN_PERSONAL, RESIGN_STUDY, RESIGN_FAMILY, RESIGN_OTHER) — RTL counts dropdown options === 4",
+      "rule": "Ken U2 voluntary subset",
+      "invariant": false
+    },
+    {
+      "text": "หลัง submit สำเร็จ → ResignationPage status timeline แสดง state 'submitted' step active",
+      "rule": "interview Q4 item 4 + resignation-page.tsx:142-152",
+      "invariant": false
+    },
+    {
+      "text": "/profile/me Employment tab มี link ไปยัง /${locale}/resignation — RTL getByRole('link') matches href + visible Thai label",
+      "rule": "Ken U1 keep separate + link from profile",
+      "invariant": false
+    },
+    {
+      "text": "All unit tests green + npm run build exits 0 + Phase 4.5 Validator Triad APPROVE — captured terminal output",
+      "rule": "C2 test evidence + interview Q4 item 6",
+      "invariant": false
+    }
+  ],
+  "ontologySchema": {
+    "name": "ESS Termination Request",
+    "description": "Employee-initiated voluntary resignation request stored as PendingChange in humi-profile-slice",
+    "fields": [
+      {
+        "name": "lastWorkingDate",
+        "type": "string",
+        "description": "ISO-8601 date — วันสุดท้ายที่ทำงาน (employee-entered)",
+        "required": true,
+        "classification": "user-input"
+      },
+      {
+        "name": "reasonCode",
+        "type": "string",
+        "description": "Voluntary subset enum: RESIGN_PERSONAL | RESIGN_STUDY | RESIGN_FAMILY | RESIGN_OTHER (employee picks from ReasonPicker mode='ess-voluntary')",
+        "required": true,
+        "classification": "lookup"
+      },
+      {
+        "name": "handoverNotes",
+        "type": "string",
+        "description": "Free text — รายละเอียดการส่งมอบงาน (employee-entered, optional)",
+        "required": false,
+        "classification": "user-input"
+      },
+      {
+        "name": "sectionKey",
+        "type": "string",
+        "description": "Discriminator literal 'termination' — set by store action, not user",
+        "required": true,
+        "classification": "system-generated"
+      },
+      {
+        "name": "requestedAt",
+        "type": "string",
+        "description": "ISO-8601 timestamp set by submitChangeRequest action",
+        "required": true,
+        "classification": "system-generated"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "description": "PendingChange status — initial 'pending' (system-set); transitions to 'approved'/'rejected' by admin (out-of-scope)",
+        "required": true,
+        "classification": "system-generated"
+      },
+      {
+        "name": "noticePeriod",
+        "type": "number",
+        "description": "Derived from lastWorkingDate − today (out-of-scope to compute strictly; Sprint 2 backend)",
+        "required": false,
+        "classification": "derived"
+      },
+      {
+        "name": "employeeId",
+        "type": "string",
+        "description": "Lookup จาก current authed user (FE-only mock = 'EMP000' / 'Current User')",
+        "required": true,
+        "classification": "lookup"
+      }
+    ]
+  },
+  "evaluationPrinciples": [
+    {
+      "name": "simplicity",
+      "description": "Rule C3 — ≤ 150 LOC, no new state mechanism",
+      "weight": 1.0
+    },
+    {
+      "name": "ssot",
+      "description": "Rule C7 — humi-profile-slice = single source for termination state",
+      "weight": 1.0
+    },
+    {
+      "name": "thai_primary",
+      "description": "Rule C10 — labels Thai-only, no SF-bilingual parens",
+      "weight": 1.0
+    },
+    {
+      "name": "surgical",
+      "description": "Rule C1 — touch only 5 files, every change traces to AC",
+      "weight": 1.0
+    }
+  ],
+  "exitConditions": [
+    {
+      "name": "all_ac_pass",
+      "description": "Every AC passes G3 checklist with terminal evidence",
+      "criteria": "allPassed === true"
+    },
+    {
+      "name": "c10_clean",
+      "description": "C10 grep gate returns 0 SF-bilingual matches in touched files",
+      "criteria": "c10GrepCount === 0"
+    },
+    {
+      "name": "loc_budget",
+      "description": "Builder write ≤ 150 LOC across 5 touched files (EXTEND not rewrite)",
+      "criteria": "builderWriteLoc <= 150"
+    }
+  ],
+  "scope": {
+    "inScope": [
+      "src/frontend/src/stores/humi-profile-slice.ts",
+      "src/frontend/src/hooks/use-resignation.ts",
+      "src/frontend/src/components/resignation/resignation-page.tsx",
+      "src/frontend/src/components/admin/lifecycle/ReasonPicker.tsx",
+      "src/frontend/src/app/[locale]/profile/me/page.tsx (Employment tab panel only)"
+    ],
+    "outOfScope": [
+      "src/frontend/src/app/[locale]/admin/employees/[id]/terminate/ (HR Admin path #18 shipped)",
+      "SPD approval lane (separate BRD)",
+      "Payroll cutoff cron (BRD #117 — Sprint 2)",
+      "E-signing flow (BRD #197 — Sprint 2)",
+      "Backend resignation API (FE-only SSoT for MVP)",
+      "17-canonical reason code parity for ESS (Ken U2: voluntary subset only)",
+      "Fold ResignationPage into /profile/me tab (Ken U1: keep separate)",
+      "Persist clearanceItems / settlement (Sprint 2 backend wire-up)"
+    ]
+  },
+  "systemInvariants": [
+    "Voluntary reasons only — ReasonPicker mode='ess-voluntary' MUST filter EVENT_REASONS['5597'] to exactly 4 RESIGN_* codes; employee cannot self-classify involuntary termination (TERM_DISMISS, TERM_LAYOFF, etc.)",
+    "humi-profile-slice = single source of truth for ESS termination state; useResignation MUST subscribe to store, never duplicate state via local useState",
+    "Thai-primary labels mandatory (C10) — all 4 RESIGN_* labels + UI copy in Thai; no SF-bilingual parens beyond locale codes (TH)/(EN)/(VN)",
+    "PendingChange.sectionKey === 'termination' is the ONLY discriminator for ESS termination requests; store action MUST set this literal, callers MUST NOT pass any other value",
+    "Persist version bump (v2 → v3) MUST include migrate() v2→v3 branch (no-op acceptable since pendingChanges schema unchanged, only enum extended); existing v2 localStorage state MUST survive load",
+    "Existing /admin/employees/[id]/terminate (HR Admin path) MUST remain untouched — ReasonPicker default mode='admin' preserves 17-code behavior for that caller"
+  ],
+  "metadata": {
+    "seedId": "seed_ess_termination_2026_04_25",
+    "version": "1.0.0",
+    "createdAt": "2026-04-25T14:15:00Z",
+    "ambiguityScore": 0.05,
+    "interviewId": "ess-termination-request.interview.json",
+    "parentSeedId": null
+  },
+  "triad_review": {
+    "skipped": true,
+    "reason": "EXTEND scope post-Phase-0.6 validated; prior art (912 LOC) rich; Ken decisions U1+U2 explicit; saving budget for Phase 4.5 first-fire",
+    "at": "2026-04-25T13:55:00+07:00"
+  },
+  "validator_triad": {
+    "iteration": 1,
+    "validator": {
+      "role": "validator",
+      "verdict": "APPROVE",
+      "source": "MK IV dual-role outcomes.json — 6/6 AC PASS"
+    },
+    "counter_validator": {
+      "role": "counter_validator",
+      "verdict": "APPROVE",
+      "evidence_quality_summary": "4 SUFFICIENT + 2 SHALLOW (AC-4 positional, AC-5 locale parametrization)"
+    },
+    "devils_advocate": {
+      "role": "devils_advocate",
+      "stack": "frontend",
+      "verdict": "REVISE",
+      "edge_cases_count": {
+        "high": 1,
+        "medium": 6,
+        "low": 5
+      },
+      "summary": "EC-08 auth-guard HIGH (out-of-scope — Sprint 2 P-B1); EC-02 handoverNotes drop MEDIUM; EC-01 concurrent submit MEDIUM; EC-03/04 status mapping bugs; EC-11 pre-existing admin labels"
+    },
+    "consensus": "approved-with-followup",
+    "followup_issue": "aeiouboy/hr#76",
+    "at": "2026-04-25T14:30:00+07:00"
+  }
+}

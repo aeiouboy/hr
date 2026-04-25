@@ -1,0 +1,48 @@
+{
+  "role": "counter_validator",
+  "verdict": "APPROVE",
+  "evidence_quality": [
+    {
+      "id": "AC-1",
+      "grade": "SUFFICIENT",
+      "note": "use-resignation.submit.test.ts has 4 distinct assertions: sectionKey='termination', field+oldValue+newValue mapping, effectiveDate=lastWorkingDate, status='pending'. Three different reason codes exercised (RESIGN_PERSONAL, RESIGN_STUDY, RESIGN_FAMILY, RESIGN_OTHER) so newValue mapping isn't hardcoded happy-path. Builder source lines 84-91 confirm submitChangeRequest call shape matches assertions. Minor note: handoverNotes is dropped silently (not persisted), but spec ontology marks it required:false out-of-scope so this is by design — AC-1 doesn't OVERCLAIM persistence."
+    },
+    {
+      "id": "AC-2",
+      "grade": "SUFFICIENT",
+      "note": "Two-pronged coverage: (a) static — fs.readFileSync + regex /useState\\s*<\\s*ResignationRecord/ excluding comments, (b) runtime — renderHook subscribes, then store.submitChangeRequest dispatched directly (bypassing hook), then assert result.current.record !== null. This proves reactive selector subscription, which is the actual C7 invariant claim. Builder source line 53 confirms useHumiProfileStore selector pattern. Strong evidence."
+    },
+    {
+      "id": "AC-3",
+      "grade": "SUFFICIENT",
+      "note": "Triple coverage: (1) ess-voluntary count === 4, (2) all 4 specific RESIGN_* codes present, (3) no TERM_* leakage. Plus admin-default reverse direction: 17 codes preserved + no RESIGN_ leakage in admin view. This validates BOTH directions of the system invariant (voluntary subset MUST exclude involuntary; admin must not show ESS codes). Best-tested AC of the set."
+    },
+    {
+      "id": "AC-4",
+      "grade": "SHALLOW",
+      "note": "Test #2 asserts container.querySelectorAll('[class*=bg-brand]').length >= 1, which proves SOMETHING has bg-brand class but doesn't pin it to step 1 specifically vs steps 2/3 or unrelated styling. Test #1 only asserts /submitted/i text appears (matches anywhere in DOM, including the timeline label rendered for ALL states). Empty-state contrast test #3 is good. Net: AC-4 evidence proves 'timeline renders after submit' but NOT 'step 1 is the active step'. The spec text says 'step active' which is positional — current test would still pass if step 3 were styled active and step 1 wasn't. Recommend tightening to e.g. const stepBadge = container.querySelector('[data-step=submitted]'); expect(stepBadge?.className).toMatch(/bg-brand/) once a data-step attribute exists, OR assert the first .step-badge element has bg-brand. Self-heal not blocking — Phase 4 already passed and behavior is observable in screenshot."
+    },
+    {
+      "id": "AC-5",
+      "grade": "SHALLOW",
+      "note": "Three RTL tests assert link presence + Thai label + href contains 'resignation'. Self-heal SH-1 fixed hardcoded /th/ → /${locale}/ template. HOWEVER all three tests mock useParams to return {locale: 'th'} only — no test exercises locale='en' or any other value to prove the template literal interpolates dynamically. If a regression reintroduced `/th/resignation` hardcode, these tests would still pass (the mock pins locale=th coincidentally matching the hardcode). The whole point of SH-1 was that hardcoding broke at runtime; the test cannot regress-guard the very bug just fixed. Recommend a parametrized test with mocked locale='en' asserting href === '/en/resignation'. Not blocking ship — Phase 4 verified self-heal and screenshot evidence captured — but this is the weakest AC in the set and the gap is exactly aligned with the bug class that surfaced today."
+    },
+    {
+      "id": "AC-6",
+      "grade": "SUFFICIENT",
+      "note": "Migration test seedV2() → rehydrateV2ToV3() → assert nickname/pendingChanges/addressStructured all survive. Then submit termination post-migrate proves enum extension works. Version=3 test has fallback path (if persist middleware doesn't write in jsdom, falls back to fs.readFileSync grep for /version:\\s*3/) — this is acceptable pragma since localStorage mock + Zustand persist sometimes don't fully wire in test env, and source-grep is still meaningful. test-output.txt confirms 25/25 pass + npm run build exits 0. C2 evidence captured verbatim in test-report.md. Strong."
+    }
+  ],
+  "missed_acs": [],
+  "revision_requests": [
+    "AC-4 (non-blocking, follow-up): tighten timeline active-step assertion from generic [class*=bg-brand] count to positional first-badge specificity, OR add data-step attribute to ResignationPage timeline render so test can pin to step 1 explicitly. Current test would silently pass if step 2 or step 3 were active by mistake.",
+    "AC-5 (non-blocking, follow-up): add a parametrized RTL test where useParams mock returns {locale: 'en'} and assert resignLink.getAttribute('href') === '/en/resignation'. Without this, the very bug SH-1 self-healed (hardcoded /th/) cannot be regression-guarded by the test suite. The current test passes both for the broken hardcode AND the correct template literal."
+  ],
+  "audit_metadata": {
+    "validator_role": "Phase 4.5 Counter-Validator",
+    "first_fire": true,
+    "auditor": "MK V — Researcher",
+    "method": "diff + outcomes.json + test code read; NO test re-run",
+    "approve_rationale": "All 6 ACs have at least one passing test that exercises observable behavior (not just commit-existence). Two ACs (AC-4, AC-5) have shallow positional/parametrization gaps but evidence is sufficient for ship — gaps are follow-up tightening, not BLOCK conditions. No MISSING coverage, no OVERCLAIMING test names, no behavioral regression risk. MK IV's 6/6 PASS verdict is structurally correct."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "task": "ess-termination-request",
+  "issue": "aeiouboy/hr#74",
+  "mode": "autopilot",
+  "interviewer": "MK V",
+  "questions": [
+    {
+      "id": "Q1",
+      "beat": "ambiguity",
+      "q": "เป้าหมายคลุมเครือตรงไหน?",
+      "a": "Issue body claims '/resignation thin wrapper' แต่จริงๆ มี components/resignation/resignation-page.tsx 230 lines + use-resignation.ts 113 lines + 3-tab UI + i18n ครบ. ของเดิมเกือบครบ — task = EXTEND not BUILD (4× LOC savings).",
+      "ts": "2026-04-25T13:45:00+07:00"
+    },
+    {
+      "id": "Q2",
+      "beat": "scope",
+      "q": "ขอบเขตกว้างแค่ไหน?",
+      "a": "IN: components/resignation/resignation-page.tsx (extend submission persist), hooks/use-resignation.ts (wire to humi-profile-slice), stores/humi-profile-slice.ts (add resignation action). OUT: HR Admin terminate path (#18 ship แล้ว), SPD approval (separate BRD), payroll cron (#117), e-signing (#197).",
+      "ts": "2026-04-25T13:45:00+07:00"
+    },
+    {
+      "id": "Q3",
+      "beat": "prior_art",
+      "q": "ของเดิมที่ใกล้เคียงคืออะไร?",
+      "a": "Massive prior art: ResignationPage 230 LOC (form+timeline) + useResignation 113 LOC (mock-only) + humi-profile-slice 92-143 (PendingChange + submitChangeRequest + sectionKey + Zustand persist v2 + migrate fn) + admin/terminate 569 LOC (ReasonPicker + AttachmentDropzone + EffectiveDateGate primitives). Anchor lines: humi-profile-slice.ts:41,92-143,266-296 / resignation-page.tsx:14-106 / admin/terminate/page.tsx:418-426,535-544.",
+      "ts": "2026-04-25T13:45:00+07:00"
+    },
+    {
+      "id": "Q4",
+      "beat": "success_criteria",
+      "q": "เสร็จแล้วรู้ได้ยังไง?",
+      "a": "Observable: (1) /resignation submission form persists via humi-profile-slice (PendingChange with sectionKey='termination'); (2) useResignation reads from humi-profile-slice not local useState; (3) Reason picker shows voluntary subset (4 codes) per Ken U2; (4) After submit → status timeline shows 'submitted' state; (5) /profile/me Employment tab has link to /resignation (per Ken U1); (6) all unit tests green + Phase 4.5 Validator Triad APPROVE.",
+      "ts": "2026-04-25T13:45:00+07:00"
+    },
+    {
+      "id": "Q5",
+      "beat": "anti_goals",
+      "q": "อะไรไม่นับเป็น scope?",
+      "a": "OUT: HR Admin /admin/employees/[id]/terminate (existing); SPD approval lane; payroll cutoff/cron (BRD #117 family); e-signing (BRD #197); 17-canonical reason code parity (Ken U2 voluntary subset only); fold ResignationPage into profile/me tab (Ken U1 keep separate); backend resignation API (mock OK for MVP).",
+      "ts": "2026-04-25T13:45:00+07:00"
+    }
+  ],
+  "unresolved": [],
+  "proceed_decision": "ok",
+  "revision_notes": "Ken decisions 2026-04-25: U1=(a) keep /resignation as separate page + link from /profile/me Employment tab. U2=(b) voluntary subset 4 reason codes (resign/personal/study/other) — Employee cannot self-classify involuntary. Task mode = EXTEND existing 912-LOC prior art via humi-profile-slice PendingChange pattern. Target ~150 LOC builder write.",
+  "token_spend": 12500
+}

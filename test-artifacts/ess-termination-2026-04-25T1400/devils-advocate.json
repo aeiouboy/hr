@@ -1,0 +1,135 @@
+{
+  "role": "devils_advocate",
+  "stack": "frontend",
+  "verdict": "REVISE",
+  "edge_cases": [
+    {
+      "id": "EC-01",
+      "scenario": "rapid double-click บน submit button — concurrent PendingChange entries",
+      "expected": "pendingChanges มีเพียง 1 entry sectionKey='termination' per session (spec AC-1)",
+      "actual": "handleSubmitResignation ไม่มี submitting/isLoading guard. Button disabled prop ตรวจแค่ formData ไม่ใช่ in-flight state. handleSubmitResignation เป็น async แต่ไม่มี setSubmitting. submitChangeRequest ใน store เป็น synchronous append ไม่มี dedup. ผลคือ 2 rapid clicks ก่อน record load from store = 2 pendingChanges.find() ยังเป็น null ทั้งคู่ เพราะ setState async flush → entries ซ้อนกันได้",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-02",
+      "scenario": "handoverNotes ไม่ถูก persist — user พิมพ์ notes แล้ว submit แต่ข้อมูลหาย",
+      "expected": "handoverNotes ที่ user กรอกควรเข้า store หรืออย่างน้อยแสดงใน record view (ตาม spec 'keep handover textarea')",
+      "actual": "submitResignation ใน use-resignation.ts รับ data.handoverNotes ใน signature แต่ไม่ส่งไปที่ submitChangeRequest payload เลย — dropped silently. PendingChange ไม่มี field สำหรับ handoverNotes. record.reasonDetails ก็ไม่ include handoverNotes (มาจาก terminationChange.reason ซึ่ง set เฉพาะตอน adminApproveWithReason). user เห็น empty reasonDetails section หลัง submit",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-03",
+      "scenario": "status 'approved' หรือ 'rejected' จาก admin action รั่วเป็น raw English ใน badge",
+      "expected": "Badge แสดง label ภาษาไทย หรืออย่างน้อย recognizable string (C10 Thai-primary)",
+      "actual": "line 123: <Badge>{record.status}</Badge> — record.status map จาก terminationChange.status ผ่าน cast 'as ResignationStatus'. เมื่อ admin approve/reject record แล้ว status = 'approved'/'rejected' ซึ่งไม่อยู่ใน ResignationStatus type. ค่า raw string 'approved'/'rejected' ปรากฏในหน้า UI เป็นภาษาอังกฤษ — C10 violation",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-04",
+      "scenario": "status 'approved'/'rejected' ทำให้ timeline step ทุกอันดับออก (ไม่ highlight)",
+      "expected": "timeline แสดง step ที่ถูกต้อง — ถ้า approved ควร highlight ครบหรือ show completed",
+      "actual": "timeline ใช้ indexOf(['submitted','in_progress','completed'], record.status). 'approved' ไม่อยู่ใน array → indexOf = -1 → เงื่อนไข >= i ทุก step เป็น false → ทุก step dim/grey. user เห็น timeline ว่างเปล่าแม้ว่า request ได้รับการอนุมัติแล้ว",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-05",
+      "scenario": "settlement tab แสดง blank เมื่อ record.settlement === undefined (ESS users ทุกคน)",
+      "expected": "settlement tab แสดง empty state message เช่น 'การชำระเงินสุดท้ายจะแสดงเมื่อ HR ดำเนินการ' (UX completeness)",
+      "actual": "line 186: {activeTab === 'settlement' && record.settlement && (<Card>...)}. เมื่อ settlement เป็น undefined (ทุก ESS submission เพราะ submitChangeRequest ไม่ generate settlement) → tab แสดง blank DOM — ไม่มี empty state, ไม่มี message. user คิดว่า page โหลดไม่ขึ้น",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-06",
+      "scenario": "ReasonPicker option text prefix ด้วย code (e.g. 'RESIGN_PERSONAL — ลาออกด้วยเหตุส่วนตัว')",
+      "expected": "ESS dropdown แสดงเฉพาะ Thai label — ไม่ควรเห็น internal code (user-facing C10 + UX)",
+      "actual": "line 108: {code} — {REASON_LABELS[code] ?? code}. ใน mode='ess-voluntary' user เห็น 'RESIGN_PERSONAL — ลาออกด้วยเหตุส่วนตัว' แทนที่จะเห็นแค่ 'ลาออกด้วยเหตุส่วนตัว'. code prefix เหมาะกับ admin mode แต่ leak เข้า ess-voluntary mode",
+      "severity": "low"
+    },
+    {
+      "id": "EC-07",
+      "scenario": "ReasonPicker mode='ess-voluntary' + caller ส่ง event ที่ไม่ใช่ '5597' (เช่น '5604')",
+      "expected": "ตาม spec: filter EVENT_REASONS['5597'] → 4 codes เฉพาะเมื่อ event='5597'. wrong event + ess-voluntary → fallback allOptions = EVENT_REASONS['5604'] = 3 TRANSFER codes (incorrect subset)",
+      "actual": "line 78-80: mode==='ess-voluntary' && event==='5597' ? ESS_VOLUNTARY_CODES : allOptions. ถ้า caller ส่ง event='5604' + mode='ess-voluntary' → allOptions=['TRN_ROTATION','TRN_TRNACCOMP','TRN_TRNWIC'] แสดงแทน. ใน ResignationPage event='5597' hardcoded ดังนั้น path นี้ไม่เกิดจาก production caller — แต่ถ้า prop drilling ผิดพลาด user เห็น wrong options โดยไม่มี error",
+      "severity": "low"
+    },
+    {
+      "id": "EC-08",
+      "scenario": "unauthenticated user navigate ตรงไป /th/resignation",
+      "expected": "redirect ไปหน้า login หรือ show auth error (ตาม standard auth flow)",
+      "actual": "middleware.ts ใช้แค่ next-intl createMiddleware — ไม่มี auth guard เลย. layout.tsx ก็ไม่มี auth check. ResignationPage load ปกติ แสดง 'ไม่มีการลาออกที่ใช้งานอยู่' + ปุ่ม 'เริ่มลาออก' — unauthenticated user สามารถ submit resignation ที่อ้างอิง employeeId='EMP000' hardcoded ลงใน store ของตัวเองได้",
+      "severity": "high"
+    },
+    {
+      "id": "EC-09",
+      "scenario": "locale='vi' หรือ locale ที่ไม่รองรับใน URL เช่น /vi/resignation",
+      "expected": "hasLocale check ใน layout.tsx จะ notFound() สำหรับ locale ที่ไม่อยู่ใน routing.locales",
+      "actual": "locales = ['th','en'] จาก config.ts. /vi/resignation → layout.tsx hasLocale fails → Next.js notFound() → 404 page. ไม่ crash แต่ spec mention 'vi locale' ใน focus areas — confirm 404 ไม่ใช่ crash ก็ acceptable. profile/me locale fallback ใช้ (params?.locale as string) ?? 'th' ซึ่งถูกต้อง",
+      "severity": "low"
+    },
+    {
+      "id": "EC-10",
+      "scenario": "lastWorkingDate แสดง raw ISO format (2026-05-30) ไม่ใช่ Thai locale date",
+      "expected": "date display ควรใช้ Thai locale หรืออย่างน้อย readable format (DD/MM/YYYY หรือ 30 พ.ค. 2569)",
+      "actual": "line 120: {record.lastWorkingDate} — ค่ามาจาก terminationChange.effectiveDate ซึ่งเก็บเป็น ISO-8601 string ('2026-05-30'). ไม่มี formatDate call. user เห็น '2026-05-30' แทน '30 พ.ค. 2569 (BE 2569)' หรือ Thai format ที่สอดคล้องกับ UX spec",
+      "severity": "low"
+    },
+    {
+      "id": "EC-11",
+      "scenario": "C10 violation: REASON_LABELS มี English ใน parentheses สำหรับ non-ESS codes (admin path)",
+      "expected": "C10 grep gate: grep -niE '\\([A-Z][a-zA-Z ]+\\)' → 0 matches (ยกเว้น locale codes)",
+      "actual": "18 matches จาก grep ใน ReasonPicker.tsx. Examples: 'จ้างใหม่ — ออกไม่เกิน 1 ปี (Rehiring LT 1 year)', 'โอนย้ายข้ามบริษัท (Transfer across Company)', 'เกษียณอายุ (Retirement)', 'ไล่ออก (Dismissal)'. ESS voluntary 4 codes ไม่มี violation แต่ admin codes ทุกตัว ยกเว้น TERM_COVID/TERM_CRISIS/TERM_ABSENT มีปัญหา. Code review report ระบุว่า C10 gate pass แล้ว — contradiction กับ actual grep result",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-12",
+      "scenario": "textarea handoverNotes ไม่มี maxLength — user พิมพ์ text ยาวมาก (>500 chars, Unicode Thai)",
+      "expected": "ควรมี maxLength หรือ character counter เพื่อป้องกัน payload ใหญ่เกิน (โดยเฉพาะเมื่อ persist ใน localStorage)",
+      "actual": "textarea ไม่มี maxLength attribute. handoverNotes ถูก drop ที่ submission layer (EC-02) ดังนั้น localStorage ไม่กระทบ แต่ถ้า EC-02 ถูก fix แล้ว (handoverNotes persist ใน store) + user กรอก 10KB Thai text → LocalStorage quota อาจถึง limit โดยเฉพาะ profile ที่มี base64 attachments อยู่แล้ว",
+      "severity": "low"
+    }
+  ],
+  "missed_edge_cases": [
+    "Buddhist Era (BE) date display — lastWorkingDate ไม่ถูก format เป็น Thai BE (ดู EC-10)",
+    "handoverNotes persistence — accepted in API signature แต่ dropped before store (ดู EC-02)",
+    "concurrent submit protection — ไม่มี isSubmitting flag (ดู EC-01)",
+    "admin-approved ESS record renders broken timeline + raw English status (ดู EC-03 + EC-04)"
+  ],
+  "revision_requests": [
+    {
+      "id": "RR-01",
+      "priority": "high",
+      "file": "src/frontend/src/components/resignation/resignation-page.tsx",
+      "change": "เพิ่ม isSubmitting state + setIsSubmitting(true) ก่อน await submitResignation + setIsSubmitting(false) ใน finally. ผูก Button disabled={!formData.lastWorkingDate || !formData.reason || isSubmitting} เพื่อป้องกัน EC-01 concurrent submit"
+    },
+    {
+      "id": "RR-02",
+      "priority": "medium",
+      "file": "src/frontend/src/components/resignation/resignation-page.tsx",
+      "change": "settlement tab: เพิ่ม empty state <p className='text-ink-muted text-sm text-center py-8'>{t('settlementPending')}</p> เมื่อ !record.settlement (EC-05). key 'settlementPending' มีอยู่ใน th.json แล้ว"
+    },
+    {
+      "id": "RR-03",
+      "priority": "medium",
+      "file": "src/frontend/src/components/resignation/resignation-page.tsx",
+      "change": "Badge status: แทนที่ {record.status} ด้วย {t(record.status) || record.status} โดยเพิ่ม i18n keys 'approved'/'rejected' ใน th.json + en.json. หรืออย่างน้อย guard: status not in known set → show 'รอดำเนินการ' (EC-03)"
+    },
+    {
+      "id": "RR-04",
+      "priority": "medium",
+      "file": "src/frontend/src/components/resignation/resignation-page.tsx",
+      "change": "timeline: extend step array ให้ include 'approved'/'rejected' states หรือ normalize before indexOf (EC-04)"
+    },
+    {
+      "id": "RR-05",
+      "priority": "medium",
+      "file": "src/frontend/src/components/admin/lifecycle/ReasonPicker.tsx",
+      "change": "C10 fix: REASON_LABELS สำหรับ REHIRE/TRANSFER/TERM admin codes ต้องแก้ให้ Thai-only หรือ strip English parens. 18 matches ไม่ผ่าน C10 grep gate ที่ spec กำหนด (EC-11)"
+    },
+    {
+      "id": "RR-06",
+      "priority": "low",
+      "file": "src/frontend/src/components/admin/lifecycle/ReasonPicker.tsx",
+      "change": "option text: เมื่อ mode='ess-voluntary' ให้ render แค่ label ไม่ต้อง prefix code: {mode === 'ess-voluntary' ? REASON_LABELS[code] : `${code} — ${REASON_LABELS[code]}`} (EC-06)"
+    }
+  ]
+}
