@@ -1,0 +1,79 @@
+[
+  {
+    "passed": true,
+    "reasoning": "humi-card region with aria-label 'เมนูลัด' renders on /th/home between Row 1 and Row 2 — visually verified via Playwright screenshot + DOM evaluate.",
+    "evidence": [
+      "src/frontend/src/components/humi/QuickActionsTile.tsx:34 — <div className='humi-card' role='region' aria-label='เมนูลัด'>",
+      "src/frontend/src/app/[locale]/home/page.tsx:219-222 — Row 1.5 wrapper inserted between Row 1 (Hero+Presence) and Row 2 (Approvals+Docs)",
+      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home.png — full-page screenshot shows tile rendered at expected position",
+      "Playwright JS evaluate returned { found: true, rect: { x:292, y:324, w:1592, h:182 } }"
+    ],
+    "questionsUsed": [
+      "Does the home page render the new humi-card section without breaking layout?"
+    ],
+    "failureReason": null
+  },
+  {
+    "passed": true,
+    "reasoning": "DEFAULT_ESS_ACTIONS exports exactly 4 baseline items with correct icon (lucide CalendarPlus/FileText/User/LogOut), Thai labels (ขอลาหยุด/สลิปเงินเดือน/ดูข้อมูลส่วนตัว/ขอลาออก), and href to existing routes (/timeoff, /payslip, /profile/me, /resignation).",
+    "evidence": [
+      "src/frontend/src/components/humi/QuickActionsTile.tsx:25-30 — DEFAULT_ESS_ACTIONS array literal with 4 entries",
+      "Playwright JS evaluate: linkCount=4, hrefs+aria+text match DEFAULT_ESS_ACTIONS exactly",
+      "Vitest QuickActionsTile.test.tsx 'AC-2 BASELINE ACTIONS' — 6/6 PASS (length + count + 4× label/href via it.each)"
+    ],
+    "questionsUsed": [
+      "Are all 4 baseline ESS actions present at runtime with correct icon, label, and href?"
+    ],
+    "failureReason": null
+  },
+  {
+    "passed": true,
+    "reasoning": "Each action item is an <a href> resolving to an existing route file. Pre-scout confirmed all 4 page.tsx exist; vitest asserts href attribute via screen.getByRole('link', name); Playwright user-event click returns without throw.",
+    "evidence": [
+      "src/frontend/src/app/[locale]/timeoff/page.tsx, /payslip/page.tsx, /profile/me/page.tsx, /resignation/page.tsx — all routes exist",
+      "Vitest QuickActionsTile.test.tsx 'AC-3 NAVIGATION' — 2/2 PASS (href loop + click no-throw)"
+    ],
+    "questionsUsed": [
+      "Do all 4 hrefs map to routes that actually exist in the project?"
+    ],
+    "failureReason": null
+  },
+  {
+    "passed": true,
+    "reasoning": "Component signature `function QuickActionsTile({ actions = DEFAULT_ESS_ACTIONS })` — props.actions overrides default; passing custom array renders custom items; passing [] renders 0 links. This decouples ESS render from BRD #182 admin config (no rewrite required when admin config lands).",
+    "evidence": [
+      "src/frontend/src/components/humi/QuickActionsTile.tsx:32 — default param fallback",
+      "Vitest 'AC-4 COMPONENT API' — 3/3 PASS (custom override renders 1 link / empty array renders 0 / multi-count via length assertion)"
+    ],
+    "questionsUsed": [
+      "Can the tile be driven by admin-supplied data later without modifying its source?"
+    ],
+    "failureReason": null
+  },
+  {
+    "passed": true,
+    "reasoning": "All visible strings are Thai-primary. SF-drift triple-grep sweep returned empty for paren-bilingual / em-dash / 3+ consecutive Latin chars on QuickActionsTile.tsx. Visual inspection of full-page screenshot confirms no English labels in tile.",
+    "evidence": [
+      "Bash grep: SF-drift sweep clean (3 patterns × 0 hits)",
+      "Vitest 'AC-5 LANGUAGE' — 3/3 PASS (SF-drift regex / Latin word regex / relative-href guard)",
+      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home.png — visual confirmation"
+    ],
+    "questionsUsed": [
+      "Are any user-visible strings English-only or bilingual-duplicate?"
+    ],
+    "failureReason": null
+  },
+  {
+    "passed": true,
+    "reasoning": "All 7 original /home sections still render (Hero, Today Presence, Pending Approvals, Pending Docs, Announcements, Calendar, Week Recognition). Pre-existing screens.smoke.test.tsx 'Dashboard — home/page.tsx render no crash' still PASS. Full humi+app vitest sweep 139/139 PASS — zero new failures, zero regressions.",
+    "evidence": [
+      "Vitest full sweep: 139 passed / 9 test files / 1.69s — test-artifacts/run-75/test-output.txt",
+      "Playwright JS evaluate: document.querySelectorAll('.humi-card').length === 8 (7 original + 1 new tile)",
+      "test-artifacts/run-75/screenshots/ac-1-quick-actions-on-home.png — all 7 original sections visible"
+    ],
+    "questionsUsed": [
+      "Did adding the new tile break any existing section's render or any existing test?"
+    ],
+    "failureReason": null
+  }
+]

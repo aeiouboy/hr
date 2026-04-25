@@ -1,0 +1,20 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/tachongrak/Projects/hr/src/frontend
+
+stderr | src/components/humi/__tests__/QuickActionsTile.test.tsx > QuickActionsTile — AC-3 NAVIGATION > user-event click บน link ไม่ throw error
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at Timeout._onTimeout (/Users/tachongrak/Projects/hr/node_modules/jsdom/lib/jsdom/living/nodes/HTMLHyperlinkElementUtils-impl.js:81:7)
+    at listOnTimeout (node:internal/timers:608:17)
+    at processTimers (node:internal/timers:543:7) undefined
+
+ ✓ src/components/humi/__tests__/QuickActionsTile.test.tsx (18 tests) 81ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  16:22:03
+   Duration  903ms (transform 26ms, setup 42ms, collect 142ms, tests 81ms, environment 296ms, prepare 32ms)
+
