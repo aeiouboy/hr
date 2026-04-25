@@ -23,10 +23,10 @@ function makeIcon(Icon: LucideIcon) {
 }
 
 export const DEFAULT_ESS_ACTIONS: QuickAction[] = [
-  { icon: makeIcon(CalendarPlus), labelTh: 'ขอลาหยุด',          href: '/timeoff'      },
-  { icon: makeIcon(FileText),     labelTh: 'สลิปเงินเดือน',       href: '/payslip'      },
-  { icon: makeIcon(User),         labelTh: 'ดูข้อมูลส่วนตัว',     href: '/profile/me'   },
-  { icon: makeIcon(LogOut),       labelTh: 'ขอลาออก',            href: '/resignation'  },
+  { icon: makeIcon(CalendarPlus), labelTh: 'ขอลาหยุด',          href: '/th/timeoff'      },
+  { icon: makeIcon(FileText),     labelTh: 'สลิปเงินเดือน',       href: '/th/payslip'      },
+  { icon: makeIcon(User),         labelTh: 'ดูข้อมูลส่วนตัว',     href: '/th/profile/me'   },
+  { icon: makeIcon(LogOut),       labelTh: 'ขอลาออก',            href: '/th/resignation'  },
 ];
 
 export function QuickActionsTile({ actions = DEFAULT_ESS_ACTIONS }: QuickActionsTileProps) {

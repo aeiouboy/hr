@@ -41,10 +41,10 @@ describe('QuickActionsTile — AC-2 BASELINE ACTIONS', () => {
   });
 
   it.each([
-    ['ขอลาหยุด',      '/timeoff'],
-    ['สลิปเงินเดือน',  '/payslip'],
-    ['ดูข้อมูลส่วนตัว', '/profile/me'],
-    ['ขอลาออก',       '/resignation'],
+    ['ขอลาหยุด',      '/th/timeoff'],
+    ['สลิปเงินเดือน',  '/th/payslip'],
+    ['ดูข้อมูลส่วนตัว', '/th/profile/me'],
+    ['ขอลาออก',       '/th/resignation'],
   ])('renders link "%s" → href "%s"', (labelTh, href) => {
     render(<QuickActionsTile />);
     const link = screen.getByRole('link', { name: labelTh });
@@ -61,6 +61,15 @@ describe('QuickActionsTile — AC-3 NAVIGATION', () => {
     DEFAULT_ESS_ACTIONS.forEach((action) => {
       const link = screen.getByRole('link', { name: action.labelTh });
       expect(link).toHaveAttribute('href', action.href);
+    });
+  });
+
+  // BEHAVIOR test (not implementation): href ต้องขึ้นต้นด้วย locale prefix
+  // เช่น /th/ ตามที่ /home/page.tsx ใช้ pattern เดียวกัน (line 113, 119, 324).
+  // ป้องกัน C8 source-grounding bug ที่ #75 v1 เคยปล่อย ('/timeoff' โดดๆ — 404)
+  it('ทุก href ใน DEFAULT_ESS_ACTIONS ขึ้นต้นด้วย locale prefix /th/ ตาม codebase convention', () => {
+    DEFAULT_ESS_ACTIONS.forEach((action) => {
+      expect(action.href).toMatch(/^\/th\//);
     });
   });
 
