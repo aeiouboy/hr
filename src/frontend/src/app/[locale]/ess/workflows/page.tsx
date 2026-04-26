@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { ArrowRight, Plus } from 'lucide-react';
+import { buttonVariants } from '@/components/humi';
 import { useWorkflowApprovals, STEP_LABEL, type ApprovalStep } from '@/stores/workflow-approvals';
 import { useAuthStore } from '@/stores/auth-store';
 
@@ -49,10 +50,10 @@ export default function MyWorkflowsPage() {
         </div>
         <Link
           href={`/${locale}/ess/profile/edit`}
-          className="humi-btn-primary"
+          className={buttonVariants({ variant: 'primary' })}
           style={{ alignSelf: 'flex-start' }}
         >
-          <Plus size={14} aria-hidden style={{ display: 'inline', marginRight: 4 }} />
+          <Plus size={14} aria-hidden />
           ยื่นคำขอใหม่
         </Link>
       </div>
