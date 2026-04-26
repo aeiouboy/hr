@@ -99,7 +99,6 @@ const NAV: NavSection[] = [
   {
     group: 'กล่องอนุมัติ',
     items: [
-      { id: 'manager-dashboard', label: 'แดชบอร์ดผู้จัดการ', href: '/th/manager-dashboard', icon: Users2, roles: ['manager', 'hr_admin', 'hr_manager'] },
       { id: 'spd-inbox', label: 'กล่องอนุมัติ SPD', href: '/th/spd/inbox', icon: Inbox, roles: ['spd', 'hr_admin', 'hr_manager'] },
     ],
   },
