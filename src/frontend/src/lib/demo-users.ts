@@ -97,17 +97,21 @@ export const PERSONA_ORDER: Array<keyof typeof DEMO_USERS> = [
   'ken@humi.test',
 ];
 
+// Badge = role acronym ONLY (consistent pattern across all 9 personas).
+// Person identity ระบุที่ DEMO_USERS.name (Thai-primary) + email (subtitle).
+// Tone color encodes role family — repetition (2× Manager / 2× HRBP / 2× SPD)
+// is meaningful: same RBAC scope, different person identity for demo coverage.
 export const PERSONA_BADGE: Record<string, { label: string; tone: string }> = {
   'admin@humi.test':    { label: 'Admin',    tone: 'humi-tag--ink' },
   'spd@humi.test':      { label: 'SPD',      tone: 'humi-tag--accent' },
   'hrbp@humi.test':     { label: 'HRBP',     tone: 'humi-tag--butter' },
   'manager@humi.test':  { label: 'Manager',  tone: 'humi-tag--sage' },
   'employee@humi.test': { label: 'Employee', tone: 'humi-tag' },
-  // T7 — SF-canonical badges
-  'ken@humi.test':      { label: 'Ken (HR Admin)',    tone: 'humi-tag--ink' },
-  'apinya@humi.test':   { label: 'Apinya (HRBP)',     tone: 'humi-tag--butter' },
-  'worawee@humi.test':  { label: 'Worawee (SPD)',     tone: 'humi-tag--accent' },
-  'rungrote@humi.test': { label: 'Rungrote (Manager)', tone: 'humi-tag--sage' },
+  // T7 — SF-canonical badges (same role-acronym pattern as generic above)
+  'ken@humi.test':      { label: 'HR Admin', tone: 'humi-tag--ink' },
+  'apinya@humi.test':   { label: 'HRBP',     tone: 'humi-tag--butter' },
+  'worawee@humi.test':  { label: 'SPD',      tone: 'humi-tag--accent' },
+  'rungrote@humi.test': { label: 'Manager',  tone: 'humi-tag--sage' },
 };
 
 // Role-priority landing table — shared with login.
