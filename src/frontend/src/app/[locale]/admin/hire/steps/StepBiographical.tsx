@@ -307,12 +307,16 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('maritalStatus')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 17 — Marital Status Since * ─── */}
+      {/* ─── BA Personal Info row 17 — Marital Status Since * (conditional: required when ≠ SINGLE)
+           Fix per AUDIT #7 — asterisk and aria-required now reflect conditional rule ─── */}
       <fieldset>
         <label htmlFor="marital-status-since" className="humi-label">
-          วันที่เปลี่ยนสถานภาพ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          วันที่เปลี่ยนสถานภาพ
+          {maritalStatus !== 'SINGLE' && <span aria-hidden="true" className="humi-asterisk ml-1">*</span>}
         </label>
-        <input id="marital-status-since" type="date" required aria-required="true"
+        <input id="marital-status-since" type="date"
+          required={maritalStatus !== 'SINGLE'}
+          aria-required={maritalStatus !== 'SINGLE'}
           aria-invalid={touched.maritalStatusSince && !!errors.maritalStatusSince}
           value={maritalStatusSince}
           onChange={(e) => setMaritalStatusSince(e.target.value)}

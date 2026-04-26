@@ -3215,6 +3215,7 @@
       "attendance": "Attendance",
       "leave": "Leave",
       "overtime": "Overtime",
+      "hireNotifications": "Hire Notifications (SH4)",
       "summary": "Summary"
     },
     "metrics": {

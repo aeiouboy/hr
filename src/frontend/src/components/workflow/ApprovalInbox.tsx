@@ -45,7 +45,7 @@ export function ApprovalInbox({ expectedStep, role, title, subtitle }: ApprovalI
   const actorName = useAuthStore((s) => s.username) ?? 'ผู้ใช้';
 
   const pending = useMemo(
-    () => allRequests.filter((r) => r.currentStep === expectedStep),
+    () => allRequests.filter((r) => r.status === expectedStep),
     [allRequests, expectedStep],
   );
 
@@ -53,7 +53,7 @@ export function ApprovalInbox({ expectedStep, role, title, subtitle }: ApprovalI
   const history = useMemo(
     () =>
       allRequests
-        .filter((r) => r.currentStep !== expectedStep)
+        .filter((r) => r.status !== expectedStep)
         .filter((r) => r.audit.some((a) => a.actorRole === role && a.action !== 'submit'))
         .slice(0, 5),
     [allRequests, expectedStep, role],
@@ -165,7 +165,7 @@ function RequestCard({
           </div>
         </div>
         <span className="humi-tag humi-tag--butter" style={{ alignSelf: 'center' }}>
-          {STEP_LABEL[req.currentStep]}
+          {STEP_LABEL[req.status]}
         </span>
       </div>
 
@@ -334,7 +334,7 @@ function HistoryRow({ req }: { req: ApprovalRequest }) {
       <span className="humi-eyebrow" style={{ minWidth: 160 }}>{req.id}</span>
       <span className="text-small text-ink">{req.employeeName}</span>
       <span className="humi-spacer" style={{ flex: 1 }} />
-      <span className="humi-tag">{STEP_LABEL[req.currentStep]}</span>
+      <span className="humi-tag">{STEP_LABEL[req.status]}</span>
       <span className="text-small text-ink-muted">{formatDate(last.at)}</span>
     </div>
   );

@@ -292,8 +292,11 @@ const sliceValid = {
       d.identity.isPrimary &&
       d.identity.salutationLocal
     ),
-  biographical: (d: FormData) =>
-    !!(
+  biographical: (d: FormData) => {
+    // Fix per AUDIT #7 — maritalStatusSince required only when maritalStatus ≠ SINGLE
+    const maritalStatusSinceOk =
+      d.biographical.maritalStatus === 'SINGLE' || !!d.biographical.maritalStatusSince
+    return !!(
       d.biographical.otherTitleTh.trim() &&
       d.biographical.firstNameLocal.trim() &&
       d.biographical.lastNameLocal.trim() &&
@@ -305,8 +308,9 @@ const sliceValid = {
       d.biographical.foreigner &&
       d.biographical.bloodType &&
       d.biographical.maritalStatus &&
-      d.biographical.maritalStatusSince
-    ),
+      maritalStatusSinceOk
+    )
+  },
   review: (_d: FormData) => true,
   // A2: contact — at least 1 phone with value + at least 1 email with valid format
   contact: (d: FormData) => {

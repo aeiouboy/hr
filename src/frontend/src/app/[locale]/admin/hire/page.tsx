@@ -6,6 +6,8 @@
 // localStorage on every setStepData call.
 import { WizardShell } from '@/components/admin/wizard/WizardShell'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
+import { useHireAudit } from '@/stores/hire-audit'
+import { useAuthStore } from '@/stores/auth-store'
 import ClusterWho from './clusters/ClusterWho'
 import ClusterJob from './clusters/ClusterJob'
 import ClusterReview from './clusters/ClusterReview'
@@ -22,9 +24,28 @@ export default function HirePage() {
     reset,
   } = useHireWizard()
 
+  const appendHireAudit = useHireAudit((s) => s.append)
+  const hrAdminId = useAuthStore((s) => s.userId) ?? 'ADM001'
+  const hrAdminName = useAuthStore((s) => s.username) ?? 'HR Admin'
+
   const handleSubmit = () => {
-    // TODO: wire to lifecycle action backend (Part B). For now print + reset.
-    console.info('[HirePage] submit', useHireWizard.getState().formData)
+    const formData = useHireWizard.getState().formData
+    // Log SH4 hire notification audit entry (Chain 2 / BRD #109)
+    const firstNameTh = formData.biographical?.firstNameLocal?.trim() || formData.identity?.firstNameEn?.trim() || 'พนักงานใหม่'
+    const lastNameTh = formData.biographical?.lastNameLocal?.trim() || formData.identity?.lastNameEn?.trim() || ''
+    const candidateName = `${firstNameTh} ${lastNameTh}`.trim()
+    const position = formData.job?.position?.trim() || 'ไม่ระบุตำแหน่ง'
+    const company = formData.identity?.companyCode ?? 'CEN'
+    const hireDate = formData.identity?.hireDate ?? new Date().toISOString().slice(0, 10)
+    appendHireAudit({
+      candidateName,
+      position,
+      company: company ?? 'CEN',
+      hireDate: hireDate ?? new Date().toISOString().slice(0, 10),
+      hrbpEmail: 'hrbp@humi.test',
+      hrAdminName,
+      hrAdminId,
+    })
     reset()
   }
 

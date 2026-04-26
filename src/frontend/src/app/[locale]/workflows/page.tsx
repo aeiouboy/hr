@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Plus } from 'lucide-react';
+import { useAuthStore } from '@/stores/auth-store';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
@@ -15,6 +16,8 @@ type TabKey = 'forApproval' | 'sentBack' | 'approved' | 'rejected';
 
 export default function WorkflowsPage() {
   const t = useTranslations('workflow');
+  const currentUserId = useAuthStore((s) => s.userId) ?? 'EMP000';
+  const currentUserName = useAuthStore((s) => s.username) ?? 'ผู้ใช้';
 
   const [activeTab, setActiveTab] = useState<TabKey>('forApproval');
   const [selectedWorkflow, setSelectedWorkflow] = useState<WorkflowItem | null>(null);
@@ -38,8 +41,8 @@ export default function WorkflowsPage() {
       id: `WF-${String(workflows.length + 1).padStart(3, '0')}`,
       type: newRequest.type,
       typeLabel: typeLabels[newRequest.type] || newRequest.type,
-      requesterName: 'Current User',
-      requesterId: 'EMP000',
+      requesterName: currentUserName,
+      requesterId: currentUserId,
       department: 'My Department',
       description: newRequest.description,
       submittedDate: new Date().toISOString(),

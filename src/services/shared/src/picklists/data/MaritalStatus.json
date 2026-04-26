@@ -3,5 +3,6 @@
   { "id": "MARRIED", "labelTh": "สมรส", "labelEn": "Married", "sortOrder": 2, "active": true },
   { "id": "DIVORCED", "labelTh": "หย่าร้าง", "labelEn": "Divorced", "sortOrder": 3, "active": true },
   { "id": "WIDOWED", "labelTh": "คู่สมรสเสียชีวิต", "labelEn": "Widowed", "sortOrder": 4, "active": true },
-  { "id": "SEPARATED", "labelTh": "แยกกันอยู่", "labelEn": "Separated", "sortOrder": 5, "active": true }
+  { "id": "SEPARATED", "labelTh": "แยกกันอยู่", "labelEn": "Separated", "sortOrder": 5, "active": true },
+  { "id": "N", "labelTh": "สมรสไม่จดทะเบียน", "labelEn": "Common-law / Unregistered marriage", "sortOrder": 6, "active": true }
 ]

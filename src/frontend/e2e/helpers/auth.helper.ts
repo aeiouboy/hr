@@ -1,6 +1,6 @@
 import { type Page } from '@playwright/test';
 
-export type UserRole = 'employee' | 'manager' | 'hr_admin' | 'hr_manager';
+export type UserRole = 'employee' | 'manager' | 'hr_admin' | 'hr_manager' | 'spd';
 
 interface TestUser {
   username: string;
@@ -38,6 +38,13 @@ const TEST_USERS: Record<UserRole, TestUser> = {
     name: 'Wipada Thongchai',
     employeeId: 'HRM001',
     roles: ['employee', 'hr_admin', 'hr_manager'],
+  },
+  spd: {
+    username: 'spd@humi.test',
+    password: 'spd2026',
+    name: 'SPD Approver',
+    employeeId: 'SPD001',
+    roles: ['spd', 'employee'],
   },
 };
 

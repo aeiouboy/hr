@@ -15,6 +15,8 @@ import Link from 'next/link'
 import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { usePromotionApprovals } from '@/stores/promotion-approvals'
+import { useAuthStore } from '@/stores/auth-store'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
@@ -22,7 +24,6 @@ import PositionLookup from '@/components/admin/PositionLookup'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
-import type { PromotionEvent } from '@hrms/shared/types/timeline'
 
 // ─── Date helpers ────────────────────────────────────────────────────────────
 
@@ -98,7 +99,10 @@ export default function PromotionPage() {
 
   const employee = useEmployees((s) => s.getById(empId)) ?? null
 
-  const { append, seed } = useTimelines()
+  const { seed } = useTimelines()
+  const addPromotionRequest = usePromotionApprovals((s) => s.addRequest)
+  const actorId = useAuthStore((s) => s.userId) ?? 'ADM001'
+  const actorName = useAuthStore((s) => s.username) ?? 'HR Admin'
 
   useEffect(() => {
     if (employee) seed(employee)
@@ -129,25 +133,25 @@ export default function PromotionPage() {
 
     if (!selectedPosition) return
 
-    const event: PromotionEvent = {
-      id: `evt-prm-${Date.now()}`,
+    // Chain 4 — submit to promotion-approvals store for SPD review (BRD #103)
+    // Timeline event is written ONLY when SPD approves (in promotion-approvals.ts approve action).
+    const empName = `${employee.first_name_th} ${employee.last_name_th}`
+    addPromotionRequest({
       employeeId: empId,
-      kind: 'promotion',
+      employeeName: empName,
+      fromPosition: currentTitle,
+      toPosition: selectedPosition.titleTh,
       effectiveDate,
-      recordedAt: new Date().toISOString(),
-      actorUserId: 'admin-current',
-      fromTitle: currentTitle,
-      toTitle: selectedPosition.titleTh,
-      salaryChangePct: salaryPct,
+      salaryDelta: salaryPct,
       notes: notes.trim() || undefined,
-    }
+      submittedBy: { id: actorId, name: actorName, role: 'hr_admin' },
+    })
 
-    append(empId, event)
     setSubmitted(true)
     router.push(
-      `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการเลื่อนตำแหน่งเรียบร้อยแล้ว')}`,
+      `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการเลื่อนตำแหน่งเรียบร้อยแล้ว — รอ SPD อนุมัติ')}`,
     )
-  }, [employee, isFormValid, effectiveDate, salaryInvalid, empId, currentTitle, selectedPosition, salaryPct, notes, append, router, locale])
+  }, [employee, isFormValid, effectiveDate, salaryInvalid, empId, currentTitle, selectedPosition, salaryPct, notes, addPromotionRequest, actorId, actorName, router, locale])
 
   if (!employee) {
     return (

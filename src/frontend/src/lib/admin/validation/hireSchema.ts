@@ -143,11 +143,13 @@ export const stepBiographicalSchema = z.object({
   bloodType: z.string({ required_error: 'กรุณาเลือกกรุ๊ปเลือด' }).min(1),
   /** BA Personal Info row 16 — Marital Status * */
   maritalStatus: z.string({ required_error: 'กรุณาเลือกสถานภาพสมรส' }).min(1),
-  /** BA Personal Info row 17 — Marital Status Since * */
-  maritalStatusSince: z.string().min(1, 'กรุณาระบุวันที่เปลี่ยนสถานภาพสมรส'),
+  /** BA Personal Info row 17 — Marital Status Since — conditional:
+   *  required when maritalStatus ≠ SINGLE, omitted for SINGLE (BRD-BA-SF-AUDIT Finding #7)
+   *  Fix: was unconditionally .min(1) which blocked the step for every single employee */
+  maritalStatusSince: z.string().optional(),
 })
 .superRefine((data, ctx) => {
-  // R2: maritalStatusSince required เมื่อ maritalStatus ≠ SINGLE (BRD Personal Info row 17)
+  // Fix per AUDIT #7 — maritalStatusSince required only when maritalStatus ≠ SINGLE
   if (data.maritalStatus !== 'SINGLE' && !data.maritalStatusSince) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,

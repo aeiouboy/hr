@@ -1,226 +1,302 @@
 'use client';
 
+// resignation-page.tsx — ESS ลาออก (Chain 1 / BRD #172)
+//
+// พนักงานยื่นคำขอลาออก → stores ใน termination-approvals → SPD อนุมัติ
+// Reason codes: 17 SF TERM_* codes (sf-extract/qas-fields-2026-04-25 zVoluntary picklist)
+// เมื่อ submit: addRequest() → toast "ส่งคำขอลาออกแล้ว — รอ SPD อนุมัติ"
+
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { FileX, CheckCircle, Clock, Circle } from 'lucide-react';
-import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useResignation } from '@/hooks/use-resignation';
-import { formatCurrency } from '@/lib/date';
+import { FileX, CheckCircle } from 'lucide-react';
+import {
+  useTerminationApprovals,
+  TERMINATION_REASON_LABEL,
+  type TerminationReasonCode,
+} from '@/stores/termination-approvals';
+import { useAuthStore } from '@/stores/auth-store';
+
+function formatDateTh(iso: string): string {
+  return new Date(iso).toLocaleDateString('th-TH', {
+    year: 'numeric', month: 'long', day: 'numeric',
+  });
+}
 
 export function ResignationPage() {
- const t = useTranslations('resignation');
- const { record, loading, updateClearanceItem, clearanceProgress, submitResignation } = useResignation();
- const [activeTab, setActiveTab] = useState('recording');
- const [showForm, setShowForm] = useState(false);
- const [formData, setFormData] = useState({ lastWorkingDate:'', reason:'', handoverNotes:'' });
+  const addRequest = useTerminationApprovals((s) => s.addRequest);
+  const requests = useTerminationApprovals((s) => s.requests);
+  const userId = useAuthStore((s) => s.userId) ?? 'EMP001';
+  const userName = useAuthStore((s) => s.username) ?? 'พนักงาน';
 
- const handleSubmitResignation = async () => {
- if (!formData.lastWorkingDate || !formData.reason) return;
- await submitResignation(formData);
- setShowForm(false);
- setFormData({ lastWorkingDate:'', reason:'', handoverNotes:'' });
- };
+  const [lastWorkingDate, setLastWorkingDate] = useState('');
+  const [reasonCode, setReasonCode] = useState<TerminationReasonCode | ''>('');
+  const [comment, setComment] = useState('');
+  const [attachmentName, setAttachmentName] = useState<string | undefined>(undefined);
+  const [submitted, setSubmitted] = useState(false);
+  const [submittedId, setSubmittedId] = useState('');
 
- const tabs = [
- { key:'recording', label: t('tabRecording') },
- { key:'clearance', label: t('tabClearance') },
- { key:'settlement', label: t('tabSettlement') },
- ];
+  // Find a pending or approved request by this user.
+  // If the most recent request is `rejected`, allow re-submission — the form
+  // re-renders and the rejected request is shown as a notice (see banner below).
+  // Pre-Phase-5 fix: any-status `find()` blocked the form forever once a seeded
+  // demo request existed for the default `EMP001` userId.
+  const myRequest = requests.find(
+    (r) => r.employeeId === userId && r.status !== 'rejected',
+  );
+  const lastRejected = requests.find(
+    (r) => r.employeeId === userId && r.status === 'rejected',
+  );
 
- if (loading) {
- return <div className="space-y-4">{[1, 2, 3].map((i) => <Skeleton key={i} className="h-40 w-full" />)}</div>;
- }
+  const hasPending =
+    myRequest?.status === 'pending_manager' || myRequest?.status === 'pending_spd';
+  const isApproved = myRequest?.status === 'approved';
+  const isFormValid =
+    !!lastWorkingDate && !!reasonCode && !hasPending && !isApproved;
 
- if (!record) {
- return (
- <>
- <div className="mb-6">
- <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
- </div>
- {showForm ? (
- <Card>
- <CardHeader><CardTitle>{t('startResignationTitle')}</CardTitle></CardHeader>
- <CardContent>
- <div className="space-y-4">
- <div className="space-y-1">
- <label htmlFor="lastWorkingDate" className="block text-sm font-medium text-ink-soft">
- {t('lastWorkingDate')} <span className="text-danger ml-0.5">*</span>
- </label>
- <input
- id="lastWorkingDate"
- type="date"
- value={formData.lastWorkingDate}
- onChange={(e) => setFormData((p) => ({ ...p, lastWorkingDate: e.target.value }))}
- className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
- />
- </div>
- <ReasonPicker
- event="5597"
- mode="ess-voluntary"
- value={formData.reason || null}
- onChange={(code) => setFormData((p) => ({ ...p, reason: code }))}
- required
- id="resignation-reason"
- />
- <div className="space-y-1">
- <label htmlFor="handoverNotes" className="block text-sm font-medium text-ink-soft">{t('handoverNotes')}</label>
- <textarea
- id="handoverNotes"
- value={formData.handoverNotes}
- onChange={(e) => setFormData((p) => ({ ...p, handoverNotes: e.target.value }))}
- rows={3}
- placeholder={t('handoverNotesPlaceholder')}
- className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y min-h-[80px]"
- />
- </div>
- </div>
- <div className="flex justify-end gap-3 mt-6">
- <Button variant="outline" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
- <Button onClick={handleSubmitResignation} disabled={!formData.lastWorkingDate || !formData.reason}>
- {t('submitResignation')}
- </Button>
- </div>
- </CardContent>
- </Card>
- ) : (
- <Card>
- <CardContent className="py-16 text-center">
- <FileX className="h-16 w-16 text-gray-300 mx-auto mb-4" />
- <h2 className="text-lg font-semibold text-ink mb-2">{t('noResignation')}</h2>
- <p className="text-ink-muted mb-4">{t('noResignationDesc')}</p>
- <Button onClick={() => setShowForm(true)}>{t('startResignation')}</Button>
- </CardContent>
- </Card>
- )}
- </>
- );
- }
+  const handleSubmit = () => {
+    if (!isFormValid || !reasonCode) return;
+    const id = addRequest({
+      employeeId: userId,
+      employeeName: userName,
+      requestedLastDay: lastWorkingDate,
+      reasonCode: reasonCode as TerminationReasonCode,
+      reasonText: comment.trim() || undefined,
+      attachments: attachmentName ? [attachmentName] : undefined,
+      submittedBy: { id: userId, name: userName, role: 'employee' },
+    });
+    setSubmittedId(id);
+    setSubmitted(true);
+  };
 
- return (
- <>
- <div className="mb-6">
- <h1 className="text-2xl font-bold text-ink">{t('title')}</h1>
- <p className="text-ink-muted mt-1">{t('subtitle')}</p>
- </div>
+  // Only show the post-submit success view on a FRESH in-session submit.
+  // Pre-existing pending/approved/rejected requests should NOT replace the form
+  // on revisit — the form is the canonical landing surface, with status shown
+  // as a banner above it (see lastPending / approved / lastRejected blocks).
+  if (submitted) {
+    const req = requests.find((r) => r.id === submittedId);
+    return (
+      <div className="pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div>
+          <h1 className="font-display text-[22px] font-semibold text-ink">คำขอลาออก</h1>
+          <p className="text-small text-ink-muted mt-1">
+            ยื่นคำขอลาออกผ่านระบบ Self-Service (BRD #172)
+          </p>
+        </div>
 
- <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
+        <div className="humi-card" style={{ padding: 24 }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginBottom: 20,
+            }}
+          >
+            <CheckCircle size={28} className="text-success" aria-hidden />
+            <div>
+              <div className="font-display text-body font-semibold text-ink">
+                ส่งคำขอลาออกแล้ว — รอ SPD อนุมัติ
+              </div>
+              <div className="text-small text-ink-muted">
+                รหัสคำขอ: {req?.id}
+              </div>
+            </div>
+          </div>
 
- {activeTab ==='recording' && (
- <div className="space-y-4">
- <Card>
- <CardHeader><CardTitle>{t('resignationDetails')}</CardTitle></CardHeader>
- <CardContent>
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
- <div><span className="text-ink-muted">{t('resignationDate')}</span><p className="font-medium">{record.resignationDate}</p></div>
- <div><span className="text-ink-muted">{t('lastWorkingDate')}</span><p className="font-medium">{record.lastWorkingDate}</p></div>
- <div><span className="text-ink-muted">{t('reasonType')}</span><p className="font-medium capitalize">{record.reasonType}</p></div>
- <div><span className="text-ink-muted">{t('noticePeriod')}</span><p className="font-medium">{record.noticePeriod} {t('days')}</p></div>
- <div><span className="text-ink-muted">{t('status')}</span><Badge variant={record.status ==='completed' ?'success' :'warning'}>{record.status}</Badge></div>
- <div><span className="text-ink-muted">{t('exitInterview')}</span><p className="font-medium">{record.exitInterviewDate || t('notScheduled')}</p></div>
- </div>
- {record.reasonDetails && (
- <div className="mt-4 p-3 bg-surface-raised rounded-md">
- <p className="text-sm text-ink-muted">{record.reasonDetails}</p>
- </div>
- )}
- </CardContent>
- </Card>
+          {req && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 4 }}>วันทำงานวันสุดท้าย</div>
+                <div className="text-body font-medium text-ink">
+                  {formatDateTh(req.requestedLastDay)}
+                </div>
+              </div>
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 4 }}>เหตุผล</div>
+                <div className="text-body font-medium text-ink">
+                  {TERMINATION_REASON_LABEL[req.reasonCode]}
+                </div>
+              </div>
+              {req.reasonText && (
+                <div className="sm:col-span-2">
+                  <div className="humi-eyebrow" style={{ marginBottom: 4 }}>หมายเหตุเพิ่มเติม</div>
+                  <div className="text-body text-ink">{req.reasonText}</div>
+                </div>
+              )}
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 4 }}>สถานะ</div>
+                <span className="humi-tag humi-tag--butter">
+                  {req.status === 'pending_manager'
+                    ? 'รอ Manager อนุมัติ'
+                    : req.status === 'pending_spd'
+                    ? 'รอ SPD อนุมัติ'
+                    : req.status === 'approved'
+                    ? 'อนุมัติแล้ว'
+                    : 'ถูกปฏิเสธ'}
+                </span>
+              </div>
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 4 }}>ส่งเมื่อ</div>
+                <div className="text-body text-ink">
+                  {new Date(req.submittedAt).toLocaleDateString('th-TH', {
+                    year: 'numeric', month: 'short', day: 'numeric',
+                    hour: '2-digit', minute: '2-digit',
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
- {/* Status timeline */}
- <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
- <div className="flex items-center justify-between">
- {['submitted','in_progress','completed'].map((step, i) => (
- <div key={step} className="flex items-center flex-1">
- <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
- ['submitted','in_progress','completed'].indexOf(record.status) >= i ?'bg-brand text-white' :'bg-surface-raised text-ink-muted'
- }`}>
- {i + 1}
- </div>
- <span className="text-xs ml-2 capitalize">{step.replace('_','')}</span>
- {i < 2 && <div className={`flex-1 h-0.5 mx-2 ${['submitted','in_progress','completed'].indexOf(record.status) > i ?'bg-brand' :'bg-surface-raised '}`} />}
- </div>
- ))}
- </div>
- </CardContent>
- </Card>
- </div>
- )}
+  return (
+    <div className="pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div>
+        <h1 className="font-display text-[22px] font-semibold text-ink">คำขอลาออก</h1>
+        <p className="text-small text-ink-muted mt-1">
+          ยื่นคำขอลาออกผ่านระบบ Self-Service — SPD จะรับทราบและดำเนินการต่อ (BRD #172)
+        </p>
+      </div>
 
- {activeTab ==='clearance' && (
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle>{t('clearanceProgress')}</CardTitle>
- <span className="text-sm font-bold text-ink">{clearanceProgress}%</span>
- </div>
- <div className="w-full bg-surface-raised rounded-full h-2.5 mt-2">
- <div className="bg-brand h-2.5 rounded-full transition-all" style={{ width: `${clearanceProgress}%` }} />
- </div>
- </CardHeader>
- <CardContent>
- <div className="space-y-3">
- {record.clearanceItems.map((item) => (
- <div key={item.id} className="flex items-center gap-3 p-3 bg-surface-raised rounded-md">
- {item.status ==='completed' ? <CheckCircle className="h-5 w-5 text-success" /> : item.status ==='in_progress' ? <Clock className="h-5 w-5 text-yellow-500" /> : <Circle className="h-5 w-5 text-gray-300" />}
- <div className="flex-1">
- <p className="text-sm font-medium">{item.title}</p>
- <p className="text-xs text-ink-muted">{t('responsibleParty')}: {item.responsibleParty}</p>
- {item.signedOffDate && <p className="text-xs text-success">{t('signedOffOn')} {item.signedOffDate}</p>}
- </div>
- {item.status !=='completed' && (
- <Button size="sm" variant="outline" onClick={() => updateClearanceItem(item.id,'completed')}>{t('updateStatus')}</Button>
- )}
- </div>
- ))}
- </div>
- </CardContent>
- </Card>
- )}
+      {myRequest?.status === 'pending_manager' && (
+        <div className="humi-card humi-card--info" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>มีคำขอที่ยังรอ Manager อนุมัติ</div>
+          <div className="text-small text-ink">
+            รหัส {myRequest.id} — รออนุมัติจาก Manager ส่งคำขอใหม่ไม่ได้จนกว่า Manager จะตัดสิน
+          </div>
+        </div>
+      )}
 
- {activeTab ==='settlement' && record.settlement && (
- <Card>
- <CardHeader><CardTitle>{t('finalSettlementSummary')}</CardTitle></CardHeader>
- <CardContent>
- <div className="space-y-4">
- <div>
- <h4 className="text-sm font-semibold text-ink-soft mb-2">{t('earnings')}</h4>
- <div className="space-y-1 text-sm">
- <div className="flex justify-between"><span>{t('outstandingSalary')}</span><span>{formatCurrency(record.settlement.outstandingSalary)}</span></div>
- <div className="flex justify-between"><span>{t('leaveEncashment')}</span><span>{formatCurrency(record.settlement.leaveEncashment)}</span></div>
- <div className="flex justify-between"><span>{t('bonus')}</span><span>{formatCurrency(record.settlement.bonus)}</span></div>
- <div className="flex justify-between font-semibold border-t pt-1">
- <span>{t('grossTotal')}</span>
- <span>{formatCurrency(record.settlement.outstandingSalary + record.settlement.leaveEncashment + record.settlement.bonus)}</span>
- </div>
- </div>
- </div>
- <div>
- <h4 className="text-sm font-semibold text-ink-soft mb-2">{t('deductions')}</h4>
- <div className="space-y-1 text-sm">
- <div className="flex justify-between"><span>{t('loansAdvances')}</span><span className="text-danger">-{formatCurrency(record.settlement.loanDeductions)}</span></div>
- </div>
- </div>
- <div className="border-t pt-3">
- <div className="flex justify-between text-lg font-bold text-ink">
- <span>{t('netPayable')}</span>
- <span>{formatCurrency(record.settlement.netPayable)}</span>
- </div>
- </div>
- <div className="bg-accent-tint rounded-md p-3 text-sm text-accent">
- <p className="font-medium">{t('providentFund')}</p>
- <p>{t('pfBalance')}: {formatCurrency(record.settlement.pfBalance)}</p>
- <p className="text-xs mt-1">{t('pfNote')}</p>
- </div>
- </div>
- </CardContent>
- </Card>
- )}
- </>
- );
+      {myRequest?.status === 'pending_spd' && (
+        <div className="humi-card humi-card--info" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>มีคำขอที่ยังรอ SPD อนุมัติ</div>
+          <div className="text-small text-ink">
+            รหัส {myRequest.id} — Manager อนุมัติแล้ว รออนุมัติครั้งสุดท้ายจาก SPD
+          </div>
+        </div>
+      )}
+
+      {myRequest?.status === 'approved' && (
+        <div className="humi-card humi-card--success" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>คำขอลาออกได้รับการอนุมัติแล้ว</div>
+          <div className="text-small text-ink">
+            รหัส {myRequest.id} — วันทำงานสุดท้าย {formatDateTh(myRequest.requestedLastDay)}
+          </div>
+        </div>
+      )}
+
+      {lastRejected && (
+        <div className="humi-card humi-card--warning" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>คำขอก่อนหน้านี้ถูกปฏิเสธ</div>
+          <div className="text-small text-ink">
+            รหัส {lastRejected.id} — ส่งใหม่ได้ ปรับเหตุผลหรือเอกสารแนบให้ครบก่อนส่ง
+          </div>
+        </div>
+      )}
+
+      {/* Form */}
+      <div className="humi-card" style={{ padding: 24 }}>
+        <div className="humi-eyebrow" style={{ marginBottom: 16 }}>กรอกข้อมูลการลาออก</div>
+
+        {/* วันทำงานวันสุดท้าย */}
+        <div style={{ marginBottom: 20 }}>
+          <label htmlFor="lastWorkingDate" className="humi-label">
+            วันทำงานวันสุดท้าย <span className="humi-asterisk">*</span>
+          </label>
+          <input
+            id="lastWorkingDate"
+            type="date"
+            value={lastWorkingDate}
+            onChange={(e) => setLastWorkingDate(e.target.value)}
+            min={new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10)}
+            className="humi-input"
+            style={{ maxWidth: 220 }}
+          />
+          <p className="text-small text-ink-muted" style={{ marginTop: 4 }}>
+            กรุณาแจ้งล่วงหน้าอย่างน้อย 30 วัน
+          </p>
+        </div>
+
+        {/* เหตุผลการลาออก */}
+        <div style={{ marginBottom: 20 }}>
+          <label htmlFor="reasonCode" className="humi-label">
+            เหตุผลการลาออก <span className="humi-asterisk">*</span>
+          </label>
+          <select
+            id="reasonCode"
+            value={reasonCode}
+            onChange={(e) => setReasonCode(e.target.value as TerminationReasonCode | '')}
+            className="humi-input"
+            style={{ maxWidth: 360 }}
+          >
+            <option value="">-- เลือกเหตุผล --</option>
+            {(Object.entries(TERMINATION_REASON_LABEL) as [TerminationReasonCode, string][]).map(
+              ([code, label]) => (
+                <option key={code} value={code}>
+                  {label}
+                </option>
+              ),
+            )}
+          </select>
+        </div>
+
+        {/* หมายเหตุ */}
+        <div style={{ marginBottom: 24 }}>
+          <label htmlFor="comment" className="humi-label">
+            หมายเหตุเพิ่มเติม <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+          </label>
+          <textarea
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            rows={3}
+            placeholder="ระบุรายละเอียดเพิ่มเติม (ถ้ามี)"
+            className="humi-input"
+            style={{ width: '100%', resize: 'vertical', maxWidth: 520 }}
+          />
+        </div>
+
+        {/* เอกสารแนบ */}
+        <div style={{ marginBottom: 24 }}>
+          <label htmlFor="attachment" className="humi-label">
+            เอกสารแนบ <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+          </label>
+          <input
+            id="attachment"
+            type="file"
+            accept=".pdf,.jpg,.jpeg,.png"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              setAttachmentName(file ? file.name : undefined);
+            }}
+            className="block text-small text-ink-soft mt-1"
+          />
+          {attachmentName && (
+            <p className="text-small text-accent mt-1">{attachmentName}</p>
+          )}
+        </div>
+
+        {/* Actions */}
+        <div className="humi-row" style={{ justifyContent: 'flex-end', gap: 10 }}>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={!isFormValid}
+            className="humi-btn humi-btn--primary"
+            aria-disabled={!isFormValid}
+          >
+            ส่งคำขอลาออก
+          </button>
+        </div>
+      </div>
+
+      {/* Info note */}
+      <div className="humi-card humi-card--cream" style={{ padding: '12px 16px' }}>
+        <div className="text-small text-ink-muted">
+          เมื่อส่งคำขอแล้ว SPD จะรับทราบผ่านกล่องอนุมัติ และดำเนินการกระบวนการสิ้นสุดการจ้างงานต่อไป
+        </div>
+      </div>
+    </div>
+  );
 }
