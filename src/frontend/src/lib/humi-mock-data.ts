@@ -48,6 +48,10 @@ export interface HumiEmployee {
   managerId?: string;
   /** Business unit id (RBAC scoping, T2 AC-5) */
   businessUnitId?: string;
+  /** ISO date of hire (T5 SF Real Data Port — from User.hireDate) */
+  hireDate?: string;
+  /** Free-text job title (T5 SF Real Data Port — from User.jobTitle) */
+  jobTitle?: string;
 }
 
 export const HUMI_EMPLOYEES: HumiEmployee[] = [

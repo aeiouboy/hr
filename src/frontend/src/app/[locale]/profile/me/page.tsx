@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
 import { HUMI_MY_PROFILE, HUMI_EMPLOYEES, type HumiEmployee } from '@/lib/humi-mock-data';
 import { SF_PARITY_NEW_EMPLOYEES, withSfParity } from '@/lib/humi-mock-data-sf-parity';
+import { SF_REAL_EMPLOYEES } from '@/lib/humi-mock-data-sf-real';
 import { useAuthStore } from '@/stores/auth-store';
 import {
   useHumiProfileStore,
@@ -137,10 +138,14 @@ const EMP_BY_LOGIN: Record<string, string> = {
   'employee@humi.test': 'emp-003', // วิศวกรซอฟต์แวร์อาวุโส
 };
 
-// All 100 ported employees with SF parity overlay applied.
+// All ported employees: 12 existing (with SF parity overlay) + 88 synthetic
+// + 100 REAL SF QAS employees (T5 Real Data Port). Synthetic kept for backwards
+// compat with sprint #82-#85 fields tied to emp-001..emp-100 ids; SF real adds
+// 100 emp-sf-X with authentic Thai dept / position / hireDate / nationalId.
 const ALL_PORTED_EMPLOYEES: HumiEmployee[] = [
   ...HUMI_EMPLOYEES.map(withSfParity),
   ...SF_PARITY_NEW_EMPLOYEES,
+  ...SF_REAL_EMPLOYEES,
 ];
 
 const MARITAL_TH: Record<string, string> = {
