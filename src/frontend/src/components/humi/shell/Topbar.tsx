@@ -88,13 +88,18 @@ export function Topbar({
         <span>เมนู</span>
       </button>
 
-      {/* Title block */}
-      <div className="min-w-0">
-        <div className="humi-eyebrow hidden sm:block" style={{ marginBottom: 4 }}>
+      {/* Title block — min-w-0 lets it shrink below content; whitespace-nowrap +
+          truncate on eyebrow+h2 prevent Thai-character vertical wrap when topbar
+          right-side gets crowded (e.g., 9-persona switcher with long label) */}
+      <div className="min-w-0 flex-shrink overflow-hidden">
+        <div
+          className="humi-eyebrow hidden sm:block whitespace-nowrap overflow-hidden text-ellipsis"
+          style={{ marginBottom: 4 }}
+        >
           {subtitle}
         </div>
         <h2
-          className="truncate text-[18px] sm:text-[20px] lg:text-[24px]"
+          className="truncate whitespace-nowrap text-[18px] sm:text-[20px] lg:text-[24px]"
           style={{ fontFamily: 'var(--font-display)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}
         >
           {title}

@@ -58,7 +58,7 @@ export function PersonaSwitcher() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cn(
-          'humi-row inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-small font-medium',
+          'humi-row inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-small font-medium whitespace-nowrap flex-shrink-0 max-w-[240px]',
           'transition-colors duration-[var(--dur-fast)]',
           'hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
           inProxy
@@ -69,8 +69,8 @@ export function PersonaSwitcher() {
         aria-expanded={open}
         aria-haspopup="menu"
       >
-        <UserCog size={14} aria-hidden />
-        <span>
+        <UserCog size={14} aria-hidden className="flex-shrink-0" />
+        <span className="whitespace-nowrap overflow-hidden text-ellipsis">
           {inProxy ? 'สวมบทบาท' : 'เลือก Persona'}
           {activeBadge && (
             <>
@@ -79,7 +79,7 @@ export function PersonaSwitcher() {
             </>
           )}
         </span>
-        <ChevronDown size={14} aria-hidden />
+        <ChevronDown size={14} aria-hidden className="flex-shrink-0" />
       </button>
 
       {open && (
