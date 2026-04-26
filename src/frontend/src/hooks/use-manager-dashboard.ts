@@ -1,7 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { managerDashboardApi, type TeamSummary as ApiTeamSummary, type TeamMember as ApiTeamMember, type CalendarEvent as ApiCalendarEvent, type UrgentAlert as ApiUrgentAlert, type OrgNode } from '@/lib/manager-dashboard-api';
+import { useAuthStore } from '@/stores/auth-store';
+import { countDirectReports } from '@/lib/scope-filter';
+import { ALL_PORTED_EMPLOYEES, EMP_BY_LOGIN } from '@/lib/all-ported-employees';
 
 export type { OrgNode };
 
@@ -276,8 +279,20 @@ export function useManagerDashboard() {
  fetchCalendar();
  }, [fetchCalendar]);
 
+ // Track A2 (autopilot 2026-04-26): real subordinate count from scope-filter lib.
+ // Reads current persona's emp-id (view-as aware via auth-store) → counts direct
+ // reports in the 212-employee SF-real pool. Falls back to team.length when emp-id
+ // can't be resolved (unauthenticated test runs / unmapped login).
+ const currentEmail = useAuthStore((s) => s.email);
+ const directReportsCount = useMemo(() => {
+   if (!currentEmail) return team.length;
+   const empId = EMP_BY_LOGIN[currentEmail];
+   if (!empId) return team.length;
+   return countDirectReports(ALL_PORTED_EMPLOYEES, empId);
+ }, [currentEmail, team.length]);
+
  const stats: TeamStats = {
- totalMembers: team.length,
+ totalMembers: directReportsCount,
  activeToday: team.filter((m) => m.status ==='active').length,
  onLeaveToday: team.filter((m) => m.status ==='on-leave').length,
  pendingApprovals: approvals.length,
