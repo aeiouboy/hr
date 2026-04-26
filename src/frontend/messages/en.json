@@ -3514,9 +3514,9 @@
     "profileFieldPhone": "Mobile number",
     "profileFieldEmail": "Personal email",
     "profileFieldAddress": "Address",
-    "resignationSectionEyebrow": "การลาออก",
-    "resignationSectionDesc": "ยื่นคำขอลาออกและติดตามสถานะ",
-    "resignationSectionLink": "ดูคำขอลาออก"
+    "resignationSectionEyebrow": "Resignation",
+    "resignationSectionDesc": "Submit and track resignation requests",
+    "resignationSectionLink": "View resignation requests"
   },
   "humiAnnouncements": {
     "subtitle": "Team and company feed",
