@@ -8,10 +8,8 @@ import {
  Calendar, ArrowRight, FileEdit, ChevronRight, Timer,
  LogIn, LogOut, Palmtree, Coffee, Sun, Moon,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTime, type AttendanceRecord, type TimeCorrectionRequest } from '@/hooks/use-time';
@@ -322,8 +320,8 @@ export function TimePage() {
  {/* ===== WEEKLY OVERVIEW + STATS ===== */}
  <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
  {/* Weekly Heatmap */}
- <Card className="lg:col-span-3">
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <Card>
+ <div className="lg:col-span-3 p-5 sm:p-6 lg:p-8">
  <div className="flex items-center justify-between mb-3">
  <h3 className="text-sm font-semibold text-ink">This Week</h3>
  <div className="flex items-center gap-3 text-[10px] text-ink-muted">
@@ -334,12 +332,12 @@ export function TimePage() {
  </div>
  </div>
  <WeeklyHeatmap attendance={attendance} />
- </CardContent>
+ </div>
  </Card>
 
  {/* Quick Stats */}
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <h3 className="text-sm font-semibold text-ink mb-3">Monthly Stats</h3>
  <div className="space-y-3">
  <div className="flex items-center justify-between">
@@ -368,7 +366,7 @@ export function TimePage() {
  <span className="font-mono font-medium text-ink">{summary.avgCheckOut}</span>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  </div>
 
@@ -398,11 +396,8 @@ export function TimePage() {
  {/* Clock Tab - Recent Activity */}
  {activeTab ==='clock' && (
  <div className="space-y-4">
- <Card>
- <CardHeader className="pb-3">
- <CardTitle className="text-base">Recent Attendance</CardTitle>
- </CardHeader>
- <CardContent className="p-0">
+ <Card header={<CardTitle className="text-base">Recent Attendance</CardTitle>}>
+ <div className="p-0">
  {/* Mobile: Card List */}
  <div className="sm:hidden divide-y">
  {attendance.slice(0, 7).map((rec) => {
@@ -487,7 +482,7 @@ export function TimePage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  </div>
  )}
@@ -495,14 +490,15 @@ export function TimePage() {
  {/* Schedule Tab */}
  {activeTab ==='schedule' && (
  <div className="space-y-4">
- <Card>
- <CardHeader className="pb-3">
+ <Card
+ header={
  <div className="flex items-center justify-between">
  <CardTitle className="text-base">{t('shifts')} & {t('assignments')}</CardTitle>
  <span className="text-xs text-ink-muted">This week</span>
  </div>
- </CardHeader>
- <CardContent className="p-0">
+ }
+ >
+ <div className="p-0">
  <div className="divide-y">
  {schedule.map((shift) => {
  const isToday = shift.date ==='2026-03-05';
@@ -555,7 +551,7 @@ export function TimePage() {
  );
  })}
  </div>
- </CardContent>
+ </div>
  </Card>
 
  {/* Shift Legend */}
@@ -605,14 +601,15 @@ export function TimePage() {
  </div>
 
  {/* Full Log */}
- <Card>
- <CardHeader className="pb-3">
+ <Card
+ header={
  <div className="flex items-center justify-between">
  <CardTitle className="text-base">Time Result</CardTitle>
  <span className="text-xs text-ink-muted">Feb 2026</span>
  </div>
- </CardHeader>
- <CardContent className="p-0">
+ }
+ >
+ <div className="p-0">
  {/* Mobile cards */}
  <div className="sm:hidden divide-y">
  {attendance.map((rec) => {
@@ -674,7 +671,7 @@ export function TimePage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  </div>
  )}
@@ -691,11 +688,7 @@ export function TimePage() {
  </div>
 
  {/* Correction History */}
- <Card>
- <CardHeader className="pb-3">
- <CardTitle className="text-base">Correction Requests</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card header={<CardTitle className="text-base">Correction Requests</CardTitle>}>
  {corrections.length === 0 ? (
  <div className="py-12 text-center">
  <FileEdit className="h-10 w-10 text-gray-300 mx-auto mb-3" />
@@ -740,7 +733,6 @@ export function TimePage() {
  ))}
  </div>
  )}
- </CardContent>
  </Card>
  </div>
  )}
@@ -788,7 +780,7 @@ export function TimePage() {
  />
  </div>
  <div className="flex justify-end gap-3 mt-6">
- <Button variant="outline" onClick={() => setShowCorrectionModal(false)}>{tCommon('cancel')}</Button>
+ <Button variant="secondary" onClick={() => setShowCorrectionModal(false)}>{tCommon('cancel')}</Button>
  <Button
  onClick={handleCorrectionSubmit}
  disabled={!correctionForm.date || !correctionForm.correctedTime || !correctionForm.reason}

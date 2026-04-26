@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Plus } from 'lucide-react';
 import { Tabs } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { useHospitalReferral, HospitalReferral } from '@/hooks/use-hospital-referral';
 import { ReferralRequestForm } from '@/components/hospital-referral/referral-request-form';
 import { ReferralHistory } from '@/components/hospital-referral/referral-history';

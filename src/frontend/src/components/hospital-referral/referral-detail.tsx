@@ -1,8 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Modal, Button } from '@/components/humi';
 import { cn } from '@/lib/utils';
 import {
  CheckCircle,
@@ -126,35 +125,7 @@ export function ReferralDetail({
  open={open}
  onClose={onClose}
  title={referral.hospitalName}
- className="max-w-lg"
- footer={
- <div className="flex justify-end gap-2">
- {isCancellable && onCancel && (
- <Button
- variant="destructive"
- size="sm"
- onClick={() => {
- onCancel(referral.id);
- onClose();
- }}
- >
- {t('cancelRequest')}
- </Button>
- )}
- {hasLetter && onViewLetter && (
- <Button
- size="sm"
- onClick={() => onViewLetter(referral)}
- >
- <FileText className="h-4 w-4 mr-2" />
- {t('viewLetter')}
- </Button>
- )}
- <Button variant="outline" size="sm" onClick={onClose}>
- {tc('close')}
- </Button>
- </div>
- }
+ widthClass="max-w-lg"
  >
  <div className="space-y-5">
  {/* Status + referral number */}
@@ -248,6 +219,32 @@ export function ReferralDetail({
  </div>
  </div>
  )}
+ </div>
+ <div className="border-t pt-4 flex justify-end gap-2">
+ {isCancellable && onCancel && (
+ <Button
+ variant="danger"
+ size="sm"
+ onClick={() => {
+ onCancel(referral.id);
+ onClose();
+ }}
+ >
+ {t('cancelRequest')}
+ </Button>
+ )}
+ {hasLetter && onViewLetter && (
+ <Button
+ size="sm"
+ onClick={() => onViewLetter(referral)}
+ >
+ <FileText className="h-4 w-4 mr-2" />
+ {t('viewLetter')}
+ </Button>
+ )}
+ <Button variant="secondary" size="sm" onClick={onClose}>
+ {tc('close')}
+ </Button>
  </div>
  </Modal>
  );

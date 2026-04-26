@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { PageShell } from '@/components/shared/page-shell';
 import { Tabs } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { useAuthStore } from '@/stores/auth-store';
 import { isHR } from '@/lib/rbac';
 import { RjsfForm } from '@/components/permissions/rjsf-form';
@@ -90,25 +90,16 @@ export default function PermissionsPage() {
 
  {/* 2-column responsive grid — form spans 2/3, JSON spans 1/3 */}
  <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
- <Card className="xl:col-span-2">
- <CardHeader className="pb-3">
- <CardTitle>{active.label}</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card className="xl:col-span-2" header={<CardTitle>{active.label}</CardTitle>}>
  <RjsfForm
  schema={active.schema}
  uiSchema={active.uiSchema}
  formData={activeData}
  onChange={handleChange}
  />
- </CardContent>
  </Card>
 
- <Card className="xl:col-span-1">
- <CardHeader className="pb-3">
- <CardTitle>Live JSON Config</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card className="xl:col-span-1" header={<CardTitle>Live JSON Config</CardTitle>}>
  <pre className="text-xs bg-surface-raised border border-hairline rounded-md p-3 overflow-auto max-h-[75vh] font-mono text-ink leading-relaxed">
  {JSON.stringify(activeData, null, 2)}
  </pre>
@@ -116,7 +107,6 @@ export default function PermissionsPage() {
  In production this payload POSTs to the permission service
  (Keycloak group attributes or HR policy DB).
  </p>
- </CardContent>
  </Card>
  </div>
  </PageShell>

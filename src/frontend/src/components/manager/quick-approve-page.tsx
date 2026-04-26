@@ -20,10 +20,8 @@ import {
  Plus,
  Check,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuickApprove } from '@/hooks/use-quick-approve';
 import type { ApprovalItem, ApprovalType, UrgencyLevel } from '@/hooks/use-quick-approve';
@@ -174,11 +172,8 @@ export function QuickApprovePage() {
  return (
  <div className="space-y-6">
  {/* ── คำขอลาออกจากทีม (Termination Queue — pending_manager) ── */}
- <Card>
- <CardHeader>
- <CardTitle className="text-base">คำขอลาออกจากทีม — รอหัวหน้าอนุมัติ ({pendingTermination.length})</CardTitle>
- </CardHeader>
- <CardContent className="p-4 space-y-3">
+ <Card header={<CardTitle className="text-base">คำขอลาออกจากทีม — รอหัวหน้าอนุมัติ ({pendingTermination.length})</CardTitle>}>
+ <div className="p-4 space-y-3">
  {pendingTermination.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">ไม่มีคำขอลาออกรอการอนุมัติในขณะนี้</p>
  ) : (
@@ -226,15 +221,12 @@ export function QuickApprovePage() {
  <p className="text-xs text-ink-muted border-t border-hairline pt-3 mt-2">
  ลาออกของทีม — Manager อนุมัติก่อน, แล้วส่งต่อให้ SPD ตัดสินครั้งสุดท้าย (BRD #172)
  </p>
- </CardContent>
+ </div>
  </Card>
 
  {/* ── คิวลา (Leave Queue from leave-approvals store) ── */}
- <Card>
- <CardHeader>
- <CardTitle className="text-base">คิวลา — รอหัวหน้าอนุมัติ ({pendingLeave.length})</CardTitle>
- </CardHeader>
- <CardContent className="p-4 space-y-3">
+ <Card header={<CardTitle className="text-base">คิวลา — รอหัวหน้าอนุมัติ ({pendingLeave.length})</CardTitle>}>
+ <div className="p-4 space-y-3">
  {pendingLeave.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">ไม่มีใบลารอการอนุมัติในขณะนี้</p>
  ) : (
@@ -279,7 +271,7 @@ export function QuickApprovePage() {
  <p className="text-xs text-ink-muted border-t border-hairline pt-3 mt-2">
  หมายเหตุ: คิวลา (out-of-EC) — Manager จัดการเฉพาะใบลา; การเปลี่ยนข้อมูลส่วนตัวไปที่ SPD ตาม BRD #166
  </p>
- </CardContent>
+ </div>
  </Card>
 
  {/* Header */}
@@ -291,7 +283,7 @@ export function QuickApprovePage() {
  <div className="flex items-center gap-3">
  <Badge variant="error">{stats.urgent} urgent</Badge>
  <Badge variant="neutral">{stats.total} total</Badge>
- <Button variant="outline" size="sm" onClick={() => setDelegationOpen(true)}>
+ <Button variant="secondary" size="sm" onClick={() => setDelegationOpen(true)}>
  <Settings2 className="h-4 w-4 mr-1.5" />
  Delegations
  </Button>
@@ -316,7 +308,7 @@ export function QuickApprovePage() {
 
  {/* Enhanced Filter Bar */}
  <Card>
- <CardContent className="py-3 space-y-3">
+ <div className="py-3 space-y-3">
  {/* Search + Date filters */}
  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
  <div className="relative flex-1 min-w-[200px]">
@@ -398,7 +390,7 @@ export function QuickApprovePage() {
  <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
  <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
  </Button>
- <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
+ <Button variant="danger" size="sm" onClick={() => handleBulkAction('reject')}>
  <XCircle className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkReject')}
  </Button>
  <button onClick={clearSelection} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised"><X className="h-4 w-4 text-ink-muted" /></button>
@@ -406,7 +398,7 @@ export function QuickApprovePage() {
  )}
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
 
  {/* Approval Items */}
@@ -414,10 +406,10 @@ export function QuickApprovePage() {
  <div className={cn('flex-1 space-y-3', previewItem &&'max-w-[55%]')}>
  {items.length === 0 ? (
  <Card>
- <CardContent className="py-12 text-center">
+ <div className="py-12 text-center">
  <CheckCircle2 className="h-12 w-12 text-green-300 mx-auto mb-3" />
  <p className="text-ink-muted">{t('approvals.noApprovals')}</p>
- </CardContent>
+ </div>
  </Card>
  ) : (
  items.map((item) => (
@@ -483,14 +475,8 @@ export function QuickApprovePage() {
  {/* Slide-over Preview Panel */}
  {previewItem && (
  <div className="hidden lg:block w-[45%] sticky top-20 self-start">
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle className="text-base">Request Details</CardTitle>
- <button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised" aria-label="Close"><X className="h-4 w-4 text-ink-muted" /></button>
- </div>
- </CardHeader>
- <CardContent className="space-y-4">
+ <Card header={<><CardTitle className="text-base">Request Details</CardTitle><button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-surface-raised" aria-label="Close"><X className="h-4 w-4 text-ink-muted" /></button></>}>
+ <div className="space-y-4">
  {/* Employee */}
  <div className="flex items-center gap-3 pb-4 border-b border-hairline">
  <div className="h-12 w-12 rounded-full bg-surface-raised flex items-center justify-center text-lg font-medium text-ink-muted">{previewItem.employeeAvatar}</div>
@@ -590,11 +576,11 @@ export function QuickApprovePage() {
  <Button className="flex-1 bg-success hover:bg-success/90" onClick={() => handleSingleAction(previewItem.id,'approve')}>
  <CheckCircle2 className="h-4 w-4 mr-2" />{t('actions.approve')}
  </Button>
- <Button variant="destructive" className="flex-1" onClick={() => handleSingleAction(previewItem.id,'reject')}>
+ <Button variant="danger" className="flex-1" onClick={() => handleSingleAction(previewItem.id,'reject')}>
  <XCircle className="h-4 w-4 mr-2" />{t('actions.reject')}
  </Button>
  </div>
- </CardContent>
+ </div>
  </Card>
  </div>
  )}
@@ -609,7 +595,7 @@ export function QuickApprovePage() {
  <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
  <CheckCircle2 className="h-4 w-4 mr-1.5" />Approve All
  </Button>
- <Button variant="destructive" size="sm" onClick={() => handleBulkAction('reject')}>
+ <Button variant="danger" size="sm" onClick={() => handleBulkAction('reject')}>
  <XCircle className="h-4 w-4 mr-1.5" />Reject All
  </Button>
  <button onClick={clearSelection} className="text-sm text-ink-muted hover:text-ink-soft flex items-center gap-1">
@@ -625,19 +611,6 @@ export function QuickApprovePage() {
  open={!!confirmModal}
  onClose={() => setConfirmModal(null)}
  title={confirmModal?.action ==='approve' ?'Confirm Approval' :'Confirm Rejection'}
- footer={
- <div className="flex justify-end gap-3">
- <Button variant="outline" onClick={() => setConfirmModal(null)}>Cancel</Button>
- <Button
- variant={confirmModal?.action ==='reject' ?'destructive' :'default'}
- className={confirmModal?.action ==='approve' ?'bg-success hover:bg-success/90' :''}
- onClick={handleConfirm}
- disabled={actionLoading || (confirmModal?.action ==='reject' && !confirmReason.trim())}
- >
- {actionLoading ?'Processing...' : confirmModal?.action ==='approve' ? `${t('actions.approve')} (${confirmModal?.count})` : `${t('actions.reject')} (${confirmModal?.count})`}
- </Button>
- </div>
- }
  >
  <div className="space-y-4">
  <p className="text-sm text-ink-muted">
@@ -656,10 +629,21 @@ export function QuickApprovePage() {
  value={confirmReason}
  onChange={(e) => setConfirmReason(e.target.value)}
  rows={3}
- className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none resize-none"
+ className="w-full rounded-md border border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none resize-none"
  placeholder={confirmModal?.action ==='approve' ?'Optional comment...' :'Please provide a reason...'}
  />
  </div>
+ </div>
+ <div className="border-t pt-4 mt-4 flex justify-end gap-3">
+ <Button variant="secondary" onClick={() => setConfirmModal(null)}>Cancel</Button>
+ <Button
+ variant={confirmModal?.action ==='reject' ?'danger' :'primary'}
+ className={confirmModal?.action ==='approve' ?'bg-success hover:bg-success/90' :''}
+ onClick={handleConfirm}
+ disabled={actionLoading || (confirmModal?.action ==='reject' && !confirmReason.trim())}
+ >
+ {actionLoading ?'Processing...' : confirmModal?.action ==='approve' ? `${t('actions.approve')} (${confirmModal?.count})` : `${t('actions.reject')} (${confirmModal?.count})`}
+ </Button>
  </div>
  </Modal>
 
@@ -668,7 +652,7 @@ export function QuickApprovePage() {
  open={delegationOpen}
  onClose={() => setDelegationOpen(false)}
  title="Manage Delegations"
- className="max-w-xl"
+ widthClass="max-w-xl"
  >
  <div className="space-y-5">
  <div>

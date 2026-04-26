@@ -2,9 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 import { CheckCircle, XCircle, Clock, RotateCcw } from 'lucide-react';
-import { Modal } from '@/components/ui/modal';
+import { Modal, Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import type { WorkflowItem, WorkflowStep } from '@/hooks/use-workflows';
 
 interface WorkflowDetailProps {
@@ -78,7 +77,7 @@ export function WorkflowDetail({ workflow, open, onClose, onApprove, onReject, o
  <Button size="sm" variant="secondary" onClick={() => onSendBack(workflow.id)}>
  {t('workflows.sendBack')}
  </Button>
- <Button size="sm" variant="destructive" onClick={() => onReject(workflow.id)}>
+ <Button size="sm" variant="danger" onClick={() => onReject(workflow.id)}>
  {t('workflows.reject')}
  </Button>
  <Button size="sm" onClick={() => onApprove(workflow.id)}>
@@ -88,7 +87,7 @@ export function WorkflowDetail({ workflow, open, onClose, onApprove, onReject, o
  ) : undefined;
 
  return (
- <Modal open={open} onClose={onClose} title={`${workflow.typeLabel} — ${workflow.id}`} footer={footer} className="max-w-2xl">
+ <Modal open={open} onClose={onClose} title={`${workflow.typeLabel} — ${workflow.id}`} widthClass="max-w-2xl">
  <div className="space-y-6">
  {/* Header info */}
  <div className="grid grid-cols-2 gap-4">
@@ -147,6 +146,7 @@ export function WorkflowDetail({ workflow, open, onClose, onApprove, onReject, o
  <StepTimeline steps={workflow.steps} currentStep={workflow.currentStep} />
  </div>
  </div>
+ {footer && <div className="border-t pt-4 mt-4 flex justify-end gap-2">{footer}</div>}
  </Modal>
  );
 }

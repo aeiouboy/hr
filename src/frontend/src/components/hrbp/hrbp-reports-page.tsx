@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Tabs } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { useHRBPReports } from '@/hooks/use-hrbp-reports';
 import { CustomSelect } from '@/components/ui/custom-select';
@@ -102,28 +102,20 @@ export function HRBPReportsPage() {
 
  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('metrics.avgAttendance')}</p>
  <p className="text-3xl font-bold text-ink mt-2">{summaryMetrics.avgAttendanceRate.toFixed(1)}%</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('metrics.lateRate')}</p>
  <p className="text-3xl font-bold text-amber-600 mt-2">{summaryMetrics.avgLateRate.toFixed(1)}%</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('metrics.leaveUtilization')}</p>
  <p className="text-3xl font-bold text-blue-700 mt-2">{summaryMetrics.leaveUtilization.toFixed(1)}%</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('metrics.monthlyOTCost')}</p>
  <p className="text-3xl font-bold text-ink mt-2">THB {Math.round(summaryMetrics.monthlyOTCost).toLocaleString()}</p>
- </CardContent>
  </Card>
  </div>
 
@@ -131,11 +123,7 @@ export function HRBPReportsPage() {
 
  {activeTab ==='attendance' && (
  <div className="space-y-4">
- <Card>
- <CardHeader>
- <CardTitle>{t('tabs.attendance')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 overflow-x-auto">
+ <Card header={<CardTitle>{t('tabs.attendance')}</CardTitle>}>
  <table className="w-full text-sm">
  <thead>
  <tr className="border-b bg-surface-raised border-hairline">
@@ -162,17 +150,14 @@ export function HRBPReportsPage() {
  ))}
  </tbody>
  </table>
- </CardContent>
  </Card>
 
  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
  {latestAttendanceByDepartment.map((report) => (
  <Card key={`latest-${report.department}`}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <p className="text-sm font-medium text-ink">{report.department}</p>
  <p className="text-2xl font-bold mt-2">{report.avgAttendanceRate.toFixed(1)}%</p>
  <p className="text-xs text-ink-muted mt-1">{formatPeriod(report.period)}</p>
- </CardContent>
  </Card>
  ))}
  </div>
@@ -181,11 +166,7 @@ export function HRBPReportsPage() {
 
  {activeTab ==='leave' && (
  <div className="space-y-4">
- <Card>
- <CardHeader>
- <CardTitle>{t('tabs.leave')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 overflow-x-auto">
+ <Card header={<CardTitle>{t('tabs.leave')}</CardTitle>}>
  <table className="w-full text-sm">
  <thead>
  <tr className="border-b bg-surface-raised border-hairline">
@@ -206,14 +187,9 @@ export function HRBPReportsPage() {
  ))}
  </tbody>
  </table>
- </CardContent>
  </Card>
 
- <Card>
- <CardHeader>
- <CardTitle>Department Breakdown</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <Card header={<CardTitle>Department Breakdown</CardTitle>}>
  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
  {Array.from(new Set(leaveReports.map((report) => report.department))).map((department) => {
  const departmentTotal = leaveReports
@@ -228,17 +204,12 @@ export function HRBPReportsPage() {
  );
  })}
  </div>
- </CardContent>
  </Card>
  </div>
  )}
 
  {activeTab ==='overtime' && (
- <Card>
- <CardHeader>
- <CardTitle>{t('tabs.overtime')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 overflow-x-auto">
+ <Card header={<CardTitle>{t('tabs.overtime')}</CardTitle>}>
  <table className="w-full text-sm">
  <thead>
  <tr className="border-b bg-surface-raised border-hairline">
@@ -267,19 +238,13 @@ export function HRBPReportsPage() {
  ))}
  </tbody>
  </table>
- </CardContent>
  </Card>
  )}
 
  {/* ── Hire Notifications (SH4) — Chain 2 / BRD #109 ── */}
- {activeTab ==='hire-notifications' && <Card>
- <CardHeader>
- <CardTitle>{t('tabs.hireNotifications')}</CardTitle>
- <p className="text-sm text-ink-muted mt-1">
- HR Admin ได้บันทึกการจ้างงานใหม่ — SH4 แจ้ง HRBP อัตโนมัติ (ข้อมูลเพื่อรับทราบเท่านั้น)
- </p>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ {activeTab ==='hire-notifications' && <Card
+ header={<><CardTitle>{t('tabs.hireNotifications')}</CardTitle><p className="text-sm text-ink-muted mt-1">HR Admin ได้บันทึกการจ้างงานใหม่ — SH4 แจ้ง HRBP อัตโนมัติ (ข้อมูลเพื่อรับทราบเท่านั้น)</p></>}
+ >
  {hireAuditEntries.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">ยังไม่มีการบันทึกการจ้างงานใหม่</p>
  ) : (
@@ -321,16 +286,12 @@ export function HRBPReportsPage() {
  </table>
  </div>
  )}
- </CardContent>
  </Card>}
 
  {activeTab ==='summary' && (
  <div className="space-y-4">
- <Card>
- <CardHeader>
- <CardTitle>{t('tabs.summary')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 space-y-4">
+ <Card header={<CardTitle>{t('tabs.summary')}</CardTitle>}>
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
  <div className="rounded-md border border-hairline p-4">
  <p className="text-sm font-medium text-ink">Executive Summary</p>
@@ -358,14 +319,10 @@ export function HRBPReportsPage() {
  </div>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
 
- <Card>
- <CardHeader>
- <CardTitle>{t('metrics.headcount')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <Card header={<CardTitle>{t('metrics.headcount')}</CardTitle>}>
  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
  {latestAttendanceByDepartment.map((report) => (
  <div key={`headcount-${report.department}`} className="rounded-md border border-hairline p-4">
@@ -375,14 +332,9 @@ export function HRBPReportsPage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
 
- <Card>
- <CardHeader>
- <CardTitle>Monthly OT Cost Trend</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <Card header={<CardTitle>Monthly OT Cost Trend</CardTitle>}>
  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
  {overtimeByMonth.map((item) => (
  <div key={item.period} className="rounded-md border border-hairline p-4">
@@ -391,7 +343,6 @@ export function HRBPReportsPage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
  </div>
  )}

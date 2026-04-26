@@ -17,9 +17,9 @@ import {
  TrendingDown,
  Banknote,
 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { usePayroll } from '@/hooks/use-payroll';
 import { useToast } from '@/components/ui/toast';
 import { formatCurrency } from '@/lib/date';
@@ -97,7 +97,6 @@ export default function PayrollProcessingPage() {
  return (
  <div className="space-y-6">
  <Card>
- <CardContent className="pt-6">
  <h3 className="font-semibold text-ink mb-4">{t('selectPeriod')}</h3>
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
  <div>
@@ -142,12 +141,10 @@ export default function PayrollProcessingPage() {
  </div>
  </div>
  )}
- </CardContent>
  </Card>
 
  {/* Recent payroll runs */}
  <Card>
- <CardContent className="pt-6">
  <h3 className="font-semibold text-ink mb-4">{t('recentRuns')}</h3>
  {payrollRuns.length === 0 ? (
  <p className="text-sm text-ink-muted">{t('noRecentRuns')}</p>
@@ -178,7 +175,6 @@ export default function PayrollProcessingPage() {
  ))}
  </div>
  )}
- </CardContent>
  </Card>
  </div>
  );
@@ -187,7 +183,6 @@ export default function PayrollProcessingPage() {
  const renderCalculateStep = () => (
  <div className="space-y-6">
  <Card>
- <CardContent className="pt-6">
  <h3 className="font-semibold text-ink mb-2">{t('calculatePayroll')}</h3>
  <p className="text-sm text-ink-muted mb-4">{t('readyToCalculate')}</p>
 
@@ -228,7 +223,6 @@ export default function PayrollProcessingPage() {
  {t('runCalculation')}
  </Button>
  )}
- </CardContent>
  </Card>
  </div>
  );
@@ -247,46 +241,37 @@ export default function PayrollProcessingPage() {
  {/* Summary cards */}
  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-2 text-ink-muted mb-1">
  <Users className="h-4 w-4" />
  <p className="text-xs uppercase tracking-wide">{t('employees')}</p>
  </div>
  <p className="text-2xl font-bold text-ink">{runSummary.totalEmployees}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-2 text-ink-muted mb-1">
  <TrendingUp className="h-4 w-4" />
  <p className="text-xs uppercase tracking-wide">{t('totalGross')}</p>
  </div>
  <p className="text-2xl font-bold text-ink">{formatCurrency(runSummary.totalGross,'THB')}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-2 text-ink-muted mb-1">
  <TrendingDown className="h-4 w-4" />
  <p className="text-xs uppercase tracking-wide">{t('totalDeductions')}</p>
  </div>
  <p className="text-2xl font-bold text-brand">{formatCurrency(runSummary.totalDeductions,'THB')}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-2 text-ink-muted mb-1">
  <Banknote className="h-4 w-4" />
  <p className="text-xs uppercase tracking-wide">{t('totalNet')}</p>
  </div>
  <p className="text-2xl font-bold text-success">{formatCurrency(runSummary.totalNet,'THB')}</p>
- </CardContent>
  </Card>
  </div>
 
  {/* Employee breakdown table */}
  <Card>
- <CardContent className="pt-6">
  <h3 className="font-semibold text-ink mb-4">{t('reviewResults')}</h3>
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
@@ -326,13 +311,11 @@ export default function PayrollProcessingPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
  </Card>
 
  {/* Anomalies */}
  {payslips.some((p) => p.anomaly) && (
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-2 mb-3">
  <AlertTriangle className="h-5 w-5 text-amber-500" />
  <h3 className="font-semibold text-ink">{t('varianceExceptions')}</h3>
@@ -345,7 +328,6 @@ export default function PayrollProcessingPage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
  )}
  </div>
@@ -373,7 +355,6 @@ export default function PayrollProcessingPage() {
  {/* Summary */}
  {runSummary && (
  <Card>
- <CardContent className="pt-6">
  <h3 className="font-semibold text-ink mb-4">{t('payrollSummary')}</h3>
  <div className="space-y-3 text-sm">
  <div className="flex justify-between py-2 border-b">
@@ -397,13 +378,11 @@ export default function PayrollProcessingPage() {
  <span className="text-success">{formatCurrency(runSummary.totalNet,'THB')}</span>
  </div>
  </div>
- </CardContent>
  </Card>
  )}
 
  {/* Approval chain */}
  <Card>
- <CardContent className="pt-6">
  <h3 className="font-semibold text-ink mb-4">{t('approvalChain')}</h3>
  <div className="space-y-3">
  <div className="flex items-center gap-3 p-3 bg-surface-raised rounded-md">
@@ -423,12 +402,10 @@ export default function PayrollProcessingPage() {
  <Badge variant="neutral">Waiting</Badge>
  </div>
  </div>
- </CardContent>
  </Card>
 
  {/* Comment box */}
  <Card>
- <CardContent className="pt-6">
  <label className="block text-sm font-medium text-ink-soft mb-2">{t('comments')}</label>
  <textarea
  value={approvalComment}
@@ -437,7 +414,6 @@ export default function PayrollProcessingPage() {
  placeholder="Optional notes for this payroll approval..."
  className="w-full border border-hairline rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand resize-none"
  />
- </CardContent>
  </Card>
 
  {/* Approve button */}
@@ -459,7 +435,7 @@ export default function PayrollProcessingPage() {
  </>
  )}
  </Button>
- <Button variant="outline" onClick={() => {
+ <Button variant="secondary" onClick={() => {
  toast('success','Payroll draft saved successfully');
  setCurrentStep('period');
  }}>
@@ -549,7 +525,7 @@ export default function PayrollProcessingPage() {
  {!approved && (
  <div className="flex justify-between mt-8 pt-6 border-t">
  <Button
- variant="outline"
+ variant="secondary"
  onClick={goPrev}
  disabled={currentStep ==='period'}
  >

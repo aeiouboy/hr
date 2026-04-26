@@ -3,12 +3,10 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UserPlus, Briefcase, Users, Clock } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Modal } from '@/components/ui/modal';
 import { useRecruitment, type ApplicationStatus } from '@/hooks/use-recruitment';
 import { formatCurrency } from '@/lib/date';
 
@@ -41,10 +39,10 @@ export function RecruitmentPage() {
  </div>
 
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Briefcase className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{stats.openPositions}</p><p className="text-xs text-ink-muted">{t('openPositions')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold">{stats.totalApplications}</p><p className="text-xs text-ink-muted">{t('totalApplications')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><UserPlus className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold">{stats.newApplications}</p><p className="text-xs text-ink-muted">{t('newApplications')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-yellow-500" /><div><p className="text-2xl font-bold">{stats.inInterview}</p><p className="text-xs text-ink-muted">{t('inInterview')}</p></div></CardContent></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Briefcase className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{stats.openPositions}</p><p className="text-xs text-ink-muted">{t('openPositions')}</p></div></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold">{stats.totalApplications}</p><p className="text-xs text-ink-muted">{t('totalApplications')}</p></div></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><UserPlus className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold">{stats.newApplications}</p><p className="text-xs text-ink-muted">{t('newApplications')}</p></div></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Clock className="h-8 w-8 text-yellow-500" /><div><p className="text-2xl font-bold">{stats.inInterview}</p><p className="text-xs text-ink-muted">{t('inInterview')}</p></div></div></Card>
  </div>
 
  <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
@@ -52,8 +50,8 @@ export function RecruitmentPage() {
  {activeTab ==='jobBoard' && (
  <div className="space-y-4">
  {jobs.filter((j) => j.status ==='open').map((job) => (
- <Card key={job.id} className="hover:shadow-1 transition-shadow">
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <Card key={job.id}>
+ <div className="hover:shadow-1 transition-shadow p-5 sm:p-6 lg:p-8">
  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
  <div>
  <div className="flex items-center gap-2 mb-1">
@@ -73,7 +71,7 @@ export function RecruitmentPage() {
  <Button size="sm" className="mt-2" onClick={() => setSelectedJob(job)}>{t('viewDetails')}</Button>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>
@@ -81,7 +79,7 @@ export function RecruitmentPage() {
 
  {activeTab ==='applications' && (
  <Card>
- <CardContent className="p-0">
+ <div className="p-0">
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -113,7 +111,7 @@ export function RecruitmentPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
 
@@ -121,7 +119,7 @@ export function RecruitmentPage() {
  <div className="space-y-4">
  {jobs.map((job) => (
  <Card key={job.id}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center justify-between">
  <div>
  <h3 className="font-semibold text-ink">{job.titleEn}</h3>
@@ -132,14 +130,14 @@ export function RecruitmentPage() {
  <span className="text-sm text-ink-muted">{job.applicationCount} apps</span>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>
  )}
 
  {/* Job Detail Modal */}
- <Modal open={!!selectedJob} onClose={() => setSelectedJob(null)} title={selectedJob?.titleEn ||''} className="max-w-2xl">
+ <Modal open={!!selectedJob} onClose={() => setSelectedJob(null)} title={selectedJob?.titleEn ||''} widthClass="max-w-2xl">
  {selectedJob && (
  <div className="space-y-4">
  <div className="flex items-center gap-2 flex-wrap">
@@ -173,7 +171,7 @@ export function RecruitmentPage() {
  </Modal>
 
  {/* Candidate Detail Modal */}
- <Modal open={!!selectedCandidate} onClose={() => setSelectedCandidate(null)} title={t('applicationDetails')} className="max-w-2xl">
+ <Modal open={!!selectedCandidate} onClose={() => setSelectedCandidate(null)} title={t('applicationDetails')} widthClass="max-w-2xl">
  {selectedCandidate && (
  <div className="space-y-4">
  <div className="flex items-center gap-3">
@@ -196,10 +194,10 @@ export function RecruitmentPage() {
  <div className="flex gap-2 pt-4 border-t border-hairline">
  {selectedCandidate.status !=='hired' && selectedCandidate.status !=='rejected' && (
  <>
- <Button size="sm" variant="outline" onClick={() => { const next: Record<string, ApplicationStatus> = { applied:'screening', screening:'interview', interview:'offer', offer:'hired' }; const nextStatus = next[selectedCandidate.status]; if (nextStatus) { updateCandidateStatus(selectedCandidate.id, nextStatus); setSelectedCandidate({ ...selectedCandidate, status: nextStatus }); } }}>
+ <Button size="sm" variant="secondary" onClick={() => { const next: Record<string, ApplicationStatus> = { applied:'screening', screening:'interview', interview:'offer', offer:'hired' }; const nextStatus = next[selectedCandidate.status]; if (nextStatus) { updateCandidateStatus(selectedCandidate.id, nextStatus); setSelectedCandidate({ ...selectedCandidate, status: nextStatus }); } }}>
  Advance Stage
  </Button>
- <Button size="sm" variant="destructive" onClick={() => { updateCandidateStatus(selectedCandidate.id,'rejected'); setSelectedCandidate(null); }}>
+ <Button size="sm" variant="danger" onClick={() => { updateCandidateStatus(selectedCandidate.id,'rejected'); setSelectedCandidate(null); }}>
  Reject
  </Button>
  </>

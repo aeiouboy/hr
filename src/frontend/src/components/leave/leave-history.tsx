@@ -3,9 +3,8 @@
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, Modal } from '@/components/humi';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Modal } from '@/components/ui/modal';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
 import { CustomSelect } from '@/components/ui/custom-select';
@@ -94,7 +93,7 @@ export function LeaveHistory({
     if (request.status === 'pending' && onCancelPending) {
       return (
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={(e) => {
             e.stopPropagation();
@@ -116,7 +115,7 @@ export function LeaveHistory({
     if (canRequestCancellation) {
       return (
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={(e) => {
             e.stopPropagation();
@@ -255,10 +254,10 @@ export function LeaveHistory({
                   Showing {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
                 </p>
                 <div className="flex gap-1">
-                  <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+                  <Button variant="secondary" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
                     Prev
                   </Button>
-                  <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
+                  <Button variant="secondary" size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
                     Next
                   </Button>
                 </div>
@@ -283,7 +282,7 @@ export function LeaveHistory({
             placeholder={t('cancellationReasonPlaceholder')}
           />
           <div className="flex justify-end gap-2 pt-2">
-            <Button variant="outline" onClick={() => setCancelModalRequest(null)}>
+            <Button variant="secondary" onClick={() => setCancelModalRequest(null)}>
               {t('cancel')}
             </Button>
             <Button

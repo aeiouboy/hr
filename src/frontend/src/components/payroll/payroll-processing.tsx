@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertTriangle, ArrowLeft, ArrowRight, Download, ChevronUp, ChevronDown } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
@@ -103,11 +102,7 @@ export function PayrollProcessing() {
 
  {/* Stage 1: Period Selection */}
  {stage ==='period_selection' && (
- <Card>
- <CardHeader>
- <CardTitle>{t('payrollProcessing.selectPeriod')}</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('payrollProcessing.selectPeriod')}</CardTitle>}>
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  <FormField
  label={t('payrollProcessing.month')}
@@ -151,17 +146,16 @@ export function PayrollProcessing() {
  <ArrowRight className="h-4 w-4 ml-2" />
  </Button>
  </div>
- </CardContent>
  </Card>
  )}
 
  {/* Stage 2: Calculation (auto-progresses to review) */}
  {stage ==='calculation' && (
  <Card>
- <CardContent className="py-12 text-center">
+ <div className="py-12 text-center">
  <Skeleton className="h-4 w-64 mx-auto mb-4" />
  <p className="text-ink-muted">{t('payrollProcessing.calculating')}</p>
- </CardContent>
+ </div>
  </Card>
  )}
 
@@ -169,43 +163,13 @@ export function PayrollProcessing() {
  {stage ==='review' && runSummary && (
  <>
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
- <Card>
- <CardContent className="pt-6">
- <p className="text-xs text-ink-muted">{t('payrollProcessing.totalEmployees')}</p>
- <p className="text-2xl font-bold text-ink">{runSummary.totalEmployees}</p>
- </CardContent>
- </Card>
- <Card>
- <CardContent className="pt-6">
- <p className="text-xs text-ink-muted">{t('payrollProcessing.totalGross')}</p>
- <p className="text-2xl font-bold text-success">{fmt(runSummary.totalGross)}</p>
- </CardContent>
- </Card>
- <Card>
- <CardContent className="pt-6">
- <p className="text-xs text-ink-muted">{t('payrollProcessing.totalDeductions')}</p>
- <p className="text-2xl font-bold text-danger">{fmt(runSummary.totalDeductions)}</p>
- </CardContent>
- </Card>
- <Card>
- <CardContent className="pt-6">
- <p className="text-xs text-ink-muted">{t('payrollProcessing.totalNet')}</p>
- <p className="text-2xl font-bold text-ink">{fmt(runSummary.totalNet)}</p>
- </CardContent>
- </Card>
+ <Card><div className="pt-6"><p className="text-xs text-ink-muted">{t('payrollProcessing.totalEmployees')}</p><p className="text-2xl font-bold text-ink">{runSummary.totalEmployees}</p></div></Card>
+ <Card><div className="pt-6"><p className="text-xs text-ink-muted">{t('payrollProcessing.totalGross')}</p><p className="text-2xl font-bold text-success">{fmt(runSummary.totalGross)}</p></div></Card>
+ <Card><div className="pt-6"><p className="text-xs text-ink-muted">{t('payrollProcessing.totalDeductions')}</p><p className="text-2xl font-bold text-danger">{fmt(runSummary.totalDeductions)}</p></div></Card>
+ <Card><div className="pt-6"><p className="text-xs text-ink-muted">{t('payrollProcessing.totalNet')}</p><p className="text-2xl font-bold text-ink">{fmt(runSummary.totalNet)}</p></div></Card>
  </div>
 
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle>{t('payrollProcessing.reviewTable')}</CardTitle>
- <Button variant="outline" size="sm">
- <Download className="h-4 w-4 mr-2" />
- {t('payrollProcessing.exportExcel')}
- </Button>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle>{t('payrollProcessing.reviewTable')}</CardTitle><Button variant="secondary" size="sm"><Download className="h-4 w-4 mr-2" />{t('payrollProcessing.exportExcel')}</Button></>}>
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -256,11 +220,10 @@ export function PayrollProcessing() {
  </tbody>
  </table>
  </div>
- </CardContent>
  </Card>
 
  <div className="flex justify-between">
- <Button variant="outline" onClick={handleBack}>
+ <Button variant="secondary" onClick={handleBack}>
  <ArrowLeft className="h-4 w-4 mr-2" />
  {t('common.back')}
  </Button>
@@ -274,11 +237,7 @@ export function PayrollProcessing() {
 
  {/* Stage 4: Approval */}
  {stage ==='approval' && runSummary && (
- <Card>
- <CardHeader>
- <CardTitle>{t('payrollProcessing.approvalStage')}</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('payrollProcessing.approvalStage')}</CardTitle>}>
  <div className="text-center py-8">
  {runSummary.status ==='approved' ? (
  <>
@@ -294,7 +253,7 @@ export function PayrollProcessing() {
  {t('payrollProcessing.totalNet')}: {fmt(runSummary.totalNet)} THB
  </p>
  <div className="flex justify-center gap-3">
- <Button variant="outline" onClick={handleBack}>
+ <Button variant="secondary" onClick={handleBack}>
  <ArrowLeft className="h-4 w-4 mr-2" />
  {t('common.back')}
  </Button>
@@ -305,7 +264,6 @@ export function PayrollProcessing() {
  </>
  )}
  </div>
- </CardContent>
  </Card>
  )}
  </div>

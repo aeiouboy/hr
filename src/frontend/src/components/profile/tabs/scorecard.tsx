@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { BarChart3, History } from 'lucide-react';
 import { FieldGroup } from '@/components/ui/field-group';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { EmptyValue } from '@/components/ui/empty-value';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -42,15 +42,20 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
  <div className="space-y-6">
  {/* Overall Rating */}
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
- <Card className="p-6 text-center">
+ <Card>
+ <div className="p-6 text-center">
  <p className="text-xs text-ink-muted">{t('scorecard.overallRating')}</p>
  <p className="text-2xl font-bold text-brand mt-2">{overallRating || <EmptyValue />}</p>
+ </div>
  </Card>
- <Card className="p-6 text-center">
+ <Card>
+ <div className="p-6 text-center">
  <p className="text-xs text-ink-muted">{t('scorecard.potentialRating')}</p>
  <p className="text-2xl font-bold text-info mt-2">{potentialRating || <EmptyValue />}</p>
+ </div>
  </Card>
- <Card className="p-6 text-center">
+ <Card>
+ <div className="p-6 text-center">
  <p className="text-xs text-ink-muted">9-Box Position</p>
  {nineBoxPosition ? (
  <span className="inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold bg-accent-tint text-accent">
@@ -59,6 +64,7 @@ export function ScorecardTab({ employee, loading }: ScorecardTabProps) {
  ) : (
  <div className="mt-2"><EmptyValue /></div>
  )}
+ </div>
  </Card>
  </div>
 

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { CalendarEvent } from '@/lib/manager-dashboard-api';
 import { cn } from '@/lib/utils';
@@ -72,32 +72,7 @@ export function TeamCalendar({
  day === today.getDate() && month === today.getMonth() + 1 && year === today.getFullYear();
 
  return (
- <Card>
- <CardHeader className="pb-3">
- <div className="flex items-center justify-between">
- <CardTitle>{t('calendarView')}</CardTitle>
- <div className="flex items-center gap-2">
- <button
- onClick={prevMonth}
-               className="p-1 rounded hover:bg-surface-raised transition"
-              aria-label="Previous month"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <span className="text-sm font-medium min-w-[120px] text-center">
-              {MONTHS[month - 1]} {year}
-            </span>
-            <button
-              onClick={nextMonth}
-              className="p-1 rounded hover:bg-surface-raised transition"
-              aria-label="Next month"
- >
- <ChevronRight className="h-4 w-4" />
- </button>
- </div>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle>{t('calendarView')}</CardTitle><div className="flex items-center gap-2"><button onClick={prevMonth} className="p-1 rounded hover:bg-surface-raised transition" aria-label="Previous month"><ChevronLeft className="h-4 w-4" /></button><span className="text-sm font-medium min-w-[120px] text-center">{MONTHS[month - 1]} {year}</span><button onClick={nextMonth} className="p-1 rounded hover:bg-surface-raised transition" aria-label="Next month"><ChevronRight className="h-4 w-4" /></button></div></>}>
  {loading ? (
  <div className="h-64 bg-surface-raised rounded-md animate-pulse" />
  ) : (
@@ -169,7 +144,6 @@ export function TeamCalendar({
  </div>
  </>
  )}
- </CardContent>
  </Card>
  );
 }

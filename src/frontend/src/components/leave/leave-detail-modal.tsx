@@ -2,8 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
-import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Modal, Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/date';
 import type { LeaveRequest, LeaveStatus } from '@/hooks/use-leave';
@@ -34,16 +33,6 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
  open={!!request}
  onClose={onClose}
  title={t('viewDetails')}
- footer={
- request.status ==='pending' && onCancel ? (
- <div className="flex justify-end gap-3">
- <Button variant="outline" onClick={onClose}>{tc('cancel')}</Button>
- <Button variant="destructive" onClick={() => { onCancel(request.id); onClose(); }}>
- {t('cancelRequest')}
- </Button>
- </div>
- ) : undefined
- }
  >
  <div className="space-y-4">
  <div className="flex items-center justify-between">
@@ -107,6 +96,15 @@ export function LeaveDetailModal({ request, onClose, onCancel }: LeaveDetailModa
  <span>{formatDate(request.submittedAt.split('T')[0],'medium', locale)}</span>
  </div>
  </div>
+ {request.status ==='pending' && onCancel && (
+ <div className="border-t pt-4 mt-4 flex justify-end gap-3">
+ <Button variant="secondary" onClick={onClose}>{tc('cancel')}</Button>
+ <Button variant="danger" onClick={() => { onCancel(request.id); onClose(); }}>
+ {t('cancelRequest')}
+ </Button>
+ </div>
+ )}
  </Modal>
  );
 }
+

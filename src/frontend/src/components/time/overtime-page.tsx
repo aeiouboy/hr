@@ -4,11 +4,9 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Clock, Plus, AlertTriangle } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs } from '@/components/ui/tabs';
-import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useOvertime, type OTStatus, type OTType } from '@/hooks/use-overtime';
@@ -67,10 +65,10 @@ export function OvertimePage() {
  {activeTab ==='summary' && (
  <div className="space-y-6">
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.weeklyHours}h</p><p className="text-xs text-ink-muted">{t('totalHours')} (week)</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-warning">{stats.pendingCount}</p><p className="text-xs text-ink-muted">{t('pendingRequests')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{stats.approvedCount}</p><p className="text-xs text-ink-muted">{t('approvedRequests')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
+ <Card><div className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{stats.weeklyHours}h</p><p className="text-xs text-ink-muted">{t('totalHours')} (week)</p></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-warning">{stats.pendingCount}</p><p className="text-xs text-ink-muted">{t('pendingRequests')}</p></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{stats.approvedCount}</p><p className="text-xs text-ink-muted">{t('approvedRequests')}</p></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 text-center">
  <p className="text-2xl font-bold text-ink">{stats.maxWeeklyHours - stats.weeklyHours}h</p>
  <p className="text-xs text-ink-muted">{t('remainingHours')}</p>
  {stats.weeklyHours > stats.maxWeeklyHours * 0.8 && (
@@ -78,12 +76,10 @@ export function OvertimePage() {
  <AlertTriangle className="h-3 w-3" /> Near limit
  </div>
  )}
- </CardContent></Card>
+ </div></Card>
  </div>
 
- <Card>
- <CardHeader><CardTitle>{t('typesAndRates')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('typesAndRates')}</CardTitle>}>
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
  {(['weekday','weekend','holiday','night'] as OTType[]).map((type) => (
  <div key={type} className="p-3 bg-surface-raised rounded-md">
@@ -91,12 +87,9 @@ export function OvertimePage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
 
- <Card>
- <CardHeader><CardTitle>{t('recentRequests')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('recentRequests')}</CardTitle>}>
  {requests.length === 0 ? (
  <p className="text-sm text-ink-muted text-center py-8">{t('noRequests')}</p>
  ) : (
@@ -115,14 +108,13 @@ export function OvertimePage() {
  ))}
  </div>
  )}
- </CardContent>
  </Card>
  </div>
  )}
 
  {activeTab ==='history' && (
  <Card>
- <CardContent className="p-0">
+ <div className="p-0">
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -153,14 +145,12 @@ export function OvertimePage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
 
  {activeTab ==='request' && (
- <Card>
- <CardHeader><CardTitle>{t('newRequest')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('newRequest')}</CardTitle>}>
  <div className="max-w-2xl space-y-4">
  <FormField label={t('date')} name="otDate" type="date" value={form.date} onChange={(v) => setForm((p) => ({ ...p, date: v }))} required />
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -171,11 +161,10 @@ export function OvertimePage() {
  options={[{ value:'weekday', label: t('type.weekday') }, { value:'weekend', label: t('type.weekend') }, { value:'holiday', label: t('type.holiday') }]} />
  <FormField label={t('reason')} name="reason" type="textarea" value={form.reason} onChange={(v) => setForm((p) => ({ ...p, reason: v }))} required />
  <div className="flex justify-end gap-3 pt-2">
- <Button variant="outline" onClick={() => setActiveTab('summary')}>{tCommon('cancel')}</Button>
+ <Button variant="secondary" onClick={() => setActiveTab('summary')}>{tCommon('cancel')}</Button>
  <Button onClick={handleSubmit} disabled={!form.date || !form.reason}>{t('submit')}</Button>
  </div>
  </div>
- </CardContent>
  </Card>
  )}
 
@@ -191,7 +180,7 @@ export function OvertimePage() {
  <FormField label={t('reason')} name="reason" type="textarea" value={form.reason} onChange={(v) => setForm((p) => ({ ...p, reason: v }))} required />
  </div>
  <div className="flex justify-end gap-3 mt-6">
- <Button variant="outline" onClick={() => setShowCreateModal(false)}>{tCommon('cancel')}</Button>
+ <Button variant="secondary" onClick={() => setShowCreateModal(false)}>{tCommon('cancel')}</Button>
  <Button onClick={handleSubmit} disabled={!form.date || !form.reason}>{t('submit')}</Button>
  </div>
  </Modal>

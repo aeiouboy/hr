@@ -4,10 +4,8 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { MapPin, Plus, Trash2, Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import { useGeofencing, type GeofenceZone } from '@/hooks/use-geofencing';
 
@@ -91,20 +89,21 @@ export function GeofencingConfig() {
  };
 
  return (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
  <div>
  <CardTitle>{t('title')}</CardTitle>
  <p className="text-sm text-ink-muted mt-1">{t('zones')}</p>
  </div>
- <Button variant="accent" onClick={openCreateModal}>
+ <Button variant="primary" onClick={openCreateModal}>
  <Plus className="h-4 w-4 mr-1" />
  {t('addZone')}
  </Button>
  </div>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ }
+ >
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
  {zones.map((zone) => (
  <div key={zone.id} className="rounded-xl bg-surface shadow-card p-4">
@@ -135,14 +134,14 @@ export function GeofencingConfig() {
  </div>
 
  <div className="mt-3 flex flex-wrap gap-2">
- <Button size="sm" variant="outline" onClick={() => openEditModal(zone)}>
+ <Button size="sm" variant="secondary" onClick={() => openEditModal(zone)}>
  <Pencil className="h-3.5 w-3.5 mr-1" />
  Edit
  </Button>
- <Button size="sm" variant="outline" onClick={() => void toggleZoneActive(zone.id)}>
+ <Button size="sm" variant="secondary" onClick={() => void toggleZoneActive(zone.id)}>
  {zone.isActive ?'Deactivate' :'Activate'}
  </Button>
- <Button size="sm" variant="destructive" onClick={() => setZoneToDelete(zone)}>
+ <Button size="sm" variant="danger" onClick={() => setZoneToDelete(zone)}>
  <Trash2 className="h-3.5 w-3.5 mr-1" />
  Delete
  </Button>
@@ -150,7 +149,7 @@ export function GeofencingConfig() {
  </div>
  ))}
  </div>
- </CardContent>
+ </div>
 
  <Modal open={openModal} onClose={() => setOpenModal(false)} title={title}>
  <div className="space-y-3">
@@ -182,9 +181,9 @@ export function GeofencingConfig() {
  </div>
 
  <div className="flex justify-end gap-2 pt-2">
- <Button variant="outline" onClick={() => setOpenModal(false)}>Cancel</Button>
+ <Button variant="secondary" onClick={() => setOpenModal(false)}>Cancel</Button>
  <Button
- variant="accent"
+ variant="primary"
  onClick={() => void handleSave()}
  disabled={!form.name.trim() || !form.address.trim() || !form.latitude || !form.longitude || !form.radius}
  >
@@ -200,8 +199,8 @@ export function GeofencingConfig() {
  Are you sure you want to delete <span className="font-semibold">{zoneToDelete?.name}</span>?
  </p>
  <div className="flex justify-end gap-2">
- <Button variant="outline" onClick={() => setZoneToDelete(null)}>Cancel</Button>
- <Button variant="destructive" onClick={() => void handleDelete()}>Delete</Button>
+ <Button variant="secondary" onClick={() => setZoneToDelete(null)}>Cancel</Button>
+ <Button variant="danger" onClick={() => void handleDelete()}>Delete</Button>
  </div>
  </div>
  </Modal>

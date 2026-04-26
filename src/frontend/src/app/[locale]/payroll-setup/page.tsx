@@ -12,7 +12,7 @@ import {
  XCircle,
 } from 'lucide-react';
 import { Tabs } from '@/components/ui/tabs';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { usePayroll } from '@/hooks/use-payroll';
 import { formatCurrency } from '@/lib/date';
@@ -54,28 +54,22 @@ export default function PayrollSetupPage() {
  {/* Summary cards */}
  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
  <Card>
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('earnings.totalTypes')}</p>
  <p className="text-3xl font-bold text-ink mt-1">{earningTypes.length}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('earnings.active')}</p>
  <p className="text-3xl font-bold text-success mt-1">{activeCount}</p>
- </CardContent>
  </Card>
  <Card className="col-span-2 sm:col-span-1">
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('earnings.taxable')}</p>
  <p className="text-3xl font-bold text-amber-600 mt-1">{taxableCount}</p>
- </CardContent>
  </Card>
  </div>
 
  {/* Table */}
  <Card>
- <CardContent className="p-0">
+ <div className="-m-5">
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -117,7 +111,7 @@ export default function PayrollSetupPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  </div>
  );
@@ -132,28 +126,22 @@ export default function PayrollSetupPage() {
  {/* Summary cards */}
  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
  <Card>
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('deductions.totalTypes')}</p>
  <p className="text-3xl font-bold text-ink mt-1">{deductionTypes.length}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('deductions.active')}</p>
  <p className="text-3xl font-bold text-success mt-1">{activeCount}</p>
- </CardContent>
  </Card>
  <Card className="col-span-2 sm:col-span-1">
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('deductions.mandatory')}</p>
  <p className="text-3xl font-bold text-brand mt-1">{mandatoryCount}</p>
- </CardContent>
  </Card>
  </div>
 
  {/* Table */}
  <Card>
- <CardContent className="p-0">
+ <div className="-m-5">
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -195,7 +183,7 @@ export default function PayrollSetupPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  </div>
  );
@@ -209,7 +197,7 @@ export default function PayrollSetupPage() {
  </div>
 
  <Card>
- <CardContent className="p-0">
+ <div className="-m-5">
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -238,12 +226,11 @@ export default function PayrollSetupPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
 
  {/* SSO info card */}
  <Card>
- <CardContent className="pt-6">
  <h4 className="font-semibold text-ink mb-3">Social Security (SSO)</h4>
  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
  <div>
@@ -263,7 +250,6 @@ export default function PayrollSetupPage() {
  <p className="font-semibold text-ink mt-1">{formatCurrency(750,'THB')}</p>
  </div>
  </div>
- </CardContent>
  </Card>
  </div>
  );
@@ -276,22 +262,18 @@ export default function PayrollSetupPage() {
  {/* Summary cards */}
  <div className="grid grid-cols-2 gap-4">
  <Card>
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('banks.totalBanks')}</p>
  <p className="text-3xl font-bold text-ink mt-1">{banks.length}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <p className="text-xs text-ink-muted uppercase tracking-wide">{t('banks.active')}</p>
  <p className="text-3xl font-bold text-success mt-1">{activeCount}</p>
- </CardContent>
  </Card>
  </div>
 
  {/* Table */}
  <Card>
- <CardContent className="p-0">
+ <div className="-m-5">
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -325,13 +307,11 @@ export default function PayrollSetupPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
 
  <Card>
- <CardContent className="pt-6">
  <p className="text-sm text-ink-muted">{t('banks.bankListDesc')}</p>
- </CardContent>
  </Card>
  </div>
  );

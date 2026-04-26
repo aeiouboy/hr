@@ -3,12 +3,10 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Flag, Plus, TrendingUp, Target, ClipboardCheck } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import { usePerformance, type Goal, type GoalCategory, type GoalStatus } from '@/hooks/use-performance';
 
@@ -64,11 +62,11 @@ export function PerformancePage() {
  {activeTab ==='goals' && (
  <div className="space-y-4">
  {goals.length === 0 ? (
- <Card><CardContent className="py-12 text-center text-ink-muted">{t('noGoals')}</CardContent></Card>
+ <Card><div className="py-12 text-center text-ink-muted">{t('noGoals')}</div></Card>
  ) : (
  goals.map((goal) => (
  <Card key={goal.id}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
  <div className="flex-1">
  <div className="flex items-center gap-2 mb-2">
@@ -90,13 +88,13 @@ export function PerformancePage() {
  <div className="flex gap-2">
  {goal.status ==='draft' && (
  <>
- <Button size="sm" variant="outline" onClick={() => updateGoal(goal.id, { status:'submitted' })}>{t('submitForReview')}</Button>
- <Button size="sm" variant="destructive" onClick={() => deleteGoal(goal.id)}>{t('deleteGoal')}</Button>
+ <Button size="sm" variant="secondary" onClick={() => updateGoal(goal.id, { status:'submitted' })}>{t('submitForReview')}</Button>
+ <Button size="sm" variant="danger" onClick={() => deleteGoal(goal.id)}>{t('deleteGoal')}</Button>
  </>
  )}
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))
  )}
@@ -107,7 +105,7 @@ export function PerformancePage() {
  <div className="space-y-4">
  {evaluations.map((eval_) => (
  <Card key={eval_.id}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center justify-between mb-4">
  <div>
  <h3 className="font-semibold text-ink">{eval_.period} {eval_.year}</h3>
@@ -123,7 +121,7 @@ export function PerformancePage() {
  )}
  </div>
  <p className="text-sm text-ink-muted">{tEval(`statusDescription.${eval_.status}` as never)}</p>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>
@@ -162,7 +160,7 @@ export function PerformancePage() {
  },
  ].map((review, idx) => (
  <Card key={idx}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
  <div className="flex-1">
  <div className="flex items-center gap-3 mb-2">
@@ -183,7 +181,7 @@ export function PerformancePage() {
  </div>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>
@@ -201,7 +199,7 @@ export function PerformancePage() {
  </div>
  </div>
  <div className="flex justify-end gap-3 mt-6">
- <Button variant="outline" onClick={() => setShowCreateModal(false)}>{tCommon('cancel')}</Button>
+ <Button variant="secondary" onClick={() => setShowCreateModal(false)}>{tCommon('cancel')}</Button>
  <Button onClick={handleCreate} disabled={!newGoal.nameEn}>{t('saveAsDraft')}</Button>
  </div>
  </Modal>

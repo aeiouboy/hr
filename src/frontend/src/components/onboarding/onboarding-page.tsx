@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UserCheck, CheckCircle, Clock, Circle } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useOnboarding, type ItemStatus } from '@/hooks/use-onboarding';
 
@@ -42,7 +41,7 @@ export function OnboardingPage() {
  className={`cursor-pointer transition-shadow hover:shadow-1 ${selectedRecord?.id === rec.id ?'ring-2 ring-brand' :''}`}
  onClick={() => setSelectedRecordId(rec.id)}
  >
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-3 mb-2">
  {rec.photo && <img src={rec.photo} alt="" className="w-10 h-10 rounded-full" />}
  <div>
@@ -59,23 +58,14 @@ export function OnboardingPage() {
  </div>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>
 
  {/* Selected record details */}
  {selectedRecord && (
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle>{selectedRecord.employeeName} - Checklist</CardTitle>
- <div className="text-sm text-ink-muted">
- {t('startDate')}: {selectedRecord.startDate} | {t('hrCoordinator')}: {selectedRecord.hrCoordinator}
- </div>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle>{selectedRecord.employeeName} - Checklist</CardTitle><div className="text-sm text-ink-muted">{t('startDate')}: {selectedRecord.startDate} | {t('hrCoordinator')}: {selectedRecord.hrCoordinator}</div></>}>
  <div className="mb-4">
  <div className="flex items-center justify-between mb-1">
  <span className="text-sm text-ink-muted">{t('overallProgress')}</span>
@@ -105,7 +95,7 @@ export function OnboardingPage() {
  <span className="text-xs text-success">{t('completedOn')} {item.completedDate}</span>
  )}
  {item.status !=='completed' && item.status !=='not_applicable' && (
- <Button size="sm" variant="outline" onClick={() => markItemComplete(selectedRecord.id, item.id)}>
+ <Button size="sm" variant="secondary" onClick={() => markItemComplete(selectedRecord.id, item.id)}>
  {t('markComplete')}
  </Button>
  )}
@@ -115,7 +105,6 @@ export function OnboardingPage() {
  </div>
  );
  })}
- </CardContent>
  </Card>
  )}
  </>

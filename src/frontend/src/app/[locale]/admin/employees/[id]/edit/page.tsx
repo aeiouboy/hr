@@ -24,6 +24,7 @@ import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Check } from 'lucide-react'
+import { buttonVariants } from '@/components/humi'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import {
@@ -752,7 +753,7 @@ export default function EmployeeEditPage() {
             type="button"
             onClick={() => handleSubmit('')}
             disabled={showBanner}
-            className="humi-btn-primary"
+            className={buttonVariants({ variant: 'primary' })}
             aria-disabled={showBanner}
           >
             บันทึกข้อมูล

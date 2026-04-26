@@ -27,10 +27,8 @@ import {
  FileBarChart,
  Download,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs } from '@/components/ui/tabs';
 import { useManagerDashboard } from '@/hooks/use-manager-dashboard';
@@ -248,9 +246,7 @@ export function ManagerDashboardPage() {
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  {/* Urgent Alerts + Pending Approvals */}
  <div className="lg:col-span-2 space-y-4">
- <Card>
- <CardHeader><CardTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-warning" />{t('alerts.importantAlerts')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-warning" />{t('alerts.importantAlerts')}</CardTitle>}>
  <div className="space-y-3">
  {visibleAlerts.map((alert) => (
  <div key={alert.id} className={cn('rounded-md p-3', SEVERITY_STYLES[alert.severity])}>
@@ -272,20 +268,10 @@ export function ManagerDashboardPage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
 
  {/* Pending Approvals Preview */}
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle className="flex items-center gap-2"><Clock className="h-5 w-5 text-danger" />{t('pendingApprovals')}</CardTitle>
- <a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">
- View All <ChevronRight className="h-4 w-4" />
- </a>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle className="flex items-center gap-2"><Clock className="h-5 w-5 text-danger" />{t('pendingApprovals')}</CardTitle><a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">View All <ChevronRight className="h-4 w-4" /></a></>}>
  {approvals.length === 0 ? (
  <p className="text-sm text-ink-muted text-center py-6">{t('approvals.noApprovals')}</p>
  ) : (
@@ -310,7 +296,6 @@ export function ManagerDashboardPage() {
  ))}
  </div>
  )}
- </CardContent>
  </Card>
  </div>
 
@@ -324,7 +309,7 @@ export function ManagerDashboardPage() {
  <p className="text-base font-semibold text-ink">แผนผังทีม</p>
  <p className="text-xs text-ink-muted mt-1">สายตรง · สายไขว้</p>
  </div>
- <Button variant="outline" size="sm" className="gap-1.5 group-hover:bg-accent-tint group-hover:text-accent transition" onClick={(e) => { e.stopPropagation(); setActiveTab('org-chart'); }}>
+ <Button variant="secondary" size="sm" className="gap-1.5 group-hover:bg-accent-tint group-hover:text-accent transition" onClick={(e) => { e.stopPropagation(); setActiveTab('org-chart'); }}>
  <GitBranch className="h-4 w-4" />
  ดูแผนผังเต็ม
  </Button>
@@ -337,36 +322,7 @@ export function ManagerDashboardPage() {
  // TODO(backend-phase): wire useAuthStore().permissions
  //   field-level visibility gate per BRD #174 AC2
  //   currently mockup-proof — all fields visible
- <Card>
- <CardHeader>
- <div className="flex flex-col gap-3">
- <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
- <CardTitle>{t('teamMembers')} ({filteredTeam.length})</CardTitle>
- {/* ตัวกรองสถานะ */}
- <div className="flex flex-wrap gap-2">
- {['all','active','on-leave','probation'].map((f) => (
- <button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised')}>
- {f ==='all' ? t('filters.all') : f ==='active' ? t('filters.active') : f ==='on-leave' ? t('filters.onLeave') : t('filters.probation')}
- </button>
- ))}
- </div>
- </div>
- {/* ตัวกรองหน่วยงาน (AC-3) */}
- {uniqueDepts.length > 0 && (
- <div className="flex flex-wrap gap-2">
- <button onClick={() => setDeptFilter('all')} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', deptFilter ==='all' ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>
- ทุกหน่วยงาน
- </button>
- {uniqueDepts.map((dept) => (
- <button key={dept} onClick={() => setDeptFilter(dept)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', deptFilter === dept ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>
- {dept}
- </button>
- ))}
- </div>
- )}
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<div className="flex flex-col gap-3 w-full"><div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><CardTitle>{t('teamMembers')} ({filteredTeam.length})</CardTitle><div className="flex flex-wrap gap-2">{['all','active','on-leave','probation'].map((f) => (<button key={f} onClick={() => setTeamFilter(f)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', teamFilter === f ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised')}>{f ==='all' ? t('filters.all') : f ==='active' ? t('filters.active') : f ==='on-leave' ? t('filters.onLeave') : t('filters.probation')}</button>))}</div></div>{uniqueDepts.length > 0 && (<div className="flex flex-wrap gap-2"><button onClick={() => setDeptFilter('all')} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', deptFilter ==='all' ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>ทุกหน่วยงาน</button>{uniqueDepts.map((dept) => (<button key={dept} onClick={() => setDeptFilter(dept)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', deptFilter === dept ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>{dept}</button>))}</div>)}</div>}>
  {/* Table view — AC-2: แสดง หน่วยงาน / ศูนย์ต้นทุน / หัวหน้างาน */}
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
@@ -405,7 +361,6 @@ export function ManagerDashboardPage() {
  <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลสมาชิก</p>
  )}
  </div>
- </CardContent>
  </Card>
  );
 
@@ -469,61 +424,18 @@ export function ManagerDashboardPage() {
  }
 
  return (
-  <Card>
-   <CardHeader>
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-     <CardTitle className="flex items-center gap-2">
-      <Network className="h-5 w-5 text-accent" />
-      แผนผังทีม
-     </CardTitle>
-     {/* Toggle สายตรง / สายไขว้ */}
-     <div className="flex items-center gap-1 rounded-full border border-hairline p-0.5 bg-surface-raised w-fit">
-      {(['สายตรง', 'สายไขว้'] as const).map((mode) => (
-       <button
-        key={mode}
-        onClick={() => setOrgMode(mode)}
-        className={cn(
-         'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition',
-         orgMode === mode
-          ? 'bg-brand text-white shadow-sm'
-          : 'text-ink-muted hover:text-ink',
-        )}
-       >
-        {mode ==='สายตรง' ? <Users className="h-3.5 w-3.5" /> : <GitBranch className="h-3.5 w-3.5" />}
-        {mode}
-       </button>
-      ))}
-     </div>
-    </div>
-    {orgMode ==='สายไขว้' && (
-     <p className="text-xs text-ink-muted mt-1 flex items-center gap-1">
-      <span className="inline-block w-6 border-t border-dashed border-indigo-400" />
-      หน้าต่างที่มีป้าย <span className="text-indigo-600 font-medium">สายไขว้</span> = มีผู้บังคับบัญชาเพิ่มในโครงสร้าง Matrix
-     </p>
-    )}
-   </CardHeader>
-   <CardContent>
-    {orgChart ? (
-     <OrgNodeFull node={orgChart} />
-    ) : (
-     <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลแผนผัง</p>
-    )}
-   </CardContent>
+  <Card header={<><div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full"><CardTitle className="flex items-center gap-2"><Network className="h-5 w-5 text-accent" />แผนผังทีม</CardTitle><div className="flex items-center gap-1 rounded-full border border-hairline p-0.5 bg-surface-raised w-fit">{(['สายตรง', 'สายไขว้'] as const).map((mode) => (<button key={mode} onClick={() => setOrgMode(mode)} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition', orgMode === mode ? 'bg-brand text-white shadow-sm' : 'text-ink-muted hover:text-ink')}>{mode ==='สายตรง' ? <Users className="h-3.5 w-3.5" /> : <GitBranch className="h-3.5 w-3.5" />}{mode}</button>))}</div></div>{orgMode ==='สายไขว้' && (<p className="text-xs text-ink-muted mt-1 flex items-center gap-1"><span className="inline-block w-6 border-t border-dashed border-indigo-400" />หน้าต่างที่มีป้าย <span className="text-indigo-600 font-medium">สายไขว้</span> = มีผู้บังคับบัญชาเพิ่มในโครงสร้าง Matrix</p>)}</>}>
+   {orgChart ? (
+    <OrgNodeFull node={orgChart} />
+   ) : (
+    <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลแผนผัง</p>
+   )}
   </Card>
  );
  };
 
  const renderApprovals = () => (
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle>{t('pendingApprovals')} ({approvals.length})</CardTitle>
- <a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">
- Open Quick Approve <ChevronRight className="h-4 w-4" />
- </a>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle>{t('pendingApprovals')} ({approvals.length})</CardTitle><a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">Open Quick Approve <ChevronRight className="h-4 w-4" /></a></>}>
  {approvals.length === 0 ? (
  <p className="text-sm text-ink-muted text-center py-8">{t('approvals.noApprovals')}</p>
  ) : (
@@ -545,7 +457,7 @@ export function ManagerDashboardPage() {
  <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => setConfirmAction({ id: a.id, action:'approve' })}>
  <CheckCircle2 className="h-4 w-4 mr-1" />{t('actions.approve')}
  </Button>
- <Button variant="outline" size="sm" onClick={() => setConfirmAction({ id: a.id, action:'reject' })}>
+ <Button variant="secondary" size="sm" onClick={() => setConfirmAction({ id: a.id, action:'reject' })}>
  <XCircle className="h-4 w-4 mr-1" />{t('actions.reject')}
  </Button>
  </div>
@@ -554,7 +466,6 @@ export function ManagerDashboardPage() {
  ))}
  </div>
  )}
- </CardContent>
  </Card>
  );
 
@@ -599,49 +510,7 @@ export function ManagerDashboardPage() {
     </div>
    </div>
 
-   <Card>
-    <CardHeader>
-     <div className="flex flex-col gap-3">
-      <CardTitle className="flex items-center gap-2">
-       <LayoutList className="h-5 w-5 text-accent" />
-       ตำแหน่งและอัตรากำลัง ({filtered.length})
-      </CardTitle>
-      {/* Filter chips: dept */}
-      <div className="flex flex-wrap gap-2">
-       <button
-        onClick={() => setPositionDeptFilter('all')}
-        className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionDeptFilter ==='all' ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised')}
-       >
-        ทุกหน่วยงาน
-       </button>
-       {uniquePosDepts.map((dept: string) => (
-        <button
-         key={dept}
-         onClick={() => setPositionDeptFilter(dept)}
-         className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionDeptFilter === dept ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised')}
-        >
-         {dept}
-        </button>
-       ))}
-      </div>
-      {/* Filter chips: status */}
-      <div className="flex flex-wrap gap-2">
-       {[
-        { key:'all', label:'ทั้งหมด' },
-        { key:'active', label:'มีอัตรากำลัง' },
-       ].map(({ key, label }) => (
-        <button
-         key={key}
-         onClick={() => setPositionStatusFilter(key)}
-         className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionStatusFilter === key ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}
-        >
-         {label}
-        </button>
-       ))}
-      </div>
-     </div>
-    </CardHeader>
-    <CardContent>
+   <Card header={<div className="flex flex-col gap-3 w-full"><CardTitle className="flex items-center gap-2"><LayoutList className="h-5 w-5 text-accent" />ตำแหน่งและอัตรากำลัง ({filtered.length})</CardTitle><div className="flex flex-wrap gap-2"><button onClick={() => setPositionDeptFilter('all')} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionDeptFilter ==='all' ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised')}>ทุกหน่วยงาน</button>{uniquePosDepts.map((dept: string) => (<button key={dept} onClick={() => setPositionDeptFilter(dept)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionDeptFilter === dept ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised')}>{dept}</button>))}</div><div className="flex flex-wrap gap-2">{[{ key:'all', label:'ทั้งหมด' }, { key:'active', label:'มีอัตรากำลัง' }].map(({ key, label }) => (<button key={key} onClick={() => setPositionStatusFilter(key)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', positionStatusFilter === key ?'bg-surface-raised text-ink ring-1 ring-hairline' :'bg-surface text-ink-muted hover:bg-surface-raised')}>{label}</button>))}</div></div>}>
      <div className="overflow-x-auto">
       <table className="w-full text-sm">
        <thead>
@@ -686,29 +555,13 @@ export function ManagerDashboardPage() {
        <p className="text-sm text-ink-muted text-center py-8">ไม่พบข้อมูลตำแหน่ง</p>
       )}
      </div>
-    </CardContent>
    </Card>
   </div>
  );
  };
 
  const renderCalendar = () => (
- <Card>
- <CardHeader>
- <div className="flex items-center justify-between">
- <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-accent" />{t('teamCalendar')}</CardTitle>
- <div className="flex items-center gap-2">
- <button onClick={prevMonth} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised transition" aria-label="Previous month">
- <ChevronLeft className="h-4 w-4" />
- </button>
- <span className="text-sm font-medium min-w-[120px] text-center">{MONTHS[calMonth - 1]} {calYear}</span>
- <button onClick={nextMonth} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised transition" aria-label="Next month">
- <ChevronRight className="h-4 w-4" />
- </button>
- </div>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-accent" />{t('teamCalendar')}</CardTitle><div className="flex items-center gap-2"><button onClick={prevMonth} className="p-1 rounded hover:bg-surface-raised transition" aria-label="Previous month"><ChevronLeft className="h-4 w-4" /></button><span className="text-sm font-medium min-w-[120px] text-center">{MONTHS[calMonth - 1]} {calYear}</span><button onClick={nextMonth} className="p-1 rounded hover:bg-surface-raised transition" aria-label="Next month"><ChevronRight className="h-4 w-4" /></button></div></>}>
  {/* Day headers */}
  <div className="grid grid-cols-7 mb-1">
  {DAYS.map((d) => (
@@ -751,7 +604,6 @@ export function ManagerDashboardPage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
  );
 
@@ -784,14 +636,7 @@ export function ManagerDashboardPage() {
  return (
   <div className="space-y-6">
    {/* Section A — อัตรากำลังตามหน่วยงาน */}
-   <Card>
-    <CardHeader>
-     <CardTitle className="flex items-center gap-2">
-      <FileBarChart className="h-5 w-5 text-accent" />
-      อัตรากำลังตามหน่วยงาน
-     </CardTitle>
-    </CardHeader>
-    <CardContent>
+   <Card header={<CardTitle className="flex items-center gap-2"><FileBarChart className="h-5 w-5 text-accent" />อัตรากำลังตามหน่วยงาน</CardTitle>}>
      <div className="space-y-3">
       {Object.entries(deptCounts).map(([dept, count]) => {
        const pct = Math.round((count / maxCount) * 100);
@@ -814,48 +659,10 @@ export function ManagerDashboardPage() {
        <p className="text-sm text-ink-muted text-center py-4">ไม่พบข้อมูล</p>
       )}
      </div>
-    </CardContent>
    </Card>
 
    {/* Section B — การเคลื่อนไหวของทีม */}
-   <Card>
-    <CardHeader>
-     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <CardTitle className="flex items-center gap-2">
-       <Users className="h-5 w-5 text-accent" />
-       การเคลื่อนไหวของทีม
-      </CardTitle>
-      {/* Section C — Export CSV button (placeholder) */}
-      <Button
-       variant="outline"
-       size="sm"
-       className="gap-1.5 shrink-0"
-       onClick={() => {
-        // TODO(backend-phase): wire CSV export endpoint
-        console.log('TODO: backend phase wire CSV export');
-       }}
-      >
-       <Download className="h-4 w-4" />
-       ส่งออก CSV
-      </Button>
-     </div>
-     {/* Date range filter chips */}
-     <div className="flex flex-wrap gap-2 mt-2">
-      {(['เดือนนี้', '30 วันล่าสุด', 'ทั้งหมด'] as const).map((label) => (
-       <button
-        key={label}
-        onClick={() => setMovementFilter(label)}
-        className={cn(
-         'px-3 py-1.5 rounded-full text-xs font-medium transition',
-         movementFilter === label ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted hover:bg-surface-raised',
-        )}
-       >
-        {label}
-       </button>
-      ))}
-     </div>
-    </CardHeader>
-    <CardContent>
+   <Card header={<><div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full"><CardTitle className="flex items-center gap-2"><Users className="h-5 w-5 text-accent" />การเคลื่อนไหวของทีม</CardTitle><Button variant="secondary" size="sm" className="gap-1.5 shrink-0" onClick={() => { console.log('TODO: backend phase wire CSV export'); }}><Download className="h-4 w-4" />ส่งออก CSV</Button></div><div className="flex flex-wrap gap-2 mt-2">{(['เดือนนี้', '30 วันล่าสุด', 'ทั้งหมด'] as const).map((label) => (<button key={label} onClick={() => setMovementFilter(label)} className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition', movementFilter === label ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted hover:bg-surface-raised')}>{label}</button>))}</div></>}>
      {filteredMovement.length === 0 ? (
       <p className="text-sm text-ink-muted text-center py-6">ไม่มีการเคลื่อนไหวในช่วงนี้</p>
      ) : (
@@ -875,7 +682,6 @@ export function ManagerDashboardPage() {
        })}
       </div>
      )}
-    </CardContent>
    </Card>
   </div>
  );
@@ -908,22 +714,20 @@ export function ManagerDashboardPage() {
  open={!!confirmAction}
  onClose={() => setConfirmAction(null)}
  title={confirmAction?.action ==='approve' ? t('messages.confirmApprove') : t('messages.confirmReject')}
- footer={
- <div className="flex justify-end gap-3">
- <Button variant="outline" onClick={() => setConfirmAction(null)}>Cancel</Button>
+ >
+ <p className="text-sm text-ink-muted">
+ {confirmAction?.action ==='approve' ? t('messages.confirmApprove') : t('messages.confirmReject')}
+ </p>
+ <div className="border-t pt-4 mt-4 flex justify-end gap-3">
+ <Button variant="secondary" onClick={() => setConfirmAction(null)}>Cancel</Button>
  <Button
- variant={confirmAction?.action ==='reject' ?'destructive' :'default'}
+ variant={confirmAction?.action ==='reject' ?'danger' :'primary'}
  className={confirmAction?.action ==='approve' ?'bg-success hover:bg-success/90' :''}
  onClick={handleConfirmAction}
  >
  {confirmAction?.action ==='approve' ? t('actions.approve') : t('actions.reject')}
  </Button>
  </div>
- }
- >
- <p className="text-sm text-ink-muted">
- {confirmAction?.action ==='approve' ? t('messages.confirmApprove') : t('messages.confirmReject')}
- </p>
  </Modal>
  </div>
  );

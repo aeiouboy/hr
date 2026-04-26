@@ -3,8 +3,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Modal, Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Trash2, Plus } from 'lucide-react';
 import type { Delegation } from '@/lib/quick-approve-api';
@@ -74,7 +73,7 @@ export function DelegationModal({
  open={open}
  onClose={onClose}
  title={t('title')}
- className="max-w-xl"
+ widthClass="max-w-xl"
  >
  <div className="space-y-5">
  {/* Active delegations */}
@@ -196,7 +195,7 @@ export function DelegationModal({
  </div>
  </div>
  ) : (
- <Button variant="outline" size="sm" onClick={() => setShowForm(true)}>
+ <Button variant="secondary" size="sm" onClick={() => setShowForm(true)}>
  <Plus className="h-4 w-4 mr-1.5" />
  {t('addDelegation')}
  </Button>

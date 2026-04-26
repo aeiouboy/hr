@@ -1,9 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Modal } from '@/components/ui/modal';
+import { Modal, Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Clock, XCircle, FileText } from 'lucide-react';
 import type { LeaveRequest, LeaveStatus } from '@/hooks/use-leave';
@@ -89,23 +88,7 @@ export function LeaveDetail({ request, open, onClose, onCancel }: LeaveDetailPro
       open={open}
       onClose={onClose}
       title={request.typeNameEn}
-      className="max-w-lg"
-      footer={
-        <div className="flex justify-end gap-2">
-          {isPending && onCancel && (
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => { onCancel(request.id); onClose(); }}
-            >
-              {t('cancelRequest')}
-            </Button>
-          )}
-          <Button variant="outline" size="sm" onClick={onClose}>
-            Close
-          </Button>
-        </div>
-      }
+      widthClass="max-w-lg"
     >
       <div className="space-y-5">
         {/* Status badge */}
@@ -197,6 +180,20 @@ export function LeaveDetail({ request, open, onClose, onCancel }: LeaveDetailPro
             )}
           </div>
         </div>
+      </div>
+      <div className="border-t pt-4 mt-4 flex justify-end gap-2">
+        {isPending && onCancel && (
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => { onCancel(request.id); onClose(); }}
+          >
+            {t('cancelRequest')}
+          </Button>
+        )}
+        <Button variant="secondary" size="sm" onClick={onClose}>
+          Close
+        </Button>
       </div>
     </Modal>
   );

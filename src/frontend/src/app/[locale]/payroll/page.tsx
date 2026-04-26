@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { DollarSign, Calculator, BarChart3, Calendar } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { useAuthStore } from '@/stores/auth-store';
 import { canAccessModule } from '@/lib/rbac';
 
@@ -51,7 +51,6 @@ export default function PayrollLandingPage() {
  {/* Quick Stats */}
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-3">
  <Calendar className="h-5 w-5 text-ink-muted" />
  <div>
@@ -59,10 +58,8 @@ export default function PayrollLandingPage() {
  <p className="font-semibold text-ink">Jan 25, 2026</p>
  </div>
  </div>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-3">
  <Calendar className="h-5 w-5 text-ink-muted" />
  <div>
@@ -70,10 +67,8 @@ export default function PayrollLandingPage() {
  <p className="font-semibold text-ink">Feb 25, 2026</p>
  </div>
  </div>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="pt-6">
  <div className="flex items-center gap-3">
  <Calculator className="h-5 w-5 text-ink-muted" />
  <div>
@@ -81,7 +76,6 @@ export default function PayrollLandingPage() {
  <p className="font-semibold text-ink">152</p>
  </div>
  </div>
- </CardContent>
  </Card>
  </div>
 
@@ -89,16 +83,16 @@ export default function PayrollLandingPage() {
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  {links.map((link) => (
  <a key={link.href} href={link.href}>
- <Card className="hover:shadow-1 transition-shadow cursor-pointer h-full">
- <CardHeader className="pb-3">
+ <Card
+ className="hover:shadow-1 transition-shadow cursor-pointer h-full"
+ header={
  <div className={`w-12 h-12 rounded-md flex items-center justify-center ${link.color}`}>
  {link.icon}
  </div>
- </CardHeader>
- <CardContent>
+ }
+ >
  <CardTitle className="text-base mb-1">{link.title}</CardTitle>
  <p className="text-sm text-ink-muted">{link.description}</p>
- </CardContent>
  </Card>
  </a>
  ))}

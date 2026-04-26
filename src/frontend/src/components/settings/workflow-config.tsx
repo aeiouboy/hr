@@ -4,10 +4,8 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ArrowRight, ArrowUp, ArrowDown, Plus, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import {
  useWorkflowConfig,
@@ -66,16 +64,17 @@ export function WorkflowConfig() {
  };
 
  return (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
  <div>
  <CardTitle>{t('title')}</CardTitle>
  <p className="text-sm text-ink-muted mt-1">{t('templates')}</p>
  </div>
  </div>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 space-y-3">
+ }
+ >
+ <div className="p-5 sm:p-6 lg:p-8 space-y-3">
  {templateList.map((template) => (
  <div key={template.id} className="rounded-xl bg-surface shadow-card p-4">
  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -85,7 +84,7 @@ export function WorkflowConfig() {
  </div>
  <div className="flex items-center gap-2">
  <Badge variant={template.isActive ?'success' :'neutral'}>{template.isActive ?'Active' :'Inactive'}</Badge>
- <Button size="sm" variant="outline" onClick={() => void toggleTemplateActive(template.id)}>
+ <Button size="sm" variant="secondary" onClick={() => void toggleTemplateActive(template.id)}>
  {template.isActive ?'Disable' :'Enable'}
  </Button>
  <Button size="sm" onClick={() => openEditor(template)}>
@@ -106,7 +105,7 @@ export function WorkflowConfig() {
  </div>
  </div>
  ))}
- </CardContent>
+ </div>
 
  <Modal open={!!editingTemplate} onClose={() => setEditingTemplate(null)} title={editingTemplate?.name || t('title')}>
  <div className="space-y-4">
@@ -167,7 +166,7 @@ export function WorkflowConfig() {
  <div className="mt-3 flex flex-wrap gap-2">
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  onClick={() => {
  if (!editingTemplate) return;
  void moveStep(editingTemplate.id, step.step,'up');
@@ -191,7 +190,7 @@ export function WorkflowConfig() {
  </Button>
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  onClick={() => {
  if (!editingTemplate) return;
  void moveStep(editingTemplate.id, step.step,'down');
@@ -215,7 +214,7 @@ export function WorkflowConfig() {
  </Button>
  <Button
  size="sm"
- variant="destructive"
+ variant="danger"
  onClick={() => {
  if (!editingTemplate) return;
  void removeStep(editingTemplate.id, step.step);
@@ -241,7 +240,7 @@ export function WorkflowConfig() {
  <div className="mt-3">
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  onClick={() => {
  if (!editingTemplate || !draft) return;
  void addStep(editingTemplate.id, { approverRole:'direct_manager', isRequired: true });
@@ -268,8 +267,8 @@ export function WorkflowConfig() {
  </div>
 
  <div className="flex justify-end gap-2">
- <Button variant="outline" onClick={() => setEditingTemplate(null)}>Cancel</Button>
- <Button variant="accent" onClick={() => void handleSaveTemplate()}>Save</Button>
+ <Button variant="secondary" onClick={() => setEditingTemplate(null)}>Cancel</Button>
+ <Button variant="primary" onClick={() => void handleSaveTemplate()}>Save</Button>
  </div>
  </div>
  </Modal>
