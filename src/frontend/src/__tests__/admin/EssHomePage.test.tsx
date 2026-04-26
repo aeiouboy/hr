@@ -38,10 +38,10 @@ describe('EssHomePage — quick action cards', () => {
     expect(card).toHaveAttribute('href', '/ess/timeoff')
   })
 
-  it('"สลิปเงินเดือน" ต้อง link ไป /ess/payslip', () => {
+  it('"สลิปเงินเดือน" ต้อง link ไป /employees/me/payslip', () => {
     render(<EssHomePage />)
     const card = screen.getByText('สลิปเงินเดือน').closest('a')
-    expect(card).toHaveAttribute('href', '/ess/payslip')
+    expect(card).toHaveAttribute('href', '/employees/me/payslip')
   })
 })
 

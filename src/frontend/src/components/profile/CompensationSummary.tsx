@@ -4,29 +4,7 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Wallet, Eye, EyeOff, ExternalLink } from 'lucide-react';
-import { HUMI_MY_PROFILE, HUMI_PAYSLIPS } from '@/lib/humi-mock-data';
-
-// Parse '฿78,450.00' → 78450 (number)
-function parseGross(gross: string): number {
-  return Number(gross.replace(/[^0-9.]/g, '')) || 0;
-}
-
-// Parse Buddhist-year date like '12 เม.ย. 2569' → Gregorian year (2026)
-function payslipYear(dateStr: string): number {
-  const m = dateStr.match(/(\d{4})$/);
-  if (!m) return new Date().getFullYear();
-  const buddhistYear = Number(m[1]);
-  return buddhistYear - 543;
-}
-
-function formatCurrencyTHB(n: number): string {
-  return new Intl.NumberFormat('th-TH', {
-    style: 'currency',
-    currency: 'THB',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(n);
-}
+import { HUMI_MY_PROFILE } from '@/lib/humi-mock-data';
 
 // Mask currency '฿ 82,500' → '฿ ••••2,500' (last 4 visible: '2,500')
 function maskCurrency(currency: string): string {
@@ -44,11 +22,6 @@ export default function CompensationSummary() {
   const [isMasked, setIsMasked] = useState(true);
   const [revealToast, setRevealToast] = useState<string | null>(null);
   const p = HUMI_MY_PROFILE;
-
-  const currentYear = new Date().getFullYear();
-  const ytdGross = HUMI_PAYSLIPS
-    .filter((ps) => payslipYear(ps.date) === currentYear)
-    .reduce((sum, ps) => sum + parseGross(ps.gross), 0);
 
   const baseDisplay = isMasked ? maskCurrency(p.comp.base) : p.comp.base;
 
@@ -81,7 +54,6 @@ export default function CompensationSummary() {
         </button>
       </header>
 
-      {/* Section A — เงินเดือนปัจจุบัน (masked default) */}
       <div style={{ marginBottom: 18 }} data-testid="comp-base">
         <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 4 }}>เงินเดือนปัจจุบัน</div>
         <div className="font-mono tabular-nums" style={{ fontSize: 28, fontWeight: 700, color: 'var(--color-ink)' }}>
@@ -90,7 +62,6 @@ export default function CompensationSummary() {
         <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 4 }}>{p.comp.cadence}</div>
       </div>
 
-      {/* Section B — ส่วนประกอบเงินเดือนปกติ */}
       <div style={{ marginBottom: 18 }} data-testid="comp-recurring">
         <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 8 }}>ส่วนประกอบเงินเดือนปกติ</div>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: 14, color: 'var(--color-ink)' }}>
@@ -99,17 +70,8 @@ export default function CompensationSummary() {
         </ul>
       </div>
 
-      {/* Section C — เงินสะสมทั้งปี (YTD gross) */}
-      <div style={{ marginBottom: 18 }} data-testid="comp-ytd">
-        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 4 }}>เงินสะสมทั้งปี ({currentYear})</div>
-        <div className="font-mono tabular-nums" style={{ fontSize: 22, fontWeight: 600, color: 'var(--color-ink)' }}>
-          {formatCurrencyTHB(ytdGross)}
-        </div>
-      </div>
-
-      {/* Section D — ลิงก์ไปใบสลิปเต็ม */}
       <Link
-        href={`/${locale}/payslip`}
+        href={`/${locale}/employees/me/payslip`}
         className="humi-row"
         style={{ gap: 6, fontSize: 14, color: 'var(--color-accent)', textDecoration: 'underline' }}
         data-testid="comp-payslip-link"
@@ -118,7 +80,6 @@ export default function CompensationSummary() {
         <ExternalLink size={14} aria-hidden />
       </Link>
 
-      {/* Toast แจ้งเมื่อเปิดเผยเงินเดือน — UI scaffold only (BRD #170 SH1 deferred) */}
       {revealToast && (
         <div
           role="status"

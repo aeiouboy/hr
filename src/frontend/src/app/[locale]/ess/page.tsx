@@ -50,7 +50,7 @@ export default function EssHomePage() {
 
         {/* View Payslip — placeholder */}
         <Link
-          href="/ess/payslip"
+          href="/employees/me/payslip"
           className="block rounded-lg border border-hairline bg-surface p-5 hover:border-accent hover:shadow-sm transition-all"
         >
           <div className="text-success mb-2" aria-hidden="true">

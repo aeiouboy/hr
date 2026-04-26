@@ -3,11 +3,10 @@
  * Framework: Vitest + jsdom + React Testing Library
  *
  * Covers:
- *   AC-1 — all 4 sections render (base/recurring/ytd/link)
+ *   AC-1 — 3 sections render (base/recurring/link) — YTD removed per Ken UAT 2026-04-26
  *   AC-2 — base salary masked by default (last 4 chars visible, '฿ ••••,500')
  *   AC-3 — reveal button unmasks salary + shows SH1-deferral toast with PIN mention
- *   AC-4 — payslip link href === '/th/payslip' (locale from useParams)
- *   AC-5 — YTD sums current-year payslips only (Buddhist year → Gregorian conversion)
+ *   AC-4 — payslip link href === '/th/employees/me/payslip' (canonical Humi route)
  *   AC-6 — all visible labels are Thai-primary (no SF-style bilingual duplicates)
  *
  * Edge cases:
@@ -60,14 +59,11 @@ afterEach(() => {
 const MASKED_PATTERN = /••••,500/
 const UNMASKED_PATTERN = /82,500/
 
-// ── AC-1: all 4 sections render ──────────────────────────────────────────────
-
 describe('hr#83 BRD #170 — CompensationSummary', () => {
-  it('AC-1 — renders all 4 sections (base/recurring/ytd/link)', () => {
+  it('AC-1 — renders 3 sections (base/recurring/link)', () => {
     render(<CompensationSummary />)
     expect(screen.getByTestId('comp-base')).toBeInTheDocument()
     expect(screen.getByTestId('comp-recurring')).toBeInTheDocument()
-    expect(screen.getByTestId('comp-ytd')).toBeInTheDocument()
     expect(screen.getByTestId('comp-payslip-link')).toBeInTheDocument()
   })
 
@@ -76,14 +72,17 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
     expect(screen.getByTestId('compensation-summary')).toBeInTheDocument()
   })
 
+  it('AC-1 (no-ytd) — YTD section is removed (Ken UAT 2026-04-26 — payslip page is canonical)', () => {
+    render(<CompensationSummary />)
+    expect(screen.queryByTestId('comp-ytd')).toBeNull()
+  })
+
   // ── AC-2: base salary masked by default ────────────────────────────────────
 
   it('AC-2 — base salary masked by default (last 4 chars visible: ,500)', () => {
     render(<CompensationSummary />)
     const baseSection = screen.getByTestId('comp-base')
-    // Masked: '฿ ••••,500'
     expect(baseSection.textContent).toMatch(MASKED_PATTERN)
-    // Full amount must NOT be visible on initial render
     expect(baseSection.textContent).not.toMatch(UNMASKED_PATTERN)
   })
 
@@ -101,7 +100,6 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
     await waitFor(() => {
       expect(screen.getByTestId('comp-base').textContent).toMatch(UNMASKED_PATTERN)
     })
-    // Mask characters should no longer be visible
     expect(screen.getByTestId('comp-base').textContent).not.toMatch(MASKED_PATTERN)
   })
 
@@ -118,12 +116,10 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
 
   it('AC-3 (toggle) — clicking reveal again re-masks salary and changes aria-label to "ซ่อนเงินเดือน"', async () => {
     render(<CompensationSummary />)
-    // First click — unmask
     fireEvent.click(screen.getByRole('button', { name: 'แสดงเงินเดือน' }))
     await waitFor(() => {
       expect(screen.getByTestId('comp-base').textContent).toMatch(UNMASKED_PATTERN)
     })
-    // Second click — re-mask
     fireEvent.click(screen.getByRole('button', { name: 'ซ่อนเงินเดือน' }))
     await waitFor(() => {
       expect(screen.getByTestId('comp-base').textContent).toMatch(MASKED_PATTERN)
@@ -133,50 +129,25 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
 
   it('AC-3 (toast no-repeat) — re-masking then re-revealing does NOT show a second toast while first still active', async () => {
     render(<CompensationSummary />)
-    // First reveal → toast visible
     fireEvent.click(screen.getByRole('button', { name: 'แสดงเงินเดือน' }))
     await waitFor(() => expect(screen.getByTestId('comp-reveal-toast')).toBeInTheDocument())
-    // Re-mask (toast still alive from first reveal since < 3.5s)
     fireEvent.click(screen.getByRole('button', { name: 'ซ่อนเงินเดือน' }))
-    // Second reveal — toast already present, should remain (no duplicate)
     fireEvent.click(screen.getByRole('button', { name: 'แสดงเงินเดือน' }))
-    // Only one toast element in DOM (no duplicate)
     expect(screen.getAllByTestId('comp-reveal-toast')).toHaveLength(1)
   })
 
-  // ── AC-4: payslip link href === '/th/payslip' ───────────────────────────────
+  // ── AC-4: payslip link points at canonical Humi route ──────────────────────
 
-  it('AC-4 — payslip link href is /th/payslip (locale from useParams)', () => {
+  it('AC-4 — payslip link href is /th/employees/me/payslip (canonical Humi route)', () => {
     render(<CompensationSummary />)
     const link = screen.getByTestId('comp-payslip-link')
-    expect(link.getAttribute('href')).toBe('/th/payslip')
+    expect(link.getAttribute('href')).toBe('/th/employees/me/payslip')
   })
 
   it('AC-4 — link text contains ดูใบสลิปเต็ม', () => {
     render(<CompensationSummary />)
     const link = screen.getByTestId('comp-payslip-link')
     expect(link.textContent).toMatch(/ดูใบสลิปเต็ม/)
-  })
-
-  // ── AC-5: YTD computed from current-year payslips only ─────────────────────
-  //
-  // HUMI_PAYSLIPS: 4 entries, all dated 2569 BE = 2026 CE
-  // Sum = 78450 + 78450 + 82212.75 + 74980 = 314092.75
-  // formatCurrencyTHB rounds to 0 decimal → '฿314,093'
-  // Note: Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }) uses ฿ prefix
-  //       and standard comma grouping on Node 18+.
-
-  it('AC-5 — YTD section shows current year label (2026)', () => {
-    render(<CompensationSummary />)
-    const ytdSection = screen.getByTestId('comp-ytd')
-    expect(ytdSection.textContent).toMatch(/2026/)
-  })
-
-  it('AC-5 — YTD amount is sum of all 4 payslips (314,092–314,093 range due to rounding)', () => {
-    render(<CompensationSummary />)
-    const ytdSection = screen.getByTestId('comp-ytd')
-    // Accept both 314,092 and 314,093 for rounding edge; Thai baht symbol ฿
-    expect(ytdSection.textContent).toMatch(/฿\s*314,09[23]/)
   })
 
   // ── AC-6: all visible labels are Thai-primary ───────────────────────────────
@@ -194,11 +165,6 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
   it('AC-6 — renders section label "ส่วนประกอบเงินเดือนปกติ"', () => {
     render(<CompensationSummary />)
     expect(screen.getByTestId('comp-recurring').textContent).toMatch(/ส่วนประกอบเงินเดือนปกติ/)
-  })
-
-  it('AC-6 — renders section label "เงินสะสมทั้งปี"', () => {
-    render(<CompensationSummary />)
-    expect(screen.getByTestId('comp-ytd').textContent).toMatch(/เงินสะสมทั้งปี/)
   })
 
   it('AC-6 — no SF-style English label duplicates (Compensation Summary / Base Salary / Year-to-Date)', () => {
