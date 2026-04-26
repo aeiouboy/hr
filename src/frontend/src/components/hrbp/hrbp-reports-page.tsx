@@ -274,7 +274,7 @@ export function HRBPReportsPage() {
  {/* ── Hire Notifications (SH4) — Chain 2 / BRD #109 ── */}
  {activeTab ==='hire-notifications' && <Card>
  <CardHeader>
- <CardTitle>Hire Notifications (SH4)</CardTitle>
+ <CardTitle>{t('tabs.hireNotifications')}</CardTitle>
  <p className="text-sm text-ink-muted mt-1">
  HR Admin ได้บันทึกการจ้างงานใหม่ — SH4 แจ้ง HRBP อัตโนมัติ (ข้อมูลเพื่อรับทราบเท่านั้น)
  </p>

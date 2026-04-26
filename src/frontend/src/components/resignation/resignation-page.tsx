@@ -76,7 +76,7 @@ export function ResignationPage() {
           >
             <CheckCircle size={28} className="text-success" aria-hidden />
             <div>
-              <div className="font-display text-[16px] font-semibold text-ink">
+              <div className="font-display text-body font-semibold text-ink">
                 ส่งคำขอลาออกแล้ว — รอ SPD อนุมัติ
               </div>
               <div className="text-small text-ink-muted">
