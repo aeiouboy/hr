@@ -268,9 +268,31 @@ export const useHumiProfileStore = create<ProfileState>()(
     }),
     {
       name: 'humi-profile-v1',          // KEEP name — version controls migration
-      version: 5,
+      version: 6,
       migrate: (persistedState: any, version: number): ProfileState => {
         if (!persistedState) return persistedState;
+        if (version < 6 && version >= 5) {
+          // v5 → v6 (BRD #167): emergencyContact.relation migrated from Thai string
+          // to SF cust_refRelationship externalCode (e.g. 'บิดา' → 'cust_refRelationship_Father')
+          const THAI_TO_EXT: Record<string, string> = {
+            'บิดา':    'cust_refRelationship_Father',
+            'มารดา':   'cust_refRelationship_Mother',
+            'คู่สมรส': 'cust_refRelationship_Spouse',
+            'บุตร':    'cust_refRelationship_Child',
+            'พี่น้อง': 'cust_refRelationship_Brother',
+            'อื่นๆ':   'cust_refRelationship_Other',
+          };
+          const migrateContacts = (contacts: any[]) =>
+            (contacts ?? []).map((c: any) => ({
+              ...c,
+              relation: THAI_TO_EXT[c.relation] ?? c.relation,
+            }));
+          return {
+            ...persistedState,
+            saved: { ...persistedState.saved, emergencyContacts: migrateContacts(persistedState.saved?.emergencyContacts) },
+            draft: { ...persistedState.draft, emergencyContacts: migrateContacts(persistedState.draft?.emergencyContacts) },
+          } as ProfileState;
+        }
         if (version < 5 && version >= 4) {
           // v4 → v5 (T3 #90): no schema break — PendingChange already supports
           // field-level changes via `field: string`. Bump version to lock in

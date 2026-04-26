@@ -80,6 +80,18 @@ const MARITAL_OPTIONS = ['โสด', 'สมรส', 'หย่า', 'หม้
 const RELIGION_OPTIONS = ['buddhist', 'christian', 'muslim', 'hindu', 'other', 'none'];
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const MILITARY_OPTIONS = ['completed', 'exempted', 'deferred', 'not_applicable'];
+// BRD #165: SF BLOODGROUP picklist = 4 codes (AB/A/O/B).
+// Humi extends with Rh factor (+/-) for clinical completeness — intentional superset.
+// SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json BLOODGROUP optionIds AB/A/O/B
+const DISABILITY_OPTIONS = ['none', 'physical', 'visual', 'hearing', 'cognitive', 'other'];
+
+// BRD #29: PerPerson personIdExternal — stable SF external ID surfaced alongside generated employee ID
+// SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPerson-2026-04-26.json .d.results[0].personIdExternal
+// Derived from portedEmployee.employeeCode per login; falls back to placeholder if no ported employee.
+function derivePersonIdExternal(emp: { employeeCode?: string } | null): string {
+  if (emp?.employeeCode) return `EX-${emp.employeeCode.replace(/\D/g, '').padStart(5, '0')}`;
+  return 'EX-00000'; // placeholder — real value comes from SF PerPerson API
+}
 
 // ── Editable form state shape ─────────────────────────────────────────────────
 
@@ -90,6 +102,10 @@ interface EditFormValues {
   firstNameEn: string;
   lastNameTh: string;
   lastNameEn: string;
+  // BRD #20: PerPersonal preferredName + secondLastName (post-marriage Thai surname)
+  // SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json .d.results[0].preferredName
+  preferredName: string;
+  secondLastName: string;
   nickname: string;
   gender: string;
   dateOfBirth: string;
@@ -105,6 +121,9 @@ interface EditFormValues {
   religion: string;
   bloodType: string;
   militaryStatus: string;
+  // BRD #168: PerPersonal customString9 = disability code (also on /ess/profile/edit)
+  // SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json .d.results[0].customString9
+  disabilityStatus: string;
 }
 
 const FORM_DEFAULTS: EditFormValues = {
@@ -114,6 +133,8 @@ const FORM_DEFAULTS: EditFormValues = {
   firstNameEn: 'Jongrak',
   lastNameTh: 'ทานากะ',
   lastNameEn: 'Tanaka',
+  preferredName: '',
+  secondLastName: '',
   nickname: 'จงรักษ์',
   gender: 'male',
   dateOfBirth: '1990-01-15',
@@ -129,6 +150,7 @@ const FORM_DEFAULTS: EditFormValues = {
   religion: 'buddhist',
   bloodType: 'O+',
   militaryStatus: 'completed',
+  disabilityStatus: '',
 };
 
 const MARITAL_TH: Record<string, string> = {
@@ -856,6 +878,30 @@ export default function HumiProfileMePage() {
                   tPending={tPending}
                   isEditing={isEditing}
                 />
+                {/* BRD #20: preferredName — PerPersonal.preferredName */}
+                <FullEditField
+                  label={tEdit('field.preferredName')}
+                  value={formValues.preferredName}
+                  onChange={(v) => setFormValues((f) => ({ ...f, preferredName: v }))}
+                  onEdit={() => handleEditField('preferredName')}
+                  pendingChange={pendingChanges.find(
+                    (pc) => pc.field === 'preferredName' && pc.status === 'pending'
+                  )}
+                  tPending={tPending}
+                  isEditing={isEditing}
+                />
+                {/* BRD #20: secondLastName — PerPersonal.secondLastName (post-marriage Thai surname) */}
+                <FullEditField
+                  label={tEdit('field.secondLastName')}
+                  value={formValues.secondLastName}
+                  onChange={(v) => setFormValues((f) => ({ ...f, secondLastName: v }))}
+                  onEdit={() => handleEditField('secondLastName')}
+                  pendingChange={pendingChanges.find(
+                    (pc) => pc.field === 'secondLastName' && pc.status === 'pending'
+                  )}
+                  tPending={tPending}
+                  isEditing={isEditing}
+                />
                 <FullEditField
                   label={tEdit('field.gender')}
                   value={formValues.gender}
@@ -903,6 +949,19 @@ export default function HumiProfileMePage() {
                   tPending={tPending}
                   isEditing={isEditing}
                 />
+                {/* BRD #29: personIdExternal — PerPerson stable external ID, read-only */}
+                {/* SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPerson-2026-04-26.json .d.results[0].personIdExternal */}
+                <div className="humi-col" style={{ gap: 4 }}>
+                  <span style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                    {tEdit('field.personIdExternal')}
+                  </span>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-ink-soft)' }}>
+                    {derivePersonIdExternal(portedEmployee)}
+                  </span>
+                  <span style={{ fontSize: 11, color: 'var(--color-ink-muted)' }}>
+                    (SF External ID — แก้ไขโดย HR เท่านั้น)
+                  </span>
+                </div>
               </div>
 
               {/* Section B — Marital */}
@@ -1069,6 +1128,20 @@ export default function HumiProfileMePage() {
                     tPending={tPending}
                     isEditing={isEditing}
                   />
+                  {/* BRD #168: disabilityStatus — PerPersonal.customString9 disability code */}
+                  {/* SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json .d.results[0].customString9 */}
+                  <FullEditField
+                    label={tEdit('field.disabilityStatus')}
+                    value={formValues.disabilityStatus}
+                    onChange={(v) => setFormValues((f) => ({ ...f, disabilityStatus: v }))}
+                    onEdit={() => handleEditField('disabilityStatus')}
+                    options={DISABILITY_OPTIONS}
+                    pendingChange={pendingChanges.find(
+                      (pc) => pc.field === 'disabilityStatus' && pc.status === 'pending'
+                    )}
+                    tPending={tPending}
+                    isEditing={isEditing}
+                  />
                 </div>
               )}
             </div>
@@ -1211,6 +1284,32 @@ export default function HumiProfileMePage() {
             >
               {t('resignationSectionLink')}
             </Link>
+          </div>
+        </div>
+
+        {/* ── BRD #168: disabilityStatus on employment tab ──────────────────
+            SF cite: PerPersonal.customString9 disability code
+            sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json */}
+        <div className="humi-card" style={{ marginTop: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 8 }}>
+            {tEdit('field.disabilityStatus')}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 14, color: 'var(--color-ink-soft)' }}>
+              {formValues.disabilityStatus
+                ? formValues.disabilityStatus
+                : '—'}
+            </span>
+            {!isEditing && (
+              <button
+                type="button"
+                className="text-sm text-accent hover:underline"
+                onClick={() => { startEdit(); handleEditField('disabilityStatus'); }}
+                aria-label={`แก้ไข ${tEdit('field.disabilityStatus')}`}
+              >
+                {tEdit('field.disabilityStatus') && '✎'}
+              </button>
+            )}
           </div>
         </div>
 

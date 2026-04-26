@@ -52,6 +52,67 @@ export interface MockEmployee {
   managerId?: string
   /** Business unit slug จาก org_unit — ใช้สำหรับ chain wiring. optional */
   businessUnitId?: string
+
+  // ── BRD #85: SF EmpJob.employmentId (numeric key from SF) ──────────────────
+  // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].employmentId (null in QAS)
+  // Seeded deterministically as "EJ-{num}" for mock; real value is SF numeric ID.
+  employment_id?: string
+
+  // ── BRD #21: SF EmpEmployment fields ───────────────────────────────────────
+  // Source: sf-qas-EmpEmployment-2026-04-26.json → .d.results[0]
+  //   originalStartDate, seniorityDate, serviceDate, okToRehire, assignmentClass, hiringNotCompleted
+  /** EmpEmployment.okToRehire — SPD-only editable (BRD #114) */
+  ok_to_rehire?: boolean
+  /** EmpEmployment.assignmentClass — "ST"=standard, "EX"=expat, etc. */
+  assignment_class?: string
+  /** EmpEmployment.hiringNotCompleted — true if onboarding incomplete */
+  hiring_not_completed?: boolean
+  /**
+   * EmpEmployment.serviceDate — date used for service-credit calculations (e.g. PF vesting).
+   * Typically equals seniority_start_date or hire_date.
+   * Source: sf-qas-EmpEmployment-2026-04-26.json → .d.results[0].serviceDate = "/Date(1524441600000)/"
+   */
+  service_date?: string
+
+  // ── BRD #88: SF EmpJob position detail fields ──────────────────────────────
+  // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].payGrade, regularTemporary, position
+  /** EmpJob.payGrade — pay grade code (e.g. "08") */
+  pay_grade?: string
+  /** EmpJob.regularTemporary — "R"=Regular, "T"=Temporary */
+  regular_temporary?: 'R' | 'T'
+  /** EmpJob.position — SF position code (e.g. "9999C002") */
+  position_code?: string
+
+  // ── BRD #87: SF EmpJob.emplStatus code ────────────────────────────────────
+  // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].emplStatus
+  //   "5581" = Active, "5597" = Terminated
+  /** SF emplStatus code — maps to display via mapEmplStatusCode() */
+  empl_status_code?: string
+
+  // ── BRD #90: Job Grade effective-date history ──────────────────────────────
+  // Mock effective-date history with seqNumber+startDate for collapsible list
+  job_grade_history?: Array<{ seqNumber: number; startDate: string; grade: string }>
+
+  // ── BRD #92: Business Unit effective-date history ──────────────────────────
+  bu_history?: Array<{ seqNumber: number; startDate: string; businessUnit: string }>
+
+  // ── BRD #207: HRBP-conditional PerPersonal fields ──────────────────────────
+  // Source: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json
+  // Visible only to HRBP+ roles (hrbp, spd, hr_admin, hr_manager)
+  /** EmpEmployment.seniorityDate — adjusted seniority date */
+  seniority_date?: string        // ISO date
+  /** Computed retirement date (60 years from dateOfBirth per Thai labour law) */
+  retirement_date?: string       // ISO date
+  /** PerPersonal.religion code */
+  religion?: string
+  /** PerPersonal ethnicity (custom field) */
+  ethnicity?: string
+  /** PerPersonal.placeOfBirth (city/province) */
+  place_of_birth?: string
+  /** PerPersonal.countryOfBirth */
+  country_of_birth?: string
+  /** PerPersonal.nativePreferredLang — customString5 code in SF QAS */
+  native_preferred_lang?: string
 }
 
 // ──────────────────────────────────────────────
@@ -270,6 +331,59 @@ function generateEmployees(count: number): MockEmployee[] {
       : undefined
     const businessUnitId = org_unit.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
+    const currentJobGrade = pick(rnd, JOB_GRADES)
+
+    // BRD #87: SF emplStatus code — active=5581, terminated=5597
+    // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].emplStatus
+    const empl_status_code = status === 'terminated' ? '5597' : '5581'
+
+    // BRD #85: employment_id — deterministic mock of SF EmpJob.employmentId (numeric)
+    const employment_id = `EJ-${num}`
+
+    // BRD #21: EmpEmployment fields (optional, ~60% seeded)
+    // Source: sf-qas-EmpEmployment-2026-04-26.json → .d.results[0]
+    //   originalStartDate, seniorityDate, serviceDate, okToRehire, assignmentClass, hiringNotCompleted
+    const ok_to_rehire = status === 'terminated' ? rnd() > 0.3 : undefined
+    const assignment_class = rnd() < 0.7 ? 'ST' : 'EX'
+    const hiring_not_completed = rnd() < 0.05  // 5% still have incomplete onboarding
+    // EmpEmployment.serviceDate — for PF vesting calc; equals seniority_start_date typically
+    const service_date = seniority_start_date
+
+    // BRD #88: EmpJob position fields
+    // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].payGrade, regularTemporary, position
+    const pay_grade = currentJobGrade.replace('JG-', '')  // e.g. "JG-08" → "08"
+    const regular_temporary: 'R' | 'T' = employee_class === 'PARTIME' ? 'T' : 'R'
+    const position_code = `POS-${company}-${String(num).padStart(4, '0')}`
+
+    // BRD #90: Job Grade effective-date history (seqNumber + startDate)
+    // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].seqNumber, startDate
+    const job_grade_history = (() => {
+      const grades = [JOB_GRADES[Math.floor(rnd() * JOB_GRADES.length)]]
+      const hire_d = new Date(hire_date)
+      const hist: Array<{ seqNumber: number; startDate: string; grade: string }> = [
+        { seqNumber: 1, startDate: hire_date, grade: grades[0] },
+      ]
+      if (rnd() < 0.4 && tenureDays > 365) {
+        const d2 = new Date(hire_d.getTime() + Math.floor(rnd() * tenureDays * 0.5) * 86400_000)
+        hist.push({ seqNumber: 2, startDate: d2.toISOString().slice(0, 10), grade: currentJobGrade })
+      }
+      return hist
+    })()
+
+    // BRD #92: Business Unit effective-date history
+    const bu_history = (() => {
+      const hist: Array<{ seqNumber: number; startDate: string; businessUnit: string }> = [
+        { seqNumber: 1, startDate: hire_date, businessUnit: org_unit },
+      ]
+      if (rnd() < 0.25 && tenureDays > 365) {
+        const hire_d = new Date(hire_date)
+        const d2 = new Date(hire_d.getTime() + Math.floor(rnd() * tenureDays * 0.6) * 86400_000)
+        const newBU = pick(rnd, ORG_UNITS)
+        hist.push({ seqNumber: 2, startDate: d2.toISOString().slice(0, 10), businessUnit: newBU })
+      }
+      return hist
+    })()
+
     employees.push({
       employee_id: empId,
       first_name_th,
@@ -289,12 +403,23 @@ function generateEmployees(count: number): MockEmployee[] {
       status,
       store_branch_code,
       hr_district,
-      job_grade: pick(rnd, JOB_GRADES),
+      job_grade: currentJobGrade,
       corp_title_start_date,
       position_start_date,
       job_start_date,
       managerId,
       businessUnitId,
+      employment_id,
+      empl_status_code,
+      ok_to_rehire,
+      assignment_class,
+      hiring_not_completed,
+      service_date,
+      pay_grade,
+      regular_temporary,
+      position_code,
+      job_grade_history,
+      bu_history,
     })
   }
 

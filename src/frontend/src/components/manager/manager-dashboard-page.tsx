@@ -33,6 +33,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs } from '@/components/ui/tabs';
 import { useManagerDashboard } from '@/hooks/use-manager-dashboard';
 import type { TeamMember, PendingApproval, OrgNode, Position, MovementEvent } from '@/hooks/use-manager-dashboard';
+import { useAuthStore } from '@/stores/auth-store';
 import { cn } from '@/lib/utils';
 
 type TabKey ='overview' |'team' |'org-chart' |'positions' |'reports' |'approvals' |'calendar';
@@ -112,6 +113,10 @@ export function ManagerDashboardPage() {
  positions,
  movementEvents,
  } = useManagerDashboard();
+
+ // BRD #176: HRBP-conditional PerPersonal fields in team view
+ const authRoles = useAuthStore((s) => s.roles);
+ const isHRBPPlus = authRoles.some((r) => ['hrbp', 'spd', 'hr_admin', 'hr_manager'].includes(r));
 
  const [activeTab, setActiveTab] = useState<TabKey>('overview');
  const [confirmAction, setConfirmAction] = useState<{ id: string; action:'approve' |'reject' } | null>(null);
@@ -332,6 +337,9 @@ export function ManagerDashboardPage() {
  <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">หน่วยงาน</th>
  <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">ศูนย์ต้นทุน</th>
  <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">หัวหน้างาน</th>
+ {/* BRD #176: PerPersonal fields for HRBP+ — religion/nationality/language */}
+ {isHRBPPlus && <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">ศาสนา</th>}
+ {isHRBPPlus && <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">สัญชาติ</th>}
  <th className="text-left py-2 px-3 text-xs font-medium text-ink-muted">สถานะ</th>
  </tr>
  </thead>
@@ -350,6 +358,9 @@ export function ManagerDashboardPage() {
  <td className="py-2.5 px-3 text-xs text-ink">{m.department}</td>
  <td className="py-2.5 px-3 text-xs text-ink-muted font-mono">{m.costCenter || '—'}</td>
  <td className="py-2.5 px-3 text-xs text-ink">{m.managerName ?? '—'}</td>
+ {/* BRD #176: PerPersonal fields — HRBP+ only */}
+ {isHRBPPlus && <td className="py-2.5 px-3 text-xs text-ink-muted">{m.religion ?? '—'}</td>}
+ {isHRBPPlus && <td className="py-2.5 px-3 text-xs text-ink-muted">{m.nationality ?? '—'}</td>}
  <td className="py-2.5 px-3">
  <Badge variant={STATUS_BADGE[m.status]?.variant ??'neutral'}>{STATUS_BADGE[m.status]?.label ?? m.status}</Badge>
  </td>

@@ -18,6 +18,10 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
+import PositionLookup from '@/components/admin/PositionLookup'
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
+import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
+import type { PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ActingEvent } from '@hrms/shared/types/timeline'
 
@@ -89,17 +93,23 @@ export default function ActingPage() {
     if (employee) seed(employee)
   }, [employee, seed])
 
-  const [actingPosition, setActingPosition] = useState('')
+  // BRD #104: replace free-text actingPosition with PositionLookup
+  const [selectedActingPosition, setSelectedActingPosition] = useState<PositionCascade | null>(null)
   const [endDate, setEndDate] = useState('')
   const [isPrimary, setIsPrimary] = useState(false)
   const [notes, setNotes] = useState('')
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  // BRD #104: event reason picker — event 5589 POSCHG_POSCHG
+  // SF source: jq '.foEventReason[] | select(.event=="5589")' sf-qas-workflow-2026-04-25.json
+  const [eventReason, setEventReason] = useState<string | null>(null)
 
-  const isFormValid = actingPosition.trim().length > 0 && !!effectiveDate
+  const isFormValid = !!selectedActingPosition && !!effectiveDate && !!eventReason
 
   const doSubmit = useCallback(() => {
-    if (!employee || !isFormValid || !effectiveDate) return
+    if (!employee || !isFormValid || !effectiveDate || !selectedActingPosition) return
+
+    const positionTitle = selectedActingPosition.titleTh || selectedActingPosition.code
 
     const startEvent: ActingEvent = {
       id: `evt-acting-start-${Date.now()}`,
@@ -108,7 +118,7 @@ export default function ActingPage() {
       effectiveDate,
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
-      position: actingPosition.trim(),
+      position: positionTitle,
       isPrimary,
       notes: notes.trim() || undefined,
     }
@@ -122,7 +132,7 @@ export default function ActingPage() {
         effectiveDate: endDate,
         recordedAt: new Date().toISOString(),
         actorUserId: 'admin-current',
-        position: actingPosition.trim(),
+        position: positionTitle,
         isPrimary,
       }
       append(empId, endEvent)
@@ -132,7 +142,7 @@ export default function ActingPage() {
     router.push(
       `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการมอบหมายรักษาการเรียบร้อยแล้ว')}`,
     )
-  }, [employee, isFormValid, effectiveDate, empId, actingPosition, isPrimary, notes, endDate, append, router, locale])
+  }, [employee, isFormValid, effectiveDate, selectedActingPosition, empId, isPrimary, notes, endDate, append, router, locale])
 
   if (!employee) {
     return (
@@ -212,26 +222,27 @@ export default function ActingPage() {
           <div className="humi-card">
             <div className="humi-eyebrow" style={{ marginBottom: 16 }}>ข้อมูลรักษาการ</div>
 
-            {/* ── ตำแหน่งที่รักษาการ (required) ── */}
+            {/* ── ตำแหน่งที่รักษาการ (required) — BRD #104: PositionLookup replaces free-text ── */}
             <div style={{ marginBottom: 20 }}>
-              <label
-                htmlFor="actingPosition"
-                className="text-body font-semibold text-ink"
-                style={{ display: 'block', marginBottom: 6 }}
-              >
-                ตำแหน่งที่รักษาการ <span className="text-small text-ink-muted" aria-hidden>*</span>
-              </label>
-              <input
+              <PositionLookup
                 id="actingPosition"
-                type="text"
-                value={actingPosition}
-                onChange={(e) => setActingPosition(e.target.value)}
-                placeholder="เช่น ผู้จัดการฝ่ายปฏิบัติการ"
-                className="humi-input"
-                style={{ maxWidth: 440 }}
+                positionMaster={MOCK_POSITION_MASTER}
                 required
-                aria-required="true"
-                aria-label="ตำแหน่งที่รักษาการ"
+                label="ตำแหน่งที่รักษาการ"
+                placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+                onSelect={setSelectedActingPosition}
+              />
+            </div>
+
+            {/* ── เหตุผลการรักษาการ (required) — BRD #104 event 5589 POSCHG_POSCHG ── */}
+            {/* SF source: jq '.foEventReason[] | select(.event=="5589")' sf-qas-workflow-2026-04-25.json */}
+            <div style={{ marginBottom: 20 }}>
+              <ReasonPicker
+                id="acting-event-reason"
+                event="5589"
+                value={eventReason}
+                onChange={setEventReason}
+                required
               />
             </div>
 

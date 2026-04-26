@@ -292,6 +292,30 @@ const { Page } = createCrudPage<Position>({
           </span>
         </label>
 
+        {/* ─── BRD #5: Position effective dates (MED) ──────────────────────────
+             SF cite: qas-fields-2026-04-26/sf-qas-Position-2026-04-26.json#.d.results[0] */}
+        <label className="humi-label">
+          วันที่มีผล (startDate)
+          <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)', marginLeft: 4 }}>SF: startDate</span>
+          <input
+            className="humi-input"
+            type="date"
+            value={pos.startDate ?? ''}
+            onChange={(e) => onChange({ startDate: e.target.value || null })}
+          />
+        </label>
+
+        <label className="humi-label">
+          วันที่สิ้นสุด (endDate)
+          <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)', marginLeft: 4 }}>SF: endDate — ว่าง = ไม่มีกำหนด</span>
+          <input
+            className="humi-input"
+            type="date"
+            value={pos.endDate ?? ''}
+            onChange={(e) => onChange({ endDate: e.target.value || null })}
+          />
+        </label>
+
         {/* สถานะ */}
         <label
           className="humi-label"

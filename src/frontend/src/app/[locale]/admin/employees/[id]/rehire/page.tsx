@@ -37,6 +37,8 @@ interface RehireCluster {
   seniorityDateOverride: string | null
   useNewCode: boolean
   reason: string
+  /** BRD #102: originalStartDate — date preserved from prior employment (before termination) */
+  originalStartDate: string | null
 }
 
 interface RehireForm {
@@ -206,6 +208,8 @@ export default function RehirePage() {
       seniorityDateOverride: null,
       useNewCode: defaultCode,
       reason: '',
+      // BRD #102: preserved from prior employment — default to employee's original hire_date
+      originalStartDate: employee?.hire_date ?? null,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [empId]) // intentionally stable per empId
@@ -566,6 +570,33 @@ export default function RehirePage() {
               วัน Seniority ต้องไม่เกินกว่าวันที่กลับมาทำงาน
             </p>
           )}
+        </div>
+
+        <hr className="humi-divider" />
+
+        {/* ── วันที่เริ่มงานเดิม (originalStartDate) — BRD #102 ── */}
+        {/* SF source: EmpJob.originalStartDate — preserved from prior employment (before termination) */}
+        <div style={{ marginBottom: 20 }}>
+          <label
+            htmlFor="originalStartDate"
+            className="text-body font-semibold text-ink"
+            style={{ display: 'block', marginBottom: 6 }}
+          >
+            วันที่เริ่มงานเดิม (Original Start Date){' '}
+            <span className="text-small text-ink-muted">(สงวนจากการจ้างงานก่อนหน้า)</span>
+          </label>
+          <input
+            id="originalStartDate"
+            type="date"
+            value={rehire.originalStartDate ?? ''}
+            onChange={(e) => patch({ originalStartDate: e.target.value || null })}
+            className="humi-input"
+            style={{ maxWidth: 240 }}
+            aria-describedby="orig-start-hint"
+          />
+          <p id="orig-start-hint" className="text-small text-ink-muted mt-1">
+            กรอกอัตโนมัติจากวันที่เริ่มงานเดิม — แก้ไขได้ตามต้องการ
+          </p>
         </div>
 
         <hr className="humi-divider" />

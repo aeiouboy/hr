@@ -346,15 +346,148 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         </select>
       </div>
 
-      {/* effectiveStartDate */}
+      {/* effectiveStartDate — BRD #3 */}
       <div>
-        <label style={labelStyle}>วันที่มีผล</label>
+        <label style={labelStyle}>วันที่มีผล (startDate)</label>
         <input
           type="date"
           style={inputStyle}
           value={draft.effectiveStartDate ?? ''}
           onChange={(e) => onChange({ effectiveStartDate: e.target.value })}
         />
+      </div>
+
+      {/* endDate — BRD #3: FODepartment temporal validity (MED)
+          SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].endDate */}
+      <div>
+        <label style={labelStyle}>วันที่สิ้นสุด (endDate) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>— ว่าง = ไม่มีกำหนด</span></label>
+        <input
+          type="date"
+          style={inputStyle}
+          value={(draft as Record<string, unknown>).endDate as string ?? ''}
+          onChange={(e) => onChange({ endDate: e.target.value || null } as Partial<OrgUnit>)}
+        />
+      </div>
+
+      {/* costCenter — BRD #2: FODepartment costCenter linkage
+          SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].costCenter */}
+      <div>
+        <label style={labelStyle}>ศูนย์ต้นทุน (Cost Center) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: costCenter</span></label>
+        <input
+          type="text"
+          style={inputStyle}
+          placeholder="เช่น CC-001"
+          value={(draft as Record<string, unknown>).costCenter as string ?? ''}
+          onChange={(e) => onChange({ costCenter: e.target.value || null } as Partial<OrgUnit>)}
+        />
+      </div>
+
+      {/* ─── BRD #2: FODepartment 5-tier hierarchy fields ────────────────────
+          SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].cust_Dep1 */}
+      <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: 12 }}>
+        <div style={{ ...labelStyle, display: 'block', marginBottom: 8, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          FODepartment ลำดับชั้น (BRD #2)
+        </div>
+
+        {(['cust_Dep1', 'cust_Dep2', 'cust_Dep3', 'cust_Dep4'] as const).map((field, i) => (
+          <div key={field} style={{ marginBottom: 10 }}>
+            <label style={labelStyle}>Dep{i + 1} <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: {field}</span></label>
+            <input
+              type="text"
+              style={inputStyle}
+              placeholder={`รหัส/ชื่อ Dep${i + 1}`}
+              value={(draft as Record<string, unknown>)[field] as string ?? ''}
+              onChange={(e) => onChange({ [field]: e.target.value || null } as Partial<OrgUnit>)}
+            />
+          </div>
+        ))}
+
+        <div style={{ marginBottom: 10 }}>
+          <label style={labelStyle}>กลุ่มส่วน (Section Group) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_SectionGroup</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="รหัสกลุ่มส่วน"
+            value={(draft as Record<string, unknown>).cust_SectionGroup as string ?? ''}
+            onChange={(e) => onChange({ cust_SectionGroup: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
+
+        <div>
+          <label style={labelStyle}>ส่วน (Section) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_section</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="รหัสส่วน"
+            value={(draft as Record<string, unknown>).cust_section as string ?? ''}
+            onChange={(e) => onChange({ cust_section: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
+      </div>
+
+      {/* ─── BRD #1: FOBusinessUnit custom fields ──────────────────────────────
+          SF cite: qas-fields-2026-04-26/sf-qas-FOBusinessUnit-2026-04-26.json#.d.results[0].cust_businessGroup */}
+      <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: 12 }}>
+        <div style={{ ...labelStyle, display: 'block', marginBottom: 8, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          FOBusinessUnit Custom Fields (BRD #1)
+        </div>
+
+        <div style={{ marginBottom: 10 }}>
+          <label style={labelStyle}>กลุ่มธุรกิจ (Business Group) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_businessGroup</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="เช่น Central Retail Corporation"
+            value={(draft as Record<string, unknown>).cust_businessGroup as string ?? ''}
+            onChange={(e) => onChange({ cust_businessGroup: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
+
+        <div style={{ marginBottom: 10 }}>
+          <label style={labelStyle}>นโยบาย (Policy Profile) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_policyProfile</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="เช่น RBS"
+            value={(draft as Record<string, unknown>).cust_policyProfile as string ?? ''}
+            onChange={(e) => onChange({ cust_policyProfile: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
+
+        <div style={{ marginBottom: 10 }}>
+          <label style={labelStyle}>นิติบุคคล (Legal Entity) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_toLegalEntity</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="รหัสนิติบุคคล"
+            value={(draft as Record<string, unknown>).cust_toLegalEntity as string ?? ''}
+            onChange={(e) => onChange({ cust_toLegalEntity: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
+
+        <div style={{ marginBottom: 10 }}>
+          <label style={labelStyle}>กลุ่ม (To Group) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_toGroup</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="รหัสกลุ่ม"
+            value={(draft as Record<string, unknown>).cust_toGroup as string ?? ''}
+            onChange={(e) => onChange({ cust_toGroup: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
+
+        {/* headOfUnit — BRD #1: FOBusinessUnit.headOfUnit (employee code of unit head)
+            SF cite: qas-fields-2026-04-26/sf-qas-FOBusinessUnit-2026-04-26.json#.d.results[0].headOfUnit */}
+        <div>
+          <label style={labelStyle}>หัวหน้าหน่วยงาน (Head of Unit) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: headOfUnit</span></label>
+          <input
+            type="text"
+            style={inputStyle}
+            placeholder="รหัสพนักงานหัวหน้าหน่วยงาน เช่น 10001"
+            value={(draft as Record<string, unknown>).headOfUnit as string ?? ''}
+            onChange={(e) => onChange({ headOfUnit: e.target.value || null } as Partial<OrgUnit>)}
+          />
+        </div>
       </div>
 
       {/* active */}

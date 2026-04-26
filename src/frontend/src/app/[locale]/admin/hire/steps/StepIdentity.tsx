@@ -13,6 +13,12 @@ import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
 import { stepIdentitySchema, calcAge } from '@/lib/admin/validation/hireSchema'
+// BRD #14: mod-11 Thai National ID checksum — validated at UI layer to avoid blocking schema parse
+import { validateThaiNationalIdMod11, requiresThaiMod11 } from '@/lib/admin/validation/thaiNationalId'
+// BRD #178-181 PILOT — self-service config bus binding.
+// Reads mandatory matrix from admin config; currently pilots `national_id` field.
+// W2-E: coordinate note — only adds hook import + single isMandatory call; no schema refactor.
+import { useSelfServiceConfig } from '@/lib/admin/hooks/useSelfServiceConfig'
 import {
   PICKLIST_EVENT_REASON_HIRE,
   PICKLIST_SALUTATION_EN,
@@ -49,6 +55,11 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   const id = formData.identity
   const nationality = formData.biographical?.nationality ?? ''
   const allEmployees = useEmployees((s) => s.all)
+
+  // BRD #178-181 PILOT — self-service config bus: read mandatory matrix.
+  // HR Admin role is 'SPD' in RoleName (CapCase). Pilot: national_id field.
+  const selfServiceConfig = useSelfServiceConfig()
+  const nationalIdMandatory = selfServiceConfig.isMandatory('national_id', 'SPD')
 
   // employeeId is system-generated per BRD #102 line 2267 (Invariant I1)
   const generatedEmployeeId = useMemo(
@@ -182,6 +193,14 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onBlur={() => touch('hireDate')}
           className="humi-input w-full" />
         {errMsg('hireDate')}
+        {/* BRD #101: forward-date → SPD approval gate banner
+            SF cite: qas-fields-2026-04-25/sf-qas-workflow-2026-04-25.json#.foEventReason
+            Forward-dated hire requires SPD pre-approval before activation */}
+        {hireDate && new Date(hireDate) > new Date(new Date().toISOString().slice(0, 10)) && (
+          <p role="alert" className="mt-1 text-xs text-warning">
+            วันที่เริ่มงานล่วงหน้าต้องผ่านการอนุมัติจาก SPD ก่อนเปิดใช้งาน (BRD #101)
+          </p>
+        )}
       </fieldset>
 
       {/* ─── BA row 2 — Company * ─── */}
@@ -400,7 +419,8 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 15 — National ID * ─── */}
       <fieldset>
         <label htmlFor="national-id" className="humi-label">
-          เลขบัตร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {/* BRD #178-181 PILOT: mandatory driven by self-service config bus */}
+          เลขบัตร{nationalIdMandatory && <span aria-hidden="true" className="humi-asterisk ml-1">*</span>}
         </label>
         <input id="national-id" type="text" required aria-required="true"
           aria-invalid={touched.nationalId && !!errors.nationalId}
@@ -410,6 +430,14 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onBlur={() => touch('nationalId')}
           className="humi-input w-full" />
         {errMsg('nationalId')}
+        {/* BRD #14: Thai National ID mod-11 checksum — UI-level validation
+            SF cite: qas-fields-2026-04-26/sf-qas-PerNationalId-2026-04-26.json#.d.results[0].nationalId
+            cardType NATIONAL_ID → SF tni2 requires mod-11 validated 13-digit ID */}
+        {touched.nationalId && requiresThaiMod11(nationalIdCardType) && nationalId && !validateThaiNationalIdMod11(nationalId) && (
+          <p role="alert" className="mt-1 text-xs text-warning">
+            เลขบัตรประชาชนไม่ถูกต้อง (checksum mod-11 ไม่ผ่าน) / National ID checksum invalid
+          </p>
+        )}
       </fieldset>
 
       {/* ─── BA row 16 — Issue Date — optional ─── */}

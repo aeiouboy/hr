@@ -22,7 +22,7 @@ const validIdentity = {
   regionOfBirth:      '',
   age:                36,
   employeeId:         'EMP-00001',
-  nationalIdCardType: 'NATIONAL_ID' as const,
+  nationalIdCardType: 'PASSPORT' as const,   // PASSPORT skips mod-11 (BRD #14); use realistic fixture
   country:            'TH',
   nationalId:         '1234567890123',
   issueDate:          null,

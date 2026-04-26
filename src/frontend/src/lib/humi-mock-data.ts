@@ -533,6 +533,18 @@ export interface HumiOrgPerson {
   reviewSummary?: string;
   leaveRemaining?: string;
   hrNote?: string;
+  // BRD #8, #9, #11: FODepartment fields for org-chart node detail
+  // SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json .d.results[0]
+  /** FODepartment.nameTh — Thai department name */
+  nameTh?: string;
+  /** FODepartment.headOfUnit — head-of-unit person external ID */
+  headOfUnit?: string;
+  /** FODepartment.startDate — effective start date (YYYY-MM-DD) */
+  effectiveStartDate?: string;
+  /** FODepartment.status — "A"=Active, "I"=Inactive */
+  unitStatus?: 'A' | 'I';
+  /** FODepartment.parentUnit — parent department code */
+  parentUnit?: string;
 }
 
 export const HUMI_ORG_PEOPLE: Record<string, HumiOrgPerson> = {

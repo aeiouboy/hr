@@ -532,7 +532,12 @@
     "requestCreatedSuccess": "Request created successfully",
     "errorSelectRequestType": "Please select a request type",
     "errorSelectEffectiveDate": "Please select an effective date",
-    "errorEnterDescription": "Please enter a description"
+    "errorEnterDescription": "Please enter a description",
+    "inboxTitle": "Approval Inbox",
+    "inboxSubtitle": "All requests pending action",
+    "pendingTotal": "Total Pending",
+    "noRequestsHint": "New requests will appear here when submitted",
+    "recentHistory": "Recent History"
   },
   "settings": {
     "title": "Settings",
@@ -3689,7 +3694,11 @@
       "homePhone": "Home Phone",
       "religion": "Religion",
       "bloodType": "Blood Type",
-      "militaryStatus": "Military Status"
+      "militaryStatus": "Military Status",
+      "preferredName": "Preferred Name",
+      "secondLastName": "Second Last Name (post-marriage)",
+      "personIdExternal": "SF External ID",
+      "disabilityStatus": "Disability Status"
     },
     "required": "Attachment required"
   },
@@ -3804,5 +3813,10 @@
         "pending": "Pending Approval"
       }
     }
+  },
+  "promotion": {
+    "salaryChangeRange": "Please enter a value between 0 and 50",
+    "title": "Promotion",
+    "submit": "Submit Promotion Request"
   }
 }

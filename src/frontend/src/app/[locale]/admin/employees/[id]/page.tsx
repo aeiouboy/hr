@@ -36,11 +36,13 @@ import {
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { useAuthStore } from '@/stores/auth-store'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
 import { useTerminationApprovals, TERMINATION_REASON_LABEL, TERMINATION_STEP_LABEL } from '@/stores/termination-approvals'
 import { usePromotionApprovals, PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals'
-import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsInCorpTitle, calcYearsInPosition } from '@/lib/calculations'
+import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsInCorpTitle, calcYearsInPosition, calcYearsInBU } from '@/lib/calculations'
 import type { LifecycleEvent } from '@/lib/calculations'
+import { mapEmplStatusCode } from '@/lib/employee/empStatus'
 
 // ── Avatar color by status ───────────────────────────────────
 function avatarClass(status: string): string {
@@ -59,19 +61,22 @@ function avatarInitials(emp: { first_name_th: string; last_name_th: string }): s
 }
 
 // ── Status badge ─────────────────────────────────────────────
-function StatusBadge({ status }: { status: string }) {
+// BRD #87: emplStatusDisplay derived from SF emplStatus code via mapEmplStatusCode()
+function StatusBadge({ status, emplStatusDisplay }: { status: string; emplStatusDisplay?: string | null }) {
   const map: Record<string, string> = {
     active: 'humi-tag humi-tag--accent',
     terminated: 'humi-tag humi-tag--coral',
     inactive: 'humi-tag',
   }
   const cls = map[status] ?? 'humi-tag'
-  const label: Record<string, string> = {
+  const fallbackLabel: Record<string, string> = {
     active: 'ทำงานอยู่',
     terminated: 'ออกจากงานแล้ว',
     inactive: 'ไม่ได้ทำงาน',
   }
-  return <span className={cls}>{label[status] ?? status}</span>
+  // Prefer SF-derived label; fall back to mock string
+  const label = emplStatusDisplay ?? fallbackLabel[status] ?? status
+  return <span className={cls}>{label}</span>
 }
 
 // ── ClassBadge (PERMANENT / PARTIME) ────────────────────────
@@ -172,6 +177,10 @@ export default function EmployeeDetailPage() {
   // Consume employee from S2 store (1K mock employees, snake_case schema)
   const employee = useEmployees((s) => s.getById(empId)) ?? null
 
+  // BRD #207: HRBP-conditional PerPersonal snapshot
+  const authRoles = useAuthStore((s) => s.roles)
+  const isHRBPPlus = authRoles.some((r) => ['hrbp', 'spd', 'hr_admin', 'hr_manager'].includes(r))
+
   // Timeline store — S3 owns this
   const { seed } = useTimelines()
 
@@ -237,6 +246,14 @@ export default function EmployeeDetailPage() {
   const yijResult       = employee.hire_date ? calcYearsInJob(lifecycleEvents, today) : null
   const yictResult      = employee.hire_date ? calcYearsInCorpTitle(lifecycleEvents, today) : null
   const yipResult       = employee.hire_date ? calcYearsInPosition(lifecycleEvents, today) : null
+  // BRD #86: 5th chip — Years in BU (calcYearsInBU from lib/calculations)
+  const yibuResult      = employee.hire_date ? calcYearsInBU(lifecycleEvents, today) : null
+
+  // BRD #87: emplStatus display from SF code
+  // Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].emplStatus ("5581"=Active,"5597"=Terminated)
+  const emplStatusDisplay = employee.empl_status_code
+    ? mapEmplStatusCode(employee.empl_status_code)
+    : null
   // Workflow status snapshot — termination + promotion pending requests for this employee
   const terminationRequests = useTerminationApprovals((s) => s.requests)
   const promotionRequests = usePromotionApprovals((s) => s.requests)
@@ -358,15 +375,24 @@ export default function EmployeeDetailPage() {
           {/* Name + ID + badges */}
           <div style={{ flex: 1, minWidth: 180 }}>
             <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+              {/* BRD #85: employmentId alongside HR employee_id
+                  Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].employmentId */}
               {employee.employee_id}
+              {employee.employment_id && (
+                <span className="text-ink-faint" style={{ marginLeft: 8 }}>
+                  · EJ: {employee.employment_id}
+                </span>
+              )}
             </div>
             <h1 className="font-display text-[22px] font-semibold leading-tight text-ink">
               {nameTh}
             </h1>
             <div className="text-small text-ink-muted">{nameEn}</div>
             <div className="humi-row mt-2" style={{ gap: 8, flexWrap: 'wrap' }}>
-              <StatusBadge status={employee.status} />
-              <ClassBadge />
+              {/* BRD #87: emplStatus from SF code (5581=active, 5597=terminated)
+                  Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].emplStatus */}
+              <StatusBadge status={employee.status} emplStatusDisplay={emplStatusDisplay} />
+              <ClassBadge empClass={employee.employee_class} />
             </div>
           </div>
         </div>
@@ -435,7 +461,30 @@ export default function EmployeeDetailPage() {
             {employee.corporate_title && employee.corporate_title !== employee.position_title && (
               <div className="text-small text-ink-muted">ระดับ {employee.corporate_title}</div>
             )}
+            {/* BRD #88: position code from SF EmpJob.position
+                Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].position = "9999C002" */}
+            {employee.position_code && (
+              <div className="text-small text-ink-faint" style={{ marginTop: 2 }}>
+                รหัส: {employee.position_code}
+              </div>
+            )}
           </div>
+
+          {/* BRD #88: payGrade + regularTemporary from SF EmpJob
+              Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].payGrade="08", regularTemporary=null */}
+          {(employee.pay_grade || employee.regular_temporary) && (
+            <div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>Pay Grade / ประเภท</div>
+              {employee.pay_grade && (
+                <div className="text-body font-medium text-ink">PG-{employee.pay_grade}</div>
+              )}
+              {employee.regular_temporary && (
+                <div className="text-small text-ink-muted">
+                  {employee.regular_temporary === 'R' ? 'Regular (ประจำ)' : 'Temporary (ชั่วคราว)'}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Retail chips — audit A6/#11: conditional on non-null */}
           {employee.store_branch_code && (
@@ -487,13 +536,138 @@ export default function EmployeeDetailPage() {
           )
         })()}
 
+        {/* ── BRD #21: EmpEmployment fields ──────────────────────────────────────
+            Source: sf-qas-EmpEmployment-2026-04-26.json → .d.results[0]
+            Fields: originalStartDate, seniorityDate, serviceDate, okToRehire,
+                    assignmentClass, hiringNotCompleted */}
+        {(employee.original_start_date || employee.service_date || employee.ok_to_rehire !== undefined || employee.assignment_class || employee.hiring_not_completed) && (
+          <>
+            <hr className="humi-divider" />
+            <div className="humi-eyebrow" style={{ marginBottom: 8 }}>ข้อมูลการจ้างงาน (EmpEmployment)</div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3" style={{ marginTop: 4 }}>
+              {/* BRD #21: originalStartDate — earliest employment start incl. prior rehires */}
+              {employee.original_start_date && employee.original_start_date !== employee.hire_date && (
+                <div>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>วันเริ่มงานครั้งแรก</div>
+                  <div className="text-body font-medium text-ink">
+                    {new Date(employee.original_start_date).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </div>
+                </div>
+              )}
+              {/* BRD #21: serviceDate — for PF vesting calc */}
+              {employee.service_date && employee.service_date !== employee.hire_date && (
+                <div>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>วันที่นับอายุงาน (Service)</div>
+                  <div className="text-body font-medium text-ink">
+                    {new Date(employee.service_date).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </div>
+                </div>
+              )}
+              {employee.ok_to_rehire !== undefined && (
+                <div>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>รับกลับได้?</div>
+                  <div className="text-body font-medium text-ink">
+                    {employee.ok_to_rehire ? 'ใช่' : 'ไม่ใช่'}
+                  </div>
+                </div>
+              )}
+              {employee.assignment_class && (
+                <div>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>ประเภทการมอบหมาย</div>
+                  <div className="text-body font-medium text-ink">
+                    {employee.assignment_class === 'ST' ? 'Standard' : employee.assignment_class}
+                  </div>
+                </div>
+              )}
+              {employee.hiring_not_completed && (
+                <div>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>สถานะ Onboarding</div>
+                  <div className="text-body font-medium" style={{ color: 'var(--color-warning)' }}>
+                    ยังไม่เสร็จสิ้น
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* ── BRD #90: Job Grade effective-date history (collapsible) ────────────
+            Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].seqNumber, startDate */}
+        {employee.job_grade_history && employee.job_grade_history.length > 1 && (() => {
+          const sorted = [...employee.job_grade_history].sort((a, b) => b.seqNumber - a.seqNumber)
+          return (
+            <>
+              <hr className="humi-divider" />
+              <details>
+                <summary
+                  className="humi-eyebrow"
+                  style={{ cursor: 'pointer', marginBottom: 8, userSelect: 'none' }}
+                >
+                  ประวัติ Job Grade ({employee.job_grade_history.length} รายการ)
+                </summary>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
+                  {sorted.map((jg) => (
+                    <div
+                      key={jg.seqNumber}
+                      className="humi-row"
+                      style={{ gap: 12, padding: '6px 10px', borderRadius: 6, background: 'var(--color-canvas-soft)' }}
+                    >
+                      <span className="humi-tag">{jg.grade}</span>
+                      <span className="text-small text-ink-muted">
+                        มีผลตั้งแต่ {new Date(jg.startDate).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                      </span>
+                      <span className="text-small text-ink-faint">seq {jg.seqNumber}</span>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </>
+          )
+        })()}
+
+        {/* ── BRD #92: Business Unit effective-date history (collapsible) ─────────
+            Source: sf-qas-EmpJob-2026-04-26.json → .d.results[0].businessUnit, startDate */}
+        {employee.bu_history && employee.bu_history.length > 1 && (() => {
+          const sorted = [...employee.bu_history].sort((a, b) => b.seqNumber - a.seqNumber)
+          return (
+            <>
+              <hr className="humi-divider" />
+              <details>
+                <summary
+                  className="humi-eyebrow"
+                  style={{ cursor: 'pointer', marginBottom: 8, userSelect: 'none' }}
+                >
+                  ประวัติหน่วยงาน / BU ({employee.bu_history.length} รายการ)
+                </summary>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
+                  {sorted.map((bu) => (
+                    <div
+                      key={bu.seqNumber}
+                      className="humi-row"
+                      style={{ gap: 12, padding: '6px 10px', borderRadius: 6, background: 'var(--color-canvas-soft)' }}
+                    >
+                      <span className="text-body font-medium text-ink">{bu.businessUnit}</span>
+                      <span className="text-small text-ink-muted">
+                        มีผลตั้งแต่ {new Date(bu.startDate).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                      </span>
+                      <span className="text-small text-ink-faint">seq {bu.seqNumber}</span>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </>
+          )
+        })()}
+
         {/* ── A8: computed years-in-X chips (BRD #86-92, DOC-55CC266A rows #4,7,9,11) ──
             Auto-collapse: when an employee has never transferred / changed position /
             been promoted, all 4 counters equal hire-date tenure — showing 4 identical
             chips is noise. Collapse to a single "อายุงาน" chip unless the values
             actually diverge (any movement in the timeline resets one counter). */}
+        {/* BRD #86: 5-chip Years-in-X row (company/job/position/title/org-unit)
+            Source: calcYearsInJob/calcYearsInCorpTitle/calcYearsInPosition/calcYearsInBU from /lib/calculations */}
         {employee.hire_date && yosResult && (() => {
-          const counters = [yosResult, yijResult, yictResult, yipResult].filter(
+          const counters = [yosResult, yijResult, yictResult, yipResult, yibuResult].filter(
             (c): c is NonNullable<typeof c> => c !== null,
           )
           const uniqueDisplays = new Set(counters.map((c) => c.display))
@@ -511,13 +685,19 @@ export default function EmployeeDetailPage() {
                 ) : (
                   <>
                     <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 100 }}>
-                      <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน</div>
+                      <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงาน (บริษัท)</div>
                       <div className="text-body font-semibold text-ink">{yosResult.display}</div>
                     </div>
                     {yijResult && (
                       <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 120 }}>
-                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในตำแหน่ง</div>
+                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในสายงาน</div>
                         <div className="text-body font-semibold text-ink">{yijResult.display}</div>
+                      </div>
+                    )}
+                    {yipResult && (
+                      <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 130 }}>
+                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานในตำแหน่ง</div>
+                        <div className="text-body font-semibold text-ink">{yipResult.display}</div>
                       </div>
                     )}
                     {yictResult && (
@@ -526,10 +706,10 @@ export default function EmployeeDetailPage() {
                         <div className="text-body font-semibold text-ink">{yictResult.display}</div>
                       </div>
                     )}
-                    {yipResult && (
+                    {yibuResult && (
                       <div className="humi-card humi-card--cream" style={{ padding: '8px 14px', minWidth: 130 }}>
-                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานที่ตำแหน่งนี้</div>
-                        <div className="text-body font-semibold text-ink">{yipResult.display}</div>
+                        <div className="humi-eyebrow" style={{ marginBottom: 2 }}>อายุงานใน BU</div>
+                        <div className="text-body font-semibold text-ink">{yibuResult.display}</div>
                       </div>
                     )}
                   </>
@@ -600,6 +780,76 @@ export default function EmployeeDetailPage() {
                 >
                   {PROMOTION_STEP_LABEL[latestPromotion.status]}
                 </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── BRD #207: HRBP-conditional PerPersonal snapshot ──────────────────
+          Visible to: hrbp, spd, hr_admin, hr_manager only.
+          SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json
+          Fields: originalStartDate, seniorityDate, retirementDate, religion,
+                  ethnicity, placeOfBirth, countryOfBirth, nativePreferredLang */}
+      {isHRBPPlus && (
+        <div className="humi-card" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 12 }}>
+            ข้อมูลส่วนตัว HRBP (PerPersonal)
+            <span className="humi-tag humi-tag--butter" style={{ marginLeft: 8, fontSize: 11 }}>HRBP+</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3" style={{ marginTop: 4 }}>
+            {employee?.original_start_date && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>วันที่เริ่มงานครั้งแรก</div>
+                <div className="text-body font-medium text-ink">
+                  {new Date(employee.original_start_date).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </div>
+              </div>
+            )}
+            {employee?.seniority_date && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>วันที่อาวุโส</div>
+                <div className="text-body font-medium text-ink">
+                  {new Date(employee.seniority_date).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </div>
+              </div>
+            )}
+            {employee?.retirement_date && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>วันเกษียณ</div>
+                <div className="text-body font-medium text-ink">
+                  {new Date(employee.retirement_date).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </div>
+              </div>
+            )}
+            {employee?.religion && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>ศาสนา</div>
+                <div className="text-body font-medium text-ink">{employee.religion}</div>
+              </div>
+            )}
+            {employee?.ethnicity && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>เชื้อชาติ</div>
+                <div className="text-body font-medium text-ink">{employee.ethnicity}</div>
+              </div>
+            )}
+            {employee?.place_of_birth && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>สถานที่เกิด</div>
+                <div className="text-body font-medium text-ink">{employee.place_of_birth}</div>
+              </div>
+            )}
+            {employee?.country_of_birth && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>ประเทศที่เกิด</div>
+                <div className="text-body font-medium text-ink">{employee.country_of_birth}</div>
+              </div>
+            )}
+            {employee?.native_preferred_lang && (
+              <div>
+                <div className="humi-eyebrow" style={{ marginBottom: 2 }}>ภาษาหลัก</div>
+                <div className="text-body font-medium text-ink">{employee.native_preferred_lang}</div>
               </div>
             )}
           </div>

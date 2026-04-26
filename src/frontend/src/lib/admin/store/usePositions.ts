@@ -27,6 +27,11 @@ export interface Position {
   defaultHeadcount: number
   currentHeadcount: number
   active: boolean
+
+  // ── BRD #5: Position effective dates (MED) ────────────────────────────────
+  // SF cite: qas-fields-2026-04-26/sf-qas-Position-2026-04-26.json#.d.results[0]
+  startDate?: string | null   // ISO date — effective start
+  endDate?: string | null     // ISO date — null = no end date
 }
 
 interface PositionsState {

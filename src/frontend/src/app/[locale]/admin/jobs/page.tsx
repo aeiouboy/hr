@@ -1,11 +1,14 @@
 'use client'
 
 // /admin/jobs — Jobs master-data CRUD (Batch 3 EC-FO)
+// Wave 2-A: BRD #4 — FOJobCode custom fields: cust_JGMin/Max, cust_bandMatching, cust_jobType, jobFunction
+// SF cite: qas-fields-2026-04-26/sf-qas-FOJobCode-2026-04-26.json#.d.results[0].cust_JGMin
 // Built with createCrudPage (F6 template, Archetype C).
 // No real API — uses useJobs Zustand store (mock seed ~108 entries).
 
 import { createCrudPage } from '@/lib/admin/crud-template/createCrudPage'
 import { useJobs, type Job } from '@/lib/admin/store/useJobs'
+import { PICKLIST_JOB_FUNCTION } from '@hrms/shared/picklists'
 
 // ──────────────────────────────────────────────
 // Constants
@@ -160,6 +163,77 @@ const { Page } = createCrudPage<Job>({
           ))}
         </select>
       </label>
+
+      {/* ─── BRD #4: FOJobCode custom fields ─────────────────────────────────
+           SF cite: qas-fields-2026-04-26/sf-qas-FOJobCode-2026-04-26.json#.d.results[0] */}
+      <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: 12, marginTop: 4 }}>
+        <p className="humi-label" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
+          FOJobCode — ข้อมูล Job Grade &amp; Classification (BRD #4)
+        </p>
+
+        {/* cust_JGMin — SF: FOJobCode.cust_JGMin */}
+        <label className="humi-label" style={{ marginBottom: 10 }}>
+          Job Grade ขั้นต่ำ (JG Min) <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)' }}>SF: cust_JGMin</span>
+          <input
+            className="humi-input"
+            type="text"
+            placeholder="เช่น JG5"
+            value={job.cust_JGMin ?? ''}
+            onChange={(e) => onChange({ cust_JGMin: e.target.value || null })}
+          />
+        </label>
+
+        {/* cust_JGMax — SF: FOJobCode.cust_JGMax */}
+        <label className="humi-label" style={{ marginBottom: 10 }}>
+          Job Grade สูงสุด (JG Max) <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)' }}>SF: cust_JGMax</span>
+          <input
+            className="humi-input"
+            type="text"
+            placeholder="เช่น JG9"
+            value={job.cust_JGMax ?? ''}
+            onChange={(e) => onChange({ cust_JGMax: e.target.value || null })}
+          />
+        </label>
+
+        {/* cust_bandMatching — SF: FOJobCode.cust_bandMatching */}
+        <label className="humi-label" style={{ marginBottom: 10 }}>
+          Band Matching <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)' }}>SF: cust_bandMatching</span>
+          <input
+            className="humi-input"
+            type="text"
+            placeholder="รหัส Band Matching"
+            value={job.cust_bandMatching ?? ''}
+            onChange={(e) => onChange({ cust_bandMatching: e.target.value || null })}
+          />
+        </label>
+
+        {/* cust_jobType — SF: FOJobCode.cust_jobType */}
+        <label className="humi-label" style={{ marginBottom: 10 }}>
+          ประเภทงาน (Job Type) <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)' }}>SF: cust_jobType</span>
+          <input
+            className="humi-input"
+            type="text"
+            placeholder="เช่น PERMANENT, CONTRACT"
+            value={job.cust_jobType ?? ''}
+            onChange={(e) => onChange({ cust_jobType: e.target.value || null })}
+          />
+        </label>
+
+        {/* jobFunction — SF: FOJobCode.jobFunction */}
+        <label className="humi-label">
+          Job Function <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)' }}>SF: jobFunction</span>
+          <select
+            className="humi-input"
+            value={job.jobFunction ?? ''}
+            onChange={(e) => onChange({ jobFunction: e.target.value || null })}
+          >
+            <option value="">— เลือก Job Function —</option>
+            {PICKLIST_JOB_FUNCTION.filter((f) => f.active).map((f) => (
+              <option key={f.id} value={f.id}>{f.id} — {f.labelEn}</option>
+            ))}
+          </select>
+        </label>
+      </div>
 
       {/* สถานะ */}
       <label

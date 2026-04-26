@@ -532,7 +532,12 @@
     "requestCreatedSuccess": "ส่งคำขอเรียบร้อยแล้ว",
     "errorSelectRequestType": "กรุณาเลือกประเภทคำขอ",
     "errorSelectEffectiveDate": "กรุณาเลือกวันที่มีผลบังคับใช้",
-    "errorEnterDescription": "กรุณาระบุรายละเอียด"
+    "errorEnterDescription": "กรุณาระบุรายละเอียด",
+    "inboxTitle": "กล่องอนุมัติ",
+    "inboxSubtitle": "คำขอทั้งหมดที่รอการดำเนินการ",
+    "pendingTotal": "รอดำเนินการทั้งหมด",
+    "noRequestsHint": "คำขอใหม่จะแสดงที่นี่เมื่อมีเข้ามา",
+    "recentHistory": "ประวัติล่าสุด"
   },
   "settings": {
     "title": "การตั้งค่า",
@@ -3689,7 +3694,11 @@
       "homePhone": "โทรศัพท์บ้าน",
       "religion": "ศาสนา",
       "bloodType": "หมู่เลือด",
-      "militaryStatus": "สถานะทหาร"
+      "militaryStatus": "สถานะทหาร",
+      "preferredName": "ชื่อที่ต้องการให้เรียก",
+      "secondLastName": "นามสกุลหลังสมรส",
+      "personIdExternal": "รหัสพนักงาน SF (External ID)",
+      "disabilityStatus": "สถานะความพิการ"
     },
     "required": "จำเป็นต้องแนบเอกสาร"
   },
@@ -3804,5 +3813,10 @@
         "pending": "รอการอนุมัติ"
       }
     }
+  },
+  "promotion": {
+    "salaryChangeRange": "ระบุ 0–50 เท่านั้น",
+    "title": "เลื่อนตำแหน่ง",
+    "submit": "ส่งคำขอเลื่อนตำแหน่ง"
   }
 }

@@ -12,15 +12,16 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, TrendingUp } from 'lucide-react'
+import { ArrowLeft, TrendingUp, Clock } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
-import { usePromotionApprovals } from '@/stores/promotion-approvals'
+import { usePromotionApprovals, PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals'
 import { useAuthStore } from '@/stores/auth-store'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
@@ -82,6 +83,44 @@ function EmployeeSnapshot({ employee }: { employee: MockEmployee }) {
   )
 }
 
+// ─── SPD Approval Chain Banner (BRD #103) ────────────────────────────────────
+// Surfaces the in-memory promotion-approvals chain status to the user.
+// Uses usePromotionApprovals store — no backend integration.
+
+function ApprovalChainBanner({ employeeId }: { employeeId: string }) {
+  const requests = usePromotionApprovals((s) => s.requests)
+  const pending = requests.filter((r) => r.employeeId === employeeId && r.status === 'pending_spd')
+  if (pending.length === 0) return null
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="humi-card"
+      style={{
+        display: 'flex', flexDirection: 'column', gap: 8,
+        background: 'var(--color-accent-soft, #EFF6FF)',
+        border: '1.5px solid var(--color-accent, #2563EB)',
+        padding: 16,
+      }}
+    >
+      <div className="humi-eyebrow" style={{ color: 'var(--color-accent)' }}>สถานะการอนุมัติ</div>
+      {pending.map((req) => (
+        <div key={req.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Clock size={16} aria-hidden style={{ color: 'var(--color-accent)', flexShrink: 0 }} />
+          <div className="text-small text-ink">
+            <span className="font-semibold">{PROMOTION_STEP_LABEL[req.status]}</span>
+            {' — '}{req.toPosition}
+            <span className="text-ink-muted ml-2">
+              (ส่งเมื่อ {new Date(req.submittedAt).toLocaleDateString('th-TH')})
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ─── Exported helpers (for tests) ────────────────────────────────────────────
 
 /** salaryChangePct must be in 0–50 range */
@@ -114,6 +153,10 @@ export default function PromotionPage() {
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [salaryError, setSalaryError] = useState('')
+  // BRD #95: event reason picker — event 5587 PRCHG group, required reason is PRCHG_PROMO
+  // SF source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json
+  const [eventReason, setEventReason] = useState<string | null>(null)
+  const [reasonError, setReasonError] = useState('')
 
   const currentTitle = employee
     ? ((employee as unknown as Record<string, unknown>).corporate_title as string | undefined) ?? employee.position_title
@@ -122,7 +165,8 @@ export default function PromotionPage() {
   const salaryPct = salaryChangePct !== '' ? parseFloat(salaryChangePct) : undefined
   const salaryInvalid = salaryChangePct !== '' && (isNaN(salaryPct!) || !isSalaryPctValid(salaryPct!))
 
-  const isFormValid = !!selectedPosition && !salaryInvalid && !!effectiveDate
+  // BRD #95: eventReason required for promotion (event 5587 PRCHG group)
+  const isFormValid = !!selectedPosition && !salaryInvalid && !!effectiveDate && !!eventReason
 
   const doSubmit = useCallback(() => {
     if (!employee || !isFormValid || !effectiveDate) return
@@ -221,6 +265,9 @@ export default function PromotionPage() {
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
 
+      {/* SPD Approval Chain Banner — BRD #103: surfaces pending chain status (in-memory store) */}
+      <ApprovalChainBanner employeeId={empId} />
+
       {/* Promotion form — gated by effectiveDate */}
       <EffectiveDateGate
         min={employee.hire_date || undefined}
@@ -258,6 +305,19 @@ export default function PromotionPage() {
                 placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
                 filter={(p: Position) => p.active}
                 onSelect={setSelectedPosition}
+              />
+            </div>
+
+            {/* ── เหตุผลการเลื่อนตำแหน่ง (required) — BRD #95 event 5587 PRCHG group ── */}
+            {/* SF source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json */}
+            <div style={{ marginBottom: 20 }}>
+              <ReasonPicker
+                id="promotion-event-reason"
+                event="5587"
+                value={eventReason}
+                onChange={(code) => { setEventReason(code); setReasonError('') }}
+                required
+                error={reasonError || undefined}
               />
             </div>
 

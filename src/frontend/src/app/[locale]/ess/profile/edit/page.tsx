@@ -340,9 +340,10 @@ export default function ProfileEditPage() {
           </div>
 
           {/* Row 4: Gender (RO) + Marital Status + Since */}
+          {/* BRD #166: bilingual labels (Thai-primary) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <div>
-              <Label htmlFor="gender">Gender</Label>
+              <Label htmlFor="gender">เพศ (Gender)</Label>
               <input
                 id="gender"
                 type="text"
@@ -352,21 +353,22 @@ export default function ProfileEditPage() {
               />
             </div>
             <div>
-              <Label htmlFor="maritalStatus">Marital Status</Label>
+              <Label htmlFor="maritalStatus">สถานภาพสมรส (Marital Status)</Label>
               <select
                 id="maritalStatus"
                 value={draft.maritalStatus}
                 onChange={(e) => setField('maritalStatus', e.target.value)}
                 className={inputCls}
               >
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Divorced">Divorced</option>
-                <option value="Widowed">Widowed</option>
+                <option value="Single">โสด (Single)</option>
+                <option value="Married">สมรส (Married)</option>
+                <option value="Divorced">หย่า (Divorced)</option>
+                <option value="Widowed">หม้าย (Widowed)</option>
+                <option value="Engaged">หมั้น (Engaged)</option>
               </select>
             </div>
             <div>
-              <Label htmlFor="maritalStatusSince">Marital Status Since</Label>
+              <Label htmlFor="maritalStatusSince">สถานภาพสมรสตั้งแต่ (Marital Status Since)</Label>
               <input
                 id="maritalStatusSince"
                 type="date"
@@ -377,20 +379,30 @@ export default function ProfileEditPage() {
             </div>
           </div>
 
-          {/* Row 5: Nationality (RO) + Military */}
+          {/* Row 5: Nationality (editable via approval workflow) + Military */}
+          {/* BRD #166: remove disabled from nationality — routes through useProfileEdit.submit() → workflow-approvals store → SPD inbox */}
+          {/* SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json .d.results[0].nationality */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <div>
-              <Label htmlFor="nationality" required>Nationality</Label>
-              <input
+              <Label htmlFor="nationality" required>สัญชาติ (Nationality)</Label>
+              <select
                 id="nationality"
-                type="text"
-                disabled
                 value={draft.nationality}
+                onChange={(e) => setField('nationality', e.target.value)}
                 className={inputCls}
-              />
+              >
+                <option value="">— เลือก —</option>
+                <option value="Thai">ไทย (Thai)</option>
+                <option value="Lao">ลาว (Lao)</option>
+                <option value="Myanmar">พม่า (Myanmar)</option>
+                <option value="Vietnam">เวียดนาม (Vietnam)</option>
+                <option value="Cambodia">กัมพูชา (Cambodia)</option>
+                <option value="Malaysia">มาเลเซีย (Malaysia)</option>
+                <option value="Other">อื่นๆ (Other)</option>
+              </select>
             </div>
             <div>
-              <Label htmlFor="militaryStatus">Military Status</Label>
+              <Label htmlFor="militaryStatus">สถานะทหาร (Military Status)</Label>
               <select
                 id="militaryStatus"
                 value={draft.militaryStatus}
@@ -398,19 +410,20 @@ export default function ProfileEditPage() {
                 className={inputCls}
               >
                 <option value="">— เลือก —</option>
-                <option value="Completed">Completed</option>
-                <option value="Exempted">Exempted</option>
-                <option value="Studying RTC">Studying RTC</option>
-                <option value="Pending">Pending</option>
-                <option value="N/A">N/A</option>
+                <option value="Completed">ผ่านแล้ว (Completed)</option>
+                <option value="Exempted">ยกเว้น (Exempted)</option>
+                <option value="Studying RTC">รด. (Studying RTC)</option>
+                <option value="Pending">รอคิว (Pending)</option>
+                <option value="N/A">ไม่เกี่ยวข้อง (N/A)</option>
               </select>
             </div>
           </div>
 
-          {/* Row 6: Blood type (RO) */}
+          {/* Row 6: Blood type (RO) + Religion */}
+          {/* BRD #166: bilingual labels */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="bloodType">Blood Type</Label>
+              <Label htmlFor="bloodType">หมู่เลือด (Blood Type)</Label>
               <input
                 id="bloodType"
                 type="text"
@@ -567,8 +580,9 @@ export default function ProfileEditPage() {
           {globalOpen && (
             <div className="px-5 pb-5 border-t border-hairline-soft">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                {/* BRD #166: bilingual labels for Global Information block */}
                 <div>
-                  <Label htmlFor="country" required>Country/Region</Label>
+                  <Label htmlFor="country" required>ประเทศ (Country/Region)</Label>
                   <select
                     id="country"
                     required
@@ -577,13 +591,13 @@ export default function ProfileEditPage() {
                     className={inputCls}
                   >
                     <option value="">— เลือก —</option>
-                    <option value="Thailand">Thailand</option>
-                    <option value="Vietnam">Vietnam</option>
-                    <option value="Malaysia">Malaysia</option>
+                    <option value="Thailand">ไทย (Thailand)</option>
+                    <option value="Vietnam">เวียดนาม (Vietnam)</option>
+                    <option value="Malaysia">มาเลเซีย (Malaysia)</option>
                   </select>
                 </div>
                 <div>
-                  <Label htmlFor="religion">Religion</Label>
+                  <Label htmlFor="religion">ศาสนา (Religion)</Label>
                   <input
                     id="religion"
                     type="text"
@@ -593,7 +607,8 @@ export default function ProfileEditPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="disabilityStatus">Disability Status</Label>
+                  {/* BRD #166: bilingual label; SF cite: PerPersonal.customString9 */}
+                  <Label htmlFor="disabilityStatus">ความพิการ (Disability Status)</Label>
                   <select
                     id="disabilityStatus"
                     value={draft.disabilityStatus}
@@ -601,10 +616,12 @@ export default function ProfileEditPage() {
                     className={inputCls}
                   >
                     <option value="">— ไม่ระบุ —</option>
-                    <option value="None">None</option>
-                    <option value="Physical">Physical</option>
-                    <option value="Visual">Visual</option>
-                    <option value="Hearing">Hearing</option>
+                    <option value="None">ไม่มี (None)</option>
+                    <option value="Physical">ทางกาย (Physical)</option>
+                    <option value="Visual">ทางสายตา (Visual)</option>
+                    <option value="Hearing">ทางการได้ยิน (Hearing)</option>
+                    <option value="Cognitive">ทางสติปัญญา (Cognitive)</option>
+                    <option value="Other">อื่นๆ (Other)</option>
                   </select>
                 </div>
               </div>

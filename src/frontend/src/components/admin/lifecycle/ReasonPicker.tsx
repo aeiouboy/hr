@@ -1,15 +1,28 @@
 'use client'
 
 // ReasonPicker.tsx — Dropdown สำหรับเลือก Event Reason ตาม flow
-// filter ด้วย event code prop: '5584' = REHIRE, '5604' = TRANSFER, '5597' = TERMINATE
+// filter ด้วย event code prop:
+//   '5584' = REHIRE, '5587' = PRCHG (Promotion), '5589' = POSCHG (Acting),
+//   '5597' = TERMINATE, '5604' = TRANSFER
 // ใช้ข้อมูลจาก FOEventReason.json (Appendix 2, Rule C8: verbatim — ห้าม invent)
+// SF source: sf-qas-workflow-2026-04-25.json — jq '.foEventReason[] | select(.event == "5587")'
 
 // Thai labels สำหรับแต่ละ event reason code (Rule C10: Thai-primary)
-// ข้อมูล source: Appendix 2 + FOEventReason.json
+// ข้อมูล source: Appendix 2 + FOEventReason.json + sf-qas-workflow-2026-04-25.json
 const REASON_LABELS: Record<string, string> = {
   // REHIRE (event=5584)
   RE_REHIRE_LT1: 'จ้างใหม่ — ออกไม่เกิน 1 ปี (Rehiring LT 1 year)',
   RE_REHIRE_GE1: 'จ้างใหม่ — ออกเกิน 1 ปี (Rehiring GE 1 year)',
+  // PROMOTION / PAY CHANGE (event=5587) — SF foEventReason externalCodes
+  // source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json
+  PRCHG_PROMO:   'เลื่อนตำแหน่ง (Promotion)',
+  PRCHG_MERINC:  'ปรับขึ้นตามผลงาน (Merit Increase)',
+  PRCHG_ADJPOS:  'ปรับตำแหน่ง (Adjust Position)',
+  PRCHG_SALADJ:  'ปรับเงินเดือน (Salary Adjust)',
+  PRCHG_SALCUT:  'ลดเงินเดือน (Salary Cuts)',
+  // POSITION CHANGE / ACTING (event=5589) — SF foEventReason externalCode
+  // source: jq '.foEventReason[] | select(.event=="5589")' sf-qas-workflow-2026-04-25.json
+  POSCHG_POSCHG: 'เปลี่ยนตำแหน่ง / รักษาการ (Position Change)',
   // TRANSFER (event=5604)
   TRN_ROTATION: 'Rotation — สับเปลี่ยนหมุนเวียน',
   TRN_TRNACCOMP: 'โอนย้ายข้ามบริษัท (Transfer across Company)',
@@ -42,6 +55,10 @@ const REASON_LABELS: Record<string, string> = {
 // mapping event code → รายการ reason codes (ตาม Appendix 2 + FOEventReason.json)
 const EVENT_REASONS: Record<string, string[]> = {
   '5584': ['RE_REHIRE_LT1', 'RE_REHIRE_GE1'],
+  // event 5587 = Pay Change / Promotion — SF source: sf-qas-workflow-2026-04-25.json
+  '5587': ['PRCHG_PROMO', 'PRCHG_MERINC', 'PRCHG_ADJPOS', 'PRCHG_SALADJ', 'PRCHG_SALCUT'],
+  // event 5589 = Position Change / Acting — SF source: sf-qas-workflow-2026-04-25.json
+  '5589': ['POSCHG_POSCHG'],
   '5604': ['TRN_ROTATION', 'TRN_TRNACCOMP', 'TRN_TRNWIC'],
   '5597': [
     'TERM_RETIRE', 'TERM_DISMISS', 'TERM_DM', 'TERM_ENDASSIGN', 'TERM_EOC',
@@ -55,7 +72,7 @@ const EVENT_REASONS: Record<string, string[]> = {
 const ESS_VOLUNTARY_CODES = ['RESIGN_PERSONAL', 'RESIGN_STUDY', 'RESIGN_FAMILY', 'RESIGN_OTHER'] as const;
 
 interface ReasonPickerProps {
-  event: '5584' | '5604' | '5597'
+  event: '5584' | '5587' | '5589' | '5597' | '5604'
   value: string | null
   onChange: (code: string) => void
   required?: boolean

@@ -450,6 +450,23 @@ export default function ProbationAssessPage() {
         >
           {() => (
         <div className="humi-card">
+          {/* ── BRD #117: backend auto-pass placeholder ──
+              Cron auto-pass + email scheduler are backend concerns (Sprint 2).
+              This banner keeps the UI honest about what's not yet implemented. */}
+          <div
+            role="note"
+            style={{
+              background: 'var(--color-canvas-soft, #F9FAFB)',
+              border: '1.5px solid var(--color-hairline, #D1D5DB)',
+              borderRadius: 8,
+              padding: '8px 12px',
+              marginBottom: 12,
+            }}
+            className="text-small text-ink-muted"
+          >
+            auto-pass จะทริกเกอร์โดย backend (Sprint 2) — ฟีเจอร์นี้ยังไม่พร้อมใช้งานบน frontend
+          </div>
+
           {/* ── Days-remaining banner (BRD #117) ── */}
           <ProbationBanner daysRemaining={daysRemaining} />
 

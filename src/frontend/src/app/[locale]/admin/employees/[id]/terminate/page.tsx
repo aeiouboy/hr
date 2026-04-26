@@ -17,7 +17,7 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, UserX } from 'lucide-react'
+import { ArrowLeft, UserX, Circle } from 'lucide-react'
 import { AttachmentDropzone } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
 import type { AttachedFile } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
@@ -27,8 +27,66 @@ import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWi
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
+import { useAuthStore } from '@/stores/auth-store'
 import type { MockEmployee } from '@/mocks/employees'
 import type { TerminateEvent } from '@hrms/shared/types/timeline'
+
+// ─── Chain progress stepper (BRD #22, #111) ───────────────────────────────────
+// HR-admin initiates termination → triggers 4-step approval chain post-submit.
+// Chain wiring deferred to Sprint 2 backend. Stepper is informational only.
+// Step order: Employee → Manager → HRBP → SPD (BRD #111, SF workflow pattern).
+
+const CHAIN_STEPS = [
+  { id: 'employee', labelTh: 'พนักงาน' },
+  { id: 'manager',  labelTh: 'Manager' },
+  { id: 'hrbp',     labelTh: 'HRBP' },
+  { id: 'spd',      labelTh: 'SPD' },
+] as const
+
+function ApprovalChainStepper() {
+  return (
+    <div
+      role="status"
+      aria-label="ลำดับการอนุมัติ"
+      style={{
+        background: 'var(--color-accent-soft, #EFF6FF)',
+        border: '1.5px solid var(--color-accent, #3B82F6)',
+        borderRadius: 10,
+        padding: '10px 16px',
+      }}
+    >
+      <div className="humi-eyebrow" style={{ marginBottom: 8, color: 'var(--color-accent)' }}>
+        ลำดับการอนุมัติ — Sprint 2 backend wiring
+      </div>
+      <div
+        className="humi-row"
+        style={{ gap: 0, flexWrap: 'wrap', alignItems: 'center' }}
+        aria-label="4 ขั้นตอน: พนักงาน → Manager → HRBP → SPD"
+      >
+        {CHAIN_STEPS.map((step, i) => (
+          <div key={step.id} className="humi-row" style={{ gap: 0, alignItems: 'center' }}>
+            <div className="humi-row" style={{ gap: 5, alignItems: 'center', padding: '4px 8px' }}>
+              <Circle size={14} aria-hidden style={{ color: 'var(--color-ink-muted)' }} />
+              <span className="text-small text-ink-muted">{step.labelTh}</span>
+            </div>
+            {i < CHAIN_STEPS.length - 1 && (
+              <span
+                className="text-small text-ink-faint"
+                aria-hidden
+                style={{ padding: '0 2px' }}
+              >
+                →
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+      <p className="text-small text-ink-muted" style={{ marginTop: 6 }}>
+        เมื่อบันทึกแล้ว คำขอจะส่งเข้าระบบอนุมัติ 4 ขั้น — การเชื่อมต่อ backend อยู่ระหว่างพัฒนา (Sprint 2)
+      </p>
+    </div>
+  )
+}
 
 // ─── Form shape ───────────────────────────────────────────────────────────────
 // Reason codes: use canonical SF Appendix 2 (17 TERM_* codes) via ReasonPicker.
@@ -198,6 +256,13 @@ export default function TerminatePage() {
   const employee = useEmployees((s) => s.getById(empId)) ?? null
   const updateEmployee = useEmployees((s) => s.updateEmployee)
 
+  // ── BRD #114: SPD-only gate on okToRehire ──────────────────────────────────
+  // SF RBAC: okToRehire writable by SPD (12/47) only, not HR Admin (45/47).
+  // Source: sf-extract/qas-fields-2026-04-26/sf-qas-EmpEmployment-2026-04-26.json
+  //   → .d.results[0].okToRehire (boolean field on EmpEmployment)
+  const userRoles = useAuthStore((s) => s.roles)
+  const isSPD = userRoles.includes('spd') || userRoles.includes('hr_manager')
+
   // ── Factory: per-employee wizard instance (Archetype B, D1 reuse) ─────────
   // Memoized — createClusterWizard creates a Zustand store internally;
   // must NOT be called on every render.
@@ -252,11 +317,15 @@ export default function TerminatePage() {
     !!termination.lastDay &&
     termination.payrollEffectiveDate >= termination.lastDay
 
+  // BRD #114: non-SPD users cannot set okToRehire — field gets set during approval chain.
+  // Only require okToRehire when user has SPD role and can actually set it.
+  const okToRehireValid = !isSPD || termination.okToRehire !== null
+
   const isValid =
     !!termination.reasonCode &&
     lastDayValid &&
     payrollValid &&
-    termination.okToRehire !== null
+    okToRehireValid
 
   // ── State ──────────────────────────────────────────────────────────────────
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
@@ -301,6 +370,7 @@ export default function TerminatePage() {
       actorUserId: 'admin-current',
       reasonCode: termination.reasonCode,
       lastDay: termination.lastDay!,
+      // BRD #114: non-SPD submitters leave okToRehire null — defaults to false until SPD sets it in chain
       okToRehire: termination.okToRehire === true,
       notes: termination.reasonNote || undefined,
     }
@@ -403,6 +473,9 @@ export default function TerminatePage() {
         {/* Employee snapshot */}
         <EmployeeSnapshot employee={employee} />
 
+        {/* BRD #22, #111 — 4-step approval chain stepper (informational) */}
+        <ApprovalChainStepper />
+
         {/* Terminate form */}
         <EffectiveDateGate
           min={hireDate !== today ? hireDate : undefined}
@@ -484,16 +557,30 @@ export default function TerminatePage() {
 
           <hr className="humi-divider" />
 
-          {/* ── OK to rehire (radio) — Plan §4 exact field ── */}
+          {/* ── OK to rehire (radio) — BRD #114 SPD-only gate ──
+              SF field: EmpEmployment.okToRehire (boolean)
+              Source: sf-qas-EmpEmployment-2026-04-26.json → .d.results[0].okToRehire
+              RBAC: writable by SPD (12/47) only; HR Admin (45/47) read-only. */}
           <div style={{ marginBottom: 20 }}>
-            <fieldset>
+            <fieldset disabled={!isSPD}>
               <legend className="text-body font-semibold text-ink" style={{ marginBottom: 8 }}>
                 อนุญาตให้จ้างซ้ำในอนาคต?{' '}
                 <span style={{ color: 'var(--color-danger)' }}>*</span>
               </legend>
+              {!isSPD && (
+                <p
+                  className="text-small"
+                  style={{ color: 'var(--color-ink-muted)', marginBottom: 8 }}
+                  role="note"
+                  aria-live="polite"
+                >
+                  เฉพาะ SPD เท่านั้นที่สามารถแก้ไขช่องนี้
+                </p>
+              )}
               <div
                 role="radiogroup"
                 aria-label="อนุญาตให้จ้างซ้ำในอนาคต"
+                aria-disabled={!isSPD}
                 style={{ display: 'flex', gap: 12 }}
               >
                 {([
@@ -504,8 +591,11 @@ export default function TerminatePage() {
                     key={String(value)}
                     className="humi-row"
                     style={{
-                      gap: 8, cursor: 'pointer', padding: '10px 16px',
+                      gap: 8,
+                      cursor: isSPD ? 'pointer' : 'not-allowed',
+                      padding: '10px 16px',
                       borderRadius: 10,
+                      opacity: isSPD ? 1 : 0.55,
                       border: `1.5px solid ${termination.okToRehire === value
                         ? 'var(--color-accent)'
                         : 'var(--color-hairline-soft)'}`,
@@ -520,7 +610,8 @@ export default function TerminatePage() {
                       name="okToRehire"
                       value={String(value)}
                       checked={termination.okToRehire === value}
-                      onChange={() => patch({ okToRehire: value })}
+                      onChange={() => isSPD && patch({ okToRehire: value })}
+                      disabled={!isSPD}
                       style={{ accentColor: 'var(--color-accent)' }}
                       aria-label={label}
                     />

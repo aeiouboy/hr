@@ -13,7 +13,8 @@ describe('T3 #90 — humi-profile-slice v4→v5 migration', () => {
   test('v5 is the current persisted version', async () => {
     // Re-import inside test to ensure slice is initialized in this jsdom run.
     const sliceMod = await import('@/stores/humi-profile-slice');
-    expect(sliceMod.useHumiProfileStore.persist.getOptions().version).toBe(5);
+    // BRD #167: version bumped to 6 for cust_refRelationship relation migration
+    expect(sliceMod.useHumiProfileStore.persist.getOptions().version).toBe(6);
   });
 
   test('migrate v4 → v5 preserves v4 dependents schema verbatim', async () => {

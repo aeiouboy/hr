@@ -24,8 +24,12 @@ import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWi
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
+import PositionLookup from '@/components/admin/PositionLookup'
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
+import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import { PICKLIST_COMPANY } from '@hrms/shared/picklists'
 import type { CompanyId } from '@hrms/shared/picklists'
+import type { PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
 import type { TransferEvent } from '@hrms/shared/types/timeline'
 
@@ -36,7 +40,7 @@ interface TransferMovement {
   targetCompany: string
   /** หน่วยงานปลายทาง — free text for now | BA validation pending — HR Expert May 1 */
   targetBusinessUnit: string
-  /** ตำแหน่งปลายทาง — free text for now | BA validation pending — HR Expert May 1 */
+  /** ตำแหน่งปลายทาง — replaced by PositionLookup (BRD #110) */
   targetPosition: string
   /** สถานที่ปลายทาง — optional | BA validation pending — HR Expert May 1 */
   targetLocation: string
@@ -48,6 +52,8 @@ interface TransferMovement {
   reason: string
   /** หมายเหตุการโอนย้าย — auto-filled "Seniority continuous", admin can edit | BA validation pending — HR Expert May 1 */
   migrationNote: string
+  /** BRD #110: event reason code — SF event 5604 TRN_* group */
+  eventReason: string
 }
 
 interface TransferForm {
@@ -66,6 +72,7 @@ const INITIAL_FORM: TransferForm = {
     costCenter: '',
     reason: '',
     migrationNote: 'Seniority continuous',
+    eventReason: '',
   },
 }
 
@@ -171,13 +178,17 @@ export default function TransferPage() {
 
   const movement = formData.movement
 
+  // BRD #110: PositionLookup replaces free-text targetPosition
+  const [selectedTargetPosition, setSelectedTargetPosition] = useState<PositionCascade | null>(null)
+
   // ── Validation ───────────────────────────────────────────────────────────
   const isValid =
     !!movement.targetCompany &&
     !!movement.targetBusinessUnit &&
-    !!movement.targetPosition &&
+    !!selectedTargetPosition &&
     !!movement.effectiveDate &&
-    movement.effectiveDate >= TODAY
+    movement.effectiveDate >= TODAY &&
+    !!movement.eventReason
 
   // ── State ────────────────────────────────────────────────────────────────
   const [submitted, setSubmitted] = useState(false)
@@ -198,7 +209,9 @@ export default function TransferPage() {
 
   // ── Submit logic ─────────────────────────────────────────────────────────
   const doSubmit = useCallback(() => {
-    if (!employee || !isValid) return
+    if (!employee || !isValid || !selectedTargetPosition) return
+
+    const positionTitle = selectedTargetPosition.titleTh || selectedTargetPosition.code
 
     const event: TransferEvent = {
       id: `evt-tra-${Date.now()}`,
@@ -210,7 +223,7 @@ export default function TransferPage() {
       fromOrgUnit: employee.org_unit,
       toOrgUnit: movement.targetBusinessUnit,
       fromPosition: employee.position_title,
-      toPosition: movement.targetPosition,
+      toPosition: positionTitle,
       notes: movement.reason || undefined,
     }
 
@@ -218,7 +231,7 @@ export default function TransferPage() {
     useEmployees.getState().updateEmployee(empId, {
       company: movement.targetCompany as CompanyId,
       org_unit: movement.targetBusinessUnit,
-      position_title: movement.targetPosition,
+      position_title: positionTitle,
     })
     reset?.()
     setSubmitted(true)
@@ -226,7 +239,7 @@ export default function TransferPage() {
     router.push(
       `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการโอนย้าย — รหัสพนักงานคงเดิม (ต่ออายุงาน)')}`,
     )
-  }, [employee, isValid, movement, empId, append, reset, router, locale])
+  }, [employee, isValid, selectedTargetPosition, movement, empId, append, reset, router, locale])
 
   // ── Not found ────────────────────────────────────────────────────────────
   if (!employee) {
@@ -358,24 +371,30 @@ export default function TransferPage() {
           />
         </div>
 
-        {/* ── ตำแหน่งปลายทาง (required) ── */}
+        {/* ── ตำแหน่งปลายทาง (required) — BRD #110: PositionLookup replaces free-text ── */}
         <div style={{ marginBottom: 20 }}>
-          <label
-            htmlFor="targetPosition"
-            className="text-body font-semibold text-ink"
-            style={{ display: 'block', marginBottom: 6 }}
-          >
-            ตำแหน่งปลายทาง <span style={{ color: 'var(--color-danger)' }}>*</span>
-          </label>
-          <input
+          <PositionLookup
             id="targetPosition"
-            type="text"
-            value={movement.targetPosition}
-            onChange={(e) => patch({ targetPosition: e.target.value })}
-            placeholder="เช่น ผู้จัดการฝ่ายการตลาด"
-            className="humi-input"
-            style={{ maxWidth: 400 }}
-            aria-label="ตำแหน่งปลายทาง"
+            positionMaster={MOCK_POSITION_MASTER}
+            required
+            label="ตำแหน่งปลายทาง"
+            placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+            onSelect={(cascade) => {
+              setSelectedTargetPosition(cascade)
+              patch({ targetPosition: cascade?.code ?? '' })
+            }}
+          />
+        </div>
+
+        {/* ── เหตุผลการโอนย้าย (required) — BRD #110 event 5604 TRN_* group ── */}
+        {/* SF source: jq '.foEventReason[] | select(.event=="5604")' sf-qas-workflow-2026-04-25.json */}
+        <div style={{ marginBottom: 20 }}>
+          <ReasonPicker
+            id="transfer-event-reason"
+            event="5604"
+            value={movement.eventReason || null}
+            onChange={(code) => patch({ eventReason: code })}
+            required
           />
         </div>
 

@@ -22,6 +22,27 @@ export interface OrgUnit {
   company: 'CEN' | 'CRC' | 'CU' | 'CPN' | 'ROBINSON'
   effectiveStartDate: string     // ISO date
   active: boolean
+
+  // ── BRD #3: FODepartment temporal validity (MED) ──────────────────────────
+  // SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].endDate
+  endDate?: string | null       // ISO date — null = no end date (still active)
+
+  // ── BRD #2: FODepartment 5-tier hierarchy fields ─────────────────────────
+  // SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0]
+  costCenter?: string | null    // SF FODepartment.costCenter linkage
+  cust_Dep1?: string | null     // SF cust_Dep1 — tier 1 dept hierarchy
+  cust_Dep2?: string | null     // SF cust_Dep2 — tier 2 dept hierarchy
+  cust_Dep3?: string | null     // SF cust_Dep3 — tier 3 dept hierarchy
+  cust_Dep4?: string | null     // SF cust_Dep4 — tier 4 dept hierarchy
+  cust_SectionGroup?: string | null  // SF cust_SectionGroup — section group
+  cust_section?: string | null       // SF cust_section — section
+
+  // ── BRD #1: FOBusinessUnit custom fields ─────────────────────────────────
+  // SF cite: qas-fields-2026-04-26/sf-qas-FOBusinessUnit-2026-04-26.json#.d.results[0].cust_businessGroup
+  cust_businessGroup?: string | null   // SF cust_businessGroup e.g. "Central Retail Corporation"
+  cust_policyProfile?: string | null   // SF cust_policyProfile e.g. "RBS"
+  cust_toLegalEntity?: string | null   // SF cust_toLegalEntity (FK)
+  cust_toGroup?: string | null         // SF cust_toGroup (FK)
 }
 
 interface OrgUnitsState {

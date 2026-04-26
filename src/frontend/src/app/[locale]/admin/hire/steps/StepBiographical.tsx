@@ -2,6 +2,7 @@
 
 // StepBiographical.tsx — Cluster 2 "Job"
 // BA Personal Info rows 2-17 = 12 fields (all mandatory per BA-EC-SUMMARY.md)
+// Wave 2-A: BRD #12 gender/marital alignment, #13 spouse fields + nativePreferredLang + religion
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
 
 import { useState, useEffect, useCallback } from 'react'
@@ -16,7 +17,28 @@ import {
   PICKLIST_BLOOD_TYPE,
   PICKLIST_MARITAL_STATUS,
   PICKLIST_YES_NO,
+  PICKLIST_RELIGION,
 } from '@hrms/shared/picklists'
+
+// SF-aligned gender options — Female/Male only (SF externalCode: Female/Male; Humi id: F/M)
+// SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender
+// PICKLIST_GENDER uses Humi IDs 'M'/'F'/'X'; filter to M/F only (drop X — no SF counterpart)
+const SF_GENDER_OPTIONS = PICKLIST_GENDER.filter((g) => g.id === 'M' || g.id === 'F')
+
+// SF-aligned marital status — add 'E' (Engaged) which was missing; keep legacy options for compat
+// SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus
+// SF codes: M/E/D/S/N — Humi legacy: SINGLE/MARRIED/DIVORCED/WIDOWED/SEPARATED/N
+const ENGAGED_OPTION = { id: 'E', labelTh: 'คู่หมั้น (Engaged)', labelEn: 'Engaged', sortOrder: 1.5, active: true }
+const MARITAL_OPTIONS = (() => {
+  const base = [...PICKLIST_MARITAL_STATUS]
+  const hasEngaged = base.some((m) => m.id === 'E')
+  if (!hasEngaged) {
+    // Insert after MARRIED (index 1)
+    const marriedIdx = base.findIndex((m) => m.id === 'MARRIED')
+    base.splice(marriedIdx >= 0 ? marriedIdx + 1 : 1, 0, ENGAGED_OPTION)
+  }
+  return base
+})()
 
 export interface StepBiographicalProps {
   onValidChange?: (isValid: boolean) => void
@@ -27,6 +49,8 @@ type FieldErrors = {
   middleNameLocal?: string; nickname?: string; militaryStatus?: string
   gender?: string; nationality?: string; foreigner?: string
   bloodType?: string; maritalStatus?: string; maritalStatusSince?: string
+  spouseNameTh?: string; secondLastName?: string; nativePreferredLang?: string
+  religion?: string
 }
 
 type TouchedState = {
@@ -34,6 +58,8 @@ type TouchedState = {
   middleNameLocal: boolean; nickname: boolean; militaryStatus: boolean
   gender: boolean; nationality: boolean; foreigner: boolean
   bloodType: boolean; maritalStatus: boolean; maritalStatusSince: boolean
+  spouseNameTh: boolean; secondLastName: boolean; nativePreferredLang: boolean
+  religion: boolean
 }
 
 export default function StepBiographical({ onValidChange }: StepBiographicalProps) {
@@ -54,6 +80,16 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   const [maritalStatus,    setMaritalStatus]    = useState(bio.maritalStatus ?? '')
   const [maritalStatusSince,setMaritalStatusSince]= useState(bio.maritalStatusSince ?? '')
   const [attachmentFiles, setAttachmentFiles] = useState<AttachedFile[]>([])
+  // BRD #13: Spouse fields
+  // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName
+  const [spouseNameTh,    setSpouseNameTh]    = useState((bio as Record<string, unknown>).spouseNameTh as string ?? '')
+  const [secondLastName,  setSecondLastName]  = useState((bio as Record<string, unknown>).secondLastName as string ?? '')
+  // BRD #13: nativePreferredLang
+  // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].nativePreferredLang
+  const [nativePreferredLang, setNativePreferredLang] = useState((bio as Record<string, unknown>).nativePreferredLang as string ?? '')
+  // BRD #12 MED: religion
+  // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].customString1
+  const [religion, setReligion] = useState((bio as Record<string, unknown>).religion as string ?? '')
 
   // ── Touched / errors ────────────────────────────────────────────────────────
   const [touched, setTouched] = useState<TouchedState>({
@@ -61,6 +97,8 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
     middleNameLocal: false, nickname: false, militaryStatus: false,
     gender: false, nationality: false, foreigner: false,
     bloodType: false, maritalStatus: false, maritalStatusSince: false,
+    spouseNameTh: false, secondLastName: false, nativePreferredLang: false,
+    religion: false,
   })
   const [errors, setErrors] = useState<FieldErrors>({})
 
@@ -82,6 +120,10 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       bloodType:         bloodType        || undefined,
       maritalStatus:     maritalStatus    || undefined,
       maritalStatusSince:maritalStatusSince || undefined,
+      spouseNameTh:      spouseNameTh     || undefined,
+      secondLastName:    secondLastName   || undefined,
+      nativePreferredLang: nativePreferredLang || undefined,
+      religion:          religion         || undefined,
     })
 
     if (result.success) {
@@ -93,6 +135,17 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         bloodType: bloodType || null, maritalStatus: maritalStatus || null,
         maritalStatusSince: maritalStatusSince || null,
       })
+      // BRD #13: persist spouse/lang fields via direct store update (extra props)
+      // These are not in the original biographical interface but are tracked for SF PerPersonal
+      if (spouseNameTh || secondLastName || nativePreferredLang || religion) {
+        const extra: Record<string, unknown> = {}
+        if (spouseNameTh)       extra.spouseNameTh = spouseNameTh
+        if (secondLastName)     extra.secondLastName = secondLastName
+        if (nativePreferredLang) extra.nativePreferredLang = nativePreferredLang
+        if (religion)           extra.religion = religion
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setStepData('biographical', extra as any)
+      }
       onValidChange?.(true)
     } else {
       const fe: FieldErrors = {}
@@ -106,7 +159,8 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   }, [
     otherTitleTh, firstNameLocal, lastNameLocal, middleNameLocal, nickname,
     militaryStatus, gender, nationality, foreigner, bloodType,
-    maritalStatus, maritalStatusSince, setStepData, onValidChange,
+    maritalStatus, maritalStatusSince, spouseNameTh, secondLastName,
+    nativePreferredLang, religion, setStepData, onValidChange,
   ])
 
   useEffect(() => { validate() }, [validate])
@@ -212,7 +266,9 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('militaryStatus')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 12 — Gender * ─── */}
+      {/* ─── BA Personal Info row 12 — Gender *
+           SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender
+           SF codes: Female / Male only (BRD #12) ─── */}
       <fieldset>
         <label htmlFor="gender" className="humi-label">
           เพศ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
@@ -224,7 +280,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           onBlur={() => touch('gender')}
           className="humi-select w-full">
           <option value="">— เลือกเพศ —</option>
-          {PICKLIST_GENDER.filter((g) => g.active).map((g) => (
+          {SF_GENDER_OPTIONS.filter((g) => g.active).map((g) => (
             <option key={g.id} value={g.id}>{g.labelTh}</option>
           ))}
         </select>
@@ -288,7 +344,9 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('bloodType')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 16 — Marital Status * ─── */}
+      {/* ─── BA Personal Info row 16 — Marital Status *
+           SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus
+           SF codes: M/E/D/S/N — added E (Engaged) which was missing (BRD #12) ─── */}
       <fieldset>
         <label htmlFor="marital-status" className="humi-label">
           สถานภาพสมรส<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
@@ -300,7 +358,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           onBlur={() => touch('maritalStatus')}
           className="humi-select w-full">
           <option value="">— เลือกสถานภาพ —</option>
-          {PICKLIST_MARITAL_STATUS.filter((m) => m.active).map((m) => (
+          {MARITAL_OPTIONS.filter((m) => m.active).map((m) => (
             <option key={m.id} value={m.id}>{m.labelTh}</option>
           ))}
         </select>
@@ -323,6 +381,82 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           onBlur={() => touch('maritalStatusSince')}
           className="humi-input w-full" />
         {errMsg('maritalStatusSince')}
+      </fieldset>
+
+      {/* ─── BRD #13 — secondLastName — นามสกุลเดิม / Previous last name (optional)
+           SF: PerPersonal.secondLastName
+           SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].secondLastName ─── */}
+      <fieldset>
+        <label htmlFor="second-last-name" className="humi-label">
+          นามสกุลเดิม / ชื่อสกุลที่สอง
+        </label>
+        <input id="second-last-name" type="text"
+          placeholder="นามสกุลก่อนสมรส หรือนามสกุลเดิม (ถ้ามี)"
+          value={secondLastName}
+          onChange={(e) => setSecondLastName(e.target.value)}
+          onBlur={() => touch('secondLastName')}
+          className="humi-input w-full" />
+        {errMsg('secondLastName')}
+      </fieldset>
+
+      {/* ─── BRD #13 — spouseNameTh — ชื่อคู่สมรส (ภาษาไทย) (optional when married/engaged)
+           SF: PerPersonal.partnerName (customString2=firstNameTH, customString3=lastNameTH)
+           SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName ─── */}
+      {(maritalStatus === 'MARRIED' || maritalStatus === 'M' || maritalStatus === 'E') && (
+        <fieldset>
+          <label htmlFor="spouse-name-th" className="humi-label">
+            ชื่อ-นามสกุลคู่สมรส (ภาษาไทย)
+          </label>
+          <input id="spouse-name-th" type="text"
+            placeholder="ชื่อ-นามสกุลคู่สมรส (ภาษาไทย)"
+            value={spouseNameTh}
+            onChange={(e) => setSpouseNameTh(e.target.value)}
+            onBlur={() => touch('spouseNameTh')}
+            className="humi-input w-full" />
+          {errMsg('spouseNameTh')}
+          <p className="mt-1 text-xs text-ink-soft">
+            SF: PerPersonal.partnerName / customString2 (ชื่อ) + customString3 (นามสกุล)
+          </p>
+        </fieldset>
+      )}
+
+      {/* ─── BRD #13 — nativePreferredLang — ภาษาแม่/ภาษาที่ต้องการใช้ (optional)
+           SF: PerPersonal.customString5 = nativePreferredLang code
+           SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].nativePreferredLang ─── */}
+      <fieldset>
+        <label htmlFor="native-preferred-lang" className="humi-label">
+          ภาษาแม่ / ภาษาที่ต้องการสื่อสาร
+        </label>
+        <input id="native-preferred-lang" type="text"
+          placeholder="เช่น ภาษาไทย, English (SF code)"
+          value={nativePreferredLang}
+          onChange={(e) => setNativePreferredLang(e.target.value)}
+          onBlur={() => touch('nativePreferredLang')}
+          className="humi-input w-full" />
+        {errMsg('nativePreferredLang')}
+        <p className="mt-1 text-xs text-ink-soft">
+          SF: PerPersonal.nativePreferredLang (customString5)
+        </p>
+      </fieldset>
+
+      {/* ─── BRD #12 MED — religion — ศาสนา (optional)
+           SF: PerPersonal.customString1 = RELIGION_THA code (29/24/99/46/43/36)
+           SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].customString1 ─── */}
+      <fieldset>
+        <label htmlFor="religion" className="humi-label">
+          ศาสนา
+        </label>
+        <select id="religion"
+          value={religion}
+          onChange={(e) => setReligion(e.target.value)}
+          onBlur={() => touch('religion')}
+          className="humi-select w-full">
+          <option value="">— เลือกศาสนา (ไม่บังคับ) —</option>
+          {PICKLIST_RELIGION.filter((r) => r.active).map((r) => (
+            <option key={r.id} value={r.id}>{r.labelTh}</option>
+          ))}
+        </select>
+        {errMsg('religion')}
       </fieldset>
 
       {/* ─── BA Personal Info row 18 — Attachment (optional) ─── */}

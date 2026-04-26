@@ -18,7 +18,7 @@ const validIdentity = {
   regionOfBirth:      '',
   age:                36,
   employeeId:         'EMP-00001',
-  nationalIdCardType: 'NATIONAL_ID' as const,
+  nationalIdCardType: 'PASSPORT' as const,   // PASSPORT skips mod-11 (BRD #14); use realistic fixture
   country:            'TH',
   nationalId:         '1234567890123',
   issueDate:          null,
@@ -62,11 +62,12 @@ describe('stepIdentitySchema — cross-field DOB < HireDate', () => {
     }
   })
 
-  it('PASS: hireDate มากกว่า dateOfBirth 1 วัน — boundary condition', () => {
+  it('PASS: hireDate มากกว่า dateOfBirth — boundary condition (recent date to pass BRD #101 ≤90d gate)', () => {
+    // hireDate must be: (a) > dateOfBirth AND (b) not more than 90 days in the past (BRD #101)
     const result = stepIdentitySchema.safeParse({
       ...validIdentity,
-      hireDate:    '1990-01-16',
-      dateOfBirth: '1990-01-15',
+      hireDate:    '2026-05-01',   // recent date within 90d window
+      dateOfBirth: '1990-01-15',  // well before hireDate
     })
     expect(result.success).toBe(true)
   })

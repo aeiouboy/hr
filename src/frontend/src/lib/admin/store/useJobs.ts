@@ -20,6 +20,14 @@ export interface Job {
   family: string    // "HR" | "Engineering" | "Procurement" | "Sales" | "Operations" | "Finance"
   level: 'JUNIOR' | 'MID' | 'SENIOR' | 'LEAD' | 'MANAGER' | 'DIRECTOR'
   active: boolean
+
+  // ── BRD #4: FOJobCode classification fields ────────────────────────────────
+  // SF cite: qas-fields-2026-04-26/sf-qas-FOJobCode-2026-04-26.json#.d.results[0].cust_JGMin
+  cust_JGMin?: string | null      // SF cust_JGMin — Job Grade minimum
+  cust_JGMax?: string | null      // SF cust_JGMax — Job Grade maximum
+  cust_bandMatching?: string | null  // SF cust_bandMatching — band matching code
+  cust_jobType?: string | null    // SF cust_jobType — job type classification
+  jobFunction?: string | null     // SF jobFunction — job function code (e.g. FAA, EMA, CSA)
 }
 
 interface JobsState {

@@ -22,6 +22,9 @@ import {
   type HumiOrgTone,
 } from '@/lib/humi-mock-data';
 import { useOrgChartStore } from '@/stores/humi-orgchart-slice';
+// BRD #8, #9, #11: bind department detail panel to FODepartment store (OrgUnits)
+// SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json
+import { useOrgUnits } from '@/lib/admin/store/useOrgUnits';
 
 // ════════════════════════════════════════════════════════════
 // Humi /org-chart (A13 — OVERWRITE)
@@ -146,8 +149,20 @@ export default function OrgChartPage() {
   // Zoom remains local — ephemeral pan/zoom state per b1 spec (no persist)
   const [zoom, setZoom] = useState(1);
 
+  // BRD #8, #9, #11: FODepartment store binding — find matching OrgUnit by person.department
+  // Maps selected person's department string to FODepartment data (costCenter, hierarchy, status, dates)
+  const allOrgUnits = useOrgUnits((s) => s.all);
+
   const resolvedId = selectedId ?? 'marcus';
   const person = HUMI_ORG_PEOPLE[resolvedId] ?? HUMI_ORG_PEOPLE.marcus;
+
+  // Find FODepartment OrgUnit for selected person by matching nameTh or nameEn to person.department
+  const matchedOrgUnit = useMemo(() => {
+    const dept = person.department.split(' · ')[0].trim();
+    return allOrgUnits.find(
+      (u) => u.nameTh === dept || u.nameEn === dept || u.nameTh.includes(dept) || dept.includes(u.nameTh)
+    ) ?? null;
+  }, [allOrgUnits, person.department]);
   const manager = person.managerId
     ? HUMI_ORG_PEOPLE[person.managerId]
     : null;
@@ -450,15 +465,20 @@ export default function OrgChartPage() {
                 </ul>
               </Card>
               <Card size="md">
+                {/* BRD #8, #9, #11: FODepartment fields bound to OrgUnits store */}
+                {/* SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json */}
                 <CardEyebrow>ข้อมูลการจ้างงาน</CardEyebrow>
                 <dl className="mt-3 flex flex-col gap-2.5">
                   {(
                     [
                       ['ประเภท', person.employmentType],
                       ['ระดับ', person.grade],
-                      ['ศูนย์ต้นทุน', person.costCenter],
+                      // BRD #8: costCenter from FODepartment store (live) or fallback to person mock
+                      ['ศูนย์ต้นทุน', matchedOrgUnit?.costCenter ?? person.costCenter],
                       ['เริ่มงาน', person.hiredOn],
                       ['ผลตอบแทน', person.compensation],
+                      // BRD #8: parentUnit from FODepartment store (live OrgUnit hierarchy)
+                      ['หน่วยงานต้นสังกัด', matchedOrgUnit?.parentId ?? person.parentUnit],
                     ] as const
                   )
                     .filter(([, v]) => !!v)
@@ -470,6 +490,29 @@ export default function OrgChartPage() {
                       />
                     ))}
                 </dl>
+                {/* BRD #9: effective-date + status A/I indicator from FODepartment store */}
+                {(matchedOrgUnit || person.effectiveStartDate || person.unitStatus) && (
+                  <div className="mt-3 flex flex-wrap gap-2 border-t border-hairline pt-3">
+                    {(matchedOrgUnit?.effectiveStartDate ?? person.effectiveStartDate) && (
+                      <span className="text-small text-ink-muted">
+                        มีผลตั้งแต่:{' '}
+                        {new Date(matchedOrgUnit?.effectiveStartDate ?? person.effectiveStartDate!).toLocaleDateString('th-TH', {
+                          year: 'numeric', month: 'short', day: 'numeric',
+                        })}
+                      </span>
+                    )}
+                    {/* BRD #9: status A/I from FODepartment store .active field */}
+                    <span className={`humi-tag ${(matchedOrgUnit?.active ?? person.unitStatus === 'A') ? 'humi-tag--accent' : ''}`}>
+                      {(matchedOrgUnit?.active ?? person.unitStatus !== 'I') ? 'Active' : 'Inactive'}
+                    </span>
+                    {/* BRD #11: bilingual Thai department name from FODepartment store */}
+                    {(matchedOrgUnit?.nameTh ?? person.nameTh) && (
+                      <span className="text-small text-ink-soft">
+                        {matchedOrgUnit?.nameTh ?? person.nameTh}
+                      </span>
+                    )}
+                  </div>
+                )}
               </Card>
             </div>
 

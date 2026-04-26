@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { useHireWizard, sliceValid } from '@/lib/admin/store/useHireWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
+import { useHrbpRoster } from '@/lib/admin/store/hrbpRoster'
 import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { ClipboardCheck, Check, AlertCircle, UserCheck } from 'lucide-react'
 
@@ -43,7 +44,9 @@ export default function ClusterReview() {
   const lastNameEnReview   = rev.lastNameEnReview    || id.lastNameEn    || ''
   const middleNameEnReview = rev.middleNameEnReview  || id.middleNameEn  || ''
 
-  // ── HRBP assignee — audit #14 stub (no store wiring at mockup) ──────────
+  // ── HRBP assignee — BRD #109: read from seeded roster (useHrbpRoster) ──────
+  // TODO Sprint 3: replace roster with real GET /hrbp-roster backend call
+  const hrbpRoster = useHrbpRoster()
   const [hrbpAssignee, setHrbpAssignee] = useState('')
   const [notifyHrbp, setNotifyHrbp]     = useState(true)
 
@@ -112,11 +115,11 @@ export default function ClusterReview() {
               onChange={(e) => setHrbpAssignee(e.target.value)}
               className="humi-select w-full">
               <option value="">— เลือก HRBP —</option>
-              <option value="HRBP-001">คุณสิริพร จันทร์แดง (HRBP — สำนักงานใหญ่)</option>
-              <option value="HRBP-002">คุณธนพล ศิริวงศ์ (HRBP — ภาคเหนือ)</option>
-              <option value="HRBP-003">คุณกมลรัตน์ บุญรัตน์ (HRBP — ภาคกลาง)</option>
-              <option value="HRBP-004">คุณอนุชา ทองดี (HRBP — ภาคใต้)</option>
-              <option value="HRBP-005">คุณวรเมธ หิรัญรัตน์ (HRBP — สาขาต่างประเทศ)</option>
+              {hrbpRoster.map((h) => (
+                <option key={h.id} value={h.id}>
+                  {h.displayName} (HRBP — {h.businessUnit})
+                </option>
+              ))}
             </select>
           </fieldset>
 

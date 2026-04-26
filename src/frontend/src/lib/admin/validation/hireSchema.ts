@@ -1,6 +1,8 @@
 // hireSchema.ts — Zod schemas สำหรับ validate ข้อมูลแต่ละ step ของ Hire Wizard
 // D2 S1: ขยายจาก 13 → 37 BA fields; cross-field DOB < HireDate เป็น zod refine
+// Wave 2-A: #14 mod-11, #101 hireDate gate, #12 gender/marital alignment, #15/#16 email/phone
 import { z } from 'zod'
+import { validateThaiNationalIdMod11, requiresThaiMod11 } from './thaiNationalId'
 
 // ─── Age helper (shared across schema refine + StepIdentity display) ─────────
 // คำนวณอายุเต็มปี ณ วันนี้ จาก dateOfBirth (ISO yyyy-mm-dd). null เมื่อ DOB ว่างหรืออยู่ในอนาคต.
@@ -30,6 +32,8 @@ export const SALUTATION_EN_IDS = ['MR', 'MRS', 'MS', 'DR'] as const
 export type SalutationEnId = typeof SALUTATION_EN_IDS[number]
 
 // National ID Card Type — BA row 13, Picklist ID: idType_ID_Card
+// SF cite: qas-fields-2026-04-26/sf-qas-PerNationalId-2026-04-26.json#.d.results[0].cardType = "tni2"
+// Humi keeps human-readable IDs; SF mapping is in thaiNationalId.ts SF_CARD_TYPE_MAP
 export const ID_CARD_TYPE_IDS = ['NATIONAL_ID', 'PASSPORT', 'WORK_PERMIT', 'ALIEN_ID', 'OTHER'] as const
 export type IdCardTypeId = typeof ID_CARD_TYPE_IDS[number]
 
@@ -37,11 +41,24 @@ export type IdCardTypeId = typeof ID_CARD_TYPE_IDS[number]
 export const EMPLOYEE_CLASSES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] as const
 export type EmployeeClassId = typeof EMPLOYEE_CLASSES[number]
 
-// Gender — BA Personal Info row 12, PICKLIST_GENDER (Phase 0 F2)
-export const GENDER_IDS = ['M', 'F', 'X'] as const
+// Gender — BA Personal Info row 12
+// SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender
+// SF QAS has exactly 2 codes: externalCode='Female' / 'Male'.
+// Humi uses internal IDs 'M'/'F' (PICKLIST_GENDER.id). 'X' has no SF counterpart — dropped from enum.
+// SF-to-Humi mapping: Female→'F', Male→'M'. Schema enforces M/F only (was M/F/X).
+export const GENDER_IDS = ['M', 'F'] as const
 
 // Foreigner — BA Personal Info row 14, Picklist: Yes/No (PICKLIST_YES_NO D1.3)
 export const YES_NO_IDS = ['YES', 'NO'] as const
+
+// Marital status SF codes — 5 codes
+// SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus
+// M=Married, E=Engaged (added — was missing), D=Divorced, S=Single, N=Common-law/Unregistered
+// Humi kept WIDOWED/SEPARATED as extensions; these are NOT in SF QAS and are kept as local extras.
+// Schema accepts SF codes + local extras to remain backward-compatible with existing drafts.
+export const MARITAL_STATUS_SF_CODES = ['M', 'E', 'D', 'S', 'N'] as const
+// 'SINGLE' (legacy) maps to SF 'S'; 'MARRIED'→'M'; 'DIVORCED'→'D'; 'WIDOWED'/'SEPARATED' are local only
+export const MARITAL_STATUS_SINGLE_EQUIVALENTS = ['SINGLE', 'S'] as const
 
 // ─── Step schemas ─────────────────────────────────────────────────────────────
 
@@ -77,7 +94,9 @@ export const stepIdentitySchema = z.object({
   nationalIdCardType: z.enum(ID_CARD_TYPE_IDS, { required_error: 'กรุณาเลือกประเภทบัตร' }),
   /** BA row 14 — Country * */
   country: z.string().min(1, 'กรุณาเลือกประเทศ'),
-  /** BA row 15 — National ID * */
+  /** BA row 15 — National ID *
+   * SF cite: qas-fields-2026-04-26/sf-qas-PerNationalId-2026-04-26.json#.d.results[0].nationalId
+   * mod-11 checksum applied when cardType = NATIONAL_ID (SF tni2) via .refine() below */
   nationalId: z.string().min(1, 'กรุณาระบุเลขบัตร'),
   /** BA row 16 — Issue Date — optional */
   issueDate: z.string().optional().nullable(),
@@ -114,6 +133,37 @@ export const stepIdentitySchema = z.object({
     path: ['dateOfBirth'],
   },
 )
+.refine(
+  (data) => {
+    // BRD #101: hireDate backdate ≤90 days
+    // SF cite: qas-fields-2026-04-26/sf-qas-EmpEmployment-2026-04-26.json#.d.results[0].startDate
+    if (!data.hireDate) return true
+    const hd = new Date(data.hireDate)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const diffMs = today.getTime() - hd.getTime()
+    const diffDays = Math.floor(diffMs / 86400000)
+    return diffDays <= 90 // past: must be ≤90 days ago
+  },
+  {
+    message: 'วันที่เริ่มงานย้อนหลังได้ไม่เกิน 90 วัน (BRD #101) — ถ้าต้องการย้อนหลังมากกว่า กรุณาติดต่อ SPD',
+    path: ['hireDate'],
+  },
+)
+.refine(
+  (data) => {
+    // BRD #14: Thai National ID mod-11 checksum
+    // SF cite: qas-fields-2026-04-26/sf-qas-PerNationalId-2026-04-26.json#.d.results[0].cardType = "tni2"
+    // Only applies when cardType = NATIONAL_ID (SF: tni2). Passport/work-permit etc. skip.
+    if (!requiresThaiMod11(data.nationalIdCardType)) return true
+    if (!data.nationalId) return true // empty handled by .min(1) above
+    return validateThaiNationalIdMod11(data.nationalId)
+  },
+  {
+    message: 'เลขบัตรประชาชนไม่ถูกต้อง (checksum mod-11 ไม่ผ่าน) / National ID checksum invalid',
+    path: ['nationalId'],
+  },
+)
 
 export type StepIdentityData = z.infer<typeof stepIdentitySchema>
 
@@ -133,7 +183,9 @@ export const stepBiographicalSchema = z.object({
   nickname: z.string().min(1, 'กรุณาระบุชื่อเล่น'),
   /** BA Personal Info row 11 — Military Status * */
   militaryStatus: z.string({ required_error: 'กรุณาเลือกสถานะทางทหาร' }).min(1),
-  /** BA Personal Info row 12 — Gender * */
+  /** BA Personal Info row 12 — Gender *
+   * SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender
+   * SF codes: Female / Male only */
   gender: z.enum(GENDER_IDS, { required_error: 'กรุณาเลือกเพศ' }),
   /** BA Personal Info row 13 — Nationality * */
   nationality: z.string({ required_error: 'กรุณาเลือกสัญชาติ' }).min(1),
@@ -144,13 +196,43 @@ export const stepBiographicalSchema = z.object({
   /** BA Personal Info row 16 — Marital Status * */
   maritalStatus: z.string({ required_error: 'กรุณาเลือกสถานภาพสมรส' }).min(1),
   /** BA Personal Info row 17 — Marital Status Since — conditional:
-   *  required when maritalStatus ≠ SINGLE, omitted for SINGLE (BRD-BA-SF-AUDIT Finding #7)
-   *  Fix: was unconditionally .min(1) which blocked the step for every single employee */
+   *  required when maritalStatus ≠ SINGLE/S, omitted for SINGLE/S (BRD-BA-SF-AUDIT Finding #7)
+   *  SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus */
   maritalStatusSince: z.string().optional(),
+
+  // ── BRD #13: Spouse fields (PerPersonal customString2/3/10/11 + partnerName + secondLastName) ──
+  // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName
+  /** PerPersonal.partnerName — คู่สมรสชื่อ (ภาษาไทย) / Thai spouse first name */
+  spouseNameTh: z.string().optional(),
+  /** PerPersonal.customString2 — คู่สมรสชื่อ (ภาษาไทย) (alt field) */
+  spouseFirstNameTh: z.string().optional(),
+  /** PerPersonal.customString3 — คู่สมรสนามสกุล (ภาษาไทย) */
+  spouseLastNameTh: z.string().optional(),
+  /** PerPersonal.customString10 — Spouse first name (English) */
+  spouseFirstNameEn: z.string().optional(),
+  /** PerPersonal.customString11 — Spouse last name (English) */
+  spouseLastNameEn: z.string().optional(),
+  /** PerPersonal.secondLastName — นามสกุลเดิม / Previous/Second last name */
+  secondLastName: z.string().optional(),
+
+  // ── BRD #13: nativePreferredLang ──
+  // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].nativePreferredLang
+  /** PerPersonal.customString5 = nativePreferredLang code (e.g. "2427" = ภาษาไทย) */
+  nativePreferredLang: z.string().optional(),
+
+  // ── BRD #12 MED: religion field ──
+  // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].customString1
+  // RELIGION_THA picklist: 6 codes (29/24/99/46/43/36)
+  /** PerPersonal.customString1 = religion code */
+  religion: z.string().optional(),
 })
 .superRefine((data, ctx) => {
-  // Fix per AUDIT #7 — maritalStatusSince required only when maritalStatus ≠ SINGLE
-  if (data.maritalStatus !== 'SINGLE' && !data.maritalStatusSince) {
+  // Fix per AUDIT #7 — maritalStatusSince required only when maritalStatus ≠ SINGLE/S
+  // MARITAL_STATUS_SINGLE_EQUIVALENTS: ['SINGLE', 'S'] covers both legacy and SF codes
+  const isSingle = MARITAL_STATUS_SINGLE_EQUIVALENTS.includes(
+    data.maritalStatus as typeof MARITAL_STATUS_SINGLE_EQUIVALENTS[number]
+  )
+  if (!isSingle && !data.maritalStatusSince) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'กรุณาระบุวันที่เปลี่ยนสถานภาพสมรส (ยกเว้นโสด)',

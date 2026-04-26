@@ -127,6 +127,9 @@ interface FormData {
     pfServiceDate: string
     dvtPreviousId: string
     cgPreviousEmployeeId: string
+    // BRD #23, #30: employeeGroup + employeeSubGroup (SF EmpJob.employeeGroup/.employeeSubGroup)
+    employeeGroup?: string
+    employeeSubGroup?: string
   }
   nationalId:   { value: string }
   personal:     { addressLine1: string }
@@ -155,7 +158,14 @@ interface FormData {
     timeProfile: string
     timeRecordingVariant: string
   }
-  compensation: { baseSalary: number | null }
+  compensation: {
+    baseSalary: number | null
+    // BRD #27: payGroup — SF EmpCompensation.payGroup (8 codes QA/QF/QG/RA/SA/SI/TA/UA)
+    payGroup?: string
+    // BRD #96: currency defaults to THB (THA → THB)
+    currency?: string
+    payFrequency?: string
+  }
 }
 
 const initialFormData: FormData = {

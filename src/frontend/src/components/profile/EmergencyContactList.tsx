@@ -13,15 +13,20 @@ import { ContactArrayEditor } from './ContactArrayEditor';
 import type { EmergencyContactRow, PhoneEntry } from '@/stores/humi-profile-slice';
 
 // ── Relation options ───────────────────────────────────────────────────────────
+// SF source: cust_refRelationship picklist (7 codes)
+// Cite: sf-extract/qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json
+// optionIds: Father=2403, Mother=2404, Spouse=2407, Child=2402, Brother=2401, Sister=2406, Other=2405
+// Note: SF th_TH labels in QAS return English text — Thai labels derived from externalCode semantics.
 
-const RELATION_OPTIONS = [
-  'บิดา',
-  'มารดา',
-  'คู่สมรส',
-  'บุตร',
-  'พี่น้อง',
-  'อื่นๆ',
-] as const;
+const RELATION_OPTIONS: Array<{ externalCode: string; labelTh: string; labelEn: string }> = [
+  { externalCode: 'cust_refRelationship_Father',  labelTh: 'บิดา',    labelEn: 'Father' },
+  { externalCode: 'cust_refRelationship_Mother',  labelTh: 'มารดา',   labelEn: 'Mother' },
+  { externalCode: 'cust_refRelationship_Spouse',  labelTh: 'คู่สมรส', labelEn: 'Spouse' },
+  { externalCode: 'cust_refRelationship_Child',   labelTh: 'บุตร',    labelEn: 'Child' },
+  { externalCode: 'cust_refRelationship_Brother', labelTh: 'พี่ชาย/น้องชาย', labelEn: 'Brother' },
+  { externalCode: 'cust_refRelationship_Sister',  labelTh: 'พี่สาว/น้องสาว', labelEn: 'Sister' },
+  { externalCode: 'cust_refRelationship_Other',   labelTh: 'อื่นๆ',  labelEn: 'Other' },
+];
 
 // ── Validation helpers (exported for /profile/me save-button enable) ───────────
 
@@ -169,8 +174,8 @@ export function EmergencyContactList({
                 >
                   <option value="">— เลือกความสัมพันธ์ —</option>
                   {RELATION_OPTIONS.map((rel) => (
-                    <option key={rel} value={rel}>
-                      {rel}
+                    <option key={rel.externalCode} value={rel.externalCode}>
+                      {rel.labelTh} ({rel.labelEn})
                     </option>
                   ))}
                 </select>

@@ -20,6 +20,11 @@ export interface TeamMember {
  status:'active' |'on-leave' |'probation';
  joinDate: string;
  probationEnd?: string;
+ // BRD #176: PerPersonal fields visible within HRBP scope
+ // SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json
+ religion?: string;
+ nationality?: string;
+ nativePreferredLang?: string;
 }
 
 export interface PendingApproval {

@@ -2,6 +2,10 @@
 
 // StepEmployeeInfo.tsx — Step 4: ข้อมูลพนักงาน
 // Fields: employeeClass dropdown A-H — required
+// BRD #23, #30: employeeGroup + employeeSubGroup pickers (separate from employeeClass)
+//   SF source: EmpJob.employeeGroup, EmpJob.employeeSubGroup
+//   jq '.d.results[0] | {employeeClass, employeeGroup, employeeSubGroup}' sf-qas-EmpJob-2026-04-26.json
+//   Both fields exist in SF schema; values null in QAS sample — using standard SAP EG/ESG codes
 // Area C: Employment Details (originalStartDate, seniorityStartDate, retirementDate, pfServiceDate, dvtPreviousId, cgPreviousEmployeeId, age Y/M/D)
 // Labels verbatim จาก spec Appendix 3 (C8: ห้าม invent)
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
@@ -9,6 +13,24 @@ import { useState, useEffect, useCallback } from 'react'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepEmployeeInfoSchema, EMPLOYEE_CLASSES } from '@/lib/admin/validation/hireSchema'
 import { PICKLIST_EMPLOYEE_CLASS } from '@hrms/shared/picklists'
+
+// SF EmpJob.employeeGroup — standard SAP codes (QAS values null; using standard EG codes)
+// SF source: EmpJob entity schema — employeeGroup field
+const PICKLIST_EMPLOYEE_GROUP = [
+  { id: '1', labelTh: '1 — พนักงานประจำ (Active)', active: true },
+  { id: '2', labelTh: '2 — พนักงานชั่วคราว (Temporary)', active: true },
+  { id: '3', labelTh: '3 — พนักงานนอกเวลา (Part-time)', active: true },
+] as const
+
+// SF EmpJob.employeeSubGroup — standard SAP codes (QAS values null; using standard ESG codes)
+// SF source: EmpJob entity schema — employeeSubGroup field
+const PICKLIST_EMPLOYEE_SUBGROUP = [
+  { id: 'U0', labelTh: 'U0 — Monthly-paid Exempt', active: true },
+  { id: 'U1', labelTh: 'U1 — Monthly-paid Non-exempt', active: true },
+  { id: 'U2', labelTh: 'U2 — Daily-paid', active: true },
+  { id: 'U3', labelTh: 'U3 — Hourly-paid', active: true },
+  { id: 'U4', labelTh: 'U4 — Contracted', active: true },
+] as const
 
 export interface StepEmployeeInfoProps {
   onValidChange?: (isValid: boolean) => void
@@ -38,6 +60,8 @@ function calcRetirementDate(dob: string): string {
 export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProps) {
   const { formData, setStepData } = useHireWizard()
   const [employeeClass, setEmployeeClass] = useState<string>(formData.employeeInfo.employeeClass ?? '')
+  const [employeeGroup, setEmployeeGroup] = useState<string>((formData.employeeInfo as Record<string,unknown>).employeeGroup as string ?? '')
+  const [employeeSubGroup, setEmployeeSubGroup] = useState<string>((formData.employeeInfo as Record<string,unknown>).employeeSubGroup as string ?? '')
   const [touched, setTouched]             = useState(false)
   const [error, setError]                 = useState<string | undefined>()
 
@@ -67,6 +91,11 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   )
 
   useEffect(() => { validate(employeeClass) }, [employeeClass, validate])
+
+  // Sync employeeGroup/SubGroup to store (BRD #23, #30)
+  useEffect(() => {
+    setStepData('employeeInfo', { employeeGroup, employeeSubGroup })
+  }, [employeeGroup, employeeSubGroup, setStepData])
 
   // Sync Employment Details to store
   useEffect(() => {
@@ -106,6 +135,46 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
         {touched && error && (
           <p id="eclass-error" role="alert" className="mt-1 text-xs text-warning">{error}</p>
         )}
+      </fieldset>
+
+      {/* กลุ่มพนักงาน — BRD #23 — SF EmpJob.employeeGroup (required for payroll classification) */}
+      {/* SF source: jq '.d.results[0].employeeGroup' sf-qas-EmpJob-2026-04-26.json */}
+      <fieldset>
+        <label htmlFor="employee-group" className="humi-label">
+          กลุ่มพนักงาน (Employee Group)
+        </label>
+        <select
+          id="employee-group"
+          value={employeeGroup}
+          onChange={(e) => setEmployeeGroup(e.target.value)}
+          className="humi-select w-full"
+        >
+          <option value="">— เลือกกลุ่มพนักงาน —</option>
+          {PICKLIST_EMPLOYEE_GROUP.filter((item) => item.active).map((item) => (
+            <option key={item.id} value={item.id}>{item.labelTh}</option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-ink-faint">ใช้สำหรับการจำแนกเพื่อ payroll — SF EmpJob.employeeGroup</p>
+      </fieldset>
+
+      {/* กลุ่มย่อยพนักงาน — BRD #30 — SF EmpJob.employeeSubGroup (required for payroll classification) */}
+      {/* SF source: jq '.d.results[0].employeeSubGroup' sf-qas-EmpJob-2026-04-26.json */}
+      <fieldset>
+        <label htmlFor="employee-subgroup" className="humi-label">
+          กลุ่มย่อยพนักงาน (Employee Sub-Group)
+        </label>
+        <select
+          id="employee-subgroup"
+          value={employeeSubGroup}
+          onChange={(e) => setEmployeeSubGroup(e.target.value)}
+          className="humi-select w-full"
+        >
+          <option value="">— เลือกกลุ่มย่อยพนักงาน —</option>
+          {PICKLIST_EMPLOYEE_SUBGROUP.filter((item) => item.active).map((item) => (
+            <option key={item.id} value={item.id}>{item.labelTh}</option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-ink-faint">ใช้กำหนดรูปแบบการจ่ายเงิน — SF EmpJob.employeeSubGroup</p>
       </fieldset>
 
       {/* ── Employment Details (Area C — SF Image 15) ──────────────────────── */}
