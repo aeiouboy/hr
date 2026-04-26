@@ -1,6 +1,9 @@
-// lib/demo-users.ts — single source of truth for 5 demo personas.
+// lib/demo-users.ts — single source of truth for 9 demo personas:
+//   5 generic-role logins (admin/spd/hrbp/manager/employee)
+//   4 SF-canonical persona names (Ken/Apinya/Worawee/Rungrote — T7 #91 follow-up)
+//     mapped to RBAC-MATRIX-V2-2026-04-26 probe identities.
 // Consumed by /login (form submit) and TopbarPersonaSwitcher (in-session
-// role swap so Ken can walk the approval chain without logging out).
+// role swap — admin@ acts as view-as super-user per option C from session).
 
 import type { Role } from '@/lib/rbac';
 
@@ -48,15 +51,50 @@ export const DEMO_USERS: Record<string, DemoUser> = {
     password: 'employee2026',
     roles: ['employee'],
   },
+
+  // T7 — 4 SF-canonical personas from RBAC V2 probe (sf-rbac-probe-{name}-V2.json)
+  'ken@humi.test': {
+    id: 'KEN001',
+    name: 'จงรักษ์ ทานากะ (HR Admin)',
+    email: 'ken@humi.test',
+    password: 'ken2026',
+    roles: ['hr_admin', 'employee'],
+  },
+  'apinya@humi.test': {
+    id: 'APN001',
+    name: 'อภิญญา (HRBP — BU2)',
+    email: 'apinya@humi.test',
+    password: 'apinya2026',
+    roles: ['hrbp', 'employee'],
+  },
+  'worawee@humi.test': {
+    id: 'WRW001',
+    name: 'วรวี (SPD)',
+    email: 'worawee@humi.test',
+    password: 'worawee2026',
+    roles: ['spd', 'employee'],
+  },
+  'rungrote@humi.test': {
+    id: 'RNG001',
+    name: 'รุ่งโรจน์ (Manager — Finance)',
+    email: 'rungrote@humi.test',
+    password: 'rungrote2026',
+    roles: ['manager', 'employee'],
+  },
 };
 
-// Order used by the switcher UI — employee first (common target), admin last.
+// Order used by the switcher UI — employee first (common target), then SF-canonical, admin last.
 export const PERSONA_ORDER: Array<keyof typeof DEMO_USERS> = [
   'employee@humi.test',
   'manager@humi.test',
   'hrbp@humi.test',
   'spd@humi.test',
   'admin@humi.test',
+  // T7 — SF-canonical (per RBAC V2 matrix)
+  'rungrote@humi.test',
+  'apinya@humi.test',
+  'worawee@humi.test',
+  'ken@humi.test',
 ];
 
 export const PERSONA_BADGE: Record<string, { label: string; tone: string }> = {
@@ -65,6 +103,11 @@ export const PERSONA_BADGE: Record<string, { label: string; tone: string }> = {
   'hrbp@humi.test':     { label: 'HRBP',     tone: 'humi-tag--butter' },
   'manager@humi.test':  { label: 'Manager',  tone: 'humi-tag--sage' },
   'employee@humi.test': { label: 'Employee', tone: 'humi-tag' },
+  // T7 — SF-canonical badges
+  'ken@humi.test':      { label: 'Ken (HR Admin)',    tone: 'humi-tag--ink' },
+  'apinya@humi.test':   { label: 'Apinya (HRBP)',     tone: 'humi-tag--butter' },
+  'worawee@humi.test':  { label: 'Worawee (SPD)',     tone: 'humi-tag--accent' },
+  'rungrote@humi.test': { label: 'Rungrote (Manager)', tone: 'humi-tag--sage' },
 };
 
 // Role-priority landing table — shared with login.
@@ -80,7 +123,7 @@ const ROLE_LANDING: Array<[Role, string]> = [
   ['hr_manager', '/admin'],
   ['spd', '/spd/inbox'],
   ['hrbp', '/admin/employees'],  // HRBP uses admin direct-edit path
-  ['manager', '/home'],            // Manager has no personal-info workflow
+  ['manager', '/manager-dashboard'], // T7 — Manager lands on dashboard (was /home)
   ['employee', '/home'],
 ];
 

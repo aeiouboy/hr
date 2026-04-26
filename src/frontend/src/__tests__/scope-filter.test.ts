@@ -133,6 +133,12 @@ describe('T6 — resolveCurrentEmpId', () => {
     expect(resolveCurrentEmpId('manager@humi.test')).toBe('emp-002');
     expect(resolveCurrentEmpId('employee@humi.test')).toBe('emp-003');
   });
+  test('T7 — 4 SF-canonical logins resolve correctly', () => {
+    expect(resolveCurrentEmpId('ken@humi.test')).toBe('emp-005');       // Ken — HR Admin
+    expect(resolveCurrentEmpId('apinya@humi.test')).toBe('emp-007');    // Apinya — HRBP
+    expect(resolveCurrentEmpId('worawee@humi.test')).toBe('emp-001');   // Worawee — SPD
+    expect(resolveCurrentEmpId('rungrote@humi.test')).toBe('emp-002');  // Rungrote — Manager
+  });
   test('unknown email → null', () => {
     expect(resolveCurrentEmpId('stranger@humi.test')).toBeNull();
     expect(resolveCurrentEmpId(null)).toBeNull();

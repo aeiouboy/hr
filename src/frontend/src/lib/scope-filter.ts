@@ -106,13 +106,18 @@ export function countDirectReports(
   return allEmployees.filter((e) => e.managerId === empId).length;
 }
 
-/** Resolve employee record for a login email (5 demo + 4 SF-canonical when added). */
+/** Resolve employee record for a login email — 5 demo + 4 SF-canonical (T7). */
 export const EMP_BY_LOGIN_FULL: Record<string, string> = Object.freeze({
   'admin@humi.test':    'emp-005',
   'spd@humi.test':      'emp-001',
   'hrbp@humi.test':     'emp-007',
   'manager@humi.test':  'emp-002',
   'employee@humi.test': 'emp-003',
+  // T7 — SF-canonical personas slot natural in hierarchy
+  'ken@humi.test':      'emp-005',  // Ken = HR Director-like (org strategy)
+  'apinya@humi.test':   'emp-007',  // Apinya = HR team head (HRBP role)
+  'worawee@humi.test':  'emp-001',  // Worawee = HR Manager (SPD final-approver)
+  'rungrote@humi.test': 'emp-002',  // Rungrote = Finance Senior Analyst (Manager)
 });
 
 export function resolveCurrentEmpId(email: string | null | undefined): string | null {

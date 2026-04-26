@@ -136,6 +136,11 @@ const EMP_BY_LOGIN: Record<string, string> = {
   'hrbp@humi.test':     'emp-007', // หัวหน้าทีมพัฒนาองค์กร
   'manager@humi.test':  'emp-002', // นักวิเคราะห์การเงินอาวุโส
   'employee@humi.test': 'emp-003', // วิศวกรซอฟต์แวร์อาวุโส
+  // T7 — SF-canonical personas (per RBAC V2 matrix)
+  'ken@humi.test':      'emp-005', // Ken — HR Admin (Director tier)
+  'apinya@humi.test':   'emp-007', // Apinya — HRBP for BU
+  'worawee@humi.test':  'emp-001', // Worawee — SPD final approver
+  'rungrote@humi.test': 'emp-002', // Rungrote — Manager Finance
 };
 
 // All ported employees: 12 existing (with SF parity overlay) + 88 synthetic
