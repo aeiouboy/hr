@@ -1160,21 +1160,11 @@ export default function HumiProfileMePage() {
         <div className="grid gap-4 md:grid-cols-2">
           <FieldCard eyebrow={t('jobEyebrow')} title={t('jobTitle')} rows={p.job} labelW={160} />
           <div className="humi-col" style={{ gap: 16 }}>
-            <div className="humi-card">
-              <div className="humi-eyebrow">{t('compEyebrow')}</div>
-              <h3 className="mt-1.5 font-display text-[22px] font-semibold leading-[1.1] tracking-tight text-ink">
-                {p.comp.monthly} / เดือน
-              </h3>
-              <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 4 }}>
-                {p.comp.cadence}
-              </div>
-              <hr className="humi-divider" />
-              <div className="humi-col" style={{ gap: 10, fontSize: 13 }}>
-                <CompRow label={t('compBaseLabel')} value={p.comp.base} />
-                <CompRow label={t('compBonusLabel')} value={p.comp.bonus} />
-                <CompRow label={t('compEquityLabel')} value={p.comp.equity} />
-              </div>
-            </div>
+            {/* Raw 'ค่าตอบแทน 82,500 / เดือน' card removed — duplicated the
+                BRD #170 CompensationSummary which is the canonical default-masked
+                surface (Ken UAT 2026-04-26: 'salary has double show and it must
+                mark as default'). CompensationSummary lives lower in this same
+                column when bottom panels render. */}
             <div className="humi-card">
               <div className="humi-eyebrow">{t('historyEyebrow')}</div>
               <div className="humi-col" style={{ gap: 14, marginTop: 10 }}>
