@@ -8,9 +8,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Search, Users2 } from 'lucide-react';
+import { Search, Users2, Lock } from 'lucide-react';
 import { useEmployees } from '@/lib/admin/store/useEmployees';
 import type { MockEmployee } from '@/mocks/employees';
+import { useAuthStore } from '@/stores/auth-store';
+import { pickScopeMode } from '@/lib/scope-filter';
 
 // ──────────────────────────────────────────────
 // Constants
@@ -199,6 +201,13 @@ export default function EmployeesPage() {
   const params = useParams()
   const locale = (params?.locale as string) ?? 'th'
 
+  // RBAC gate (Track A1, autopilot 2026-04-26): all-employees list is admin-tier
+  // only. MockEmployee pool has no managerId/businessUnitId, so direct-reports/BU
+  // scope modes are not computable; non-admin personas hit the barrier card and
+  // are pointed to /profile/me for self-data.
+  const currentRoles = useAuthStore((s) => s.roles)
+  const scopeMode = pickScopeMode(currentRoles)
+
   const { setSearchQuery, searchQuery, getFiltered } = useEmployees()
   const allEmployeesCount = useEmployees((s) => s.all.length)
   const [localQuery, setLocalQuery] = useState(searchQuery)
@@ -236,6 +245,62 @@ export default function EmployeesPage() {
 
   const virtualItems = virtualizer.getVirtualItems()
   const totalSize = virtualizer.getTotalSize()
+
+  // Non-admin persona = no access. Hooks above must stay declared (rules of
+  // hooks); barrier render goes here, after hook block.
+  if (scopeMode !== 'all') {
+    return (
+      <div
+        data-testid="employees-no-access"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 'calc(100vh - 200px)',
+          padding: '40px 24px',
+          textAlign: 'center',
+          gap: 12,
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 56,
+            height: 56,
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--color-warning-soft)',
+            color: '#92400E',
+          }}
+        >
+          <Lock size={24} aria-hidden />
+        </div>
+        <h2
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 22,
+            fontWeight: 700,
+            color: 'var(--color-ink)',
+          }}
+        >
+          ไม่มีสิทธิ์เข้าถึง
+        </h2>
+        <p style={{ fontSize: 14, color: 'var(--color-ink-soft)', maxWidth: 480 }}>
+          รายการพนักงานทั้งหมด สงวนสิทธิ์เฉพาะผู้ดูแลระบบ HR (SPD / HR Admin / HR Manager).
+          หากต้องการดูข้อมูลของคุณเอง ใช้หน้า{' '}
+          <a
+            href={`/${locale}/profile/me`}
+            style={{ color: 'var(--color-accent)', fontWeight: 600, textDecoration: 'underline' }}
+          >
+            โปรไฟล์ของฉัน
+          </a>
+          {' '}แทน
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div
