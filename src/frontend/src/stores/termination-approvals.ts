@@ -4,11 +4,12 @@ import type { Role } from '@/lib/rbac';
 
 // termination-approvals — Zustand+persist store for ESS termination requests.
 //
-// Chain 1: Employee submits resignation → pending_spd → SPD approves/rejects.
+// Chain 1 (BRD #172): Employee submits resignation → pending_manager → Manager approves
+//   → pending_spd → SPD approves/rejects → done. Either step can reject.
 // Reason codes sourced from SF zVoluntary picklist (sf-extract/qas-fields-2026-04-25).
 // 17 codes total: 16 TERM_* from zVoluntary + TERM_OTHER.
 
-export type TerminationStep = 'pending_spd' | 'approved' | 'rejected';
+export type TerminationStep = 'pending_manager' | 'pending_spd' | 'approved' | 'rejected';
 
 // 17 SF termination reason codes with Thai labels (sf-extract/terminate/ is empty;
 // Thai labels hand-authored per BRD #172 + zVoluntary externalCodes from QAS extract).
@@ -74,9 +75,10 @@ export type TerminationRequest = {
 };
 
 export const TERMINATION_STEP_LABEL: Record<TerminationStep, string> = {
-  pending_spd: 'รอ SPD อนุมัติ',
-  approved:    'อนุมัติแล้ว',
-  rejected:    'ถูกปฏิเสธ',
+  pending_manager: 'รอ Manager อนุมัติ',
+  pending_spd:     'รอ SPD อนุมัติ',
+  approved:        'อนุมัติแล้ว',
+  rejected:        'ถูกปฏิเสธ',
 };
 
 interface TerminationApprovalsState {
@@ -84,6 +86,7 @@ interface TerminationApprovalsState {
   addRequest: (
     r: Omit<TerminationRequest, 'id' | 'submittedAt' | 'status' | 'audit'>,
   ) => string;
+  approveByManager: (id: string, by: { role: 'manager'; name: string }, comment?: string) => void;
   approve: (id: string, by: { role: Role; name: string }, comment?: string) => void;
   reject: (id: string, by: { role: Role; name: string }, reason: string) => void;
   clear: () => void;
@@ -106,7 +109,7 @@ export const useTerminationApprovals = create<TerminationApprovalsState>()(
           ...payload,
           id,
           submittedAt: now,
-          status: 'pending_spd',
+          status: 'pending_manager',
           audit: [
             {
               actorRole: payload.submittedBy.role,
@@ -119,10 +122,31 @@ export const useTerminationApprovals = create<TerminationApprovalsState>()(
         set((state) => ({ requests: [req, ...state.requests] }));
         return id;
       },
+      approveByManager: (id, by, comment) =>
+        set((state) => ({
+          requests: state.requests.map((r) =>
+            r.id !== id || r.status !== 'pending_manager'
+              ? r
+              : {
+                  ...r,
+                  status: 'pending_spd' as TerminationStep,
+                  audit: [
+                    ...r.audit,
+                    {
+                      actorRole: by.role as Role,
+                      actorName: by.name,
+                      action: 'approve' as const,
+                      comment,
+                      at: new Date().toISOString(),
+                    },
+                  ],
+                },
+          ),
+        })),
       approve: (id, by, comment) =>
         set((state) => ({
           requests: state.requests.map((r) =>
-            r.id !== id
+            r.id !== id || r.status !== 'pending_spd'
               ? r
               : {
                   ...r,
@@ -143,7 +167,7 @@ export const useTerminationApprovals = create<TerminationApprovalsState>()(
       reject: (id, by, reason) =>
         set((state) => ({
           requests: state.requests.map((r) =>
-            r.id !== id
+            r.id !== id || (r.status !== 'pending_manager' && r.status !== 'pending_spd')
               ? r
               : {
                   ...r,

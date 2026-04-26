@@ -46,7 +46,8 @@ export function ResignationPage() {
     (r) => r.employeeId === userId && r.status === 'rejected',
   );
 
-  const hasPending = myRequest?.status === 'pending_spd';
+  const hasPending =
+    myRequest?.status === 'pending_manager' || myRequest?.status === 'pending_spd';
   const isApproved = myRequest?.status === 'approved';
   const isFormValid =
     !!lastWorkingDate && !!reasonCode && !hasPending && !isApproved;
@@ -124,7 +125,9 @@ export function ResignationPage() {
               <div>
                 <div className="humi-eyebrow" style={{ marginBottom: 4 }}>สถานะ</div>
                 <span className="humi-tag humi-tag--butter">
-                  {req.status === 'pending_spd'
+                  {req.status === 'pending_manager'
+                    ? 'รอ Manager อนุมัติ'
+                    : req.status === 'pending_spd'
                     ? 'รอ SPD อนุมัติ'
                     : req.status === 'approved'
                     ? 'อนุมัติแล้ว'
@@ -156,11 +159,20 @@ export function ResignationPage() {
         </p>
       </div>
 
+      {myRequest?.status === 'pending_manager' && (
+        <div className="humi-card humi-card--info" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>มีคำขอที่ยังรอ Manager อนุมัติ</div>
+          <div className="text-small text-ink">
+            รหัส {myRequest.id} — รออนุมัติจาก Manager ส่งคำขอใหม่ไม่ได้จนกว่า Manager จะตัดสิน
+          </div>
+        </div>
+      )}
+
       {myRequest?.status === 'pending_spd' && (
         <div className="humi-card humi-card--info" style={{ padding: 16 }}>
           <div className="humi-eyebrow" style={{ marginBottom: 4 }}>มีคำขอที่ยังรอ SPD อนุมัติ</div>
           <div className="text-small text-ink">
-            รหัส {myRequest.id} — รออนุมัติอยู่ ส่งคำขอใหม่ไม่ได้จนกว่า SPD จะตัดสิน
+            รหัส {myRequest.id} — Manager อนุมัติแล้ว รออนุมัติครั้งสุดท้ายจาก SPD
           </div>
         </div>
       )}

@@ -187,13 +187,14 @@ const MOCK_LEAVE_REQUESTS: LeaveRequest[] = [
 
 const MOCK_TERMINATION_REQUESTS: TerminationRequest[] = [
   {
+    // pending_manager — Manager will see this in quick-approve
     id: 'TR-20260424-0800-X1KM',
     employeeId: 'EMP-0055',
     employeeName: 'ประเสริฐ วัฒนชัย',
     requestedLastDay: '2026-05-31',
     reasonCode: 'TERM_RESIGN',
     reasonText: 'ได้รับข้อเสนองานใหม่ที่เหมาะสมกว่า ขอลาออกตามกำหนดแจ้งล่วงหน้า 30 วัน',
-    status: 'pending_spd',
+    status: 'pending_manager',
     submittedAt: '2026-04-24T08:00:00+07:00',
     submittedBy: { id: 'EMP-0055', name: 'ประเสริฐ วัฒนชัย', role: 'employee' },
     audit: [
@@ -206,13 +207,14 @@ const MOCK_TERMINATION_REQUESTS: TerminationRequest[] = [
     ],
   },
   {
+    // pending_manager — second item in Manager inbox
     id: 'TR-20260423-1100-Y2NP',
     employeeId: 'EMP-0203',
     employeeName: 'อรณิชา ปานสุข',
     requestedLastDay: '2026-05-15',
     reasonCode: 'TERM_RETRIE',
     reasonText: 'เกษียณอายุตามครบกำหนด',
-    status: 'pending_spd',
+    status: 'pending_manager',
     submittedAt: '2026-04-23T11:00:00+07:00',
     submittedBy: { id: 'EMP-0203', name: 'อรณิชา ปานสุข', role: 'employee' },
     audit: [
@@ -221,6 +223,65 @@ const MOCK_TERMINATION_REQUESTS: TerminationRequest[] = [
         actorName: 'อรณิชา ปานสุข',
         action: 'submit',
         at: '2026-04-23T11:00:00+07:00',
+      },
+    ],
+  },
+  {
+    // pending_spd — already past Manager, SPD inbox will show this
+    id: 'TR-20260422-0930-Z3QR',
+    employeeId: 'EMP-0178',
+    employeeName: 'วิชัย ศรีสุวรรณ',
+    requestedLastDay: '2026-05-20',
+    reasonCode: 'TERM_EOC',
+    reasonText: 'ครบสัญญาจ้าง ไม่ต่อสัญญา',
+    status: 'pending_spd',
+    submittedAt: '2026-04-22T09:30:00+07:00',
+    submittedBy: { id: 'EMP-0178', name: 'วิชัย ศรีสุวรรณ', role: 'employee' },
+    audit: [
+      {
+        actorRole: 'employee',
+        actorName: 'วิชัย ศรีสุวรรณ',
+        action: 'submit',
+        at: '2026-04-22T09:30:00+07:00',
+      },
+      {
+        actorRole: 'manager',
+        actorName: 'สมชาย หัวหน้าทีม',
+        action: 'approve',
+        comment: 'รับทราบ ยืนยันการสิ้นสุดสัญญา',
+        at: '2026-04-22T11:15:00+07:00',
+      },
+    ],
+  },
+  {
+    // approved — history record
+    id: 'TR-20260420-1400-W4ST',
+    employeeId: 'EMP-0091',
+    employeeName: 'นภาพร จิตรดา',
+    requestedLastDay: '2026-05-05',
+    reasonCode: 'TERM_RESIGN',
+    status: 'approved',
+    submittedAt: '2026-04-20T14:00:00+07:00',
+    submittedBy: { id: 'EMP-0091', name: 'นภาพร จิตรดา', role: 'employee' },
+    audit: [
+      {
+        actorRole: 'employee',
+        actorName: 'นภาพร จิตรดา',
+        action: 'submit',
+        at: '2026-04-20T14:00:00+07:00',
+      },
+      {
+        actorRole: 'manager',
+        actorName: 'สมชาย หัวหน้าทีม',
+        action: 'approve',
+        at: '2026-04-21T09:00:00+07:00',
+      },
+      {
+        actorRole: 'spd',
+        actorName: 'ดารณี ล. (SPD)',
+        action: 'approve',
+        comment: 'ยืนยันการลาออก เอกสารครบถ้วน',
+        at: '2026-04-21T14:30:00+07:00',
       },
     ],
   },

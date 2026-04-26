@@ -28,6 +28,7 @@ import { useQuickApprove } from '@/hooks/use-quick-approve';
 import type { ApprovalItem, ApprovalType, UrgencyLevel } from '@/hooks/use-quick-approve';
 import { cn } from '@/lib/utils';
 import { useLeaveApprovals, LEAVE_TYPE_LABEL, LEAVE_STATUS_LABEL } from '@/stores/leave-approvals';
+import { useTerminationApprovals, TERMINATION_REASON_LABEL } from '@/stores/termination-approvals';
 import { useAuthStore } from '@/stores/auth-store';
 
 const TYPE_LABELS: Record<string, string> = {
@@ -149,9 +150,13 @@ export function QuickApprovePage() {
  const leaveRequests = useLeaveApprovals((s) => s.requests);
  const leaveApprove = useLeaveApprovals((s) => s.approve);
  const leaveReject = useLeaveApprovals((s) => s.reject);
+ const terminationRequests = useTerminationApprovals((s) => s.requests);
+ const terminationApproveByManager = useTerminationApprovals((s) => s.approveByManager);
+ const terminationReject = useTerminationApprovals((s) => s.reject);
  const managerId = useAuthStore((s) => s.userId) ?? 'MGR001';
  const managerName = useAuthStore((s) => s.username) ?? 'หัวหน้าทีม';
  const pendingLeave = leaveRequests.filter((r) => r.status === 'pending');
+ const pendingTermination = terminationRequests.filter((r) => r.status === 'pending_manager');
 
  if (loading) {
  return (
@@ -167,6 +172,62 @@ export function QuickApprovePage() {
 
  return (
  <div className="space-y-6">
+ {/* ── คำขอลาออกจากทีม (Termination Queue — pending_manager) ── */}
+ <Card>
+ <CardHeader>
+ <CardTitle className="text-base">คำขอลาออกจากทีม — รอหัวหน้าอนุมัติ ({pendingTermination.length})</CardTitle>
+ </CardHeader>
+ <CardContent className="p-4 space-y-3">
+ {pendingTermination.length === 0 ? (
+ <p className="text-sm text-ink-muted py-4 text-center">ไม่มีคำขอลาออกรอการอนุมัติในขณะนี้</p>
+ ) : (
+ pendingTermination.map((req) => (
+ <div
+ key={req.id}
+ className="flex items-start gap-3 rounded-md border border-hairline p-3"
+ >
+ <div className="flex-1 min-w-0">
+ <div className="flex items-center gap-2 flex-wrap mb-1">
+ <span className="text-sm font-medium text-ink">{req.employeeName}</span>
+ <Badge variant="warning">ลาออก</Badge>
+ </div>
+ <p className="text-xs text-ink-muted">
+ วันทำงานสุดท้าย: {new Date(req.requestedLastDay).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}
+ </p>
+ <p className="text-xs text-ink-muted mt-0.5">
+ เหตุผล: {TERMINATION_REASON_LABEL[req.reasonCode]}
+ </p>
+ {req.reasonText && (
+ <p className="text-xs text-ink-muted mt-0.5 truncate" title={req.reasonText}>
+ {req.reasonText}
+ </p>
+ )}
+ </div>
+ <div className="flex items-center gap-1 shrink-0">
+ <button
+ onClick={() => terminationApproveByManager(req.id, { role: 'manager', name: managerName })}
+ className="p-1.5 rounded-md hover:bg-success-tint text-success"
+ aria-label={`อนุมัติคำขอลาออก ${req.employeeName}`}
+ >
+ <CheckCircle2 className="h-5 w-5" />
+ </button>
+ <button
+ onClick={() => terminationReject(req.id, { role: 'manager', name: managerName }, 'Manager ไม่อนุมัติ')}
+ className="p-1.5 rounded-md hover:bg-danger-tint text-danger"
+ aria-label={`ปฏิเสธคำขอลาออก ${req.employeeName}`}
+ >
+ <XCircle className="h-5 w-5" />
+ </button>
+ </div>
+ </div>
+ ))
+ )}
+ <p className="text-xs text-ink-muted border-t border-hairline pt-3 mt-2">
+ ลาออกของทีม — Manager อนุมัติก่อน, แล้วส่งต่อให้ SPD ตัดสินครั้งสุดท้าย (BRD #172)
+ </p>
+ </CardContent>
+ </Card>
+
  {/* ── คิวลา (Leave Queue from leave-approvals store) ── */}
  <Card>
  <CardHeader>

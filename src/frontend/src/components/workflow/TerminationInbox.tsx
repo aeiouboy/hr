@@ -38,7 +38,7 @@ export function TerminationInbox() {
   const history = useMemo(
     () =>
       allRequests
-        .filter((r) => r.status !== 'pending_spd')
+        .filter((r) => r.status === 'approved' || r.status === 'rejected')
         .slice(0, 5),
     [allRequests],
   );
