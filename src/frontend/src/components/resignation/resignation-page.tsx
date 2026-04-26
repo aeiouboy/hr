@@ -34,8 +34,17 @@ export function ResignationPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submittedId, setSubmittedId] = useState('');
 
-  // Find an existing pending/approved request by this user
-  const myRequest = requests.find((r) => r.employeeId === userId);
+  // Find a pending or approved request by this user.
+  // If the most recent request is `rejected`, allow re-submission — the form
+  // re-renders and the rejected request is shown as a notice (see banner below).
+  // Pre-Phase-5 fix: any-status `find()` blocked the form forever once a seeded
+  // demo request existed for the default `EMP001` userId.
+  const myRequest = requests.find(
+    (r) => r.employeeId === userId && r.status !== 'rejected',
+  );
+  const lastRejected = requests.find(
+    (r) => r.employeeId === userId && r.status === 'rejected',
+  );
 
   const isFormValid = !!lastWorkingDate && !!reasonCode;
 
@@ -139,6 +148,15 @@ export function ResignationPage() {
           ยื่นคำขอลาออกผ่านระบบ Self-Service — SPD จะรับทราบและดำเนินการต่อ (BRD #172)
         </p>
       </div>
+
+      {lastRejected && (
+        <div className="humi-card humi-card--warning" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>คำขอก่อนหน้านี้ถูกปฏิเสธ</div>
+          <div className="text-small text-ink">
+            รหัส {lastRejected.id} — ส่งใหม่ได้ ปรับเหตุผลหรือเอกสารแนบให้ครบก่อนส่ง
+          </div>
+        </div>
+      )}
 
       {/* Form */}
       <div className="humi-card" style={{ padding: 24 }}>
