@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/stores/auth-store';
+import { hasAnyRole } from '@/lib/rbac';
 import {
   Plus,
   Check,
@@ -26,7 +27,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
-import { QuickActionsTile } from '@/components/humi/QuickActionsTile';
+import { QuickActionsTile, MANAGER_ACTIONS } from '@/components/humi/QuickActionsTile';
 import {
   HUMI_PENDING_REQUESTS,
   HUMI_EMPLOYEES,
@@ -58,6 +59,11 @@ export default function HumiHomePage() {
   const t = useTranslations('humiHero');
   const router = useRouter();
   const username = useAuthStore((s) => s.username);
+  const roles = useAuthStore((s) => s.roles);
+  // Path C (autopilot 2026-04-26): SF EC pattern — manager-tier sees a Quick
+  // Actions row above the ESS one with team-scoped tiles linking to canonical
+  // pages (?scope=team), replacing the deprecated /manager-dashboard landing.
+  const isManagerTier = hasAnyRole(roles, ['manager', 'hr_admin', 'hr_manager']);
   const greeting = getTimeGreeting();
 
   const top2 = HUMI_PENDING_REQUESTS.slice(0, 2);
@@ -216,7 +222,12 @@ export default function HumiHomePage() {
         </div>
       </div>
 
-      {/* Row 1.5 — Quick Actions */}
+      {/* Row 1.5 — Quick Actions (manager tier first, then ESS) */}
+      {isManagerTier && (
+        <div style={{ marginTop: 20 }}>
+          <QuickActionsTile eyebrow="เมนูลัดของผู้จัดการ" actions={MANAGER_ACTIONS} />
+        </div>
+      )}
       <div style={{ marginTop: 20 }}>
         <QuickActionsTile />
       </div>

@@ -1,5 +1,16 @@
 import Link from 'next/link';
-import { CalendarPlus, FileText, User, Wallet, type LucideIcon } from 'lucide-react';
+import {
+  CalendarPlus,
+  FileText,
+  User,
+  Wallet,
+  Network,
+  BarChart3,
+  Briefcase,
+  Inbox,
+  Users2,
+  type LucideIcon,
+} from 'lucide-react';
 
 // ════════════════════════════════════════════════════════════
 // QuickActionsTile — ESS home tile, BRD #171
@@ -16,6 +27,8 @@ export interface QuickAction {
 
 export interface QuickActionsTileProps {
   actions?: QuickAction[];
+  /** Section eyebrow above the grid. Defaults to "เมนูลัด" (ESS). */
+  eyebrow?: string;
 }
 
 function makeIcon(Icon: LucideIcon) {
@@ -29,11 +42,26 @@ export const DEFAULT_ESS_ACTIONS: QuickAction[] = [
   { icon: makeIcon(Wallet),       labelTh: 'เบิกสวัสดิการ',       href: '/th/benefits-hub' },
 ];
 
-export function QuickActionsTile({ actions = DEFAULT_ESS_ACTIONS }: QuickActionsTileProps) {
+// Manager-tier Quick Actions — SF Employee Central pattern (Path C, autopilot
+// 2026-04-26). Each tile launches a canonical page with `?scope=team` query
+// param so the canonical surface filters to the manager's team. Replaces the
+// 7-tab /manager-dashboard landing.
+export const MANAGER_ACTIONS: QuickAction[] = [
+  { icon: makeIcon(Users2),    labelTh: 'ทีมของฉัน',         href: '/th/admin/employees?scope=team'        },
+  { icon: makeIcon(Network),   labelTh: 'แผนผังของทีมฉัน',    href: '/th/org-chart?scope=team'              },
+  { icon: makeIcon(Briefcase), labelTh: 'ตำแหน่งของทีมฉัน',   href: '/th/admin/positions?scope=team'        },
+  { icon: makeIcon(BarChart3), labelTh: 'รายงานของทีมฉัน',    href: '/th/reports?scope=team'                },
+  { icon: makeIcon(Inbox),     labelTh: 'คำขอรออนุมัติ',      href: '/th/quick-approve'                     },
+];
+
+export function QuickActionsTile({
+  actions = DEFAULT_ESS_ACTIONS,
+  eyebrow = 'เมนูลัด',
+}: QuickActionsTileProps) {
   return (
-    <div className="humi-card" role="region" aria-label="เมนูลัด">
+    <div className="humi-card" role="region" aria-label={eyebrow}>
       <div className="humi-eyebrow" style={{ marginBottom: 14 }}>
-        เมนูลัด
+        {eyebrow}
       </div>
       <div
         style={{
