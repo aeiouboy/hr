@@ -53,11 +53,8 @@ const MOCK_ITEMS: ApprovalItem[] = [
  department:'IT', summary:'Meal - Team lunch', detail:'Team lunch for sprint celebration.',
  amount: 1500, submittedAt:'2026-02-18T12:00:00', urgent: false, urgency:'low', waitingDays: 0, attachments: ['lunch_receipt.jpg'], notes:'',
  },
- {
- id:'QA006', type:'change-request', employeeName:'Ratchanee Boonsri', employeeId:'EMP004', employeeAvatar:'RB',
- department:'IT', summary:'Bank account update', detail:'Change salary bank account from SCB to KBank.',
- submittedAt:'2026-02-17T11:15:00', urgent: false, urgency:'normal', waitingDays: 2, attachments: ['bank_book.pdf'], notes:'',
- },
+ // Bank-account changes route to SPD via /admin/change-requests per BRD #166
+ // — NOT manager's queue (Ken UAT 2026-04-26). Removed from MOCK_QUEUE.
  {
  id:'QA007', type:'leave', employeeName:'Somchai Jaidee', employeeId:'EMP001', employeeAvatar:'SJ',
  department:'IT', summary:'Personal Leave - 0.5 day', detail:'Afternoon off for personal errand.',

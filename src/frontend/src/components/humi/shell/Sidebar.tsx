@@ -99,6 +99,7 @@ const NAV: NavSection[] = [
   {
     group: 'กล่องอนุมัติ',
     items: [
+      { id: 'quick-approve', label: 'คำขอรออนุมัติ', href: '/th/quick-approve', icon: ClipboardList, roles: ['manager', 'hr_admin', 'hr_manager'] },
       { id: 'spd-inbox', label: 'กล่องอนุมัติ SPD', href: '/th/spd/inbox', icon: Inbox, roles: ['spd', 'hr_admin', 'hr_manager'] },
     ],
   },
@@ -286,8 +287,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
 // Time / attendance (1) — sidebar uses external cnext-time URL, /time is internal scaffold
 // SIDEBAR_LEGACY: /time internal time-page scaffold — sidebar uses external cnext-time link
 //
-// Manager-tier follow-on (2) — reached from /manager-dashboard now wired in sidebar above
-// SIDEBAR_LEGACY: /quick-approve reachable from manager-dashboard pending tile (Sprint 2)
+// Manager-tier follow-on (1) — /quick-approve now wired in sidebar above as canonical detail page
 // SIDEBAR_LEGACY: /onboarding manager-tier flow from new-hire detail page action menu
 //
 // Payroll cluster (8) — admin-tier scaffold pending P-B chain decision (#62 blocked)

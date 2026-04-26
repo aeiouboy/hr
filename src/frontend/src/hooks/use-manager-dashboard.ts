@@ -91,7 +91,8 @@ const MOCK_APPROVALS: PendingApproval[] = [
  { id:'APR003', type:'overtime', employeeName:'Krit Tanawan', employeeId:'EMP005', summary:'OT Request: 4 hours (Server migration)', dates:'2026-02-22', submittedAt:'2026-02-21', urgent: true },
  { id:'APR004', type:'leave', employeeName:'Ploy Suksawat', employeeId:'EMP002', summary:'Sick Leave: 1 day (Feb 22)', dates:'2026-02-22', submittedAt:'2026-02-22', urgent: true },
  { id:'APR005', type:'expense', employeeName:'Malee Sriphan', employeeId:'EMP006', summary:'Meal expense: Team lunch', amount: 1500, submittedAt:'2026-02-18', urgent: false },
- { id:'APR006', type:'change-request', employeeName:'Ratchanee Boonsri', employeeId:'EMP004', summary:'Bank account update request', submittedAt:'2026-02-17', urgent: false },
+ // APR006 'Bank account update' removed — bank changes go to SPD via
+ // /admin/change-requests per BRD #166, not manager queue (Ken UAT 2026-04-26)
 ];
 
 const MOCK_ALERTS: UrgentAlert[] = [
