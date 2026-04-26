@@ -46,7 +46,10 @@ export function ResignationPage() {
     (r) => r.employeeId === userId && r.status === 'rejected',
   );
 
-  const isFormValid = !!lastWorkingDate && !!reasonCode;
+  const hasPending = myRequest?.status === 'pending_spd';
+  const isApproved = myRequest?.status === 'approved';
+  const isFormValid =
+    !!lastWorkingDate && !!reasonCode && !hasPending && !isApproved;
 
   const handleSubmit = () => {
     if (!isFormValid || !reasonCode) return;
@@ -63,8 +66,12 @@ export function ResignationPage() {
     setSubmitted(true);
   };
 
-  if (submitted || myRequest) {
-    const req = myRequest ?? requests.find((r) => r.id === submittedId);
+  // Only show the post-submit success view on a FRESH in-session submit.
+  // Pre-existing pending/approved/rejected requests should NOT replace the form
+  // on revisit — the form is the canonical landing surface, with status shown
+  // as a banner above it (see lastPending / approved / lastRejected blocks).
+  if (submitted) {
+    const req = requests.find((r) => r.id === submittedId);
     return (
       <div className="pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div>
@@ -148,6 +155,24 @@ export function ResignationPage() {
           ยื่นคำขอลาออกผ่านระบบ Self-Service — SPD จะรับทราบและดำเนินการต่อ (BRD #172)
         </p>
       </div>
+
+      {myRequest?.status === 'pending_spd' && (
+        <div className="humi-card humi-card--info" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>มีคำขอที่ยังรอ SPD อนุมัติ</div>
+          <div className="text-small text-ink">
+            รหัส {myRequest.id} — รออนุมัติอยู่ ส่งคำขอใหม่ไม่ได้จนกว่า SPD จะตัดสิน
+          </div>
+        </div>
+      )}
+
+      {myRequest?.status === 'approved' && (
+        <div className="humi-card humi-card--success" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>คำขอลาออกได้รับการอนุมัติแล้ว</div>
+          <div className="text-small text-ink">
+            รหัส {myRequest.id} — วันทำงานสุดท้าย {formatDateTh(myRequest.requestedLastDay)}
+          </div>
+        </div>
+      )}
 
       {lastRejected && (
         <div className="humi-card humi-card--warning" style={{ padding: 16 }}>
