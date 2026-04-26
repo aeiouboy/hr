@@ -99,6 +99,7 @@ const NAV: NavSection[] = [
   {
     group: 'กล่องอนุมัติ',
     items: [
+      { id: 'manager-dashboard', label: 'แดชบอร์ดผู้จัดการ', href: '/th/manager-dashboard', icon: Users2, roles: ['manager', 'hr_admin', 'hr_manager'] },
       { id: 'spd-inbox', label: 'กล่องอนุมัติ SPD', href: '/th/spd/inbox', icon: Inbox, roles: ['spd', 'hr_admin', 'hr_manager'] },
     ],
   },
@@ -286,8 +287,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
 // Time / attendance (1) — sidebar uses external cnext-time URL, /time is internal scaffold
 // SIDEBAR_LEGACY: /time internal time-page scaffold — sidebar uses external cnext-time link
 //
-// Manager-tier (3) — reachable from manager dashboard + quick actions
-// SIDEBAR_LEGACY: /manager-dashboard role-gated landing — surfaced via persona switch in topbar
+// Manager-tier follow-on (2) — reached from /manager-dashboard now wired in sidebar above
 // SIDEBAR_LEGACY: /quick-approve reachable from manager-dashboard pending tile (Sprint 2)
 // SIDEBAR_LEGACY: /onboarding manager-tier flow from new-hire detail page action menu
 //

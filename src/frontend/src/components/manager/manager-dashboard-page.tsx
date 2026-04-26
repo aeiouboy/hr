@@ -293,7 +293,7 @@ export function ManagerDashboardPage() {
  {approvals.slice(0, 5).map((a) => (
  <div key={a.id} className="flex items-center justify-between p-3 rounded-md hover:bg-surface-raised/30 border border-hairline">
  <div className="flex items-center gap-3 min-w-0">
- {a.urgent && <span className="h-2 w-2 rounded-full bg-danger-tint0 shrink-0" />}
+ {a.urgent && <span className="h-2 w-2 rounded-full bg-danger shrink-0" aria-label="urgent" />}
  <div className="min-w-0">
  <p className="text-sm font-medium text-ink truncate">{a.summary}</p>
  <p className="text-xs text-ink-muted">{a.employeeName}</p>

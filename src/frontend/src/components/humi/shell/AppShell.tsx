@@ -42,6 +42,8 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/employees/me',       title: 'เงินเดือนและสวัสดิการ' },
   { prefix: '/th/ess/workflows',      title: 'คำขอของฉัน' },
   { prefix: '/en/ess/workflows',      title: 'คำขอของฉัน' },
+  { prefix: '/th/manager-dashboard',  title: 'แดชบอร์ดผู้จัดการ' },
+  { prefix: '/en/manager-dashboard',  title: 'แดชบอร์ดผู้จัดการ' },
   { prefix: '/th/spd/inbox',          title: 'กล่องอนุมัติ SPD' },
   { prefix: '/en/spd/inbox',          title: 'กล่องอนุมัติ SPD' },
   { prefix: '/th/requests',           title: 'คำร้องและแบบฟอร์ม' },
