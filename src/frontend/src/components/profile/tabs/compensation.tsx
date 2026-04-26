@@ -5,7 +5,7 @@ import { CreditCard, Receipt } from 'lucide-react';
 import { FieldGroup } from '@/components/ui/field-group';
 import { Field } from '@/components/ui/field';
 import { StatChip } from '@/components/ui/stat-chip';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { maskValue, formatCurrency } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
 

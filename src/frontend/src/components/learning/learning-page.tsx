@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { GraduationCap, Search, Star, Clock, Award, Download } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLearning } from '@/hooks/use-learning';
@@ -94,7 +94,6 @@ export function LearningPage() {
 
  const renderCourseCard = (course: typeof courses[0], showEnroll = true) => (
  <Card key={course.id} className="hover:shadow-1 transition-shadow">
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-start justify-between mb-3">
  <div>
  <p className="text-xs text-ink-muted mb-1">{course.code}</p>
@@ -126,7 +125,7 @@ export function LearningPage() {
  <div className="flex items-center gap-2 mt-2">
  <Badge variant="success">{t('completed')}</Badge>
  <span className="text-sm text-ink-muted">{t('score')}: {course.score}%</span>
- <Button size="sm" variant="outline" onClick={() => {
+ <Button size="sm" variant="secondary" onClick={() => {
  if (course.certificateUrl) {
  window.open(course.certificateUrl,'_blank');
  } else {
@@ -138,7 +137,7 @@ export function LearningPage() {
  }
  }
  }}>{t('certificate')}</Button>
- <Button size="sm" variant="outline" onClick={() => {
+ <Button size="sm" variant="secondary" onClick={() => {
  const certHtml = generateCertificateHtml(course);
  const blob = new Blob([certHtml], { type:'text/html;charset=utf-8' });
  const url = URL.createObjectURL(blob);
@@ -152,7 +151,6 @@ export function LearningPage() {
  }}><Download className="h-3.5 w-3.5 mr-1" />{t('download')}</Button>
  </div>
  )}
- </CardContent>
  </Card>
  );
 
@@ -187,7 +185,7 @@ export function LearningPage() {
  />
  </div>
  {courses.length === 0 ? (
- <Card><CardContent className="py-12 text-center text-ink-muted">{t('noCoursesFound')}</CardContent></Card>
+ <Card><div className="py-12 text-center text-ink-muted">{t('noCoursesFound')}</div></Card>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {courses.map((c) => renderCourseCard(c))}
@@ -198,7 +196,7 @@ export function LearningPage() {
 
  {activeTab ==='myLearning' && (
  enrolledCourses.length === 0 ? (
- <Card><CardContent className="py-12 text-center text-ink-muted">{t('noInProgress')}</CardContent></Card>
+ <Card><div className="py-12 text-center text-ink-muted">{t('noInProgress')}</div></Card>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {enrolledCourses.map((c) => renderCourseCard(c, false))}
@@ -208,7 +206,7 @@ export function LearningPage() {
 
  {activeTab ==='completed' && (
  completedCourses.length === 0 ? (
- <Card><CardContent className="py-12 text-center text-ink-muted">{t('noCompleted')}</CardContent></Card>
+ <Card><div className="py-12 text-center text-ink-muted">{t('noCompleted')}</div></Card>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {completedCourses.map((c) => renderCourseCard(c, false))}

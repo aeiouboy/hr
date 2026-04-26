@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { ClipboardList } from 'lucide-react';
@@ -38,11 +38,8 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
  }
 
  return (
- <Card>
- <CardHeader className="pb-3">
- <CardTitle className="text-base">{t('myReferrals')}</CardTitle>
- </CardHeader>
- <CardContent className="p-0">
+ <Card header={<CardTitle className="text-base">{t('myReferrals')}</CardTitle>}>
+ <div className="-m-5">
  {referrals.length === 0 ? (
  <div className="flex flex-col items-center py-16 text-ink-muted">
  <ClipboardList className="h-12 w-12 mb-3 text-gray-300" />
@@ -154,7 +151,7 @@ export function ReferralHistory({ referrals, loading, onViewDetail }: ReferralHi
  </div>
  </>
  )}
- </CardContent>
+ </div>
  </Card>
  );
 }

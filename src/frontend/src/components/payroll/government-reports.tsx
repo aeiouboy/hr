@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FileText, Download, RefreshCw } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
@@ -58,14 +57,7 @@ export function GovernmentReports() {
  return (
  <div className="space-y-6">
  {/* Generate Report */}
- <Card>
- <CardHeader>
- <div className="flex items-center gap-2">
- <FileText className="h-5 w-5 text-brand" />
- <CardTitle>{t('govReports.generateReport')}</CardTitle>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<div className="flex items-center gap-2"><FileText className="h-5 w-5 text-brand" /><CardTitle>{t('govReports.generateReport')}</CardTitle></div>}>
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
  <FormField
  label={t('govReports.reportType')}
@@ -102,15 +94,10 @@ export function GovernmentReports() {
  )}
  </Button>
  </div>
- </CardContent>
  </Card>
 
  {/* Report History */}
- <Card>
- <CardHeader>
- <CardTitle>{t('govReports.reportHistory')}</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('govReports.reportHistory')}</CardTitle>}>
  {reportHistory.length === 0 ? (
  <p className="text-center text-ink-muted py-8">{t('common.noData')}</p>
  ) : (
@@ -154,7 +141,6 @@ export function GovernmentReports() {
  </table>
  </div>
  )}
- </CardContent>
  </Card>
  </div>
  );

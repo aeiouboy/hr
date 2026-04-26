@@ -32,7 +32,7 @@ import {
   type SectionKey,
 } from '@/stores/humi-profile-slice';
 import { FileUploadField } from '@/components/humi/FileUploadField';
-import { Modal } from '@/components/ui/modal';
+import { Modal } from '@/components/humi';
 import { EmergencyContactList, areAllRowsValid } from '@/components/profile/EmergencyContactList';
 import { DependentsEditor, areAllDependentsValid } from '@/components/profile/DependentsEditor';
 import { Address8Editor, isAddress8Valid } from '@/components/profile/Address8Editor';
@@ -547,21 +547,6 @@ export default function HumiProfileMePage() {
             ? tEdit(`field.${activeEditField}` as Parameters<typeof tEdit>[0])
             : ''
         }
-        footer={
-          <div className="flex gap-2 justify-end">
-            <Button variant="ghost" size="sm" onClick={handleGateClose}>
-              {t('profileCancelEdit')}
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleSubmitChange}
-              disabled={saveDisabled}
-            >
-              {t('save')}
-            </Button>
-          </div>
-        }
       >
         <div className="space-y-4">
           {/* New value input */}
@@ -621,6 +606,19 @@ export default function HumiProfileMePage() {
                 : 'กรุณาระบุวันที่มีผล'}
             </p>
           )}
+          <div className="border-t pt-4 flex justify-end gap-2">
+            <Button variant="ghost" size="sm" onClick={handleGateClose}>
+              {t('profileCancelEdit')}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleSubmitChange}
+              disabled={saveDisabled}
+            >
+              {t('save')}
+            </Button>
+          </div>
         </div>
       </Modal>
 

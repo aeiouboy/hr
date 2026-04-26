@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Clock, CheckCircle, XCircle, AlertTriangle, ChevronRight } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useProbationCases, STATUS_LABEL, type ProbationStatus } from '@/hooks/use-probation';

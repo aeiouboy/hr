@@ -32,8 +32,7 @@ import {
 import { FieldGroup } from '@/components/ui/field-group';
 import { Field } from '@/components/ui/field';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
+import { Button, Modal } from '@/components/humi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatDate } from '@/lib/date';
 import { isHR } from '@/lib/rbac';
@@ -119,16 +118,6 @@ function WorkflowConfirmDialog({
       open={open}
       onClose={onCancel}
       title="ยืนยันการเปลี่ยนแปลงข้อมูล"
-      footer={
-        <div className="flex justify-end gap-3">
-          <Button variant="outline" size="sm" onClick={onCancel}>
-            ยกเลิก
-          </Button>
-          <Button variant="default" size="sm" onClick={onConfirm}>
-            ยืนยันและส่ง Workflow
-          </Button>
-        </div>
-      }
     >
       <div className="space-y-4">
         <div className="flex items-start gap-3 p-3 rounded-md bg-warning-tint border border-warning/30">
@@ -152,6 +141,14 @@ function WorkflowConfirmDialog({
             <p className="text-xs text-ink-muted mb-1">ค่าใหม่</p>
             <p className="text-ink font-medium">{newValue || '—'}</p>
           </div>
+        </div>
+        <div className="border-t pt-4 mt-4 flex justify-end gap-2">
+          <Button variant="secondary" size="sm" onClick={onCancel}>
+            ยกเลิก
+          </Button>
+          <Button variant="primary" size="sm" onClick={onConfirm}>
+            ยืนยันและส่ง Workflow
+          </Button>
         </div>
       </div>
     </Modal>
@@ -789,7 +786,7 @@ export function EcPersonalInfoTab({ employee, loading }: EcPersonalInfoTabProps)
                 ดูไฟล์แนบ
               </a>
             ) : (
-              <Button variant="outline" size="sm" className="text-xs" disabled={!canEdit}>
+              <Button variant="secondary" size="sm" className="text-xs" disabled={!canEdit}>
                 <Plus className="h-3 w-3 mr-1" />
                 อัปโหลดสำเนาบัตร
               </Button>
@@ -999,7 +996,7 @@ export function EcPersonalInfoTab({ employee, loading }: EcPersonalInfoTabProps)
             <div className="py-4">
               <p className="text-sm text-ink-muted mb-3">ยังไม่มีข้อมูลใบอนุญาตทำงาน</p>
               {canEdit && (
-                <Button variant="outline" size="sm" className="text-xs">
+                <Button variant="secondary" size="sm" className="text-xs">
                   <Plus className="h-3 w-3 mr-1" />
                   เพิ่มใบอนุญาตทำงาน
                 </Button>

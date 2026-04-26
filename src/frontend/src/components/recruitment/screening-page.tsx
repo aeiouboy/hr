@@ -3,8 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { ArrowRight, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button } from '@/components/humi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRecruitment, type ApplicationStatus } from '@/hooks/use-recruitment';
 
@@ -49,8 +48,8 @@ export function ScreeningPage() {
  const nextStageIdx = STAGES.indexOf(stage) + 1;
  const nextStage = nextStageIdx < STAGES.length ? STAGES[nextStageIdx] : null;
  return (
- <Card key={candidate.id} className="cursor-pointer hover:shadow-1 transition-shadow">
- <CardContent className="p-4 lg:p-5">
+ <Card key={candidate.id}>
+ <div className="cursor-pointer hover:shadow-1 transition-shadow p-4 lg:p-5">
  <div className="flex items-center gap-2 mb-2">
  {candidate.photo && <img src={candidate.photo} alt="" className="w-7 h-7 rounded-full" />}
  <div className="min-w-0">
@@ -63,7 +62,7 @@ export function ScreeningPage() {
  </div>
  <div className="flex gap-1">
  {nextStage && (
- <Button size="sm" variant="outline" className="text-xs flex-1" onClick={() => updateCandidateStatus(candidate.id, nextStage)}>
+ <Button size="sm" variant="secondary" className="text-xs flex-1" onClick={() => updateCandidateStatus(candidate.id, nextStage)}>
  <ArrowRight className="h-3 w-3" /> {nextStage}
  </Button>
  )}
@@ -73,7 +72,7 @@ export function ScreeningPage() {
  </Button>
  )}
  </div>
- </CardContent>
+ </div>
  </Card>
  );
  })}

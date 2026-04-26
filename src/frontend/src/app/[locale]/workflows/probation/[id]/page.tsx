@@ -5,9 +5,9 @@ import { useParams, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ArrowLeft, CheckCircle, XCircle, Clock, AlertTriangle, Send } from 'lucide-react';
 import { PersonHero } from '@/components/ui/person-hero';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FieldGroup } from '@/components/ui/field-group';
 import { Field } from '@/components/ui/field';
@@ -177,7 +177,7 @@ export default function ProbationDetailPage() {
 
                       <div className="flex gap-2">
                         <Button
-                          variant="default"
+                          variant="primary"
                           size="sm"
                           className="flex-1 bg-success text-white hover:bg-success/90"
                           onClick={() => { approve(comment); setComment(''); }}
@@ -186,7 +186,7 @@ export default function ProbationDetailPage() {
                           {t('probation.approve')}
                         </Button>
                         <Button
-                          variant="outline"
+                          variant="secondary"
                           size="sm"
                           className="flex-1 border-danger text-danger hover:bg-danger-tint"
                           onClick={() => { reject(comment); setComment(''); }}

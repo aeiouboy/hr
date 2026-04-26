@@ -3,7 +3,7 @@
 import { type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { X, CheckCircle2, XCircle, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { UrgencyBadge } from './UrgencyBadge';
 import type { PendingRequest, ApprovalStep } from '@/lib/quick-approve-api';
@@ -221,7 +221,7 @@ export function RequestSlideOver({
  {t('slideOver.approve')}
  </Button>
  <Button
- variant="destructive"
+ variant="danger"
  className="flex-1"
  onClick={() => onReject(request.id)}
  >

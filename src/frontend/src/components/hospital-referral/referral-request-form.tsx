@@ -2,8 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button, Card, CardTitle } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
 import { useToast } from '@/components/ui/toast';
 import type { Hospital, Province } from '@/hooks/use-hospital-referral';
@@ -109,11 +108,8 @@ export function ReferralRequestForm({
  return (
  <form onSubmit={handleSubmit}>
  <div className="max-w-2xl space-y-6">
- <Card>
- <CardHeader>
- <CardTitle className="text-base">{t('newRequest')}</CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
+ <Card header={<CardTitle className="text-base">{t('newRequest')}</CardTitle>}>
+ <div className="space-y-4">
  <FormField
  label={t('province')}
  name="provinceId"
@@ -168,12 +164,12 @@ export function ReferralRequestForm({
  onChange={setNotes}
  placeholder="Any additional notes or information (optional)"
  />
- </CardContent>
+ </div>
  </Card>
 
  <div className="flex flex-col sm:flex-row gap-3 justify-end">
  {onCancel && (
- <Button type="button" variant="outline" onClick={onCancel}>
+ <Button type="button" variant="secondary" onClick={onCancel}>
  {tc('cancel')}
  </Button>
  )}

@@ -4,9 +4,8 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Building, Calendar, DollarSign, Bell, Shield, Palette } from 'lucide-react';
 import { Tabs } from '@/components/ui/tabs';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, Button } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
@@ -97,14 +96,15 @@ export function SettingsPage() {
 
  {/* Company Info */}
  {activeTab === 'company' && (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center gap-2">
  <Building className="h-5 w-5 text-accent" />
  <CardTitle>{t('settings.companyInfo')}</CardTitle>
  </div>
- </CardHeader>
- <CardContent className="space-y-6">
+ }
+ >
+ <div className="space-y-6">
  <FieldGroup label="Identity">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <FormField
@@ -143,22 +143,22 @@ export function SettingsPage() {
  />
  </FieldGroup>
  <div className="flex justify-end">
- <Button variant="accent" onClick={() => handleSave('company')}>{t('common.save')}</Button>
+ <Button variant="primary" onClick={() => handleSave('company')}>{t('common.save')}</Button>
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
 
  {/* Leave Policies */}
  {activeTab === 'leave' && (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center gap-2">
  <Calendar className="h-5 w-5 text-accent" />
  <CardTitle>{t('settings.leavePolicies')}</CardTitle>
  </div>
- </CardHeader>
- <CardContent>
+ }
+ >
  <div className="overflow-x-auto">
  <table className="w-full text-sm">
  <thead>
@@ -185,20 +185,20 @@ export function SettingsPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
  </Card>
  )}
 
  {/* Payroll Settings */}
  {activeTab === 'payroll' && (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center gap-2">
  <DollarSign className="h-5 w-5 text-accent" />
  <CardTitle>{t('settings.payrollSettings')}</CardTitle>
  </div>
- </CardHeader>
- <CardContent className="space-y-6">
+ }
+ >
+ <div className="space-y-6">
  <FieldGroup label="Schedule">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <FormField
@@ -237,22 +237,22 @@ export function SettingsPage() {
  </div>
  </FieldGroup>
  <div className="flex justify-end">
- <Button variant="accent" onClick={() => handleSave('payroll')}>{t('common.save')}</Button>
+ <Button variant="primary" onClick={() => handleSave('payroll')}>{t('common.save')}</Button>
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
 
  {/* Appearance / Theme */}
  {activeTab === 'appearance' && (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center gap-2">
  <Palette className="h-5 w-5 text-accent" />
  <CardTitle>{t('settings.theme')}</CardTitle>
  </div>
- </CardHeader>
- <CardContent>
+ }
+ >
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <FormField
  label={t('settings.theme')}
@@ -267,20 +267,20 @@ export function SettingsPage() {
  ]}
  />
  </div>
- </CardContent>
  </Card>
  )}
 
  {/* Notifications */}
  {activeTab === 'notifications' && (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center gap-2">
  <Bell className="h-5 w-5 text-accent" />
  <CardTitle>{t('settings.notifications')}</CardTitle>
  </div>
- </CardHeader>
- <CardContent className="space-y-6">
+ }
+ >
+ <div className="space-y-6">
  <FieldGroup label="Channels">
  <div className="space-y-1">
  {[
@@ -316,22 +316,23 @@ export function SettingsPage() {
  </div>
  </FieldGroup>
  <div className="flex justify-end">
- <Button variant="accent" onClick={() => handleSave('notifications')}>{t('common.save')}</Button>
+ <Button variant="primary" onClick={() => handleSave('notifications')}>{t('common.save')}</Button>
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
 
  {/* System */}
  {activeTab === 'system' && (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center gap-2">
  <Shield className="h-5 w-5 text-accent" />
  <CardTitle>{t('settings.system')}</CardTitle>
  </div>
- </CardHeader>
- <CardContent className="space-y-6">
+ }
+ >
+ <div className="space-y-6">
  <p className="text-sm text-ink-muted">{t('settings.systemDesc')}</p>
  <FieldGroup label="Display">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -361,9 +362,9 @@ export function SettingsPage() {
  </div>
  </FieldGroup>
  <div className="flex justify-end">
- <Button variant="accent" onClick={() => handleSave('system')}>{t('common.save')}</Button>
+ <Button variant="primary" onClick={() => handleSave('system')}>{t('common.save')}</Button>
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
  </div>

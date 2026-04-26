@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FileText, Download, AlertCircle, CheckCircle, Clock, FileSpreadsheet } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardTitle } from '@/components/humi';
+import { Button } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
 import { useGovReports, REPORT_TYPE_INFO } from '@/hooks/use-gov-reports';
 import type { ReportType, ReportFormat, GovReport } from '@/hooks/use-gov-reports';
@@ -131,11 +131,8 @@ export default function GovernmentReportsPage() {
  {/* Left column: report selection + parameters */}
  <div className="xl:col-span-1 space-y-6">
  {/* Report type selection */}
- <Card>
- <CardHeader>
- <CardTitle className="text-base">{t('selectReport')}</CardTitle>
- </CardHeader>
- <CardContent className="pt-0 space-y-3">
+ <Card header={<CardTitle className="text-base">{t('selectReport')}</CardTitle>}>
+ <div className="space-y-3">
  {REPORT_TYPE_INFO.map((info) => {
  const isSelected = selectedType === info.type;
  return (
@@ -182,16 +179,13 @@ export default function GovernmentReportsPage() {
  </button>
  );
  })}
- </CardContent>
+ </div>
  </Card>
 
  {/* Report parameters */}
  {selectedType && (
- <Card>
- <CardHeader>
- <CardTitle className="text-base">{t('reportParameters')}</CardTitle>
- </CardHeader>
- <CardContent className="pt-0 space-y-4">
+ <Card header={<CardTitle className="text-base">{t('reportParameters')}</CardTitle>}>
+ <div className="space-y-4">
  <FormField
  label={t('year')}
  name="year"
@@ -248,7 +242,7 @@ export default function GovernmentReportsPage() {
 
  {selectedTypeInfo?.supportsExcel ? (
  <Button
- variant="outline"
+ variant="secondary"
  className="w-full"
  onClick={() => handleGenerate('excel')}
  disabled={generating}
@@ -262,18 +256,14 @@ export default function GovernmentReportsPage() {
  <p className="text-xs text-ink-muted text-center">{t('excelNotSupported')}</p>
  )}
  </div>
- </CardContent>
+ </div>
  </Card>
  )}
  </div>
 
  {/* Right column: generated reports history */}
  <div className="xl:col-span-2">
- <Card>
- <CardHeader>
- <CardTitle className="text-base">{t('recentReports')}</CardTitle>
- </CardHeader>
- <CardContent className="pt-0">
+ <Card header={<CardTitle className="text-base">{t('recentReports')}</CardTitle>}>
  {loading ? (
  <div className="space-y-3">
  {[1, 2, 3, 4].map((i) => (
@@ -408,7 +398,6 @@ export default function GovernmentReportsPage() {
  </div>
  </>
  )}
- </CardContent>
  </Card>
  </div>
  </div>

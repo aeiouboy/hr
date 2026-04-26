@@ -5,10 +5,8 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Pencil, Save, X, Eye, Download } from 'lucide-react';
 import { Tabs } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, Button, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { FormField } from '@/components/ui/form-field';
 import { useSpd, type TeamTimeRecord, type TeamOTRecord, type ShiftDay, type TeamSchedule } from '@/hooks/use-spd';
 import { cn } from '@/lib/utils';
@@ -192,11 +190,8 @@ export function SPDManagementPage() {
  };
 
  const renderTimeRecords = () => (
- <Card>
- <CardHeader>
- <CardTitle>{t('tabs.timeRecords')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 space-y-4">
+ <Card header={<CardTitle>{t('tabs.timeRecords')}</CardTitle>}>
+ <div className="p-5 sm:p-6 lg:p-8 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
  <FormField
  label={t('columns.employee')}
@@ -336,12 +331,12 @@ export function SPDManagementPage() {
  <Button size="sm" onClick={() => void handleSaveTime()}>
  <Save className="h-3.5 w-3.5" />
  </Button>
- <Button size="sm" variant="outline" onClick={() => setEditingTimeRecordId(null)}>
+ <Button size="sm" variant="secondary" onClick={() => setEditingTimeRecordId(null)}>
  <X className="h-3.5 w-3.5" />
  </Button>
  </div>
  ) : (
- <Button size="sm" variant="outline" onClick={() => handleStartEditTime(record)}>
+ <Button size="sm" variant="secondary" onClick={() => handleStartEditTime(record)}>
  <Pencil className="h-3.5 w-3.5" />
  </Button>
  )}
@@ -372,16 +367,13 @@ export function SPDManagementPage() {
  </div>
  ))}
  </div>
- </CardContent>
+ </div>
  </Card>
  );
 
  const renderOTRecords = () => (
- <Card>
- <CardHeader>
- <CardTitle>{t('tabs.otRecords')}</CardTitle>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 space-y-4">
+ <Card header={<CardTitle>{t('tabs.otRecords')}</CardTitle>}>
+ <div className="p-5 sm:p-6 lg:p-8 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
  <FormField
  label={t('columns.employee')}
@@ -451,7 +443,7 @@ export function SPDManagementPage() {
  <Badge variant={STATUS_BADGE[record.status]}>{record.status}</Badge>
  </td>
  <td className="px-4 py-3 text-right">
- <Button size="sm" variant="outline" onClick={() => handleOpenOTEdit(record)}>
+ <Button size="sm" variant="secondary" onClick={() => handleOpenOTEdit(record)}>
  <Pencil className="h-3.5 w-3.5" />
  </Button>
  </td>
@@ -460,7 +452,7 @@ export function SPDManagementPage() {
  </tbody>
  </table>
  </div>
- </CardContent>
+ </div>
  </Card>
  );
 
@@ -470,8 +462,9 @@ export function SPDManagementPage() {
  const isEditing = editingScheduleId === schedule.id;
  const displayed = scheduleDraft[schedule.id] ?? schedule.weekSchedule;
  return (
- <Card key={schedule.id}>
- <CardHeader>
+ <Card
+ key={schedule.id}
+ header={
  <div className="flex items-center justify-between gap-3">
  <CardTitle>{schedule.employeeName}</CardTitle>
  {isEditing ? (
@@ -479,18 +472,19 @@ export function SPDManagementPage() {
  <Button size="sm" onClick={() => void handleSaveSchedule(schedule)}>
  {t('actions.save')}
  </Button>
- <Button size="sm" variant="outline" onClick={() => setEditingScheduleId(null)}>
+ <Button size="sm" variant="secondary" onClick={() => setEditingScheduleId(null)}>
  {t('actions.cancel')}
  </Button>
  </div>
  ) : (
- <Button size="sm" variant="outline" onClick={() => setEditingScheduleId(schedule.id)}>
+ <Button size="sm" variant="secondary" onClick={() => setEditingScheduleId(schedule.id)}>
  {t('actions.edit')}
  </Button>
  )}
  </div>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ }
+ >
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
  {displayed.map((day, index) => (
  <div key={`${day.date}-${day.day}`} className={cn('rounded-md border p-3', SHIFT_COLORS[day.shift])}>
@@ -519,7 +513,7 @@ export function SPDManagementPage() {
  </div>
  ))}
  </div>
- </CardContent>
+ </div>
  </Card>
  );
  })}
@@ -527,8 +521,8 @@ export function SPDManagementPage() {
  );
 
  const renderLeaveDocuments = () => (
- <Card>
- <CardHeader>
+ <Card
+ header={
  <div className="flex items-center justify-between">
  <CardTitle>{t('tabs.leaveDocuments')}</CardTitle>
  <div className="w-[220px]">
@@ -547,8 +541,9 @@ export function SPDManagementPage() {
  />
  </div>
  </div>
- </CardHeader>
- <CardContent className="p-5 sm:p-6 lg:p-8 space-y-3">
+ }
+ >
+ <div className="p-5 sm:p-6 lg:p-8 space-y-3">
  {filteredDocuments.map((document) => (
  <div key={document.id} className="rounded-md border border-hairline p-4">
  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -563,7 +558,7 @@ export function SPDManagementPage() {
  <div className="mt-3 flex flex-wrap items-center gap-2">
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  onClick={() => {
  const url = viewLeaveDocument(document.id);
  if (url) window.open(url,'_blank','noopener,noreferrer');
@@ -574,7 +569,7 @@ export function SPDManagementPage() {
  </Button>
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  onClick={() => {
  const url = viewLeaveDocument(document.id);
  if (url) window.open(url,'_blank','noopener,noreferrer');
@@ -588,7 +583,7 @@ export function SPDManagementPage() {
  </Button>
  <Button
  size="sm"
- variant="destructive"
+ variant="danger"
  onClick={() => void updateLeaveDocument(document.id, { status:'resubmission_required' })}
  >
  Reject
@@ -596,7 +591,7 @@ export function SPDManagementPage() {
  </div>
  </div>
  ))}
- </CardContent>
+ </div>
  </Card>
  );
 
@@ -647,7 +642,7 @@ export function SPDManagementPage() {
  ]}
  />
  <div className="flex justify-end gap-2 pt-2">
- <Button variant="outline" onClick={() => setEditingOT(null)}>
+ <Button variant="secondary" onClick={() => setEditingOT(null)}>
  {t('actions.cancel')}
  </Button>
  <Button onClick={() => void handleSaveOT()}>{t('actions.save')}</Button>

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/toast';
@@ -307,11 +307,11 @@ export function LeaveRequestForm({
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 justify-end">
             {onCancel && (
-              <Button type="button" variant="outline" onClick={onCancel}>
+              <Button type="button" variant="secondary" onClick={onCancel}>
                 {tc('cancel')}
               </Button>
             )}
-            <Button variant="accent" type="submit" disabled={submitting || hasBlockingError}>
+            <Button variant="primary" type="submit" disabled={submitting || hasBlockingError}>
               {submitting ? tc('loading') : t('submit')}
             </Button>
           </div>

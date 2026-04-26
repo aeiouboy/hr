@@ -15,7 +15,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { formatDate } from '@/lib/date';
 import type { WorkflowItem, WorkflowStatus, WorkflowType } from '@/hooks/use-workflows';
 
@@ -184,7 +184,7 @@ export function WorkflowList({
                 {onSendBack && (
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="secondary"
                     className="border-warning text-warning hover:bg-warning-tint h-7 text-xs"
                     onClick={(e) => { e.stopPropagation(); onSendBack(workflow.id); }}
                   >
@@ -195,7 +195,7 @@ export function WorkflowList({
                 {onReject && (
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="secondary"
                     className="border-danger text-danger hover:bg-danger-tint h-7 text-xs"
                     onClick={(e) => { e.stopPropagation(); onReject(workflow.id); }}
                   >

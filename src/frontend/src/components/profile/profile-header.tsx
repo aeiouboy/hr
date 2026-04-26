@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { MapPin, Mail, Phone, Building, Edit, Network } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { isHR } from '@/lib/rbac';
@@ -114,7 +114,7 @@ export function ProfileHeader({ employee, loading, onEditProfile, onViewOrgChart
  </div>
  <div className="flex gap-2 w-full sm:w-auto">
  {isHR(roles) && onEditProfile && (
- <Button variant="outline" size="sm" onClick={onEditProfile} className="flex-1 sm:flex-none">
+ <Button variant="secondary" size="sm" onClick={onEditProfile} className="flex-1 sm:flex-none">
  <Edit className="mr-1.5 h-4 w-4" />
  {t('common.edit')}
  </Button>

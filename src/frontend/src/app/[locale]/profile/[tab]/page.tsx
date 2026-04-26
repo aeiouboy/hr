@@ -11,7 +11,7 @@ import { BenefitsTab } from '@/components/profile/tabs/benefits';
 import { ProfileDetailsTab } from '@/components/profile/tabs/profile-details';
 import { ScorecardTab } from '@/components/profile/tabs/scorecard';
 import { OrgChart } from '@/components/profile/org-chart';
-import { Modal } from '@/components/ui/modal';
+import { Modal } from '@/components/humi';
 import { useEmployee } from '@/hooks/use-employee';
 
 const VALID_TABS: ProfileTabId[] = [
@@ -81,7 +81,7 @@ export default function ProfileTabPage({
  open={showOrgChart}
  onClose={() => setShowOrgChart(false)}
  title="Organization Chart"
- className="max-w-2xl"
+ widthClass="max-w-2xl"
  >
  {orgChart ? (
  <OrgChart

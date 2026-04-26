@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { CheckCircle2, XCircle, X } from 'lucide-react';
 
 interface BulkActionBarProps {
@@ -25,7 +25,7 @@ export function BulkActionBar({ count, onApprove, onReject, onClear }: BulkActio
 
  <div className="flex items-center gap-3">
  <Button
- variant="default"
+ variant="primary"
  size="sm"
  onClick={onApprove}
  className="bg-success hover:bg-success/90 focus-visible:ring-success"
@@ -33,7 +33,7 @@ export function BulkActionBar({ count, onApprove, onReject, onClear }: BulkActio
  <CheckCircle2 className="h-4 w-4 mr-1.5" />
  {t('bulkBar.approveAll')}
  </Button>
- <Button variant="destructive" size="sm" onClick={onReject}>
+ <Button variant="danger" size="sm" onClick={onReject}>
  <XCircle className="h-4 w-4 mr-1.5" />
  {t('bulkBar.rejectAll')}
  </Button>

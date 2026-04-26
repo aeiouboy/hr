@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PersonHero } from '@/components/ui/person-hero';
 import { ProfileTabs, type ProfileTabId } from '@/components/profile/profile-tabs';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Edit, Network } from 'lucide-react';
 import { isHR } from '@/lib/rbac';
 import { useAuthStore } from '@/stores/auth-store';
@@ -16,7 +16,7 @@ import { BenefitsTab } from '@/components/profile/tabs/benefits';
 import { ProfileDetailsTab } from '@/components/profile/tabs/profile-details';
 import { ScorecardTab } from '@/components/profile/tabs/scorecard';
 import { OrgChart } from '@/components/profile/org-chart';
-import { Modal } from '@/components/ui/modal';
+import { Modal } from '@/components/humi';
 import { useEmployee } from '@/hooks/use-employee';
 
 export default function ProfilePage() {
@@ -77,7 +77,7 @@ export default function ProfilePage() {
  actions={
  <>
  {isHR(roles) && (
- <Button variant="outline" size="sm" onClick={() => setActiveTab('personal')}>
+ <Button variant="secondary" size="sm" onClick={() => setActiveTab('personal')}>
  <Edit className="mr-1.5 h-4 w-4" />
  แก้ไข
  </Button>
@@ -101,7 +101,7 @@ export default function ProfilePage() {
  open={showOrgChart}
  onClose={() => setShowOrgChart(false)}
  title="Organization Chart"
- className="max-w-2xl"
+ widthClass="max-w-2xl"
  >
  {orgChart ? (
  <OrgChart

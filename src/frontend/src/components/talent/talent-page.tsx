@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { TrendingUp, Users, AlertTriangle, Star } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -58,7 +58,7 @@ export function TalentPage() {
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
  {stats.map((s) => (
  <Card key={s.label}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <div className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-md bg-surface-raised flex items-center justify-center">{s.icon}</div>
  <div>
@@ -66,14 +66,12 @@ export function TalentPage() {
  <p className="text-xs text-ink-muted">{s.label}</p>
  </div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>
 
- <Card>
- <CardHeader><CardTitle>{t('dashboard.hiPoList')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('dashboard.hiPoList')}</CardTitle>}>
  {hiPoList.length === 0 ? (
  <p className="text-sm text-ink-muted text-center py-8">{t('noHiPo')}</p>
  ) : (
@@ -109,15 +107,12 @@ export function TalentPage() {
  </table>
  </div>
  )}
- </CardContent>
  </Card>
  </div>
  )}
 
  {activeTab ==='nineBox' && (
- <Card>
- <CardHeader><CardTitle>{t('nineBox.title')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('nineBox.title')}</CardTitle>}>
  <div className="mb-4 flex items-center gap-4 text-xs text-ink-muted">
  <span className="flex items-center gap-1"><span className="inline-block w-3 h-3 rounded bg-gray-300" /> {t('nineBox.performance')} →</span>
  <span className="flex items-center gap-1">↑ {t('nineBox.potential')}</span>
@@ -139,15 +134,14 @@ export function TalentPage() {
  </div>
  ))}
  </div>
- </CardContent>
  </Card>
  )}
 
  {activeTab ==='talentPool' && (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {employees.map((emp) => (
- <Card key={emp.id} className="hover:shadow-1 transition-shadow">
- <CardContent className="p-5 sm:p-6 lg:p-8">
+ <Card key={emp.id}>
+ <div className="hover:shadow-1 transition-shadow p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-3 mb-3">
  {emp.photo && <img src={emp.photo} alt="" className="w-10 h-10 rounded-full" />}
  <div>
@@ -162,7 +156,7 @@ export function TalentPage() {
  <div><span className="text-ink-muted">{t('yearsOfService')}</span><p className="font-medium">{emp.yearsOfService}</p></div>
  <div><span className="text-ink-muted">{t('riskOfLoss')}</span><Badge variant={emp.riskOfLoss ==='high' ?'error' : emp.riskOfLoss ==='medium' ?'warning' :'success'}>{emp.riskOfLoss}</Badge></div>
  </div>
- </CardContent>
+ </div>
  </Card>
  ))}
  </div>

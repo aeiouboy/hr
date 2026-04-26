@@ -15,9 +15,8 @@ import {
  FileText,
  Briefcase,
 } from 'lucide-react';
-import { Modal } from '@/components/ui/modal';
+import { Modal, Button } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/date';
 import type { WorkflowItem, WorkflowStatus, WorkflowStep, WorkflowType } from '@/hooks/use-workflows';
 
@@ -223,7 +222,7 @@ export function WorkflowDetailModal({
  </div>
  <div className="flex gap-2 justify-end">
  <Button
- variant="outline"
+ variant="secondary"
  size="sm"
  onClick={() => { setActionMode(null); setReason(''); }}
  disabled={submitting}
@@ -234,7 +233,7 @@ export function WorkflowDetailModal({
  size="sm"
  disabled={submitting || (actionMode !=='approve' && !reason.trim())}
  className={confirmBtnClass}
- variant={actionMode ==='approve' ?'default' :'outline'}
+ variant={actionMode ==='approve' ?'primary' :'secondary'}
  onClick={handleConfirmAction}
  >
  {submitting ?'Processing...' : `Confirm ${actionLabels[actionMode]}`}
@@ -246,7 +245,7 @@ export function WorkflowDetailModal({
  {onSendBack && (
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  className="border-warning text-warning hover:bg-warning-tint focus-visible:ring-warning"
  onClick={() => setActionMode('sendBack')}
  >
@@ -257,7 +256,7 @@ export function WorkflowDetailModal({
  {onReject && (
  <Button
  size="sm"
- variant="outline"
+ variant="secondary"
  className="border-danger text-danger hover:bg-danger-tint focus-visible:ring-danger"
  onClick={() => setActionMode('reject')}
  >
@@ -278,7 +277,7 @@ export function WorkflowDetailModal({
  </div>
  ) : (
  <div className="flex justify-end">
- <Button variant="outline" size="sm" onClick={handleClose}>
+ <Button variant="secondary" size="sm" onClick={handleClose}>
  Close
  </Button>
  </div>
@@ -296,8 +295,7 @@ export function WorkflowDetailModal({
  open={open}
  onClose={handleClose}
  title={`${workflow.typeLabel} — ${workflow.id}`}
- footer={footer}
- className="max-w-2xl"
+ widthClass="max-w-2xl"
  >
  <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
  {/* Header: type icon + status */}
@@ -409,6 +407,7 @@ export function WorkflowDetailModal({
  <StepTimeline steps={workflow.steps} currentStep={workflow.currentStep} />
  </div>
  </div>
+ <div className="border-t pt-4 mt-4 flex justify-end gap-2">{footer}</div>
  </Modal>
  );
 }

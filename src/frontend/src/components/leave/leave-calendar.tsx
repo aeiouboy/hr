@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { cn } from '@/lib/utils';
 import { LEAVE_TYPE_COLORS } from './leave-balance';
 import type { CalendarEvent, ThaiHoliday, LeaveType } from '@/hooks/use-leave';

@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Plus } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
+import { Button, Modal } from '@/components/humi';
 import { FormField } from '@/components/ui/form-field';
 import { WorkflowList } from '@/components/workflows/workflow-list';
 import { WorkflowDetailModal } from '@/components/workflows/workflow-detail-modal';
@@ -164,7 +163,7 @@ export default function WorkflowsPage() {
           />
         </div>
         <div className="flex justify-end gap-3 mt-6">
-          <Button variant="outline" onClick={() => setCreateModalOpen(false)}>Cancel</Button>
+          <Button variant="secondary" onClick={() => setCreateModalOpen(false)}>Cancel</Button>
           <Button onClick={handleCreateRequest} disabled={!newRequest.description.trim()}>Submit Request</Button>
         </div>
       </Modal>

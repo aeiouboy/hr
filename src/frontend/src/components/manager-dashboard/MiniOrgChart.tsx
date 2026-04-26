@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { ChevronDown, ChevronRight, User } from 'lucide-react';
 import type { OrgNode } from '@/lib/manager-dashboard-api';
 import { cn } from '@/lib/utils';
@@ -72,11 +72,7 @@ export function MiniOrgChart({ root, loading }: MiniOrgChartProps) {
  const t = useTranslations('managerDashboard');
 
  return (
- <Card>
- <CardHeader className="pb-3">
- <CardTitle>{t('teamStructure')}</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('teamStructure')}</CardTitle>}>
  {loading ? (
  <div className="space-y-3">
  {[1, 2, 3].map((i) => (
@@ -88,7 +84,6 @@ export function MiniOrgChart({ root, loading }: MiniOrgChartProps) {
  ) : (
  <p className="text-sm text-ink-muted py-4 text-center">No data</p>
  )}
- </CardContent>
  </Card>
  );
 }

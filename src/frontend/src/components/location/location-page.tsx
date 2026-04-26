@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { MapPin, Building, Users, ChevronRight, ChevronDown } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLocations, type LocationNode } from '@/hooks/use-locations';
@@ -60,26 +60,23 @@ export function LocationPage() {
  </div>
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{totalHeadcount.toLocaleString()}</p><p className="text-xs text-ink-muted">{t('totalHeadcount')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><MapPin className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold">{totalLocations}</p><p className="text-xs text-ink-muted">{t('totalLocations')}</p></div></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Building className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold">{totalBranches}</p><p className="text-xs text-ink-muted">{t('totalBranches')}</p></div></CardContent></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Users className="h-8 w-8 text-brand" /><div><p className="text-2xl font-bold">{totalHeadcount.toLocaleString()}</p><p className="text-xs text-ink-muted">{t('totalHeadcount')}</p></div></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><MapPin className="h-8 w-8 text-accent" /><div><p className="text-2xl font-bold">{totalLocations}</p><p className="text-xs text-ink-muted">{t('totalLocations')}</p></div></div></Card>
+ <Card><div className="p-5 sm:p-6 lg:p-8 flex items-center gap-3"><Building className="h-8 w-8 text-success" /><div><p className="text-2xl font-bold">{totalBranches}</p><p className="text-xs text-ink-muted">{t('totalBranches')}</p></div></div></Card>
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  {/* Tree view */}
- <Card className="lg:col-span-1">
- <CardHeader><CardTitle>{t('locationTree')}</CardTitle></CardHeader>
- <CardContent className="p-2 max-h-[600px] overflow-y-auto">
+ <Card className="lg:col-span-1" header={<CardTitle>{t('locationTree')}</CardTitle>}>
+ <div className="p-2 max-h-[600px] overflow-y-auto">
  {locations.map((loc) => (
  <LocationTreeNode key={loc.id} node={loc} selectedId={selectedLocation?.id || null} onSelect={setSelectedLocation} />
  ))}
- </CardContent>
+ </div>
  </Card>
 
  {/* Detail view */}
- <Card className="lg:col-span-2">
- <CardHeader><CardTitle>{selectedLocation ? selectedLocation.nameEn : t('selectLocation')}</CardTitle></CardHeader>
- <CardContent>
+ <Card className="lg:col-span-2" header={<CardTitle>{selectedLocation ? selectedLocation.nameEn : t('selectLocation')}</CardTitle>}>
  {!selectedLocation ? (
  <p className="text-sm text-ink-muted text-center py-12">{t('selectLocation')}</p>
  ) : (
@@ -123,7 +120,6 @@ export function LocationPage() {
  </div>
  </div>
  )}
- </CardContent>
  </Card>
  </div>
  </>

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Briefcase, Building, UserCheck } from 'lucide-react';
 import { FieldGroup } from '@/components/ui/field-group';
 import { Field } from '@/components/ui/field';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/humi';
 import { formatDate } from '@/lib/date';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EffectiveDateGate } from '@/components/profile/EffectiveDateGate';
@@ -82,12 +82,14 @@ export function EmploymentTab({ employee, loading }: EmploymentTabProps) {
 
  {/* Org Chart */}
  {orgChart && (
- <Card className="overflow-hidden">
+ <Card>
+ <div className="overflow-hidden">
  <div className="px-6 py-4 border-l-2 border-accent">
  <h3 className="text-sm font-semibold text-ink">{t('employment.orgChart')}</h3>
  </div>
  <div className="px-6 pb-4">
  <OrgChartMini orgChart={orgChart} />
+ </div>
  </div>
  </Card>
  )}

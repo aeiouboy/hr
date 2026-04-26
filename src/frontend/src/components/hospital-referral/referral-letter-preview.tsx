@@ -1,8 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Modal, Button } from '@/components/humi';
 import { Printer, Download } from 'lucide-react';
 import type { HospitalReferral } from '@/hooks/use-hospital-referral';
 
@@ -161,22 +160,7 @@ export function ReferralLetterPreview({ referral, open, onClose }: ReferralLette
  open={open}
  onClose={onClose}
  title={t('referralLetter')}
- className="max-w-2xl"
- footer={
- <div className="flex justify-end gap-2 print:hidden">
- <Button variant="outline" size="sm" onClick={handleDownload}>
- <Download className="h-4 w-4 mr-2" />
- {t('downloadLetter')}
- </Button>
- <Button size="sm" onClick={handlePrint}>
- <Printer className="h-4 w-4 mr-2" />
- {t('printLetter')}
- </Button>
- <Button variant="outline" size="sm" onClick={onClose}>
- {tc('close')}
- </Button>
- </div>
- }
+ widthClass="max-w-2xl"
  >
  {/* Letter content — styled for professional look and print */}
  <div className="print:shadow-none print:p-0 font-serif">
@@ -345,6 +329,19 @@ export function ReferralLetterPreview({ referral, open, onClose }: ReferralLette
  This document is issued by the Human Resources Department, Central Group Holdings Co., Ltd.
  </p>
  </div>
+ </div>
+ <div className="border-t pt-4 flex justify-end gap-2 print:hidden">
+ <Button variant="secondary" size="sm" onClick={handleDownload}>
+ <Download className="h-4 w-4 mr-2" />
+ {t('downloadLetter')}
+ </Button>
+ <Button size="sm" onClick={handlePrint}>
+ <Printer className="h-4 w-4 mr-2" />
+ {t('printLetter')}
+ </Button>
+ <Button variant="secondary" size="sm" onClick={onClose}>
+ {tc('close')}
+ </Button>
  </div>
  </Modal>
  );

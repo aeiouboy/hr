@@ -24,12 +24,11 @@ import {
  FileCheck,
  Heart,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardTitle, Modal } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Tabs } from '@/components/ui/tabs';
 import { FormField } from '@/components/ui/form-field';
-import { Modal } from '@/components/ui/modal';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
  useMedicalClaims,
@@ -509,12 +508,12 @@ export function MedicalClaimsPage() {
  </p>
  <p className="mt-1 text-xs text-ink-muted">JPG, PNG, PDF (max 10MB)</p>
  <div className="mt-3 flex gap-2">
- <Button variant="outline" size="sm" type="button" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
+ <Button variant="secondary" size="sm" type="button" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
  <FileText className="mr-1 h-4 w-4" />
  {t('medicalClaims.form.browse')}
  </Button>
  {zone ==='receipt' && (
- <Button variant="outline" size="sm" type="button" className="sm:hidden" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
+ <Button variant="secondary" size="sm" type="button" className="sm:hidden" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
  <Camera className="mr-1 h-4 w-4" />
  {t('medicalClaims.form.camera')}
  </Button>
@@ -548,46 +547,37 @@ export function MedicalClaimsPage() {
  {/* Benefit summary cards */}
  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-5">
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-2 mb-3">
  <Heart className="h-4 w-4 lg:h-5 lg:w-5 text-brand" />
  <span className="text-xs lg:text-sm text-ink-muted">{t('medicalClaims.overview.planType')}</span>
  </div>
  <p className="text-lg lg:text-xl font-semibold">{summary.planType}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-2 mb-3">
  <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-success" />
  <span className="text-xs lg:text-sm text-ink-muted">{t('medicalClaims.overview.annualLimit')}</span>
  </div>
  <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.annualLimit)}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-2 mb-3">
  <Receipt className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500" />
  <span className="text-xs lg:text-sm text-ink-muted">{t('medicalClaims.overview.used')}</span>
  </div>
  <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.usedAmount)}</p>
- </CardContent>
  </Card>
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center gap-2 mb-3">
  <DollarSign className="h-4 w-4 lg:h-5 lg:w-5 text-accent" />
  <span className="text-xs lg:text-sm text-ink-muted">{t('medicalClaims.overview.remaining')}</span>
  </div>
  <p className="text-lg lg:text-xl font-semibold">{formatCurrency(summary.remainingAmount)}</p>
- </CardContent>
  </Card>
  </div>
 
  {/* Progress bar */}
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-ink-soft">
  {t('medicalClaims.overview.usageProgress')}
@@ -605,18 +595,17 @@ export function MedicalClaimsPage() {
  <p className="mt-2 text-xs text-ink-muted">
  {formatCurrency(summary.remainingAmount)} {t('medicalClaims.overview.remainingLabel')}
  </p>
- </CardContent>
  </Card>
 
  {/* Recent claims */}
- <Card>
- <CardHeader>
+ <Card
+ header={
  <CardTitle className="flex items-center gap-2">
  <Clock className="h-5 w-5 text-ink-muted" />
  {t('medicalClaims.overview.recentClaims')}
  </CardTitle>
- </CardHeader>
- <CardContent>
+ }
+ >
  {claims.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">
  {t('medicalClaims.overview.noClaims')}
@@ -645,10 +634,9 @@ export function MedicalClaimsPage() {
  ))}
  </div>
  )}
- </CardContent>
- <CardFooter className="justify-center">
+ <div className="flex justify-center mt-4">
  <Button
- variant="default"
+ variant="primary"
  size="lg"
  onClick={() => setActiveTab('newClaim')}
  className="w-full sm:w-auto"
@@ -656,7 +644,7 @@ export function MedicalClaimsPage() {
  <Plus className="mr-2 h-4 w-4" />
  {t('medicalClaims.overview.startClaim')}
  </Button>
- </CardFooter>
+ </div>
  </Card>
  </div>
  );
@@ -750,7 +738,7 @@ export function MedicalClaimsPage() {
  {renderUploadZone('other', t('medicalClaims.form.otherDocuments'), false, null, otherRef, true)}
 
  <div className="flex justify-between pt-4">
- <Button variant="outline" onClick={() => setStep(1)}>
+ <Button variant="secondary" onClick={() => setStep(1)}>
  {t('medicalClaims.form.back')}
  </Button>
  <Button onClick={() => setStep(3)} disabled={!validateStep2()}>
@@ -770,14 +758,14 @@ export function MedicalClaimsPage() {
  return (
  <div className="space-y-6">
  {/* Claim summary */}
- <Card>
- <CardHeader>
+ <Card
+ header={
  <CardTitle className="flex items-center gap-2">
  <FileCheck className="h-5 w-5 text-brand" />
  {t('medicalClaims.form.reviewTitle')}
  </CardTitle>
- </CardHeader>
- <CardContent>
+ }
+ >
  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
  <div>
  <dt className="text-xs text-ink-muted">{t('medicalClaims.form.diseaseCategory')}</dt>
@@ -806,15 +794,10 @@ export function MedicalClaimsPage() {
  </div>
  )}
  </dl>
- </CardContent>
  </Card>
 
  {/* Documents list */}
- <Card>
- <CardHeader>
- <CardTitle className="text-base">{t('medicalClaims.form.attachedDocuments')}</CardTitle>
- </CardHeader>
- <CardContent>
+ <Card header={<CardTitle className="text-base">{t('medicalClaims.form.attachedDocuments')}</CardTitle>}>
  <ul className="space-y-2">
  {allFiles.map((f, i) => (
  <li key={i} className="flex items-center gap-2 text-sm">
@@ -825,7 +808,6 @@ export function MedicalClaimsPage() {
  </li>
  ))}
  </ul>
- </CardContent>
  </Card>
 
  {/* Policy check */}
@@ -859,7 +841,7 @@ export function MedicalClaimsPage() {
 
  {/* Actions */}
  <div className="flex flex-col-reverse sm:flex-row justify-between gap-3 pt-4">
- <Button variant="outline" onClick={() => setStep(2)} disabled={submitting}>
+ <Button variant="secondary" onClick={() => setStep(2)} disabled={submitting}>
  {t('medicalClaims.form.back')}
  </Button>
  <div className="flex gap-3">
@@ -881,11 +863,9 @@ export function MedicalClaimsPage() {
  <div>
  {renderStepIndicator()}
  <Card>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  {step === 1 && renderStep1()}
  {step === 2 && renderStep2()}
  {step === 3 && renderStep3()}
- </CardContent>
  </Card>
  </div>
  );
@@ -976,7 +956,6 @@ export function MedicalClaimsPage() {
  className="cursor-pointer hover:shadow-1 transition-shadow"
  onClick={() => setDetailClaim(claim)}
  >
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-start justify-between">
  <div className="min-w-0 flex-1">
  <p className="text-sm font-medium truncate">{claim.hospitalName}</p>
@@ -989,7 +968,6 @@ export function MedicalClaimsPage() {
  {t(`medicalClaims.status.${claim.status}`)}
  </Badge>
  </div>
- </CardContent>
  </Card>
  ))}
  </div>
@@ -1008,7 +986,7 @@ export function MedicalClaimsPage() {
  open={!!detailClaim}
  onClose={() => setDetailClaim(null)}
  title={`${t('medicalClaims.detail.title')} ${detailClaim.id}`}
- className="md:max-w-2xl"
+ widthClass="md:max-w-2xl"
  >
  <div className="space-y-6">
  {/* Status and amount */}

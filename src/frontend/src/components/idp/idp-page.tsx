@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { BookOpen, Plus, CheckCircle, Clock, Circle } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { Tabs } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useIdp, type ActionStatus } from '@/hooks/use-idp';
@@ -40,25 +40,23 @@ export function IdpPage() {
 
  {plan && (
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-ink">{plan.overallProgress}%</p><p className="text-xs text-ink-muted">{t('overallProgress')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center"><p className="text-2xl font-bold text-success">{plan.actions.filter((a) => a.status ==='completed').length}/{plan.actions.length}</p><p className="text-xs text-ink-muted">{t('completedActions')}</p></CardContent></Card>
- <Card><CardContent className="p-5 sm:p-6 lg:p-8 text-center">
+ <Card><div className="text-center"><p className="text-2xl font-bold text-ink">{plan.overallProgress}%</p><p className="text-xs text-ink-muted">{t('overallProgress')}</p></div></Card>
+ <Card><div className="text-center"><p className="text-2xl font-bold text-success">{plan.actions.filter((a) => a.status ==='completed').length}/{plan.actions.length}</p><p className="text-xs text-ink-muted">{t('completedActions')}</p></div></Card>
+ <Card>
  <div className="flex items-center justify-center gap-2">
  {plan.employeeSignOff ? <CheckCircle className="h-4 w-4 text-success" /> : <Circle className="h-4 w-4 text-gray-300" />}
  <span className="text-xs">{t('employeeSignOff')}</span>
  {plan.managerSignOff ? <CheckCircle className="h-4 w-4 text-success" /> : <Circle className="h-4 w-4 text-gray-300" />}
  <span className="text-xs">{t('managerSignOff')}</span>
  </div>
- </CardContent></Card>
+ </Card>
  </div>
  )}
 
  <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
 
  {activeTab ==='gap' && (
- <Card>
- <CardHeader><CardTitle>{t('competencyGapDetails')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('competencyGapDetails')}</CardTitle>}>
  {gaps.length === 0 ? (
  <p className="text-sm text-ink-muted text-center py-8">{t('noCompetencyData')}</p>
  ) : (
@@ -81,7 +79,6 @@ export function IdpPage() {
  ))}
  </div>
  )}
- </CardContent>
  </Card>
  )}
 
@@ -89,7 +86,6 @@ export function IdpPage() {
  <div className="space-y-3">
  {plan.actions.map((action) => (
  <Card key={action.id}>
- <CardContent className="p-5 sm:p-6 lg:p-8">
  <div className="flex items-start gap-3">
  {ACTION_ICON[action.status]}
  <div className="flex-1">
@@ -108,23 +104,20 @@ export function IdpPage() {
  </div>
  <div className="flex gap-1">
  {action.status ==='not_started' && (
- <Button size="sm" variant="outline" onClick={() => updateActionStatus(action.id,'in_progress')}>Start</Button>
+ <Button size="sm" variant="secondary" onClick={() => updateActionStatus(action.id,'in_progress')}>Start</Button>
  )}
  {action.status ==='in_progress' && (
- <Button size="sm" variant="outline" onClick={() => updateActionStatus(action.id,'completed')}>Complete</Button>
+ <Button size="sm" variant="secondary" onClick={() => updateActionStatus(action.id,'completed')}>Complete</Button>
  )}
  </div>
  </div>
- </CardContent>
  </Card>
  ))}
  </div>
  )}
 
  {activeTab ==='progress' && plan && (
- <Card>
- <CardHeader><CardTitle>{t('progressByArea')}</CardTitle></CardHeader>
- <CardContent>
+ <Card header={<CardTitle>{t('progressByArea')}</CardTitle>}>
  <div className="space-y-6">
  {[...new Set(plan.actions.map((a) => a.targetCompetency))].map((comp) => {
  const actions = plan.actions.filter((a) => a.targetCompetency === comp);
@@ -142,7 +135,6 @@ export function IdpPage() {
  );
  })}
  </div>
- </CardContent>
  </Card>
  )}
  </>

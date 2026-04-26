@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Calendar, ClipboardList, Wallet, Plus } from 'lucide-react';
 import { Tabs } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/humi';
 import { LeaveBalanceDisplay } from '@/components/leave/leave-balance';
 import { LeaveRequestForm } from '@/components/leave/leave-request-form';
 import { LeaveCalendar } from '@/components/leave/leave-calendar';

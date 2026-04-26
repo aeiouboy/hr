@@ -2,8 +2,7 @@
 
 import { type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardTitle } from '@/components/humi';
 import { UrgencyBadge } from '@/components/quick-approve/UrgencyBadge';
 import { CheckCircle2, XCircle, ArrowRight, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
 import type { PendingRequest } from '@/lib/quick-approve-api';
@@ -33,20 +32,7 @@ export function PendingApprovalsPanel({
  const top5 = requests.slice(0, 5);
 
  return (
- <Card>
- <CardHeader className="pb-3">
- <div className="flex items-center justify-between">
- <CardTitle>{t('pendingApprovals')}</CardTitle>
- <a
- href="/quick-approve"
-           className="text-sm text-accent hover:underline flex items-center gap-1"
- >
- {t('actions.viewDetails')}
- <ArrowRight className="h-3.5 w-3.5" />
- </a>
- </div>
- </CardHeader>
- <CardContent>
+ <Card header={<><CardTitle>{t('pendingApprovals')}</CardTitle><a href="/quick-approve" className="text-sm text-accent hover:underline flex items-center gap-1">{t('actions.viewDetails')}<ArrowRight className="h-3.5 w-3.5" /></a></>}>
  {loading ? (
  <div className="space-y-3">
  {[1, 2, 3].map((i) => (
@@ -89,7 +75,6 @@ export function PendingApprovalsPanel({
  ))}
  </ul>
  )}
- </CardContent>
  </Card>
  );
 }

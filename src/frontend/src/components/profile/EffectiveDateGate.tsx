@@ -3,8 +3,7 @@
 
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Modal, Button } from '@/components/humi';
 
 interface EffectiveDateGateProps {
   open: boolean;
@@ -82,43 +81,10 @@ export function EffectiveDateGate({
 
   const effectiveDateObj = selectedDate ? new Date(selectedDate + 'T00:00:00') : null;
 
-  const footerStep1 = (
-    <div className="flex justify-end gap-3">
-      <Button variant="outline" onClick={handleClose}>
-        {t('gate.cancel')}
-      </Button>
-      <Button
-        variant="default"
-        onClick={handleContinue}
-        disabled={!isValidDate()}
-        aria-disabled={!isValidDate()}
-      >
-        {t('gate.continue')}
-      </Button>
-    </div>
-  );
-
-  const footerStep2 = (
-    <div className="flex justify-between gap-3">
-      <Button variant="ghost" onClick={handleBack}>
-        {t('gate.back')}
-      </Button>
-      <div className="flex gap-3">
-        <Button variant="outline" onClick={handleClose}>
-          {t('gate.cancel')}
-        </Button>
-        <Button variant="default" onClick={handleSave}>
-          {t('gate.save')}
-        </Button>
-      </div>
-    </div>
-  );
-
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      footer={step === 'date' ? footerStep1 : footerStep2}
     >
       {step === 'date' && (
         <div className="space-y-4">
@@ -144,12 +110,38 @@ export function EffectiveDateGate({
               </p>
             )}
           </div>
+          <div className="border-t pt-4 mt-4 flex justify-end gap-3">
+            <Button variant="secondary" onClick={handleClose}>
+              {t('gate.cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleContinue}
+              disabled={!isValidDate()}
+              aria-disabled={!isValidDate()}
+            >
+              {t('gate.continue')}
+            </Button>
+          </div>
         </div>
       )}
 
       {step === 'form' && effectiveDateObj && (
         <div className="space-y-4">
           {children(effectiveDateObj)}
+          <div className="border-t pt-4 mt-4 flex justify-between gap-3">
+            <Button variant="ghost" onClick={handleBack}>
+              {t('gate.back')}
+            </Button>
+            <div className="flex gap-3">
+              <Button variant="secondary" onClick={handleClose}>
+                {t('gate.cancel')}
+              </Button>
+              <Button variant="primary" onClick={handleSave}>
+                {t('gate.save')}
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </Modal>
