@@ -37,6 +37,8 @@ import {
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import type { TimelineEvent } from '@hrms/shared/types/timeline'
+import { useTerminationApprovals, TERMINATION_REASON_LABEL, TERMINATION_STEP_LABEL } from '@/stores/termination-approvals'
+import { usePromotionApprovals, PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals'
 import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsInCorpTitle, calcYearsInPosition } from '@/lib/calculations'
 import type { LifecycleEvent } from '@/lib/calculations'
 
@@ -235,6 +237,12 @@ export default function EmployeeDetailPage() {
   const yijResult       = employee.hire_date ? calcYearsInJob(lifecycleEvents, today) : null
   const yictResult      = employee.hire_date ? calcYearsInCorpTitle(lifecycleEvents, today) : null
   const yipResult       = employee.hire_date ? calcYearsInPosition(lifecycleEvents, today) : null
+  // Workflow status snapshot — termination + promotion pending requests for this employee
+  const terminationRequests = useTerminationApprovals((s) => s.requests)
+  const promotionRequests = usePromotionApprovals((s) => s.requests)
+  const latestTermination = terminationRequests.find((r) => r.employeeId === empId)
+  const latestPromotion = promotionRequests.find((r) => r.employeeId === empId)
+
   // Compute status-gated availability once per render
   const avail = actionAvailability(employee)
   const ACTION_CARDS: ActionCard[] = [
@@ -540,6 +548,63 @@ export default function EmployeeDetailPage() {
           )
         })()}
       </div>
+
+      {/* ── Workflow status snapshot (Chains 1 + 4) ─────────── */}
+      {(latestTermination ?? latestPromotion) && (
+        <div className="humi-card" style={{ padding: 16 }}>
+          <div className="humi-eyebrow" style={{ marginBottom: 12 }}>คำขอที่เกี่ยวข้อง</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {latestTermination && (
+              <div
+                className="humi-row"
+                style={{
+                  gap: 12, padding: '10px 14px', borderRadius: 8,
+                  background: 'var(--color-canvas-soft)', flexWrap: 'wrap',
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 160 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>คำขอลาออก (BRD #172)</div>
+                  <div className="text-body font-medium text-ink">
+                    {TERMINATION_REASON_LABEL[latestTermination.reasonCode]}
+                  </div>
+                  <div className="text-small text-ink-muted">
+                    วันสุดท้าย: {new Date(latestTermination.requestedLastDay).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </div>
+                </div>
+                <span
+                  className={`humi-tag ${latestTermination.status === 'approved' ? 'humi-tag--accent' : latestTermination.status === 'rejected' ? 'humi-tag--coral' : 'humi-tag--butter'}`}
+                >
+                  {TERMINATION_STEP_LABEL[latestTermination.status]}
+                </span>
+              </div>
+            )}
+            {latestPromotion && (
+              <div
+                className="humi-row"
+                style={{
+                  gap: 12, padding: '10px 14px', borderRadius: 8,
+                  background: 'var(--color-canvas-soft)', flexWrap: 'wrap',
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 160 }}>
+                  <div className="humi-eyebrow" style={{ marginBottom: 2 }}>คำขอเลื่อนตำแหน่ง (BRD #103)</div>
+                  <div className="text-body font-medium text-ink">
+                    {latestPromotion.fromPosition} → {latestPromotion.toPosition}
+                  </div>
+                  <div className="text-small text-ink-muted">
+                    มีผล: {new Date(latestPromotion.effectiveDate).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </div>
+                </div>
+                <span
+                  className={`humi-tag ${latestPromotion.status === 'approved' ? 'humi-tag--accent' : latestPromotion.status === 'rejected' ? 'humi-tag--coral' : 'humi-tag--butter'}`}
+                >
+                  {PROMOTION_STEP_LABEL[latestPromotion.status]}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Section B: Timeline event log ─────────────────── */}
       <div className="humi-card">

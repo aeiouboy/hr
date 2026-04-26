@@ -48,6 +48,10 @@ export interface MockEmployee {
    * ใช้คำนวณ Years-in-Corp-Title (BRD #86); undefined = ระดับเดิมตั้งแต่เริ่มงาน
    */
   corp_title_start_date?: string
+  /** รหัสหัวหน้าโดยตรง — ใช้สำหรับ leave queue / chain wiring. optional */
+  managerId?: string
+  /** Business unit slug จาก org_unit — ใช้สำหรับ chain wiring. optional */
+  businessUnitId?: string
 }
 
 // ──────────────────────────────────────────────
@@ -170,6 +174,11 @@ function daysBetween(isoA: string, isoB: Date): number {
 // Generator
 // ──────────────────────────────────────────────
 
+// Senior managers per company — first active employee in each company becomes the
+// designated manager for all subsequent employees in that company.
+// Populated on first pass; used on second write.
+const COMPANY_MANAGER_ID: Partial<Record<MockEmployee['company'], string>> = {}
+
 function generateEmployees(count: number): MockEmployee[] {
   const rnd = makePRNG(42)  // fixed seed → deterministic
   const employees: MockEmployee[] = []
@@ -249,8 +258,20 @@ function generateEmployees(count: number): MockEmployee[] {
     const position_start_date   = rnd() < 0.25 ? mkResetDate(365) : undefined
     const job_start_date        = rnd() < 0.15 ? mkResetDate(365) : undefined
 
+    const org_unit = pick(rnd, ORG_UNITS)
+    const empId = `EMP-${num}`
+
+    // Register the first active employee per company as the manager for that company
+    if (status === 'active' && !COMPANY_MANAGER_ID[company]) {
+      COMPANY_MANAGER_ID[company] = empId
+    }
+    const managerId = COMPANY_MANAGER_ID[company] !== empId
+      ? COMPANY_MANAGER_ID[company]
+      : undefined
+    const businessUnitId = org_unit.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+
     employees.push({
-      employee_id: `EMP-${num}`,
+      employee_id: empId,
       first_name_th,
       last_name_th,
       first_name_en,
@@ -263,7 +284,7 @@ function generateEmployees(count: number): MockEmployee[] {
       company,
       position_title,
       corporate_title: position_title,
-      org_unit: pick(rnd, ORG_UNITS),
+      org_unit,
       probation_status,
       status,
       store_branch_code,
@@ -272,6 +293,8 @@ function generateEmployees(count: number): MockEmployee[] {
       corp_title_start_date,
       position_start_date,
       job_start_date,
+      managerId,
+      businessUnitId,
     })
   }
 

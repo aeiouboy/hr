@@ -1,5 +1,5 @@
 // GENERATED — do not edit manually; run generate.ts
-// Generated at: 2026-04-24T06:31:54.415Z
+// Generated at: 2026-04-26T10:23:23.214Z
 // Source: picklists/data/ (33 picklists) + 6 standalone re-exports
 export { PICKLIST_COUNTRY_ISO } from './country-iso'
 export type { CountryISOId } from './country-iso'
@@ -8400,7 +8400,7 @@ export const PICKLIST_EMPLOYEE_CLASS: readonly PicklistItem[] = [
   },
   {
     "id": "B",
-    "labelTh": "B — ส่งออกต่างประเทศ",
+    "labelTh": "B — พนักงานคนไทยที่ไปทำงานต่างประเทศ",
     "labelEn": "B — Expat Outbound",
     "sortOrder": 2,
     "active": true
@@ -8414,7 +8414,7 @@ export const PICKLIST_EMPLOYEE_CLASS: readonly PicklistItem[] = [
   },
   {
     "id": "D",
-    "labelTh": "D — เกษียณอายุ",
+    "labelTh": "D — พนักงานสัญญาจ้างหลังเกษียณ",
     "labelEn": "D — Retirement",
     "sortOrder": 4,
     "active": true
@@ -8428,7 +8428,7 @@ export const PICKLIST_EMPLOYEE_CLASS: readonly PicklistItem[] = [
   },
   {
     "id": "F",
-    "labelTh": "F — DVT",
+    "labelTh": "F — ทวิภาคี",
     "labelEn": "F — DVT",
     "sortOrder": 6,
     "active": true
@@ -10491,6 +10491,13 @@ export const PICKLIST_MARITAL_STATUS: readonly PicklistItem[] = [
     "labelEn": "Separated",
     "sortOrder": 5,
     "active": true
+  },
+  {
+    "id": "N",
+    "labelTh": "สมรสไม่จดทะเบียน",
+    "labelEn": "Common-law / Unregistered marriage",
+    "sortOrder": 6,
+    "active": true
   }
 ] as const
 
@@ -11249,7 +11256,7 @@ export const PICKLIST_RELIGION: readonly PicklistItem[] = [
   },
   {
     "id": "SIKH",
-    "labelTh": "ซิกห์",
+    "labelTh": "ซิกข์",
     "labelEn": "Sikh",
     "sortOrder": 6,
     "active": true
@@ -11365,7 +11372,7 @@ export type GenderId = "M" | "F" | "X"
 export type JobFunctionId = "99999999" | "BDA" | "BDB" | "CSA" | "CSB" | "EAC" | "EMA" | "FAA" | "FAB" | "FAD" | "FBA" | "FBB" | "FBC" | "FBD" | "GAA" | "GAB" | "GAC" | "GAD" | "HRA" | "HRB" | "HTA" | "HTB" | "HTC" | "HTD" | "HTE" | "HTF" | "IAA" | "IAB" | "IAC" | "LCB" | "MKA" | "MKB" | "MKC" | "MKD" | "MKE" | "MKH" | "MKI" | "PRA" | "PRB" | "PSA" | "PSB" | "PSC" | "PSD" | "PSE" | "PSF" | "PSG" | "PTA" | "PTB" | "PTC" | "QAA" | "QAB" | "RKA" | "SLA" | "SLB" | "SLC" | "SLE" | "SPA" | "SPC" | "STA" | "STB" | "STC" | "STD" | "STE" | "BDC" | "BMD" | "CSC" | "FAE" | "FAF" | "FAG" | "FAH" | "GAE" | "HRF" | "HRG" | "HRH" | "ITE" | "ITF" | "ITG" | "ITH" | "ITI" | "LCC" | "LCD" | "LCE" | "LDH" | "LDI" | "MKJ" | "MKK" | "PDA" | "PDB" | "PMA" | "PMB" | "PMC" | "QAC" | "SDA" | "SDB" | "SLF" | "SLG" | "SSA" | "SSB" | "BIA" | "BIB" | "BIC" | "BMA" | "BMB" | "BMC" | "EAA" | "EAB" | "EAD" | "EAE" | "EAF" | "FAC" | "HRC" | "HRD" | "HRE" | "ITA" | "ITB" | "ITC" | "ITD" | "LCA" | "LDA" | "LDB" | "LDC" | "LDD" | "LDE" | "LDF" | "LDG" | "LPA" | "LPB" | "LPC" | "MKF" | "MKG" | "SLD" | "SPB"
 export type JobTypeId = "A04" | "A05" | "A01" | "A02" | "A03"
 export type ManagementProgramId = "MA" | "OT" | "MT"
-export type MaritalStatusId = "SINGLE" | "MARRIED" | "DIVORCED" | "WIDOWED" | "SEPARATED"
+export type MaritalStatusId = "SINGLE" | "MARRIED" | "DIVORCED" | "WIDOWED" | "SEPARATED" | "N"
 export type NationalityId = "TH" | "MM" | "KH" | "LA" | "VN" | "PH" | "ID" | "MY" | "SG" | "IN" | "CN" | "JP" | "KR" | "US" | "GB" | "AU" | "DE" | "FR" | "NL" | "OTHER"
 export type PayComponentId = "BE01" | "VN_1004" | "VN_1000" | "TH_1004" | "TH_1003" | "TH_1002" | "TH_1001" | "TH_1000"
 export type PayComponentGroupId = "BE01" | "TH_1004" | "TH_1000" | "TH_1001" | "TH_1002" | "TH_1003" | "VN_1000" | "AnnualizedSalary" | "VN_1004"

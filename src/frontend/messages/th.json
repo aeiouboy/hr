@@ -3176,6 +3176,7 @@
       "attendance": "การเข้างาน",
       "leave": "การลา",
       "overtime": "ล่วงเวลา",
+      "hireNotifications": "แจ้งเตือนการจ้างงาน (SH4)",
       "summary": "สรุป"
     },
     "metrics": {

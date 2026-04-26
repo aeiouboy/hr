@@ -7,8 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useHRBPReports } from '@/hooks/use-hrbp-reports';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { useHireAudit } from '@/stores/hire-audit';
 
-type TabKey ='attendance' |'leave' |'overtime' |'summary';
+type TabKey ='attendance' |'leave' |'overtime' |'hire-notifications' |'summary';
 
 function formatPeriod(period: string) {
  const [year, month] = period.split('-').map(Number);
@@ -28,12 +29,15 @@ export function HRBPReportsPage() {
  summaryMetrics,
  } = useHRBPReports();
 
+ const hireAuditEntries = useHireAudit((s) => s.entries);
+
  const [activeTab, setActiveTab] = useState<TabKey>('attendance');
 
  const tabs = [
  { key:'attendance', label: t('tabs.attendance') },
  { key:'leave', label: t('tabs.leave') },
  { key:'overtime', label: t('tabs.overtime') },
+ { key:'hire-notifications', label: t('tabs.hireNotifications') },
  { key:'summary', label: t('tabs.summary') },
  ];
 
@@ -266,6 +270,59 @@ export function HRBPReportsPage() {
  </CardContent>
  </Card>
  )}
+
+ {/* ── Hire Notifications (SH4) — Chain 2 / BRD #109 ── */}
+ {activeTab ==='hire-notifications' && <Card>
+ <CardHeader>
+ <CardTitle>Hire Notifications (SH4)</CardTitle>
+ <p className="text-sm text-ink-muted mt-1">
+ HR Admin ได้บันทึกการจ้างงานใหม่ — SH4 แจ้ง HRBP อัตโนมัติ (ข้อมูลเพื่อรับทราบเท่านั้น)
+ </p>
+ </CardHeader>
+ <CardContent className="p-5 sm:p-6 lg:p-8">
+ {hireAuditEntries.length === 0 ? (
+ <p className="text-sm text-ink-muted py-4 text-center">ยังไม่มีการบันทึกการจ้างงานใหม่</p>
+ ) : (
+ <div className="overflow-x-auto">
+ <table className="w-full text-sm">
+ <thead>
+ <tr className="border-b bg-surface-raised border-hairline">
+ <th className="text-left px-3 py-2">พนักงานใหม่</th>
+ <th className="text-left px-3 py-2">ตำแหน่ง</th>
+ <th className="text-left px-3 py-2">บริษัท</th>
+ <th className="text-left px-3 py-2">วันที่เริ่มงาน</th>
+ <th className="text-left px-3 py-2">HR Admin</th>
+ <th className="text-left px-3 py-2">ส่งแจ้งเมื่อ</th>
+ </tr>
+ </thead>
+ <tbody>
+ {hireAuditEntries.map((entry) => (
+ <tr key={entry.id} className="border-b border-hairline last:border-0">
+ <td className="px-3 py-2 font-medium text-ink">{entry.candidateName}</td>
+ <td className="px-3 py-2 text-ink-muted">{entry.position}</td>
+ <td className="px-3 py-2">
+ <Badge variant="info">{entry.company}</Badge>
+ </td>
+ <td className="px-3 py-2 text-ink-muted">
+ {new Date(entry.hireDate).toLocaleDateString('th-TH', {
+ year: 'numeric', month: 'short', day: 'numeric',
+ })}
+ </td>
+ <td className="px-3 py-2 text-ink-muted">{entry.hrAdminName}</td>
+ <td className="px-3 py-2 text-ink-muted">
+ {new Date(entry.sentAt).toLocaleString('th-TH', {
+ year: 'numeric', month: 'short', day: 'numeric',
+ hour: '2-digit', minute: '2-digit',
+ })}
+ </td>
+ </tr>
+ ))}
+ </tbody>
+ </table>
+ </div>
+ )}
+ </CardContent>
+ </Card>}
 
  {activeTab ==='summary' && (
  <div className="space-y-4">

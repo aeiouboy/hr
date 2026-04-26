@@ -81,10 +81,10 @@ export default function MyWorkflowsPage() {
                   <span
                     className={
                       'rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap ' +
-                      STATUS_STYLE[req.currentStep]
+                      STATUS_STYLE[req.status]
                     }
                   >
-                    {STEP_LABEL[req.currentStep]}
+                    {STEP_LABEL[req.status]}
                   </span>
                 </div>
 

@@ -47,7 +47,7 @@ export type ApprovalRequest = {
   employeeName: string;
   submittedBy: { id: string; name: string; role: Role };
   submittedAt: string;
-  currentStep: ApprovalStep;
+  status: ApprovalStep;
   diffs: FieldDiff[];
   /** Required for name changes (marriage cert / deed poll / nationality cert). */
   attachments?: Attachment[];
@@ -57,7 +57,7 @@ export type ApprovalRequest = {
 interface WorkflowState {
   requests: ApprovalRequest[];
   addRequest: (
-    r: Omit<ApprovalRequest, 'id' | 'submittedAt' | 'currentStep' | 'audit'>,
+    r: Omit<ApprovalRequest, 'id' | 'submittedAt' | 'status' | 'audit'>,
   ) => string;
   approve: (id: string, by: { role: Role; name: string }, comment?: string) => void;
   reject: (id: string, by: { role: Role; name: string }, reason: string) => void;
@@ -89,7 +89,7 @@ export const useWorkflowApprovals = create<WorkflowState>()(
           ...payload,
           id,
           submittedAt: now,
-          currentStep: 'pending_spd',
+          status: 'pending_spd',
           audit: [
             {
               actorRole: payload.submittedBy.role,
@@ -99,8 +99,6 @@ export const useWorkflowApprovals = create<WorkflowState>()(
             },
           ],
         };
-        // New requests go straight to SPD (the sole approver per BRD #166)
-        req.currentStep = 'pending_spd';
         set((state) => ({ requests: [req, ...state.requests] }));
         return id;
       },
@@ -111,7 +109,7 @@ export const useWorkflowApprovals = create<WorkflowState>()(
               ? r
               : {
                   ...r,
-                  currentStep: nextStep(r.currentStep),
+                  status: nextStep(r.status),
                   audit: [
                     ...r.audit,
                     {
@@ -132,7 +130,7 @@ export const useWorkflowApprovals = create<WorkflowState>()(
               ? r
               : {
                   ...r,
-                  currentStep: 'rejected',
+                  status: 'rejected',
                   audit: [
                     ...r.audit,
                     {

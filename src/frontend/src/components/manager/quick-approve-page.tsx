@@ -17,6 +17,7 @@ import {
  Calendar,
  Trash2,
  Plus,
+ Check,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +27,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useQuickApprove } from '@/hooks/use-quick-approve';
 import type { ApprovalItem, ApprovalType, UrgencyLevel } from '@/hooks/use-quick-approve';
 import { cn } from '@/lib/utils';
+import { useLeaveApprovals, LEAVE_TYPE_LABEL, LEAVE_STATUS_LABEL } from '@/stores/leave-approvals';
+import { useAuthStore } from '@/stores/auth-store';
 
 const TYPE_LABELS: Record<string, string> = {
  all:'All',
@@ -143,6 +146,13 @@ export function QuickApprovePage() {
  }));
  };
 
+ const leaveRequests = useLeaveApprovals((s) => s.requests);
+ const leaveApprove = useLeaveApprovals((s) => s.approve);
+ const leaveReject = useLeaveApprovals((s) => s.reject);
+ const managerId = useAuthStore((s) => s.userId) ?? 'MGR001';
+ const managerName = useAuthStore((s) => s.username) ?? 'หัวหน้าทีม';
+ const pendingLeave = leaveRequests.filter((r) => r.status === 'pending');
+
  if (loading) {
  return (
  <div className="space-y-6">
@@ -157,6 +167,59 @@ export function QuickApprovePage() {
 
  return (
  <div className="space-y-6">
+ {/* ── คิวลา (Leave Queue from leave-approvals store) ── */}
+ <Card>
+ <CardHeader>
+ <CardTitle className="text-base">คิวลา — รอหัวหน้าอนุมัติ ({pendingLeave.length})</CardTitle>
+ </CardHeader>
+ <CardContent className="p-4 space-y-3">
+ {pendingLeave.length === 0 ? (
+ <p className="text-sm text-ink-muted py-4 text-center">ไม่มีใบลารอการอนุมัติในขณะนี้</p>
+ ) : (
+ pendingLeave.map((req) => (
+ <div
+ key={req.id}
+ className="flex items-start gap-3 rounded-md border border-hairline p-3"
+ >
+ <div className="flex-1 min-w-0">
+ <div className="flex items-center gap-2 flex-wrap mb-1">
+ <span className="text-sm font-medium text-ink">{req.employeeName}</span>
+ <Badge variant="info">{LEAVE_TYPE_LABEL[req.leaveType]}</Badge>
+ </div>
+ <p className="text-xs text-ink-muted">
+ {req.startDate} – {req.endDate}
+ </p>
+ {req.reason && (
+ <p className="text-xs text-ink-muted mt-0.5 truncate" title={req.reason}>
+ {req.reason}
+ </p>
+ )}
+ </div>
+ <div className="flex items-center gap-1 shrink-0">
+ <button
+ onClick={() => leaveApprove(req.id, { id: managerId, name: managerName })}
+ className="p-1.5 rounded-md hover:bg-success-tint text-success"
+ aria-label={`อนุมัติใบลา ${req.employeeName}`}
+ >
+ <CheckCircle2 className="h-5 w-5" />
+ </button>
+ <button
+ onClick={() => leaveReject(req.id, { id: managerId, name: managerName }, 'ไม่อนุมัติ')}
+ className="p-1.5 rounded-md hover:bg-danger-tint text-danger"
+ aria-label={`ปฏิเสธใบลา ${req.employeeName}`}
+ >
+ <XCircle className="h-5 w-5" />
+ </button>
+ </div>
+ </div>
+ ))
+ )}
+ <p className="text-xs text-ink-muted border-t border-hairline pt-3 mt-2">
+ หมายเหตุ: คิวลา (out-of-EC) — Manager จัดการเฉพาะใบลา; การเปลี่ยนข้อมูลส่วนตัวไปที่ SPD ตาม BRD #166
+ </p>
+ </CardContent>
+ </Card>
+
  {/* Header */}
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
  <div>
