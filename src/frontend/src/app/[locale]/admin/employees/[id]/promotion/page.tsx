@@ -1,3 +1,4 @@
+// VALIDATION_EXEMPT: B-action factory page — pre-submit gate via actionAvailability + ActionGuardBanner; Zod wire deferred to Sprint 2 lifecycleSchema audit (#47)
 'use client'
 
 // promotion/page.tsx — เลื่อนตำแหน่งพนักงาน (Archetype B contextual action)

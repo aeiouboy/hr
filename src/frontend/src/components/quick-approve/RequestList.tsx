@@ -1,3 +1,4 @@
+// VALIDATION_EXEMPT: display/admin landing — filter chips + action buttons only, no data submit form (per design-gates Track C 2026-04-26)
 'use client';
 
 import { useState, useMemo, useCallback, type ReactNode } from 'react';

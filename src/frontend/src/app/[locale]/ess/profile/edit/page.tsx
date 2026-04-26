@@ -1,3 +1,4 @@
+// VALIDATION_EXEMPT: validation in Zustand humi-profile-slice + emergency/dependents/address editors (per design-gates Track C 2026-04-26)
 'use client'
 
 // ess/profile/edit/page.tsx — ESS Personal Information edit

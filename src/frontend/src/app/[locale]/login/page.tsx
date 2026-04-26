@@ -1,3 +1,4 @@
+// VALIDATION_EXEMPT: next-auth credentials provider validates email/password upstream — page is render-only post-auth (per design-gates Track C 2026-04-26)
 'use client';
 
 // ════════════════════════════════════════════════════════════

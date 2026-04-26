@@ -1,3 +1,4 @@
+// VALIDATION_EXEMPT: presentational primitive — parent form owns validator (per design-gates Track C 2026-04-26)
 'use client'
 
 // EffectiveDateGate.tsx — SF Pattern 1 UI-enforced effective dating (spec B1)

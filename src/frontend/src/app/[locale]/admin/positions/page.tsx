@@ -1,3 +1,4 @@
+// VALIDATION_EXEMPT: admin landing/audit page — filter inputs only, no submit form (per design-gates Track C 2026-04-26)
 'use client'
 
 // /admin/positions — Positions master-data CRUD (Batch 3 EC-FO)

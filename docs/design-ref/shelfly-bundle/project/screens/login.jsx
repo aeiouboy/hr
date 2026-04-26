@@ -1,3 +1,5 @@
+// VALIDATION_EXEMPT: design-reference shelfly mockup — not application source (per design-gates Track C 2026-04-26)
+// VALIDATION_EXEMPT: design-reference shelfly mockup — not application source (per design-gates Track C 2026-04-26)
 // LoginScreen.jsx (Thai)
 function LoginScreen({ onNav }) {
   const Ic = window.I;
