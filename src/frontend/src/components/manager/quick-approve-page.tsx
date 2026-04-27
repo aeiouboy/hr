@@ -449,12 +449,7 @@ export function QuickApprovePage() {
  aria-label={`เลือก ${item.employeeName}`}
  />
 
- {/* Avatar */}
- <div className="h-10 w-10 rounded-full bg-surface-raised flex items-center justify-center text-sm font-medium text-ink-muted shrink-0">
- {item.employeeAvatar}
- </div>
-
- {/* Content */}
+ {/* Content (no avatar — matches top sections' text-only header pattern) */}
  <div className="flex-1 min-w-0" onClick={() => setPreviewItem(item)}>
  <div className="flex items-center gap-2 mb-1 flex-wrap">
  <span className="text-sm font-medium text-ink">{item.employeeName}</span>
