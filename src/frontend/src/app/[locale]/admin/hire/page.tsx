@@ -37,18 +37,31 @@ export default function HirePage() {
   const [submittedName, setSubmittedName] = useState('')
   // DEF-04: HRBP validation error (BRD #109 enforced at submit, not button gate)
   const [hrbpError, setHrbpError] = useState(false)
+  // DEF-HYBRID: Strict validation error state for final submit
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleSubmit = () => {
     const state = useHireWizard.getState()
     const formData = state.formData
     const hrbpAssignee = state.hrbpAssignee
 
+    setSubmitError(null)
+    setHrbpError(false)
+
+    // Final strict validation gate (Option C)
+    const isS1Valid = state.isStepValid(1, true)
+    const isS2Valid = state.isStepValid(2, true)
+
+    if (!isS1Valid || !isS2Valid) {
+      setSubmitError('กรุณาตรวจสอบข้อมูลให้ถูกต้องครบถ้วนก่อนบันทึก (Please fix validation errors before saving)')
+      return
+    }
+
     // DEF-04: BRD #109 — HRBP must be assigned before submission
     if (!hrbpAssignee) {
       setHrbpError(true)
       return
     }
-    setHrbpError(false)
 
     // Log SH4 hire notification audit entry (Chain 2 / BRD #109)
     const firstNameTh = formData.biographical?.firstNameLocal?.trim() || formData.identity?.firstNameEn?.trim() || 'พนักงานใหม่'
@@ -133,6 +146,11 @@ export default function HirePage() {
 
   return (
     <div className="h-full">
+      {submitError && (
+        <div className="mb-4 p-3 bg-error/10 border border-error/20 rounded text-error text-sm text-center animate-in fade-in slide-in-from-top-1">
+          {submitError}
+        </div>
+      )}
       <WizardShell
         currentStep={currentStep}
         maxUnlockedStep={maxUnlockedStep}

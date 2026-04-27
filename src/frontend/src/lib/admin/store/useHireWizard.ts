@@ -292,7 +292,7 @@ interface HireWizardState {
   goNext: () => void
   goBack: () => void
   jumpTo: (step: number) => void
-  isStepValid: (step: number) => boolean
+  isStepValid: (step: number, strict?: boolean) => boolean
   reset: () => void
 }
 
@@ -363,20 +363,21 @@ const sliceValid = {
 // Cluster 1: identity presence AND Zod (sv.identity) AND bio Zod (sv.biographical)
 //            AND contact Zod (sv.contact) — biographical/contact default true so
 //            unit tests remain green (components not mounted in unit tests)
-function checkStepValid(step: number, d: FormData, sv: StepValidity, hrbpAssignee: string): boolean {
+function checkStepValid(step: number, d: FormData, sv: StepValidity, hrbpAssignee: string, strict = false): boolean {
   switch (step) {
     case 1:
-      // DEF-02/03: presence check AND Zod refine gate (sv.identity covers hireDate ≤90d + NID mod-11)
-      // DEF-05/06/07: biographical (sv.biographical) and contact (sv.contact) Zod gates
-      return sliceValid.identity(d) && sv.identity && sv.biographical && sv.contact
+      // DEF-02/03: presence check always required.
+      // Strict mode adds Zod refine gate (sv.identity covers hireDate ≤90d + NID mod-11)
+      // and biographical/contact Zod gates.
+      const p1 = sliceValid.identity(d)
+      return strict ? (p1 && sv.identity && sv.biographical && sv.contact) : p1
     case 2:
-      // DEF-05: employeeInfo + job + compensation slices (Cluster 2 legacy slices)
-      // sv.employeeInfo gates originalStartDate + seniorityStartDate + employeeClass (Wave 15)
-      return sliceValid.employeeInfo(d) && sv.employeeInfo && sliceValid.job(d) && sliceValid.compensation(d) && sv.compensation
+      // DEF-05: Cluster 2 presence check.
+      // Strict mode adds sv.employeeInfo (dates/class) and sv.compensation (cost-split sum)
+      const p2 = sliceValid.employeeInfo(d) && sliceValid.job(d) && sliceValid.compensation(d)
+      return strict ? (p2 && sv.employeeInfo && sv.compensation) : p2
     case 3:
-      // Step 3 form is always navigable (review + HRBP picker are visible).
-      // HRBP validation (BRD #109) is enforced in handleSubmit, not the button gate,
-      // so the submit button is enabled and the user can see the picker before submitting.
+      // Step 3 UI is always navigable. Final strict check happens in handleSubmit.
       return true
     default: return false
   }
@@ -425,7 +426,8 @@ export const useHireWizard = create<HireWizardState>()(
 
       goNext: () => {
         const { currentStep, maxUnlockedStep, formData, stepValidity, hrbpAssignee } = get()
-        if (!checkStepValid(currentStep, formData, stepValidity, hrbpAssignee)) return
+        // Relaxed validation (strict=false) for navigation
+        if (!checkStepValid(currentStep, formData, stepValidity, hrbpAssignee, false)) return
         const nextStep = Math.min(currentStep + 1, 3) as StepNumber
         const newMax = Math.max(maxUnlockedStep, nextStep) as StepNumber
         set({ currentStep: nextStep, maxUnlockedStep: newMax })
@@ -446,9 +448,9 @@ export const useHireWizard = create<HireWizardState>()(
         set({ currentStep: step as StepNumber })
       },
 
-      isStepValid: (step: number) => {
+      isStepValid: (step: number, strict = false) => {
         const { formData, stepValidity, hrbpAssignee } = get()
-        return checkStepValid(step, formData, stepValidity, hrbpAssignee)
+        return checkStepValid(step, formData, stepValidity, hrbpAssignee, strict)
       },
 
       reset: () => set({

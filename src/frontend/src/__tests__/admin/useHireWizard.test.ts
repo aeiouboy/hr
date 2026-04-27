@@ -148,7 +148,7 @@ describe('useHireWizard — goNext และ sequential unlock', () => {
     expect(result.current.maxUnlockedStep).toBe(1)
   })
 
-  it('goNext() ขณะ Step 2 compensation Zod gate ไม่ผ่าน → ไม่เปลี่ยน step', () => {
+  it('goNext() ขณะ Step 2 compensation Zod gate ไม่ผ่าน → ต้องเปลี่ยน step (Relaxed Nav)', () => {
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
@@ -161,12 +161,16 @@ describe('useHireWizard — goNext และ sequential unlock', () => {
       result.current.setStepData('job', { position: 'HR Officer' })
       result.current.setStepData('compensation', { baseSalary: 50000 })
       result.current.setStepValidity('employeeInfo', true)
-      result.current.setStepValidity('compensation', false)
+      result.current.setStepValidity('compensation', false) // Zod error
       result.current.goNext()
     })
 
-    expect(result.current.currentStep).toBe(2)
-    expect(result.current.maxUnlockedStep).toBe(2)
+    // Navigation succeeds (loose validation)
+    expect(result.current.currentStep).toBe(3)
+    // But strict check remains false
+    expect(result.current.isStepValid(2, true)).toBe(false)
+    // And loose check is true
+    expect(result.current.isStepValid(2, false)).toBe(true)
   })
 })
 
