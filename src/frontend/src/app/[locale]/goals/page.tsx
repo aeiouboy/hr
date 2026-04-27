@@ -37,9 +37,9 @@ const TABS: Array<[TabKey, string]> = [
   ['team', 'ทีมของฉัน'],
 ];
 
-const KPIS: Array<{ l: string; v: string; accent: 'accent' | 'alt' | 'sage' | 'butter' }> = [
+const KPIS: Array<{ l: string; v: string; accent: 'accent' | 'warn' | 'sage' | 'butter' }> = [
   { l: 'เป้าหมายที่อยู่ในแผน', v: '4 / 6', accent: 'accent' },
-  { l: 'ความคืบหน้าของรอบ', v: '58%', accent: 'alt' },
+  { l: 'ความคืบหน้าของรอบ', v: '58%', accent: 'warn' },
   { l: 'ผลประเมินล่าสุด', v: 'ดีเกินคาด', accent: 'sage' },
   { l: 'Check-in ครั้งถัดไป', v: '24 เม.ย.', accent: 'butter' },
 ];
@@ -300,22 +300,7 @@ export default function HumiGoalsPage() {
       {/* KPI row */}
       <section className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {KPIS.map((s) => (
-          <Card
-            key={s.l}
-            variant="raised"
-            size="md"
-            className="border-l-4 border-transparent"
-            style={{
-              borderLeftColor:
-                s.accent === 'accent'
-                  ? 'var(--color-accent)'
-                  : s.accent === 'alt'
-                    ? 'var(--color-accent-alt)'
-                    : s.accent === 'sage'
-                      ? 'var(--color-sage)'
-                      : 'var(--color-butter)',
-            }}
-          >
+          <div key={s.l} className={`humi-stat-card humi-stat-card--${s.accent}`}>
             <CardEyebrow>{s.l}</CardEyebrow>
             <p
               className={cn(
@@ -325,7 +310,7 @@ export default function HumiGoalsPage() {
             >
               {s.v}
             </p>
-          </Card>
+          </div>
         ))}
       </section>
 
@@ -454,12 +439,9 @@ function GoalsTab() {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-label={g.title}
-                className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
+                className="humi-progress mt-4"
               >
-                <div
-                  className="h-full rounded-full bg-accent"
-                  style={{ width: `${g.progress}%` }}
-                />
+                <span style={{ width: `${g.progress}%` }} />
               </div>
             </Card>
           ))}
@@ -575,12 +557,9 @@ function MockGoalCard({ goal: g }: { goal: HumiGoal }) {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={g.title}
-        className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
+        className="humi-progress mt-4"
       >
-        <div
-          className="h-full rounded-full bg-accent"
-          style={{ width: `${g.percent}%` }}
-        />
+        <span style={{ width: `${g.percent}%` }} />
       </div>
       <ul role="list" className="mt-4 flex flex-col gap-2">
         {g.krs.map((k) => (
@@ -736,12 +715,9 @@ function TeamTab() {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-label={m.name}
-                className="h-1.5 w-36 overflow-hidden rounded-full bg-hairline-soft"
+                className="humi-progress w-36"
               >
-                <div
-                  className="h-full rounded-full bg-accent"
-                  style={{ width: `${m.percent}%` }}
-                />
+                <span style={{ width: `${m.percent}%` }} />
               </div>
               <Button variant="ghost" size="sm">
                 เปิด 1:1

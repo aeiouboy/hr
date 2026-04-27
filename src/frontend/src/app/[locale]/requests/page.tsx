@@ -239,11 +239,11 @@ function MineTab({
   const { filter, setFilter } = useRequestsStore();
   const [selected, setSelected] = useState<MineRow | null>(null);
 
-  const summaryCards: Array<{ l: string; n: number; accent: 'accent' | 'alt' | 'sage' | 'butter' }> = [
-    { l: 'ส่งทั้งหมด', n: summary.total, accent: 'accent' },
-    { l: 'รออนุมัติ', n: summary.pending, accent: 'butter' },
-    { l: 'อนุมัติแล้ว', n: summary.approved, accent: 'sage' },
-    { l: 'ไม่อนุมัติ', n: summary.rejected, accent: 'alt' },
+  const summaryCards: Array<{ l: string; n: number; tone: 'accent' | 'warn' | 'sage' | 'butter' }> = [
+    { l: 'ส่งทั้งหมด', n: summary.total, tone: 'accent' },
+    { l: 'รออนุมัติ', n: summary.pending, tone: 'butter' },
+    { l: 'อนุมัติแล้ว', n: summary.approved, tone: 'sage' },
+    { l: 'ไม่อนุมัติ', n: summary.rejected, tone: 'warn' },
   ];
 
   return (
@@ -251,22 +251,7 @@ function MineTab({
       {/* Summary tiles */}
       <section className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {summaryCards.map((s) => (
-          <Card
-            key={s.l}
-            variant="raised"
-            size="md"
-            className="border-l-4 border-transparent"
-            style={{
-              borderLeftColor:
-                s.accent === 'accent'
-                  ? 'var(--color-accent)'
-                  : s.accent === 'alt'
-                    ? 'var(--color-accent-alt)'
-                    : s.accent === 'sage'
-                      ? 'var(--color-sage)'
-                      : 'var(--color-butter)',
-            }}
-          >
+          <div key={s.l} className={cn('humi-stat-card', `humi-stat-card--${s.tone}`)}>
             <CardEyebrow>{s.l}</CardEyebrow>
             <p
               className={cn(
@@ -276,7 +261,7 @@ function MineTab({
             >
               {s.n}
             </p>
-          </Card>
+          </div>
         ))}
       </section>
 
@@ -491,7 +476,7 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
       <Card
         variant="raised"
         size="lg"
-        className="relative mb-6 overflow-hidden bg-gradient-to-br from-accent-soft to-canvas-soft"
+        className="humi-banner mb-6"
       >
         <div
           aria-hidden
@@ -589,7 +574,7 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
               variant="raised"
               size="md"
               className={cn(
-                'transition-transform duration-[var(--dur-fast)] hover:-translate-y-0.5',
+                'humi-card-lift',
                 isSelected && 'ring-2 ring-accent ring-offset-2 ring-offset-surface'
               )}
             >

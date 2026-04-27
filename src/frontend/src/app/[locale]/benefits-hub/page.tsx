@@ -201,7 +201,7 @@ function BenefitsTab() {
       <Card
         variant="raised"
         size="lg"
-        className="relative mb-6 overflow-hidden bg-gradient-to-br from-accent-soft to-canvas-soft"
+        className="humi-banner relative mb-6"
       >
         <div
           aria-hidden
@@ -243,7 +243,7 @@ function BenefitsTab() {
               key={b.id}
               variant="raised"
               size="md"
-              className="cursor-pointer transition-transform duration-[var(--dur-fast)] hover:-translate-y-0.5"
+              className="humi-card-lift cursor-pointer"
               onClick={() => setDetailPlan(b)}
             >
               <div className="flex items-start justify-between gap-2">
@@ -341,7 +341,7 @@ function ClaimsTab() {
       <Card
         variant="raised"
         size="lg"
-        className="relative mb-6 overflow-hidden bg-gradient-to-br from-accent-soft to-canvas-soft"
+        className="humi-banner relative mb-6"
       >
         <div
           aria-hidden
@@ -395,17 +395,13 @@ function ClaimsTab() {
               key={b.id}
               variant="raised"
               size="md"
-              className="border-l-4 border-transparent"
-              style={{
-                borderLeftColor:
-                  b.accent === 'accent'
-                    ? 'var(--color-accent)'
-                    : b.accent === 'alt'
-                      ? 'var(--color-accent-alt)'
-                      : b.accent === 'sage'
-                        ? 'var(--color-sage)'
-                        : 'var(--color-butter)',
-              }}
+              className={cn(
+                'border-l-4',
+                b.accent === 'accent' && 'humi-stat-card--accent',
+                b.accent === 'sage'   && 'humi-stat-card--sage',
+                b.accent === 'butter' && 'humi-stat-card--butter',
+              )}
+              style={b.accent === 'alt' ? { borderLeftColor: 'var(--color-accent-alt)' } : undefined}
             >
               <CardEyebrow>{b.label}</CardEyebrow>
               <p
