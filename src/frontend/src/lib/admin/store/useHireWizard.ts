@@ -364,18 +364,19 @@ const sliceValid = {
 //            AND contact Zod (sv.contact) — biographical/contact default true so
 //            unit tests remain green (components not mounted in unit tests)
 function checkStepValid(step: number, d: FormData, sv: StepValidity, hrbpAssignee: string, strict = false): boolean {
+  // Demo-friendly: navigation (strict=false) is a free pass — Next button always enabled
+  // so the wizard can be walked end-to-end without filling fields. Strict gate runs only
+  // at final Save (HirePage.handleSubmit) so backend never sees incomplete data.
+  if (!strict) return true
   switch (step) {
     case 1:
-      // DEF-02/03: presence check always required.
-      // Strict mode adds Zod refine gate (sv.identity covers hireDate ≤90d + NID mod-11)
-      // and biographical/contact Zod gates.
-      const p1 = sliceValid.identity(d)
-      return strict ? (p1 && sv.identity && sv.biographical && sv.contact) : p1
+      // DEF-02/03 strict: identity presence + Zod refine (hireDate ≤90d, NID mod-11)
+      // + biographical/contact Zod gates.
+      return sliceValid.identity(d) && sv.identity && sv.biographical && sv.contact
     case 2:
-      // DEF-05: Cluster 2 presence check.
-      // Strict mode adds sv.employeeInfo (dates/class) and sv.compensation (cost-split sum)
-      const p2 = sliceValid.employeeInfo(d) && sliceValid.job(d) && sliceValid.compensation(d)
-      return strict ? (p2 && sv.employeeInfo && sv.compensation) : p2
+      // DEF-05 strict: Cluster 2 presence + sv.employeeInfo (dates/class) + sv.compensation (cost-split sum)
+      return sliceValid.employeeInfo(d) && sliceValid.job(d) && sliceValid.compensation(d)
+        && sv.employeeInfo && sv.compensation
     case 3:
       // Step 3 UI is always navigable. Final strict check happens in handleSubmit.
       return true

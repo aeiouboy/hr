@@ -59,36 +59,41 @@ const fullIdentity = {
 }
 
 describe('useHireWizard — isStepValid', () => {
-  it('isStepValid(1) เป็น false ถ้า identity fields ว่าง', () => {
-    // AC-5: Step 1 ยังไม่ valid ถ้า fields ว่าง
+  it('isStepValid(1) loose mode = true เสมอ (demo-friendly free pass)', () => {
+    // Demo-mode: loose navigation always returns true so users can preview the flow
     const { result } = renderHook(() => useHireWizard())
-    expect(result.current.isStepValid(1)).toBe(false)
+    expect(result.current.isStepValid(1)).toBe(true)
   })
 
-  it('isStepValid(1) เป็น true เมื่อ set ครบ 13 mandatory fields (D2 S1)', () => {
-    // AC-4, AC-5: Step 1 valid หลังกรอกครบ 13 mandatory identity fields
+  it('isStepValid(1, strict=true) เป็น false ถ้า identity fields ว่าง', () => {
+    // AC-5: strict gate (used at final Save) blocks empty form
+    const { result } = renderHook(() => useHireWizard())
+    expect(result.current.isStepValid(1, true)).toBe(false)
+  })
+
+  it('isStepValid(1, strict=true) เป็น true เมื่อ set ครบ 13 mandatory fields (D2 S1)', () => {
+    // AC-4, AC-5: strict gate passes after all 13 mandatory identity fields are filled
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
       result.current.setStepData('identity', fullIdentity)
     })
 
-    expect(result.current.isStepValid(1)).toBe(true)
+    expect(result.current.isStepValid(1, true)).toBe(true)
   })
 
-  it('isStepValid(1) เป็น false ถ้าขาด 1 field (partial fill)', () => {
-    // กรอกแค่ 3 fields จาก 13 — ยังไม่ valid
+  it('isStepValid(1, strict=true) เป็น false ถ้าขาด 1 field (partial fill)', () => {
+    // กรอกแค่ 3 fields จาก 13 — strict gate ยังไม่ผ่าน
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
       result.current.setStepData('identity', {
         hireDate: '2026-05-01',
         companyCode: 'CEN',
-        // ไม่กรอก eventReason + fields อื่น
       })
     })
 
-    expect(result.current.isStepValid(1)).toBe(false)
+    expect(result.current.isStepValid(1, true)).toBe(false)
   })
 })
 
@@ -135,8 +140,8 @@ describe('useHireWizard — goNext และ sequential unlock', () => {
     expect(result.current.maxUnlockedStep).toBe(2)
   })
 
-  it('goNext() ขณะ Step 1 ไม่ valid → ไม่เปลี่ยน step', () => {
-    // AC-5: Next blocked ถ้า step ยังไม่ valid
+  it('goNext() ขณะ Step 1 ว่างเปล่า → ก็เปลี่ยน step ได้ (demo-friendly free pass)', () => {
+    // Demo-mode: navigation no longer gated by presence/Zod. Strict gate moves to final Save.
     const { result } = renderHook(() => useHireWizard())
     // ไม่กรอกอะไรเลย — formData ว่าง
 
@@ -144,8 +149,10 @@ describe('useHireWizard — goNext และ sequential unlock', () => {
       result.current.goNext()
     })
 
-    expect(result.current.currentStep).toBe(1)
-    expect(result.current.maxUnlockedStep).toBe(1)
+    expect(result.current.currentStep).toBe(2)
+    expect(result.current.maxUnlockedStep).toBe(2)
+    // strict gate ยังคง false เพราะ identity ยังว่าง — submit จะถูก block ที่ HirePage.handleSubmit
+    expect(result.current.isStepValid(1, true)).toBe(false)
   })
 
   it('goNext() ขณะ Step 2 compensation Zod gate ไม่ผ่าน → ต้องเปลี่ยน step (Relaxed Nav)', () => {
