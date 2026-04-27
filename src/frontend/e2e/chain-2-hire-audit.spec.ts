@@ -244,7 +244,7 @@ test.describe.serial('Chain 2 — Hire → HRBP audit panel (BRD #109)', () => {
     try {
       // Skip if dev server is unreachable
       const reachable = await page
-        .goto('/th/hrbp-reports', { waitUntil: 'domcontentloaded', timeout: 10_000 })
+        .goto('/th/reports?scope=hrbp', { waitUntil: 'domcontentloaded', timeout: 10_000 })
         .then(() => true)
         .catch(() => false);
       if (!reachable) {
@@ -255,7 +255,7 @@ test.describe.serial('Chain 2 — Hire → HRBP audit panel (BRD #109)', () => {
       // Self-seed audit so this test is independent of Test 1.
       await seedHireAudit(page);
 
-      await page.goto('/th/hrbp-reports');
+      await page.goto('/th/reports?scope=hrbp');
       await page.waitForLoadState('networkidle');
 
       // Page heading should be visible
@@ -304,7 +304,7 @@ test.describe.serial('Chain 2 — Hire → HRBP audit panel (BRD #109)', () => {
     try {
       // Skip if dev server is unreachable
       const reachable = await page
-        .goto('/th/hrbp-reports', { waitUntil: 'domcontentloaded', timeout: 10_000 })
+        .goto('/th/reports?scope=hrbp', { waitUntil: 'domcontentloaded', timeout: 10_000 })
         .then(() => true)
         .catch(() => false);
       if (!reachable) {
@@ -314,7 +314,7 @@ test.describe.serial('Chain 2 — Hire → HRBP audit panel (BRD #109)', () => {
 
       await seedHireAudit(page);
 
-      await page.goto('/th/hrbp-reports');
+      await page.goto('/th/reports?scope=hrbp');
       await page.waitForLoadState('networkidle');
 
       // Confirm the card IS visible on the hire-notifications tab

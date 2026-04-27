@@ -9,7 +9,7 @@ test.describe('Leave Management', () => {
     });
 
     test('should submit a leave request', async ({ page }) => {
-      await navigateTo(page, '/leave/request');
+      await navigateTo(page, '/timeoff?tab=request');
       await waitForLoading(page);
       // Fill leave type
       const typeSelect = page.locator(
@@ -30,7 +30,7 @@ test.describe('Leave Management', () => {
     });
 
     test('should display leave balance', async ({ page }) => {
-      await navigateTo(page, '/leave');
+      await navigateTo(page, '/timeoff');
       await waitForLoading(page);
       await expect(
         page.getByText(/balance|remaining|available/i).first(),
@@ -38,7 +38,7 @@ test.describe('Leave Management', () => {
     });
 
     test('should show leave calendar view', async ({ page }) => {
-      await navigateTo(page, '/leave');
+      await navigateTo(page, '/timeoff');
       await waitForLoading(page);
       const calendar = page.locator(
         '[data-testid="leave-calendar"], table, .calendar',
@@ -47,7 +47,7 @@ test.describe('Leave Management', () => {
     });
 
     test('should cancel a pending leave request', async ({ page }) => {
-      await navigateTo(page, '/leave/history');
+      await navigateTo(page, '/timeoff?tab=history');
       await waitForLoading(page);
       const cancelBtn = page.getByRole('button', { name: /cancel|withdraw/i }).first();
       if (await cancelBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
@@ -61,7 +61,7 @@ test.describe('Leave Management', () => {
     });
 
     test('should support half-day leave selection', async ({ page }) => {
-      await navigateTo(page, '/leave/request');
+      await navigateTo(page, '/timeoff?tab=request');
       await waitForLoading(page);
       const halfDay = page.locator(
         '[data-testid="half-day"], input[value="half"], label:has-text("Half")',

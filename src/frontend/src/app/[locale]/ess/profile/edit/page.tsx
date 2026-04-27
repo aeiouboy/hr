@@ -158,7 +158,7 @@ export default function ProfileEditPage() {
       }
       showToast('ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว — รอ SPD อนุมัติ')
       setAttachments([])
-      setTimeout(() => router.push('/ess/workflows'), 1500)
+      setTimeout(() => router.push('/th/ess/workflows'), 1500)
     } catch (err) {
       console.warn('[ProfileEditPage] submit error:', err)
       showToast('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')

@@ -17,6 +17,7 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn().mockReturnValue('/th/home'),
   useRouter: vi.fn().mockReturnValue({ push: vi.fn() }),
   useParams: vi.fn().mockReturnValue({ locale: 'th' }),
+  useSearchParams: vi.fn().mockReturnValue({ get: vi.fn().mockReturnValue(null) }),
 }));
 
 vi.mock('next-intl', () => ({

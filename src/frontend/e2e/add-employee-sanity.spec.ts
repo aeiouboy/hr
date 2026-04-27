@@ -53,7 +53,7 @@ async function screenshot(page: Page, name: string) {
   ensureArtifactsDir()
   const slug = name.replace(/[^a-zA-Z0-9-_]/g, '-')
   const filePath = path.join(ARTIFACTS_DIR, `${slug}.png`)
-  await page.screenshot({ path: filePath, fullPage: false })
+  await page.screenshot({ path: filePath, fullPage: true })
   return filePath
 }
 

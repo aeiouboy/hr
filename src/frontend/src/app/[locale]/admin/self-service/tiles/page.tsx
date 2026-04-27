@@ -7,6 +7,17 @@ import { useState } from 'react'
 import { EditorShell } from '@/components/admin/admin-ss/EditorShell'
 import { useAdminSelfService } from '@/lib/admin/store/useAdminSelfService'
 import type { HomePageTile, RoleName } from '@/lib/admin/types/adminSelfService'
+import { validateThaiPrimary } from '@/lib/admin/utils/thaiPrimary'
+
+// Simple in-memory toast (same pattern as requests/page.tsx)
+function useToast() {
+  const [toast, setToast] = useState<{ msg: string; visible: boolean }>({ msg: '', visible: false })
+  const show = (msg: string) => {
+    setToast({ msg, visible: true })
+    setTimeout(() => setToast({ msg: '', visible: false }), 3500)
+  }
+  return { toast, show }
+}
 
 const ROLES: RoleName[]    = ['Employee', 'Manager', 'HRBP', 'SPD']
 const SIZES: HomePageTile['size'][] = ['S', 'M', 'L']
@@ -26,6 +37,7 @@ const SIZE_LABEL: Record<HomePageTile['size'], string> = {
 export default function TilesPage() {
   const tiles    = useAdminSelfService((s) => s.draft.tiles)
   const setTiles = useAdminSelfService((s) => s.setTiles)
+  const { toast, show: showToast } = useToast()
 
   const [roleTab,   setRoleTab]   = useState<RoleName>('Employee')
   const [dragIndex, setDragIndex] = useState<number | null>(null)
@@ -103,11 +115,26 @@ export default function TilesPage() {
   }
   function saveModal() {
     if (!editTarget) return
+    if (!validateThaiPrimary(modalLabel)) {
+      showToast(`"${modalLabel}" — label ต้องมีตัวอักษรไทย (Thai-primary required)`)
+      return
+    }
     setTiles(tiles.map((t) => t.id === editTarget.id ? { ...t, label: modalLabel, size: modalSize, visibleTo: modalRoles } : t))
     setEditTarget(null)
   }
 
   return (
+    <>
+    {/* Thai-primary validation toast */}
+    {toast.visible && (
+      <div
+        role="alert"
+        aria-live="assertive"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg px-4 py-3 bg-red-600 text-white shadow-lg text-sm font-medium"
+      >
+        {toast.msg}
+      </div>
+    )}
     <EditorShell editor="tiles" titleTh="จัดการ Tiles & Home Page" brd="#183">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Main tiles panel */}
@@ -311,5 +338,6 @@ export default function TilesPage() {
         </div>
       )}
     </EditorShell>
+    </>
   )
 }

@@ -7,6 +7,17 @@ import { useState } from 'react'
 import { EditorShell } from '@/components/admin/admin-ss/EditorShell'
 import { useAdminSelfService } from '@/lib/admin/store/useAdminSelfService'
 import type { QuickActionTile, RoleName } from '@/lib/admin/types/adminSelfService'
+import { validateThaiPrimary } from '@/lib/admin/utils/thaiPrimary'
+
+// Simple in-memory toast (same pattern as requests/page.tsx)
+function useToast() {
+  const [toast, setToast] = useState<{ msg: string; visible: boolean }>({ msg: '', visible: false })
+  const show = (msg: string) => {
+    setToast({ msg, visible: true })
+    setTimeout(() => setToast({ msg: '', visible: false }), 3500)
+  }
+  return { toast, show }
+}
 
 const ROLES: RoleName[] = ['Employee', 'Manager', 'HRBP', 'SPD']
 
@@ -21,6 +32,7 @@ const ICON_OPTIONS = [
 export default function QuickActionsPage() {
   const quickActions    = useAdminSelfService((s) => s.draft.quickActions)
   const setQuickActions = useAdminSelfService((s) => s.setQuickActions)
+  const { toast, show: showToast } = useToast()
 
   // drag-drop state
   const [dragIndex, setDragIndex] = useState<number | null>(null)
@@ -83,6 +95,10 @@ export default function QuickActionsPage() {
   }
   function saveModal() {
     if (!editTarget) return
+    if (!validateThaiPrimary(modalLabel)) {
+      showToast(`"${modalLabel}" — label ต้องมีตัวอักษรไทย (Thai-primary required)`)
+      return
+    }
     setQuickActions(quickActions.map((qa) =>
       qa.id === editTarget.id
         ? { ...qa, label: modalLabel, icon: modalIcon, href: modalHref }
@@ -105,6 +121,17 @@ export default function QuickActionsPage() {
   }
 
   return (
+    <>
+    {/* Thai-primary validation toast */}
+    {toast.visible && (
+      <div
+        role="alert"
+        aria-live="assertive"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg px-4 py-3 bg-red-600 text-white shadow-lg text-sm font-medium"
+      >
+        {toast.msg}
+      </div>
+    )}
     <EditorShell editor="quick-actions" titleTh="จัดการ Quick Actions" brd="#182">
       {/* Add button */}
       <div className="mb-4 flex justify-end">
@@ -275,5 +302,6 @@ export default function QuickActionsPage() {
         </div>
       )}
     </EditorShell>
+    </>
   )
 }

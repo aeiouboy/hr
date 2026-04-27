@@ -32,7 +32,7 @@ export function PendingApprovalsPanel({
  const top5 = requests.slice(0, 5);
 
  return (
- <Card header={<><CardTitle>{t('pendingApprovals')}</CardTitle><a href="/quick-approve" className="text-sm text-accent hover:underline flex items-center gap-1">{t('actions.viewDetails')}<ArrowRight className="h-3.5 w-3.5" /></a></>}>
+ <Card header={<><CardTitle>{t('pendingApprovals')}</CardTitle><a href="/th/quick-approve" className="text-sm text-accent hover:underline flex items-center gap-1">{t('actions.viewDetails')}<ArrowRight className="h-3.5 w-3.5" /></a></>}>
  {loading ? (
  <div className="space-y-3">
  {[1, 2, 3].map((i) => (

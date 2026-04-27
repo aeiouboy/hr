@@ -10,7 +10,7 @@
  * (same pattern as chain-4-promotion.spec.ts). Re-inject before each route
  * because Next.js navigation can trigger rehydration from persisted state.
  *
- * Known defect (HIGH): Apinya (hrbp) gets "Access Denied" on /th/hrbp-reports
+ * Known defect (HIGH): Apinya (hrbp) gets "Access Denied" on /th/reports?scope=hrbp
  * because rbac.ts maps 'hrbp-reports' module to ['hr_admin','hr_manager'] only.
  * The test records this as FAIL with a soft assertion so remaining routes run.
  */
@@ -69,12 +69,12 @@ type PersonaKey = keyof typeof PERSONAS;
 // ─── Routes to visit per persona ───────────────────────────────────────────
 // Note: Apinya (hrbp) hits a barrier card on /th/admin/employees (scopeMode='bu')
 // but the card renders Thai content ("ไม่มีสิทธิ์เข้าถึง") — that counts as rendered.
-// Apinya's /th/hrbp-reports is a KNOWN DEFECT (rbac.ts excludes 'hrbp' role).
+// Apinya's /th/reports?scope=hrbp is a KNOWN DEFECT (rbac.ts excludes 'hrbp' role).
 
 const PERSONA_ROUTES: Record<PersonaKey, string[]> = {
   employee: ['/th/home', '/th/profile/me'],
   ken:      ['/th/admin/employees', '/th/admin'],
-  apinya:   ['/th/admin/employees', '/th/hrbp-reports'],
+  apinya:   ['/th/admin/employees', '/th/reports?scope=hrbp'],
   worawee:  ['/th/spd/inbox', '/th/admin/employees'],
   rungrote: ['/th/manager-dashboard', '/th/quick-approve'],
 };
@@ -86,7 +86,7 @@ const THAI_BARRIER_ROUTES = new Set(['/th/admin/employees']);
 // Known defects: persona × route pairs that are expected to fail (bug, not test infra).
 // These are soft-asserted: test continues, result is recorded for the report.
 // Both prior defects fixed in Wave 4 follow-up: rbac.ts now grants hrbp access
-// to /hrbp-reports; quick-approve h1 now uses i18n key tQuick('title').
+// to /reports?scope=hrbp; quick-approve h1 now uses i18n key tQuick('title').
 const KNOWN_DEFECTS = new Map<string, string>([
 ]);
 
@@ -251,7 +251,7 @@ test.describe.serial('Done-when #6 — Ken 5-persona switch QA', () => {
 
   // ── Apinya (hrbp) persona ───────────────────────────────────────────────
 
-  test('Apinya (hrbp) — /th/admin/employees barrier + /th/hrbp-reports [DEFECT]', async ({ page }) => {
+  test('Apinya (hrbp) — /th/admin/employees barrier + /th/reports?scope=hrbp [DEFECT]', async ({ page }) => {
     await runPersonaCheck(page, 'apinya');
   });
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Check, X, Heart, Coffee, Sun, Plus, Paperclip, AlertCircle } from 'lucide-react';
 import {
   Avatar,
@@ -82,7 +83,9 @@ function useToast() {
 }
 
 export default function HumiTimeoffPage() {
-  const [tab, setTab] = useState<TabKey>('request');
+  const searchParams = useSearchParams();
+  const initialTab = (searchParams.get('tab') as TabKey | null) ?? 'request';
+  const [tab, setTab] = useState<TabKey>(initialTab);
   const { toast, show: showToast } = useToast();
 
   return (
