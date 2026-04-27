@@ -5,6 +5,7 @@
 //           BRD #17 8-field Thai address (PerAddressDEFLT)
 // Picklist source: SF cite in code comments
 
+import { useTranslations } from 'next-intl'
 import { useHireWizard, type EmailEntry, type JobRelationship } from '@/lib/admin/store/useHireWizard'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -70,6 +71,7 @@ interface ExtendedPhoneEntry {
 }
 
 export default function StepContact() {
+  const t = useTranslations('hireForm.contact')
   const { formData, setStepData } = useHireWizard()
   const {
     phones = [],
@@ -156,9 +158,9 @@ export default function StepContact() {
     <div className="space-y-8">
 
       {/* ─── เบอร์ติดต่อ (BRD #16: countryCode + extension) ─────────────────── */}
-      <section aria-label="เบอร์ติดต่อ">
+      <section aria-label={t('phoneSection')}>
         <p className="humi-label mb-3">
-          เบอร์ติดต่อ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('phoneSection')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </p>
         {/* SF cite: qas-fields-2026-04-26/sf-qas-PerPhone-2026-04-26.json#.d.results[0].countryCode */}
 
@@ -167,13 +169,13 @@ export default function StepContact() {
             <div key={idx} className="flex flex-wrap items-start gap-2">
               {/* ประเภท — SF ecPhoneType codes */}
               <select
-                aria-label={`ประเภทเบอร์โทร ${idx + 1}`}
+                aria-label={`${t('phoneType')} ${idx + 1}`}
                 value={phone.type}
                 onChange={(e) => updatePhone(idx, { type: e.target.value })}
                 className="humi-select w-40 shrink-0"
               >
-                {SF_PHONE_TYPES.map((t) => (
-                  <option key={t} value={t}>{PHONE_TYPE_LABELS[t]}</option>
+                {SF_PHONE_TYPES.map((pt) => (
+                  <option key={pt} value={pt}>{PHONE_TYPE_LABELS[pt]}</option>
                 ))}
                 {/* legacy options for compat */}
                 {!SF_PHONE_TYPES.includes(phone.type as typeof SF_PHONE_TYPES[number]) && (
@@ -184,8 +186,8 @@ export default function StepContact() {
               {/* รหัสประเทศ — SF PerPhone.countryCode e.g. "66" */}
               <input
                 type="text"
-                aria-label={`รหัสประเทศ ${idx + 1}`}
-                placeholder="+66"
+                aria-label={`${t('countryCode')} ${idx + 1}`}
+                placeholder={t('countryCodePlaceholder')}
                 value={phone.countryCode ?? '66'}
                 onChange={(e) => updatePhone(idx, { countryCode: e.target.value })}
                 className="humi-input w-16 shrink-0"
@@ -194,9 +196,9 @@ export default function StepContact() {
               {/* เบอร์ */}
               <input
                 type="tel"
-                aria-label={`เบอร์โทร ${idx + 1}`}
+                aria-label={`${t('phoneNumber')} ${idx + 1}`}
                 aria-invalid={phone.value.trim() === '' ? 'true' : 'false'}
-                placeholder="0XX-XXX-XXXX"
+                placeholder={t('phonePlaceholder')}
                 value={phone.value}
                 onChange={(e) => updatePhone(idx, { value: e.target.value })}
                 className="humi-input min-w-0 flex-1"
@@ -205,8 +207,8 @@ export default function StepContact() {
               {/* ต่อ (extension) — SF PerPhone.extension */}
               <input
                 type="text"
-                aria-label={`ต่อ (extension) ${idx + 1}`}
-                placeholder="ต่อ"
+                aria-label={`${t('extension')} ${idx + 1}`}
+                placeholder={t('extensionPlaceholder')}
                 value={phone.extension ?? ''}
                 onChange={(e) => updatePhone(idx, { extension: e.target.value })}
                 className="humi-input w-16 shrink-0"
@@ -220,18 +222,18 @@ export default function StepContact() {
                   onChange={() => setPrimaryPhone(idx)}
                   className="rounded"
                 />
-                หลัก
+                {t('isPrimary')}
               </label>
 
               {/* ลบ */}
               <button
                 type="button"
-                aria-label={`ลบเบอร์โทร ${idx + 1}`}
+                aria-label={`${t('remove')} ${t('phoneNumber')} ${idx + 1}`}
                 disabled={phones.length <= 1}
                 onClick={() => removePhone(idx)}
                 className="rounded px-2 py-1.5 text-sm text-warning hover:bg-warning/10 disabled:cursor-not-allowed disabled:opacity-30"
               >
-                ลบ
+                {t('remove')}
               </button>
             </div>
           ))}
@@ -243,14 +245,14 @@ export default function StepContact() {
           onClick={addPhone}
           className="mt-3 text-sm text-accent hover:underline"
         >
-          + เพิ่มเบอร์โทร
+          {t('addPhone')}
         </button>
       </section>
 
       {/* ─── อีเมล (BRD #15: SF ecEmailType, no 5-cap) ───────────────────── */}
-      <section aria-label="อีเมล">
+      <section aria-label={t('emailSection')}>
         <p className="humi-label mb-3">
-          อีเมล<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('emailSection')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </p>
         {/* SF cite: qas-fields-2026-04-26/sf-qas-PerEmail-2026-04-26.json#.d.results[0].emailType */}
 
@@ -261,13 +263,13 @@ export default function StepContact() {
               <div key={idx} className="flex flex-wrap items-start gap-2">
                 {/* ประเภท — SF ecEmailType codes */}
                 <select
-                  aria-label={`ประเภทอีเมล ${idx + 1}`}
+                  aria-label={`${t('emailType')} ${idx + 1}`}
                   value={email.type}
                   onChange={(e) => updateEmail(idx, { type: e.target.value as EmailEntry['type'] })}
                   className="humi-select w-44 shrink-0"
                 >
-                  {SF_EMAIL_TYPES.map((t) => (
-                    <option key={t} value={t}>{EMAIL_TYPE_LABELS[t]}</option>
+                  {SF_EMAIL_TYPES.map((et) => (
+                    <option key={et} value={et}>{EMAIL_TYPE_LABELS[et]}</option>
                   ))}
                   {/* legacy options for compat */}
                   {!SF_EMAIL_TYPES.includes(email.type as typeof SF_EMAIL_TYPES[number]) && (
@@ -278,9 +280,9 @@ export default function StepContact() {
                 {/* อีเมล */}
                 <input
                   type="email"
-                  aria-label={`อีเมล ${idx + 1}`}
+                  aria-label={`${t('emailAddress')} ${idx + 1}`}
                   aria-invalid={invalid ? 'true' : 'false'}
-                  placeholder="example@email.com"
+                  placeholder={t('emailPlaceholder')}
                   value={email.value}
                   onChange={(e) => updateEmail(idx, { value: e.target.value })}
                   className="humi-input min-w-0 flex-1"
@@ -294,18 +296,18 @@ export default function StepContact() {
                     onChange={() => setPrimaryEmail(idx)}
                     className="rounded"
                   />
-                  หลัก
+                  {t('isPrimary')}
                 </label>
 
                 {/* ลบ */}
                 <button
                   type="button"
-                  aria-label={`ลบอีเมล ${idx + 1}`}
+                  aria-label={`${t('remove')} ${t('emailAddress')} ${idx + 1}`}
                   disabled={emails.length <= 1}
                   onClick={() => removeEmail(idx)}
                   className="rounded px-2 py-1.5 text-sm text-warning hover:bg-warning/10 disabled:cursor-not-allowed disabled:opacity-30"
                 >
-                  ลบ
+                  {t('remove')}
                 </button>
               </div>
             )
@@ -318,14 +320,14 @@ export default function StepContact() {
           onClick={addEmail}
           className="mt-3 text-sm text-accent hover:underline"
         >
-          + เพิ่มอีเมล
+          {t('addEmail')}
         </button>
       </section>
 
       {/* ─── ที่อยู่ที่พักอาศัย (BRD #17: PerAddressDEFLT 8-field Thai address) ─── */}
-      <section aria-label="ที่อยู่ที่พักอาศัย">
+      <section aria-label={t('addressSection')}>
         <p className="humi-label mb-3">
-          ที่อยู่ที่พักอาศัย
+          {t('addressSection')}
         </p>
         {/* SF cite: qas-fields-2026-04-26/sf-qas-PerAddressDEFLT-2026-04-26.json#.d.results[0]
             address5=houseNo, address4=village, address11=moo, address7=soi,
@@ -335,9 +337,9 @@ export default function StepContact() {
           {/* บ้านเลขที่ — SF address5 */}
           <fieldset>
             <label htmlFor="addr-house-no" className="humi-label">
-              บ้านเลขที่<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('houseNo')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
-            <input id="addr-house-no" type="text" placeholder="เช่น 155"
+            <input id="addr-house-no" type="text" placeholder={t('houseNoPlaceholder')}
               value={address.houseNo}
               onChange={(e) => updateAddress({ houseNo: e.target.value })}
               className="humi-input w-full" />
@@ -346,9 +348,9 @@ export default function StepContact() {
           {/* หมู่บ้าน / ชื่อหมู่บ้าน — SF address4 */}
           <fieldset>
             <label htmlFor="addr-village" className="humi-label">
-              หมู่บ้าน
+              {t('village')}
             </label>
-            <input id="addr-village" type="text" placeholder="เช่น หมู่บ้านตะวันนา"
+            <input id="addr-village" type="text" placeholder={t('villagePlaceholder')}
               value={address.village}
               onChange={(e) => updateAddress({ village: e.target.value })}
               className="humi-input w-full" />
@@ -357,9 +359,9 @@ export default function StepContact() {
           {/* หมู่ที่ — SF address11 */}
           <fieldset>
             <label htmlFor="addr-moo" className="humi-label">
-              หมู่ที่
+              {t('moo')}
             </label>
-            <input id="addr-moo" type="text" placeholder="เช่น 5"
+            <input id="addr-moo" type="text" placeholder={t('mooPlaceholder')}
               value={address.moo}
               onChange={(e) => updateAddress({ moo: e.target.value })}
               className="humi-input w-full" />
@@ -368,9 +370,9 @@ export default function StepContact() {
           {/* ซอย — SF address7 */}
           <fieldset>
             <label htmlFor="addr-soi" className="humi-label">
-              ซอย
+              {t('soi')}
             </label>
-            <input id="addr-soi" type="text" placeholder="เช่น สนามบินน้ำ"
+            <input id="addr-soi" type="text" placeholder={t('soiPlaceholder')}
               value={address.soi}
               onChange={(e) => updateAddress({ soi: e.target.value })}
               className="humi-input w-full" />
@@ -379,9 +381,9 @@ export default function StepContact() {
           {/* แขวง/ตำบล — SF address12 */}
           <fieldset>
             <label htmlFor="addr-subdistrict" className="humi-label">
-              แขวง / ตำบล<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('subdistrict')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
-            <input id="addr-subdistrict" type="text" placeholder="เช่น บางกระสอ"
+            <input id="addr-subdistrict" type="text" placeholder={t('subdistrictPlaceholder')}
               value={address.subdistrict}
               onChange={(e) => updateAddress({ subdistrict: e.target.value })}
               className="humi-input w-full" />
@@ -390,9 +392,9 @@ export default function StepContact() {
           {/* เขต/อำเภอ — SF city */}
           <fieldset>
             <label htmlFor="addr-district" className="humi-label">
-              เขต / อำเภอ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('district')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
-            <input id="addr-district" type="text" placeholder="เช่น นนทบุรี"
+            <input id="addr-district" type="text" placeholder={t('districtPlaceholder')}
               value={address.district}
               onChange={(e) => updateAddress({ district: e.target.value })}
               className="humi-input w-full" />
@@ -401,9 +403,9 @@ export default function StepContact() {
           {/* จังหวัด — SF state */}
           <fieldset>
             <label htmlFor="addr-province" className="humi-label">
-              จังหวัด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('province')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
-            <input id="addr-province" type="text" placeholder="เช่น 12 (นนทบุรี)"
+            <input id="addr-province" type="text" placeholder={t('provincePlaceholder')}
               value={address.province}
               onChange={(e) => updateAddress({ province: e.target.value })}
               className="humi-input w-full" />
@@ -412,9 +414,9 @@ export default function StepContact() {
           {/* รหัสไปรษณีย์ — SF zipCode */}
           <fieldset>
             <label htmlFor="addr-zip" className="humi-label">
-              รหัสไปรษณีย์<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('zipCode')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
-            <input id="addr-zip" type="text" inputMode="numeric" placeholder="เช่น 11000"
+            <input id="addr-zip" type="text" inputMode="numeric" placeholder={t('zipCodePlaceholder')}
               value={address.zipCode}
               onChange={(e) => updateAddress({ zipCode: e.target.value })}
               className="humi-input w-full" />
@@ -423,9 +425,9 @@ export default function StepContact() {
           {/* ประเทศ — SF country (default THA) */}
           <fieldset>
             <label htmlFor="addr-country" className="humi-label">
-              ประเทศ
+              {t('country')}
             </label>
-            <input id="addr-country" type="text" placeholder="THA"
+            <input id="addr-country" type="text" placeholder={t('countryPlaceholder')}
               value={address.country}
               onChange={(e) => updateAddress({ country: e.target.value })}
               className="humi-input w-full" />
@@ -434,15 +436,15 @@ export default function StepContact() {
       </section>
 
       {/* ─── บุคคลที่เกี่ยวข้อง ───────────────────────────────────────────── */}
-      <section aria-label="บุคคลที่เกี่ยวข้อง">
-        <p className="humi-label mb-3">บุคคลที่เกี่ยวข้อง</p>
+      <section aria-label={t('relationsSection')}>
+        <p className="humi-label mb-3">{t('relationsSection')}</p>
 
         {jobRelationships.length > 0 && (
           <table className="mb-3 w-full text-sm">
             <thead>
               <tr className="border-b border-hairline-soft text-left text-ink-soft">
-                <th className="pb-2 pr-4 font-medium">ประเภทความสัมพันธ์</th>
-                <th className="pb-2 pr-4 font-medium">ชื่อ</th>
+                <th className="pb-2 pr-4 font-medium">{t('relationshipType')}</th>
+                <th className="pb-2 pr-4 font-medium">{t('personName')}</th>
                 <th className="pb-2 font-medium"></th>
               </tr>
             </thead>
@@ -452,8 +454,8 @@ export default function StepContact() {
                   <td className="py-2 pr-4">
                     <input
                       type="text"
-                      aria-label={`ประเภทความสัมพันธ์ ${idx + 1}`}
-                      placeholder="เช่น ผู้จัดการ / หัวหน้างาน"
+                      aria-label={`${t('relationshipType')} ${idx + 1}`}
+                      placeholder={t('relationshipTypePlaceholder')}
                       value={rel.relationshipType}
                       onChange={(e) => updateRelationship(idx, { relationshipType: e.target.value })}
                       className="humi-input w-full"
@@ -462,8 +464,8 @@ export default function StepContact() {
                   <td className="py-2 pr-4">
                     <input
                       type="text"
-                      aria-label={`ชื่อบุคคลที่เกี่ยวข้อง ${idx + 1}`}
-                      placeholder="ชื่อ-นามสกุล"
+                      aria-label={`${t('personName')} ${idx + 1}`}
+                      placeholder={t('personNamePlaceholder')}
                       value={rel.name}
                       onChange={(e) => updateRelationship(idx, { name: e.target.value })}
                       className="humi-input w-full"
@@ -472,11 +474,11 @@ export default function StepContact() {
                   <td className="py-2">
                     <button
                       type="button"
-                      aria-label={`ลบบุคคลที่เกี่ยวข้อง ${idx + 1}`}
+                      aria-label={`${t('remove')} ${t('relationsSection')} ${idx + 1}`}
                       onClick={() => removeRelationship(idx)}
                       className="rounded px-2 py-1 text-xs text-warning hover:bg-warning/10"
                     >
-                      ลบ
+                      {t('remove')}
                     </button>
                   </td>
                 </tr>
@@ -490,7 +492,7 @@ export default function StepContact() {
           onClick={addRelationship}
           className="text-sm text-accent hover:underline"
         >
-          + เพิ่ม
+          {t('addRelation')}
         </button>
       </section>
 

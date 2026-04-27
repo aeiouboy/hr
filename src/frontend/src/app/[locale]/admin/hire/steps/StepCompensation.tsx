@@ -10,6 +10,7 @@
 //     SF source: jq '.d.results[0].empPayCompRecurringNav' sf-qas-EmpCompensation-2026-04-26.json
 //   - currency defaults to THB (Thailand country code → THA → THB)
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepCompensationSchema } from '@/lib/admin/validation/hireSchema'
 import { PICKLIST_PAY_FREQUENCY, PICKLIST_PAY_COMPONENT_GROUP } from '@hrms/shared/picklists'
@@ -42,6 +43,7 @@ interface RecurringPayComponent {
 }
 
 export default function StepCompensation({ onValidChange }: StepCompensationProps) {
+  const t = useTranslations('hireForm.compensation')
   const { formData, setStepData } = useHireWizard()
   const [salaryInput, setSalaryInput] = useState<string>(
     formData.compensation.baseSalary != null ? String(formData.compensation.baseSalary) : ''
@@ -103,7 +105,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
       {/* เงินเดือนพื้นฐาน */}
       <fieldset>
         <label htmlFor="base-salary" className="humi-label">
-          เงินเดือนพื้นฐาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('baseSalary')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink-muted select-none">฿</span>
@@ -116,7 +118,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
             aria-required="true"
             aria-invalid={touched && !!error}
             aria-describedby={touched && error ? 'salary-error' : undefined}
-            placeholder="ระบุจำนวนเงิน"
+            placeholder={t('salaryPlaceholder')}
             value={salaryInput}
             onChange={(e) => setSalaryInput(e.target.value)}
             onBlur={() => setTouched(true)}
@@ -131,7 +133,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
       {/* สกุลเงิน — BRD #96: default THB (THA → THB) */}
       {/* SF source: EmpCompensation.currencyCode — Thailand = THA → THB */}
       <fieldset>
-        <label htmlFor="currency" className="humi-label">สกุลเงิน</label>
+        <label htmlFor="currency" className="humi-label">{t('currency')}</label>
         <select
           id="currency"
           value={currency}
@@ -143,30 +145,30 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
           <option value="SGD">ดอลลาร์สิงคโปร์ (SGD)</option>
           <option value="JPY">เยนญี่ปุ่น (JPY)</option>
         </select>
-        <p className="mt-1 text-xs text-ink-faint">ค่าเริ่มต้น THB (ประเทศไทย = THA → THB)</p>
+        <p className="mt-1 text-xs text-ink-faint">{t('currencyDefault')}</p>
       </fieldset>
 
       {/* Pay Group — BRD #27 — SF EmpCompensation.payGroup (8 codes) */}
       {/* SF source: jq '[.d.results[].payGroup] | unique' sf-qas-EmpCompensation-2026-04-26.json */}
       <fieldset>
-        <label htmlFor="pay-group" className="humi-label">Pay Group</label>
+        <label htmlFor="pay-group" className="humi-label">{t('payGroup')}</label>
         <select
           id="pay-group"
           value={payGroup}
           onChange={(e) => setPayGroup(e.target.value)}
           className="humi-select w-full"
         >
-          <option value="">— เลือก Pay Group —</option>
+          <option value="">{t('selectPayGroup')}</option>
           {PICKLIST_PAY_GROUP.filter((g) => g.active).map((g) => (
             <option key={g.id} value={g.id}>{g.labelTh}</option>
           ))}
         </select>
-        <p className="mt-1 text-xs text-ink-faint">กลุ่มการจ่ายเงินเดือน — SF EmpCompensation.payGroup</p>
+        <p className="mt-1 text-xs text-ink-faint">{t('payGroupHelp')}</p>
       </fieldset>
 
       {/* Pay Frequency — audit #13 / BRD #120 — wired to SF PICKLIST_PAY_FREQUENCY (6 items) */}
       <fieldset>
-        <label htmlFor="pay-frequency" className="humi-label">ความถี่การจ่ายเงิน</label>
+        <label htmlFor="pay-frequency" className="humi-label">{t('payFrequency')}</label>
         <select
           id="pay-frequency"
           value={payFrequency}
@@ -213,6 +215,7 @@ interface CostSplit {
 }
 
 function CostDistributionSection() {
+  const t = useTranslations('hireForm.compensation')
   const [rows, setRows] = useState<CostSplit[]>([])
   const [showSection, setShowSection] = useState(false)
 
@@ -237,7 +240,7 @@ function CostDistributionSection() {
         className="humi-button humi-button--ghost"
         style={{ display: 'inline-flex', gap: 6 }}
       >
-        <span>+ แบ่งค่าใช้จ่ายข้าม cost center</span>
+        <span>{t('costDistributionToggle')}</span>
       </button>
     )
   }
@@ -246,18 +249,18 @@ function CostDistributionSection() {
     <div className="humi-card humi-card--cream" style={{ padding: 16 }}>
       <div className="humi-row" style={{ marginBottom: 12, gap: 8 }}>
         <div style={{ flex: 1 }}>
-          <div className="humi-eyebrow">การกระจายค่าใช้จ่าย</div>
+          <div className="humi-eyebrow">{t('costDistributionTitle')}</div>
           <p className="text-small text-ink-muted" style={{ marginTop: 2 }}>
-            แบ่งงบประมาณเงินเดือนข้ามหน่วยบัญชี — รวมต้องเท่ากับ 100%
+            {t('costDistributionDesc')}
           </p>
         </div>
         <button
           type="button"
           onClick={() => { setShowSection(false); setRows([]) }}
           className="text-xs text-ink-muted hover:text-warning"
-          aria-label="ปิด cost distribution"
+          aria-label={t('closeSection')}
         >
-          ปิดส่วนนี้
+          {t('closeSection')}
         </button>
       </div>
 
@@ -265,21 +268,21 @@ function CostDistributionSection() {
         {rows.map((row) => (
           <div key={row.id} className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_120px_auto] md:items-end">
             <div>
-              <label className="humi-label text-xs" htmlFor={`cc-${row.id}`}>หน่วยบัญชี</label>
+              <label className="humi-label text-xs" htmlFor={`cc-${row.id}`}>{t('costCenter')}</label>
               <select
                 id={`cc-${row.id}`}
                 value={row.costCenter}
                 onChange={(e) => updateRow(row.id, 'costCenter', e.target.value)}
                 className="humi-select w-full"
               >
-                <option value="">— เลือกหน่วยบัญชี —</option>
+                <option value="">{t('selectCostCenter')}</option>
                 {COST_CENTERS.map((cc) => (
                   <option key={cc.code} value={cc.code}>{cc.code} — {cc.label}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="humi-label text-xs" htmlFor={`pct-${row.id}`}>สัดส่วน (%)</label>
+              <label className="humi-label text-xs" htmlFor={`pct-${row.id}`}>{t('allocation')}</label>
               <input
                 id={`pct-${row.id}`}
                 type="number"
@@ -288,7 +291,7 @@ function CostDistributionSection() {
                 step={0.01}
                 value={row.pct}
                 onChange={(e) => updateRow(row.id, 'pct', e.target.value)}
-                placeholder="0-100"
+                placeholder={t('allocationPlaceholder')}
                 className="humi-input w-full"
               />
             </div>
@@ -296,10 +299,10 @@ function CostDistributionSection() {
               type="button"
               onClick={() => removeRow(row.id)}
               className="text-xs text-ink-muted hover:text-warning"
-              aria-label="ลบแถวนี้"
+              aria-label={t('removeRow')}
               style={{ padding: '8px 12px' }}
             >
-              ลบ
+              {t('removeRow')}
             </button>
           </div>
         ))}
@@ -311,11 +314,11 @@ function CostDistributionSection() {
           onClick={addRow}
           className="humi-button humi-button--ghost text-sm"
         >
-          + เพิ่มแถว
+          {t('addRow')}
         </button>
         <div className="text-sm">
-          รวม: <span className={sumOk ? 'text-accent font-semibold' : 'text-warning font-semibold'}>{sum.toFixed(2)}%</span>
-          {!sumOk && <span className="ml-2 text-xs text-warning">(ต้องเท่ากับ 100)</span>}
+          {t('totalLabel')} <span className={sumOk ? 'text-accent font-semibold' : 'text-warning font-semibold'}>{sum.toFixed(2)}%</span>
+          {!sumOk && <span className="ml-2 text-xs text-warning">{t('totalMustBe100')}</span>}
         </div>
       </div>
     </div>
@@ -335,21 +338,22 @@ interface RecurringSectionProps {
 }
 
 function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, onRemove, onUpdate }: RecurringSectionProps) {
+  const t = useTranslations('hireForm.compensation')
   const [showSection, setShowSection] = useState(false)
 
   if (!showSection) {
     return (
       <div>
-        <div className="humi-eyebrow mb-1">ค่าตอบแทนประจำอื่นๆ</div>
+        <div className="humi-eyebrow mb-1">{t('recurringOtherTitle')}</div>
         <button
           type="button"
           onClick={() => { setShowSection(true); onAdd() }}
           className="humi-button humi-button--ghost"
           style={{ display: 'inline-flex', gap: 6 }}
         >
-          <span>+ เพิ่มค่าตอบแทนประจำ (Recurring)</span>
+          <span>{t('recurringToggle')}</span>
         </button>
-        <p className="mt-1 text-xs text-ink-faint">SF empPayCompRecurringNav — ค่าตอบแทนที่จ่ายซ้ำทุกงวด</p>
+        <p className="mt-1 text-xs text-ink-faint">{t('recurringDesc')}</p>
       </div>
     )
   }
@@ -358,18 +362,18 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
     <div className="humi-card humi-card--cream" style={{ padding: 16 }}>
       <div className="humi-row" style={{ marginBottom: 12, gap: 8 }}>
         <div style={{ flex: 1 }}>
-          <div className="humi-eyebrow">ค่าตอบแทนประจำ (Recurring Pay)</div>
+          <div className="humi-eyebrow">{t('recurringActiveTitle')}</div>
           <p className="text-small text-ink-muted" style={{ marginTop: 2 }}>
-            SF EmpCompensation.empPayCompRecurringNav — รายการค่าตอบแทนที่จ่ายซ้ำ
+            {t('recurringActiveDesc')}
           </p>
         </div>
         <button
           type="button"
           onClick={() => setShowSection(false)}
           className="text-xs text-ink-muted hover:text-warning"
-          aria-label="ปิดส่วนค่าตอบแทนประจำ"
+          aria-label={t('closeSection')}
         >
-          ปิดส่วนนี้
+          {t('closeSection')}
         </button>
       </div>
 
@@ -378,14 +382,14 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
           <div key={row.id} className="grid grid-cols-1 gap-3 md:grid-cols-[2fr_1fr_100px_1fr_auto] md:items-end">
             {/* ประเภทค่าตอบแทน */}
             <div>
-              <label className="humi-label text-xs" htmlFor={`rpc-type-${row.id}`}>ประเภทค่าตอบแทน</label>
+              <label className="humi-label text-xs" htmlFor={`rpc-type-${row.id}`}>{t('recurringType')}</label>
               <select
                 id={`rpc-type-${row.id}`}
                 value={row.type}
                 onChange={(e) => onUpdate(row.id, 'type', e.target.value)}
                 className="humi-select w-full"
               >
-                <option value="">— เลือกประเภท —</option>
+                <option value="">{t('selectType')}</option>
                 {PICKLIST_PAY_COMPONENT_GROUP.filter((g) => g.active).map((g) => (
                   <option key={g.id} value={g.id}>{g.id} — {g.labelEn}</option>
                 ))}
@@ -393,7 +397,7 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
             </div>
             {/* จำนวนเงิน */}
             <div>
-              <label className="humi-label text-xs" htmlFor={`rpc-amt-${row.id}`}>จำนวนเงิน</label>
+              <label className="humi-label text-xs" htmlFor={`rpc-amt-${row.id}`}>{t('amount')}</label>
               <input
                 id={`rpc-amt-${row.id}`}
                 type="number"
@@ -401,13 +405,13 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
                 step={1}
                 value={row.amount}
                 onChange={(e) => onUpdate(row.id, 'amount', e.target.value)}
-                placeholder="0"
+                placeholder={t('amountPlaceholder')}
                 className="humi-input w-full"
               />
             </div>
             {/* สกุลเงิน */}
             <div>
-              <label className="humi-label text-xs" htmlFor={`rpc-cur-${row.id}`}>สกุลเงิน</label>
+              <label className="humi-label text-xs" htmlFor={`rpc-cur-${row.id}`}>{t('currency')}</label>
               <select
                 id={`rpc-cur-${row.id}`}
                 value={row.currency || defaultCurrency}
@@ -422,7 +426,7 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
             </div>
             {/* ความถี่ */}
             <div>
-              <label className="humi-label text-xs" htmlFor={`rpc-freq-${row.id}`}>ความถี่</label>
+              <label className="humi-label text-xs" htmlFor={`rpc-freq-${row.id}`}>{t('frequency')}</label>
               <select
                 id={`rpc-freq-${row.id}`}
                 value={row.frequency || defaultFrequency}
@@ -438,10 +442,10 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
               type="button"
               onClick={() => onRemove(row.id)}
               className="text-xs text-ink-muted hover:text-warning"
-              aria-label="ลบรายการนี้"
+              aria-label={t('removeItem')}
               style={{ padding: '8px 12px' }}
             >
-              ลบ
+              {t('removeItem')}
             </button>
           </div>
         ))}
@@ -452,7 +456,7 @@ function RecurringPaySection({ rows, defaultCurrency, defaultFrequency, onAdd, o
         onClick={onAdd}
         className="humi-button humi-button--ghost text-sm mt-3"
       >
-        + เพิ่มรายการ
+        {t('addItem')}
       </button>
     </div>
   )

@@ -9,6 +9,7 @@
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
@@ -51,6 +52,7 @@ type TouchedState = {
 }
 
 export default function StepIdentity({ onValidChange }: StepIdentityProps) {
+  const t = useTranslations('hireForm.identity')
   const { formData, setStepData } = useHireWizard()
   const id = formData.identity
   const nationality = formData.biographical?.nationality ?? ''
@@ -174,8 +176,8 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
 
   // helper render
   const errMsg = (field: keyof FieldErrors, touchField?: keyof TouchedState) => {
-    const t = touchField ?? (field as keyof TouchedState)
-    if (!touched[t] || !errors[field]) return null
+    const tf = touchField ?? (field as keyof TouchedState)
+    if (!touched[tf] || !errors[field]) return null
     return <p role="alert" className="mt-1 text-xs text-warning">{errors[field]}</p>
   }
 
@@ -184,7 +186,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 1 — Hire Date * ─── */}
       <fieldset>
         <label htmlFor="hire-date" className="humi-label">
-          วันเริ่มงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('hireDate')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="hire-date" type="date" required aria-required="true"
           aria-invalid={touched.hireDate && !!errors.hireDate}
@@ -198,7 +200,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
             Forward-dated hire requires SPD pre-approval before activation */}
         {hireDate && new Date(hireDate) > new Date(new Date().toISOString().slice(0, 10)) && (
           <p role="alert" className="mt-1 text-xs text-warning">
-            วันที่เริ่มงานล่วงหน้าต้องผ่านการอนุมัติจาก SPD ก่อนเปิดใช้งาน (BRD #101)
+            {t('forwardDateWarning')}
           </p>
         )}
       </fieldset>
@@ -206,7 +208,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 2 — Company * ─── */}
       <fieldset>
         <label htmlFor="company-code" className="humi-label">
-          บริษัท<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('company')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="company-code" required aria-required="true"
           aria-invalid={touched.companyCode && !!errors.companyCode}
@@ -214,7 +216,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setCompanyCode(e.target.value)}
           onBlur={() => touch('companyCode')}
           className="humi-select w-full">
-          <option value="">— เลือกบริษัท —</option>
+          <option value="">{t('selectCompanyPlaceholder')}</option>
           {PICKLIST_COMPANY.filter((c) => c.active).map((c) => (
             <option key={c.id} value={c.id}>{c.id} — {c.labelTh}</option>
           ))}
@@ -225,7 +227,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 3 — Event Reason * ─── */}
       <fieldset>
         <label htmlFor="event-reason" className="humi-label">
-          เหตุผล<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('eventReason')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="event-reason" required aria-required="true"
           aria-invalid={touched.eventReason && !!errors.eventReason}
@@ -233,7 +235,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setEventReason(e.target.value)}
           onBlur={() => touch('eventReason')}
           className="humi-select w-full">
-          <option value="">— เลือกสาเหตุ —</option>
+          <option value="">{t('selectEventReasonPlaceholder')}</option>
           {PICKLIST_EVENT_REASON_HIRE.filter((r) => r.active).map((r) => (
             <option key={r.id} value={r.id}>{r.id} — {r.labelTh}</option>
           ))}
@@ -244,7 +246,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 4 — Salutation (EN) * ─── */}
       <fieldset>
         <label htmlFor="salutation-en" className="humi-label">
-          คำนำหน้า (EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('salutationEn')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="salutation-en" required aria-required="true"
           aria-invalid={touched.salutationEn && !!errors.salutationEn}
@@ -252,7 +254,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setSalutationEn(e.target.value)}
           onBlur={() => touch('salutationEn')}
           className="humi-select w-full">
-          <option value="">— เลือกคำนำหน้า —</option>
+          <option value="">{t('selectSalutationPlaceholder')}</option>
           {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
             <option key={s.id} value={s.id}>{s.labelEn}</option>
           ))}
@@ -263,11 +265,11 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 5 — Firstname (EN) * ─── */}
       <fieldset>
         <label htmlFor="first-name-en" className="humi-label">
-          ชื่อ (EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('firstNameEn')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="first-name-en" type="text" required aria-required="true"
           aria-invalid={touched.firstNameEn && !!errors.firstNameEn}
-          placeholder="ชื่อ ภาษาอังกฤษ"
+          placeholder={t('firstNameEnPlaceholder')}
           value={firstNameEn}
           onChange={(e) => setFirstNameEn(e.target.value)}
           onBlur={() => touch('firstNameEn')}
@@ -278,9 +280,9 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 6 — Middle Name (EN) — optional ─── */}
       <fieldset>
         <label htmlFor="middle-name-en" className="humi-label">
-          ชื่อกลาง
+          {t('middleNameEn')}
         </label>
-        <input id="middle-name-en" type="text" placeholder="ชื่อกลาง ภาษาอังกฤษ — ไม่บังคับ"
+        <input id="middle-name-en" type="text" placeholder={t('middleNameEnPlaceholder')}
           value={middleNameEn}
           onChange={(e) => setMiddleNameEn(e.target.value)}
           className="humi-input w-full" />
@@ -289,11 +291,11 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 7 — Lastname (EN) * ─── */}
       <fieldset>
         <label htmlFor="last-name-en" className="humi-label">
-          นามสกุล (EN)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('lastNameEn')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="last-name-en" type="text" required aria-required="true"
           aria-invalid={touched.lastNameEn && !!errors.lastNameEn}
-          placeholder="นามสกุล ภาษาอังกฤษ"
+          placeholder={t('lastNameEnPlaceholder')}
           value={lastNameEn}
           onChange={(e) => setLastNameEn(e.target.value)}
           onBlur={() => touch('lastNameEn')}
@@ -304,7 +306,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 8 — Date of Birth * ─── */}
       <fieldset>
         <label htmlFor="date-of-birth" className="humi-label">
-          วันเกิด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('dateOfBirth')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="date-of-birth" type="date" required aria-required="true"
           aria-invalid={touched.dateOfBirth && !!errors.dateOfBirth}
@@ -313,22 +315,22 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onBlur={() => touch('dateOfBirth')}
           className="humi-input w-full" />
         {errMsg('dateOfBirth')}
-        {/* อายุคำนวณอัตโนมัติ */}
+        {/* age auto-calculated from dateOfBirth */}
         {age !== null && (
-          <p className="mt-1 text-xs text-ink-soft">อายุ: {age} ปี</p>
+          <p className="mt-1 text-xs text-ink-soft">{t('ageLabel')}: {age} {t('ageUnit')}</p>
         )}
       </fieldset>
 
       {/* ─── BA row 9 — Country of Birth — optional ─── */}
       <fieldset>
         <label htmlFor="country-of-birth" className="humi-label">
-          ประเทศที่เกิด
+          {t('countryOfBirth')}
         </label>
         <select id="country-of-birth"
           value={countryOfBirth}
           onChange={(e) => setCountryOfBirth(e.target.value)}
           className="humi-select w-full">
-          <option value="">— เลือกประเทศ (optional) —</option>
+          <option value="">{t('selectCountryPlaceholder')}</option>
           {PICKLIST_COUNTRY_ISO.filter((c) => c.active).map((c) => (
             <option key={c.id} value={c.id}>{c.labelTh}</option>
           ))}
@@ -338,9 +340,9 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 10 — Region of Birth — optional ─── */}
       <fieldset>
         <label htmlFor="region-of-birth" className="humi-label">
-          จังหวัด/ภูมิภาคที่เกิด
+          {t('regionOfBirth')}
         </label>
-        <input id="region-of-birth" type="text" placeholder="จังหวัด/ภูมิภาค (optional)"
+        <input id="region-of-birth" type="text" placeholder={t('regionOfBirthPlaceholder')}
           value={regionOfBirth}
           onChange={(e) => setRegionOfBirth(e.target.value)}
           className="humi-input w-full" />
@@ -349,9 +351,9 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* BA row 12 — Employee ID: system-generated per BRD #102:2267 — readonly display */}
       <fieldset>
         <label className="humi-label">
-          รหัสพนักงาน <span className="text-xs text-ink-muted ml-1">(ระบบสร้างอัตโนมัติ)</span>
+          {t('employeeId')} <span className="text-xs text-ink-muted ml-1">({t('employeeIdAutoGenerated')})</span>
         </label>
-        <div className="humi-readonly-display px-3 py-2 bg-canvas-soft border border-hairline rounded text-ink font-mono" aria-readonly="true" aria-label="รหัสพนักงานที่ระบบจะสร้างให้">
+        <div className="humi-readonly-display px-3 py-2 bg-canvas-soft border border-hairline rounded text-ink font-mono" aria-readonly="true" aria-label={t('employeeId')}>
           {employeeId}
         </div>
       </fieldset>
@@ -361,7 +363,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           per SF newhire.xhtml order. ─── */}
       <fieldset>
         <label htmlFor="salutation-local" className="humi-label">
-          คำนำหน้า (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('salutationLocal')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="salutation-local" required aria-required="true"
           aria-invalid={touched.salutationLocal && !!errors.salutationLocal}
@@ -369,7 +371,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setSalutationLocal(e.target.value)}
           onBlur={() => touch('salutationLocal')}
           className="humi-select w-full">
-          <option value="">— เลือกคำนำหน้า —</option>
+          <option value="">{t('selectSalutationPlaceholder')}</option>
           {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
             <option key={s.id} value={s.id}>{s.labelTh}</option>
           ))}
@@ -380,7 +382,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 13 — National ID Card Type * ─── */}
       <fieldset>
         <label htmlFor="national-id-card-type" className="humi-label">
-          ประเภทบัตร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('nationalIdCardType')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="national-id-card-type" required aria-required="true"
           aria-invalid={touched.nationalIdCardType && !!errors.nationalIdCardType}
@@ -388,9 +390,9 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setNationalIdCardType(e.target.value)}
           onBlur={() => touch('nationalIdCardType')}
           className="humi-select w-full">
-          <option value="">— เลือกประเภทบัตร —</option>
-          {PICKLIST_ID_CARD_TYPE.filter((t) => t.active).map((t) => (
-            <option key={t.id} value={t.id}>{t.labelTh}</option>
+          <option value="">{t('selectCardTypePlaceholder')}</option>
+          {PICKLIST_ID_CARD_TYPE.filter((item) => item.active).map((item) => (
+            <option key={item.id} value={item.id}>{item.labelTh}</option>
           ))}
         </select>
         {errMsg('nationalIdCardType')}
@@ -399,7 +401,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 14 — Country * ─── */}
       <fieldset>
         <label htmlFor="country" className="humi-label">
-          ประเทศ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('country')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="country" required aria-required="true"
           aria-invalid={touched.country && !!errors.country}
@@ -407,7 +409,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setCountry(e.target.value)}
           onBlur={() => touch('country')}
           className="humi-select w-full">
-          <option value="">— เลือกประเทศ —</option>
+          <option value="">{t('selectCountryRequiredPlaceholder')}</option>
           {PICKLIST_COUNTRY_ISO.filter((c) => c.active).map((c) => (
             <option key={c.id} value={c.id}>{c.labelTh}</option>
           ))}
@@ -418,11 +420,11 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 15 — National ID * — unconditionally required (SF PerNationalId.nationalId sap_required=true) ─── */}
       <fieldset>
         <label htmlFor="national-id" className="humi-label">
-          เลขบัตร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('nationalId')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="national-id" type="text" required aria-required="true"
           aria-invalid={touched.nationalId && !!errors.nationalId}
-          placeholder="เลขบัตรประชาชน / Passport / เลขอื่นๆ"
+          placeholder={t('nationalIdPlaceholder')}
           value={nationalId}
           onChange={(e) => setNationalId(e.target.value)}
           onBlur={() => touch('nationalId')}
@@ -433,7 +435,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
             cardType NATIONAL_ID → SF tni2 requires mod-11 validated 13-digit ID */}
         {touched.nationalId && requiresThaiMod11(nationalIdCardType) && nationalId && !validateThaiNationalIdMod11(nationalId) && (
           <p role="alert" className="mt-1 text-xs text-warning">
-            เลขบัตรประชาชนไม่ถูกต้อง (checksum mod-11 ไม่ผ่าน) / National ID checksum invalid
+            {t('nationalIdChecksumError')}
           </p>
         )}
       </fieldset>
@@ -441,7 +443,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 16 — Issue Date — optional ─── */}
       <fieldset>
         <label htmlFor="issue-date" className="humi-label">
-          วันออกบัตร
+          {t('issueDate')}
         </label>
         <input id="issue-date" type="date"
           value={issueDate}
@@ -452,7 +454,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 17 — Expiry Date — optional ─── */}
       <fieldset>
         <label htmlFor="expiry-date" className="humi-label">
-          วันหมดอายุ
+          {t('expiryDate')}
         </label>
         <input id="expiry-date" type="date"
           value={expiryDate}
@@ -463,7 +465,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 18 — Is Primary * ─── */}
       <fieldset>
         <label htmlFor="is-primary" className="humi-label">
-          บัตรหลัก<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('isPrimary')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="is-primary" required aria-required="true"
           aria-invalid={touched.isPrimary && !!errors.isPrimary}
@@ -471,25 +473,25 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           onChange={(e) => setIsPrimary(e.target.value)}
           onBlur={() => touch('isPrimary')}
           className="humi-select w-full">
-          <option value="">— เลือก —</option>
+          <option value="">{t('selectPlaceholder')}</option>
           {PICKLIST_YES_NO.filter((y) => y.active).map((y) => (
             <option key={y.id} value={y.id}>{y.labelTh}</option>
           ))}
         </select>
         <p className="mt-1 text-xs text-ink-faint">
-          บัตรหลัก = เอกสารยืนยันตัวตนหลัก — เลือก &ldquo;ไม่ใช่&rdquo; เฉพาะกรณีการจ้างคู่ในเครือ (บัตรรอง)
+          {t('isPrimaryHint')}
         </p>
         {errMsg('isPrimary')}
       </fieldset>
 
-      {/* ─── BA row 19 — [VN] Issue Place — optional (เวียดนามเท่านั้น) ─── */}
+      {/* ─── BA row 19 — [VN] Issue Place — optional (Vietnam only) ─── */}
       {(country === 'VN' || nationality === 'VN') && (
         <fieldset>
           <label htmlFor="vn-issue-place" className="humi-label">
-            สถานที่ออกบัตร
-            <span className="ml-1 text-xs text-ink-muted">(เฉพาะสัญชาติเวียดนาม)</span>
+            {t('vnIssuePlace')}
+            <span className="ml-1 text-xs text-ink-muted">({t('vnIssuePlaceHint')})</span>
           </label>
-          <input id="vn-issue-place" type="text" placeholder="สถานที่ออกบัตร (optional)"
+          <input id="vn-issue-place" type="text" placeholder={t('vnIssuePlacePlaceholder')}
             value={vnIssuePlace}
             onChange={(e) => setVnIssuePlace(e.target.value)}
             className="humi-input w-full" />
@@ -497,7 +499,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       )}
 
       <p className="text-xs text-ink-soft">
-        <span className="humi-asterisk">*</span> ช่องที่บังคับกรอก
+        <span className="humi-asterisk">*</span> {t('requiredHint')}
       </p>
     </div>
   )

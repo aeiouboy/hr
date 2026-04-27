@@ -14,6 +14,50 @@ import userEvent from '@testing-library/user-event'
 import StepBiographical from '@/app/[locale]/admin/hire/steps/StepBiographical'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 
+// mock next-intl: t(key) returns TH catalog value so getByRole/getByLabelText still works
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const th: Record<string, string> = {
+      sectionTitle: 'ข้อมูลส่วนตัว',
+      sectionSubtitle: 'ชื่อท้องถิ่น ชื่อเล่น เพศ สัญชาติ กรุ๊ปเลือด สถานภาพสมรส',
+      salutationLocal: 'คำนำหน้า (ภาษาท้องถิ่น)',
+      firstNameLocal: 'ชื่อ (TH)',
+      lastNameLocal: 'นามสกุล (TH)',
+      middleNameLocal: 'ชื่อกลาง (TH)',
+      middleNameLocalHelp: 'เทียบเท่ากับ SuccessFactors PerPersonal.secondLastName',
+      nickname: 'ชื่อเล่น',
+      militaryStatus: 'สถานภาพทหาร',
+      gender: 'เพศ',
+      nationality: 'สัญชาติ',
+      foreigner: 'ชาวต่างชาติ',
+      foreignerAuto: '(กำหนดอัตโนมัติจากสัญชาติ)',
+      bloodType: 'กรุ๊ปเลือด',
+      maritalStatus: 'สถานภาพสมรส',
+      maritalStatusSince: 'วันที่เปลี่ยนสถานภาพ',
+      spouseNameTh: 'ชื่อคู่สมรส',
+      nativePreferredLang: 'ภาษาหลัก',
+      religion: 'ศาสนา',
+      salutationLocalPlaceholder: 'เช่น นาย / นาง / นางสาว',
+      firstNameLocalPlaceholder: 'ชื่อภาษาไทย',
+      lastNameLocalPlaceholder: 'นามสกุลภาษาไทย',
+      middleNameLocalPlaceholder: 'ชื่อกลาง',
+      nicknamePlaceholder: 'ชื่อเล่น',
+      spouseNameThPlaceholder: 'ชื่อ-นามสกุลคู่สมรส (ภาษาไทย)',
+      nativePreferredLangPlaceholder: 'เช่น ภาษาไทย, English (SF code)',
+      spouseNameThHelp: 'SF: PerPersonal.partnerName / customString2 (ชื่อ) + customString3 (นามสกุล)',
+      nativePreferredLangHelp: 'SF: PerPersonal.nativePreferredLang (customString5)',
+      selectMilitaryStatus: '— เลือกสถานะ —',
+      selectGender: '— เลือกเพศ —',
+      selectNationality: '— เลือกสัญชาติ —',
+      selectForeigner: '— (อัตโนมัติ) —',
+      selectBloodType: '— เลือกกรุ๊ปเลือด —',
+      selectMaritalStatus: '— เลือกสถานภาพ —',
+      selectReligion: '— เลือกศาสนา (ไม่บังคับ) —',
+    }
+    return th[key] ?? key
+  },
+}))
+
 // reset Zustand store before every test to guarantee isolation
 beforeEach(() => {
   act(() => {

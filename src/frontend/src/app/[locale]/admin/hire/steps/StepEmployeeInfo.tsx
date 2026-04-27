@@ -10,6 +10,7 @@
 // Labels verbatim จาก spec Appendix 3 (C8: ห้าม invent)
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepEmployeeInfoSchema, EMPLOYEE_CLASSES } from '@/lib/admin/validation/hireSchema'
 import { PICKLIST_EMPLOYEE_CLASS } from '@hrms/shared/picklists'
@@ -58,6 +59,7 @@ function calcRetirementDate(dob: string): string {
 }
 
 export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProps) {
+  const t = useTranslations('hireForm.employeeInfo')
   const { formData, setStepData } = useHireWizard()
   const [employeeClass, setEmployeeClass] = useState<string>(formData.employeeInfo.employeeClass ?? '')
   const [employeeGroup, setEmployeeGroup] = useState<string>((formData.employeeInfo as Record<string,unknown>).employeeGroup as string ?? '')
@@ -114,7 +116,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
     <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
       <fieldset>
         <label htmlFor="employee-class" className="humi-label">
-          ประเภทพนักงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          {t('employeeClass')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select
           id="employee-class"
@@ -127,7 +129,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           onBlur={() => setTouched(true)}
           className="humi-select w-full"
         >
-          <option value="">— เลือกประเภทพนักงาน —</option>
+          <option value="">{t('selectEmployeeClass')}</option>
           {PICKLIST_EMPLOYEE_CLASS.filter((item) => item.active).map((item) => (
             <option key={item.id} value={item.id}>{item.labelTh}</option>
           ))}
@@ -141,7 +143,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
       {/* SF source: jq '.d.results[0].employeeGroup' sf-qas-EmpJob-2026-04-26.json */}
       <fieldset>
         <label htmlFor="employee-group" className="humi-label">
-          กลุ่มพนักงาน (Employee Group)
+          {t('employeeGroup')}
         </label>
         <select
           id="employee-group"
@@ -149,19 +151,19 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           onChange={(e) => setEmployeeGroup(e.target.value)}
           className="humi-select w-full"
         >
-          <option value="">— เลือกกลุ่มพนักงาน —</option>
+          <option value="">{t('selectEmployeeGroup')}</option>
           {PICKLIST_EMPLOYEE_GROUP.filter((item) => item.active).map((item) => (
             <option key={item.id} value={item.id}>{item.labelTh}</option>
           ))}
         </select>
-        <p className="mt-1 text-xs text-ink-faint">ใช้สำหรับการจำแนกเพื่อ payroll — SF EmpJob.employeeGroup</p>
+        <p className="mt-1 text-xs text-ink-faint">{t('employeeGroupHelp')}</p>
       </fieldset>
 
       {/* กลุ่มย่อยพนักงาน — BRD #30 — SF EmpJob.employeeSubGroup (required for payroll classification) */}
       {/* SF source: jq '.d.results[0].employeeSubGroup' sf-qas-EmpJob-2026-04-26.json */}
       <fieldset>
         <label htmlFor="employee-subgroup" className="humi-label">
-          กลุ่มย่อยพนักงาน (Employee Sub-Group)
+          {t('employeeSubGroup')}
         </label>
         <select
           id="employee-subgroup"
@@ -169,23 +171,23 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           onChange={(e) => setEmployeeSubGroup(e.target.value)}
           className="humi-select w-full"
         >
-          <option value="">— เลือกกลุ่มย่อยพนักงาน —</option>
+          <option value="">{t('selectEmployeeSubGroup')}</option>
           {PICKLIST_EMPLOYEE_SUBGROUP.filter((item) => item.active).map((item) => (
             <option key={item.id} value={item.id}>{item.labelTh}</option>
           ))}
         </select>
-        <p className="mt-1 text-xs text-ink-faint">ใช้กำหนดรูปแบบการจ่ายเงิน — SF EmpJob.employeeSubGroup</p>
+        <p className="mt-1 text-xs text-ink-faint">{t('employeeSubGroupHelp')}</p>
       </fieldset>
 
       {/* ── Employment Details (Area C — SF Image 15) ──────────────────────── */}
       <fieldset className="md:col-span-2 mt-4 pt-4 border-t border-hairline-soft">
-        <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">รายละเอียดการจ้างงาน</legend>
+        <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">{t('employmentDetails')}</legend>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
 
           {/* วันเริ่มงานครั้งแรก */}
           <fieldset>
             <label htmlFor="original-start-date" className="humi-label">
-              วันเริ่มงานครั้งแรก<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('originalStartDate')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input
               id="original-start-date"
@@ -201,7 +203,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           {/* วันนับอายุงาน */}
           <fieldset>
             <label htmlFor="seniority-start-date" className="humi-label">
-              วันนับอายุงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('seniorityStartDate')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input
               id="seniority-start-date"
@@ -217,7 +219,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           {/* วันเกษียณ (DOB + 60 ปี) */}
           <fieldset>
             <label htmlFor="retirement-date" className="humi-label">
-              วันเกษียณ <span className="text-xs text-ink-muted ml-1">(DOB + 60 ปี)</span>
+              {t('retirementDate')} <span className="text-xs text-ink-muted ml-1">({t('retirementDateHint')})</span>
             </label>
             <input
               id="retirement-date"
@@ -230,7 +232,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
 
           {/* วันเข้ากองทุนสำรองเลี้ยงชีพ */}
           <fieldset>
-            <label htmlFor="pf-service-date" className="humi-label">วันเข้ากองทุนสำรองเลี้ยงชีพ</label>
+            <label htmlFor="pf-service-date" className="humi-label">{t('pfServiceDate')}</label>
             <input
               id="pf-service-date"
               type="date"
@@ -242,26 +244,26 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
 
           {/* รหัสพนักงานเดิม DVT */}
           <fieldset>
-            <label htmlFor="dvt-prev-id" className="humi-label">รหัสพนักงานเดิม (DVT)</label>
+            <label htmlFor="dvt-prev-id" className="humi-label">{t('dvtPreviousId')}</label>
             <input
               id="dvt-prev-id"
               type="text"
               value={dvtPreviousId}
               onChange={(e) => setDvtPreviousId(e.target.value)}
-              placeholder="ระบุถ้ามี"
+              placeholder={t('idPlaceholder')}
               className="humi-input w-full"
             />
           </fieldset>
 
           {/* รหัสพนักงาน CG เดิม */}
           <fieldset>
-            <label htmlFor="cg-prev-id" className="humi-label">รหัสพนักงาน CG เดิม</label>
+            <label htmlFor="cg-prev-id" className="humi-label">{t('cgPreviousEmployeeId')}</label>
             <input
               id="cg-prev-id"
               type="text"
               value={cgPreviousEmployeeId}
               onChange={(e) => setCgPreviousEmployeeId(e.target.value)}
-              placeholder="ระบุถ้ามี"
+              placeholder={t('idPlaceholder')}
               className="humi-input w-full"
             />
           </fieldset>
@@ -269,7 +271,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
           {/* อายุพนักงาน (computed from DOB) */}
           <fieldset className="md:col-span-2">
             <label className="humi-label">
-              อายุพนักงาน <span className="text-xs text-ink-muted ml-1">(คำนวณจากวันเกิด)</span>
+              {t('ageDisplay')} <span className="text-xs text-ink-muted ml-1">({t('ageHint')})</span>
             </label>
             <div className="humi-input w-full bg-canvas-soft text-ink-muted">
               {calcAgeYMD(dob)}

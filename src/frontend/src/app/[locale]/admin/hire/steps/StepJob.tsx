@@ -6,6 +6,7 @@
 // Cascade → readonly: businessUnit, branch, job, jobGrade
 // Manual (not in PositionCascade): Division, JobFunction, CorporateTitle
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepJobSchema } from '@/lib/admin/validation/hireSchema'
 import PositionLookup from '@/components/admin/PositionLookup'
@@ -37,6 +38,7 @@ export interface StepJobProps {
 }
 
 export default function StepJob({ onValidChange }: StepJobProps) {
+  const t = useTranslations('hireForm.job')
   const { formData, setStepData } = useHireWizard()
   const job = formData.job
 
@@ -154,15 +156,15 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           value={selectedPosition}
           onSelect={handleCascade}
           required
-          label="ตำแหน่ง"
+          label={t('position')}
         />
       </div>
 
       {/* หน่วยธุรกิจ — readonly after cascade */}
       <fieldset>
         <label className="humi-label">
-          หน่วยธุรกิจ
-          <span className="text-xs text-ink-muted ml-1">(จาก Position)</span>
+          {t('businessUnit')}
+          <span className="text-xs text-ink-muted ml-1">{t('fromPosition')}</span>
         </label>
         <div className="humi-input w-full bg-canvas-soft text-ink-muted">
           {job.businessUnitLabel || job.businessUnit || '—'}
@@ -172,8 +174,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       {/* สาขา/สถานที่ — readonly after cascade */}
       <fieldset>
         <label className="humi-label">
-          สาขา/สถานที่
-          <span className="text-xs text-ink-muted ml-1">(จาก Position)</span>
+          {t('branch')}
+          <span className="text-xs text-ink-muted ml-1">{t('fromPosition')}</span>
         </label>
         <div className="humi-input w-full bg-canvas-soft text-ink-muted">
           {job.branchLabel || job.branch || '—'}
@@ -183,8 +185,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       {/* รหัสงาน / Job Code — readonly after cascade */}
       <fieldset>
         <label className="humi-label">
-          รหัสงาน
-          <span className="text-xs text-ink-muted ml-1">(จาก Position)</span>
+          {t('jobCode')}
+          <span className="text-xs text-ink-muted ml-1">{t('fromPosition')}</span>
         </label>
         <div className="humi-input w-full bg-canvas-soft text-ink-muted">
           {job.jobLabel || job.jobCode || '—'}
@@ -194,8 +196,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       {/* เกรดงาน — readonly after cascade */}
       <fieldset>
         <label className="humi-label">
-          เกรดงาน (JG)
-          <span className="text-xs text-ink-muted ml-1">(จาก Position)</span>
+          {t('jobGrade')}
+          <span className="text-xs text-ink-muted ml-1">{t('fromPosition')}</span>
         </label>
         <div className="humi-input w-full bg-canvas-soft text-ink-muted">
           {job.jobGradeLabel
@@ -206,7 +208,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
       {/* Store / Branch — retail optional — audit A6/#11 — manual (รหัสสาขา retail ≠ branch จาก Position) */}
       <fieldset>
-        <label htmlFor="store-branch-code" className="humi-label">สาขา/หน่วยงานค้าปลีก</label>
+        <label htmlFor="store-branch-code" className="humi-label">{t('storeBranchCode')}</label>
         <select
           id="store-branch-code"
           value={storeBranchCode}
@@ -216,7 +218,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           }}
           className="humi-select w-full"
         >
-          <option value="">— ไม่ระบุ / ไม่ใช่สาขา —</option>
+          <option value="">{t('selectStoreBranch')}</option>
           {STORE_BRANCH_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
@@ -225,7 +227,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
       {/* HR District — retail optional — audit A6/#11 — cascaded from Position หรือ manual override */}
       <fieldset>
-        <label htmlFor="hr-district" className="humi-label">เขต HR</label>
+        <label htmlFor="hr-district" className="humi-label">{t('hrDistrict')}</label>
         <select
           id="hr-district"
           value={hrDistrict}
@@ -235,7 +237,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           }}
           className="humi-select w-full"
         >
-          <option value="">— ไม่ระบุ / ไม่ใช่สาขา —</option>
+          <option value="">{t('selectHrDistrict')}</option>
           {HR_DISTRICT_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
@@ -244,13 +246,13 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
       {/* ── Time Information (Area C — SF Image 15) ────────────────────────── */}
       <fieldset className="md:col-span-2 mt-4 pt-4 border-t border-hairline-soft">
-        <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">ข้อมูลเวลาทำงาน</legend>
+        <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">{t('timeInfoSection')}</legend>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
 
           {/* ตารางการทำงาน */}
           <fieldset>
             <label htmlFor="work-schedule" className="humi-label">
-              ตารางการทำงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('workSchedule')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="work-schedule"
@@ -258,7 +260,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
               onChange={(e) => setWorkSchedule(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือกตาราง —</option>
+              <option value="">{t('selectWorkSchedule')}</option>
               <option value="D05H0800">D05H0800 (มาตรฐาน 5 วัน × 8 ชั่วโมง)</option>
               <option value="D06H0700">D06H0700 (6 วัน × 7 ชั่วโมง)</option>
               <option value="D05H0900">D05H0900 (5 วัน × 9 ชั่วโมง)</option>
@@ -268,7 +270,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           {/* ประเภทวันหยุด */}
           <fieldset>
             <label htmlFor="holiday-type" className="humi-label">
-              ประเภทวันหยุด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('holidayTypeCondition')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="holiday-type"
@@ -276,7 +278,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
               onChange={(e) => setHolidayTypeCondition(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือก —</option>
+              <option value="">{t('selectHolidayType')}</option>
               <option value="HO">HO (ปฏิทินสำนักงานใหญ่)</option>
               <option value="STORE">STORE (ปฏิทินสาขา)</option>
               <option value="CALL_CENTER">CALL_CENTER (ปฏิทิน call center)</option>
@@ -286,7 +288,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           {/* สถานะจัดการเวลา */}
           <fieldset>
             <label htmlFor="time-mgmt-status" className="humi-label">
-              สถานะจัดการเวลา<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('timeManagementStatus')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="time-mgmt-status"
@@ -294,7 +296,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
               onChange={(e) => setTimeManagementStatus(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือก —</option>
+              <option value="">{t('selectTimeManagement')}</option>
               <option value="9">9 — Time Eval (มาตรฐาน)</option>
               <option value="7">7 — PDC</option>
               <option value="0">0 — ไม่มี</option>
@@ -304,7 +306,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           {/* สถานะ OT */}
           <fieldset>
             <label htmlFor="ot-flag" className="humi-label">
-              สถานะ OT<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              {t('otFlag')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="ot-flag"
@@ -312,15 +314,15 @@ export default function StepJob({ onValidChange }: StepJobProps) {
               onChange={(e) => setOtFlag(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือก —</option>
-              <option value="YES">ได้รับ OT</option>
-              <option value="NO">ไม่ได้รับ OT</option>
+              <option value="">{t('selectOtFlag')}</option>
+              <option value="YES">{t('otYes')}</option>
+              <option value="NO">{t('otNo')}</option>
             </select>
           </fieldset>
 
           {/* ชั่วโมงทำงานต่อสัปดาห์ */}
           <fieldset>
-            <label htmlFor="weekly-hours" className="humi-label">ชั่วโมงทำงานต่อสัปดาห์</label>
+            <label htmlFor="weekly-hours" className="humi-label">{t('standardWeeklyHours')}</label>
             <input
               id="weekly-hours"
               type="number"
@@ -334,7 +336,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
           {/* ชั่วโมงทำงานต่อวัน */}
           <fieldset>
-            <label htmlFor="daily-hours" className="humi-label">ชั่วโมงทำงานต่อวัน</label>
+            <label htmlFor="daily-hours" className="humi-label">{t('dailyWorkingHours')}</label>
             <input
               id="daily-hours"
               type="number"
@@ -348,7 +350,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
           {/* วันทำงานต่อสัปดาห์ */}
           <fieldset>
-            <label htmlFor="work-days" className="humi-label">วันทำงานต่อสัปดาห์</label>
+            <label htmlFor="work-days" className="humi-label">{t('workingDaysPerWeek')}</label>
             <input
               id="work-days"
               type="number"
@@ -363,7 +365,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           {/* FTE (computed) */}
           <fieldset>
             <label htmlFor="fte" className="humi-label">
-              FTE <span className="text-xs text-ink-muted ml-1">(คำนวณอัตโนมัติ)</span>
+              {t('fte')} <span className="text-xs text-ink-muted ml-1">{t('fteHint')}</span>
             </label>
             <input
               id="fte"
@@ -376,14 +378,14 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
           {/* ปฏิทินวันหยุด */}
           <fieldset>
-            <label htmlFor="holiday-cal" className="humi-label">ปฏิทินวันหยุด</label>
+            <label htmlFor="holiday-cal" className="humi-label">{t('holidayCalendar')}</label>
             <select
               id="holiday-cal"
               value={holidayCalendar}
               onChange={(e) => setHolidayCalendar(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือก —</option>
+              <option value="">{t('selectHolidayCalendar')}</option>
               <option value="TH_PUBLIC">ปฏิทินวันหยุดราชการไทย</option>
               <option value="CG_CORP">ปฏิทิน Central Group Corporate</option>
             </select>
@@ -391,14 +393,14 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
           {/* Time Profile */}
           <fieldset>
-            <label htmlFor="time-profile" className="humi-label">Time Profile</label>
+            <label htmlFor="time-profile" className="humi-label">{t('timeProfile')}</label>
             <select
               id="time-profile"
               value={timeProfile}
               onChange={(e) => setTimeProfile(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือก —</option>
+              <option value="">{t('selectTimeProfile')}</option>
               <option value="TP_STD">TP_STD — มาตรฐาน</option>
               <option value="TP_FLEX">TP_FLEX — Flexible</option>
               <option value="TP_SHIFT">TP_SHIFT — กะ</option>
@@ -407,14 +409,14 @@ export default function StepJob({ onValidChange }: StepJobProps) {
 
           {/* รูปแบบการบันทึกเวลา */}
           <fieldset>
-            <label htmlFor="time-variant" className="humi-label">รูปแบบการบันทึกเวลา</label>
+            <label htmlFor="time-variant" className="humi-label">{t('timeRecordingVariant')}</label>
             <select
               id="time-variant"
               value={timeRecordingVariant}
               onChange={(e) => setTimeRecordingVariant(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">— เลือก —</option>
+              <option value="">{t('selectTimeVariant')}</option>
               <option value="01">01 — ระบบสแกนนิ้ว</option>
               <option value="02">02 — Clock-in app</option>
               <option value="03">03 — Manual</option>
