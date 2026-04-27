@@ -352,7 +352,7 @@ export function QuickApprovePage() {
  key={type}
  onClick={() => setTypeFilter(type)}
  className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
- typeFilter === type ?'bg-brand text-white' :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised'
+ typeFilter === type ?'bg-brand/10 text-brand' :'bg-surface-raised text-ink-muted hover:bg-surface-raised'
  )}
  >
  {TYPE_LABELS[type]}
@@ -367,8 +367,8 @@ export function QuickApprovePage() {
  onClick={() => setUrgencyFilter(level)}
  className={cn('px-3 py-1.5 rounded-full text-xs font-medium transition',
  urgencyFilter === level
- ? level ==='urgent' ?'bg-danger text-white' : level ==='low' ?'bg-success text-white' :'bg-brand text-white'
- :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised'
+ ? level ==='urgent' ?'bg-danger/10 text-danger' : level ==='low' ?'bg-success/10 text-success' :'bg-brand/10 text-brand'
+ :'bg-surface-raised text-ink-muted hover:bg-surface-raised'
  )}
  >
  {tQuick(`urgency.${level}`)}
@@ -402,34 +402,50 @@ export function QuickApprovePage() {
  </div>
  </Card>
 
+ {/* Bulk Action Bar — in document flow, above the items list */}
+ {selectedIds.size > 0 && (
+ <div className="flex items-center justify-between gap-4 rounded-md border border-hairline p-3 bg-surface">
+ <span className="text-sm font-medium text-ink">{tQuick('bulkBar.selected', { count: selectedIds.size })}</span>
+ <div className="flex items-center gap-3">
+ <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
+ <CheckCircle2 className="h-4 w-4 mr-1.5" />{tQuick('bulkBar.approveAll')}
+ </Button>
+ <Button variant="danger" size="sm" onClick={() => handleBulkAction('reject')}>
+ <XCircle className="h-4 w-4 mr-1.5" />{tQuick('bulkBar.rejectAll')}
+ </Button>
+ <button onClick={clearSelection} className="text-sm text-ink-muted hover:text-ink-soft flex items-center gap-1">
+ <X className="h-3.5 w-3.5" />{tQuick('bulkBar.clearSelection')}
+ </button>
+ </div>
+ </div>
+ )}
+
  {/* Approval Items */}
  <div className="flex gap-6">
- <div className={cn('flex-1 space-y-3', previewItem &&'max-w-[55%]')}>
+ <div className={cn('flex-1', previewItem &&'max-w-[55%]')}>
+ <Card header={<CardTitle className="text-base">อนุมัติด่วน — คำขออนุมัติทั้งหมด ({items.length})</CardTitle>}>
+ <div className="p-4 space-y-3">
  {items.length === 0 ? (
- <Card>
- <div className="py-12 text-center">
+ <div className="py-8 text-center">
  <CheckCircle2 className="h-12 w-12 text-green-300 mx-auto mb-3" />
- <p className="text-ink-muted">{t('approvals.noApprovals')}</p>
+ <p className="text-sm text-ink-muted">{t('approvals.noApprovals')}</p>
  </div>
- </Card>
  ) : (
  items.map((item) => (
  <div
  key={item.id}
  className={cn(
-'p-4 rounded-md bg-surface shadow-card transition cursor-pointer hover:shadow-sm',
- item.urgent &&'border-red-200',
+'flex items-start gap-3 rounded-md border border-hairline p-3 transition cursor-pointer',
  selectedIds.has(item.id) &&'ring-2 ring-brand/30 bg-brand/5',
  previewItem?.id === item.id &&'ring-2 ring-blue-400'
  )}
  >
- <div className="flex items-start gap-3">
  {/* Checkbox */}
  <input
  type="checkbox"
  checked={selectedIds.has(item.id)}
  onChange={() => toggleSelect(item.id)}
- className="mt-1 h-4 w-4 rounded border-hairline text-brand focus:ring-brand"
+ className="mt-1 h-4 w-4 rounded border-hairline accent-brand focus:ring-brand shrink-0"
  aria-label={`เลือก ${item.employeeName}`}
  />
 
@@ -441,8 +457,8 @@ export function QuickApprovePage() {
  {/* Content */}
  <div className="flex-1 min-w-0" onClick={() => setPreviewItem(item)}>
  <div className="flex items-center gap-2 mb-1 flex-wrap">
+ <span className="text-sm font-medium text-ink">{item.employeeName}</span>
  <Badge variant={TYPE_BADGE_VARIANT[item.type]}>{TYPE_LABELS[item.type]}</Badge>
- {/* Urgency Badge */}
  <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>
  {item.urgency ==='urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}
  {tQuick(`urgency.${item.urgency}`)}
@@ -450,9 +466,8 @@ export function QuickApprovePage() {
  </span>
  {item.attachments.length > 0 && <Paperclip className="h-3.5 w-3.5 text-ink-muted" />}
  </div>
- <p className="text-sm font-medium text-ink truncate">{item.summary}</p>
  <p className="text-xs text-ink-muted mt-0.5">
- {item.employeeName} &middot; {item.department}
+ {item.department}
  {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
  {item.dates && <> &middot; {item.dates}</>}
  </p>
@@ -463,14 +478,15 @@ export function QuickApprovePage() {
 
  {/* Actions */}
  <div className="flex items-center gap-1 shrink-0">
- <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised hover:bg-surface-raised" aria-label="ดูตัวอย่าง"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
+ <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised" aria-label="ดูตัวอย่าง"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
  <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-success-tint text-success" aria-label="อนุมัติ"><CheckCircle2 className="h-5 w-5" /></button>
  <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-danger-tint text-danger" aria-label="ปฏิเสธ"><XCircle className="h-5 w-5" /></button>
  </div>
  </div>
- </div>
  ))
  )}
+ </div>
+ </Card>
  </div>
 
  {/* Slide-over Preview Panel */}
@@ -586,26 +602,6 @@ export function QuickApprovePage() {
  </div>
  )}
  </div>
-
- {/* Sticky Bulk Action Bar */}
- {selectedIds.size > 0 && (
- <div className="fixed bottom-0 inset-x-0 z-40 bg-surface border-t border-hairline shadow-2">
- <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
- <span className="text-sm font-medium text-ink">{tQuick('bulkBar.selected', { count: selectedIds.size })}</span>
- <div className="flex items-center gap-3">
- <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
- <CheckCircle2 className="h-4 w-4 mr-1.5" />{tQuick('bulkBar.approveAll')}
- </Button>
- <Button variant="danger" size="sm" onClick={() => handleBulkAction('reject')}>
- <XCircle className="h-4 w-4 mr-1.5" />{tQuick('bulkBar.rejectAll')}
- </Button>
- <button onClick={clearSelection} className="text-sm text-ink-muted hover:text-ink-soft flex items-center gap-1">
- <X className="h-3.5 w-3.5" />{tQuick('bulkBar.clearSelection')}
- </button>
- </div>
- </div>
- </div>
- )}
 
  {/* Confirmation Modal */}
  <Modal
