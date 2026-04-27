@@ -347,7 +347,7 @@ export function QuickApprovePage() {
  value={searchText}
  onChange={(e) => setSearchText(e.target.value)}
  placeholder={tQuick('filters.searchPlaceholder')}
- className="w-full rounded-md border border-hairline border-hairline pl-9 pr-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none"
+ className="w-full rounded-md border border-hairline pl-9 pr-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none"
  />
  </div>
  <div className="flex items-center gap-2">
@@ -356,7 +356,7 @@ export function QuickApprovePage() {
  type="date"
  value={dateFrom}
  onChange={(e) => setDateFrom(e.target.value)}
- className="rounded-md border border-hairline border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
+ className="rounded-md border border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
  aria-label={tQuick('filters.dateFrom')}
  />
  <span className="text-ink-muted text-xs">ถึง</span>
@@ -364,7 +364,7 @@ export function QuickApprovePage() {
  type="date"
  value={dateTo}
  onChange={(e) => setDateTo(e.target.value)}
- className="rounded-md border border-hairline border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
+ className="rounded-md border border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
  aria-label={tQuick('filters.dateTo')}
  />
  </div>
@@ -405,7 +405,6 @@ export function QuickApprovePage() {
  </div>
  </div>
 
- {/* Bulk Actions */}
  <div className="flex items-center gap-2">
  <button
  onClick={selectAll}
@@ -413,18 +412,6 @@ export function QuickApprovePage() {
  >
  {selectedIds.size === items.length && items.length > 0 ? tQuick('filters.deselectAll') : tQuick('filters.selectAll')}
  </button>
- {selectedIds.size > 0 && (
- <>
- <span className="text-xs text-ink-muted">{tQuick('bulkBar.selected', { count: selectedIds.size })}</span>
- <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
- <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
- </Button>
- <Button variant="danger" size="sm" onClick={() => handleBulkAction('reject')}>
- <XCircle className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkReject')}
- </Button>
- <button onClick={clearSelection} className="p-1 rounded hover:bg-surface-raised hover:bg-surface-raised"><X className="h-4 w-4 text-ink-muted" /></button>
- </>
- )}
  </div>
  </div>
  </div>
@@ -494,7 +481,7 @@ export function QuickApprovePage() {
  {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
  {item.dates && <> &middot; {item.dates}</>}
  &nbsp;•&nbsp; <Clock className="inline h-3 w-3" /> {formatThaiDate(item.submittedAt)}
- {item.waitingDays > 0 && <span className={cn('ml-1 inline-flex items-center rounded-full px-1.5 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>{item.urgency === 'urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}{tQuick(`urgency.${item.urgency}`)} ({item.waitingDays}d)</span>}
+ {item.waitingDays > 0 && <span className={cn('ml-1 inline-flex items-center rounded-full px-1.5 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>{item.urgency === 'urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}{tQuick(`urgency.${item.urgency}`)} ({item.waitingDays}วัน)</span>}
  </div>
  </div>
  {/* Actions */}
@@ -727,7 +714,7 @@ export function QuickApprovePage() {
  <h4 className="text-sm font-medium text-ink">{tQuick('delegation.createNew')}</h4>
  <div>
  <label className="block text-xs font-medium text-ink-muted mb-1">{tQuick('delegation.delegateTo')}</label>
- <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder={tQuick('delegation.delegateToPlaceholder')} className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
+ <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder={tQuick('delegation.delegateToPlaceholder')} className="w-full rounded-md border border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
  </div>
  <div className="grid grid-cols-2 gap-3">
  <div>
@@ -743,7 +730,7 @@ export function QuickApprovePage() {
  <label className="block text-xs font-medium text-ink-muted mb-1">{tQuick('delegation.workflowTypes')}</label>
  <div className="flex flex-wrap gap-2">
  {WORKFLOW_TYPES.map((wt) => (
- <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ?'bg-brand text-white border-brand' :'bg-surface text-ink-muted border-hairline border-hairline hover:border-brand'}`}>
+ <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ?'bg-brand text-white border-brand' :'bg-surface text-ink-muted border-hairline hover:border-brand'}`}>
  {TYPE_LABELS[wt] ?? wt}
  </button>
  ))}

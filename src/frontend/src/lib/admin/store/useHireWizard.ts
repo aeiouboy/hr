@@ -368,7 +368,8 @@ function checkStepValid(step: number, d: FormData, sv: StepValidity, hrbpAssigne
       return sliceValid.identity(d) && sv.identity && sv.biographical && sv.contact
     case 2:
       // DEF-05: employeeInfo + job + compensation slices (Cluster 2 legacy slices)
-      return sliceValid.employeeInfo(d) && sliceValid.job(d) && sliceValid.compensation(d)
+      // sv.employeeInfo gates originalStartDate + seniorityStartDate + employeeClass (Wave 15)
+      return sliceValid.employeeInfo(d) && sv.employeeInfo && sliceValid.job(d) && sliceValid.compensation(d)
     case 3:
       // Step 3 form is always navigable (review + HRBP picker are visible).
       // HRBP validation (BRD #109) is enforced in handleSubmit, not the button gate,

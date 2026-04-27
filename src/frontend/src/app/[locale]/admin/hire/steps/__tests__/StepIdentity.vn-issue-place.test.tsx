@@ -7,7 +7,7 @@
 //
 // Source rule: BA row 19 — [VN] Issue Place — optional (Vietnam only)
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, act } from '@testing-library/react'
 import StepIdentity from '@/app/[locale]/admin/hire/steps/StepIdentity'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'

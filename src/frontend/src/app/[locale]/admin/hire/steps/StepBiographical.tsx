@@ -9,8 +9,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { stepBiographicalSchema } from '@/lib/admin/validation/hireSchema'
-import { AttachmentDropzone } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
-import type { AttachedFile } from '@/components/admin/AttachmentDropzone/AttachmentDropzone'
 import {
   PICKLIST_MILITARY_STATUS,
   PICKLIST_GENDER,
@@ -81,7 +79,6 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   const [bloodType,        setBloodType]        = useState(bio.bloodType ?? '')
   const [maritalStatus,    setMaritalStatus]    = useState(bio.maritalStatus ?? '')
   const [maritalStatusSince,setMaritalStatusSince]= useState(bio.maritalStatusSince ?? '')
-  const [attachmentFiles, setAttachmentFiles] = useState<AttachedFile[]>([])
   // BRD #13: Spouse fields
   // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName
   const [spouseNameTh,    setSpouseNameTh]    = useState((bio as Record<string, unknown>).spouseNameTh as string ?? '')
@@ -378,11 +375,11 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       <fieldset>
         <label htmlFor="marital-status-since" className="humi-label">
           {t('maritalStatusSince')}
-          {maritalStatus !== 'SINGLE' && <span aria-hidden="true" className="humi-asterisk ml-1">*</span>}
+          {maritalStatus && maritalStatus !== 'SINGLE' && maritalStatus !== 'S' && <span aria-hidden="true" className="humi-asterisk ml-1">*</span>}
         </label>
         <input id="marital-status-since" type="date"
-          required={maritalStatus !== 'SINGLE'}
-          aria-required={maritalStatus !== 'SINGLE'}
+          required={!!(maritalStatus && maritalStatus !== 'SINGLE' && maritalStatus !== 'S')}
+          aria-required={!!(maritalStatus && maritalStatus !== 'SINGLE' && maritalStatus !== 'S')}
           aria-invalid={touched.maritalStatusSince && !!errors.maritalStatusSince}
           value={maritalStatusSince}
           onChange={(e) => setMaritalStatusSince(e.target.value)}
@@ -451,19 +448,6 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('religion')}
       </fieldset>
 
-      {/* SF parity 2026-04-27: attachments deferred to post-hire profile-edit (not in SF newhire scope) */}
-      {false && (
-        <div className="md:col-span-2">
-          <AttachmentDropzone
-            files={attachmentFiles}
-            onFilesChange={setAttachmentFiles}
-            label="เอกสารแนบ"
-            accept="image/*,.pdf"
-            maxFiles={5}
-            maxSizeMB={5}
-          />
-        </div>
-      )}
     </div>
   )
 }

@@ -78,8 +78,12 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   const [cgPreviousEmployeeId, setCgPreviousEmployeeId] = useState<string>(formData.employeeInfo.cgPreviousEmployeeId ?? '')
 
   const validate = useCallback(
-    (cls: string) => {
-      const result = stepEmployeeInfoSchema.safeParse({ employeeClass: cls || undefined })
+    (cls: string, origStart: string, senStart: string) => {
+      const result = stepEmployeeInfoSchema.safeParse({
+        employeeClass: cls || undefined,
+        originalStartDate: origStart,
+        seniorityStartDate: senStart,
+      })
       if (result.success) {
         setError(undefined)
         setStepData('employeeInfo', { employeeClass: cls })
@@ -92,7 +96,9 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
     [setStepData, onValidChange]
   )
 
-  useEffect(() => { validate(employeeClass) }, [employeeClass, validate])
+  useEffect(() => {
+    validate(employeeClass, originalStartDate, seniorityStartDate)
+  }, [employeeClass, originalStartDate, seniorityStartDate, validate])
 
   // Sync employeeGroup/SubGroup to store (BRD #23, #30)
   useEffect(() => {
