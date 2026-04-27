@@ -319,22 +319,16 @@ const sliceValid = {
       d.identity.salutationLocal
     ),
   biographical: (d: FormData) => {
-    // Fix per AUDIT #7 — maritalStatusSince required only when maritalStatus ≠ SINGLE
-    const maritalStatusSinceOk =
-      d.biographical.maritalStatus === 'SINGLE' || !!d.biographical.maritalStatusSince
+    // Wave 13 SF parity: middleNameLocal, nickname, militaryStatus, gender,
+    // foreigner, bloodType, maritalStatus are all optional in stepBiographicalSchema.
+    // Only gate on the still-required fields: otherTitleTh, firstNameLocal,
+    // lastNameLocal, nationality. maritalStatusSince is conditional (AUDIT #7) but
+    // not required when maritalStatus is absent/SINGLE.
     return !!(
       d.biographical.otherTitleTh.trim() &&
       d.biographical.firstNameLocal.trim() &&
       d.biographical.lastNameLocal.trim() &&
-      d.biographical.middleNameLocal.trim() &&
-      d.biographical.nickname.trim() &&
-      d.biographical.militaryStatus &&
-      d.biographical.gender &&
-      d.biographical.nationality &&
-      d.biographical.foreigner &&
-      d.biographical.bloodType &&
-      d.biographical.maritalStatus &&
-      maritalStatusSinceOk
+      d.biographical.nationality
     )
   },
   review: (_d: FormData) => true,

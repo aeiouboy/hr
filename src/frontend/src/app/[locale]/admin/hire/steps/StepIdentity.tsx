@@ -260,28 +260,6 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         {errMsg('salutationEn')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 1 — Salutation (Local) * — paired with EN
-          so the 2-col grid shows them side-by-side (EN for Western docs,
-          Local for Thai/local docs). Previously dangled at end of Step 1
-          which read as a duplicate field. ─── */}
-      <fieldset>
-        <label htmlFor="salutation-local" className="humi-label">
-          คำนำหน้า (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-        </label>
-        <select id="salutation-local" required aria-required="true"
-          aria-invalid={touched.salutationLocal && !!errors.salutationLocal}
-          value={salutationLocal}
-          onChange={(e) => setSalutationLocal(e.target.value)}
-          onBlur={() => touch('salutationLocal')}
-          className="humi-select w-full">
-          <option value="">— เลือกคำนำหน้า —</option>
-          {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
-            <option key={s.id} value={s.id}>{s.labelTh}</option>
-          ))}
-        </select>
-        {errMsg('salutationLocal')}
-      </fieldset>
-
       {/* ─── BA row 5 — Firstname (EN) * ─── */}
       <fieldset>
         <label htmlFor="first-name-en" className="humi-label">
@@ -376,6 +354,27 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         <div className="humi-readonly-display px-3 py-2 bg-canvas-soft border border-hairline rounded text-ink font-mono" aria-readonly="true" aria-label="รหัสพนักงานที่ระบบจะสร้างให้">
           {employeeId}
         </div>
+      </fieldset>
+
+      {/* ─── BA Personal Info row 1 — Salutation (Local) * — Thai-locale custom (PerPersonal.customString1)
+          Placed after all SF Step-1 fields (hireDate/company/reason/name-EN/DOB/countryOfBirth/regionOfBirth/employeeId)
+          per SF newhire.xhtml order. ─── */}
+      <fieldset>
+        <label htmlFor="salutation-local" className="humi-label">
+          คำนำหน้า (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+        </label>
+        <select id="salutation-local" required aria-required="true"
+          aria-invalid={touched.salutationLocal && !!errors.salutationLocal}
+          value={salutationLocal}
+          onChange={(e) => setSalutationLocal(e.target.value)}
+          onBlur={() => touch('salutationLocal')}
+          className="humi-select w-full">
+          <option value="">— เลือกคำนำหน้า —</option>
+          {PICKLIST_SALUTATION_EN.filter((s) => s.active).map((s) => (
+            <option key={s.id} value={s.id}>{s.labelTh}</option>
+          ))}
+        </select>
+        {errMsg('salutationLocal')}
       </fieldset>
 
       {/* ─── BA row 13 — National ID Card Type * ─── */}

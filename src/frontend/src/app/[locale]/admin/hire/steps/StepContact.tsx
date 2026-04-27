@@ -326,7 +326,6 @@ export default function StepContact() {
       <section aria-label="ที่อยู่ที่พักอาศัย">
         <p className="humi-label mb-3">
           ที่อยู่ที่พักอาศัย
-          <span className="ml-1 text-xs text-ink-soft font-normal">(SF: PerAddressDEFLT)</span>
         </p>
         {/* SF cite: qas-fields-2026-04-26/sf-qas-PerAddressDEFLT-2026-04-26.json#.d.results[0]
             address5=houseNo, address4=village, address11=moo, address7=soi,
@@ -336,8 +335,7 @@ export default function StepContact() {
           {/* บ้านเลขที่ — SF address5 */}
           <fieldset>
             <label htmlFor="addr-house-no" className="humi-label">
-              บ้านเลขที่ / เลขที่<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-              <span className="ml-1 text-xs text-ink-muted">(SF: address5)</span>
+              บ้านเลขที่<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input id="addr-house-no" type="text" placeholder="เช่น 155"
               value={address.houseNo}
@@ -348,8 +346,7 @@ export default function StepContact() {
           {/* หมู่บ้าน / ชื่อหมู่บ้าน — SF address4 */}
           <fieldset>
             <label htmlFor="addr-village" className="humi-label">
-              หมู่บ้าน / ชื่อหมู่บ้าน
-              <span className="ml-1 text-xs text-ink-muted">(SF: address4)</span>
+              หมู่บ้าน
             </label>
             <input id="addr-village" type="text" placeholder="เช่น หมู่บ้านตะวันนา"
               value={address.village}
@@ -361,7 +358,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-moo" className="humi-label">
               หมู่ที่
-              <span className="ml-1 text-xs text-ink-muted">(SF: address11)</span>
             </label>
             <input id="addr-moo" type="text" placeholder="เช่น 5"
               value={address.moo}
@@ -373,7 +369,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-soi" className="humi-label">
               ซอย
-              <span className="ml-1 text-xs text-ink-muted">(SF: address7)</span>
             </label>
             <input id="addr-soi" type="text" placeholder="เช่น สนามบินน้ำ"
               value={address.soi}
@@ -385,7 +380,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-subdistrict" className="humi-label">
               แขวง / ตำบล<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-              <span className="ml-1 text-xs text-ink-muted">(SF: address12)</span>
             </label>
             <input id="addr-subdistrict" type="text" placeholder="เช่น บางกระสอ"
               value={address.subdistrict}
@@ -397,7 +391,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-district" className="humi-label">
               เขต / อำเภอ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-              <span className="ml-1 text-xs text-ink-muted">(SF: city)</span>
             </label>
             <input id="addr-district" type="text" placeholder="เช่น นนทบุรี"
               value={address.district}
@@ -409,7 +402,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-province" className="humi-label">
               จังหวัด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-              <span className="ml-1 text-xs text-ink-muted">(SF: state)</span>
             </label>
             <input id="addr-province" type="text" placeholder="เช่น 12 (นนทบุรี)"
               value={address.province}
@@ -421,7 +413,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-zip" className="humi-label">
               รหัสไปรษณีย์<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-              <span className="ml-1 text-xs text-ink-muted">(SF: zipCode)</span>
             </label>
             <input id="addr-zip" type="text" inputMode="numeric" placeholder="เช่น 11000"
               value={address.zipCode}
@@ -433,7 +424,6 @@ export default function StepContact() {
           <fieldset>
             <label htmlFor="addr-country" className="humi-label">
               ประเทศ
-              <span className="ml-1 text-xs text-ink-muted">(SF: country, default=THA)</span>
             </label>
             <input id="addr-country" type="text" placeholder="THA"
               value={address.country}
