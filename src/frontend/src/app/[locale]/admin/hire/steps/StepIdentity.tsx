@@ -278,7 +278,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 6 — Middle Name (EN) — optional ─── */}
       <fieldset>
         <label htmlFor="middle-name-en" className="humi-label">
-          ชื่อกลาง (EN)
+          ชื่อกลาง
         </label>
         <input id="middle-name-en" type="text" placeholder="ชื่อกลาง ภาษาอังกฤษ — ไม่บังคับ"
           value={middleNameEn}

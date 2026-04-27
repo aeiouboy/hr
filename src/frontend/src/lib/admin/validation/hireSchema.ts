@@ -200,12 +200,10 @@ export const stepBiographicalSchema = z.object({
    *  SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus */
   maritalStatusSince: z.string().optional(),
 
-  // ── BRD #13: Spouse fields (PerPersonal customString2/3/10/11 + partnerName + secondLastName) ──
+  // ── BRD #13: Spouse fields (PerPersonal customString2/3/10/11 + partnerName) ──
   // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName
   /** PerPersonal.partnerName — คู่สมรสชื่อ (ภาษาไทย) / Thai spouse full name */
   spouseNameTh: z.string().optional(),
-  /** PerPersonal.secondLastName — นามสกุลเดิม / Previous/Second last name */
-  secondLastName: z.string().optional(),
 
   // ── BRD #13: nativePreferredLang ──
   // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].nativePreferredLang

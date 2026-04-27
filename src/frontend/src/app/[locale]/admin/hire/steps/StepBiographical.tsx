@@ -49,7 +49,7 @@ type FieldErrors = {
   middleNameLocal?: string; nickname?: string; militaryStatus?: string
   gender?: string; nationality?: string; foreigner?: string
   bloodType?: string; maritalStatus?: string; maritalStatusSince?: string
-  spouseNameTh?: string; secondLastName?: string; nativePreferredLang?: string
+  spouseNameTh?: string; nativePreferredLang?: string
   religion?: string
 }
 
@@ -58,7 +58,7 @@ type TouchedState = {
   middleNameLocal: boolean; nickname: boolean; militaryStatus: boolean
   gender: boolean; nationality: boolean; foreigner: boolean
   bloodType: boolean; maritalStatus: boolean; maritalStatusSince: boolean
-  spouseNameTh: boolean; secondLastName: boolean; nativePreferredLang: boolean
+  spouseNameTh: boolean; nativePreferredLang: boolean
   religion: boolean
 }
 
@@ -83,7 +83,6 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   // BRD #13: Spouse fields
   // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName
   const [spouseNameTh,    setSpouseNameTh]    = useState((bio as Record<string, unknown>).spouseNameTh as string ?? '')
-  const [secondLastName,  setSecondLastName]  = useState((bio as Record<string, unknown>).secondLastName as string ?? '')
   // BRD #13: nativePreferredLang
   // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].nativePreferredLang
   const [nativePreferredLang, setNativePreferredLang] = useState((bio as Record<string, unknown>).nativePreferredLang as string ?? '')
@@ -97,7 +96,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
     middleNameLocal: false, nickname: false, militaryStatus: false,
     gender: false, nationality: false, foreigner: false,
     bloodType: false, maritalStatus: false, maritalStatusSince: false,
-    spouseNameTh: false, secondLastName: false, nativePreferredLang: false,
+    spouseNameTh: false, nativePreferredLang: false,
     religion: false,
   })
   const [errors, setErrors] = useState<FieldErrors>({})
@@ -121,7 +120,6 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       maritalStatus:     maritalStatus    || undefined,
       maritalStatusSince:maritalStatusSince || undefined,
       spouseNameTh:      spouseNameTh     || undefined,
-      secondLastName:    secondLastName   || undefined,
       nativePreferredLang: nativePreferredLang || undefined,
       religion:          religion         || undefined,
     })
@@ -137,10 +135,9 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       })
       // BRD #13: persist spouse/lang fields via direct store update (extra props)
       // These are not in the original biographical interface but are tracked for SF PerPersonal
-      if (spouseNameTh || secondLastName || nativePreferredLang || religion) {
+      if (spouseNameTh || nativePreferredLang || religion) {
         const extra: Record<string, unknown> = {}
         if (spouseNameTh)       extra.spouseNameTh = spouseNameTh
-        if (secondLastName)     extra.secondLastName = secondLastName
         if (nativePreferredLang) extra.nativePreferredLang = nativePreferredLang
         if (religion)           extra.religion = religion
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -159,7 +156,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   }, [
     otherTitleTh, firstNameLocal, lastNameLocal, middleNameLocal, nickname,
     militaryStatus, gender, nationality, foreigner, bloodType,
-    maritalStatus, maritalStatusSince, spouseNameTh, secondLastName,
+    maritalStatus, maritalStatusSince, spouseNameTh,
     nativePreferredLang, religion, setStepData, onValidChange,
   ])
 
@@ -390,22 +387,6 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           onBlur={() => touch('maritalStatusSince')}
           className="humi-input w-full" />
         {errMsg('maritalStatusSince')}
-      </fieldset>
-
-      {/* ─── BRD #13 — secondLastName — นามสกุลเดิม / Previous last name (optional)
-           SF: PerPersonal.secondLastName
-           SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].secondLastName ─── */}
-      <fieldset>
-        <label htmlFor="second-last-name" className="humi-label">
-          ชื่อสกุลที่สอง
-        </label>
-        <input id="second-last-name" type="text"
-          placeholder="นามสกุลก่อนสมรส หรือนามสกุลเดิม (ถ้ามี)"
-          value={secondLastName}
-          onChange={(e) => setSecondLastName(e.target.value)}
-          onBlur={() => touch('secondLastName')}
-          className="humi-input w-full" />
-        {errMsg('secondLastName')}
       </fieldset>
 
       {/* ─── BRD #13 — spouseNameTh — ชื่อคู่สมรส (ภาษาไทย) (optional when married/engaged)

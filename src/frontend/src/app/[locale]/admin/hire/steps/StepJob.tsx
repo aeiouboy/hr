@@ -154,7 +154,7 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           value={selectedPosition}
           onSelect={handleCascade}
           required
-          label="ตำแหน่งงาน"
+          label="ตำแหน่ง"
         />
       </div>
 
@@ -169,10 +169,10 @@ export default function StepJob({ onValidChange }: StepJobProps) {
         </div>
       </fieldset>
 
-      {/* สาขา — readonly after cascade */}
+      {/* สาขา/สถานที่ — readonly after cascade */}
       <fieldset>
         <label className="humi-label">
-          สาขา
+          สาขา/สถานที่
           <span className="text-xs text-ink-muted ml-1">(จาก Position)</span>
         </label>
         <div className="humi-input w-full bg-canvas-soft text-ink-muted">
@@ -180,10 +180,10 @@ export default function StepJob({ onValidChange }: StepJobProps) {
         </div>
       </fieldset>
 
-      {/* ฝ่ายงาน / Job Family — readonly after cascade */}
+      {/* รหัสงาน / Job Code — readonly after cascade */}
       <fieldset>
         <label className="humi-label">
-          ฝ่ายงาน
+          รหัสงาน
           <span className="text-xs text-ink-muted ml-1">(จาก Position)</span>
         </label>
         <div className="humi-input w-full bg-canvas-soft text-ink-muted">
