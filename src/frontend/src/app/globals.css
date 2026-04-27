@@ -983,6 +983,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 .humi-login-form {
   padding: 60px clamp(40px, 6vw, 80px);
@@ -1302,4 +1303,212 @@
 @keyframes humi-draft-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Humi Design Pack 2026-04-27 — net-new patterns ported from
+   /Downloads/HRMS/styles.css. 14 target groups, Humi-namespaced.
+   Token aliases added below where absent from @theme above.
+   ════════════════════════════════════════════════════════════ */
+
+/* Coral alias tokens (absent from @theme — add for parity with pack) */
+:root {
+  --color-coral:        #E08864;   /* alias → warning; kept for pack parity */
+  --color-coral-soft:   #F6DDCE;
+}
+
+/* 11. Body font-feature-settings — Ported from styles.css:55-56 — augment only */
+@layer base {
+  body { font-feature-settings: 'ss01', 'cv11'; }
+}
+
+/* 1. Buttons — Ported from styles.css:296-312 (.btn / .btn-primary / .btn-accent / .btn-ghost)
+   Base + accent variant only; --primary and --ghost already exist in @layer components above.
+   .humi-btn--accent is the net-new variant from the pack. */
+.humi-btn--accent {
+  background: var(--color-accent);
+  color: var(--color-accent-ink, var(--color-ink));
+}
+.humi-btn--accent:hover:not(:disabled) {
+  filter: brightness(0.93);
+}
+
+/* 2. Progress bar — Ported from styles.css:397-400 (.progress / .progress > span) */
+.humi-progress {
+  height: 6px;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--color-hairline-soft);
+  overflow: hidden;
+}
+.humi-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 999px;
+}
+
+/* 3. Toggle switch — Ported from styles.css:544-550 (.toggle / .toggle.on) */
+.humi-toggle {
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-hairline);
+  position: relative;
+  cursor: pointer;
+  transition: background 150ms ease;
+  flex-shrink: 0;
+}
+.humi-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms ease;
+}
+.humi-toggle--on {
+  background: var(--color-accent);
+}
+.humi-toggle--on::after {
+  transform: translateX(16px);
+}
+
+/* 4. Feature card — Ported from styles.css:459-477 (.feature / .feature .ico-wrap / tone variants) */
+.humi-feature {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.humi-ico-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--color-accent-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+}
+.humi-feature--coral .humi-ico-wrap {
+  background: var(--color-warning-soft);
+  color: #B35A34;
+}
+.humi-feature--sage .humi-ico-wrap {
+  background: var(--color-sage-soft);
+  color: #3E6A4E;
+}
+.humi-feature--butter .humi-ico-wrap {
+  background: var(--color-butter-soft);
+  color: #6B4E14;
+}
+
+/* 5. Page head — Ported from styles.css:479-486 (.page-head) */
+.humi-page-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+.humi-page-head .humi-spacer { flex: 1; }
+
+/* 6. Logo chip — Ported from styles.css:552-561 (.logo-chip) */
+.humi-logo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* 7. Reacts — Ported from styles.css:573-581 (.reacts / .reacts .r) */
+.humi-reacts {
+  display: inline-flex;
+  align-items: center;
+  gap: -4px;
+}
+.humi-r {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  background: var(--color-canvas);
+  border: 1.5px solid var(--color-surface);
+  margin-left: -6px;
+}
+.humi-r:first-child { margin-left: 0; }
+
+/* 8. Banner — Ported from styles.css inline screens (extracted as utility) */
+.humi-banner {
+  background: linear-gradient(120deg, var(--color-accent-soft) 0%, var(--color-canvas-soft) 80%);
+  border: 0;
+  position: relative;
+  overflow: hidden;
+}
+.humi-banner--ink {
+  background: linear-gradient(110deg, var(--color-ink) 0%, #1a2b42 100%);
+  color: var(--color-canvas-soft);
+}
+
+/* 9. Stat card — Ported from styles.css inline screens (extracted as utility) */
+.humi-stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-left-width: 4px;
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+}
+.humi-stat-card--accent { border-left-color: var(--color-accent); }
+.humi-stat-card--warn   { border-left-color: var(--color-warning); }
+.humi-stat-card--sage   { border-left-color: var(--color-sage); }
+.humi-stat-card--butter { border-left-color: var(--color-butter); }
+
+/* 10. Card lift hover — Ported from styles.css inline screens (extracted as utility) */
+.humi-card-lift {
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+.humi-card-lift:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-ink);
+}
+
+/* 12. Coral aliases — added as :root block above (see top of this section) */
+
+/* 13. Dropzone — Ported from styles.css inline screens (extracted as utility) */
+.humi-dropzone {
+  border: 2px dashed var(--color-hairline);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+  background: var(--color-canvas-soft);
+}
+.humi-dropzone:hover {
+  border-color: var(--color-accent);
+}
+
+/* 14. Frosted glass — Ported from styles.css login-art testimonial (.login-quote) */
+.humi-frosted {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
