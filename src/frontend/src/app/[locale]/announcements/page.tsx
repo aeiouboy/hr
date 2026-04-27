@@ -229,14 +229,16 @@ export default function HumiAnnouncementsPage() {
                 className="humi-row"
                 style={{ marginTop: 14, gap: 8, flexWrap: 'wrap' }}
               >
-                {p.reactions.map((x) => (
-                  <span key={x} className="humi-tag">
-                    {x}
+                <div className="humi-reacts">
+                  {p.reactions.map((x) => (
+                    <span key={x} className="humi-r">
+                      {x}
+                    </span>
+                  ))}
+                  <span className="humi-r" aria-label="เพิ่มรีแอคชัน">
+                    <Smile size={12} />
                   </span>
-                ))}
-                <span className="humi-tag" aria-label="เพิ่มรีแอคชัน">
-                  <Smile size={12} />
-                </span>
+                </div>
                 <span className="humi-spacer" />
                 <span
                   style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}

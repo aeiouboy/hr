@@ -2,16 +2,33 @@
 
 import { useMemo, useState } from 'react';
 import { Check, Link2, Plus, Search } from 'lucide-react';
-import { Button, Card, CardEyebrow, Toggle } from '@/components/humi';
+import { Button, CardEyebrow } from '@/components/humi';
 import { cn } from '@/lib/utils';
 import {
   HUMI_INTEGRATION_CATEGORIES,
   HUMI_INTEGRATION_KPIS,
   HUMI_INTEGRATIONS,
-  type HumiIntegration,
   type IntegrationShape,
 } from '@/lib/humi-mock-data';
 import { useIntegrationsStore } from '@/stores/humi-integrations-slice';
+
+// Maps KPI accentClass → humi-stat-card tone modifier
+const KPI_TONE_MAP: Record<string, string> = {
+  'bg-accent': 'humi-stat-card--accent',
+  'bg-[color:var(--color-warning)]': 'humi-stat-card--warn',
+  'bg-[color:var(--color-sage)]': 'humi-stat-card--sage',
+  'bg-[color:var(--color-butter)]': 'humi-stat-card--butter',
+};
+
+// Maps integration markToneClass → humi-feature tone modifier
+const MARK_FEATURE_TONE: Record<string, string> = {
+  'bg-[color:var(--color-sage)]': 'humi-feature--sage',
+  'bg-[color:var(--color-butter)]': 'humi-feature--butter',
+  'bg-[color:var(--color-accent)]': '',
+  'bg-ink': '',
+  'bg-[color:var(--color-ink-soft)]': '',
+  'bg-[color:var(--color-ink-muted)]': '',
+};
 
 // ════════════════════════════════════════════════════════════
 // Humi /integrations (A14)
@@ -135,21 +152,15 @@ export default function IntegrationsPage() {
           className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4"
         >
           {HUMI_INTEGRATION_KPIS.map((kpi) => (
-            <Card key={kpi.key} size="md" className="relative overflow-hidden">
-              <span
-                aria-hidden
-                className={cn(
-                  'absolute left-0 top-0 h-full w-1',
-                  kpi.accentClass
-                )}
-              />
-              <div className="pl-2">
-                <CardEyebrow>{kpi.label}</CardEyebrow>
-                <p className="mt-1.5 font-display text-[28px] font-semibold leading-none tracking-tight text-ink">
-                  {kpi.value}
-                </p>
-              </div>
-            </Card>
+            <div
+              key={kpi.key}
+              className={cn('humi-stat-card', KPI_TONE_MAP[kpi.accentClass])}
+            >
+              <CardEyebrow>{kpi.label}</CardEyebrow>
+              <p className="mt-1.5 font-display text-[28px] font-semibold leading-none tracking-tight text-ink">
+                {kpi.value}
+              </p>
+            </div>
           ))}
         </section>
 
@@ -207,12 +218,18 @@ export default function IntegrationsPage() {
             const isEnabled = enabled.has(item.id);
             const wasConnected = item.status === 'connected';
             return (
-              <Card key={item.id} size="lg" className="flex flex-col">
+              <div
+                key={item.id}
+                className={cn('humi-feature flex flex-col', MARK_FEATURE_TONE[item.markToneClass] ?? '')}
+              >
                 <div className="flex items-start gap-3">
-                  <IntegrationMark
-                    shape={item.shape}
-                    toneClass={item.markToneClass}
-                  />
+                  {/* Logo chip — square ~44px with bg + rounded-md */}
+                  <span aria-hidden className="humi-logo-chip shrink-0 p-0 !gap-0 !font-normal h-11 w-11 justify-center rounded-[12px]">
+                    <IntegrationMark
+                      shape={item.shape}
+                      toneClass={item.markToneClass}
+                    />
+                  </span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-body font-semibold text-ink">
                       {item.name}
@@ -234,12 +251,15 @@ export default function IntegrationsPage() {
                       <span className="text-[12px] text-ink-muted">
                         ซิงค์ล่าสุด · 4 นาทีที่แล้ว
                       </span>
-                      {/* Toggle — ml-auto tap region min-h-[44px] for mobile touch-target */}
+                      {/* humi-toggle — ml-auto tap region min-h-[44px] for mobile touch-target */}
                       <span className="ml-auto inline-flex min-h-[44px] items-center">
-                        <Toggle
-                          checked={isEnabled}
-                          onChange={() => toggle(item.id)}
-                          ariaLabel={`สลับการซิงค์ของ ${item.name}`}
+                        <button
+                          type="button"
+                          role="switch"
+                          aria-checked={isEnabled}
+                          aria-label={`สลับการซิงค์ของ ${item.name}`}
+                          onClick={() => toggle(item.id)}
+                          className={cn('humi-toggle', isEnabled && 'humi-toggle--on')}
                         />
                       </span>
                     </>
@@ -260,7 +280,7 @@ export default function IntegrationsPage() {
                     </>
                   )}
                 </div>
-              </Card>
+              </div>
             );
           })}
         </section>
