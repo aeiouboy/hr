@@ -179,16 +179,6 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
         </select>
       </fieldset>
 
-      {/* Payment Method — audit #13 (BRD #118) — mockup stub */}
-      <fieldset>
-        <label htmlFor="payment-method" className="humi-label">วิธีรับเงินเดือน</label>
-        <select id="payment-method" defaultValue="TRANSFER" className="humi-select w-full">
-          <option value="TRANSFER">โอนเงินผ่านธนาคาร</option>
-          <option value="CASH">เงินสด</option>
-          <option value="CHEQUE">เช็ค</option>
-        </select>
-      </fieldset>
-
       {/* Cost Distribution — audit #13b (BRD #119) */}
       <fieldset className="md:col-span-2">
         <CostDistributionSection />

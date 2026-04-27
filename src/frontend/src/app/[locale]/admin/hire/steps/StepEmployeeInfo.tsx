@@ -182,24 +182,32 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
         <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">รายละเอียดการจ้างงาน</legend>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
 
-          {/* วันที่เริ่มงานดั้งเดิม */}
+          {/* วันเริ่มงานครั้งแรก */}
           <fieldset>
-            <label htmlFor="original-start-date" className="humi-label">วันที่เริ่มงานดั้งเดิม</label>
+            <label htmlFor="original-start-date" className="humi-label">
+              วันเริ่มงานครั้งแรก<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+            </label>
             <input
               id="original-start-date"
               type="date"
+              required
+              aria-required="true"
               value={originalStartDate}
               onChange={(e) => setOriginalStartDate(e.target.value)}
               className="humi-input w-full"
             />
           </fieldset>
 
-          {/* วันที่เริ่มนับอาวุโส */}
+          {/* วันนับอายุงาน */}
           <fieldset>
-            <label htmlFor="seniority-start-date" className="humi-label">วันที่เริ่มนับอาวุโส</label>
+            <label htmlFor="seniority-start-date" className="humi-label">
+              วันนับอายุงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+            </label>
             <input
               id="seniority-start-date"
               type="date"
+              required
+              aria-required="true"
               value={seniorityStartDate}
               onChange={(e) => setSeniorityStartDate(e.target.value)}
               className="humi-input w-full"
@@ -220,9 +228,9 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
             />
           </fieldset>
 
-          {/* วันที่เริ่มต้นกองทุนสำรองเลี้ยงชีพ */}
+          {/* วันเข้ากองทุนสำรองเลี้ยงชีพ */}
           <fieldset>
-            <label htmlFor="pf-service-date" className="humi-label">วันที่เริ่มต้น PF</label>
+            <label htmlFor="pf-service-date" className="humi-label">วันเข้ากองทุนสำรองเลี้ยงชีพ</label>
             <input
               id="pf-service-date"
               type="date"

@@ -202,16 +202,8 @@ export const stepBiographicalSchema = z.object({
 
   // ── BRD #13: Spouse fields (PerPersonal customString2/3/10/11 + partnerName + secondLastName) ──
   // SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].partnerName
-  /** PerPersonal.partnerName — คู่สมรสชื่อ (ภาษาไทย) / Thai spouse first name */
+  /** PerPersonal.partnerName — คู่สมรสชื่อ (ภาษาไทย) / Thai spouse full name */
   spouseNameTh: z.string().optional(),
-  /** PerPersonal.customString2 — คู่สมรสชื่อ (ภาษาไทย) (alt field) */
-  spouseFirstNameTh: z.string().optional(),
-  /** PerPersonal.customString3 — คู่สมรสนามสกุล (ภาษาไทย) */
-  spouseLastNameTh: z.string().optional(),
-  /** PerPersonal.customString10 — Spouse first name (English) */
-  spouseFirstNameEn: z.string().optional(),
-  /** PerPersonal.customString11 — Spouse last name (English) */
-  spouseLastNameEn: z.string().optional(),
   /** PerPersonal.secondLastName — นามสกุลเดิม / Previous/Second last name */
   secondLastName: z.string().optional(),
 
@@ -268,6 +260,8 @@ export const stepNameSchema = z.object({
 
 export const stepEmployeeInfoSchema = z.object({
   employeeClass: z.enum(EMPLOYEE_CLASSES, { required_error: 'กรุณาเลือก Employee Class' }),
+  originalStartDate: z.string().min(1, 'กรุณาระบุวันเริ่มงานครั้งแรก'),
+  seniorityStartDate: z.string().min(1, 'กรุณาระบุวันนับอายุงาน'),
 })
 
 export const stepNationalIdSchema = z.object({

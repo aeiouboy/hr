@@ -11,11 +11,6 @@ import { stepJobSchema } from '@/lib/admin/validation/hireSchema'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
-import {
-  PICKLIST_CORPORATE_TITLE,
-  PICKLIST_DIVISION,
-  PICKLIST_JOB_FUNCTION,
-} from '@hrms/shared/picklists'
 
 // Retail picklists — audit A6/#11 (8 store codes + 5 HR districts)
 const STORE_BRANCH_OPTIONS = [
@@ -207,47 +202,6 @@ export default function StepJob({ onValidChange }: StepJobProps) {
             ? `${job.jobGrade} — ${job.jobGradeLabel}`
             : job.jobGrade || '—'}
         </div>
-      </fieldset>
-
-      {/* Corporate Title — audit A7/#12 — manual (ไม่อยู่ใน PositionCascade) */}
-      <fieldset>
-        <label htmlFor="corporate-title" className="humi-label">ระดับองค์กร</label>
-        <select id="corporate-title" className="humi-select w-full">
-          <option value="">— เลือกระดับองค์กร —</option>
-          {PICKLIST_CORPORATE_TITLE.filter((c) => c.active).map((c) => (
-            <option key={c.id} value={c.id}>{c.labelTh}</option>
-          ))}
-        </select>
-        <p className="mt-1 text-xs text-ink-faint">สำหรับ promotion ladder — ระดับองค์กร ≠ ตำแหน่งงาน</p>
-      </fieldset>
-
-      {/* Division — BRD #2 5-tier org cascade (437 SF divisions) — manual */}
-      <fieldset>
-        <label htmlFor="division" className="humi-label">ส่วนงาน (Division)</label>
-        <input
-          id="division"
-          list="division-options"
-          placeholder="พิมพ์หรือเลือก Division"
-          className="humi-input w-full"
-        />
-        <datalist id="division-options">
-          {PICKLIST_DIVISION.filter((d) => d.active).slice(0, 100).map((d) => (
-            <option key={d.id} value={`${d.id} — ${d.labelEn}`} />
-          ))}
-        </datalist>
-        <p className="mt-1 text-xs text-ink-faint">มี {PICKLIST_DIVISION.length} รายการ — Sprint 2 จะเปลี่ยนเป็น cascade จาก BU</p>
-      </fieldset>
-
-      {/* Job Function — BRD #2 + audit A6 (132 SF functions) — manual */}
-      <fieldset>
-        <label htmlFor="job-function" className="humi-label">ฝ่ายงาน (Function)</label>
-        <select id="job-function" className="humi-select w-full">
-          <option value="">— เลือกฝ่ายงาน —</option>
-          {PICKLIST_JOB_FUNCTION.filter((f) => f.active).map((f) => (
-            <option key={f.id} value={f.id}>{f.id} — {f.labelEn}</option>
-          ))}
-        </select>
-        <p className="mt-1 text-xs text-ink-faint">{PICKLIST_JOB_FUNCTION.length} functions — Sprint 2 จะ filter ตาม BU</p>
       </fieldset>
 
       {/* Store / Branch — retail optional — audit A6/#11 — manual (รหัสสาขา retail ≠ branch จาก Position) */}
