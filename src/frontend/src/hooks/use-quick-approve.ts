@@ -29,41 +29,41 @@ export interface ApprovalItem {
 
 const MOCK_ITEMS: ApprovalItem[] = [
  {
- id:'QA001', type:'leave', employeeName:'Nattapong Kaewsai', employeeId:'EMP003', employeeAvatar:'NK',
- department:'IT', summary:'Annual Leave - 3 days', detail:'Request for annual leave to attend family event in Chiang Mai.',
- dates:'Feb 24-26, 2026', submittedAt:'2026-02-20T09:30:00', urgent: true, urgency:'urgent', waitingDays: 4, attachments: [], notes:'',
+ id:'QA001', type:'leave', employeeName:'ณัฐพงษ์ แก้วใส', employeeId:'EMP003', employeeAvatar:'NK',
+ department:'ฝ่ายไอที', summary:'ลาพักร้อน — 3 วัน', detail:'ขอลาพักร้อนเพื่อร่วมงานครอบครัวที่เชียงใหม่',
+ dates:'24-26 ก.พ. 2569', submittedAt:'2026-02-20T09:30:00', urgent: true, urgency:'urgent', waitingDays: 4, attachments: [], notes:'',
  },
  {
- id:'QA002', type:'leave', employeeName:'Ploy Suksawat', employeeId:'EMP002', employeeAvatar:'PS',
- department:'IT', summary:'Sick Leave - 1 day', detail:'Feeling unwell, medical certificate attached.',
- dates:'Feb 22, 2026', submittedAt:'2026-02-22T07:45:00', urgent: true, urgency:'urgent', waitingDays: 3, attachments: ['medical_cert.pdf'], notes:'',
+ id:'QA002', type:'leave', employeeName:'พลอย สุขสวัสดิ์', employeeId:'EMP002', employeeAvatar:'PS',
+ department:'ฝ่ายไอที', summary:'ลาป่วย — 1 วัน', detail:'ป่วยไม่สบาย แนบใบรับรองแพทย์',
+ dates:'22 ก.พ. 2569', submittedAt:'2026-02-22T07:45:00', urgent: true, urgency:'urgent', waitingDays: 3, attachments: ['medical_cert.pdf'], notes:'',
  },
  {
- id:'QA003', type:'expense', employeeName:'Somchai Jaidee', employeeId:'EMP001', employeeAvatar:'SJ',
- department:'IT', summary:'Travel - Client visit', detail:'Taxi and meals for client meeting at Sathorn office.',
+ id:'QA003', type:'expense', employeeName:'สมชาย ใจดี', employeeId:'EMP001', employeeAvatar:'SJ',
+ department:'ฝ่ายไอที', summary:'ค่าเดินทาง — เยี่ยมลูกค้า', detail:'ค่าแท็กซี่และอาหารสำหรับประชุมลูกค้าที่ออฟฟิศสาทร',
  amount: 2800, submittedAt:'2026-02-19T14:20:00', urgent: false, urgency:'normal', waitingDays: 2, attachments: ['taxi_receipt.jpg','meal_receipt.jpg'], notes:'',
  },
  {
- id:'QA004', type:'overtime', employeeName:'Krit Tanawan', employeeId:'EMP005', employeeAvatar:'KT',
- department:'IT', summary:'OT 4 hours - Server migration', detail:'Emergency server migration required for production deployment.',
- dates:'Feb 22, 2026 (18:00-22:00)', submittedAt:'2026-02-21T16:00:00', urgent: true, urgency:'urgent', waitingDays: 4, attachments: [], notes:'Manager pre-approved verbally',
+ id:'QA004', type:'overtime', employeeName:'กฤษ ธนวรรณ', employeeId:'EMP005', employeeAvatar:'KT',
+ department:'ฝ่ายไอที', summary:'OT 4 ชั่วโมง — ย้ายเซิร์ฟเวอร์', detail:'ย้ายเซิร์ฟเวอร์ฉุกเฉินสำหรับ deploy production',
+ dates:'22 ก.พ. 2569 (18:00-22:00)', submittedAt:'2026-02-21T16:00:00', urgent: true, urgency:'urgent', waitingDays: 4, attachments: [], notes:'หัวหน้าอนุมัติด้วยวาจาแล้ว',
  },
  {
- id:'QA005', type:'expense', employeeName:'Malee Sriphan', employeeId:'EMP006', employeeAvatar:'MS',
- department:'IT', summary:'Meal - Team lunch', detail:'Team lunch for sprint celebration.',
+ id:'QA005', type:'expense', employeeName:'มาลี ศรีพรรณ', employeeId:'EMP006', employeeAvatar:'MS',
+ department:'ฝ่ายไอที', summary:'ค่าอาหาร — เลี้ยงทีม', detail:'เลี้ยงทีมหลังจบสปรินต์',
  amount: 1500, submittedAt:'2026-02-18T12:00:00', urgent: false, urgency:'low', waitingDays: 0, attachments: ['lunch_receipt.jpg'], notes:'',
  },
  // Bank-account changes route to SPD via /admin/change-requests per BRD #166
  // — NOT manager's queue (Ken UAT 2026-04-26). Removed from MOCK_QUEUE.
  {
- id:'QA007', type:'leave', employeeName:'Somchai Jaidee', employeeId:'EMP001', employeeAvatar:'SJ',
- department:'IT', summary:'Personal Leave - 0.5 day', detail:'Afternoon off for personal errand.',
- dates:'Feb 28, 2026 (PM)', submittedAt:'2026-02-21T08:30:00', urgent: false, urgency:'low', waitingDays: 0, attachments: [], notes:'',
+ id:'QA007', type:'leave', employeeName:'สมชาย ใจดี', employeeId:'EMP001', employeeAvatar:'SJ',
+ department:'ฝ่ายไอที', summary:'ลากิจ — ครึ่งวัน', detail:'ลาบ่ายเพื่อธุระส่วนตัว',
+ dates:'28 ก.พ. 2569 (บ่าย)', submittedAt:'2026-02-21T08:30:00', urgent: false, urgency:'low', waitingDays: 0, attachments: [], notes:'',
  },
  {
- id:'QA008', type:'overtime', employeeName:'Somchai Jaidee', employeeId:'EMP001', employeeAvatar:'SJ',
- department:'IT', summary:'OT 2 hours - Bug fix', detail:'Critical production bug fix after hours.',
- dates:'Feb 20, 2026 (19:00-21:00)', submittedAt:'2026-02-20T21:30:00', urgent: false, urgency:'normal', waitingDays: 1, attachments: [], notes:'',
+ id:'QA008', type:'overtime', employeeName:'สมชาย ใจดี', employeeId:'EMP001', employeeAvatar:'SJ',
+ department:'ฝ่ายไอที', summary:'OT 2 ชั่วโมง — แก้บั๊ก', detail:'แก้บั๊ก production ฉุกเฉินหลังเลิกงาน',
+ dates:'20 ก.พ. 2569 (19:00-21:00)', submittedAt:'2026-02-20T21:30:00', urgent: false, urgency:'normal', waitingDays: 1, attachments: [], notes:'',
  },
 ];
 

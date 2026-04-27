@@ -519,7 +519,7 @@ export function QuickApprovePage() {
  <div className="space-y-4">
  {/* Employee */}
  <div className="flex items-center gap-3 pb-4 border-b border-hairline">
- <div className="h-12 w-12 rounded-full bg-surface-raised flex items-center justify-center text-lg font-medium text-ink-muted">{previewItem.employeeAvatar}</div>
+ <span className={AVATAR_TONE_MAP[pickTone(previewItem.id)]} aria-hidden style={{ width: 48, height: 48, fontSize: 16 }}>{deriveInitials(previewItem.employeeName)}</span>
  <div>
  <p className="font-medium text-ink">{previewItem.employeeName}</p>
  <p className="text-xs text-ink-muted">{previewItem.employeeId} &middot; {previewItem.department}</p>
@@ -529,9 +529,9 @@ export function QuickApprovePage() {
  {/* Type & Urgency */}
  <div className="flex gap-2 flex-wrap">
  <Badge variant={TYPE_BADGE_VARIANT[previewItem.type]}>{TYPE_LABELS[previewItem.type]}</Badge>
- <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', URGENCY_STYLES[previewItem.urgency])}>
+ <Badge variant={previewItem.urgency === 'urgent' ? 'error' : previewItem.urgency === 'low' ? 'neutral' : 'warning'}>
  {tQuick(`urgency.${previewItem.urgency}`)}
- </span>
+ </Badge>
  </div>
 
  {/* Summary */}
@@ -612,13 +612,23 @@ export function QuickApprovePage() {
  )}
 
  {/* Actions */}
- <div className="flex gap-3 pt-4 border-t border-hairline">
- <Button className="flex-1 bg-success hover:bg-success/90" onClick={() => handleSingleAction(previewItem.id,'approve')}>
- <CheckCircle2 className="h-4 w-4 mr-2" />{t('actions.approve')}
- </Button>
- <Button variant="danger" className="flex-1" onClick={() => handleSingleAction(previewItem.id,'reject')}>
- <XCircle className="h-4 w-4 mr-2" />{t('actions.reject')}
- </Button>
+ <div className="humi-row" style={{ gap: 8, paddingTop: 16, borderTop: '1px solid var(--color-hairline)' }}>
+  <Button
+   variant="secondary"
+   size="sm"
+   leadingIcon={<X size={14} />}
+   onClick={() => handleSingleAction(previewItem.id, 'reject')}
+   aria-label="ปฏิเสธ"
+   className="flex-1"
+  >ปฏิเสธ</Button>
+  <Button
+   variant="primary"
+   size="sm"
+   leadingIcon={<Check size={14} />}
+   onClick={() => handleSingleAction(previewItem.id, 'approve')}
+   aria-label="อนุมัติ"
+   className="flex-1"
+  >อนุมัติ</Button>
  </div>
  </div>
  </Card>
