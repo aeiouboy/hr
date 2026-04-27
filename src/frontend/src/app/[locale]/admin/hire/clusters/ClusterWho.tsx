@@ -4,13 +4,17 @@
 // Matches WIZARD_STEPS Step 1 promise: "ระบุตัวตน • ชื่อ • บัตรประชาชน • ประวัติ"
 // StepIdentity      = BA Identity rows 1-19 (รหัสพนักงานระบบกำหนด)
 // StepBiographical  = BA Personal Info rows 2-17 (12 mandatory)
+// DEF-02/03/05: onValidChange from each step wires Zod refine results into store
 import StepIdentity from '../steps/StepIdentity'
 import StepBiographical from '../steps/StepBiographical'
 import StepContact from '../steps/StepContact'
 import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { Fingerprint, User2, Phone } from 'lucide-react'
+import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 
 export default function ClusterWho() {
+  const setStepValidity = useHireWizard((s) => s.setStepValidity)
+
   return (
     <div className="space-y-5">
       <div className="humi-card">
@@ -21,7 +25,7 @@ export default function ClusterWho() {
           sub="วันที่เริ่มงาน บริษัท ชื่อ วันเกิด บัตรประชาชน"
         />
         <div className="humi-step-section">
-          <StepIdentity />
+          <StepIdentity onValidChange={(v) => setStepValidity('identity', v)} />
         </div>
       </div>
 
@@ -33,7 +37,7 @@ export default function ClusterWho() {
           sub="ชื่อท้องถิ่น ชื่อเล่น เพศ สัญชาติ กรุ๊ปเลือด สถานภาพสมรส"
         />
         <div className="humi-step-section">
-          <StepBiographical />
+          <StepBiographical onValidChange={(v) => setStepValidity('biographical', v)} />
         </div>
       </div>
 

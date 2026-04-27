@@ -5,6 +5,7 @@
 // - HRBP assignee + mail notify (audit #14, BRD #109) — mockup stub
 // - Summary aggregating all clusters (Thai-primary labels)
 // Attachment ย้ายไป StepBiographical (Step 1) ใน PR #35 — ไม่ต้องซ้ำที่นี่
+// DEF-04: hrbpAssignee lifted from local state into Zustand store (BRD #109 gate)
 import { useState } from 'react'
 import { useHireWizard, sliceValid } from '@/lib/admin/store/useHireWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -31,7 +32,12 @@ function SummaryRow({ label, value, ok }: { label: string; value: string; ok: bo
   )
 }
 
-export default function ClusterReview() {
+interface ClusterReviewProps {
+  /** DEF-04: set true when handleSubmit finds hrbpAssignee empty (BRD #109) */
+  hrbpError?: boolean
+}
+
+export default function ClusterReview({ hrbpError = false }: ClusterReviewProps) {
   const { formData } = useHireWizard()
   const id  = formData.identity
   const bio = formData.biographical
@@ -44,11 +50,12 @@ export default function ClusterReview() {
   const lastNameEnReview   = rev.lastNameEnReview    || id.lastNameEn    || ''
   const middleNameEnReview = rev.middleNameEnReview  || id.middleNameEn  || ''
 
-  // ── HRBP assignee — BRD #109: read from seeded roster (useHrbpRoster) ──────
+  // ── HRBP assignee — BRD #109: lifted to Zustand store so wizard gate can check it
   // TODO Sprint 3: replace roster with real GET /hrbp-roster backend call
   const hrbpRoster = useHrbpRoster()
-  const [hrbpAssignee, setHrbpAssignee] = useState('')
-  const [notifyHrbp, setNotifyHrbp]     = useState(true)
+  const hrbpAssignee    = useHireWizard((s) => s.hrbpAssignee)
+  const setHrbpAssignee = useHireWizard((s) => s.setHrbpAssignee)
+  const [notifyHrbp, setNotifyHrbp] = useState(true)
 
   // ── Summary data ──────────────────────────────────────────────────────────
   const identityOk     = sliceValid.identity(formData)
@@ -109,10 +116,14 @@ export default function ClusterReview() {
         />
         <div className="humi-step-section grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
           <fieldset>
-            <label htmlFor="hrbp-assignee" className="humi-label">HRBP ที่มอบหมาย</label>
+            <label htmlFor="hrbp-assignee" className="humi-label">
+              HRBP ที่มอบหมาย<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+            </label>
             <select id="hrbp-assignee"
               value={hrbpAssignee}
               onChange={(e) => setHrbpAssignee(e.target.value)}
+              aria-required="true"
+              aria-invalid={hrbpError && !hrbpAssignee ? true : undefined}
               className="humi-select w-full">
               <option value="">— เลือก HRBP —</option>
               {hrbpRoster.map((h) => (
@@ -121,6 +132,11 @@ export default function ClusterReview() {
                 </option>
               ))}
             </select>
+            {hrbpError && !hrbpAssignee && (
+              <p role="alert" className="mt-1 text-xs text-warning">
+                กรุณาเลือก HRBP ก่อนบันทึก (BRD #109) / Please select an HRBP before submitting
+              </p>
+            )}
           </fieldset>
 
           <fieldset className="md:pt-7">

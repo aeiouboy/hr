@@ -260,6 +260,16 @@ const initialFormData: FormData = {
   compensation: { baseSalary: null },
 }
 
+// Per-step Zod validity flags — populated by each Step component via onValidChange
+interface StepValidity {
+  identity: boolean
+  biographical: boolean
+  contact: boolean
+  employeeInfo: boolean
+  job: boolean
+  compensation: boolean
+}
+
 interface HireWizardState {
   currentStep: StepNumber
   maxUnlockedStep: StepNumber
@@ -267,9 +277,15 @@ interface HireWizardState {
   lastSavedAt: number | null
   // BA cols H/I: Permanent vs Partime field visibility toggle — top-level (not in FormData)
   employeeClassToggle: EmployeeClassToggle
+  // DEF-02/03/04/05: per-step Zod validity (connects Zod refines to wizard gate)
+  stepValidity: StepValidity
+  // DEF-04: HRBP assignee lifted from ClusterReview local state (BRD #109)
+  hrbpAssignee: string
 
   setStepData: <K extends keyof FormData>(step: K, patch: Partial<FormData[K]>) => void
   setEmployeeClassToggle: (v: EmployeeClassToggle) => void
+  setStepValidity: (slice: keyof StepValidity, valid: boolean) => void
+  setHrbpAssignee: (id: string) => void
   goNext: () => void
   goBack: () => void
   jumpTo: (step: number) => void
@@ -338,16 +354,48 @@ const sliceValid = {
   compensation: (d: FormData) => d.compensation.baseSalary !== null && d.compensation.baseSalary > 0,
 } as const
 
-// Step 1 "Who"    = identity (20 fields)
-// Step 2 "Job"    = biographical personal info (12 fields)
-// Step 3 "Review" = summary + attachment (always valid)
-function checkStepValid(step: number, d: FormData): boolean {
+// Step 1 "Who"    = identity + biographical + contact (Cluster 1)
+// Step 2 "Job"    = employeeInfo + job + compensation (Cluster 2)
+// Step 3 "Review" = hrbpAssignee required (BRD #109)
+//
+// stepValidity flags (sv) bridge Zod refines → wizard gate:
+//   - Default true so unit tests that only set formData directly still pass
+//   - Step components call setStepValidity(slice, false) when Zod refine fails
+//     (e.g. hireDate >90d, NID mod-11) — this is what actually blocks Next in the UI
+//
+// Cluster 1: identity presence AND Zod (sv.identity) AND bio Zod (sv.biographical)
+//            AND contact Zod (sv.contact) — biographical/contact default true so
+//            unit tests remain green (components not mounted in unit tests)
+function checkStepValid(step: number, d: FormData, sv: StepValidity, hrbpAssignee: string): boolean {
   switch (step) {
-    case 1: return sliceValid.identity(d)
-    case 2: return sliceValid.biographical(d)
-    case 3: return sliceValid.review(d)
+    case 1:
+      // DEF-02/03: presence check AND Zod refine gate (sv.identity covers hireDate ≤90d + NID mod-11)
+      // DEF-05/06/07: biographical (sv.biographical) and contact (sv.contact) Zod gates
+      return sliceValid.identity(d) && sv.identity && sv.biographical && sv.contact
+    case 2:
+      // DEF-05: employeeInfo + job + compensation slices (Cluster 2 legacy slices)
+      return sliceValid.employeeInfo(d) && sliceValid.job(d) && sliceValid.compensation(d)
+    case 3:
+      // Step 3 form is always navigable (review + HRBP picker are visible).
+      // HRBP validation (BRD #109) is enforced in handleSubmit, not the button gate,
+      // so the submit button is enabled and the user can see the picker before submitting.
+      return true
     default: return false
   }
+}
+
+// Default all to true: presence check (sliceValid) already gates on empty fields.
+// When a Step component mounts with invalid data, its validate() useEffect calls
+// onValidChange(false) → setStepValidity(slice, false), correctly tightening the gate.
+// Defaulting true preserves unit test compatibility (tests set formData directly without
+// mounting Step components, so stepValidity is never touched by onValidChange).
+const initialStepValidity: StepValidity = {
+  identity: true,
+  biographical: true,
+  contact: true,
+  employeeInfo: true,
+  job: true,
+  compensation: true,
 }
 
 export const useHireWizard = create<HireWizardState>()(
@@ -358,6 +406,8 @@ export const useHireWizard = create<HireWizardState>()(
       formData: initialFormData,
       lastSavedAt: null,
       employeeClassToggle: 'PERMANENT' as EmployeeClassToggle,
+      stepValidity: initialStepValidity,
+      hrbpAssignee: '',
 
       setStepData: (step, patch) => {
         set((state) => ({
@@ -368,9 +418,16 @@ export const useHireWizard = create<HireWizardState>()(
 
       setEmployeeClassToggle: (v) => set({ employeeClassToggle: v }),
 
+      setStepValidity: (slice, valid) =>
+        set((state) => ({
+          stepValidity: { ...state.stepValidity, [slice]: valid },
+        })),
+
+      setHrbpAssignee: (id) => set({ hrbpAssignee: id }),
+
       goNext: () => {
-        const { currentStep, maxUnlockedStep, formData } = get()
-        if (!checkStepValid(currentStep, formData)) return
+        const { currentStep, maxUnlockedStep, formData, stepValidity, hrbpAssignee } = get()
+        if (!checkStepValid(currentStep, formData, stepValidity, hrbpAssignee)) return
         const nextStep = Math.min(currentStep + 1, 3) as StepNumber
         const newMax = Math.max(maxUnlockedStep, nextStep) as StepNumber
         set({ currentStep: nextStep, maxUnlockedStep: newMax })
@@ -391,7 +448,10 @@ export const useHireWizard = create<HireWizardState>()(
         set({ currentStep: step as StepNumber })
       },
 
-      isStepValid: (step: number) => checkStepValid(step, get().formData),
+      isStepValid: (step: number) => {
+        const { formData, stepValidity, hrbpAssignee } = get()
+        return checkStepValid(step, formData, stepValidity, hrbpAssignee)
+      },
 
       reset: () => set({
         currentStep: 1,
@@ -399,6 +459,8 @@ export const useHireWizard = create<HireWizardState>()(
         formData: initialFormData,
         lastSavedAt: null,
         employeeClassToggle: 'PERMANENT',
+        stepValidity: initialStepValidity,
+        hrbpAssignee: '',
       }),
     }),
     {
@@ -415,6 +477,8 @@ export const useHireWizard = create<HireWizardState>()(
         formData: state.formData,
         lastSavedAt: state.lastSavedAt,
         employeeClassToggle: state.employeeClassToggle,
+        // stepValidity intentionally NOT persisted — recomputed on mount from step components
+        // hrbpAssignee intentionally NOT persisted — must be re-selected each session
       }),
       migrate: (persisted: unknown, fromVersion: number) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
