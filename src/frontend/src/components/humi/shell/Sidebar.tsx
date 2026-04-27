@@ -160,12 +160,12 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
               dark luminance band gets remapped to #FFFFFF — teal person
               silhouette untouched). */}
           <Image
-            src="/humi-logo-white-v2.png"
+            src="/humi-logo-final-2.png"
             alt="Humi"
-            width={90}
-            height={28}
+            width={48}
+            height={52}
             priority
-            style={{ height: 28, width: 'auto', objectFit: 'contain' }}
+            style={{ height: 52, width: 'auto', objectFit: 'contain' }}
           />
         </div>
         {/* Explicit close affordance — only rendered in drawer mode (when
@@ -266,19 +266,13 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
 // Auth (1)
 // SIDEBAR_LEGACY: /login pre-auth gate — never shown to authenticated users in chrome
 //
-// Profile / ESS canonical alt-paths (7) — superseded by /profile/me sidebar entry
-// SIDEBAR_LEGACY: /profile alt-path that redirects to canonical /profile/me page
+// Profile / ESS canonical alt-paths (4) — superseded by /profile/me sidebar entry
 // SIDEBAR_LEGACY: /employees/me alt-path superseded by canonical /profile/me sidebar entry
 // SIDEBAR_LEGACY: /employees/me/payslip deep-link from /profile/me Compensation tab
-// SIDEBAR_LEGACY: /ess top-level redirect to /profile/me — kept for legacy bookmarks
-// SIDEBAR_LEGACY: /ess/profile alt-path superseded by /profile/me canonical sidebar entry
 // SIDEBAR_LEGACY: /ess/profile/edit reachable from /profile/me Edit button (BRD #166)
 // SIDEBAR_LEGACY: /me/documents reachable from /profile/me Documents tab (BRD #173)
 //
-// Workflow + leave family (7) — reachable from "ลางาน" + "คำขอของฉัน" sidebar entries
-// SIDEBAR_LEGACY: /leave parent route — sidebar uses /timeoff which is the canonical surface
-// SIDEBAR_LEGACY: /leave/history reachable from /timeoff history tab (canonical entry point)
-// SIDEBAR_LEGACY: /leave/request reachable from /timeoff request action (canonical entry point)
+// Workflow + leave family (4) — reachable from "ลางาน" + "คำขอของฉัน" sidebar entries
 // SIDEBAR_LEGACY: /overtime reachable from /timeoff OT request flow (sub-feature of timeoff)
 // SIDEBAR_LEGACY: /resignation reachable from /profile/me Resignation section (BRD #172)
 // SIDEBAR_LEGACY: /workflows alt-path superseded by /ess/workflows in sidebar config
@@ -287,22 +281,14 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
 // Time / attendance (1) — sidebar uses external cnext-time URL, /time is internal scaffold
 // SIDEBAR_LEGACY: /time internal time-page scaffold — sidebar uses external cnext-time link
 //
-// Manager-tier follow-on (1) — /quick-approve now wired in sidebar above as canonical detail page
-// SIDEBAR_LEGACY: /onboarding manager-tier flow from new-hire detail page action menu
-//
-// Payroll cluster (8) — admin-tier scaffold pending P-B chain decision (#62 blocked)
+// Payroll cluster (6) — admin-tier scaffold pending P-B chain decision (#62 blocked)
 // SIDEBAR_LEGACY: /payroll admin-tier scaffold pending P-B Infrastructure decision (#62)
-// SIDEBAR_LEGACY: /payroll-processing admin-tier scaffold pending P-B chain (#62 blocked)
-// SIDEBAR_LEGACY: /payroll-setup admin-tier scaffold pending P-B chain (#62 blocked)
 // SIDEBAR_LEGACY: /payroll/processing admin-tier scaffold pending P-B chain (#62 blocked)
 // SIDEBAR_LEGACY: /payroll/reports admin-tier scaffold pending P-B chain (#62 blocked)
 // SIDEBAR_LEGACY: /payroll/setup admin-tier scaffold pending P-B chain (#62 blocked)
 // SIDEBAR_LEGACY: /payslip reachable from /profile/me Compensation tab payslip link
-// SIDEBAR_LEGACY: /recruitment admin-tier scaffold not yet wired (Sprint 2 backlog)
 //
-// Reports cluster (5) — reports tile + role-specific landing pages
-// SIDEBAR_LEGACY: /government-reports surfaced via /reports landing page action card
-// SIDEBAR_LEGACY: /hrbp-reports surfaced via /reports landing page role-tile (HRBP only)
+// Reports cluster (3) — reports tile + role-specific landing pages
 // SIDEBAR_LEGACY: /training-records surfaced via /learning-directory deep-link
 // SIDEBAR_LEGACY: /spd-management role-gated route from SPD persona inbox flow
 // SIDEBAR_LEGACY: /hospital-referral surfaced via /benefits-hub action tile (BRD #20 dep)
