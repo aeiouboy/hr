@@ -73,10 +73,10 @@ export default function HumiLoginPage() {
           <Image
             src="/humi-logo-final-2.png"
             alt={t('brandLogoAlt')}
-            width={48}
-            height={52}
+            width={96}
+            height={104}
             priority
-            style={{ height: 52, width: 'auto', display: 'block', objectFit: 'contain' }}
+            style={{ height: 104, width: 'auto', display: 'block', objectFit: 'contain' }}
           />
         </div>
 

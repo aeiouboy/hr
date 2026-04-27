@@ -83,10 +83,10 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
           <Image
             src="/humi-logo-final-2.png"
             alt="Humi"
-            width={48}
-            height={52}
+            width={72}
+            height={78}
             priority
-            style={{ height: 52, width: 'auto', objectFit: 'contain' }}
+            style={{ height: 78, width: 'auto', objectFit: 'contain' }}
           />
         </div>
         {onClose && (
