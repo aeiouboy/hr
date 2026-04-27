@@ -25,6 +25,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuickApprove } from '@/hooks/use-quick-approve';
 import type { ApprovalItem, ApprovalType, UrgencyLevel } from '@/hooks/use-quick-approve';
+import { formatDate } from '@/lib/date';
 import { cn } from '@/lib/utils';
 import { useLeaveApprovals, LEAVE_TYPE_LABEL, LEAVE_STATUS_LABEL } from '@/stores/leave-approvals';
 import { useTerminationApprovals, TERMINATION_REASON_LABEL } from '@/stores/termination-approvals';
@@ -49,6 +50,17 @@ const AVATAR_TONE_MAP = {
  butter: 'humi-avatar humi-avatar--butter',
  ink: 'humi-avatar humi-avatar--ink',
 } as const;
+
+function formatThaiDate(iso: string): string {
+ return formatDate(iso, 'medium', 'th');
+}
+
+function formatThaiDateTime(iso: string): string {
+ const d = new Date(iso);
+ if (isNaN(d.getTime())) return '-';
+ const time = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+ return `${formatDate(iso, 'medium', 'th')} · ${time} น.`;
+}
 
 const TYPE_LABELS: Record<string, string> = {
  all:'ทั้งหมด',
@@ -260,7 +272,7 @@ export function QuickApprovePage() {
  <span style={{ color: 'var(--color-ink-muted)', fontWeight: 400 }}>· {LEAVE_TYPE_LABEL[req.leaveType]}</span>
  </div>
  <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 2 }}>
- {req.startDate} – {req.endDate}
+ {formatThaiDate(req.startDate)} – {formatThaiDate(req.endDate)}
  {req.reason && <span className="truncate"> &nbsp;•&nbsp; {req.reason}</span>}
  </div>
  </div>
@@ -481,7 +493,7 @@ export function QuickApprovePage() {
  {item.department}
  {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
  {item.dates && <> &middot; {item.dates}</>}
- &nbsp;•&nbsp; <Clock className="inline h-3 w-3" /> {new Date(item.submittedAt).toLocaleDateString()}
+ &nbsp;•&nbsp; <Clock className="inline h-3 w-3" /> {formatThaiDate(item.submittedAt)}
  {item.waitingDays > 0 && <span className={cn('ml-1 inline-flex items-center rounded-full px-1.5 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>{item.urgency === 'urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}{tQuick(`urgency.${item.urgency}`)} ({item.waitingDays}d)</span>}
  </div>
  </div>
@@ -516,13 +528,13 @@ export function QuickApprovePage() {
  {previewItem && (
  <div className="hidden lg:block w-[45%] sticky top-20 self-start">
  <Card header={<><CardTitle className="text-base">{tQuick('slideOver.requestDetails')}</CardTitle><button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-surface-raised" aria-label={tQuick('slideOver.close')}><X className="h-4 w-4 text-ink-muted" /></button></>}>
- <div className="space-y-4">
+ <div className="humi-col" style={{ gap: 18 }}>
  {/* Employee */}
- <div className="flex items-center gap-3 pb-4 border-b border-hairline">
+ <div className="humi-row" style={{ gap: 12, paddingBottom: 16, borderBottom: '1px solid var(--color-hairline-soft)' }}>
  <span className={AVATAR_TONE_MAP[pickTone(previewItem.id)]} aria-hidden style={{ width: 48, height: 48, fontSize: 16 }}>{deriveInitials(previewItem.employeeName)}</span>
- <div>
- <p className="font-medium text-ink">{previewItem.employeeName}</p>
- <p className="text-xs text-ink-muted">{previewItem.employeeId} &middot; {previewItem.department}</p>
+ <div className="humi-col" style={{ gap: 2 }}>
+ <p className="font-display" style={{ fontSize: 18, fontWeight: 600, color: 'var(--color-ink)', letterSpacing: '-0.01em' }}>{previewItem.employeeName}</p>
+ <p style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}>{previewItem.employeeId} &middot; {previewItem.department}</p>
  </div>
  </div>
 
@@ -535,48 +547,48 @@ export function QuickApprovePage() {
  </div>
 
  {/* Summary */}
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.summary')}</p>
- <p className="text-sm font-medium text-ink">{previewItem.summary}</p>
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.summary')}</p>
+ <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-ink)', lineHeight: 1.4 }}>{previewItem.summary}</p>
  </div>
 
  {/* Detail */}
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.details')}</p>
- <p className="text-sm text-ink-muted">{previewItem.detail}</p>
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.details')}</p>
+ <p style={{ fontSize: 14, color: 'var(--color-ink-soft)', lineHeight: 1.6 }}>{previewItem.detail}</p>
  </div>
 
  {/* Amount / Dates */}
  {previewItem.amount && (
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.amount')}</p>
- <p className="text-lg font-bold text-ink">฿{previewItem.amount.toLocaleString()}</p>
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.amount')}</p>
+ <p className="font-display" style={{ fontSize: 22, fontWeight: 700, color: 'var(--color-ink)', letterSpacing: '-0.01em' }}>฿{previewItem.amount.toLocaleString()}</p>
  </div>
  )}
  {previewItem.dates && (
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.dates')}</p>
- <p className="text-sm text-ink-muted">{previewItem.dates}</p>
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.dates')}</p>
+ <p style={{ fontSize: 14, color: 'var(--color-ink-soft)' }}>{previewItem.dates}</p>
  </div>
  )}
 
  {/* Approval Timeline */}
  {previewItem.approvalTimeline && previewItem.approvalTimeline.length > 0 && (
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-2">{tQuick('slideOver.approvalTimeline')}</p>
- <ol className="relative border-l border-hairline border-hairline ml-2">
+ <div className="humi-col" style={{ gap: 8 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.approvalTimeline')}</p>
+ <ol className="relative border-l border-hairline ml-2">
  {previewItem.approvalTimeline.map((step) => (
  <li key={step.step} className="mb-3 ml-4">
  <div className={cn('absolute -left-1.5 w-3 h-3 rounded-full border-2 border-white',
  step.status ==='approved' ?'bg-success-tint' : step.status ==='rejected' ?'bg-danger-tint' :'bg-gray-300'
  )} />
- <div className="flex items-center gap-2">
- <span className="text-xs font-medium">{step.approver}</span>
+ <div className="humi-row" style={{ gap: 8 }}>
+ <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-ink)' }}>{step.approver}</span>
  <Badge variant={step.status ==='approved' ?'success' : step.status ==='rejected' ?'error' :'neutral'}>
  {step.status}
  </Badge>
  </div>
- {step.date && <p className="text-[10px] text-ink-muted">{new Date(step.date).toLocaleDateString()}</p>}
+ {step.date && <p style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 2 }}>{formatThaiDate(step.date)}</p>}
  </li>
  ))}
  </ol>
@@ -585,11 +597,11 @@ export function QuickApprovePage() {
 
  {/* Attachments */}
  {previewItem.attachments.length > 0 && (
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.attachments')}</p>
- <div className="space-y-1">
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.attachments')}</p>
+ <div className="humi-col" style={{ gap: 4 }}>
  {previewItem.attachments.map((a) => (
- <div key={a} className="flex items-center gap-2 text-sm text-accent">
+ <div key={a} className="humi-row" style={{ gap: 8, fontSize: 14, color: 'var(--color-accent)' }}>
  <FileText className="h-4 w-4" />{a}
  </div>
  ))}
@@ -598,16 +610,16 @@ export function QuickApprovePage() {
  )}
 
  {/* Submitted */}
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.submitted')}</p>
- <p className="text-sm text-ink-muted">{new Date(previewItem.submittedAt).toLocaleString()}</p>
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.submitted')}</p>
+ <p style={{ fontSize: 14, color: 'var(--color-ink-soft)' }}>{formatThaiDateTime(previewItem.submittedAt)}</p>
  </div>
 
  {/* Notes */}
  {previewItem.notes && (
- <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.notes')}</p>
- <p className="text-sm text-ink-muted">{previewItem.notes}</p>
+ <div className="humi-col" style={{ gap: 6 }}>
+ <p className="humi-eyebrow">{tQuick('slideOver.notes')}</p>
+ <p style={{ fontSize: 14, color: 'var(--color-ink-soft)', lineHeight: 1.6 }}>{previewItem.notes}</p>
  </div>
  )}
 
