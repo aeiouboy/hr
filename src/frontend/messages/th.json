@@ -3024,7 +3024,9 @@
       "allUrgency": "ทุกระดับ",
       "dateFrom": "ตั้งแต่วันที่",
       "dateTo": "ถึงวันที่",
-      "selectAll": "เลือกทั้งหมด"
+      "selectAll": "เลือกทั้งหมด",
+      "deselectAll": "ยกเลิกเลือกทั้งหมด",
+      "selectedCount": "เลือก {count} รายการ"
     },
     "table": {
       "type": "ประเภท",
@@ -3045,7 +3047,14 @@
       "requestDetails": "รายละเอียดคำขอ",
       "approvalTimeline": "ลำดับการอนุมัติ",
       "approve": "อนุมัติ",
-      "reject": "ปฏิเสธ"
+      "reject": "ปฏิเสธ",
+      "summary": "สรุป",
+      "details": "รายละเอียด",
+      "amount": "จำนวนเงิน",
+      "dates": "วันที่",
+      "attachments": "เอกสารแนบ",
+      "submitted": "ส่งเมื่อ",
+      "notes": "หมายเหตุ"
     },
     "detail": {
       "leaveType": "ประเภทการลา",
@@ -3092,7 +3101,33 @@
       "create": "สร้าง",
       "creating": "กำลังสร้าง...",
       "cancel": "ยกเลิก",
-      "revoke": "ยกเลิกการมอบหมาย"
+      "revoke": "ยกเลิกการมอบหมาย",
+      "button": "มอบหมายสิทธิ์อนุมัติ"
+    },
+    "stats": {
+      "leave": "ลา",
+      "expense": "เบิกค่าใช้จ่าย",
+      "overtime": "โอที",
+      "claim": "เคลม",
+      "transfer": "ย้าย",
+      "changes": "เปลี่ยนข้อมูล",
+      "urgent": "เร่งด่วน",
+      "total": "ทั้งหมด"
+    },
+    "urgency": {
+      "all": "ทั้งหมด",
+      "urgent": "เร่งด่วน",
+      "normal": "ปกติ",
+      "low": "ต่ำ"
+    },
+    "types": {
+      "all": "ทั้งหมด",
+      "leave": "ลา",
+      "expense": "เบิกค่าใช้จ่าย",
+      "overtime": "โอที",
+      "changeRequest": "คำขอเปลี่ยนข้อมูล",
+      "claim": "เคลม",
+      "transfer": "ย้าย"
     }
   },
   "hospitalReferral": {

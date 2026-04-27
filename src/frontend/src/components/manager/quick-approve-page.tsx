@@ -31,14 +31,14 @@ import { useTerminationApprovals, TERMINATION_REASON_LABEL } from '@/stores/term
 import { useAuthStore } from '@/stores/auth-store';
 
 const TYPE_LABELS: Record<string, string> = {
- all:'All',
- leave:'Leave',
- expense:'Expense',
- overtime:'Overtime',
-'change-request':'Change Request',
- claim:'Claim',
- transfer:'Transfer',
- change_request:'Change Request',
+ all:'ทั้งหมด',
+ leave:'ลา',
+ expense:'เบิกค่าใช้จ่าย',
+ overtime:'โอที',
+'change-request':'คำขอเปลี่ยนข้อมูล',
+ claim:'เคลม',
+ transfer:'ย้าย',
+ change_request:'คำขอเปลี่ยนข้อมูล',
 };
 
 const TYPE_BADGE_VARIANT: Record<string,'info' |'warning' |'success' |'neutral' |'error'> = {
@@ -279,14 +279,14 @@ export function QuickApprovePage() {
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
  <div>
  <h1 className="text-2xl font-bold text-ink">{tQuick('title')}</h1>
- <p className="text-sm text-ink-muted mt-1">Review and process pending approvals</p>
+ <p className="text-sm text-ink-muted mt-1">{tQuick('subtitle')}</p>
  </div>
  <div className="flex items-center gap-3">
- <Badge variant="error">{stats.urgent} urgent</Badge>
- <Badge variant="neutral">{stats.total} total</Badge>
+ <Badge variant="error">{tQuick('stats.urgent')} {stats.urgent}</Badge>
+ <Badge variant="neutral">{tQuick('stats.total')} {stats.total}</Badge>
  <Button variant="secondary" size="sm" onClick={() => setDelegationOpen(true)}>
  <Settings2 className="h-4 w-4 mr-1.5" />
- Delegations
+ {tQuick('delegation.button')}
  </Button>
  </div>
  </div>
@@ -294,12 +294,12 @@ export function QuickApprovePage() {
  {/* Stats Strip */}
  <div className="flex flex-wrap gap-2">
  {[
- { label:'Leave', count: stats.leave, color:'bg-accent-tint text-accent' },
- { label:'Expense', count: stats.expense, color:'bg-warning-tint text-warning' },
- { label:'Overtime', count: stats.overtime, color:'bg-success-tint text-success' },
- { label:'Claim', count: stats.claim, color:'bg-orange-100 text-orange-800' },
- { label:'Transfer', count: stats.transfer, color:'bg-purple-100 text-purple-800' },
- { label:'Changes', count: stats.changeRequest, color:'bg-surface-raised text-ink' },
+ { label: tQuick('stats.leave'), count: stats.leave, color:'bg-accent-tint text-accent' },
+ { label: tQuick('stats.expense'), count: stats.expense, color:'bg-warning-tint text-warning' },
+ { label: tQuick('stats.overtime'), count: stats.overtime, color:'bg-success-tint text-success' },
+ { label: tQuick('stats.claim'), count: stats.claim, color:'bg-orange-100 text-orange-800' },
+ { label: tQuick('stats.transfer'), count: stats.transfer, color:'bg-purple-100 text-purple-800' },
+ { label: tQuick('stats.changes'), count: stats.changeRequest, color:'bg-surface-raised text-ink' },
  ].filter((s) => s.count > 0).map((s) => (
  <span key={s.label} className={cn('px-3 py-1 rounded-full text-xs font-medium', s.color)}>
  {s.label}: {s.count}
@@ -318,7 +318,7 @@ export function QuickApprovePage() {
  type="text"
  value={searchText}
  onChange={(e) => setSearchText(e.target.value)}
- placeholder="Search by name or description..."
+ placeholder={tQuick('filters.searchPlaceholder')}
  className="w-full rounded-md border border-hairline border-hairline pl-9 pr-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none"
  />
  </div>
@@ -329,15 +329,15 @@ export function QuickApprovePage() {
  value={dateFrom}
  onChange={(e) => setDateFrom(e.target.value)}
  className="rounded-md border border-hairline border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
- aria-label="Date from"
+ aria-label={tQuick('filters.dateFrom')}
  />
- <span className="text-ink-muted text-xs">to</span>
+ <span className="text-ink-muted text-xs">ถึง</span>
  <input
  type="date"
  value={dateTo}
  onChange={(e) => setDateTo(e.target.value)}
  className="rounded-md border border-hairline border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
- aria-label="Date to"
+ aria-label={tQuick('filters.dateTo')}
  />
  </div>
  </div>
@@ -371,7 +371,7 @@ export function QuickApprovePage() {
  :'bg-surface-raised text-ink-muted hover:bg-surface-raised hover:bg-surface-raised'
  )}
  >
- {level ==='all' ?'All' : level.charAt(0).toUpperCase() + level.slice(1)}
+ {tQuick(`urgency.${level}`)}
  </button>
  ))}
  </div>
@@ -383,11 +383,11 @@ export function QuickApprovePage() {
  onClick={selectAll}
  className="text-xs text-brand hover:underline font-medium"
  >
- {selectedIds.size === items.length && items.length > 0 ?'Deselect All' :'Select All'}
+ {selectedIds.size === items.length && items.length > 0 ? tQuick('filters.deselectAll') : tQuick('filters.selectAll')}
  </button>
  {selectedIds.size > 0 && (
  <>
- <span className="text-xs text-ink-muted">{selectedIds.size} selected</span>
+ <span className="text-xs text-ink-muted">{tQuick('bulkBar.selected', { count: selectedIds.size })}</span>
  <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
  <CheckCircle2 className="h-3.5 w-3.5 mr-1" />{t('approvals.bulkApprove')}
  </Button>
@@ -430,7 +430,7 @@ export function QuickApprovePage() {
  checked={selectedIds.has(item.id)}
  onChange={() => toggleSelect(item.id)}
  className="mt-1 h-4 w-4 rounded border-hairline text-brand focus:ring-brand"
- aria-label={`Select ${item.employeeName}`}
+ aria-label={`เลือก ${item.employeeName}`}
  />
 
  {/* Avatar */}
@@ -445,7 +445,7 @@ export function QuickApprovePage() {
  {/* Urgency Badge */}
  <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>
  {item.urgency ==='urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}
- {item.urgency.charAt(0).toUpperCase() + item.urgency.slice(1)}
+ {tQuick(`urgency.${item.urgency}`)}
  {item.waitingDays > 0 && ` (${item.waitingDays}d)`}
  </span>
  {item.attachments.length > 0 && <Paperclip className="h-3.5 w-3.5 text-ink-muted" />}
@@ -463,9 +463,9 @@ export function QuickApprovePage() {
 
  {/* Actions */}
  <div className="flex items-center gap-1 shrink-0">
- <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised hover:bg-surface-raised" aria-label="Preview"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
- <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-success-tint text-success" aria-label="Approve"><CheckCircle2 className="h-5 w-5" /></button>
- <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-danger-tint text-danger" aria-label="Reject"><XCircle className="h-5 w-5" /></button>
+ <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised hover:bg-surface-raised" aria-label="ดูตัวอย่าง"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
+ <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-success-tint text-success" aria-label="อนุมัติ"><CheckCircle2 className="h-5 w-5" /></button>
+ <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-danger-tint text-danger" aria-label="ปฏิเสธ"><XCircle className="h-5 w-5" /></button>
  </div>
  </div>
  </div>
@@ -476,7 +476,7 @@ export function QuickApprovePage() {
  {/* Slide-over Preview Panel */}
  {previewItem && (
  <div className="hidden lg:block w-[45%] sticky top-20 self-start">
- <Card header={<><CardTitle className="text-base">Request Details</CardTitle><button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-surface-raised" aria-label="Close"><X className="h-4 w-4 text-ink-muted" /></button></>}>
+ <Card header={<><CardTitle className="text-base">{tQuick('slideOver.requestDetails')}</CardTitle><button onClick={() => setPreviewItem(null)} className="p-1 rounded hover:bg-surface-raised" aria-label={tQuick('slideOver.close')}><X className="h-4 w-4 text-ink-muted" /></button></>}>
  <div className="space-y-4">
  {/* Employee */}
  <div className="flex items-center gap-3 pb-4 border-b border-hairline">
@@ -491,32 +491,32 @@ export function QuickApprovePage() {
  <div className="flex gap-2 flex-wrap">
  <Badge variant={TYPE_BADGE_VARIANT[previewItem.type]}>{TYPE_LABELS[previewItem.type]}</Badge>
  <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', URGENCY_STYLES[previewItem.urgency])}>
- {previewItem.urgency.charAt(0).toUpperCase() + previewItem.urgency.slice(1)}
+ {tQuick(`urgency.${previewItem.urgency}`)}
  </span>
  </div>
 
  {/* Summary */}
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Summary</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.summary')}</p>
  <p className="text-sm font-medium text-ink">{previewItem.summary}</p>
  </div>
 
  {/* Detail */}
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Details</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.details')}</p>
  <p className="text-sm text-ink-muted">{previewItem.detail}</p>
  </div>
 
  {/* Amount / Dates */}
  {previewItem.amount && (
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Amount</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.amount')}</p>
  <p className="text-lg font-bold text-ink">฿{previewItem.amount.toLocaleString()}</p>
  </div>
  )}
  {previewItem.dates && (
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Dates</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.dates')}</p>
  <p className="text-sm text-ink-muted">{previewItem.dates}</p>
  </div>
  )}
@@ -524,12 +524,12 @@ export function QuickApprovePage() {
  {/* Approval Timeline */}
  {previewItem.approvalTimeline && previewItem.approvalTimeline.length > 0 && (
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-2">Approval Timeline</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-2">{tQuick('slideOver.approvalTimeline')}</p>
  <ol className="relative border-l border-hairline border-hairline ml-2">
  {previewItem.approvalTimeline.map((step) => (
  <li key={step.step} className="mb-3 ml-4">
  <div className={cn('absolute -left-1.5 w-3 h-3 rounded-full border-2 border-white',
- step.status ==='approved' ?'bg-success-tint0' : step.status ==='rejected' ?'bg-danger-tint0' :'bg-gray-300'
+ step.status ==='approved' ?'bg-success-tint' : step.status ==='rejected' ?'bg-danger-tint' :'bg-gray-300'
  )} />
  <div className="flex items-center gap-2">
  <span className="text-xs font-medium">{step.approver}</span>
@@ -547,7 +547,7 @@ export function QuickApprovePage() {
  {/* Attachments */}
  {previewItem.attachments.length > 0 && (
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Attachments</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.attachments')}</p>
  <div className="space-y-1">
  {previewItem.attachments.map((a) => (
  <div key={a} className="flex items-center gap-2 text-sm text-accent">
@@ -560,14 +560,14 @@ export function QuickApprovePage() {
 
  {/* Submitted */}
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Submitted</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.submitted')}</p>
  <p className="text-sm text-ink-muted">{new Date(previewItem.submittedAt).toLocaleString()}</p>
  </div>
 
  {/* Notes */}
  {previewItem.notes && (
  <div>
- <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">Notes</p>
+ <p className="text-xs text-ink-muted uppercase tracking-wider mb-1">{tQuick('slideOver.notes')}</p>
  <p className="text-sm text-ink-muted">{previewItem.notes}</p>
  </div>
  )}
@@ -591,16 +591,16 @@ export function QuickApprovePage() {
  {selectedIds.size > 0 && (
  <div className="fixed bottom-0 inset-x-0 z-40 bg-surface border-t border-hairline shadow-2">
  <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
- <span className="text-sm font-medium text-ink">{selectedIds.size} items selected</span>
+ <span className="text-sm font-medium text-ink">{tQuick('bulkBar.selected', { count: selectedIds.size })}</span>
  <div className="flex items-center gap-3">
  <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleBulkAction('approve')}>
- <CheckCircle2 className="h-4 w-4 mr-1.5" />Approve All
+ <CheckCircle2 className="h-4 w-4 mr-1.5" />{tQuick('bulkBar.approveAll')}
  </Button>
  <Button variant="danger" size="sm" onClick={() => handleBulkAction('reject')}>
- <XCircle className="h-4 w-4 mr-1.5" />Reject All
+ <XCircle className="h-4 w-4 mr-1.5" />{tQuick('bulkBar.rejectAll')}
  </Button>
  <button onClick={clearSelection} className="text-sm text-ink-muted hover:text-ink-soft flex items-center gap-1">
- <X className="h-3.5 w-3.5" />Clear
+ <X className="h-3.5 w-3.5" />{tQuick('bulkBar.clearSelection')}
  </button>
  </div>
  </div>
@@ -611,39 +611,39 @@ export function QuickApprovePage() {
  <Modal
  open={!!confirmModal}
  onClose={() => setConfirmModal(null)}
- title={confirmModal?.action ==='approve' ?'Confirm Approval' :'Confirm Rejection'}
+ title={confirmModal?.action ==='approve' ? tQuick('confirm.approveTitle') : tQuick('confirm.rejectTitle')}
  >
  <div className="space-y-4">
  <p className="text-sm text-ink-muted">
  {confirmModal?.count === 1
  ? (confirmModal.action ==='approve' ? t('messages.confirmApprove') : t('messages.confirmReject'))
  : (confirmModal?.action ==='approve'
- ? `Are you sure you want to approve ${confirmModal?.count} request(s)?`
- : `Are you sure you want to reject ${confirmModal?.count} request(s)?`
+ ? tQuick('confirm.approveMessage', { count: confirmModal?.count ?? 0 })
+ : tQuick('confirm.rejectMessage', { count: confirmModal?.count ?? 0 })
  )}
  </p>
  <div>
  <label className="block text-sm font-medium text-ink-soft mb-1">
- {confirmModal?.action ==='approve' ?'Comment (optional)' :'Reason (required)'}
+ {confirmModal?.action ==='approve' ? tQuick('confirm.reasonOptional') : tQuick('confirm.reasonRequired')}
  </label>
  <textarea
  value={confirmReason}
  onChange={(e) => setConfirmReason(e.target.value)}
  rows={3}
  className="w-full rounded-md border border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none resize-none"
- placeholder={confirmModal?.action ==='approve' ?'Optional comment...' :'Please provide a reason...'}
+ placeholder={tQuick('confirm.reasonPlaceholder')}
  />
  </div>
  </div>
  <div className="border-t pt-4 mt-4 flex justify-end gap-3">
- <Button variant="secondary" onClick={() => setConfirmModal(null)}>Cancel</Button>
+ <Button variant="secondary" onClick={() => setConfirmModal(null)}>{tQuick('confirm.cancel')}</Button>
  <Button
  variant={confirmModal?.action ==='reject' ?'danger' :'primary'}
  className={confirmModal?.action ==='approve' ?'bg-success hover:bg-success/90' :''}
  onClick={handleConfirm}
  disabled={actionLoading || (confirmModal?.action ==='reject' && !confirmReason.trim())}
  >
- {actionLoading ?'Processing...' : confirmModal?.action ==='approve' ? `${t('actions.approve')} (${confirmModal?.count})` : `${t('actions.reject')} (${confirmModal?.count})`}
+ {actionLoading ? tQuick('confirm.processing') : confirmModal?.action ==='approve' ? `${t('actions.approve')} (${confirmModal?.count})` : `${t('actions.reject')} (${confirmModal?.count})`}
  </Button>
  </div>
  </Modal>
@@ -652,14 +652,14 @@ export function QuickApprovePage() {
  <Modal
  open={delegationOpen}
  onClose={() => setDelegationOpen(false)}
- title="Manage Delegations"
+ title={tQuick('delegation.manageDelegations')}
  widthClass="max-w-xl"
  >
  <div className="space-y-5">
  <div>
- <h4 className="text-sm font-medium text-ink mb-2">Active Delegations</h4>
+ <h4 className="text-sm font-medium text-ink mb-2">{tQuick('delegation.activeDelegations')}</h4>
  {delegations.length === 0 ? (
- <p className="text-sm text-ink-muted">No active delegations</p>
+ <p className="text-sm text-ink-muted">{tQuick('delegation.noDelegations')}</p>
  ) : (
  <ul className="space-y-2">
  {delegations.map((d) => (
@@ -672,7 +672,7 @@ export function QuickApprovePage() {
  </div>
  </div>
  {d.status ==='active' && (
- <button onClick={() => revokeDelegation(d.id)} className="p-1.5 rounded hover:bg-danger-tint text-danger" aria-label="Revoke">
+ <button onClick={() => revokeDelegation(d.id)} className="p-1.5 rounded hover:bg-danger-tint text-danger" aria-label={tQuick('delegation.revoke')}>
  <Trash2 className="h-4 w-4" />
  </button>
  )}
@@ -683,34 +683,34 @@ export function QuickApprovePage() {
  </div>
 
  <div className="border border-hairline rounded-md p-4 space-y-3">
- <h4 className="text-sm font-medium text-ink">Create New Delegation</h4>
+ <h4 className="text-sm font-medium text-ink">{tQuick('delegation.createNew')}</h4>
  <div>
- <label className="block text-xs font-medium text-ink-muted mb-1">Delegate To (Employee ID)</label>
- <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder="e.g. EMP005" className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
+ <label className="block text-xs font-medium text-ink-muted mb-1">{tQuick('delegation.delegateTo')}</label>
+ <input type="text" value={delegateForm.to} onChange={(e) => setDelegateForm((p) => ({ ...p, to: e.target.value }))} placeholder={tQuick('delegation.delegateToPlaceholder')} className="w-full rounded-md border border-hairline border-hairline px-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none" />
  </div>
  <div className="grid grid-cols-2 gap-3">
  <div>
- <label className="block text-xs font-medium text-ink-muted mb-1">Start Date</label>
+ <label className="block text-xs font-medium text-ink-muted mb-1">{tQuick('delegation.startDate')}</label>
  <input type="date" value={delegateForm.start} onChange={(e) => setDelegateForm((p) => ({ ...p, start: e.target.value }))} className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand outline-none" />
  </div>
  <div>
- <label className="block text-xs font-medium text-ink-muted mb-1">End Date</label>
+ <label className="block text-xs font-medium text-ink-muted mb-1">{tQuick('delegation.endDate')}</label>
  <input type="date" value={delegateForm.end} onChange={(e) => setDelegateForm((p) => ({ ...p, end: e.target.value }))} className="w-full rounded-md border border-hairline px-3 py-2 text-sm focus:border-brand outline-none" />
  </div>
  </div>
  <div>
- <label className="block text-xs font-medium text-ink-muted mb-1">Workflow Types</label>
+ <label className="block text-xs font-medium text-ink-muted mb-1">{tQuick('delegation.workflowTypes')}</label>
  <div className="flex flex-wrap gap-2">
  {WORKFLOW_TYPES.map((wt) => (
  <button key={wt} type="button" onClick={() => toggleDelegateType(wt)} className={`px-3 py-1 rounded-full text-xs font-medium border transition ${delegateForm.types.includes(wt) ?'bg-brand text-white border-brand' :'bg-surface text-ink-muted border-hairline border-hairline hover:border-brand'}`}>
- {wt}
+ {TYPE_LABELS[wt] ?? wt}
  </button>
  ))}
  </div>
  </div>
  <div className="flex justify-end gap-2 pt-1">
  <Button size="sm" onClick={handleCreateDelegation} disabled={delegateSubmitting || !delegateForm.to || !delegateForm.start || !delegateForm.end || delegateForm.types.length === 0}>
- {delegateSubmitting ?'Creating...' :'Create Delegation'}
+ {delegateSubmitting ? tQuick('delegation.creating') : tQuick('delegation.create')}
  </Button>
  </div>
  </div>

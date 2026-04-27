@@ -3059,7 +3059,9 @@
       "allUrgency": "All Urgency",
       "dateFrom": "Date From",
       "dateTo": "Date To",
-      "selectAll": "Select All"
+      "selectAll": "Select All",
+      "deselectAll": "Deselect All",
+      "selectedCount": "{count} items selected"
     },
     "table": {
       "type": "Type",
@@ -3080,7 +3082,14 @@
       "requestDetails": "Request Details",
       "approvalTimeline": "Approval Timeline",
       "approve": "Approve",
-      "reject": "Reject"
+      "reject": "Reject",
+      "summary": "Summary",
+      "details": "Details",
+      "amount": "Amount",
+      "dates": "Dates",
+      "attachments": "Attachments",
+      "submitted": "Submitted",
+      "notes": "Notes"
     },
     "detail": {
       "leaveType": "Leave Type",
@@ -3127,7 +3136,33 @@
       "create": "Create",
       "creating": "Creating...",
       "cancel": "Cancel",
-      "revoke": "Revoke"
+      "revoke": "Revoke",
+      "button": "Delegations"
+    },
+    "stats": {
+      "leave": "Leave",
+      "expense": "Expense",
+      "overtime": "Overtime",
+      "claim": "Claim",
+      "transfer": "Transfer",
+      "changes": "Changes",
+      "urgent": "Urgent",
+      "total": "Total"
+    },
+    "urgency": {
+      "all": "All",
+      "urgent": "Urgent",
+      "normal": "Normal",
+      "low": "Low"
+    },
+    "types": {
+      "all": "All",
+      "leave": "Leave",
+      "expense": "Expense",
+      "overtime": "Overtime",
+      "changeRequest": "Change Request",
+      "claim": "Claim",
+      "transfer": "Transfer"
     }
   },
   "hospitalReferral": {
