@@ -459,7 +459,8 @@ export function QuickApprovePage() {
  previewItem?.id === item.id && 'ring-2 ring-blue-400'
  )}
  >
- {/* Checkbox — left of avatar */}
+ {/* Leading cell: checkbox + avatar (single grid column to keep 3-col layout) */}
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
  <input
  type="checkbox"
  checked={selectedIds.has(item.id)}
@@ -467,8 +468,8 @@ export function QuickApprovePage() {
  className="h-4 w-4 rounded border-hairline accent-brand focus:ring-brand shrink-0"
  aria-label={`เลือก ${item.employeeName}`}
  />
- {/* Avatar */}
  <span className={AVATAR_TONE_MAP[tone]} aria-hidden>{deriveInitials(item.employeeName)}</span>
+ </span>
  {/* Content */}
  <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setPreviewItem(item)}>
  <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-ink)' }}>
