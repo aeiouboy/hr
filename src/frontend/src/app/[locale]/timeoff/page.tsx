@@ -107,7 +107,7 @@ export default function HumiTimeoffPage() {
       )}
 
       {/* Page header */}
-      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <header className="humi-page-head mb-8">
         <div className="flex flex-col gap-1">
           <CardEyebrow>ลางาน</CardEyebrow>
           <h1
@@ -119,6 +119,7 @@ export default function HumiTimeoffPage() {
             ยื่นคำขอ · อนุมัติ · ติดตาม
           </h1>
         </div>
+        <div className="humi-spacer" />
         <Button
           variant="primary"
           leadingIcon={<Plus size={16} />}
@@ -154,7 +155,7 @@ export default function HumiTimeoffPage() {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-label={b.label}
-                className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-hairline-soft"
+                className="humi-progress mt-3"
               >
                 <div
                   className={cn('h-full rounded-full', b.barClass)}
@@ -446,8 +447,8 @@ function RequestTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
       <button
         type="button"
         className={cn(
-          'mt-3 flex min-h-[44px] items-center gap-2 rounded-[var(--radius-md)] border border-dashed border-hairline px-4 py-3 text-small text-ink-muted',
-          'w-full hover:border-ink-faint hover:text-ink-soft transition-colors',
+          'humi-dropzone mt-3 flex min-h-[44px] items-center justify-center gap-2 text-small text-ink-muted',
+          'w-full transition-colors',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
         )}
       >

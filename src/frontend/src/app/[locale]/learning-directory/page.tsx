@@ -45,12 +45,13 @@ const ICON_MAP: Record<LearningCourseIcon, LucideIcon> = {
   heart: Heart,
 };
 
-const COURSE_TONE_RING: Record<HumiLearningCourse['tone'], string> = {
-  teal: 'bg-accent-soft text-accent-ink',
-  sage: 'bg-[color:var(--color-sage-soft)] text-ink',
-  butter: 'bg-[color:var(--color-butter-soft)] text-ink',
-  coral: 'bg-warning-soft text-[color:var(--color-warning)]',
-  ink: 'bg-ink text-canvas',
+// Maps course tone to humi-feature modifier class; teal uses base (default teal ico-wrap)
+const COURSE_FEATURE_TONE: Record<HumiLearningCourse['tone'], string> = {
+  teal: '',
+  sage: 'humi-feature--sage',
+  butter: 'humi-feature--butter',
+  coral: 'humi-feature--coral',
+  ink: '',
 };
 
 const TAG_TONE: Record<NonNullable<HumiLearningCourse['tag']>, string> = {
@@ -126,7 +127,7 @@ export default function LearningDirectoryPage() {
           {/* Learning path — accent hero card */}
           <Card
             size="lg"
-            className="relative overflow-hidden border-transparent bg-[linear-gradient(120deg,var(--color-accent-soft)_0%,var(--color-canvas-soft)_80%)]"
+            className="humi-banner relative overflow-hidden"
           >
             <div
               aria-hidden
@@ -140,17 +141,14 @@ export default function LearningDirectoryPage() {
               {HUMI_LEARNING_PATH.progressLabel}
             </p>
             <div
+              className="humi-progress mt-4"
               role="progressbar"
+              aria-valuenow={HUMI_LEARNING_PATH.progressPct}
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-valuenow={HUMI_LEARNING_PATH.progressPct}
               aria-label="ความคืบหน้าเส้นทางการเรียนรู้"
-              className="mt-4 h-1.5 overflow-hidden rounded-full bg-[color:var(--color-hairline)]"
             >
-              <span
-                className="block h-full rounded-full bg-[color:var(--color-accent)]"
-                style={{ width: `${HUMI_LEARNING_PATH.progressPct}%` }}
-              />
+              <span style={{ width: `${HUMI_LEARNING_PATH.progressPct}%` }} />
             </div>
             <Button variant="primary" size="sm" className="mt-5">
               {HUMI_LEARNING_PATH.ctaLabel}
@@ -261,19 +259,12 @@ export default function LearningDirectoryPage() {
             const isEnrolled = enrolled.has(course.id);
             const continueAction = course.actionLabel === 'เรียนต่อ';
             return (
-              <Card
+              <div
                 key={course.id}
-                size="lg"
-                className="flex flex-col"
+                className={cn('humi-feature', COURSE_FEATURE_TONE[course.tone])}
               >
                 <div className="flex items-start gap-3">
-                  <span
-                    aria-hidden
-                    className={cn(
-                      'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px]',
-                      COURSE_TONE_RING[course.tone]
-                    )}
-                  >
+                  <span aria-hidden className="humi-ico-wrap shrink-0">
                     <Icon className="h-5 w-5" />
                   </span>
                   {course.tag && course.tag_label && (
@@ -287,13 +278,13 @@ export default function LearningDirectoryPage() {
                     </span>
                   )}
                 </div>
-                <h3 className="mt-4 font-display text-[length:var(--text-display-h3)] leading-snug font-semibold tracking-tight text-ink">
+                <h3 className="font-display text-[length:var(--text-display-h3)] leading-snug font-semibold tracking-tight text-ink">
                   {course.title}
                 </h3>
-                <p className="mt-1.5 text-small text-ink-muted">
+                <p className="text-small text-ink-muted">
                   {course.detailLabel}
                 </p>
-                <hr className="mt-5 mb-4 border-t border-hairline-soft" />
+                <hr className="border-t border-hairline-soft" />
                 <div className="mt-auto flex items-center gap-3">
                   <span className="text-small text-ink-soft">
                     {course.statusLabel}
@@ -314,7 +305,7 @@ export default function LearningDirectoryPage() {
                     </Button>
                   </span>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </section>
