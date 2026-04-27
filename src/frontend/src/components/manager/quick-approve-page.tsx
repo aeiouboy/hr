@@ -30,6 +30,26 @@ import { useLeaveApprovals, LEAVE_TYPE_LABEL, LEAVE_STATUS_LABEL } from '@/store
 import { useTerminationApprovals, TERMINATION_REASON_LABEL } from '@/stores/termination-approvals';
 import { useAuthStore } from '@/stores/auth-store';
 
+function deriveInitials(name: string): string {
+ const parts = name.trim().split(/\s+/);
+ if (parts.length >= 2) return parts[0][0] + parts[1][0];
+ return name.slice(0, 2);
+}
+
+function pickTone(seed: string): keyof typeof AVATAR_TONE_MAP {
+ const tones: (keyof typeof AVATAR_TONE_MAP)[] = ['sage', 'teal', 'butter', 'ink'];
+ let hash = 0;
+ for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+ return tones[Math.abs(hash) % tones.length];
+}
+
+const AVATAR_TONE_MAP = {
+ teal: 'humi-avatar humi-avatar--teal',
+ sage: 'humi-avatar humi-avatar--sage',
+ butter: 'humi-avatar humi-avatar--butter',
+ ink: 'humi-avatar humi-avatar--ink',
+} as const;
+
 const TYPE_LABELS: Record<string, string> = {
  all:'ทั้งหมด',
  leave:'ลา',
@@ -178,46 +198,43 @@ export function QuickApprovePage() {
  {pendingTermination.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">ไม่มีคำขอลาออกรอการอนุมัติในขณะนี้</p>
  ) : (
- pendingTermination.map((req) => (
- <div
- key={req.id}
- className="flex items-start gap-3 rounded-md border border-hairline p-3"
- >
- <div className="flex-1 min-w-0">
- <div className="flex items-center gap-2 flex-wrap mb-1">
- <span className="text-sm font-medium text-ink">{req.employeeName}</span>
- <Badge variant="warning">ลาออก</Badge>
+ <ul className="humi-list">
+ {pendingTermination.map((req) => {
+ const tone = pickTone(req.id);
+ return (
+ <li key={req.id} className="humi-row-item">
+ <span className={AVATAR_TONE_MAP[tone]} aria-hidden>{deriveInitials(req.employeeName)}</span>
+ <div>
+ <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-ink)' }}>
+ {req.employeeName}{' '}
+ <span style={{ color: 'var(--color-ink-muted)', fontWeight: 400 }}>· ลาออก</span>
  </div>
- <p className="text-xs text-ink-muted">
+ <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 2 }}>
  วันทำงานสุดท้าย: {new Date(req.requestedLastDay).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}
- </p>
- <p className="text-xs text-ink-muted mt-0.5">
- เหตุผล: {TERMINATION_REASON_LABEL[req.reasonCode]}
- </p>
- {req.reasonText && (
- <p className="text-xs text-ink-muted mt-0.5 truncate" title={req.reasonText}>
- {req.reasonText}
- </p>
- )}
+ &nbsp;•&nbsp; เหตุผล: {TERMINATION_REASON_LABEL[req.reasonCode]}
+ {req.reasonText && <span className="truncate"> • {req.reasonText}</span>}
  </div>
- <div className="flex items-center gap-1 shrink-0">
- <button
- onClick={() => terminationApproveByManager(req.id, { role: 'manager', name: managerName })}
- className="p-1.5 rounded-md hover:bg-success-tint text-success"
- aria-label={`อนุมัติคำขอลาออก ${req.employeeName}`}
- >
- <CheckCircle2 className="h-5 w-5" />
- </button>
- <button
+ </div>
+ <div className="humi-row" style={{ gap: 8 }}>
+ <Button
+ variant="secondary"
+ size="sm"
+ leadingIcon={<X size={14} />}
  onClick={() => terminationReject(req.id, { role: 'manager', name: managerName }, 'Manager ไม่อนุมัติ')}
- className="p-1.5 rounded-md hover:bg-danger-tint text-danger"
  aria-label={`ปฏิเสธคำขอลาออก ${req.employeeName}`}
- >
- <XCircle className="h-5 w-5" />
- </button>
+ >ปฏิเสธ</Button>
+ <Button
+ variant="primary"
+ size="sm"
+ leadingIcon={<Check size={14} />}
+ onClick={() => terminationApproveByManager(req.id, { role: 'manager', name: managerName })}
+ aria-label={`อนุมัติคำขอลาออก ${req.employeeName}`}
+ >อนุมัติ</Button>
  </div>
- </div>
- ))
+ </li>
+ );
+ })}
+ </ul>
  )}
  <p className="text-xs text-ink-muted border-t border-hairline pt-3 mt-2">
  ลาออกของทีม — Manager อนุมัติก่อน, แล้วส่งต่อให้ SPD ตัดสินครั้งสุดท้าย (BRD #172)
@@ -231,43 +248,42 @@ export function QuickApprovePage() {
  {pendingLeave.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">ไม่มีใบลารอการอนุมัติในขณะนี้</p>
  ) : (
- pendingLeave.map((req) => (
- <div
- key={req.id}
- className="flex items-start gap-3 rounded-md border border-hairline p-3"
- >
- <div className="flex-1 min-w-0">
- <div className="flex items-center gap-2 flex-wrap mb-1">
- <span className="text-sm font-medium text-ink">{req.employeeName}</span>
- <Badge variant="info">{LEAVE_TYPE_LABEL[req.leaveType]}</Badge>
+ <ul className="humi-list">
+ {pendingLeave.map((req) => {
+ const tone = pickTone(req.id);
+ return (
+ <li key={req.id} className="humi-row-item">
+ <span className={AVATAR_TONE_MAP[tone]} aria-hidden>{deriveInitials(req.employeeName)}</span>
+ <div>
+ <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-ink)' }}>
+ {req.employeeName}{' '}
+ <span style={{ color: 'var(--color-ink-muted)', fontWeight: 400 }}>· {LEAVE_TYPE_LABEL[req.leaveType]}</span>
  </div>
- <p className="text-xs text-ink-muted">
+ <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 2 }}>
  {req.startDate} – {req.endDate}
- </p>
- {req.reason && (
- <p className="text-xs text-ink-muted mt-0.5 truncate" title={req.reason}>
- {req.reason}
- </p>
- )}
+ {req.reason && <span className="truncate"> &nbsp;•&nbsp; {req.reason}</span>}
  </div>
- <div className="flex items-center gap-1 shrink-0">
- <button
- onClick={() => leaveApprove(req.id, { id: managerId, name: managerName })}
- className="p-1.5 rounded-md hover:bg-success-tint text-success"
- aria-label={`อนุมัติใบลา ${req.employeeName}`}
- >
- <CheckCircle2 className="h-5 w-5" />
- </button>
- <button
+ </div>
+ <div className="humi-row" style={{ gap: 8 }}>
+ <Button
+ variant="secondary"
+ size="sm"
+ leadingIcon={<X size={14} />}
  onClick={() => leaveReject(req.id, { id: managerId, name: managerName }, 'ไม่อนุมัติ')}
- className="p-1.5 rounded-md hover:bg-danger-tint text-danger"
  aria-label={`ปฏิเสธใบลา ${req.employeeName}`}
- >
- <XCircle className="h-5 w-5" />
- </button>
+ >ปฏิเสธ</Button>
+ <Button
+ variant="primary"
+ size="sm"
+ leadingIcon={<Check size={14} />}
+ onClick={() => leaveApprove(req.id, { id: managerId, name: managerName })}
+ aria-label={`อนุมัติใบลา ${req.employeeName}`}
+ >อนุมัติ</Button>
  </div>
- </div>
- ))
+ </li>
+ );
+ })}
+ </ul>
  )}
  <p className="text-xs text-ink-muted border-t border-hairline pt-3 mt-2">
  หมายเหตุ: คิวลา (out-of-EC) — Manager จัดการเฉพาะใบลา; การเปลี่ยนข้อมูลส่วนตัวไปที่ SPD ตาม BRD #166
@@ -431,54 +447,65 @@ export function QuickApprovePage() {
  <p className="text-sm text-ink-muted">{t('approvals.noApprovals')}</p>
  </div>
  ) : (
- items.map((item) => (
- <div
+ <ul className="humi-list">
+ {items.map((item) => {
+ const tone = pickTone(item.id);
+ return (
+ <li
  key={item.id}
  className={cn(
-'flex items-start gap-3 rounded-md border border-hairline p-3 transition cursor-pointer',
- selectedIds.has(item.id) &&'ring-2 ring-brand/30 bg-brand/5',
- previewItem?.id === item.id &&'ring-2 ring-blue-400'
+ 'humi-row-item',
+ selectedIds.has(item.id) && 'ring-2 ring-brand/30 bg-brand/5',
+ previewItem?.id === item.id && 'ring-2 ring-blue-400'
  )}
  >
- {/* Checkbox */}
+ {/* Checkbox — left of avatar */}
  <input
  type="checkbox"
  checked={selectedIds.has(item.id)}
  onChange={() => toggleSelect(item.id)}
- className="mt-1 h-4 w-4 rounded border-hairline accent-brand focus:ring-brand shrink-0"
+ className="h-4 w-4 rounded border-hairline accent-brand focus:ring-brand shrink-0"
  aria-label={`เลือก ${item.employeeName}`}
  />
-
- {/* Content (no avatar — matches top sections' text-only header pattern) */}
- <div className="flex-1 min-w-0" onClick={() => setPreviewItem(item)}>
- <div className="flex items-center gap-2 mb-1 flex-wrap">
- <span className="text-sm font-medium text-ink">{item.employeeName}</span>
- <Badge variant={TYPE_BADGE_VARIANT[item.type]}>{TYPE_LABELS[item.type]}</Badge>
- <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>
- {item.urgency ==='urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}
- {tQuick(`urgency.${item.urgency}`)}
- {item.waitingDays > 0 && ` (${item.waitingDays}d)`}
- </span>
- {item.attachments.length > 0 && <Paperclip className="h-3.5 w-3.5 text-ink-muted" />}
+ {/* Avatar */}
+ <span className={AVATAR_TONE_MAP[tone]} aria-hidden>{deriveInitials(item.employeeName)}</span>
+ {/* Content */}
+ <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setPreviewItem(item)}>
+ <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-ink)' }}>
+ {item.employeeName}{' '}
+ <span style={{ color: 'var(--color-ink-muted)', fontWeight: 400 }}>· {TYPE_LABELS[item.type]}</span>
+ {item.attachments.length > 0 && <Paperclip className="inline h-3.5 w-3.5 text-ink-muted ml-1" />}
  </div>
- <p className="text-xs text-ink-muted mt-0.5">
+ <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 2 }}>
  {item.department}
  {item.amount && <> &middot; ฿{item.amount.toLocaleString()}</>}
  {item.dates && <> &middot; {item.dates}</>}
- </p>
- <p className="text-xs text-ink-muted mt-0.5 flex items-center gap-1">
- <Clock className="h-3 w-3" />{new Date(item.submittedAt).toLocaleDateString()}
- </p>
+ &nbsp;•&nbsp; <Clock className="inline h-3 w-3" /> {new Date(item.submittedAt).toLocaleDateString()}
+ {item.waitingDays > 0 && <span className={cn('ml-1 inline-flex items-center rounded-full px-1.5 py-0.5 text-xs font-medium', URGENCY_STYLES[item.urgency] ?? URGENCY_STYLES.normal)}>{item.urgency === 'urgent' && <AlertCircle className="h-3 w-3 mr-0.5" />}{tQuick(`urgency.${item.urgency}`)} ({item.waitingDays}d)</span>}
  </div>
-
+ </div>
  {/* Actions */}
- <div className="flex items-center gap-1 shrink-0">
+ <div className="humi-row" style={{ gap: 8 }}>
  <button onClick={() => setPreviewItem(item)} className="p-1.5 rounded-md hover:bg-surface-raised" aria-label="ดูตัวอย่าง"><ChevronRight className="h-4 w-4 text-ink-muted" /></button>
- <button onClick={() => handleSingleAction(item.id,'approve')} className="p-1.5 rounded-md hover:bg-success-tint text-success" aria-label="อนุมัติ"><CheckCircle2 className="h-5 w-5" /></button>
- <button onClick={() => handleSingleAction(item.id,'reject')} className="p-1.5 rounded-md hover:bg-danger-tint text-danger" aria-label="ปฏิเสธ"><XCircle className="h-5 w-5" /></button>
+ <Button
+ variant="secondary"
+ size="sm"
+ leadingIcon={<X size={14} />}
+ onClick={() => handleSingleAction(item.id, 'reject')}
+ aria-label="ปฏิเสธ"
+ >ปฏิเสธ</Button>
+ <Button
+ variant="primary"
+ size="sm"
+ leadingIcon={<Check size={14} />}
+ onClick={() => handleSingleAction(item.id, 'approve')}
+ aria-label="อนุมัติ"
+ >อนุมัติ</Button>
  </div>
- </div>
- ))
+ </li>
+ );
+ })}
+ </ul>
  )}
  </div>
  </Card>
