@@ -6,8 +6,10 @@
 // Algorithm (Royal Thai Government standard):
 //   weights = [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
 //   sum = sum(digit[i] * weights[i]) for i in 0..11
-//   checkDigit = (11 - (sum % 11)) % 11
+//   checkDigit = (11 - (sum % 11)) % 10
 //   valid when checkDigit === digit[12]
+//
+// % 10 (not % 11) wraps the result into a single digit when (11 - sum%11) is 10 or 11.
 
 /**
  * Validates Thai National ID (13-digit) using mod-11 checksum.
@@ -17,9 +19,11 @@
  * SF cite: qas-fields-2026-04-26/sf-qas-PerNationalId-2026-04-26.json#.d.results[0].cardType = "tni2"
  */
 export function validateThaiNationalIdMod11(id: string): boolean {
-  if (!id || !/^\d{13}$/.test(id)) return false
+  if (!id) return false
+  const cleanId = id.replace(/\D/g, '')
+  if (!/^\d{13}$/.test(cleanId)) return false
 
-  const digits = id.split('').map(Number)
+  const digits = cleanId.split('').map(Number)
   const weights = [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
 
   let sum = 0
@@ -27,7 +31,7 @@ export function validateThaiNationalIdMod11(id: string): boolean {
     sum += digits[i] * weights[i]
   }
 
-  const checkDigit = (11 - (sum % 11)) % 11
+  const checkDigit = (11 - (sum % 11)) % 10
   return checkDigit === digits[12]
 }
 

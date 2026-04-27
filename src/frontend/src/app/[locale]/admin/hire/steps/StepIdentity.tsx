@@ -140,12 +140,13 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
 
     if (result.success) {
       setErrors({})
+      const cleanNationalId = nationalId.replace(/\D/g, '')
       setStepData('identity', {
         hireDate, companyCode, eventReason, salutationEn: salutationEn || null,
         firstNameEn, middleNameEn, lastNameEn, dateOfBirth: dateOfBirth || null,
         countryOfBirth: countryOfBirth || null, regionOfBirth, age,
         employeeId, nationalIdCardType: nationalIdCardType || null,
-        country: country || null, nationalId,
+        country: country || null, nationalId: cleanNationalId,
         issueDate: issueDate || null, expiryDate: expiryDate || null,
         isPrimary: isPrimary || null, vnIssuePlace,
         salutationLocal: salutationLocal || null,
