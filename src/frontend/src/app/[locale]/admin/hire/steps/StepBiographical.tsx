@@ -67,11 +67,11 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
   const bio = formData.biographical
 
   // ── Local field state ───────────────────────────────────────────────────────
-  const [otherTitleTh,     setOtherTitleTh]     = useState(bio.otherTitleTh)
-  const [firstNameLocal,   setFirstNameLocal]   = useState(bio.firstNameLocal)
-  const [lastNameLocal,    setLastNameLocal]    = useState(bio.lastNameLocal)
-  const [middleNameLocal,  setMiddleNameLocal]  = useState(bio.middleNameLocal)
-  const [nickname,         setNickname]         = useState(bio.nickname)
+  const [otherTitleTh,     setOtherTitleTh]     = useState(bio.otherTitleTh ?? '')
+  const [firstNameLocal,   setFirstNameLocal]   = useState(bio.firstNameLocal ?? '')
+  const [lastNameLocal,    setLastNameLocal]    = useState(bio.lastNameLocal ?? '')
+  const [middleNameLocal,  setMiddleNameLocal]  = useState(bio.middleNameLocal ?? '')
+  const [nickname,         setNickname]         = useState(bio.nickname ?? '')
   const [militaryStatus,   setMilitaryStatus]   = useState(bio.militaryStatus ?? '')
   const [gender,           setGender]           = useState(bio.gender ?? '')
   const [nationality,      setNationality]      = useState(bio.nationality ?? '')
