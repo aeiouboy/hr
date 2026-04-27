@@ -12,6 +12,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
+import type { CostDistributionEntry } from '@/lib/admin/store/useHireWizard'
 import { stepCompensationSchema } from '@/lib/admin/validation/hireSchema'
 import { PICKLIST_PAY_FREQUENCY, PICKLIST_PAY_COMPONENT_GROUP } from '@hrms/shared/picklists'
 
@@ -55,23 +56,46 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
   const [payFrequency, setPayFrequency] = useState<string>('MON')
   // BRD #26: recurring pay components (empPayCompRecurringNav line items)
   const [recurringComponents, setRecurringComponents] = useState<RecurringPayComponent[]>([])
+  const [costDistributionRows, setCostDistributionRows] = useState<CostSplit[]>(() =>
+    (formData.compensation.costDistribution ?? []).map((row) => ({
+      id: crypto.randomUUID(),
+      costCenter: row.costCenter,
+      pct: String(row.percent),
+    }))
+  )
 
   const [touched, setTouched] = useState(false)
   const [error, setError]     = useState<string | undefined>()
+  const [costDistributionError, setCostDistributionError] = useState<string | undefined>()
 
   const validate = useCallback(
-    (raw: string) => {
+    (raw: string, rows: CostSplit[]) => {
       const num = raw === '' ? NaN : Number(raw)
       const result = stepCompensationSchema.safeParse({
         baseSalary: isNaN(num) ? undefined : num,
+        costDistribution: rows.map((row) => ({
+          costCenter: row.costCenter,
+          percent: row.pct === '' ? undefined : Number(row.pct),
+        })),
       })
+      const salaryValid = !isNaN(num) && num > 0
+      if (salaryValid) {
+        setStepData('compensation', { baseSalary: num })
+      }
       if (result.success) {
         setError(undefined)
-        setStepData('compensation', { baseSalary: num })
+        setCostDistributionError(undefined)
+        setStepData('compensation', {
+          baseSalary: num,
+          costDistribution: result.data.costDistribution as CostDistributionEntry[],
+        })
         onValidChange?.(true)
         return true
       } else {
-        setError(result.error.issues[0]?.message)
+        const salaryIssue = result.error.issues.find((issue) => issue.path[0] === 'baseSalary')
+        const costIssue = result.error.issues.find((issue) => issue.path[0] === 'costDistribution')
+        setError(salaryIssue?.message)
+        setCostDistributionError(costIssue?.message)
         onValidChange?.(false)
         return false
       }
@@ -79,7 +103,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
     [setStepData, onValidChange]
   )
 
-  useEffect(() => { validate(salaryInput) }, [salaryInput, validate])
+  useEffect(() => { validate(salaryInput, costDistributionRows) }, [salaryInput, costDistributionRows, validate])
 
   // Sync payGroup, currency, payFrequency to store (BRD #26, #27, #96)
   useEffect(() => {
@@ -98,6 +122,19 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
   }
   const updateRecurringRow = (id: string, field: keyof Omit<RecurringPayComponent, 'id'>, value: string) => {
     setRecurringComponents((prev) => prev.map((r) => r.id === id ? { ...r, [field]: value } : r))
+  }
+
+  const addCostDistributionRow = () => {
+    setCostDistributionRows((prev) => [...prev, { id: crypto.randomUUID(), costCenter: '', pct: '' }])
+  }
+  const removeCostDistributionRow = (id: string) => {
+    setCostDistributionRows((prev) => prev.filter((r) => r.id !== id))
+  }
+  const updateCostDistributionRow = (id: string, field: 'costCenter' | 'pct', value: string) => {
+    setCostDistributionRows((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: value } : r)))
+  }
+  const clearCostDistributionRows = () => {
+    setCostDistributionRows([])
   }
 
   return (
@@ -183,7 +220,14 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
 
       {/* Cost Distribution — audit #13b (BRD #119) */}
       <fieldset className="md:col-span-2">
-        <CostDistributionSection />
+        <CostDistributionSection
+          rows={costDistributionRows}
+          error={costDistributionError}
+          onAdd={addCostDistributionRow}
+          onRemove={removeCostDistributionRow}
+          onUpdate={updateCostDistributionRow}
+          onClear={clearCostDistributionRows}
+        />
       </fieldset>
 
       {/* Recurring Pay Components — BRD #26 — SF empPayCompRecurringNav line items */}
@@ -214,29 +258,27 @@ interface CostSplit {
   pct: string
 }
 
-function CostDistributionSection() {
+interface CostDistributionSectionProps {
+  rows: CostSplit[]
+  error?: string
+  onAdd: () => void
+  onRemove: (id: string) => void
+  onUpdate: (id: string, field: 'costCenter' | 'pct', value: string) => void
+  onClear: () => void
+}
+
+function CostDistributionSection({ rows, error, onAdd, onRemove, onUpdate, onClear }: CostDistributionSectionProps) {
   const t = useTranslations('hireForm.compensation')
-  const [rows, setRows] = useState<CostSplit[]>([])
-  const [showSection, setShowSection] = useState(false)
+  const [showSection, setShowSection] = useState(rows.length > 0)
 
   const sum = rows.reduce((acc, r) => acc + (parseFloat(r.pct) || 0), 0)
   const sumOk = rows.length === 0 || Math.abs(sum - 100) < 0.01
-
-  const addRow = () => {
-    setRows((prev) => [...prev, { id: crypto.randomUUID(), costCenter: '', pct: '' }])
-  }
-  const removeRow = (id: string) => {
-    setRows((prev) => prev.filter((r) => r.id !== id))
-  }
-  const updateRow = (id: string, field: 'costCenter' | 'pct', value: string) => {
-    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: value } : r)))
-  }
 
   if (!showSection) {
     return (
       <button
         type="button"
-        onClick={() => { setShowSection(true); addRow() }}
+        onClick={() => { setShowSection(true); onAdd() }}
         className="humi-button humi-button--ghost"
         style={{ display: 'inline-flex', gap: 6 }}
       >
@@ -256,7 +298,7 @@ function CostDistributionSection() {
         </div>
         <button
           type="button"
-          onClick={() => { setShowSection(false); setRows([]) }}
+          onClick={() => { setShowSection(false); onClear() }}
           className="text-xs text-ink-muted hover:text-warning"
           aria-label={t('closeSection')}
         >
@@ -272,7 +314,7 @@ function CostDistributionSection() {
               <select
                 id={`cc-${row.id}`}
                 value={row.costCenter}
-                onChange={(e) => updateRow(row.id, 'costCenter', e.target.value)}
+                onChange={(e) => onUpdate(row.id, 'costCenter', e.target.value)}
                 className="humi-select w-full"
               >
                 <option value="">{t('selectCostCenter')}</option>
@@ -290,14 +332,14 @@ function CostDistributionSection() {
                 max={100}
                 step={0.01}
                 value={row.pct}
-                onChange={(e) => updateRow(row.id, 'pct', e.target.value)}
+                onChange={(e) => onUpdate(row.id, 'pct', e.target.value)}
                 placeholder={t('allocationPlaceholder')}
                 className="humi-input w-full"
               />
             </div>
             <button
               type="button"
-              onClick={() => removeRow(row.id)}
+              onClick={() => onRemove(row.id)}
               className="text-xs text-ink-muted hover:text-warning"
               aria-label={t('removeRow')}
               style={{ padding: '8px 12px' }}
@@ -311,7 +353,7 @@ function CostDistributionSection() {
       <div className="humi-row" style={{ marginTop: 12, gap: 8, justifyContent: 'space-between' }}>
         <button
           type="button"
-          onClick={addRow}
+          onClick={onAdd}
           className="humi-button humi-button--ghost text-sm"
         >
           {t('addRow')}
@@ -321,6 +363,9 @@ function CostDistributionSection() {
           {!sumOk && <span className="ml-2 text-xs text-warning">{t('totalMustBe100')}</span>}
         </div>
       </div>
+      {error && (
+        <p role="alert" className="mt-2 text-xs text-warning">{error}</p>
+      )}
     </div>
   )
 }

@@ -278,6 +278,27 @@ export const stepJobSchema = z.object({
   businessUnit: z.string({ required_error: 'กรุณาเลือกหน่วยธุรกิจ' }).min(1, 'กรุณาเลือกหน่วยธุรกิจ'),
 })
 
+const costDistributionRowSchema = z.object({
+  costCenter: z.string().min(1, 'กรุณาเลือก cost center'),
+  percent: z
+    .number({ required_error: 'กรุณาระบุสัดส่วน cost center' })
+    .positive('สัดส่วน cost center ต้องมากกว่า 0')
+    .max(100, 'สัดส่วน cost center ต้องไม่เกิน 100'),
+})
+
 export const stepCompensationSchema = z.object({
   baseSalary: z.number({ required_error: 'กรุณาระบุเงินเดือน' }).positive('เงินเดือนต้องมากกว่า 0'),
+  costDistribution: z.array(costDistributionRowSchema).optional().default([]),
+}).superRefine((data, ctx) => {
+  const rows = data.costDistribution ?? []
+  if (rows.length === 0) return
+
+  const total = rows.reduce((sum, row) => sum + row.percent, 0)
+  if (Math.abs(total - 100) >= 0.01) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'สัดส่วน cost center รวมต้องเท่ากับ 100%',
+      path: ['costDistribution'],
+    })
+  }
 })

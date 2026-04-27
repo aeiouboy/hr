@@ -147,6 +147,27 @@ describe('useHireWizard — goNext และ sequential unlock', () => {
     expect(result.current.currentStep).toBe(1)
     expect(result.current.maxUnlockedStep).toBe(1)
   })
+
+  it('goNext() ขณะ Step 2 compensation Zod gate ไม่ผ่าน → ไม่เปลี่ยน step', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    act(() => {
+      result.current.setStepData('identity', fullIdentity)
+      result.current.goNext()
+    })
+
+    act(() => {
+      result.current.setStepData('employeeInfo', { employeeClass: 'A' })
+      result.current.setStepData('job', { position: 'HR Officer' })
+      result.current.setStepData('compensation', { baseSalary: 50000 })
+      result.current.setStepValidity('employeeInfo', true)
+      result.current.setStepValidity('compensation', false)
+      result.current.goNext()
+    })
+
+    expect(result.current.currentStep).toBe(2)
+    expect(result.current.maxUnlockedStep).toBe(2)
+  })
 })
 
 describe('useHireWizard — state persistence (AC-8)', () => {

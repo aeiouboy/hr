@@ -20,6 +20,7 @@ type StepNumber = 1 | 2 | 3
 export interface PhoneEntry { type: 'mobile' | 'office' | 'home'; value: string; isPrimary: boolean }
 export interface EmailEntry { type: 'personal' | 'work'; value: string; isPrimary: boolean }
 export interface JobRelationship { relationshipType: string; name: string }
+export interface CostDistributionEntry { costCenter: string; percent: number }
 
 // employeeClass toggle — BA cols H/I (Permanent vs Partime field visibility)
 export type EmployeeClassToggle = 'PERMANENT' | 'PARTIME'
@@ -165,6 +166,8 @@ interface FormData {
     // BRD #96: currency defaults to THB (THA → THB)
     currency?: string
     payFrequency?: string
+    // BRD #119: optional cost-center split; when present, percent total must be 100.
+    costDistribution?: CostDistributionEntry[]
   }
 }
 
@@ -257,7 +260,7 @@ const initialFormData: FormData = {
     timeProfile: '',
     timeRecordingVariant: '',
   },
-  compensation: { baseSalary: null },
+  compensation: { baseSalary: null, costDistribution: [] },
 }
 
 // Per-step Zod validity flags — populated by each Step component via onValidChange
@@ -369,7 +372,7 @@ function checkStepValid(step: number, d: FormData, sv: StepValidity, hrbpAssigne
     case 2:
       // DEF-05: employeeInfo + job + compensation slices (Cluster 2 legacy slices)
       // sv.employeeInfo gates originalStartDate + seniorityStartDate + employeeClass (Wave 15)
-      return sliceValid.employeeInfo(d) && sv.employeeInfo && sliceValid.job(d) && sliceValid.compensation(d)
+      return sliceValid.employeeInfo(d) && sv.employeeInfo && sliceValid.job(d) && sliceValid.compensation(d) && sv.compensation
     case 3:
       // Step 3 form is always navigable (review + HRBP picker are visible).
       // HRBP validation (BRD #109) is enforced in handleSubmit, not the button gate,
@@ -497,6 +500,11 @@ export const useHireWizard = create<HireWizardState>()(
           if (!Array.isArray(fd.contact.jobRelationships)) {
             fd.contact.jobRelationships = []
           }
+        }
+        if (!fd.compensation || typeof fd.compensation !== 'object') {
+          fd.compensation = { baseSalary: null, costDistribution: [] }
+        } else if (!Array.isArray(fd.compensation.costDistribution)) {
+          fd.compensation.costDistribution = []
         }
         console.warn(`[useHireWizard] migrated draft from v${fromVersion} → v2`)
         return p

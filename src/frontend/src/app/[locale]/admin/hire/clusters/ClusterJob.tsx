@@ -14,6 +14,7 @@ import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 export default function ClusterJob() {
   const setStepValidity = useHireWizard((s) => s.setStepValidity)
   const onEmployeeInfoValid = useCallback((v: boolean) => setStepValidity('employeeInfo', v), [setStepValidity])
+  const onCompensationValid = useCallback((v: boolean) => setStepValidity('compensation', v), [setStepValidity])
 
   return (
     <div className="space-y-5">
@@ -47,7 +48,7 @@ export default function ClusterJob() {
           title="ค่าตอบแทน"
           sub="เงินเดือนพื้นฐานสำหรับ Payroll"
         />
-        <div className="humi-step-section"><StepCompensation /></div>
+        <div className="humi-step-section"><StepCompensation onValidChange={onCompensationValid} /></div>
       </div>
 
       <p className="humi-required-note">

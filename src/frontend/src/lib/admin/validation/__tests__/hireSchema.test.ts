@@ -6,7 +6,12 @@
 // AC-5 R3: minimum hire age 15 cross-field refine (hireSchema.ts)
 
 import { describe, it, expect } from 'vitest'
-import { stepIdentitySchema, stepBiographicalSchema, calcAge } from '@/lib/admin/validation/hireSchema'
+import {
+  stepIdentitySchema,
+  stepBiographicalSchema,
+  stepCompensationSchema,
+  calcAge,
+} from '@/lib/admin/validation/hireSchema'
 
 // ── Base valid fixture: stepIdentitySchema (ทุก required field ครบ) ──────────
 const validIdentity = {
@@ -164,5 +169,46 @@ describe('AC-4 R2 maritalStatusSince conditional — stepBiographicalSchema supe
       maritalStatusSince: '2020-01-15',
     })
     expect(result.success).toBe(true)
+  })
+})
+
+// ─── BRD #119: cost distribution sum validation ───────────────────────────────
+
+describe('BRD #119 cost distribution — stepCompensationSchema superRefine', () => {
+  it('PASS: costDistribution ว่างได้ — ไม่บังคับ sum 100 เมื่อไม่ได้เปิดแบ่ง cost center', () => {
+    const result = stepCompensationSchema.safeParse({ baseSalary: 50000 })
+
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.costDistribution).toEqual([])
+    }
+  })
+
+  it('PASS: มีหลายแถวและ percent รวมเท่ากับ 100', () => {
+    const result = stepCompensationSchema.safeParse({
+      baseSalary: 50000,
+      costDistribution: [
+        { costCenter: '1001', percent: 60 },
+        { costCenter: '1002', percent: 40 },
+      ],
+    })
+
+    expect(result.success).toBe(true)
+  })
+
+  it('FAIL: มีแถว costDistribution แต่ percent รวมไม่เท่ากับ 100 — error path กลับที่ costDistribution', () => {
+    const result = stepCompensationSchema.safeParse({
+      baseSalary: 50000,
+      costDistribution: [
+        { costCenter: '1001', percent: 50 },
+        { costCenter: '1002', percent: 25 },
+      ],
+    })
+
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      const issue = result.error.issues.find((i) => i.path[0] === 'costDistribution')
+      expect(issue?.message).toBe('สัดส่วน cost center รวมต้องเท่ากับ 100%')
+    }
   })
 })
