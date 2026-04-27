@@ -33,7 +33,7 @@ const MODULE_ACCESS: Record<string, Role[]> = {
  recruitment: ['hr_admin','hr_manager'],
 'candidate-screening': ['hr_admin','hr_manager'],
  onboarding: ['hr_admin','hr_manager'],
- resignation: ['hr_admin','hr_manager'],
+ resignation: ['employee','manager','hr_admin','hr_manager'],
 'talent-management': ['hr_admin','hr_manager'],
  learning: ['employee','manager','hr_admin','hr_manager'],
  idp: ['employee','manager','hr_admin','hr_manager'],

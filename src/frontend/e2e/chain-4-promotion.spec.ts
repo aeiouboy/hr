@@ -14,7 +14,7 @@ import { authedContext } from './helpers/storage-auth.helper';
 // survives across role transitions. Persona switching is done by injecting
 // humi-auth directly via page.evaluate (synchronous, no navigation needed).
 
-const EMPLOYEE_ID = 'EMP-0001';
+const EMPLOYEE_ID = 'EMP-0004'; // EMP-0001 is inactive; EMP-0004 is active+passed-probation (deterministic seed 42)
 
 function tomorrowISO(): string {
   const d = new Date();
@@ -93,7 +93,8 @@ test.describe.serial('Chain 4 — Promotion → SPD (BRD #103)', () => {
     });
 
     // ── Step 1: Satisfy the EffectiveDateGate ─────────────────────────────
-    const dateInput = page.getByRole('textbox', { name: /วันที่มีผล/i });
+    // <input type="date"> has no "textbox" role — use getByLabel instead
+    const dateInput = page.getByLabel(/วันที่มีผล/i);
     await expect(dateInput).toBeVisible({ timeout: 10_000 });
     await dateInput.fill(tomorrowISO());
     await page.getByRole('button', { name: /ยืนยันวันที่มีผล/i }).click();
@@ -106,10 +107,17 @@ test.describe.serial('Chain 4 — Promotion → SPD (BRD #103)', () => {
     await positionInput.fill('ผู้จัดการ');
     const firstOption = page.getByRole('option').first();
     await expect(firstOption).toBeVisible({ timeout: 10_000 });
-    await firstOption.click();
+    // PositionLookup uses onMouseDown (not onClick) — use keyboard ArrowDown+Enter to select
+    await positionInput.press('ArrowDown');
+    await positionInput.press('Enter');
     await expect(page.getByRole('status', { name: /ตำแหน่งที่เลือก/i })).toBeVisible({
       timeout: 10_000,
     });
+
+    // ── Step 2b: Select event reason (required by BRD #95 — form stays invalid without it)
+    const reasonSelect = page.locator('#promotion-event-reason');
+    await expect(reasonSelect).toBeVisible({ timeout: 5_000 });
+    await reasonSelect.selectOption({ index: 1 }); // first non-placeholder option (PRCHG_PROMO)
 
     // ── Step 3: Submit the form ───────────────────────────────────────────
     await page.getByRole('button', { name: /บันทึกการเลื่อนตำแหน่ง/i }).click();
@@ -122,9 +130,12 @@ test.describe.serial('Chain 4 — Promotion → SPD (BRD #103)', () => {
       page.getByText(/รอ SPD อนุมัติ/i).first(),
     ).toBeVisible({ timeout: 10_000 });
 
-    // ── Phase 4 fix: timeline event must NOT be visible yet ───────────────
+    // ── Phase 4 fix: timeline event must NOT be in the feed (ประวัติการเปลี่ยนแปลง) yet ─
+    // scope to role="feed" to avoid matching the action button label which is always visible
+    const timelineFeed = page.getByRole('feed', { name: /ประวัติการเปลี่ยนแปลง/i });
+    await expect(timelineFeed).toBeVisible({ timeout: 5_000 });
     await expect(
-      page.getByText('เลื่อนตำแหน่ง').first(),
+      timelineFeed.getByText('เลื่อนตำแหน่ง'),
     ).not.toBeVisible({ timeout: 5_000 });
   });
 
@@ -137,24 +148,26 @@ test.describe.serial('Chain 4 — Promotion → SPD (BRD #103)', () => {
     await switchPersona(page, SPD_AUTH);
 
     await page.goto('/th/spd/inbox');
-    await expect(
-      page.getByText(/คำขอเลื่อนตำแหน่ง — รอ SPD อนุมัติ/i),
-    ).toBeVisible({ timeout: 10_000 });
+    // Scope to PromotionInbox section to avoid clicking Chain 3's ApprovalInbox button first
+    const promotionSection = page.locator('div').filter({
+      has: page.getByRole('heading', { name: /คำขอเลื่อนตำแหน่ง — รอ SPD อนุมัติ/i }),
+    }).first();
+    await expect(promotionSection).toBeVisible({ timeout: 10_000 });
 
     await expect(
-      page.getByText(new RegExp(EMPLOYEE_ID)).first(),
+      promotionSection.getByText(new RegExp(EMPLOYEE_ID)).first(),
     ).toBeVisible({ timeout: 10_000 });
 
-    const approveBtn = page.getByRole('button', { name: /^อนุมัติ$/i }).first();
+    const approveBtn = promotionSection.getByRole('button', { name: /^อนุมัติ$/i }).first();
     await expect(approveBtn).toBeVisible({ timeout: 10_000 });
     await approveBtn.click();
 
-    const confirmBtn = page.getByRole('button', { name: /ยืนยันอนุมัติ/i });
+    const confirmBtn = promotionSection.getByRole('button', { name: /ยืนยันอนุมัติ/i });
     await expect(confirmBtn).toBeVisible({ timeout: 10_000 });
     await confirmBtn.click();
 
     await expect(
-      page.getByText('อนุมัติแล้ว').first(),
+      promotionSection.getByText('อนุมัติแล้ว').first(),
     ).toBeVisible({ timeout: 10_000 });
   });
 
@@ -171,9 +184,13 @@ test.describe.serial('Chain 4 — Promotion → SPD (BRD #103)', () => {
       page.getByRole('heading', { level: 1 }).first(),
     ).toBeVisible({ timeout: 10_000 });
 
+    // Scroll to bottom to ensure promotion card renders (it's below the fold)
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
+    // After SPD approval, promotion card shows อนุมัติแล้ว tag (PROMOTION_STEP_LABEL.approved)
     await expect(
-      page.getByText('อนุมัติแล้ว').first(),
-    ).toBeVisible({ timeout: 10_000 });
+      page.getByText(/อนุมัติแล้ว/i).first(),
+    ).toBeVisible({ timeout: 15_000 });
 
     // ── Phase 4 fix: timeline event NOW must be visible ───────────────────
     await expect(

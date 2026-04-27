@@ -34,11 +34,14 @@ vi.mock('next/navigation', () => ({
 vi.mock('@/stores/auth-store', () => {
   const state = {
     isAuthenticated: true,
+    userId: 'EMP001',
+    username: 'จงรักษ์ ทานากะ',
     roles: ['admin'] as string[],
     _hasHydrated: true,
     email: 'jongrak@central.co.th',
     displayName: 'จงรักษ์ ทานากะ',
     initials: 'จท',
+    setUser: vi.fn(),
     setAuth: vi.fn(),
     clearAuth: vi.fn(),
     setHasHydrated: vi.fn(),
@@ -580,7 +583,16 @@ describe('AC-13 — /login functional', () => {
   it('submitting login form calls router.push to /th/home', async () => {
     const user = userEvent.setup();
     const { default: Page } = await import('@/app/[locale]/login/page');
-    render(<Page />);
+    const { container } = render(<Page />);
+
+    // Login form uses humi-field label wrapping (no htmlFor/id) — query by input type directly.
+    // default email is admin@humi.test (hr_admin → /admin); use employee@humi.test (→ /home).
+    const emailInput = container.querySelector('input[type="email"]') as HTMLInputElement;
+    await user.clear(emailInput);
+    await user.type(emailInput, 'employee@humi.test');
+
+    const pwInput = container.querySelector('input[type="password"]') as HTMLInputElement;
+    await user.type(pwInput, 'employee2026');
 
     // Login page uses useTranslations('humiLogin') — the test mock returns key
     // fallback for 'submit', so the button text is 'submit' in jsdom.
