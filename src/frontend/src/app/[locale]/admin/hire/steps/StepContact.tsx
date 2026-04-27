@@ -60,6 +60,58 @@ const EMPTY_ADDRESS: ThaiAddress = {
   zipCode: '', country: 'THA',
 }
 
+type AddressLookupField = 'subdistrict' | 'district' | 'province' | 'zipCode'
+
+interface ThaiAddressSuggestion {
+  subdistrict: string
+  district: string
+  province: string
+  zipCode: string
+}
+
+// Compact seed set for the hire form autocomplete. Kept local to avoid pulling a
+// large Thai address dependency into the frontend bundle.
+const THAI_ADDRESS_SUGGESTIONS: ThaiAddressSuggestion[] = [
+  { subdistrict: 'บางกระสอ', district: 'เมืองนนทบุรี', province: 'นนทบุรี', zipCode: '11000' },
+  { subdistrict: 'ตลาดขวัญ', district: 'เมืองนนทบุรี', province: 'นนทบุรี', zipCode: '11000' },
+  { subdistrict: 'สวนใหญ่', district: 'เมืองนนทบุรี', province: 'นนทบุรี', zipCode: '11000' },
+  { subdistrict: 'คลองตัน', district: 'วัฒนา', province: 'กรุงเทพมหานคร', zipCode: '10110' },
+  { subdistrict: 'คลองเตย', district: 'คลองเตย', province: 'กรุงเทพมหานคร', zipCode: '10110' },
+  { subdistrict: 'สีลม', district: 'บางรัก', province: 'กรุงเทพมหานคร', zipCode: '10500' },
+  { subdistrict: 'ปทุมวัน', district: 'ปทุมวัน', province: 'กรุงเทพมหานคร', zipCode: '10330' },
+  { subdistrict: 'ห้วยขวาง', district: 'ห้วยขวาง', province: 'กรุงเทพมหานคร', zipCode: '10310' },
+  { subdistrict: 'ลาดยาว', district: 'จตุจักร', province: 'กรุงเทพมหานคร', zipCode: '10900' },
+  { subdistrict: 'บางนา', district: 'บางนา', province: 'กรุงเทพมหานคร', zipCode: '10260' },
+  { subdistrict: 'คูคต', district: 'ลำลูกกา', province: 'ปทุมธานี', zipCode: '12130' },
+  { subdistrict: 'บางแก้ว', district: 'บางพลี', province: 'สมุทรปราการ', zipCode: '10540' },
+]
+
+function uniqueAddressValues(field: AddressLookupField): string[] {
+  return Array.from(new Set(THAI_ADDRESS_SUGGESTIONS.map((item) => item[field]))).sort((a, b) =>
+    a.localeCompare(b, 'th')
+  )
+}
+
+function findAddressSuggestion(field: AddressLookupField, value: string): ThaiAddressSuggestion | undefined {
+  const normalized = value.trim()
+  if (!normalized) return undefined
+  const matches = THAI_ADDRESS_SUGGESTIONS.filter((item) => item[field] === normalized)
+  return matches.length === 1 ? matches[0] : undefined
+}
+
+function buildAddressAutofill(field: AddressLookupField, value: string): Partial<ThaiAddress> {
+  const suggestion = findAddressSuggestion(field, value)
+  if (!suggestion) return { [field]: value }
+
+  return {
+    subdistrict: suggestion.subdistrict,
+    district: suggestion.district,
+    province: suggestion.province,
+    zipCode: suggestion.zipCode,
+    country: 'THA',
+  }
+}
+
 // Extended PhoneEntry with countryCode + extension (BRD #16)
 // type is widened to string to accept both legacy ('mobile'|'office'|'home') and SF codes ('C'|'B'|'H'|'F'|'BI')
 interface ExtendedPhoneEntry {
@@ -135,6 +187,10 @@ export default function StepContact() {
     const next = { ...address, ...patch }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setStepData('contact', { address: next } as any)
+  }
+
+  function updateAddressFromLookup(field: AddressLookupField, value: string) {
+    updateAddress(buildAddressAutofill(field, value))
   }
 
   // ── Job Relationship helpers ───────────────────────────────────────────────
@@ -340,6 +396,7 @@ export default function StepContact() {
               {t('houseNo')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input id="addr-house-no" type="text" placeholder={t('houseNoPlaceholder')}
+              autoComplete="address-line1"
               value={address.houseNo}
               onChange={(e) => updateAddress({ houseNo: e.target.value })}
               className="humi-input w-full" />
@@ -351,6 +408,7 @@ export default function StepContact() {
               {t('village')}
             </label>
             <input id="addr-village" type="text" placeholder={t('villagePlaceholder')}
+              autoComplete="address-line2"
               value={address.village}
               onChange={(e) => updateAddress({ village: e.target.value })}
               className="humi-input w-full" />
@@ -362,6 +420,7 @@ export default function StepContact() {
               {t('moo')}
             </label>
             <input id="addr-moo" type="text" placeholder={t('mooPlaceholder')}
+              autoComplete="address-line3"
               value={address.moo}
               onChange={(e) => updateAddress({ moo: e.target.value })}
               className="humi-input w-full" />
@@ -373,6 +432,7 @@ export default function StepContact() {
               {t('soi')}
             </label>
             <input id="addr-soi" type="text" placeholder={t('soiPlaceholder')}
+              autoComplete="address-line3"
               value={address.soi}
               onChange={(e) => updateAddress({ soi: e.target.value })}
               className="humi-input w-full" />
@@ -384,8 +444,10 @@ export default function StepContact() {
               {t('subdistrict')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input id="addr-subdistrict" type="text" placeholder={t('subdistrictPlaceholder')}
+              autoComplete="address-level3"
+              list="hire-address-subdistricts"
               value={address.subdistrict}
-              onChange={(e) => updateAddress({ subdistrict: e.target.value })}
+              onChange={(e) => updateAddressFromLookup('subdistrict', e.target.value)}
               className="humi-input w-full" />
           </fieldset>
 
@@ -395,8 +457,10 @@ export default function StepContact() {
               {t('district')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input id="addr-district" type="text" placeholder={t('districtPlaceholder')}
+              autoComplete="address-level2"
+              list="hire-address-districts"
               value={address.district}
-              onChange={(e) => updateAddress({ district: e.target.value })}
+              onChange={(e) => updateAddressFromLookup('district', e.target.value)}
               className="humi-input w-full" />
           </fieldset>
 
@@ -406,8 +470,10 @@ export default function StepContact() {
               {t('province')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input id="addr-province" type="text" placeholder={t('provincePlaceholder')}
+              autoComplete="address-level1"
+              list="hire-address-provinces"
               value={address.province}
-              onChange={(e) => updateAddress({ province: e.target.value })}
+              onChange={(e) => updateAddressFromLookup('province', e.target.value)}
               className="humi-input w-full" />
           </fieldset>
 
@@ -417,10 +483,37 @@ export default function StepContact() {
               {t('zipCode')}<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <input id="addr-zip" type="text" inputMode="numeric" placeholder={t('zipCodePlaceholder')}
+              autoComplete="postal-code"
+              list="hire-address-zip-codes"
               value={address.zipCode}
-              onChange={(e) => updateAddress({ zipCode: e.target.value })}
+              onChange={(e) => updateAddressFromLookup('zipCode', e.target.value)}
               className="humi-input w-full" />
           </fieldset>
+
+          <datalist id="hire-address-subdistricts">
+            {THAI_ADDRESS_SUGGESTIONS.map((item) => (
+              <option
+                key={`${item.subdistrict}-${item.district}-${item.zipCode}`}
+                value={item.subdistrict}
+                label={`${item.district}, ${item.province} ${item.zipCode}`}
+              />
+            ))}
+          </datalist>
+          <datalist id="hire-address-districts">
+            {uniqueAddressValues('district').map((district) => (
+              <option key={district} value={district} />
+            ))}
+          </datalist>
+          <datalist id="hire-address-provinces">
+            {uniqueAddressValues('province').map((province) => (
+              <option key={province} value={province} />
+            ))}
+          </datalist>
+          <datalist id="hire-address-zip-codes">
+            {uniqueAddressValues('zipCode').map((zipCode) => (
+              <option key={zipCode} value={zipCode} />
+            ))}
+          </datalist>
 
           {/* ประเทศ — SF country (default THA) */}
           <fieldset>
