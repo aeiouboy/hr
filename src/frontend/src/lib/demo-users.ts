@@ -102,7 +102,7 @@ export const PERSONA_ORDER: Array<keyof typeof DEMO_USERS> = [
 // Tone color encodes role family — repetition (2× Manager / 2× HRBP / 2× SPD)
 // is meaningful: same RBAC scope, different person identity for demo coverage.
 export const PERSONA_BADGE: Record<string, { label: string; tone: string }> = {
-  'admin@humi.test':    { label: 'Admin',    tone: 'humi-tag--ink' },
+  'admin@humi.test':    { label: 'HR Admin', tone: 'humi-tag--ink' },
   'spd@humi.test':      { label: 'SPD',      tone: 'humi-tag--accent' },
   'hrbp@humi.test':     { label: 'HRBP',     tone: 'humi-tag--butter' },
   'manager@humi.test':  { label: 'Manager',  tone: 'humi-tag--sage' },
