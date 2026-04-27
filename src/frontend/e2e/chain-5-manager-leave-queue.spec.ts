@@ -13,6 +13,48 @@ import { authedContext } from './helpers/storage-auth.helper';
 // Zustand rehydration.
 
 test.describe.serial('Chain 5 — Manager Leave Queue (out-of-EC, separate from BRD #166)', () => {
+  // ── Wave 2: BRD context — manager queue surfaces correctly ──────────────────
+  test('Wave 2 — manager queue page accessible and leave queue store initialised', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'manager');
+    const page = await ctx.newPage();
+
+    try {
+      const isReachable = await page
+        .goto('/th/home', { timeout: 10_000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!isReachable) { test.skip(); return; }
+
+      // Clear non-auth stores so ensureDemoSeed() re-fires cleanly
+      await page.evaluate(() => {
+        Object.keys(localStorage)
+          .filter((k) => k.startsWith('humi-') && k !== 'humi-auth')
+          .forEach((k) => localStorage.removeItem(k));
+      });
+
+      await page.goto('/th/quick-approve', { waitUntil: 'domcontentloaded', timeout: 15_000 });
+
+      // Manager queue page must load (not redirect to /login)
+      await expect(page).not.toHaveURL(/\/login/, { timeout: 5_000 });
+
+      // Wait for leave queue card — ensureDemoSeed fires on mount
+      await expect(page.getByText(/คิวลา.*รอหัวหน้าอนุมัติ/)).toBeVisible({ timeout: 10_000 });
+
+      // humi-leave-approvals store seeded by ensureDemoSeed on mount
+      const storeSeeded = await page.evaluate(() => {
+        const raw = localStorage.getItem('humi-leave-approvals');
+        if (!raw) return false;
+        try {
+          const parsed = JSON.parse(raw);
+          return (parsed?.state?.requests ?? []).length > 0;
+        } catch { return false; }
+      });
+      expect(storeSeeded).toBe(true);
+    } finally {
+      await ctx.close().catch(() => {});
+    }
+  });
+
   test('Manager sees 3 pre-seeded Thai-name leave requests', async ({ browser }) => {
     const ctx = await authedContext(browser, 'manager');
     const page = await ctx.newPage();

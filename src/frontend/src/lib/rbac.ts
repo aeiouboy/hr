@@ -48,7 +48,7 @@ const MODULE_ACCESS: Record<string, Role[]> = {
 'quick-approve': ['manager','hr_admin','hr_manager'],
 'hospital-referral': ['employee','manager','hr_admin','hr_manager'],
 'spd-management': ['manager','hr_admin','hr_manager'],
-'hrbp-reports': ['hr_admin','hr_manager'],
+'hrbp-reports': ['hrbp','hr_admin','hr_manager'],
 'geofencing-config': ['hr_admin','hr_manager'],
 'workflow-config': ['hr_admin','hr_manager'],
 };

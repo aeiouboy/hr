@@ -358,3 +358,65 @@ test.describe.serial('Chain 2 — Hire → HRBP audit panel (BRD #109)', () => {
     }
   });
 });
+
+// ── Wave 2 assertions — independent of the serial chain above ────────────────
+
+test.describe('Wave 2 — Chain 2 wiring assertions', () => {
+  test('Wave 2 — ClusterReview HRBP picker shows roster options (BRD #109)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'hr_admin');
+    const page = await ctx.newPage();
+
+    try {
+      const reachable = await page
+        .goto('/th/admin/hire', { waitUntil: 'domcontentloaded', timeout: 10_000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!reachable) { test.skip(); return; }
+
+      await clearNonAuthStorage(page);
+      await seedWizardAtReviewStep(page);
+      await page.goto('/th/admin/hire');
+      await page.waitForLoadState('networkidle');
+
+      // HRBP picker populated from useHrbpRoster — use stable id="hrbp-assignee"
+      const hrbpSelect = page.locator('#hrbp-assignee');
+      await expect(hrbpSelect).toBeVisible({ timeout: 10_000 });
+      const optionCount = await hrbpSelect.evaluate((el: HTMLSelectElement) =>
+        el.options.length,
+      );
+      // useHrbpRoster seeds 10 HRBPs + 1 empty option → >1
+      expect(optionCount).toBeGreaterThan(1);
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test('Wave 2 — invalid Thai NID triggers mod-11 error in hire wizard (BRD #14)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'hr_admin');
+    const page = await ctx.newPage();
+
+    try {
+      const reachable = await page
+        .goto('/th/admin/hire', { waitUntil: 'domcontentloaded', timeout: 10_000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!reachable) { test.skip(); return; }
+
+      await clearNonAuthStorage(page);
+      await page.goto('/th/admin/hire');
+      await page.waitForLoadState('networkidle');
+
+      const nidInput = page.getByLabel(/หมายเลขบัตร|National ID/i);
+      if (!(await nidInput.isVisible({ timeout: 5_000 }).catch(() => false))) { test.skip(); return; }
+
+      await nidInput.fill('1111111111111');
+      await nidInput.blur();
+
+      await expect(
+        page.getByText(/checksum|mod.11|เลขบัตรไม่ถูกต้อง/i).first(),
+      ).toBeVisible({ timeout: 5_000 });
+    } finally {
+      await ctx.close();
+    }
+  });
+});

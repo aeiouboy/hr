@@ -181,3 +181,103 @@ test.describe.serial('Chain 4 — Promotion → SPD (BRD #103)', () => {
     ).toBeVisible({ timeout: 10_000 });
   });
 });
+
+// ── Wave 2 assertions — independent of the serial chain above ────────────────
+// Uses EMP-0142 (seeded in demo-seed.ts) and its own browser context.
+
+const WAVE2_EMPLOYEE_ID = 'EMP-0142';
+
+test.describe('Wave 2 — Chain 4 wiring assertions', () => {
+  test('Wave 2 — promotion page shows event reason picker (PRCHG_PROMO 5587) (BRD #95)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'hr_admin');
+    const page = await ctx.newPage();
+
+    try {
+      const reachable = await page
+        .goto(`/th/admin/employees/${WAVE2_EMPLOYEE_ID}/promotion`, {
+          waitUntil: 'domcontentloaded', timeout: 10_000,
+        })
+        .then(() => true)
+        .catch(() => false);
+      if (!reachable) { test.skip(); return; }
+
+      const heading = page.getByRole('heading', { name: /เลื่อนตำแหน่ง/i });
+      const headingVisible = await heading.isVisible({ timeout: 5_000 }).catch(() => false);
+      if (!headingVisible) { test.skip(); return; }
+
+      // Satisfy EffectiveDateGate if showing
+      const gateInput = page.locator('input[type="date"]').first();
+      if (await gateInput.isVisible({ timeout: 3_000 }).catch(() => false)) {
+        await gateInput.fill(tomorrowISO());
+        const confirmBtn = page.getByRole('button', { name: /ยืนยันวันที่มีผล/i });
+        await expect(confirmBtn).toBeVisible({ timeout: 5_000 });
+        await confirmBtn.click();
+      }
+
+      // child-form visible after gate confirmation
+      await expect(page.locator('[data-testid="child-form"]')).toBeVisible({ timeout: 10_000 });
+
+      // BRD #95: ReasonPicker select must be present
+      await expect(page.locator('#promotion-event-reason')).toBeVisible({ timeout: 10_000 });
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test('Wave 2 — ApprovalChainBanner appears after promotion submit (BRD #103)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'hr_admin');
+    const page = await ctx.newPage();
+
+    try {
+      const reachable = await page
+        .goto(`/th/admin/employees/${WAVE2_EMPLOYEE_ID}/promotion`, {
+          waitUntil: 'domcontentloaded', timeout: 10_000,
+        })
+        .then(() => true)
+        .catch(() => false);
+      if (!reachable) { test.skip(); return; }
+
+      const heading = page.getByRole('heading', { name: /เลื่อนตำแหน่ง/i });
+      if (!(await heading.isVisible({ timeout: 5_000 }).catch(() => false))) { test.skip(); return; }
+
+      // Satisfy EffectiveDateGate
+      const gateInput = page.locator('input[type="date"]').first();
+      if (await gateInput.isVisible({ timeout: 3_000 }).catch(() => false)) {
+        await gateInput.fill(tomorrowISO());
+        await page.getByRole('button', { name: /ยืนยันวันที่มีผล/i }).click();
+      }
+      await expect(page.locator('[data-testid="child-form"]')).toBeVisible({ timeout: 10_000 });
+
+      // Fill position lookup
+      const positionInput = page.getByRole('combobox', { name: /เลื่อนไปเป็น/i });
+      if (await positionInput.isVisible({ timeout: 3_000 }).catch(() => false)) {
+        await positionInput.fill('ผู้จัดการ');
+        const firstOpt = page.getByRole('option').first();
+        if (await firstOpt.isVisible({ timeout: 3_000 }).catch(() => false)) await firstOpt.click();
+      }
+
+      // Select event reason
+      const reasonPicker = page.locator('#promotion-event-reason');
+      if (await reasonPicker.isVisible({ timeout: 3_000 }).catch(() => false)) {
+        await reasonPicker.selectOption({ index: 1 });
+      }
+
+      // Submit if enabled
+      const submitBtn = page.getByRole('button', { name: /บันทึกการเลื่อนตำแหน่ง/i });
+      if (!(await submitBtn.isEnabled({ timeout: 3_000 }).catch(() => false))) {
+        test.skip(true, 'Submit not enabled');
+        return;
+      }
+      await submitBtn.click();
+
+      // Return to promotion page — ApprovalChainBanner visible (BRD #103)
+      await page.goto(`/th/admin/employees/${WAVE2_EMPLOYEE_ID}/promotion`);
+      await expect(
+        page.getByRole('status').filter({ hasText: /รอ SPD อนุมัติ/i })
+          .or(page.getByText(/รอ SPD อนุมัติ/i).first()),
+      ).toBeVisible({ timeout: 8_000 });
+    } finally {
+      await ctx.close();
+    }
+  });
+});

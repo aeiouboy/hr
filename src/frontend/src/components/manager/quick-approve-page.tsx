@@ -61,6 +61,7 @@ const WORKFLOW_TYPES = ['leave','overtime','claim','transfer','change_request'];
 
 export function QuickApprovePage() {
  const t = useTranslations('managerDashboard');
+ const tQuick = useTranslations('quickApprove');
 
  const {
  items,
@@ -277,7 +278,7 @@ export function QuickApprovePage() {
  {/* Header */}
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
  <div>
- <h1 className="text-2xl font-bold text-ink">Quick Approve</h1>
+ <h1 className="text-2xl font-bold text-ink">{tQuick('title')}</h1>
  <p className="text-sm text-ink-muted mt-1">Review and process pending approvals</p>
  </div>
  <div className="flex items-center gap-3">

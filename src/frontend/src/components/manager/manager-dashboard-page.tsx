@@ -446,7 +446,7 @@ export function ManagerDashboardPage() {
  };
 
  const renderApprovals = () => (
- <Card header={<><CardTitle>{t('pendingApprovals')} ({approvals.length})</CardTitle><a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">Open Quick Approve <ChevronRight className="h-4 w-4" /></a></>}>
+ <Card header={<><CardTitle>{t('pendingApprovals')} ({approvals.length})</CardTitle><a href="/quick-approve" className="text-sm text-brand hover:underline flex items-center gap-1">{t('openQuickApprove')} <ChevronRight className="h-4 w-4" /></a></>}>
  {approvals.length === 0 ? (
  <p className="text-sm text-ink-muted text-center py-8">{t('approvals.noApprovals')}</p>
  ) : (

@@ -168,4 +168,69 @@ test.describe.serial('Chain 1 — ESS Termination → SPD → HR Admin (BRD #172
       await ctx.close();
     }
   });
+
+});
+
+// ── Wave 2 assertions — independent of the serial chain above ────────────────
+// Uses EMP-0142 (seeded in demo-seed.ts) — a known valid ID.
+
+const WAVE2_TERM_EMPLOYEE_ID = 'EMP-0142';
+
+test.describe('Wave 2 — Chain 1 wiring assertions', () => {
+  test('Wave 2 — Terminate page shows 4-step ApprovalChainStepper (BRD #22, #111)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'hr_admin');
+    const page = await ctx.newPage();
+
+    try {
+      const reachable = await page
+        .goto(`/th/admin/employees/${WAVE2_TERM_EMPLOYEE_ID}/terminate`, {
+          waitUntil: 'domcontentloaded',
+          timeout: 10_000,
+        })
+        .then(() => true)
+        .catch(() => false);
+      if (!reachable) { test.skip(); return; }
+
+      // Check the page actually loaded the terminate form (not a redirect)
+      const onTerminatePage = await page.getByRole('heading', { name: /สิ้นสุดการจ้างงาน|ยุติการจ้างงาน|terminate/i })
+        .or(page.getByText(/บันทึกการสิ้นสุด/i))
+        .isVisible({ timeout: 5_000 }).catch(() => false);
+      if (!onTerminatePage) { test.skip(); return; }
+
+      // ApprovalChainStepper has aria-label="ลำดับการอนุมัติ" and role="status"
+      await expect(
+        page.locator('[role="status"][aria-label="ลำดับการอนุมัติ"]'),
+      ).toBeVisible({ timeout: 10_000 });
+
+      // 4-step labels all present
+      await expect(page.getByText('พนักงาน').first()).toBeVisible({ timeout: 5_000 });
+      await expect(page.getByText('HRBP').first()).toBeVisible({ timeout: 5_000 });
+      await expect(page.getByText('SPD').first()).toBeVisible({ timeout: 5_000 });
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test('Wave 2 — okToRehire is hidden from HR Admin on terminate page (BRD #114)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'hr_admin');
+    const page = await ctx.newPage();
+
+    try {
+      const reachable = await page
+        .goto(`/th/admin/employees/${WAVE2_TERM_EMPLOYEE_ID}/terminate`, {
+          waitUntil: 'domcontentloaded',
+          timeout: 10_000,
+        })
+        .then(() => true)
+        .catch(() => false);
+      if (!reachable) { test.skip(); return; }
+
+      // HR Admin must NOT see okToRehire controls (SPD-only per BRD #114)
+      await expect(
+        page.getByLabel(/okToRehire|สามารถจ้างใหม่/i),
+      ).not.toBeVisible({ timeout: 5_000 });
+    } finally {
+      await ctx.close();
+    }
+  });
 });

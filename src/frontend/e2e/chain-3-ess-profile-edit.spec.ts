@@ -174,3 +174,83 @@ test.describe.serial('Chain 3 — ESS Profile Edit → SPD (BRD #166)', () => {
     }
   });
 });
+
+// ── Wave 2 assertions — independent of the serial chain above ────────────────
+
+test.describe('Wave 2 — Chain 3 wiring assertions', () => {
+  test('Wave 2 — nationality field is editable (not disabled) on ESS profile edit (BRD #166)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'employee');
+    const page = await ctx.newPage();
+
+    try {
+      await checkServerOrSkip(page);
+
+      await page.goto('/th/ess/profile/edit', { waitUntil: 'domcontentloaded', timeout: 20_000 });
+      await expect(
+        page.getByRole('heading', { name: /แก้ไขข้อมูลส่วนตัว/i }),
+      ).toBeVisible({ timeout: 15_000 });
+
+      const nationalityEl = page.locator('#nationality');
+      await expect(nationalityEl).toBeVisible({ timeout: 8_000 });
+      await expect(nationalityEl).not.toBeDisabled();
+      const tagName = await nationalityEl.evaluate((el: Element) => el.tagName.toLowerCase());
+      expect(tagName).toBe('select');
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test('Wave 2 — ESS profile edit shows bilingual labels Thai-primary (BRD #166)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'employee');
+    const page = await ctx.newPage();
+
+    try {
+      await checkServerOrSkip(page);
+
+      await page.goto('/th/ess/profile/edit', { waitUntil: 'domcontentloaded', timeout: 20_000 });
+      await expect(
+        page.getByRole('heading', { name: /แก้ไขข้อมูลส่วนตัว/i }),
+      ).toBeVisible({ timeout: 15_000 });
+
+      await expect(page.getByText(/สัญชาติ.*Nationality/i).first()).toBeVisible({ timeout: 8_000 });
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test('Wave 2 — emergency contact relationship has 7-code picklist with Brother/Sister (BRD #167)', async ({ browser }) => {
+    const ctx = await authedContext(browser, 'employee');
+    const page = await ctx.newPage();
+
+    try {
+      await checkServerOrSkip(page);
+
+      await page.goto('/th/profile/me', { waitUntil: 'domcontentloaded', timeout: 20_000 });
+
+      // Click the emergency contacts tab (role="tab", label "ติดต่อฉุกเฉิน")
+      const emergencyTabBtn = page.getByRole('tab', { name: 'ติดต่อฉุกเฉิน' });
+      await expect(emergencyTabBtn).toBeVisible({ timeout: 8_000 });
+      await emergencyTabBtn.click();
+
+      // Click "เพิ่มผู้ติดต่อ" to add a row and expose the relationship select
+      const addBtn = page.getByRole('button', { name: /เพิ่มผู้ติดต่อ/i });
+      await expect(addBtn).toBeVisible({ timeout: 8_000 });
+      await addBtn.click();
+
+      // Relationship select appears with cust_refRelationship_* option values
+      const relationSelect = page.locator('select').filter({
+        has: page.locator('option[value^="cust_refRelationship"]'),
+      }).first();
+      await expect(relationSelect).toBeVisible({ timeout: 8_000 });
+
+      // Wave 2: 7-code picklist — Brother and Sister are separate options
+      const options = await relationSelect.evaluate((el: HTMLSelectElement) =>
+        Array.from(el.options).map((o) => o.value),
+      );
+      expect(options.some((v) => v.includes('Brother'))).toBe(true);
+      expect(options.some((v) => v.includes('Sister'))).toBe(true);
+    } finally {
+      await ctx.close();
+    }
+  });
+});

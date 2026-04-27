@@ -1744,7 +1744,8 @@
     "accessDenied": {
       "title": "Access Denied",
       "message": "This page is for managers only"
-    }
+    },
+    "openQuickApprove": "Open Quick Approve"
   },
   "transfer": {
     "title": "Employee Transfer",
