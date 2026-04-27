@@ -165,6 +165,14 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
 
   useEffect(() => { validate() }, [validate])
 
+  // A2 — Auto-derive foreigner from nationality (SF rule XX-XXX-EIM-OI-SetFlagForeigner)
+  // SF: PerPersonal.customString13 = 1 when nationality !== TH (Thai picklist id = 'TH')
+  useEffect(() => {
+    if (!nationality) return
+    const derived = nationality !== 'TH' ? 'YES' : 'NO'
+    setForeigner((prev) => (prev === derived ? prev : derived))
+  }, [nationality])
+
   const errMsg = (field: keyof FieldErrors) => {
     if (!touched[field as keyof TouchedState] || !errors[field]) return null
     return <p role="alert" className="mt-1 text-xs text-warning">{errors[field]}</p>
@@ -175,7 +183,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 2 — Other Title (TH) * ─── */}
       <fieldset>
         <label htmlFor="other-title-th" className="humi-label">
-          คำนำหน้า (TH)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          คำนำหน้า (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="other-title-th" type="text" required aria-required="true"
           aria-invalid={touched.otherTitleTh && !!errors.otherTitleTh}
@@ -190,7 +198,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 3 — Firstname (Local) * ─── */}
       <fieldset>
         <label htmlFor="first-name-local" className="humi-label">
-          ชื่อ (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อ (TH)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="first-name-local" type="text" required aria-required="true"
           aria-invalid={touched.firstNameLocal && !!errors.firstNameLocal}
@@ -205,7 +213,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {/* ─── BA Personal Info row 4 — Lastname (Local) * ─── */}
       <fieldset>
         <label htmlFor="last-name-local" className="humi-label">
-          นามสกุล (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          นามสกุล (TH)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="last-name-local" type="text" required aria-required="true"
           aria-invalid={touched.lastNameLocal && !!errors.lastNameLocal}
@@ -217,12 +225,12 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('lastNameLocal')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 5 — Middle Name (Local) * ─── */}
+      {/* ─── BA Personal Info row 5 — Middle Name (Local) — optional (SF PerPersonal.secondLastName sap_required=false) ─── */}
       <fieldset>
         <label htmlFor="middle-name-local" className="humi-label">
-          ชื่อกลาง (Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อกลาง (TH)
         </label>
-        <input id="middle-name-local" type="text" required aria-required="true"
+        <input id="middle-name-local" type="text"
           aria-invalid={touched.middleNameLocal && !!errors.middleNameLocal}
           placeholder="ชื่อกลาง"
           value={middleNameLocal}
@@ -230,14 +238,18 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
           onBlur={() => touch('middleNameLocal')}
           className="humi-input w-full" />
         {errMsg('middleNameLocal')}
+        {/* D1 — SF mapping note (SF parity 2026-04-27) */}
+        <p className="mt-1 text-xs text-ink-soft">
+          เทียบเท่ากับ SuccessFactors PerPersonal.secondLastName
+        </p>
       </fieldset>
 
-      {/* ─── BA Personal Info row 10 — Nickname * ─── */}
+      {/* ─── BA Personal Info row 10 — Nickname — optional (SF PerPersonal.preferredName sap_required=false) ─── */}
       <fieldset>
         <label htmlFor="nickname" className="humi-label">
-          ชื่อเล่น<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชื่อเล่น
         </label>
-        <input id="nickname" type="text" required aria-required="true"
+        <input id="nickname" type="text"
           aria-invalid={touched.nickname && !!errors.nickname}
           placeholder="ชื่อเล่น"
           value={nickname}
@@ -247,12 +259,12 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('nickname')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 11 — Military Status * ─── */}
+      {/* ─── BA Personal Info row 11 — Military Status — optional (not in SF schema; Thai-locale custom) ─── */}
       <fieldset>
         <label htmlFor="military-status" className="humi-label">
-          สถานะทางทหาร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          สถานะทางทหาร
         </label>
-        <select id="military-status" required aria-required="true"
+        <select id="military-status"
           aria-invalid={touched.militaryStatus && !!errors.militaryStatus}
           value={militaryStatus}
           onChange={(e) => setMilitaryStatus(e.target.value)}
@@ -266,14 +278,14 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('militaryStatus')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 12 — Gender *
+      {/* ─── BA Personal Info row 12 — Gender — optional (SF PerPersonal.gender sap_required=false)
            SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender
            SF codes: Female / Male only (BRD #12) ─── */}
       <fieldset>
         <label htmlFor="gender" className="humi-label">
-          เพศ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เพศ
         </label>
-        <select id="gender" required aria-required="true"
+        <select id="gender"
           aria-invalid={touched.gender && !!errors.gender}
           value={gender}
           onChange={(e) => setGender(e.target.value)}
@@ -306,31 +318,28 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('nationality')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 14 — Foreigner * ─── */}
+      {/* ─── BA Personal Info row 14 — Foreigner — auto-derived from nationality (SF rule XX-XXX-EIM-OI-SetFlagForeigner) ─── */}
       <fieldset>
         <label htmlFor="foreigner" className="humi-label">
-          เป็นชาวต่างชาติ<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ชาวต่างชาติ
+          <span className="ml-1 text-xs text-ink-muted">(กำหนดอัตโนมัติจากสัญชาติ)</span>
         </label>
-        <select id="foreigner" required aria-required="true"
-          aria-invalid={touched.foreigner && !!errors.foreigner}
+        <select id="foreigner" disabled
           value={foreigner}
-          onChange={(e) => setForeigner(e.target.value)}
-          onBlur={() => touch('foreigner')}
-          className="humi-select w-full">
-          <option value="">— เลือก —</option>
+          className="humi-select w-full opacity-60 cursor-not-allowed">
+          <option value="">— (อัตโนมัติ) —</option>
           {PICKLIST_YES_NO.filter((y) => y.active).map((y) => (
             <option key={y.id} value={y.id}>{y.labelTh}</option>
           ))}
         </select>
-        {errMsg('foreigner')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 15 — Blood Type * ─── */}
+      {/* ─── BA Personal Info row 15 — Blood Type — optional (not in SF schema; Thai-locale custom) ─── */}
       <fieldset>
         <label htmlFor="blood-type" className="humi-label">
-          กรุ๊ปเลือด<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          กรุ๊ปเลือด
         </label>
-        <select id="blood-type" required aria-required="true"
+        <select id="blood-type"
           aria-invalid={touched.bloodType && !!errors.bloodType}
           value={bloodType}
           onChange={(e) => setBloodType(e.target.value)}
@@ -344,14 +353,14 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('bloodType')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 16 — Marital Status *
+      {/* ─── BA Personal Info row 16 — Marital Status — optional (SF PerPersonal.maritalStatus sap_required=false)
            SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus
            SF codes: M/E/D/S/N — added E (Engaged) which was missing (BRD #12) ─── */}
       <fieldset>
         <label htmlFor="marital-status" className="humi-label">
-          สถานภาพสมรส<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          สถานภาพสมรส
         </label>
-        <select id="marital-status" required aria-required="true"
+        <select id="marital-status"
           aria-invalid={touched.maritalStatus && !!errors.maritalStatus}
           value={maritalStatus}
           onChange={(e) => setMaritalStatus(e.target.value)}
@@ -388,7 +397,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
            SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].secondLastName ─── */}
       <fieldset>
         <label htmlFor="second-last-name" className="humi-label">
-          นามสกุลเดิม / ชื่อสกุลที่สอง
+          ชื่อสกุลที่สอง
         </label>
         <input id="second-last-name" type="text"
           placeholder="นามสกุลก่อนสมรส หรือนามสกุลเดิม (ถ้ามี)"
@@ -405,7 +414,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
       {(maritalStatus === 'MARRIED' || maritalStatus === 'M' || maritalStatus === 'E') && (
         <fieldset>
           <label htmlFor="spouse-name-th" className="humi-label">
-            ชื่อ-นามสกุลคู่สมรส (ภาษาไทย)
+            ชื่อคู่สมรส
           </label>
           <input id="spouse-name-th" type="text"
             placeholder="ชื่อ-นามสกุลคู่สมรส (ภาษาไทย)"
@@ -425,7 +434,7 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
            SF cite: qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json#.d.results[0].nativePreferredLang ─── */}
       <fieldset>
         <label htmlFor="native-preferred-lang" className="humi-label">
-          ภาษาแม่ / ภาษาที่ต้องการสื่อสาร
+          ภาษาหลัก
         </label>
         <input id="native-preferred-lang" type="text"
           placeholder="เช่น ภาษาไทย, English (SF code)"
@@ -459,17 +468,19 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('religion')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 18 — Attachment (optional) ─── */}
-      <div className="md:col-span-2">
-        <AttachmentDropzone
-          files={attachmentFiles}
-          onFilesChange={setAttachmentFiles}
-          label="เอกสารแนบ"
-          accept="image/*,.pdf"
-          maxFiles={5}
-          maxSizeMB={5}
-        />
-      </div>
+      {/* SF parity 2026-04-27: attachments deferred to post-hire profile-edit (not in SF newhire scope) */}
+      {false && (
+        <div className="md:col-span-2">
+          <AttachmentDropzone
+            files={attachmentFiles}
+            onFilesChange={setAttachmentFiles}
+            label="เอกสารแนบ"
+            accept="image/*,.pdf"
+            maxFiles={5}
+            maxSizeMB={5}
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -177,24 +177,24 @@ export const stepBiographicalSchema = z.object({
   firstNameLocal: z.string().min(1, 'กรุณาระบุชื่อ (ภาษาท้องถิ่น)'),
   /** BA Personal Info row 4 — Lastname (Local) * */
   lastNameLocal: z.string().min(1, 'กรุณาระบุนามสกุล (ภาษาท้องถิ่น)'),
-  /** BA Personal Info row 5 — Middle Name (Local) * */
-  middleNameLocal: z.string().min(1, 'กรุณาระบุชื่อกลาง (Local)'),
-  /** BA Personal Info row 10 — Nickname * */
-  nickname: z.string().min(1, 'กรุณาระบุชื่อเล่น'),
-  /** BA Personal Info row 11 — Military Status * */
-  militaryStatus: z.string({ required_error: 'กรุณาเลือกสถานะทางทหาร' }).min(1),
-  /** BA Personal Info row 12 — Gender *
+  /** BA Personal Info row 5 — Middle Name (Local) — optional (SF PerPersonal.secondLastName is sap_required=false) */
+  middleNameLocal: z.string().optional().default(''),
+  /** BA Personal Info row 10 — Nickname — optional (SF PerPersonal.preferredName is sap_required=false) */
+  nickname: z.string().optional().default(''),
+  /** BA Personal Info row 11 — Military Status — optional (not in SF schema; Thai-locale custom) */
+  militaryStatus: z.string().optional().default(''),
+  /** BA Personal Info row 12 — Gender — optional (SF PerPersonal.gender is sap_required=false)
    * SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender
    * SF codes: Female / Male only */
-  gender: z.enum(GENDER_IDS, { required_error: 'กรุณาเลือกเพศ' }),
+  gender: z.enum(GENDER_IDS).optional(),
   /** BA Personal Info row 13 — Nationality * */
   nationality: z.string({ required_error: 'กรุณาเลือกสัญชาติ' }).min(1),
-  /** BA Personal Info row 14 — Foreigner * */
-  foreigner: z.enum(YES_NO_IDS, { required_error: 'กรุณาระบุสถานะต่างด้าว' }),
-  /** BA Personal Info row 15 — Blood Type * */
-  bloodType: z.string({ required_error: 'กรุณาเลือกกรุ๊ปเลือด' }).min(1),
-  /** BA Personal Info row 16 — Marital Status * */
-  maritalStatus: z.string({ required_error: 'กรุณาเลือกสถานภาพสมรส' }).min(1),
+  /** BA Personal Info row 14 — Foreigner — auto-derived from nationality (SF rule XX-XXX-EIM-OI-SetFlagForeigner) */
+  foreigner: z.enum(YES_NO_IDS).optional(),
+  /** BA Personal Info row 15 — Blood Type — optional (not in SF schema; Thai-locale custom) */
+  bloodType: z.string().optional().default(''),
+  /** BA Personal Info row 16 — Marital Status — optional (SF PerPersonal.maritalStatus is sap_required=false) */
+  maritalStatus: z.string().optional().default(''),
   /** BA Personal Info row 17 — Marital Status Since — conditional:
    *  required when maritalStatus ≠ SINGLE/S, omitted for SINGLE/S (BRD-BA-SF-AUDIT Finding #7)
    *  SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.ecMaritalStatus */
@@ -229,6 +229,8 @@ export const stepBiographicalSchema = z.object({
 .superRefine((data, ctx) => {
   // Fix per AUDIT #7 — maritalStatusSince required only when maritalStatus ≠ SINGLE/S
   // MARITAL_STATUS_SINGLE_EQUIVALENTS: ['SINGLE', 'S'] covers both legacy and SF codes
+  // Guard: maritalStatus is optional after SF parity fix; skip check when not set
+  if (!data.maritalStatus) return
   const isSingle = MARITAL_STATUS_SINGLE_EQUIVALENTS.includes(
     data.maritalStatus as typeof MARITAL_STATUS_SINGLE_EQUIVALENTS[number]
   )

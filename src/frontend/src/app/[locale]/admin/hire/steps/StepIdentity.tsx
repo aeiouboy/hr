@@ -184,7 +184,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 1 — Hire Date * ─── */}
       <fieldset>
         <label htmlFor="hire-date" className="humi-label">
-          วันที่เริ่มงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          วันเริ่มงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="hire-date" type="date" required aria-required="true"
           aria-invalid={touched.hireDate && !!errors.hireDate}
@@ -225,7 +225,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 3 — Event Reason * ─── */}
       <fieldset>
         <label htmlFor="event-reason" className="humi-label">
-          สาเหตุการจ้างงาน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          เหตุผล<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="event-reason" required aria-required="true"
           aria-invalid={touched.eventReason && !!errors.eventReason}
@@ -266,7 +266,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           which read as a duplicate field. ─── */}
       <fieldset>
         <label htmlFor="salutation-local" className="humi-label">
-          คำนำหน้า (Local)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          คำนำหน้า (ภาษาท้องถิ่น)<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="salutation-local" required aria-required="true"
           aria-invalid={touched.salutationLocal && !!errors.salutationLocal}
@@ -381,7 +381,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 13 — National ID Card Type * ─── */}
       <fieldset>
         <label htmlFor="national-id-card-type" className="humi-label">
-          ประเภทบัตรประชาชน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+          ประเภทบัตร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <select id="national-id-card-type" required aria-required="true"
           aria-invalid={touched.nationalIdCardType && !!errors.nationalIdCardType}
@@ -416,11 +416,10 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
         {errMsg('country')}
       </fieldset>
 
-      {/* ─── BA row 15 — National ID * ─── */}
+      {/* ─── BA row 15 — National ID * — unconditionally required (SF PerNationalId.nationalId sap_required=true) ─── */}
       <fieldset>
         <label htmlFor="national-id" className="humi-label">
-          {/* BRD #178-181 PILOT: mandatory driven by self-service config bus */}
-          เลขบัตร{nationalIdMandatory && <span aria-hidden="true" className="humi-asterisk ml-1">*</span>}
+          เลขบัตร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
         </label>
         <input id="national-id" type="text" required aria-required="true"
           aria-invalid={touched.nationalId && !!errors.nationalId}
@@ -454,7 +453,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       {/* ─── BA row 17 — Expiry Date — optional ─── */}
       <fieldset>
         <label htmlFor="expiry-date" className="humi-label">
-          วันหมดอายุบัตร
+          วันหมดอายุ
         </label>
         <input id="expiry-date" type="date"
           value={expiryDate}
