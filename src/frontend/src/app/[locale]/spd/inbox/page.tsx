@@ -17,7 +17,7 @@ import { BenefitClaimsInbox } from '@/components/workflow/BenefitClaimsInbox';
 import { useWorkflowApprovals } from '@/stores/workflow-approvals';
 import { useTerminationApprovals } from '@/stores/termination-approvals';
 import { usePromotionApprovals } from '@/stores/promotion-approvals';
-import { BENEFIT_CLAIM_STATUS_LABEL, BENEFIT_CLAIM_TYPE_LABEL, useBenefitClaimsStore } from '@/stores/benefit-claims';
+import { BENEFIT_STATUS_LABEL, selectBenefitRequestSummaries, useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { STEP_LABEL } from '@/stores/workflow-approvals';
 import { TERMINATION_STEP_LABEL } from '@/stores/termination-approvals';
 import { PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals';
@@ -56,12 +56,12 @@ function useSPDStoreSlots(): StoreSlot[] {
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 
-  const benefitRows: WorkflowRow[] = benefitClaims.map((r) => ({
-    id: r.workflowRequestId,
-    requestType: `เบิกสวัสดิการ · ${BENEFIT_CLAIM_TYPE_LABEL[r.benefitType]}`,
-    requestedBy: r.employeeName,
-    requestedOn: r.submittedAt,
-    currentStep: BENEFIT_CLAIM_STATUS_LABEL[r.status],
+  const benefitRows: WorkflowRow[] = selectBenefitRequestSummaries(benefitClaims).map((r) => ({
+    id: r.id,
+    requestType: r.type,
+    requestedBy: r.claim.employeeName,
+    requestedOn: r.claim.submittedAt,
+    currentStep: BENEFIT_STATUS_LABEL[r.claim.status],
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 

@@ -46,7 +46,7 @@ import {
   type RequestFilterKey,
   type RequestSubmission,
 } from '@/stores/humi-requests-slice';
-import { projectBenefitClaims, useBenefitClaimsStore } from '@/stores/benefit-claims';
+import { selectBenefitRequestSummaries, useBenefitClaimsStore } from '@/stores/benefit-claims';
 
 // ════════════════════════════════════════════════════════════
 // /requests — Forms/requests tracker
@@ -113,8 +113,7 @@ export default function HumiRequestsPage() {
   const { toast, show: showToast } = useToast();
 
   const { submissions, filter } = useRequestsStore();
-  const benefitClaims = useBenefitClaimsStore((s) => s.claims);
-  const benefitRequests = useMemo(() => projectBenefitClaims(benefitClaims), [benefitClaims]);
+  const benefitClaims = useBenefitClaimsStore((state) => state.claims);
 
   const allMine = useMemo(() => {
     const base = HUMI_MY_REQUESTS.map((r) => ({ ...r }));
@@ -128,18 +127,9 @@ export default function HumiRequestsPage() {
         { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal' as const, status: 'pending' as const, when: 'รอดำเนินการ' },
       ] satisfies HumiApprovalStep[],
     }));
-    const benefits = benefitRequests.map((b) => ({
-      id: b.id,
-      type: b.type,
-      sub: b.sub,
-      submitted: b.submitted,
-      status: b.status,
-      approvalChain: [
-        { role: 'SPD Benefits', name: 'ทีม SPD', initials: 'SP', tone: 'sage' as const, status: b.status === 'approved' ? 'approved' as const : b.status === 'rejected' ? 'rejected' as const : 'pending' as const, when: b.rawStatus === 'send_back' ? 'ส่งกลับแก้ไข' : 'รอดำเนินการ' },
-      ] satisfies HumiApprovalStep[],
-    }));
-    return [...benefits, ...store, ...base];
-  }, [submissions, benefitRequests]);
+    const benefitRows = selectBenefitRequestSummaries(benefitClaims);
+    return [...benefitRows, ...store, ...base];
+  }, [benefitClaims, submissions]);
 
   const filtered = useMemo(() => {
     if (filter === 'all') return allMine;
