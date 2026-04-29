@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { RequestStatus } from '@/lib/humi-mock-data';
 
-export type RequestFilterKey = 'all' | 'pending' | 'approved' | 'rejected';
+export type RequestFilterKey = 'all' | 'pending' | 'approved' | 'rejected' | 'info';
 
 export interface RequestSubmission {
   id: string;

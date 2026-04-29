@@ -17,7 +17,7 @@ import { BenefitClaimsInbox } from '@/components/workflow/BenefitClaimsInbox';
 import { useWorkflowApprovals } from '@/stores/workflow-approvals';
 import { useTerminationApprovals } from '@/stores/termination-approvals';
 import { usePromotionApprovals } from '@/stores/promotion-approvals';
-import { BENEFIT_STATUS_LABEL, selectBenefitRequestSummaries, useBenefitClaimsStore } from '@/stores/benefit-claims';
+import { BENEFIT_CLAIM_STATUS_LABEL, BENEFIT_CLAIM_TYPE_LABEL, useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { STEP_LABEL } from '@/stores/workflow-approvals';
 import { TERMINATION_STEP_LABEL } from '@/stores/termination-approvals';
 import { PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals';
@@ -56,12 +56,12 @@ function useSPDStoreSlots(): StoreSlot[] {
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 
-  const benefitRows: WorkflowRow[] = selectBenefitRequestSummaries(benefitClaims).map((r) => ({
-    id: r.id,
-    requestType: r.type,
-    requestedBy: r.claim.employeeName,
-    requestedOn: r.claim.submittedAt,
-    currentStep: BENEFIT_STATUS_LABEL[r.claim.status],
+  const benefitRows: WorkflowRow[] = benefitClaims.map((r) => ({
+    id: r.workflowRequestId,
+    requestType: `เบิกสวัสดิการ · ${BENEFIT_CLAIM_TYPE_LABEL[r.benefitType]}`,
+    requestedBy: r.employeeName,
+    requestedOn: r.submittedAt,
+    currentStep: BENEFIT_CLAIM_STATUS_LABEL[r.status],
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 
@@ -70,7 +70,7 @@ function useSPDStoreSlots(): StoreSlot[] {
     { name: 'แก้ไขข้อมูลส่วนตัว (BRD #166)', rows: wfRows },
     { name: 'คำขอลาออก (BRD #172)',           rows: termRows },
     { name: 'คำขอเลื่อนตำแหน่ง (BRD #103)',   rows: promRows },
-    { name: 'Benefit Reimbursement',           rows: benefitRows },
+    { name: 'Benefit Reimbursement', rows: benefitRows },
   ];
 }
 
@@ -117,7 +117,7 @@ export default function SPDInboxPage() {
 
       <div style={{ borderTop: '1px solid var(--color-hairline-soft)' }} />
 
-      {/* Benefit Reimbursement — BRD benefit module */}
+      {/* Benefit reimbursement — BRD benefit module */}
       <BenefitClaimsInbox />
     </div>
   );

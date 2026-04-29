@@ -1,28 +1,25 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { HumiApprovalStep, RequestStatus } from '@/lib/humi-mock-data';
+import type { RequestStatus } from '@/lib/humi-mock-data';
 
 export type BenefitClaimStatus = 'pending_spd' | 'send_back' | 'approved' | 'rejected';
 export type BenefitClaimType = 'medical' | 'gasoline' | 'mobile' | 'physical_checkup' | 'dependent';
 
 export interface BenefitAttachment {
   id: string;
-  filename: string;
+  name: string;
   sizeMb: number;
-  mimeType?: string;
+  extension: string;
 }
 
 export interface BenefitClaimAuditEntry {
   at: string;
-  actorRole: 'employee' | 'spd';
-  actorName: string;
-  action: 'submit' | 'approve' | 'reject' | 'send_back' | 'resubmit';
+  actor: string;
+  action: 'submitted' | 'edited' | 'approved' | 'rejected' | 'send_back';
   note?: string;
 }
 
-export interface BenefitClaimRequest {
-  id: string;
-  workflowRequestId: string;
+export interface BenefitClaimDraftInput {
   employeeId: string;
   employeeName: string;
   company: string;
@@ -33,267 +30,184 @@ export interface BenefitClaimRequest {
   benefitCode: string;
   benefitName: string;
   remainingAmount: number;
-  currency: 'THB';
   receiptNo: string;
   receiptDate: string;
   receiptAmount: number;
-  totalClaimAmount: number;
+  claimAmount: number;
+  hospitalType?: string;
+  hospitalName?: string;
+  patientTransferDocument?: string;
+  diseaseDetails?: string;
+  gasolineClaimType?: string;
+  dependentName?: string;
+  dependentRelation?: string;
+  attachments: BenefitAttachment[];
+}
+
+export interface BenefitClaimRequest extends BenefitClaimDraftInput {
+  id: string;
+  workflowRequestId: string;
   status: BenefitClaimStatus;
   submittedAt: string;
   updatedAt: string;
-  hospitalType?: string;
-  hospitalName?: string;
-  patientTransferDocumentNo?: string;
-  diseaseDetails?: string;
-  gasolineClaimType?: string;
-  dependentName?: string;
-  dependentRelationship?: string;
-  attachments: BenefitAttachment[];
+  correctionOf?: string;
   audit: BenefitClaimAuditEntry[];
-  correctionReason?: string;
-  version: number;
-  previousVersions: Array<Pick<BenefitClaimRequest, 'receiptNo' | 'receiptAmount' | 'totalClaimAmount' | 'updatedAt' | 'version'>>;
 }
 
-export interface BenefitClaimInput {
-  employeeId?: string;
-  employeeName?: string;
-  company?: string;
-  businessUnit?: string;
-  employeeGroup?: string;
-  personalGrade?: string;
-  benefitType: BenefitClaimType;
-  benefitCode?: string;
-  benefitName?: string;
-  remainingAmount?: number;
-  receiptNo: string;
-  receiptDate: string;
-  receiptAmount: number;
-  totalClaimAmount: number;
-  hospitalType?: string;
-  hospitalName?: string;
-  patientTransferDocumentNo?: string;
-  diseaseDetails?: string;
-  gasolineClaimType?: string;
-  dependentName?: string;
-  dependentRelationship?: string;
-  attachments?: BenefitAttachment[];
-}
-
-interface Actor {
-  role: 'employee' | 'spd';
-  name: string;
+export interface BenefitRequestProjection {
+  id: string;
+  type: string;
+  sub: string;
+  submitted: string;
+  status: RequestStatus;
+  rawStatus: BenefitClaimStatus;
+  claimId: string;
 }
 
 interface BenefitClaimsState {
   claims: BenefitClaimRequest[];
-  submitClaim: (input: BenefitClaimInput) => BenefitClaimRequest;
-  approveClaim: (id: string, actor: Actor, note?: string) => void;
-  rejectClaim: (id: string, actor: Actor, reason: string) => void;
-  sendBackClaim: (id: string, actor: Actor, reason: string) => void;
-  resubmitClaim: (id: string, input: Partial<BenefitClaimInput>, actor?: Actor) => void;
-  hasDuplicateReceipt: (employeeId: string, benefitCode: string, receiptNo: string, excludingId?: string) => boolean;
+  submitClaim: (input: BenefitClaimDraftInput, correctionOf?: string) => BenefitClaimRequest;
+  approveClaim: (claimId: string, note?: string) => void;
+  rejectClaim: (claimId: string, reason: string) => void;
+  sendBackClaim: (claimId: string, reason: string) => void;
+  findDuplicateReceipt: (employeeId: string, benefitCode: string, receiptNo: string, ignoreClaimId?: string) => BenefitClaimRequest | undefined;
+  requestProjections: () => BenefitRequestProjection[];
 }
 
-export const BENEFIT_STATUS_LABEL: Record<BenefitClaimStatus, string> = {
+export const BENEFIT_CLAIM_TYPE_LABEL: Record<BenefitClaimType, string> = {
+  medical: 'ค่ารักษาพยาบาล',
+  gasoline: 'ค่าน้ำมัน',
+  mobile: 'ค่าโทรศัพท์มือถือ',
+  physical_checkup: 'ตรวจสุขภาพประจำปี',
+  dependent: 'ค่ารักษาผู้รับสิทธิ์ร่วม',
+};
+
+export const BENEFIT_CLAIM_STATUS_LABEL: Record<BenefitClaimStatus, string> = {
   pending_spd: 'รอ SPD อนุมัติ',
-  send_back: 'ส่งกลับให้แก้ไข',
+  send_back: 'ส่งกลับแก้ไข',
   approved: 'อนุมัติแล้ว',
   rejected: 'ไม่อนุมัติ',
 };
 
-export const BENEFIT_TYPE_LABEL: Record<BenefitClaimType, string> = {
-  medical: 'ค่ารักษาพยาบาล',
-  gasoline: 'ค่าน้ำมัน',
-  mobile: 'ค่าโทรศัพท์',
-  physical_checkup: 'ตรวจสุขภาพ',
-  dependent: 'ค่ารักษาผู้รับสิทธิ์ร่วม',
+export const BENEFIT_CLAIM_STATUS_TONE: Record<BenefitClaimStatus, string> = {
+  pending_spd: 'bg-warning-soft text-[color:var(--color-warning)]',
+  send_back: 'bg-accent-soft text-[color:var(--color-accent-ink)]',
+  approved: 'bg-[color:var(--color-success-soft)] text-[color:var(--color-success)]',
+  rejected: 'bg-[color:var(--color-canvas-soft)] text-ink-muted',
 };
 
-export const BENEFIT_CODE_BY_TYPE: Record<BenefitClaimType, string> = {
-  medical: 'BEN-MED-OPD',
-  gasoline: 'BEN-FUEL',
-  mobile: 'BEN-MOBILE',
-  physical_checkup: 'BEN-CHECKUP',
-  dependent: 'BEN-DEP-MED',
+const REQUEST_STATUS_BY_BENEFIT_STATUS: Record<BenefitClaimStatus, RequestStatus> = {
+  pending_spd: 'pending',
+  send_back: 'info',
+  approved: 'approved',
+  rejected: 'rejected',
 };
 
-const nowIso = () => new Date().toISOString();
-const thaiDate = (iso: string) => new Date(iso).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
-
-function nextId(prefix: string, size: number, count: number) {
-  return `${prefix}-${String(count + 1).padStart(size, '0')}`;
+function nowIso() {
+  return new Date().toISOString();
 }
 
-function statusToRequestStatus(status: BenefitClaimStatus): RequestStatus {
-  if (status === 'approved') return 'approved';
-  if (status === 'rejected') return 'rejected';
-  if (status === 'send_back') return 'info';
-  return 'pending';
-}
-
-function stepStatus(status: BenefitClaimStatus): HumiApprovalStep['status'] {
-  if (status === 'approved') return 'approved';
-  if (status === 'rejected') return 'rejected';
-  return 'pending';
-}
-
-export function validateBenefitAttachmentRules(input: Pick<BenefitClaimInput, 'benefitType' | 'attachments'>) {
-  const attachments = input.attachments ?? [];
-  const errors: string[] = [];
-  const allowed = ['.pdf', '.jpg', '.jpeg', '.png', '.pptx', '.xlsx'];
-  if (attachments.length > 5) errors.push('แนบไฟล์ได้สูงสุด 5 ไฟล์');
-  attachments.forEach((file) => {
-    const lower = file.filename.toLowerCase();
-    if (!allowed.some((ext) => lower.endsWith(ext))) errors.push(`ชนิดไฟล์ไม่รองรับ: ${file.filename}`);
-    if (file.sizeMb > 10) errors.push(`ไฟล์เกิน 10 MB: ${file.filename}`);
+function formatThaiDate(iso: string) {
+  return new Date(iso).toLocaleDateString('th-TH', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
   });
-  if (input.benefitType === 'medical' && attachments.length === 0) {
-    errors.push('ค่ารักษาพยาบาลต้องแนบเอกสารอย่างน้อย 1 ไฟล์');
-  }
-  return errors;
 }
 
-export function selectBenefitRequestSummaries(claims: BenefitClaimRequest[]) {
+function nextId(prefix: string, count: number) {
+  return `${prefix}-${String(count + 1).padStart(4, '0')}`;
+}
+
+export function isSupportedBenefitAttachment(file: Pick<BenefitAttachment, 'extension' | 'sizeMb'>) {
+  return ['.pdf', '.jpg', '.jpeg', '.png', '.pptx', '.xlsx'].includes(file.extension.toLowerCase()) && file.sizeMb <= 10;
+}
+
+export function validateBenefitAttachments(files: BenefitAttachment[]) {
+  if (files.length > 5) return 'แนบเอกสารได้สูงสุด 5 ไฟล์';
+  const invalid = files.find((file) => !isSupportedBenefitAttachment(file));
+  if (invalid) return 'รองรับเฉพาะ .pdf, .jpg, .jpeg, .png, .pptx, .xlsx และขนาดไม่เกิน 10 MB';
+  return null;
+}
+
+
+export function projectBenefitClaims(claims: BenefitClaimRequest[]): BenefitRequestProjection[] {
   return claims.map((claim) => ({
     id: claim.workflowRequestId,
-    type: `เบิกสวัสดิการ · ${claim.benefitName}`,
-    sub: `${claim.benefitCode} · ใบเสร็จ ${claim.receiptNo} · ฿${claim.totalClaimAmount.toLocaleString('th-TH')}`,
-    submitted: thaiDate(claim.submittedAt),
-    status: statusToRequestStatus(claim.status),
-    approvalChain: [
-      {
-        role: 'SPD Benefits',
-        name: 'ทีม SPD',
-        initials: 'SP',
-        tone: 'teal' as const,
-        status: stepStatus(claim.status),
-        when: BENEFIT_STATUS_LABEL[claim.status],
-        note: claim.correctionReason,
-      },
-    ] satisfies HumiApprovalStep[],
-    claim,
+    type: `เบิกสวัสดิการ · ${BENEFIT_CLAIM_TYPE_LABEL[claim.benefitType]}`,
+    sub: `${claim.benefitCode} · เอกสาร ${claim.receiptNo} · ฿${claim.claimAmount.toLocaleString('th-TH')} · ${BENEFIT_CLAIM_STATUS_LABEL[claim.status]}`,
+    submitted: formatThaiDate(claim.submittedAt),
+    status: REQUEST_STATUS_BY_BENEFIT_STATUS[claim.status],
+    rawStatus: claim.status,
+    claimId: claim.id,
   }));
 }
-
-const initialClaims: BenefitClaimRequest[] = [
-  {
-    id: 'BEN-CLM-0001',
-    workflowRequestId: 'REQ-BEN-0001',
-    employeeId: 'EMP001',
-    employeeName: 'จงรักษ์ ทานากะ',
-    company: 'Central Group',
-    businessUnit: 'People Operations',
-    employeeGroup: 'Monthly',
-    personalGrade: 'PG4',
-    benefitType: 'medical',
-    benefitCode: 'BEN-MED-OPD',
-    benefitName: 'ค่ารักษาพยาบาล',
-    remainingAmount: 18000,
-    currency: 'THB',
-    receiptNo: 'RCPT-2026-0415',
-    receiptDate: '2026-04-15',
-    receiptAmount: 4820,
-    totalClaimAmount: 4820,
-    status: 'pending_spd',
-    submittedAt: '2026-04-15T09:20:00.000Z',
-    updatedAt: '2026-04-15T09:20:00.000Z',
-    hospitalType: 'private',
-    hospitalName: 'รพ.บำรุงราษฎร์',
-    patientTransferDocumentNo: 'PT-2026-009',
-    diseaseDetails: 'ตรวจรักษาทั่วไป',
-    attachments: [{ id: 'att-1', filename: 'receipt-0415.pdf', sizeMb: 1.2, mimeType: 'application/pdf' }],
-    audit: [{ at: '2026-04-15T09:20:00.000Z', actorRole: 'employee', actorName: 'จงรักษ์ ทานากะ', action: 'submit', note: 'ส่งคำขอเบิกสวัสดิการ' }],
-    version: 1,
-    previousVersions: [],
-  },
-];
 
 export const useBenefitClaimsStore = create<BenefitClaimsState>()(
   persist(
     (set, get) => ({
-      claims: initialClaims,
-      submitClaim: (input) => {
+      claims: [],
+      submitClaim: (input, correctionOf) => {
         const at = nowIso();
-        const count = get().claims.length;
-        const benefitType = input.benefitType;
-        const benefitCode = input.benefitCode ?? BENEFIT_CODE_BY_TYPE[benefitType];
+        const existingCount = get().claims.length;
         const claim: BenefitClaimRequest = {
-          id: nextId('BEN-CLM', 4, count),
-          workflowRequestId: nextId('REQ-BEN', 4, count),
-          employeeId: input.employeeId ?? 'EMP001',
-          employeeName: input.employeeName ?? 'จงรักษ์ ทานากะ',
-          company: input.company ?? 'Central Group',
-          businessUnit: input.businessUnit ?? 'People Operations',
-          employeeGroup: input.employeeGroup ?? 'Monthly',
-          personalGrade: input.personalGrade ?? 'PG4',
-          benefitType,
-          benefitCode,
-          benefitName: input.benefitName ?? BENEFIT_TYPE_LABEL[benefitType],
-          remainingAmount: input.remainingAmount ?? 20000,
-          currency: 'THB',
-          receiptNo: input.receiptNo,
-          receiptDate: input.receiptDate,
-          receiptAmount: input.receiptAmount,
-          totalClaimAmount: input.totalClaimAmount,
+          ...input,
+          id: nextId('BEN', existingCount),
+          workflowRequestId: nextId('REQ-BEN', existingCount),
           status: 'pending_spd',
           submittedAt: at,
           updatedAt: at,
-          hospitalType: input.hospitalType,
-          hospitalName: input.hospitalName,
-          patientTransferDocumentNo: input.patientTransferDocumentNo,
-          diseaseDetails: input.diseaseDetails,
-          gasolineClaimType: input.gasolineClaimType,
-          dependentName: input.dependentName,
-          dependentRelationship: input.dependentRelationship,
-          attachments: input.attachments ?? [],
-          audit: [{ at, actorRole: 'employee', actorName: input.employeeName ?? 'จงรักษ์ ทานากะ', action: 'submit', note: 'ส่งคำขอเบิกสวัสดิการ' }],
-          version: 1,
-          previousVersions: [],
+          correctionOf,
+          audit: [
+            {
+              at,
+              actor: input.employeeName,
+              action: correctionOf ? 'edited' : 'submitted',
+              note: correctionOf ? `แก้ไขจากคำขอ ${correctionOf}` : 'ส่งคำขอเบิกสวัสดิการ',
+            },
+          ],
         };
-        set((s) => ({ claims: [claim, ...s.claims] }));
+        set((state) => ({ claims: [claim, ...state.claims] }));
         return claim;
       },
-      approveClaim: (id, actor, note) => set((s) => ({ claims: updateClaim(s.claims, id, 'approved', actor, 'approve', note) })),
-      rejectClaim: (id, actor, reason) => set((s) => ({ claims: updateClaim(s.claims, id, 'rejected', actor, 'reject', reason) })),
-      sendBackClaim: (id, actor, reason) => set((s) => ({ claims: updateClaim(s.claims, id, 'send_back', actor, 'send_back', reason) })),
-      resubmitClaim: (id, input, actor = { role: 'employee', name: 'จงรักษ์ ทานากะ' }) => set((s) => ({
-        claims: s.claims.map((claim) => {
-          if (claim.id !== id) return claim;
-          const at = nowIso();
-          return {
-            ...claim,
-            ...input,
-            status: 'pending_spd',
-            updatedAt: at,
-            correctionReason: undefined,
-            version: claim.version + 1,
-            previousVersions: [{ receiptNo: claim.receiptNo, receiptAmount: claim.receiptAmount, totalClaimAmount: claim.totalClaimAmount, updatedAt: claim.updatedAt, version: claim.version }, ...claim.previousVersions],
-            audit: [...claim.audit, { at, actorRole: actor.role, actorName: actor.name, action: 'resubmit', note: 'ส่งกลับหลังแก้ไข' }],
-          };
-        }),
+      approveClaim: (claimId, note) => set((state) => ({
+        claims: state.claims.map((claim) => claim.id === claimId
+          ? {
+              ...claim,
+              status: 'approved',
+              updatedAt: nowIso(),
+              audit: [...claim.audit, { at: nowIso(), actor: 'SPD', action: 'approved', note }],
+            }
+          : claim),
       })),
-      hasDuplicateReceipt: (employeeId, benefitCode, receiptNo, excludingId) =>
-        get().claims.some((claim) => claim.id !== excludingId && claim.employeeId === employeeId && claim.benefitCode === benefitCode && claim.receiptNo.trim().toLowerCase() === receiptNo.trim().toLowerCase()),
+      rejectClaim: (claimId, reason) => set((state) => ({
+        claims: state.claims.map((claim) => claim.id === claimId
+          ? {
+              ...claim,
+              status: 'rejected',
+              updatedAt: nowIso(),
+              audit: [...claim.audit, { at: nowIso(), actor: 'SPD', action: 'rejected', note: reason }],
+            }
+          : claim),
+      })),
+      sendBackClaim: (claimId, reason) => set((state) => ({
+        claims: state.claims.map((claim) => claim.id === claimId
+          ? {
+              ...claim,
+              status: 'send_back',
+              updatedAt: nowIso(),
+              audit: [...claim.audit, { at: nowIso(), actor: 'SPD', action: 'send_back', note: reason }],
+            }
+          : claim),
+      })),
+      findDuplicateReceipt: (employeeId, benefitCode, receiptNo, ignoreClaimId) => get().claims.find((claim) =>
+        claim.employeeId === employeeId &&
+        claim.benefitCode === benefitCode &&
+        claim.receiptNo.trim().toLowerCase() === receiptNo.trim().toLowerCase() &&
+        claim.id !== ignoreClaimId
+      ),
+      requestProjections: () => projectBenefitClaims(get().claims),
     }),
-    { name: 'humi-benefit-claims' },
-  ),
+    { name: 'humi-benefit-claims' }
+  )
 );
-
-function updateClaim(
-  claims: BenefitClaimRequest[],
-  id: string,
-  status: BenefitClaimStatus,
-  actor: Actor,
-  action: BenefitClaimAuditEntry['action'],
-  note?: string,
-) {
-  const at = nowIso();
-  return claims.map((claim) => claim.id === id ? {
-    ...claim,
-    status,
-    updatedAt: at,
-    correctionReason: status === 'send_back' ? note : claim.correctionReason,
-    audit: [...claim.audit, { at, actorRole: actor.role, actorName: actor.name, action, note }],
-  } : claim);
-}

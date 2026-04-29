@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/static-components */
 // VALIDATION_EXEMPT: validation in Zustand humi-profile-slice + emergency/dependents/address editors (per design-gates Track C 2026-04-26)
 'use client';
+/* eslint-disable react-hooks/static-components -- existing profile editor subcomponents are declared inside the page to close over draft/update handlers. */
 
 // ════════════════════════════════════════════════════════════
 // /profile/me — Humi employee self-service profile
@@ -15,7 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Check, FileText, Download, Pencil, X, FileX, AlertCircle } from 'lucide-react';
+import { AlertCircle, Check, FileText, Download, Pencil, X, FileX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
 import {
@@ -59,14 +60,13 @@ import { BankDetailsEditor, isBankValid } from '@/components/profile/BankDetails
 import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/ContactArrayEditor';
 import CompensationSummary from '@/components/profile/CompensationSummary';
 import {
-  BENEFIT_STATUS_LABEL,
-  BENEFIT_TYPE_LABEL,
-  useBenefitClaimsStore,
+  BENEFIT_CLAIM_STATUS_LABEL,
+  BENEFIT_CLAIM_STATUS_TONE,
+  BENEFIT_CLAIM_TYPE_LABEL,
   validateBenefitAttachments,
-  validateBenefitClaimInput,
+  useBenefitClaimsStore,
   type BenefitAttachment,
   type BenefitClaimType,
-  type BenefitClaimSubmitInput,
 } from '@/stores/benefit-claims';
 
 // Map slice tab keys → display keys used by existing tab panels
@@ -233,6 +233,262 @@ const NATIONALITY_TH: Record<string, string> = {
 // Re-export extracted helpers so existing tests/importers keep working.
 // Canonical home is `@/lib/all-ported-employees`.
 export { maskNationalId, employeeForLogin };
+
+const CLAIMABLE_BENEFITS: Array<{
+  type: BenefitClaimType;
+  code: string;
+  name: string;
+  remaining: number;
+  helper: string;
+}> = [
+  { type: 'medical', code: 'MED-OPD', name: 'Medical reimbursement', remaining: 18000, helper: 'OPD/IPD, hospital, patient transfer document and disease details' },
+  { type: 'gasoline', code: 'GAS-001', name: 'Gasoline reimbursement', remaining: 6500, helper: 'Claim type choices from BRD field list' },
+  { type: 'mobile', code: 'MOB-CSV', name: 'Mobile reimbursement', remaining: 2400, helper: 'CSV sample allowance and receipt amount' },
+  { type: 'dependent', code: 'DEP-MED', name: 'Dependent medical reimbursement', remaining: 9000, helper: 'Dependent details are required' },
+];
+
+function extensionOf(name: string) {
+  const dot = name.lastIndexOf('.');
+  return dot >= 0 ? name.slice(dot).toLowerCase() : '';
+}
+
+function attachmentsFromText(raw: string): BenefitAttachment[] {
+  return raw
+    .split(',')
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .map((name, index) => ({
+      id: `att-${index + 1}`,
+      name,
+      extension: extensionOf(name),
+      sizeMb: 1,
+    }));
+}
+
+function BenefitClaimWidget({
+  locale,
+  employeeId,
+  employeeName,
+  dependents,
+}: {
+  locale: string;
+  employeeId: string;
+  employeeName: string;
+  dependents: Array<{ fullNameTh?: string; relation?: string }>;
+}) {
+  const claims = useBenefitClaimsStore((state) => state.claims);
+  const submitClaim = useBenefitClaimsStore((state) => state.submitClaim);
+  const findDuplicateReceipt = useBenefitClaimsStore((state) => state.findDuplicateReceipt);
+  const [open, setOpen] = useState(false);
+  const [benefitCode, setBenefitCode] = useState(CLAIMABLE_BENEFITS[0].code);
+  const [receiptNo, setReceiptNo] = useState('');
+  const [receiptDate, setReceiptDate] = useState('');
+  const [claimAmount, setClaimAmount] = useState('');
+  const [hospitalType, setHospitalType] = useState('OPD');
+  const [hospitalName, setHospitalName] = useState('');
+  const [patientTransferDocument, setPatientTransferDocument] = useState('');
+  const [diseaseDetails, setDiseaseDetails] = useState('');
+  const [gasolineClaimType, setGasolineClaimType] = useState('ค่าน้ำมันประจำเดือน');
+  const [dependentName, setDependentName] = useState(dependents[0]?.fullNameTh ?? '');
+  const [attachmentText, setAttachmentText] = useState('receipt.pdf');
+  const [error, setError] = useState('');
+  const [successId, setSuccessId] = useState<string | null>(null);
+
+  const selectedBenefit = CLAIMABLE_BENEFITS.find((benefit) => benefit.code === benefitCode) ?? CLAIMABLE_BENEFITS[0];
+  const employeeClaims = claims.filter((claim) => claim.employeeId === employeeId);
+  const correctionClaims = employeeClaims.filter((claim) => claim.status === 'send_back');
+  const duplicate = receiptNo
+    ? findDuplicateReceipt(employeeId, selectedBenefit.code, receiptNo)
+    : undefined;
+
+  function resetForm() {
+    setReceiptNo('');
+    setReceiptDate('');
+    setClaimAmount('');
+    setHospitalName('');
+    setPatientTransferDocument('');
+    setDiseaseDetails('');
+    setAttachmentText('receipt.pdf');
+    setError('');
+  }
+
+  function handleSubmit(correctionOf?: string) {
+    const amount = Number(claimAmount);
+    const attachments = attachmentsFromText(attachmentText);
+    const attachmentError = validateBenefitAttachments(attachments);
+
+    if (!receiptNo.trim() || !receiptDate || !Number.isFinite(amount) || amount <= 0) {
+      setError('กรุณากรอกเลขที่เอกสาร วันที่เอกสาร และยอดขอเบิก');
+      return;
+    }
+    if (selectedBenefit.type === 'medical' && (!hospitalName.trim() || !diseaseDetails.trim())) {
+      setError('ค่ารักษาพยาบาลต้องระบุประเภท OPD/IPD โรงพยาบาล และรายละเอียดโรค');
+      return;
+    }
+    if (selectedBenefit.type === 'dependent' && !dependentName.trim()) {
+      setError('กรุณาระบุผู้รับสิทธิ์ร่วมสำหรับคำขอประเภท dependent');
+      return;
+    }
+    if (attachmentError) {
+      setError(attachmentError);
+      return;
+    }
+
+    const claim = submitClaim({
+      employeeId,
+      employeeName,
+      company: 'Central Group',
+      businessUnit: 'Retail HR',
+      employeeGroup: 'Monthly-paid',
+      personalGrade: 'PG4',
+      benefitType: selectedBenefit.type,
+      benefitCode: selectedBenefit.code,
+      benefitName: selectedBenefit.name,
+      remainingAmount: selectedBenefit.remaining,
+      receiptNo: receiptNo.trim(),
+      receiptDate,
+      receiptAmount: amount,
+      claimAmount: amount,
+      hospitalType: selectedBenefit.type === 'medical' ? hospitalType : undefined,
+      hospitalName: selectedBenefit.type === 'medical' ? hospitalName.trim() : undefined,
+      patientTransferDocument: selectedBenefit.type === 'medical' ? patientTransferDocument.trim() : undefined,
+      diseaseDetails: selectedBenefit.type === 'medical' ? diseaseDetails.trim() : undefined,
+      gasolineClaimType: selectedBenefit.type === 'gasoline' ? gasolineClaimType : undefined,
+      dependentName: selectedBenefit.type === 'dependent' ? dependentName.trim() : undefined,
+      dependentRelation: selectedBenefit.type === 'dependent' ? 'dependent' : undefined,
+      attachments,
+    }, correctionOf);
+
+    setSuccessId(claim.workflowRequestId);
+    resetForm();
+    setOpen(false);
+  }
+
+  return (
+    <div className="humi-card humi-card--cream">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <div className="humi-eyebrow">Benefit claim</div>
+          <h4 className="mt-1 font-display text-[18px] font-semibold text-ink">เบิกสวัสดิการ</h4>
+          <p className="mt-1 text-small text-ink-muted">
+            เริ่มคำขอจากหน้าโปรไฟล์นี้ แล้วติดตามสถานะได้ที่ Requests และกล่อง SPD
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {CLAIMABLE_BENEFITS.map((benefit) => (
+              <span key={benefit.code} className="humi-tag">
+                {benefit.code} · คงเหลือ ฿{benefit.remaining.toLocaleString('th-TH')}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row lg:flex-col xl:flex-row">
+          <Button variant="primary" onClick={() => setOpen((current) => !current)}>
+            {open ? 'ปิดแบบฟอร์ม' : 'เบิกสวัสดิการ'}
+          </Button>
+          <Button variant="ghost" disabled>
+            ขอใบส่งตัว · planned
+          </Button>
+        </div>
+      </div>
+
+      {successId && (
+        <div role="status" className="mt-4 rounded-md bg-[color:var(--color-success-soft)] px-4 py-3 text-small text-[color:var(--color-success)]">
+          ส่งคำขอ {successId} สำเร็จ · <Link className="underline" href={`/${locale}/requests`}>ติดตามใน Requests</Link>
+        </div>
+      )}
+
+      {correctionClaims.length > 0 && (
+        <div className="mt-4 rounded-md border border-accent/30 bg-surface p-4">
+          <div className="text-small font-semibold text-ink">รายการที่ SPD ส่งกลับให้แก้ไข</div>
+          <div className="mt-2 space-y-2">
+            {correctionClaims.map((claim) => (
+              <div key={claim.id} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-small text-ink-muted">{claim.workflowRequestId} · {claim.receiptNo} · {claim.audit.at(-1)?.note}</span>
+                <Button variant="ghost" size="sm" onClick={() => {
+                  setBenefitCode(claim.benefitCode);
+                  setReceiptNo(claim.receiptNo);
+                  setClaimAmount(String(claim.claimAmount));
+                  setReceiptDate(claim.receiptDate);
+                  setOpen(true);
+                }}>
+                  แก้ไขและส่งใหม่
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {open && (
+        <div className="mt-5 rounded-2xl border border-hairline bg-surface p-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-1.5">
+              <label htmlFor="benefit-code" className="text-small font-medium text-ink-soft">Benefit *</label>
+              <select id="benefit-code" value={benefitCode} onChange={(event) => setBenefitCode(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent">
+                {CLAIMABLE_BENEFITS.map((benefit) => <option key={benefit.code} value={benefit.code}>{benefit.code} — {benefit.name}</option>)}
+              </select>
+              <p className="text-[length:var(--text-eyebrow)] text-ink-muted">{selectedBenefit.helper}</p>
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="receipt-no" className="text-small font-medium text-ink-soft">เลขที่ใบเสร็จ/เอกสาร *</label>
+              <input id="receipt-no" value={receiptNo} onChange={(event) => setReceiptNo(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" />
+              {duplicate && <p className="flex items-center gap-1 text-[length:var(--text-eyebrow)] text-[color:var(--color-warning)]"><AlertCircle size={12} /> พบเลขที่เอกสารซ้ำกับ {duplicate.workflowRequestId}</p>}
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="receipt-date" className="text-small font-medium text-ink-soft">วันที่เอกสาร *</label>
+              <input id="receipt-date" type="date" value={receiptDate} onChange={(event) => setReceiptDate(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" />
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="claim-amount" className="text-small font-medium text-ink-soft">ยอดขอเบิก *</label>
+              <input id="claim-amount" type="number" min="1" value={claimAmount} onChange={(event) => setClaimAmount(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" />
+            </div>
+          </div>
+
+          {selectedBenefit.type === 'medical' && (
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="space-y-1.5"><label htmlFor="hospital-type" className="text-small font-medium text-ink-soft">OPD/IPD *</label><select id="hospital-type" value={hospitalType} onChange={(event) => setHospitalType(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent"><option>OPD</option><option>IPD</option></select></div>
+              <div className="space-y-1.5"><label htmlFor="hospital-name" className="text-small font-medium text-ink-soft">โรงพยาบาล *</label><input id="hospital-name" value={hospitalName} onChange={(event) => setHospitalName(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" /></div>
+              <div className="space-y-1.5"><label htmlFor="patient-transfer-document" className="text-small font-medium text-ink-soft">Patient transfer document</label><input id="patient-transfer-document" value={patientTransferDocument} onChange={(event) => setPatientTransferDocument(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" /></div>
+              <div className="space-y-1.5"><label htmlFor="disease-details" className="text-small font-medium text-ink-soft">รายละเอียดโรค *</label><input id="disease-details" value={diseaseDetails} onChange={(event) => setDiseaseDetails(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" /></div>
+            </div>
+          )}
+
+          {selectedBenefit.type === 'gasoline' && (
+            <div className="mt-4 space-y-1.5"><label htmlFor="gasoline-claim-type" className="text-small font-medium text-ink-soft">ประเภทค่าน้ำมัน</label><select id="gasoline-claim-type" value={gasolineClaimType} onChange={(event) => setGasolineClaimType(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent"><option>ค่าน้ำมันประจำเดือน</option><option>เดินทางต่างจังหวัด</option><option>สำรองจ่าย</option></select></div>
+          )}
+
+          {selectedBenefit.type === 'dependent' && (
+            <div className="mt-4 space-y-1.5"><label htmlFor="dependent-name" className="text-small font-medium text-ink-soft">ผู้รับสิทธิ์ร่วม *</label><input id="dependent-name" value={dependentName} onChange={(event) => setDependentName(event.target.value)} className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" /></div>
+          )}
+
+          <div className="mt-4 space-y-1.5">
+            <label htmlFor="claim-attachments" className="text-small font-medium text-ink-soft">ไฟล์แนบ *</label>
+            <input id="claim-attachments" value={attachmentText} onChange={(event) => setAttachmentText(event.target.value)} placeholder="receipt.pdf, photo.jpg" className="w-full rounded-[var(--radius-md)] border border-hairline bg-surface px-3 py-2 text-body text-ink outline-none focus:border-accent" />
+            <p className="text-[length:var(--text-eyebrow)] text-ink-muted">รองรับ .pdf, .jpg, .jpeg, .png, .pptx, .xlsx · ไม่เกิน 10 MB/ไฟล์ · สูงสุด 5 ไฟล์</p>
+          </div>
+
+          {error && <p role="alert" className="mt-3 text-small text-[color:var(--color-warning)]">{error}</p>}
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <Button variant="primary" onClick={() => handleSubmit(correctionClaims[0]?.id)}>ส่งคำขอเบิก</Button>
+            <Button variant="ghost" onClick={() => { resetForm(); setOpen(false); }}>ยกเลิก</Button>
+          </div>
+        </div>
+      )}
+
+      {employeeClaims.length > 0 && (
+        <ul className="mt-5 divide-y divide-hairline" role="list" aria-label="Submitted benefit claims">
+          {employeeClaims.slice(0, 5).map((claim) => (
+            <li key={claim.id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
+              <div><div className="text-small font-semibold text-ink">{claim.workflowRequestId} · {BENEFIT_CLAIM_TYPE_LABEL[claim.benefitType]}</div><div className="text-[length:var(--text-eyebrow)] text-ink-muted">{claim.receiptNo} · ฿{claim.claimAmount.toLocaleString('th-TH')}</div></div>
+              <span className={cn('rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em]', BENEFIT_CLAIM_STATUS_TONE[claim.status])}>{BENEFIT_CLAIM_STATUS_LABEL[claim.status]}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 
 /** Derive form defaults from a ported employee (T2 #89). Existing FORM_DEFAULTS
  *  serves as fallback for fields not covered by HumiEmployee shape. */
@@ -1595,108 +1851,12 @@ export default function HumiProfileMePage() {
             </div>
           </div>
 
-          <div className="humi-card">
-            <div className="humi-row" style={{ justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-              <div>
-                <div className="humi-eyebrow">Benefit claim</div>
-                <h4 className="font-display text-[18px] font-semibold leading-[1.2] tracking-tight text-ink">
-                  เบิกสวัสดิการ
-                </h4>
-                <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
-                  กรอกข้อมูลตาม workbook: เลขที่เอกสาร, วันที่, ยอดเงิน, เงื่อนไขค่ารักษา/น้ำมัน/ผู้อุปการะ และเอกสารแนบ
-                </p>
-              </div>
-              <Button variant="primary" onClick={() => setBenefitClaimOpen((open) => !open)}>
-                {benefitClaimOpen ? 'ซ่อนแบบฟอร์ม' : 'เริ่มเบิกสวัสดิการ'}
-              </Button>
-            </div>
-
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              <div className="rounded-[var(--radius-md)] border border-hairline bg-canvas-soft p-4">
-                <div className="humi-eyebrow">ePatient Transfer</div>
-                <div className="mt-1 font-semibold text-ink">ขอใบส่งตัว</div>
-                <p className="mt-1 text-small text-ink-muted">แสดงสิทธิ์และบริบทตาม BRD ใน pass แรก — การส่งคำขอจริงถูกวางแผนเป็น integration ถัดไป</p>
-                <button type="button" disabled className="mt-3 rounded-full bg-canvas px-3 py-2 text-small font-semibold text-ink-muted opacity-70">
-                  Planned · ยังไม่เปิดส่งคำขอ
-                </button>
-              </div>
-              {benefitCorrectionClaims.length > 0 && (
-                <div className="rounded-[var(--radius-md)] border border-[color:var(--color-warning)] bg-[color:var(--color-butter-soft)] p-4">
-                  <div className="humi-eyebrow">รายการที่ต้องแก้ไข</div>
-                  {benefitCorrectionClaims.map((claim) => (
-                    <div key={claim.id} className="mt-2">
-                      <div className="font-semibold text-ink">{claim.workflowRequestId} · {claim.benefitName}</div>
-                      <p className="text-small text-ink-muted">เหตุผล: {claim.sendBackReason}</p>
-                      <Button variant="secondary" className="mt-2" onClick={() => handleBenefitClaimSubmit(claim.id)}>
-                        ส่งแก้ไขกลับ SPD
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {benefitClaimWarning && (
-              <p role="status" className="mt-4 rounded-[var(--radius-md)] bg-[color:var(--color-success-soft)] px-4 py-3 text-small font-medium text-[color:var(--color-success)]">
-                {benefitClaimWarning} · <Link href={`/${locale}/requests`} className="underline">ไปที่ Requests</Link>
-              </p>
-            )}
-
-            {benefitClaimOpen && (
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">
-                  ประเภทสวัสดิการ *
-                  <select value={benefitClaimForm.benefitCode} onChange={(e) => updateBenefitClaimField('benefitCode', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink">
-                    {BENEFIT_CLAIM_OPTIONS.map((option) => <option key={option.code} value={option.code}>{option.name}</option>)}
-                  </select>
-                </label>
-                <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">
-                  เลขที่ใบเสร็จ/เอกสาร *
-                  <input value={benefitClaimForm.receiptNo} onChange={(e) => updateBenefitClaimField('receiptNo', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" placeholder="RX-3381" />
-                </label>
-                <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">
-                  วันที่ใบเสร็จ/เอกสาร *
-                  <input type="date" value={benefitClaimForm.receiptDate} onChange={(e) => updateBenefitClaimField('receiptDate', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" />
-                </label>
-                <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">
-                  ยอดตามใบเสร็จ *
-                  <input inputMode="decimal" value={benefitClaimForm.receiptAmount} onChange={(e) => updateBenefitClaimField('receiptAmount', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" placeholder="4820" />
-                </label>
-                <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">
-                  ยอดที่ต้องการเบิก *
-                  <input inputMode="decimal" value={benefitClaimForm.claimAmount} onChange={(e) => updateBenefitClaimField('claimAmount', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" placeholder="4820" />
-                </label>
-                {selectedBenefit.type === 'medical' && (
-                  <>
-                    <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">OPD/IPD *<select value={benefitClaimForm.opdIpd} onChange={(e) => updateBenefitClaimField('opdIpd', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink"><option>OPD</option><option>IPD</option></select></label>
-                    <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">ประเภทสถานพยาบาล *<select value={benefitClaimForm.hospitalType} onChange={(e) => updateBenefitClaimField('hospitalType', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink"><option value="private">เอกชน</option><option value="public">รัฐบาล</option><option value="clinic">คลินิก</option></select></label>
-                    <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">ชื่อสถานพยาบาล *<input value={benefitClaimForm.hospitalName} onChange={(e) => updateBenefitClaimField('hospitalName', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" /></label>
-                    <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">เลขที่ใบส่งตัว / Patient transfer<input value={benefitClaimForm.patientTransferDocument} onChange={(e) => updateBenefitClaimField('patientTransferDocument', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" /></label>
-                    <label className="md:col-span-2 flex flex-col gap-1.5 text-small font-medium text-ink-soft">รายละเอียดอาการ/โรค *<textarea value={benefitClaimForm.diseaseDetails} onChange={(e) => updateBenefitClaimField('diseaseDetails', e.target.value)} className="min-h-[88px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 py-2 text-body text-ink" /></label>
-                  </>
-                )}
-                {selectedBenefit.type === 'gasoline' && (
-                  <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">ประเภทการเบิกค่าน้ำมัน *<select value={benefitClaimForm.gasolineClaimType} onChange={(e) => updateBenefitClaimField('gasolineClaimType', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink"><option value="monthly">รายเดือน</option><option value="trip">รายเที่ยว</option></select></label>
-                )}
-                {selectedBenefit.type === 'dependent' && (
-                  <label className="flex flex-col gap-1.5 text-small font-medium text-ink-soft">ผู้รับสิทธิ์ร่วม *<input value={benefitClaimForm.dependentName} onChange={(e) => updateBenefitClaimField('dependentName', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" placeholder="เช่น ไอริส ทานากะ" /></label>
-                )}
-                <label className="md:col-span-2 flex flex-col gap-1.5 text-small font-medium text-ink-soft">
-                  เอกสารแนบ * (.pdf, .jpg, .jpeg, .png, .pptx, .xlsx / สูงสุด 10 MB / 5 ไฟล์)
-                  <input value={benefitClaimForm.attachmentName} onChange={(e) => updateBenefitClaimField('attachmentName', e.target.value)} className="min-h-[44px] rounded-[var(--radius-sm)] border border-hairline bg-surface px-3 text-body text-ink" placeholder="receipt.pdf" />
-                </label>
-                {benefitClaimErrors.length > 0 && (
-                  <div role="alert" className="md:col-span-2 rounded-[var(--radius-md)] bg-[color:var(--color-warning-soft)] p-3 text-small text-[color:var(--color-warning)]">
-                    {benefitClaimErrors.map((error) => <div key={error} className="flex gap-2"><AlertCircle size={14} /> {error}</div>)}
-                  </div>
-                )}
-                <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row">
-                  <Button variant="primary" onClick={() => handleBenefitClaimSubmit()} className="sm:w-auto">ส่งคำขอเบิก</Button>
-                  <Button variant="ghost" onClick={() => setBenefitClaimOpen(false)} className="sm:w-auto">ยกเลิก</Button>
-                </div>
-              </div>
-            )}
-          </div>
+          <BenefitClaimWidget
+            locale={locale}
+            employeeId={p.employeeCode}
+            employeeName={p.nameTh}
+            dependents={(saved.dependents ?? []) as Array<{ fullNameTh?: string; relation?: string }>}
+          />
 
           <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="humi-card lg:col-span-2">

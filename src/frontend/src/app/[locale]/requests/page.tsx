@@ -46,7 +46,7 @@ import {
   type RequestFilterKey,
   type RequestSubmission,
 } from '@/stores/humi-requests-slice';
-import { selectBenefitRequestSummaries, useBenefitClaimsStore } from '@/stores/benefit-claims';
+import { projectBenefitClaims, useBenefitClaimsStore } from '@/stores/benefit-claims';
 
 // ════════════════════════════════════════════════════════════
 // /requests — Forms/requests tracker
@@ -74,6 +74,7 @@ const FILTER_CHIPS: Array<{ key: RequestFilterKey; label: string }> = [
   { key: 'pending', label: 'รออนุมัติ' },
   { key: 'approved', label: 'อนุมัติแล้ว' },
   { key: 'rejected', label: 'ไม่อนุมัติ' },
+  { key: 'info', label: 'ขอข้อมูลเพิ่ม' },
 ];
 
 const REQUEST_FORM_CATALOG = HUMI_REQUEST_CATALOG.filter((form) => form.id !== 'claim');
@@ -112,7 +113,8 @@ export default function HumiRequestsPage() {
   const { toast, show: showToast } = useToast();
 
   const { submissions, filter } = useRequestsStore();
-  const benefitClaims = useBenefitClaimsStore((state) => state.claims);
+  const benefitClaims = useBenefitClaimsStore((s) => s.claims);
+  const benefitRequests = useMemo(() => projectBenefitClaims(benefitClaims), [benefitClaims]);
 
   const allMine = useMemo(() => {
     const base = HUMI_MY_REQUESTS.map((r) => ({ ...r }));
@@ -126,9 +128,18 @@ export default function HumiRequestsPage() {
         { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal' as const, status: 'pending' as const, when: 'รอดำเนินการ' },
       ] satisfies HumiApprovalStep[],
     }));
-    const benefitRows = selectBenefitRequestSummaries(benefitClaims);
-    return [...benefitRows, ...store, ...base];
-  }, [benefitClaims, submissions]);
+    const benefits = benefitRequests.map((b) => ({
+      id: b.id,
+      type: b.type,
+      sub: b.sub,
+      submitted: b.submitted,
+      status: b.status,
+      approvalChain: [
+        { role: 'SPD Benefits', name: 'ทีม SPD', initials: 'SP', tone: 'sage' as const, status: b.status === 'approved' ? 'approved' as const : b.status === 'rejected' ? 'rejected' as const : 'pending' as const, when: b.rawStatus === 'send_back' ? 'ส่งกลับแก้ไข' : 'รอดำเนินการ' },
+      ] satisfies HumiApprovalStep[],
+    }));
+    return [...benefits, ...store, ...base];
+  }, [submissions, benefitRequests]);
 
   const filtered = useMemo(() => {
     if (filter === 'all') return allMine;
@@ -140,7 +151,8 @@ export default function HumiRequestsPage() {
     const pending = allMine.filter((r) => r.status === 'pending').length;
     const approved = allMine.filter((r) => r.status === 'approved').length;
     const rejected = allMine.filter((r) => r.status === 'rejected').length;
-    return { total, pending, approved, rejected };
+    const info = allMine.filter((r) => r.status === 'info').length;
+    return { total, pending, approved, rejected, info };
   }, [allMine]);
 
   return (
@@ -234,7 +246,7 @@ function MineTab({
   summary,
   filtered,
 }: {
-  summary: { total: number; pending: number; approved: number; rejected: number };
+  summary: { total: number; pending: number; approved: number; rejected: number; info: number };
   filtered: MineRow[];
 }) {
   const { filter, setFilter } = useRequestsStore();
@@ -245,12 +257,13 @@ function MineTab({
     { l: 'รออนุมัติ', n: summary.pending, tone: 'butter' },
     { l: 'อนุมัติแล้ว', n: summary.approved, tone: 'sage' },
     { l: 'ไม่อนุมัติ', n: summary.rejected, tone: 'warn' },
+    { l: 'ขอข้อมูลเพิ่ม', n: summary.info, tone: 'accent' },
   ];
 
   return (
     <>
       {/* Summary tiles */}
-      <section className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <section className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
         {summaryCards.map((s) => (
           <div key={s.l} className={cn('humi-stat-card', `humi-stat-card--${s.tone}`)}>
             <CardEyebrow>{s.l}</CardEyebrow>
@@ -437,7 +450,7 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
     ? (TEMPLATE_FIELDS[selectedTemplate] ?? TEMPLATE_FIELDS.default)
     : null;
 
-  const selectedCatalog = HUMI_REQUEST_CATALOG.find((f) => f.id === selectedTemplate);
+  const selectedCatalog = REQUEST_FORM_CATALOG.find((f) => f.id === selectedTemplate);
 
   function handleFieldChange(id: string, value: string) {
     setFieldValues((prev) => ({ ...prev, [id]: value }));

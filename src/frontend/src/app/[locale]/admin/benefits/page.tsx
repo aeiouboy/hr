@@ -1,94 +1,174 @@
 'use client';
 
-import { Card, CardEyebrow, CardTitle, Button } from '@/components/humi';
+import { Download, FileSpreadsheet, Lock, WalletCards } from 'lucide-react';
+import { Button, Card, CardEyebrow, CardTitle, DataTable, type DataTableColumn } from '@/components/humi';
 import { useBenefitClaimsStore } from '@/stores/benefit-claims';
 
-const masterData = [
-  ['BEN-MED-OPD', 'Medical reimbursement', 'Medical', 'Reimbursement', 'INC-MED', '2026-01-01', '2026-12-31', 'Active'],
-  ['BEN-FUEL', 'Gasoline reimbursement', 'Transportation', 'Reimbursement', 'INC-FUEL', '2026-01-01', '2026-12-31', 'Active'],
-  ['BEN-MOBILE', 'Mobile reimbursement', 'Communication', 'Reimbursement', 'INC-MOB', '2026-01-01', '2026-12-31', 'Active'],
+interface BenefitMasterRow {
+  code: string;
+  name: string;
+  category: string;
+  type: string;
+  payrollIncomeCode: string;
+  effectiveDate: string;
+  endDate: string;
+  status: string;
+}
+
+interface EligibilityRow {
+  group: string;
+  code: string;
+  company: string;
+  employeeGroup: string;
+  employeeSubgroup: string;
+  jobLevel: string;
+  personalGrade: string;
+  minServiceMonth: string;
+  effectiveDate: string;
+  status: string;
+}
+
+const masters: BenefitMasterRow[] = [
+  { code: 'MED-OPD', name: 'Medical reimbursement', category: 'Health', type: 'Reimbursement', payrollIncomeCode: 'INC-MED', effectiveDate: '2026-01-01', endDate: '9999-12-31', status: 'Active' },
+  { code: 'GAS-001', name: 'Gasoline reimbursement', category: 'Allowance', type: 'Reimbursement', payrollIncomeCode: 'INC-GAS', effectiveDate: '2026-01-01', endDate: '9999-12-31', status: 'Active' },
+  { code: 'MOB-CSV', name: 'Mobile reimbursement', category: 'Allowance', type: 'Reimbursement', payrollIncomeCode: 'INC-MOB', effectiveDate: '2026-01-01', endDate: '9999-12-31', status: 'Active' },
 ];
-const eligibility = [
-  ['CG-STAFF', 'BEN-MED-OPD', 'Central Group / People Ops', 'Monthly / Staff', 'M1-M4', 'PG1-PG6', '0', '2026-01-01', 'Active'],
-  ['CG-FIELD', 'BEN-FUEL', 'Central Group / Operations', 'Monthly / Field', 'S1-M2', 'PG1-PG4', '3', '2026-01-01', 'Active'],
+
+const eligibility: EligibilityRow[] = [
+  { group: 'Retail HQ', code: 'MED-OPD', company: 'Central Group', employeeGroup: 'Monthly', employeeSubgroup: 'Permanent', jobLevel: 'L3+', personalGrade: 'PG3+', minServiceMonth: '0', effectiveDate: '2026-01-01', status: 'Active' },
+  { group: 'Store Ops', code: 'GAS-001', company: 'CRC', employeeGroup: 'Monthly', employeeSubgroup: 'Field', jobLevel: 'L4+', personalGrade: 'PG4+', minServiceMonth: '6', effectiveDate: '2026-01-01', status: 'Active' },
 ];
+
 const amountRules = [
-  ['CG-STAFF', 'Per claim', '5,000', 'Monthly', '30,000', '2026-01-01', 'Active'],
-  ['CG-FIELD', 'Mileage', '8 THB/km', 'Monthly', '6,000', '2026-01-01', 'Active'],
+  { group: 'Retail HQ', amountType: 'Per claim', amountPerClaim: '฿5,000', frequency: 'Monthly', maximumAmount: '฿20,000/year', effectiveDate: '2026-01-01', status: 'Active' },
+  { group: 'Store Ops', amountType: 'Per month', amountPerClaim: '฿2,000', frequency: 'Monthly', maximumAmount: '฿24,000/year', effectiveDate: '2026-01-01', status: 'Active' },
 ];
+
 const fieldConfig = [
-  ['Receipt/document no.', 'Visible', 'Mandatory', 'Read/write', 'All reimbursement types'],
-  ['OPD/IPD + hospital type', 'Visible', 'Mandatory', 'Read/write', 'Medical only'],
-  ['Dependent name/relationship', 'Conditional', 'Mandatory', 'Read/write', 'Dependent claims only'],
-  ['Attachment metadata', 'Visible', 'Mandatory', 'Read-only after submit', 'Medical requires first attachment'],
+  { fieldName: 'Receipt / document no.', visibility: 'Visible', mandatory: 'Yes', readOnly: 'No', conditionalRule: 'All reimbursement types' },
+  { fieldName: 'Hospital type', visibility: 'Visible', mandatory: 'Medical only', readOnly: 'No', conditionalRule: 'benefitType = medical' },
+  { fieldName: 'Dependent name', visibility: 'Visible', mandatory: 'Dependent only', readOnly: 'No', conditionalRule: 'benefitType = dependent' },
+  { fieldName: 'Attachments', visibility: 'Visible', mandatory: 'Yes', readOnly: 'No', conditionalRule: 'max 5 files, 10 MB each' },
 ];
+
 const workflowCutoff = [
-  ['Medical reimbursement', 'Employee → SPD Benefits → Payment', '1-25 monthly', 'Next payroll date', 'Active'],
-  ['Fuel/mobile reimbursement', 'Employee → SPD Benefits → Payment', '1-20 monthly', 'Month-end bank run', 'Active'],
+  { benefitPlan: 'MED-OPD', approverLane: 'SPD Benefits', cutoffRange: '1-25 monthly', paymentDate: 'Last business day', status: 'Active' },
+  { benefitPlan: 'GAS-001', approverLane: 'SPD Benefits → Payroll', cutoffRange: '1-20 monthly', paymentDate: 'Next payroll cycle', status: 'Planned' },
 ];
+
 const paymentSteps = ['Create period', 'Calculate', 'Post to finance', 'Upload bank file', 'Close period'];
+const csvPreview = ['employeeId', 'workflowRequestId', 'benefitCode', 'receiptNo', 'claimAmount', 'status', 'paymentPeriod'];
 
-export default function AdminBenefitsPage() {
-  const claims = useBenefitClaimsStore((s) => s.claims);
-  const pending = claims.filter((c) => c.status === 'pending_spd').length;
-  const approved = claims.filter((c) => c.status === 'approved').length;
-  const sendBack = claims.filter((c) => c.status === 'send_back').length;
-  const totalClaimAmount = claims.reduce((sum, c) => sum + c.totalClaimAmount, 0);
-  const remainingAmount = claims.reduce((sum, c) => sum + c.remainingAmount, 0);
+function columns<T extends object>(keys: Array<keyof T>): DataTableColumn<T>[] {
+  return keys.map((key) => ({ id: String(key), header: String(key), cell: (row) => String(row[key] ?? '') }));
+}
 
+function PlannedButton({ children }: { children: React.ReactNode }) {
   return (
-    <div className="space-y-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <CardEyebrow>Benefits admin · read-only first pass</CardEyebrow>
-          <h1 className="font-display text-[28px] font-semibold text-ink">Benefit configuration, reporting, and payment</h1>
-          <p className="mt-2 text-small text-ink-muted">BRD-backed read-only surface. Edit/import/export and integrations are planned follow-ups.</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" disabled>Edit planned</Button>
-          <Button variant="secondary" disabled>Import planned</Button>
-          <Button variant="secondary" disabled>Export planned</Button>
-        </div>
-      </header>
-
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <Summary label="Pending claims" value={pending} />
-        <Summary label="Approved claims" value={approved} />
-        <Summary label="Send-back claims" value={sendBack} />
-        <Summary label="Remaining amount" value={`฿${remainingAmount.toLocaleString('th-TH')}`} />
-        <Summary label="Total claim amount" value={`฿${totalClaimAmount.toLocaleString('th-TH')}`} />
-      </section>
-
-      <DataSection title="Benefit master data" headers={['Benefit code','Name','Category','Type','Payroll income code','Effective date','End date','Status']} rows={masterData} />
-      <DataSection title="Eligibility rules" headers={['Benefit group','Benefit code','Business unit/company','Employee group/subgroup','Job level','Personal grade','Min service month','Effective date','Status']} rows={eligibility} />
-      <DataSection title="Amount rules" headers={['Benefit group','Amount type','Amount per claim','Frequency','Maximum amount','Effective date','Status']} rows={amountRules} />
-      <DataSection title="Field configuration" headers={['Field name','Visibility','Mandatory','Read-only','Conditional rule']} rows={fieldConfig} />
-      <DataSection title="Approval workflow and cutoff" headers={['Benefit plan','Approver lane','Cutoff range','Payment date','Status']} rows={workflowCutoff} />
-
-      <Card variant="raised" size="lg">
-        <CardTitle>CSV export preview and payment process</CardTitle>
-        <p className="mt-2 text-small text-ink-muted">Preview columns: employee_id, benefit_code, receipt_no, receipt_date, claim_amount, approved_amount, payment_period, status. Actual CSV/Excel export remains disabled.</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-5">
-          {paymentSteps.map((step) => <div key={step} className="rounded-md bg-canvas-soft p-3 text-small font-medium text-ink">{step}<div className="mt-1 text-[length:var(--text-eyebrow)] uppercase tracking-[0.14em] text-ink-muted">Read-only / deferred integration</div></div>)}
-        </div>
-        <p className="mt-4 text-small text-ink-muted">Deferred: bank file generation, finance posting, payroll calculation, real Excel import/export, BE User Management editing for data permission group/application role group/user assignment.</p>
-      </Card>
-    </div>
+    <Button variant="ghost" size="sm" disabled leadingIcon={<Lock size={13} />}>
+      {children}
+    </Button>
   );
 }
 
-function Summary({ label, value }: { label: string; value: number | string }) {
-  return <Card variant="raised" size="md"><CardEyebrow>{label}</CardEyebrow><p className="mt-1 font-display text-[24px] font-semibold text-ink tabular-nums">{value}</p></Card>;
-}
+export default function AdminBenefitsPage() {
+  const claims = useBenefitClaimsStore((state) => state.claims);
+  const pending = claims.filter((claim) => claim.status === 'pending_spd').length;
+  const approved = claims.filter((claim) => claim.status === 'approved').length;
+  const sendBack = claims.filter((claim) => claim.status === 'send_back').length;
+  const totalAmount = claims.reduce((sum, claim) => sum + claim.claimAmount, 0);
+  const remaining = claims.reduce((sum, claim) => sum + claim.remainingAmount, 0);
 
-function DataSection({ title, headers, rows }: { title: string; headers: string[]; rows: string[][] }) {
+  const summary = [
+    { label: 'Pending claims', value: pending.toLocaleString('th-TH') },
+    { label: 'Approved claims', value: approved.toLocaleString('th-TH') },
+    { label: 'Send-back claims', value: sendBack.toLocaleString('th-TH') },
+    { label: 'Remaining amount', value: `฿${remaining.toLocaleString('th-TH')}` },
+    { label: 'Total claim amount', value: `฿${totalAmount.toLocaleString('th-TH')}` },
+  ];
+
   return (
-    <Card variant="raised" size="lg" className="overflow-x-auto">
-      <CardTitle>{title}</CardTitle>
-      <table className="mt-4 min-w-full text-left text-small">
-        <thead><tr className="border-b border-hairline">{headers.map((header) => <th key={header} className="whitespace-nowrap px-3 py-2 font-semibold text-ink-muted">{header}</th>)}</tr></thead>
-        <tbody>{rows.map((row) => <tr key={row.join('|')} className="border-b border-hairline last:border-0">{row.map((cell, index) => <td key={`${cell}-${index}`} className="whitespace-nowrap px-3 py-2 text-ink-soft">{cell}</td>)}</tr>)}</tbody>
-      </table>
-    </Card>
+    <div className="space-y-6 pb-8">
+      <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <CardEyebrow>Benefit administration</CardEyebrow>
+          <h1 className="mt-1 font-display text-[length:var(--text-display-h1)] font-semibold leading-[var(--text-display-h1--line-height)] text-ink">
+            Benefits master, workflow, reporting and payment readiness
+          </h1>
+          <p className="mt-2 max-w-3xl text-body text-ink-muted">
+            Read-only BRD-backed pass 1 surface. Edit, import, export, bank file, finance posting and payroll calculation are deferred integrations.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <PlannedButton>Edit</PlannedButton>
+          <PlannedButton>Import Excel</PlannedButton>
+          <PlannedButton>Export Excel</PlannedButton>
+        </div>
+      </header>
+
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        {summary.map((item) => (
+          <Card key={item.label} variant="raised" size="md">
+            <CardEyebrow>{item.label}</CardEyebrow>
+            <p className="mt-2 font-display text-[length:var(--text-display-h2)] font-semibold text-ink">{item.value}</p>
+          </Card>
+        ))}
+      </section>
+
+      <Card variant="raised" size="lg">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <CardTitle>Benefit master data</CardTitle>
+          <WalletCards className="text-ink-muted" size={18} />
+        </div>
+        <DataTable rows={masters} columns={columns<BenefitMasterRow>(['code', 'name', 'category', 'type', 'payrollIncomeCode', 'effectiveDate', 'endDate', 'status'])} caption="Benefit master data" rowKey={(row) => row.code} />
+      </Card>
+
+      <Card variant="raised" size="lg">
+        <CardTitle>Eligibility rules</CardTitle>
+        <div className="mt-4"><DataTable rows={eligibility} columns={columns<EligibilityRow>(['group', 'code', 'company', 'employeeGroup', 'employeeSubgroup', 'jobLevel', 'personalGrade', 'minServiceMonth', 'effectiveDate', 'status'])} caption="Eligibility rules" rowKey={(row) => `${row.group}-${row.code}`} /></div>
+      </Card>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Card variant="raised" size="lg">
+          <CardTitle>Amount rules</CardTitle>
+          <div className="mt-4"><DataTable rows={amountRules} columns={columns(['group', 'amountType', 'amountPerClaim', 'frequency', 'maximumAmount', 'effectiveDate', 'status'])} caption="Amount rules" rowKey={(row) => `${row.group}-${row.amountType}`} /></div>
+        </Card>
+        <Card variant="raised" size="lg">
+          <CardTitle>Field configuration</CardTitle>
+          <div className="mt-4"><DataTable rows={fieldConfig} columns={columns(['fieldName', 'visibility', 'mandatory', 'readOnly', 'conditionalRule'])} caption="Field configuration" rowKey={(row) => row.fieldName} /></div>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Card variant="raised" size="lg">
+          <CardTitle>Approval workflow and cutoff schedule</CardTitle>
+          <div className="mt-4"><DataTable rows={workflowCutoff} columns={columns(['benefitPlan', 'approverLane', 'cutoffRange', 'paymentDate', 'status'])} caption="Approval workflow and cutoff schedule" rowKey={(row) => row.benefitPlan} /></div>
+        </Card>
+        <Card variant="raised" size="lg">
+          <CardTitle>Reports / payment preview</CardTitle>
+          <div className="mt-4 rounded-md bg-canvas-soft p-4">
+            <div className="mb-2 flex items-center gap-2 text-small font-semibold text-ink"><FileSpreadsheet size={15} /> CSV export shape preview</div>
+            <code className="block whitespace-pre-wrap text-small text-ink-muted">{csvPreview.join(', ')}</code>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {paymentSteps.map((step) => <div key={step} className="rounded-md border border-hairline bg-surface px-4 py-3 text-small font-medium text-ink-muted">{step} · read-only planned</div>)}
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button variant="ghost" disabled leadingIcon={<Download size={13} />}>Export CSV · planned</Button>
+            <PlannedButton>Post to finance</PlannedButton>
+            <PlannedButton>Generate bank file</PlannedButton>
+          </div>
+        </Card>
+      </div>
+
+      <Card variant="raised" size="lg" className="border border-accent/20">
+        <CardTitle>Deferred BE User Management</CardTitle>
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-small text-ink-muted">
+          <li>Data permission group editing</li>
+          <li>Application role group assignment</li>
+          <li>User assignment and real role enforcement beyond existing app RBAC</li>
+        </ul>
+      </Card>
+    </div>
   );
 }
