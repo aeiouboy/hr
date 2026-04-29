@@ -25,7 +25,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   Home,
   User,
@@ -53,6 +53,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/stores/auth-store';
+import { benefitProfileRoute } from '@/lib/benefit-routes';
 import type { Role } from '@/lib/rbac';
 // Locale helpers — moved to Topbar with locale switcher (2026-04-23)
 
@@ -90,7 +91,7 @@ const NAV: NavSection[] = [
       { id: 'home', label: 'หน้าหลัก', href: '/th/home', icon: Home },
       { id: 'profile', label: 'โปรไฟล์ของฉัน', href: '/th/profile/me', icon: User },
       { id: 'timeoff', label: 'ลางาน', href: '/th/timeoff', icon: Calendar, badge: '2' },
-      { id: 'benefits', label: 'เงินเดือนและสวัสดิการ', href: '/th/employees/me/benefits', icon: Heart, badge: '1' },
+      { id: 'benefits', label: 'สวัสดิการ', href: benefitProfileRoute('th'), icon: Heart, badge: '1' },
       { id: 'requests', label: 'คำร้องและแบบฟอร์ม', href: '/th/requests', icon: FileText, badge: '1' },
       { id: 'my-workflows', label: 'คำขอของฉัน', href: '/th/ess/workflows', icon: ClipboardList },
       { id: 'time-attendance', label: 'เวลา & การเข้างาน', href: 'https://cnext-time.centralgroup.com', icon: Clock, external: true },
@@ -134,12 +135,21 @@ function stripLocale(path: string): string {
 
 export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const userRoles = useAuthStore((s) => s.roles);
   // Compare without locale prefix so /en/home matches href="/th/home"
   const barePath = stripLocale(pathname);
   const currentLocale = pathname.match(/^\/(th|en)/)?.[1] ?? 'th';
   const isActive = (href: string) => {
-    const bareHref = stripLocale(href);
+    const [hrefPath, hrefQuery = ''] = href.split('?');
+    const bareHref = stripLocale(hrefPath);
+    const hrefTab = new URLSearchParams(hrefQuery).get('tab');
+    if (hrefTab) {
+      return barePath === bareHref && searchParams?.get('tab') === hrefTab;
+    }
+    if (bareHref === '/profile/me' && barePath === '/profile/me' && searchParams?.get('tab') === 'benefits') {
+      return false;
+    }
     return barePath === bareHref || barePath.startsWith(bareHref + '/');
   };
   // Role-gated nav — items/sections with `roles` render only when the current

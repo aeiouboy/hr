@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import {
   Download,
   Plus,
@@ -15,9 +17,11 @@ import {
   Card,
   CardEyebrow,
   CardTitle,
+  buttonVariants,
   Modal,
 } from '@/components/humi';
 import { cn } from '@/lib/utils';
+import { benefitProfileRoute } from '@/lib/benefit-routes';
 import {
   HUMI_BENEFIT_PLANS,
   HUMI_DEPENDENTS,
@@ -335,6 +339,9 @@ function BenefitsTab() {
 // ────────────────────────────────────────────────────────────
 
 function ClaimsTab() {
+  const params = useParams<{ locale?: string }>();
+  const locale = typeof params.locale === 'string' ? params.locale : 'th';
+
   return (
     <>
       {/* Hero */}
@@ -359,13 +366,17 @@ function ClaimsTab() {
               เบิกค่าใช้จ่ายสวัสดิการ
             </h2>
             <p className="mt-2 max-w-lg text-body text-ink-soft leading-relaxed">
-              แนบใบเสร็จรับเงิน จะโอนเข้าบัญชีธนาคารของคุณใน 3–5 วันทำการ
-              หลังการอนุมัติของหัวหน้างาน
+              ดูวงเงิน ประวัติ และเริ่มจากข้อมูลสวัสดิการในโปรไฟล์พนักงาน
+              เพื่อให้คำขออยู่ในเส้นทาง ESS เดียวกัน
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Button variant="primary" leadingIcon={<Plus size={14} />}>
-                สร้างคำขอเบิก
-              </Button>
+              <Link
+                href={benefitProfileRoute(locale)}
+                className={buttonVariants({ variant: 'primary' })}
+              >
+                <Plus size={14} aria-hidden />
+                <span>เริ่มจากข้อมูลสวัสดิการของฉัน</span>
+              </Link>
               <Button variant="ghost">ดูประวัติทั้งหมด</Button>
             </div>
           </div>

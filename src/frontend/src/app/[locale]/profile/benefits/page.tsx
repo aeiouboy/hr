@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { benefitProfileRoute } from '@/lib/benefit-routes';
 
-export default async function BenefitsPage({
+export default async function ProfileBenefitsPage({
   params,
 }: {
   params: Promise<{ locale: string }>;

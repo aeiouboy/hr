@@ -16,7 +16,7 @@
 // ════════════════════════════════════════════════════════════
 
 import { useEffect, useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
@@ -36,10 +36,12 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/profile',            title: 'โปรไฟล์ของฉัน' },
   { prefix: '/th/timeoff',            title: 'ลางาน' },
   { prefix: '/en/timeoff',            title: 'ลางาน' },
-  { prefix: '/th/benefits-hub',       title: 'เงินเดือนและสวัสดิการ' },
-  { prefix: '/en/benefits-hub',       title: 'เงินเดือนและสวัสดิการ' },
-  { prefix: '/th/employees/me',       title: 'เงินเดือนและสวัสดิการ' },
-  { prefix: '/en/employees/me',       title: 'เงินเดือนและสวัสดิการ' },
+  { prefix: '/th/benefits-hub',       title: 'สวัสดิการ' },
+  { prefix: '/en/benefits-hub',       title: 'สวัสดิการ' },
+  { prefix: '/th/employees/me/payslip', title: 'สลิปเงินเดือน' },
+  { prefix: '/en/employees/me/payslip', title: 'สลิปเงินเดือน' },
+  { prefix: '/th/employees/me',       title: 'โปรไฟล์ของฉัน' },
+  { prefix: '/en/employees/me',       title: 'โปรไฟล์ของฉัน' },
   { prefix: '/th/ess/workflows',      title: 'คำขอของฉัน' },
   { prefix: '/en/ess/workflows',      title: 'คำขอของฉัน' },
   { prefix: '/th/quick-approve',      title: 'คำขอรออนุมัติ' },
@@ -76,7 +78,17 @@ const TITLE_MAP: Array<{ prefix: string; title: string }> = [
   { prefix: '/en/ess',                title: 'บริการตนเอง' },
 ];
 
-function resolveTitle(pathname: string): string {
+type ReadonlyURLSearchParamsLike = {
+  get(name: string): string | null;
+};
+
+function resolveTitle(pathname: string, searchParams?: ReadonlyURLSearchParamsLike | null): string {
+  if (
+    (pathname === '/th/profile/me' || pathname === '/en/profile/me') &&
+    searchParams?.get('tab') === 'benefits'
+  ) {
+    return 'สวัสดิการ';
+  }
   const hit = TITLE_MAP.find(
     (m) => pathname === m.prefix || pathname.startsWith(m.prefix + '/'),
   );
@@ -90,6 +102,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // regardless of which shell variant this instance eventually renders.
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const hasHydrated = useAuthStore((s) => s._hasHydrated);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -200,7 +213,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return <AdminShell>{children}</AdminShell>;
   }
 
-  const title = resolveTitle(pathname);
+  const title = resolveTitle(pathname, searchParams);
 
   return (
     <div className="humi-app">

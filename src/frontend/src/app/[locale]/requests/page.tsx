@@ -74,6 +74,8 @@ const FILTER_CHIPS: Array<{ key: RequestFilterKey; label: string }> = [
   { key: 'rejected', label: 'ไม่อนุมัติ' },
 ];
 
+const REQUEST_FORM_CATALOG = HUMI_REQUEST_CATALOG.filter((form) => form.id !== 'claim');
+
 // Template-specific form fields definition
 type TemplateField = { id: string; label: string; placeholder: string; type?: 'text' | 'textarea' };
 
@@ -82,11 +84,6 @@ const TEMPLATE_FIELDS: Record<string, TemplateField[]> = {
     { id: 'leave-type', label: 'ประเภทการลา', placeholder: 'เช่น ลาพักร้อน / ลาป่วย / ลากิจ' },
     { id: 'leave-dates', label: 'วันที่', placeholder: 'เช่น 28 เม.ย. – 2 พ.ค.' },
     { id: 'leave-reason', label: 'เหตุผล', placeholder: 'ระบุเหตุผลโดยย่อ', type: 'textarea' },
-  ],
-  claim: [
-    { id: 'claim-type', label: 'ประเภทค่าใช้จ่าย', placeholder: 'เช่น ค่ารักษาพยาบาล' },
-    { id: 'claim-amount', label: 'จำนวนเงิน (บาท)', placeholder: 'เช่น 4,820' },
-    { id: 'claim-receipt', label: 'เลขใบเสร็จ', placeholder: 'เช่น RX-3381' },
   ],
   ot: [
     { id: 'ot-date', label: 'วันที่ทำโอที', placeholder: 'เช่น เสาร์ 19 เม.ย.' },
@@ -484,7 +481,7 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
         />
         <div className="relative">
           <CardEyebrow>
-            แบบฟอร์มคำร้องทั้งหมด · {HUMI_REQUEST_CATALOG.length} ประเภท
+            แบบฟอร์มคำร้องทั้งหมด · {REQUEST_FORM_CATALOG.length} ประเภท
           </CardEyebrow>
           <h2
             className={cn(
@@ -565,7 +562,7 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
 
       {/* Catalog grid */}
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {HUMI_REQUEST_CATALOG.map((f) => {
+        {REQUEST_FORM_CATALOG.map((f) => {
           const Icon = ICONS[f.icon];
           const isSelected = selectedTemplate === f.id;
           return (

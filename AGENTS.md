@@ -14,120 +14,180 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 | #221 | 1:42 PM | 🔵 | RIS HR System - Employee Information Module Architecture | ~480 |
 </Codex-mem-context>
 
+## Current Codebase
+
+This repository is currently centered on the HRMS frontend in `src/frontend`.
+
+- Framework: Next.js 16 App Router, React 19, TypeScript.
+- Routes: `src/frontend/src/app/[locale]/...`.
+- UI: Humi components and design tokens under `src/frontend/src/components/humi`.
+- State: Zustand stores under `src/frontend/src/stores`.
+- Locales: `src/frontend/messages`.
+- Tests: Vitest unit/integration tests under `src/frontend/src/__tests__` and component test folders; Playwright E2E under `src/frontend/e2e`.
+- Mock/reference data: `src/frontend/src/lib/humi-mock-data.ts` and related `src/frontend/src/lib/*` helpers.
+
+Older docs or files may mention a static `apps/` SPA. Treat that as legacy unless the task explicitly targets it. For normal product work, inspect and modify `src/frontend`.
+
 ## Running the Application
 
-No build step required. The app runs directly from static files:
+Run from `src/frontend`:
 
 ```bash
-# Serve the app (recommended)
-python -m http.server 8080 -d apps
-# Then open http://localhost:8080
-
-# Or open directly
-open apps/index.html
+npm run dev
 ```
+
+The default dev URL is `http://localhost:3000`.
 
 ## Running Tests
 
-```bash
-# Run all unit/verification tests
-npm run test:all
-
-# Run individual test suites
-npm test                        # verification-test.js
-npm run test:additional         # additional modules
-npm run test:profile            # profile-details
-npm run test:scorecard          # scorecard tab
-npm run test:benefits           # benefits tab
-
-# E2E tests use Playwright MCP (see .mcp.json)
-```
-
-## Architecture
-
-### Frontend SPA (`apps/`)
-
-Vanilla JavaScript with no build tooling. All modules are IIFE (Immediately Invoked Function Expression) patterns loaded via `<script>` tags in `apps/index.html`. **Script load order matters** — core modules must be loaded before pages that depend on them.
-
-**Load order in `index.html`:**
-1. Core: `state.js` → `i18n.js` → `api.js` → `router.js`
-2. Utils: `date.js`, `mask.js`, `rbac.js`, `validation.js`, `accessibility.js`
-3. Mock data: `mock-*.js` files
-4. Components: reusable UI (`header.js`, `modal.js`, `tabs.js`, etc.)
-5. Workflow engine: `engine.js`, `rules.js`, `notifications.js`
-6. Pages: `home.js`, `profile.js`, etc.
-7. Bootstrap: `app.js` (initializes everything)
-
-**Key modules:**
-- `apps/js/state.js` — Centralized pub/sub state store (`AppState.get/set/subscribe`)
-- `apps/js/router.js` — Hash-based SPA routing (`#/profile/tab`, `#/home`)
-- `apps/js/api.js` — Mock API client with simulated 300ms delays and retry logic
-- `apps/js/i18n.js` — Internationalization (Thai/English), loads from `apps/locales/`
-- `apps/js/utils/rbac.js` — Role-based access control (Employee, Manager, HR Admin, HR Manager)
-
-**Adding a new page:**
-1. Create `apps/js/pages/my-page.js` with `render()` and `init()` functions
-2. Add `<script src="js/pages/my-page.js">` to `apps/index.html`
-3. Register route in `apps/js/app.js` `registerRoutes()`
-4. Add translations to `apps/locales/en.json` and `apps/locales/th.json`
-
-### State Management
-
-```javascript
-AppState.set('currentEmployee', data);     // Update state
-AppState.get('currentEmployee');           // Read state
-AppState.subscribe('language', callback);  // React to changes
-```
-
-### Routing
-
-```javascript
-Router.register('profile/:tab', { render: (params) => ..., onEnter: (params) => ... });
-Router.navigate('profile', { id: 'EMP001' }); // → #/profile/EMP001
-```
-
-### Branding
-
-Custom Tailwind colors: `cg-red` (#C8102E), `cg-dark`, `cg-light`, `cg-success`, `cg-warning`, `cg-error`, `cg-info`.
-
-### MCP Servers (`.mcp.json`)
-
-- **playwright** — Browser automation for E2E testing
-- **azure-devops** — Azure DevOps integration for `centralgroup` org
-- **firecrawl-mcp** — Web scraping/research
-
-## AI Developer Workflows (`adws/`)
-
-Python scripts that orchestrate Codex agents for complex development tasks. Requires `uv` (Python package manager).
+Run from `src/frontend`:
 
 ```bash
-# Run a prompt directly
-./adws/adw_prompt.py "Add error handling to api.js"
-
-# Plan then implement (two-phase)
-./adws/adw_chore_implement.py "Add new HR feature"
-
-# Execute a slash command
-./adws/adw_slash_command.py /chore "description"
-
-# Multi-agent task orchestrator (reads tasks.md)
-python adws/adw_triggers/adw_trigger_cron_todone.py
+npm test -- --run <test-file-or-pattern>
+npm run build
+npm run test:e2e -- --project=chromium <spec>
 ```
 
-ADW outputs are saved to `agents/{adw_id}/` with raw JSONL, parsed JSON, and summary files.
+Use focused tests first, then broaden based on risk. For route, UI, or behavior changes, add or update regression tests before implementation when practical.
 
-**Slash commands** (`.Codex/commands/*.md`) define reusable prompts: `/chore`, `/implement`, `/plan`, `/build`, `/prime`, `/test_e2e`.
+## The Four Principles
 
-## Specs and Task Planning
+### 1. Think Before Coding
 
-- `specs/` — Feature specs and chore plans (e.g., `specs/chore-{id}-{name}.md`)
-- `tasks.md` — Multi-agent task queue used by `adw_trigger_cron_todone.py`
-- Workflow: `/chore` creates a spec → `/implement` executes it → `/update_task` marks done
+Do not assume silently. Surface reasoning and uncertainty.
 
-## Key Conventions
+- State assumptions when they affect implementation.
+- Present competing interpretations when the request can reasonably mean more than one thing.
+- Push back when a smaller or safer approach fits the goal better.
+- Stop and ask only when confusion would cause a materially wrong or irreversible change.
+- Prefer codebase evidence over memory. Inspect files before changing behavior.
 
-- All JS uses IIFE module pattern — no ES modules, no `import/export` (except `module.exports` guards for test compatibility)
-- Mock data lives in `apps/js/data/mock-*.js` and is imported by `api.js`
-- i18n keys follow dot notation: `nav.home`, `profile.personalInfo`, `common.save`
-- Thai Buddhist Era dates: use `apps/js/utils/date.js` helpers
-- Sensitive fields (bank accounts, national IDs) use `apps/js/utils/mask.js`
+### 2. Simplicity First
+
+Write the minimum code that solves the requested problem.
+
+- Do not add features beyond what was asked.
+- Do not add abstractions for single-use code.
+- Do not add flexibility, configurability, or new dependencies unless the request requires it.
+- Do not add error handling for impossible scenarios.
+- If a change can be 50 clear lines instead of 200 generic lines, choose 50.
+- Prefer deletion and reuse over new layers.
+
+### 3. Surgical Changes
+
+Touch only what the task requires.
+
+- Do not improve adjacent code, comments, formatting, or architecture opportunistically.
+- Do not refactor unrelated code.
+- Match existing local style even when a different style would be preferred.
+- Mention unrelated dead code or design drift instead of deleting it.
+- Remove imports, variables, functions, tests, and files made unused by your own changes.
+- Every changed line should trace directly to the user request or required verification.
+
+### 4. Goal-Driven Execution
+
+Convert work into verifiable success criteria and loop until verified.
+
+- For a bug fix: write or update a test that reproduces the bug, then make it pass.
+- For validation: test invalid and valid paths, then implement.
+- For refactors: verify behavior before and after where feasible.
+- For multi-step work, keep a brief plan with per-step checks.
+- Do not claim completion until the relevant tests, build, or manual checks have run or a blocker is clearly stated.
+
+## Working Agreements
+
+- Lock existing behavior with regression tests before cleanup/refactor work when behavior is not already protected.
+- Prefer existing utilities, stores, routes, and Humi components before introducing new patterns.
+- Keep diffs small, reviewable, and reversible.
+- No new dependencies without explicit request.
+- Preserve user or generated dirty worktree changes; do not revert files you did not intentionally change.
+- Use `rg`/`rg --files` for search.
+- Use `apply_patch` for manual edits.
+- For frontend UI, follow the existing Humi design system and avoid legacy card/style classes in migrated routes.
+
+## Humi Design System Contract
+
+Treat Humi as the canonical product design system for `src/frontend`. The source of truth is:
+
+- Tokens: `src/frontend/src/app/globals.css`
+- Component primitives: `src/frontend/src/components/humi`
+- Token docs: `docs/design-system-humi.md`
+- Component docs: `docs/humi-components.md`
+- Shell port notes: `docs/humi-shell-port-notes.md`
+
+Implementation rules:
+
+- Start UI work from existing Humi primitives (`Card`, `Button`, `FormField`, `FileUploadField`, shell components, tables, tiles) before writing route-local markup.
+- Use token utilities and CSS variables such as `bg-canvas`, `bg-canvas-soft`, `bg-surface`, `text-ink`, `text-ink-muted`, `border-hairline`, `shadow-[var(--shadow-card)]`, `rounded-[var(--radius-md)]`, and `ring-accent-soft`.
+- Page baseline should be cream canvas plus navy ink, not stark white/black admin UI.
+- Primary action and active states use teal/accent. Info can use indigo. Danger/error uses pumpkin `--color-danger`, not red.
+- Do not introduce hardcoded color hex values in components unless the existing design docs explicitly allow the exception.
+- Do not add Tailwind red classes, Central retail red, clay/coral red, or legacy crimson/brick tones in `src/frontend`.
+- Do not use legacy card classes or old route-local card styling in migrated Humi routes. Replace mixed legacy surfaces with Humi primitives or token-based `humi-*` classes.
+- Forms should follow Humi field anatomy: label/helper text tied to the control, tokenized borders/focus rings, consistent spacing, and Humi file upload/dropzone styling. Attachments are fields too.
+- Avoid visible implementation notes in product UI, including `SF: ...`, mock field mapping remarks, or internal source labels, unless the user explicitly asks to expose them.
+- For duplicated journeys, keep one canonical Humi surface and redirect/deep-link legacy routes to it instead of maintaining two visually similar pages.
+
+Verification expectations:
+
+- For migrated routes, add or update tests that guard against legacy classes and duplicate route surfaces when practical.
+- For visual or responsive UI changes, verify desktop and mobile behavior with focused tests, Playwright, or a local browser check based on risk.
+- If a page intentionally keeps legacy styling because it is out of scope, call that out in the final note instead of silently mixing systems.
+
+## OMX And Runtime Instructions
+
+This repo uses oh-my-codex (OMX) as an orchestration layer. Keep OMX instructions in force when working here.
+
+### OMX Operating Model
+
+Treat `AGENTS.md` as the orchestration brain for this repository:
+
+- Choose the smallest lane that can finish and verify the work: direct solo execution, installed `$skill`, Codex native subagents, or tmux-backed `omx team`.
+- Explicit `$name` workflow requests route through the matching installed skill when available. If a named skill is missing, say so and continue with the nearest safe path.
+- Use `omx status` to check active modes before starting or resuming durable OMX work when mode state matters.
+- Use `omx doctor` when setup/runtime behavior looks broken, prompts or skills appear missing, MCP state tools fail, or team/HUD behavior is inconsistent.
+- Use `omx cancel` only to end an active OMX mode that is complete, stale, or blocking progress. Do not cancel recoverable work casually.
+- Keep OMX state and generated artifacts under `.omx/`; do not hand-edit hook-owned runtime state unless recovering a broken state with evidence.
+
+### Agent And Skill Routing
+
+- `omx explore --prompt ...` is preferred for simple read-only repository lookups when the runtime supports it. Use it for file/symbol/pattern mapping, not implementation.
+- `omx sparkshell ...` is acceptable for noisy bounded shell lookups or verification output where a summarized result is enough.
+- `$deep-interview` is for unclear intent and should clarify scope, non-goals, decision boundaries, and success criteria before execution.
+- `$ralplan` is for plan/test-shape review before implementation when requirements are mostly clear but tradeoffs or sequencing need review.
+- Use role-style prompts deliberately: `explore` for repo facts, `architect` for design/tradeoff analysis, `debugger` for root cause, `executor` for implementation, `verifier` for completion evidence, and `security-reviewer` for security-sensitive changes.
+- Codex native subagents may be used for independent, bounded parallel subtasks when that improves throughput. Keep each subtask self-contained, define ownership, and integrate results in the leader response.
+
+### Team Mode And Durable State
+
+- `$team`, `$hud`, and durable OMX runtime workflows require an attached tmux OMX CLI shell. From Codex App/native sessions outside tmux, do not pretend team mode is available; either use an app-safe path or tell the user to run the OMX command from the attached tmux pane.
+- Use `omx team` for genuinely parallel work with separable tasks, shared verification, or coordinated implementation lanes. Do not use it for trivial single-file edits.
+- Team execution should follow the staged lifecycle: plan, PRD/task breakdown, execute, verify, fix loop, final summary.
+- Prefer deterministic team names or task slugs for long-running work so `omx team status <name>`, `omx team resume <name>`, and `omx team shutdown <name>` are predictable.
+- If `omx team` fails because the leader workspace is dirty, do not stash or commit unrelated user changes without explicit instruction. Continue with the safest solo/native execution path when appropriate.
+- For team shutdown, prefer the normal lifecycle command and confirm state is clean before reporting completion.
+
+### Team API Interop
+
+When using `omx team api`, prefer JSON-mode operations and stable envelopes:
+
+- Use `--json` and expect a response with `schema_version`, `operation`, and `ok`.
+- Use claim-safe task lifecycle operations: create task, claim task with `expected_version`, transition status with the claim token, then release or complete the claim.
+- Use mailbox operations for structured worker communication: send or broadcast, list mailbox, then mark messages notified/delivered.
+- Use read-only summary/status calls before mutating team state if the current lifecycle position is uncertain.
+- Do not bypass claim tokens or version checks to force task transitions unless repairing broken team state with explicit evidence.
+
+## Project Conventions
+
+- Route code lives under `src/frontend/src/app/[locale]`.
+- Shared UI should use `src/frontend/src/components/humi` where a Humi component exists.
+- Prefer `next/navigation` and App Router conventions already present in nearby files.
+- Keep Thai-first product copy unless the local screen already uses bilingual or English labels.
+- Avoid hardcoding final HR/benefit/payroll taxonomy unless the source requirement or BA/SF artifact provides it.
+- Sensitive employee data should remain masked or mock-only unless the task explicitly covers secure handling.
+
+## Specs And Task Planning
+
+- `.omx/specs/` stores OMX interview and planning artifacts.
+- `specs/` stores project specs and chore plans.
+- For substantial changes, update or create a local spec only when it helps future agents understand route decisions, test contracts, or non-goals.

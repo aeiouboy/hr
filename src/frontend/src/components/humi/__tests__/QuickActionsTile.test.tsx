@@ -7,7 +7,6 @@
 
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { QuickActionsTile, DEFAULT_ESS_ACTIONS } from '../QuickActionsTile';
 
 // ────────────────────────────────────────────────────────────
@@ -44,7 +43,7 @@ describe('QuickActionsTile — AC-2 BASELINE ACTIONS', () => {
     ['ขอลาหยุด',      '/th/timeoff'],
     ['สลิปเงินเดือน',  '/th/employees/me/payslip'],
     ['ดูข้อมูลส่วนตัว', '/th/profile/me'],
-    ['เบิกสวัสดิการ',   '/th/benefits-hub'],
+    ['เบิกสวัสดิการ',   '/th/profile/me?tab=benefits'],
   ])('renders link "%s" → href "%s"', (labelTh, href) => {
     render(<QuickActionsTile />);
     const link = screen.getByRole('link', { name: labelTh });
@@ -73,12 +72,11 @@ describe('QuickActionsTile — AC-3 NAVIGATION', () => {
     });
   });
 
-  it('user-event click บน link ไม่ throw error', async () => {
-    const user = userEvent.setup();
+  it('baseline links expose browser-native navigation hrefs without custom click handlers', () => {
     render(<QuickActionsTile />);
     const link = screen.getByRole('link', { name: 'ขอลาหยุด' });
-    // jsdom ไม่ navigate จริง — ตรวจว่า click ไม่ throw
-    await expect(user.click(link)).resolves.not.toThrow();
+    expect(link).toHaveAttribute('href', '/th/timeoff');
+    expect(link).not.toHaveAttribute('onclick');
   });
 });
 

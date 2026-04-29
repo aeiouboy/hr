@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { act } from 'react';
 
 // ── UUID stub ──────────────────────────────────────────────────────────────────
@@ -82,6 +82,7 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn().mockReturnValue('/th/profile/me'),
   useRouter: vi.fn().mockReturnValue({ push: vi.fn() }),
   useParams: vi.fn().mockReturnValue({ locale: 'th' }),
+  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
 }));
 
 // ── next/link mock — render as <a href> ───────────────────────────────────────
@@ -92,6 +93,17 @@ vi.mock('next/link', () => ({
 }));
 
 import { useHumiProfileStore } from '@/stores/humi-profile-slice';
+
+async function renderProfileMePage() {
+  const { default: ProfileMePage } = await import(
+    '@/app/[locale]/profile/me/page'
+  );
+  let result: ReturnType<typeof render> | undefined;
+  await act(async () => {
+    result = render(<ProfileMePage />);
+  });
+  return result!;
+}
 
 function resetStore() {
   localStorageMock.clear();
@@ -125,6 +137,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.clearAllMocks();
+  cleanup();
   resetStore();
 });
 
@@ -134,10 +147,7 @@ afterEach(() => {
 
 describe('AC-5: profile/me Employment tab มี link ไปยัง /resignation', () => {
   it('AC-5: ต้องมี <a> ที่ href ประกอบด้วย "resignation"', async () => {
-    const { default: ProfileMePage } = await import(
-      '@/app/[locale]/profile/me/page'
-    );
-    render(<ProfileMePage />);
+    await renderProfileMePage();
 
     // AC-5: ค้นหา link ที่ href มี "resignation" path
     const links = screen.getAllByRole('link');
@@ -148,10 +158,7 @@ describe('AC-5: profile/me Employment tab มี link ไปยัง /resignati
   });
 
   it('AC-5: resignation link ต้องมี Thai label (ดูคำขอลาออก)', async () => {
-    const { default: ProfileMePage } = await import(
-      '@/app/[locale]/profile/me/page'
-    );
-    render(<ProfileMePage />);
+    await renderProfileMePage();
 
     // AC-5: getByRole('link') + Thai label text (Ken U1: visible Thai label)
     const resignLink = screen.getByRole('link', { name: /ดูคำขอลาออก/i });
@@ -159,10 +166,7 @@ describe('AC-5: profile/me Employment tab มี link ไปยัง /resignati
   });
 
   it('AC-5: resignation link href ต้องมี path "/resignation"', async () => {
-    const { default: ProfileMePage } = await import(
-      '@/app/[locale]/profile/me/page'
-    );
-    render(<ProfileMePage />);
+    await renderProfileMePage();
 
     const resignLink = screen.getByRole('link', { name: /ดูคำขอลาออก/i });
     expect(resignLink.getAttribute('href')).toMatch(/resignation/);

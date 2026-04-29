@@ -7,12 +7,18 @@
  * AC-5: T&A link ("เวลา & การเข้างาน") has target="_blank" + rel includes "noopener"
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
+
+const navigationMocks = vi.hoisted(() => ({
+  pathname: '/th/home',
+  searchParams: new URLSearchParams(),
+}));
 
 // Sidebar uses usePathname + useRouter from next/navigation
 vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(() => '/th/home'),
+  usePathname: vi.fn(() => navigationMocks.pathname),
+  useSearchParams: vi.fn(() => navigationMocks.searchParams),
   useRouter: vi.fn(() => ({
     push: vi.fn(),
     replace: vi.fn(),
@@ -46,6 +52,11 @@ vi.mock('next/image', () => ({
 
 import { Sidebar } from '../humi/shell/Sidebar';
 
+beforeEach(() => {
+  navigationMocks.pathname = '/th/home';
+  navigationMocks.searchParams = new URLSearchParams();
+});
+
 // ─── AC-4: Total NAV items = 16 ───────────────────────────────────────────────
 
 // AC-4: Sidebar shows 17 total nav items across 3 groups
@@ -77,7 +88,7 @@ describe('AC-4: Sidebar — 17 total nav items', () => {
     expect(screen.getByText('หน้าหลัก')).toBeInTheDocument();
     expect(screen.getByText('โปรไฟล์ของฉัน')).toBeInTheDocument();
     expect(screen.getByText('ลางาน')).toBeInTheDocument();
-    expect(screen.getByText('เงินเดือนและสวัสดิการ')).toBeInTheDocument();
+    expect(screen.getByText('สวัสดิการ')).toBeInTheDocument();
     expect(screen.getByText('คำร้องและแบบฟอร์ม')).toBeInTheDocument();
     expect(screen.getByText('เวลา & การเข้างาน')).toBeInTheDocument();
   });
@@ -101,6 +112,36 @@ describe('AC-4: Sidebar — 17 total nav items', () => {
     expect(screen.getByText('ตำแหน่งว่างภายใน')).toBeInTheDocument();
     expect(screen.getByText('สรรหา')).toBeInTheDocument();
     expect(screen.getByText('รายงาน')).toBeInTheDocument();
+  });
+});
+
+describe('REGRESSION: Sidebar profile/benefits canonical tab navigation', () => {
+  it('benefits menu points to the profile benefits tab with a single-purpose label', () => {
+    render(<Sidebar />);
+
+    const benefitLink = screen.getByText('สวัสดิการ').closest('a')!;
+    expect(benefitLink).toHaveAttribute('href', '/th/profile/me?tab=benefits');
+    expect(screen.queryByText('เงินเดือนและสวัสดิการ')).not.toBeInTheDocument();
+  });
+
+  it('profile menu is active on /profile/me without the benefits query', () => {
+    navigationMocks.pathname = '/th/profile/me';
+    navigationMocks.searchParams = new URLSearchParams();
+
+    render(<Sidebar />);
+
+    expect(screen.getByText('โปรไฟล์ของฉัน').closest('a')).toHaveClass('active');
+    expect(screen.getByText('สวัสดิการ').closest('a')).not.toHaveClass('active');
+  });
+
+  it('benefits menu is active on /profile/me?tab=benefits and profile is not double-active', () => {
+    navigationMocks.pathname = '/th/profile/me';
+    navigationMocks.searchParams = new URLSearchParams('tab=benefits');
+
+    render(<Sidebar />);
+
+    expect(screen.getByText('สวัสดิการ').closest('a')).toHaveClass('active');
+    expect(screen.getByText('โปรไฟล์ของฉัน').closest('a')).not.toHaveClass('active');
   });
 });
 
