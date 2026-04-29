@@ -8,7 +8,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { WizardShell } from '@/components/admin/wizard/WizardShell'
-import { type HireCandidateContext, useHireWizard } from '@/lib/admin/store/useHireWizard'
+import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { useHireAudit } from '@/stores/hire-audit'
 import { useAuthStore } from '@/stores/auth-store'
 import { useRecruitment } from '@/hooks/use-recruitment'
@@ -37,8 +37,6 @@ export default function HirePage() {
     jumpTo,
     isStepValid,
     reset,
-    candidateContext,
-    freezeCandidateContext,
   } = useHireWizard()
   const { candidates, loading: recruitmentLoading } = useRecruitment()
 
@@ -128,77 +126,6 @@ export default function HirePage() {
     mirrorStepToUrl(useHireWizard.getState().currentStep)
   }
 
-  const buildStepHref = useCallback((step: number) => {
-    const params = new URLSearchParams(search)
-    params.set('step', String(step))
-    const qs = params.toString()
-    return qs ? `${pathname}?${qs}` : pathname
-  }, [pathname, search])
-
-  const mirrorStep = useCallback((step: number, mode: 'push' | 'replace' = 'push') => {
-    const href = buildStepHref(step)
-    if (searchParams.get('step') === String(step)) return
-    router[mode](href)
-  }, [buildStepHref, router, searchParams])
-
-  useEffect(() => {
-    const urlStep = parseStep(searchParams.get('step'))
-    const state = useHireWizard.getState()
-
-    if (!urlStep) {
-      router.replace(buildStepHref(state.currentStep))
-      return
-    }
-
-    if (urlStep > state.maxUnlockedStep) {
-      router.replace(buildStepHref(state.currentStep))
-      return
-    }
-
-    if (urlStep !== state.currentStep) {
-      state.jumpTo(urlStep)
-    }
-  }, [buildStepHref, router, searchParams, search])
-
-  const urlCandidateDiffers = useMemo(() => {
-    if (!candidateId || !candidateContext) return false
-    return candidateContext.candidateId !== candidateId
-      || (candidateContext.applicantId ?? '') !== (applicantId ?? '')
-  }, [applicantId, candidateContext, candidateId])
-
-  useEffect(() => {
-    if (!candidateId || candidateContext || recruitmentLoading) return
-    const candidate = candidates.find((item) => item.id === candidateId)
-    const contextSource = source ?? candidate?.source
-    const snapshot: HireCandidateContext = {
-      candidateId,
-      ...(applicantId ? { applicantId } : {}),
-      ...(contextSource ? { source: contextSource } : {}),
-      displayName: candidate?.name ?? candidateId,
-      ...(candidate?.email ? { email: candidate.email } : {}),
-      ...(candidate?.phone ? { phone: candidate.phone } : {}),
-      ...(candidate?.position ? { position: candidate.position } : {}),
-      ...(candidate?.status ? { initialStatus: candidate.status } : {}),
-      frozenAt: new Date().toISOString(),
-    }
-    freezeCandidateContext(snapshot)
-  }, [applicantId, candidateContext, candidateId, candidates, freezeCandidateContext, recruitmentLoading, source])
-
-  const handleBack = () => {
-    goBack()
-    mirrorStep(useHireWizard.getState().currentStep)
-  }
-
-  const handleNext = () => {
-    goNext()
-    mirrorStep(useHireWizard.getState().currentStep)
-  }
-
-  const handleStepClick = (step: number) => {
-    jumpTo(step)
-    mirrorStep(useHireWizard.getState().currentStep)
-  }
-
   const handleSubmit = () => {
     const state = useHireWizard.getState()
     const formData = state.formData
@@ -248,7 +175,7 @@ export default function HirePage() {
     setSubmittedEmployeeId(employeeId)
     setSubmittedName(candidateName)
     reset()
-    router.replace(buildStepHref(1))
+    router.replace(makeStepUrl(1), { scroll: false })
   }
 
   const handleAddAnother = () => {

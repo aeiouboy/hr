@@ -26,8 +26,6 @@ export default function ClusterWho() {
   const onGlobalInfoValid = useCallback((v: boolean) => setStepValidity('globalInfo', v), [setStepValidity])
   const onWorkPermitValid = useCallback((v: boolean) => setStepValidity('workPermit', v), [setStepValidity])
   const onDependentsValid = useCallback((v: boolean) => setStepValidity('dependents', v), [setStepValidity])
-  const collapsed = useCallback((id: string) => sectionCollapse[id] ?? false, [sectionCollapse])
-  const onCollapse = useCallback((id: string, value: boolean) => setSectionCollapsed(id, value), [setSectionCollapsed])
 
   return (
     <div className="space-y-5">

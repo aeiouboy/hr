@@ -27,6 +27,7 @@ import {
   useBenefitClaimsStore,
   validateBenefitAttachmentRules,
   type BenefitClaimInput,
+  type BenefitAttachment,
   type BenefitClaimType,
 } from '@/stores/benefit-claims';
 import {
@@ -59,16 +60,6 @@ import { Address8Editor, isAddress8Valid } from '@/components/profile/Address8Ed
 import { BankDetailsEditor, isBankValid } from '@/components/profile/BankDetailsEditor';
 import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/ContactArrayEditor';
 import CompensationSummary from '@/components/profile/CompensationSummary';
-import {
-  BENEFIT_CLAIM_STATUS_LABEL,
-  BENEFIT_CLAIM_STATUS_TONE,
-  BENEFIT_CLAIM_TYPE_LABEL,
-  validateBenefitAttachments,
-  useBenefitClaimsStore,
-  type BenefitAttachment,
-  type BenefitClaimType,
-} from '@/stores/benefit-claims';
-
 // Map slice tab keys → display keys used by existing tab panels
 type TabKey = 'personal' | 'job' | 'emergency' | 'benefits' | 'docs' | 'tax';
 
@@ -234,6 +225,13 @@ const NATIONALITY_TH: Record<string, string> = {
 // Canonical home is `@/lib/all-ported-employees`.
 export { maskNationalId, employeeForLogin };
 
+const BENEFIT_STATUS_TONE: Record<string, string> = {
+  pending_spd: 'bg-accent-soft text-accent',
+  send_back: 'bg-warning/10 text-warning',
+  approved: 'bg-success/10 text-success',
+  rejected: 'bg-error/10 text-error',
+};
+
 const CLAIMABLE_BENEFITS: Array<{
   type: BenefitClaimType;
   code: string;
@@ -247,11 +245,6 @@ const CLAIMABLE_BENEFITS: Array<{
   { type: 'dependent', code: 'DEP-MED', name: 'Dependent medical reimbursement', remaining: 9000, helper: 'Dependent details are required' },
 ];
 
-function extensionOf(name: string) {
-  const dot = name.lastIndexOf('.');
-  return dot >= 0 ? name.slice(dot).toLowerCase() : '';
-}
-
 function attachmentsFromText(raw: string): BenefitAttachment[] {
   return raw
     .split(',')
@@ -259,8 +252,7 @@ function attachmentsFromText(raw: string): BenefitAttachment[] {
     .filter(Boolean)
     .map((name, index) => ({
       id: `att-${index + 1}`,
-      name,
-      extension: extensionOf(name),
+      filename: name,
       sizeMb: 1,
     }));
 }
@@ -278,7 +270,6 @@ function BenefitClaimWidget({
 }) {
   const claims = useBenefitClaimsStore((state) => state.claims);
   const submitClaim = useBenefitClaimsStore((state) => state.submitClaim);
-  const findDuplicateReceipt = useBenefitClaimsStore((state) => state.findDuplicateReceipt);
   const [open, setOpen] = useState(false);
   const [benefitCode, setBenefitCode] = useState(CLAIMABLE_BENEFITS[0].code);
   const [receiptNo, setReceiptNo] = useState('');
@@ -298,7 +289,7 @@ function BenefitClaimWidget({
   const employeeClaims = claims.filter((claim) => claim.employeeId === employeeId);
   const correctionClaims = employeeClaims.filter((claim) => claim.status === 'send_back');
   const duplicate = receiptNo
-    ? findDuplicateReceipt(employeeId, selectedBenefit.code, receiptNo)
+    ? employeeClaims.find((claim) => claim.benefitCode === selectedBenefit.code && claim.receiptNo === receiptNo)
     : undefined;
 
   function resetForm() {
@@ -312,10 +303,10 @@ function BenefitClaimWidget({
     setError('');
   }
 
-  function handleSubmit(correctionOf?: string) {
+  function handleSubmit() {
     const amount = Number(claimAmount);
     const attachments = attachmentsFromText(attachmentText);
-    const attachmentError = validateBenefitAttachments(attachments);
+    const attachmentErrors = validateBenefitAttachmentRules({ benefitType: selectedBenefit.type, attachments });
 
     if (!receiptNo.trim() || !receiptDate || !Number.isFinite(amount) || amount <= 0) {
       setError('กรุณากรอกเลขที่เอกสาร วันที่เอกสาร และยอดขอเบิก');
@@ -329,8 +320,8 @@ function BenefitClaimWidget({
       setError('กรุณาระบุผู้รับสิทธิ์ร่วมสำหรับคำขอประเภท dependent');
       return;
     }
-    if (attachmentError) {
-      setError(attachmentError);
+    if (attachmentErrors.length > 0) {
+      setError(attachmentErrors[0]);
       return;
     }
 
@@ -348,16 +339,16 @@ function BenefitClaimWidget({
       receiptNo: receiptNo.trim(),
       receiptDate,
       receiptAmount: amount,
-      claimAmount: amount,
+      totalClaimAmount: amount,
       hospitalType: selectedBenefit.type === 'medical' ? hospitalType : undefined,
       hospitalName: selectedBenefit.type === 'medical' ? hospitalName.trim() : undefined,
-      patientTransferDocument: selectedBenefit.type === 'medical' ? patientTransferDocument.trim() : undefined,
+      patientTransferDocumentNo: selectedBenefit.type === 'medical' ? patientTransferDocument.trim() : undefined,
       diseaseDetails: selectedBenefit.type === 'medical' ? diseaseDetails.trim() : undefined,
       gasolineClaimType: selectedBenefit.type === 'gasoline' ? gasolineClaimType : undefined,
       dependentName: selectedBenefit.type === 'dependent' ? dependentName.trim() : undefined,
-      dependentRelation: selectedBenefit.type === 'dependent' ? 'dependent' : undefined,
+      dependentRelationship: selectedBenefit.type === 'dependent' ? 'dependent' : undefined,
       attachments,
-    }, correctionOf);
+    });
 
     setSuccessId(claim.workflowRequestId);
     resetForm();
@@ -407,7 +398,7 @@ function BenefitClaimWidget({
                 <Button variant="ghost" size="sm" onClick={() => {
                   setBenefitCode(claim.benefitCode);
                   setReceiptNo(claim.receiptNo);
-                  setClaimAmount(String(claim.claimAmount));
+                  setClaimAmount(String(claim.totalClaimAmount));
                   setReceiptDate(claim.receiptDate);
                   setOpen(true);
                 }}>
@@ -469,7 +460,7 @@ function BenefitClaimWidget({
 
           {error && <p role="alert" className="mt-3 text-small text-[color:var(--color-warning)]">{error}</p>}
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <Button variant="primary" onClick={() => handleSubmit(correctionClaims[0]?.id)}>ส่งคำขอเบิก</Button>
+            <Button variant="primary" onClick={() => handleSubmit()}>ส่งคำขอเบิก</Button>
             <Button variant="ghost" onClick={() => { resetForm(); setOpen(false); }}>ยกเลิก</Button>
           </div>
         </div>
@@ -479,8 +470,8 @@ function BenefitClaimWidget({
         <ul className="mt-5 divide-y divide-hairline" role="list" aria-label="Submitted benefit claims">
           {employeeClaims.slice(0, 5).map((claim) => (
             <li key={claim.id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
-              <div><div className="text-small font-semibold text-ink">{claim.workflowRequestId} · {BENEFIT_CLAIM_TYPE_LABEL[claim.benefitType]}</div><div className="text-[length:var(--text-eyebrow)] text-ink-muted">{claim.receiptNo} · ฿{claim.claimAmount.toLocaleString('th-TH')}</div></div>
-              <span className={cn('rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em]', BENEFIT_CLAIM_STATUS_TONE[claim.status])}>{BENEFIT_CLAIM_STATUS_LABEL[claim.status]}</span>
+              <div><div className="text-small font-semibold text-ink">{claim.workflowRequestId} · {BENEFIT_TYPE_LABEL[claim.benefitType]}</div><div className="text-[length:var(--text-eyebrow)] text-ink-muted">{claim.receiptNo} · ฿{claim.totalClaimAmount.toLocaleString('th-TH')}</div></div>
+              <span className={cn('rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em]', BENEFIT_STATUS_TONE[claim.status])}>{BENEFIT_STATUS_LABEL[claim.status]}</span>
             </li>
           ))}
         </ul>

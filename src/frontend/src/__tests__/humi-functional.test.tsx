@@ -71,7 +71,7 @@ vi.mock('next-intl', () => ({
       tabPersonal: 'ข้อมูลส่วนตัว',
       tabJob: 'การจ้างงาน',
       tabEmergency: 'ผู้ติดต่อฉุกเฉิน',
-      tabBenefits: 'สวัสดิการ',
+      tabBenefits: 'สิทธิ์ของฉัน',
       tabDocs: 'เอกสาร',
       tabTax: 'ภาษี',
       profileEdit: 'แก้ไข',

@@ -67,13 +67,13 @@ export const MARITAL_STATUS_SINGLE_EQUIVALENTS = ['SINGLE', 'S'] as const
 /** BA rows 1-19 + Personal Info row 1 — Identity cluster */
 export const stepIdentitySchema = z.object({
   /** BA row 1 — Hire Date * */
-  hireDate: z.string({ required_error: 'กรุณาระบุวันที่เริ่มงาน' }).min(1, 'กรุณาระบุวันที่เริ่มงาน'),
+  hireDate: z.string().min(1, 'กรุณาระบุวันที่เริ่มงาน'),
   /** BA row 2 — Company * */
-  companyCode: z.string({ required_error: 'กรุณาเลือกบริษัท' }).min(1, 'กรุณาเลือกบริษัท'),
+  companyCode: z.string().min(1, 'กรุณาเลือกบริษัท'),
   /** BA row 3 — Event Reason * */
-  eventReason: z.enum(HIRE_EVENT_REASONS, { required_error: 'กรุณาเลือก Event Reason' }),
+  eventReason: z.enum(HIRE_EVENT_REASONS),
   /** BA row 4 — Salutation (EN) * */
-  salutationEn: z.enum(SALUTATION_EN_IDS, { required_error: 'กรุณาเลือกคำนำหน้า (EN)' }),
+  salutationEn: z.enum(SALUTATION_EN_IDS),
   /** BA row 5 — Firstname (EN) * */
   firstNameEn: z.string().min(1, 'กรุณาระบุชื่อ (EN)'),
   /** BA row 6 — Middle Name (EN) — optional */
@@ -91,7 +91,7 @@ export const stepIdentitySchema = z.object({
   /** BA row 12 — Employee ID * */
   employeeId: z.string().min(1, 'กรุณาระบุรหัสพนักงาน'),
   /** BA row 13 — National ID Card Type * */
-  nationalIdCardType: z.enum(ID_CARD_TYPE_IDS, { required_error: 'กรุณาเลือกประเภทบัตร' }),
+  nationalIdCardType: z.enum(ID_CARD_TYPE_IDS),
   /** BA row 14 — Country * */
   country: z.string().min(1, 'กรุณาเลือกประเทศ'),
   /** BA row 15 — National ID *
@@ -103,11 +103,11 @@ export const stepIdentitySchema = z.object({
   /** BA row 17 — Expiry Date — optional */
   expiryDate: z.string().optional().nullable(),
   /** BA row 18 — Is Primary * */
-  isPrimary: z.enum(YES_NO_IDS, { required_error: 'กรุณาเลือก Is Primary' }),
+  isPrimary: z.enum(YES_NO_IDS),
   /** BA row 19 — [VN] Issue Place — optional (Vietnam only) */
   vnIssuePlace: z.string().default(''),
   /** BA Personal Info row 1 — Salutation (Local) * */
-  salutationLocal: z.enum(SALUTATION_EN_IDS, { required_error: 'กรุณาเลือกคำนำหน้า (Local)' }),
+  salutationLocal: z.enum(SALUTATION_EN_IDS),
 })
 .refine(
   (data) => {
@@ -188,7 +188,7 @@ export const stepBiographicalSchema = z.object({
    * SF codes: Female / Male only */
   gender: z.enum(GENDER_IDS).optional(),
   /** BA Personal Info row 13 — Nationality * */
-  nationality: z.string({ required_error: 'กรุณาเลือกสัญชาติ' }).min(1),
+  nationality: z.string().min(1),
   /** BA Personal Info row 14 — Foreigner — auto-derived from nationality (SF rule XX-XXX-EIM-OI-SetFlagForeigner) */
   foreigner: z.enum(YES_NO_IDS).optional(),
   /** BA Personal Info row 15 — Blood Type — optional (not in SF schema; Thai-locale custom) */
@@ -362,7 +362,7 @@ export const stepEmployeeInfoSchema = z.object({
 
 export const stepNationalIdSchema = z.object({
   value: z
-    .string({ required_error: 'กรุณาระบุเลขบัตรประชาชน' })
+    .string()
     .min(1, 'กรุณาระบุเลขบัตรประชาชน')
     .regex(/^[0-9]{13}$/, 'เลขบัตรประชาชนต้องเป็นตัวเลข 13 หลัก'),
 })
@@ -393,8 +393,8 @@ export const EMPLOYMENT_TYPE_CODES = [
 ] as const
 
 export const stepJobSchema = z.object({
-  position: z.string({ required_error: 'กรุณาระบุตำแหน่ง' }).min(1, 'กรุณาระบุตำแหน่ง'),
-  businessUnit: z.string({ required_error: 'กรุณาเลือกหน่วยธุรกิจ' }).min(1, 'กรุณาเลือกหน่วยธุรกิจ'),
+  position: z.string().min(1, 'กรุณาระบุตำแหน่ง'),
+  businessUnit: z.string().min(1, 'กรุณาเลือกหน่วยธุรกิจ'),
   // Phase 3: new optional/nullable fields — mandatory enforcement happens at mapper level
   department: z.string().optional().nullable(),
   division: z.string().optional().nullable(),
@@ -422,13 +422,13 @@ export const stepJobSchema = z.object({
 const costDistributionRowSchema = z.object({
   costCenter: z.string().min(1, 'กรุณาเลือก cost center'),
   percent: z
-    .number({ required_error: 'กรุณาระบุสัดส่วน cost center' })
+    .number()
     .positive('สัดส่วน cost center ต้องมากกว่า 0')
     .max(100, 'สัดส่วน cost center ต้องไม่เกิน 100'),
 })
 
 export const stepCompensationSchema = z.object({
-  baseSalary: z.number({ required_error: 'กรุณาระบุเงินเดือน' }).positive('เงินเดือนต้องมากกว่า 0'),
+  baseSalary: z.number().positive('เงินเดือนต้องมากกว่า 0'),
   costDistribution: z.array(costDistributionRowSchema).optional().default([]),
 }).superRefine((data, ctx) => {
   const rows = data.costDistribution ?? []

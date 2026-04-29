@@ -16,8 +16,6 @@ export default function ClusterJob() {
   const toggleSection = useHireWizard((s) => s.toggleSection)
   const onEmployeeInfoValid = useCallback((v: boolean) => setStepValidity('employeeInfo', v), [setStepValidity])
   const onCompensationValid = useCallback((v: boolean) => setStepValidity('compensation', v), [setStepValidity])
-  const collapsed = useCallback((id: string) => sectionCollapse[id] ?? false, [sectionCollapse])
-  const onCollapse = useCallback((id: string, value: boolean) => setSectionCollapsed(id, value), [setSectionCollapsed])
 
   return (
     <div className="space-y-5">

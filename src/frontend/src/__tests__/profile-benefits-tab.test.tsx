@@ -52,7 +52,7 @@ vi.mock('next-intl', () => ({
       tabEmergency: 'ติดต่อฉุกเฉิน',
       tabDocs: 'เอกสาร',
       tabTax: 'ภาษี',
-      tabBenefits: 'สวัสดิการ',
+      tabBenefits: 'สิทธิ์ของฉัน',
       benefitsTitle: 'สวัสดิการของฉัน',
       benefitsHelp: 'ดูสิทธิ์ที่ลงทะเบียนและประวัติคำขอล่าสุดจากหน้าโปรไฟล์เดียว',
       benefitsPlansTitle: 'แผนที่ลงทะเบียน',
@@ -96,7 +96,7 @@ describe('/profile/me benefits tab', () => {
       expect(useHumiProfileStore.getState().activeTab).toBe('benefits');
     });
 
-    expect(screen.getByRole('tab', { name: 'สวัสดิการ' })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tab', { name: 'สิทธิ์ของฉัน' })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByRole('heading', { name: 'สวัสดิการของฉัน' })).toBeInTheDocument();
     expect(screen.queryByText('SF: EmpJob.employeeGroup')).not.toBeInTheDocument();
   });
