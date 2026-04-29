@@ -45,6 +45,10 @@ import {
   type RequestFilterKey,
   type RequestSubmission,
 } from '@/stores/humi-requests-slice';
+import {
+  projectBenefitClaimToRequest,
+  useBenefitClaimsStore,
+} from '@/stores/benefit-claims';
 
 // ════════════════════════════════════════════════════════════
 // /requests — Forms/requests tracker
@@ -110,6 +114,7 @@ export default function HumiRequestsPage() {
   const { toast, show: showToast } = useToast();
 
   const { submissions, filter } = useRequestsStore();
+  const benefitClaims = useBenefitClaimsStore((state) => state.claims);
 
   const allMine = useMemo(() => {
     const base = HUMI_MY_REQUESTS.map((r) => ({ ...r }));
@@ -123,8 +128,9 @@ export default function HumiRequestsPage() {
         { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal' as const, status: 'pending' as const, when: 'รอดำเนินการ' },
       ] satisfies HumiApprovalStep[],
     }));
-    return [...store, ...base];
-  }, [submissions]);
+    const benefitRequests = benefitClaims.map(projectBenefitClaimToRequest);
+    return [...benefitRequests, ...store, ...base];
+  }, [benefitClaims, submissions]);
 
   const filtered = useMemo(() => {
     if (filter === 'all') return allMine;
@@ -559,6 +565,21 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
           </div>
         </Card>
       )}
+
+      <Card variant="raised" size="md" className="mb-4 border border-accent/30">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <CardEyebrow>สวัสดิการ</CardEyebrow>
+            <CardTitle>เบิกสวัสดิการ</CardTitle>
+            <p className="mt-1 text-small text-ink-muted">
+              เริ่มคำขอจากข้อมูลสิทธิ์ในโปรไฟล์ เพื่อไม่ให้เกิดแบบฟอร์มซ้ำใน Requests
+            </p>
+          </div>
+          <a href="/th/profile/me?tab=benefits" className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-canvas-soft px-4 text-small font-semibold text-ink hover:bg-hairline-soft">
+            ไปที่สวัสดิการของฉัน <ArrowRight size={14} className="ml-2" />
+          </a>
+        </div>
+      </Card>
 
       {/* Catalog grid */}
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
