@@ -17,7 +17,7 @@ import { BenefitClaimsInbox } from '@/components/workflow/BenefitClaimsInbox';
 import { useWorkflowApprovals } from '@/stores/workflow-approvals';
 import { useTerminationApprovals } from '@/stores/termination-approvals';
 import { usePromotionApprovals } from '@/stores/promotion-approvals';
-import { BENEFIT_STATUS_LABEL, useBenefitClaimsStore } from '@/stores/benefit-claims';
+import { BENEFIT_STATUS_LABEL, selectBenefitRequestSummaries, useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { STEP_LABEL } from '@/stores/workflow-approvals';
 import { TERMINATION_STEP_LABEL } from '@/stores/termination-approvals';
 import { PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals';
@@ -56,16 +56,17 @@ function useSPDStoreSlots(): StoreSlot[] {
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 
-  const benefitRows: WorkflowRow[] = benefitClaims.map((r) => ({
-    id: r.workflowRequestId,
-    requestType: 'Benefit Reimbursement',
-    requestedBy: r.employeeName,
-    requestedOn: r.submittedAt,
-    currentStep: BENEFIT_STATUS_LABEL[r.status],
+  const benefitRows: WorkflowRow[] = selectBenefitRequestSummaries(benefitClaims).map((r) => ({
+    id: r.id,
+    requestType: r.type,
+    requestedBy: r.claim.employeeName,
+    requestedOn: r.claim.submittedAt,
+    currentStep: BENEFIT_STATUS_LABEL[r.claim.status],
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 
   return [
+    { name: 'Benefit Reimbursement (BRD Benefits)', rows: benefitRows },
     { name: 'แก้ไขข้อมูลส่วนตัว (BRD #166)', rows: wfRows },
     { name: 'คำขอลาออก (BRD #172)',           rows: termRows },
     { name: 'คำขอเลื่อนตำแหน่ง (BRD #103)',   rows: promRows },
@@ -98,6 +99,11 @@ export default function SPDInboxPage() {
         title="Chain 3 — แก้ไขข้อมูลส่วนตัว"
         subtitle="อนุมัติคำขอแก้ไขข้อมูลส่วนตัวที่พนักงานส่งผ่าน Self-Service (BRD #166)"
       />
+
+      <div style={{ borderTop: '1px solid var(--color-hairline-soft)' }} />
+
+      {/* Benefit reimbursement workflow */}
+      <BenefitClaimsInbox />
 
       <div style={{ borderTop: '1px solid var(--color-hairline-soft)' }} />
 

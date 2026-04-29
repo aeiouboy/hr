@@ -45,10 +45,7 @@ import {
   type RequestFilterKey,
   type RequestSubmission,
 } from '@/stores/humi-requests-slice';
-import {
-  projectBenefitClaimToRequest,
-  useBenefitClaimsStore,
-} from '@/stores/benefit-claims';
+import { selectBenefitRequestSummaries, useBenefitClaimsStore } from '@/stores/benefit-claims';
 
 // ════════════════════════════════════════════════════════════
 // /requests — Forms/requests tracker
@@ -128,8 +125,8 @@ export default function HumiRequestsPage() {
         { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal' as const, status: 'pending' as const, when: 'รอดำเนินการ' },
       ] satisfies HumiApprovalStep[],
     }));
-    const benefitRequests = benefitClaims.map(projectBenefitClaimToRequest);
-    return [...benefitRequests, ...store, ...base];
+    const benefitRows = selectBenefitRequestSummaries(benefitClaims);
+    return [...benefitRows, ...store, ...base];
   }, [benefitClaims, submissions]);
 
   const filtered = useMemo(() => {
@@ -202,7 +199,7 @@ export default function HumiRequestsPage() {
         <TabButton
           active={tab === 'catalog'}
           onClick={() => setTab('catalog')}
-          count={HUMI_REQUEST_CATALOG.length}
+          count={REQUEST_FORM_CATALOG.length}
         >
           แบบฟอร์มทั้งหมด
         </TabButton>
@@ -616,15 +613,21 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
               <p className="mt-1 text-small text-ink-soft leading-relaxed">
                 {f.subtitle}
               </p>
-              <Button
-                variant={isSelected ? 'secondary' : 'ghost'}
-                block
-                className="mt-4"
-                trailingIcon={<ArrowRight size={13} />}
-                onClick={() => setSelectedTemplate(isSelected ? null : f.id)}
-              >
-                {isSelected ? 'กำลังกรอก' : 'เริ่มกรอก'}
-              </Button>
+              {f.id === 'claim' ? (
+                <a href="/th/profile/me?tab=benefits" className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-canvas-soft px-4 py-2.5 text-small font-semibold text-ink hover:bg-accent-soft">
+                  ไปที่โปรไฟล์เพื่อเบิกสวัสดิการ
+                </a>
+              ) : (
+                <Button
+                  variant={isSelected ? 'secondary' : 'ghost'}
+                  block
+                  className="mt-4"
+                  trailingIcon={<ArrowRight size={13} />}
+                  onClick={() => setSelectedTemplate(isSelected ? null : f.id)}
+                >
+                  {isSelected ? 'กำลังกรอก' : 'เริ่มกรอก'}
+                </Button>
+              )}
             </Card>
           );
         })}
