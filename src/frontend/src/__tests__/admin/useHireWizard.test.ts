@@ -348,3 +348,96 @@ describe('useHireWizard — state persistence (AC-8)', () => {
     expect(result.current.formData.identity.companyCode).toBe('CEN')
   })
 })
+
+describe('useHireWizard — candidate context and collapsible sections', () => {
+  it('initializes candidateContext=null and sectionCollapse={}', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    expect(result.current.candidateContext).toBeNull()
+    expect(result.current.sectionCollapse).toEqual({})
+  })
+
+  it('freezes a new candidate snapshot and prefills only blank candidate-derived fields', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    act(() => {
+      result.current.freezeCandidateContext({
+        candidateId: 'CAN001',
+        applicantId: 'APP001',
+        source: 'LinkedIn',
+        displayName: 'Anya Kowalski',
+        email: 'anya@example.com',
+        phone: '+66 81 234 5678',
+        position: 'Senior Software Engineer',
+        initialStatus: 'offer',
+        frozenAt: '2026-04-29T00:00:00.000Z',
+      })
+    })
+
+    expect(result.current.candidateContext?.candidateId).toBe('CAN001')
+    expect(result.current.formData.identity.firstNameEn).toBe('Anya')
+    expect(result.current.formData.identity.lastNameEn).toBe('Kowalski')
+    expect(result.current.formData.contact.emails[0].value).toBe('anya@example.com')
+    expect(result.current.formData.contact.phones[0].value).toBe('+66 81 234 5678')
+    expect(result.current.formData.job.position).toBe('Senior Software Engineer')
+  })
+
+  it('is idempotent for the same candidate/applicant and does not overwrite a different frozen context', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    act(() => {
+      result.current.freezeCandidateContext({ candidateId: 'CAN001', applicantId: 'APP001', displayName: 'Original Candidate', frozenAt: '2026-04-29T00:00:00.000Z' })
+      result.current.freezeCandidateContext({ candidateId: 'CAN001', applicantId: 'APP001', displayName: 'Changed Candidate', frozenAt: '2026-04-30T00:00:00.000Z' })
+      result.current.freezeCandidateContext({ candidateId: 'CAN002', applicantId: 'APP002', displayName: 'Different Candidate', frozenAt: '2026-05-01T00:00:00.000Z' })
+    })
+
+    expect(result.current.candidateContext).toMatchObject({
+      candidateId: 'CAN001',
+      applicantId: 'APP001',
+      displayName: 'Original Candidate',
+      frozenAt: '2026-04-29T00:00:00.000Z',
+    })
+  })
+
+  it('clears candidate context explicitly and during reset', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    act(() => {
+      result.current.freezeCandidateContext({ candidateId: 'CAN001', displayName: 'Anya Kowalski', frozenAt: '2026-04-29T00:00:00.000Z' })
+      result.current.clearCandidateContext()
+    })
+    expect(result.current.candidateContext).toBeNull()
+
+    act(() => {
+      result.current.freezeCandidateContext({ candidateId: 'CAN001', displayName: 'Anya Kowalski', frozenAt: '2026-04-29T00:00:00.000Z' })
+      result.current.setSectionCollapsed('who.identity', true)
+      result.current.reset()
+    })
+
+    expect(result.current.candidateContext).toBeNull()
+    expect(result.current.sectionCollapse).toEqual({})
+  })
+
+  it('sets and toggles persisted collapse state with missing ids treated as expanded by consumers', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    expect(result.current.sectionCollapse['who.identity'] ?? false).toBe(false)
+
+    act(() => {
+      result.current.setSectionCollapsed('who.identity', true)
+    })
+    expect(result.current.sectionCollapse['who.identity']).toBe(true)
+
+    act(() => {
+      result.current.toggleSection('who.identity')
+    })
+    expect(result.current.sectionCollapse['who.identity']).toBe(false)
+  })
+
+  it('preserves loose navigation and strict validation invariants', () => {
+    const { result } = renderHook(() => useHireWizard())
+
+    expect(result.current.isStepValid(1)).toBe(true)
+    expect(result.current.isStepValid(1, true)).toBe(false)
+  })
+})

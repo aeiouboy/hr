@@ -16,6 +16,18 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 // ประเภท step number — จำกัดเป็น 1-3 เท่านั้น (Who / Job / Review)
 type StepNumber = 1 | 2 | 3
 
+export interface HireCandidateContext {
+  candidateId: string
+  applicantId?: string
+  source?: string
+  displayName: string
+  email?: string
+  phone?: string
+  position?: string
+  initialStatus?: string
+  frozenAt: string
+}
+
 // ── A2: Multi-value Contact types ────────────────────────────────────────────
 export interface PhoneEntry { type: 'mobile' | 'office' | 'home'; value: string; isPrimary: boolean }
 export interface EmailEntry { type: 'personal' | 'work'; value: string; isPrimary: boolean }
@@ -497,11 +509,17 @@ interface HireWizardState {
   stepValidity: StepValidity
   // DEF-04: HRBP assignee lifted from ClusterReview local state (BRD #109)
   hrbpAssignee: string
+  candidateContext: HireCandidateContext | null
+  sectionCollapse: Record<string, boolean>
 
   setStepData: <K extends keyof FormData>(step: K, patch: Partial<FormData[K]>) => void
   setEmployeeClassToggle: (v: EmployeeClassToggle) => void
   setStepValidity: (slice: keyof StepValidity, valid: boolean) => void
   setHrbpAssignee: (id: string) => void
+  freezeCandidateContext: (snapshot: HireCandidateContext) => void
+  clearCandidateContext: () => void
+  setSectionCollapsed: (sectionId: string, collapsed: boolean) => void
+  toggleSection: (sectionId: string) => void
   goNext: () => void
   goBack: () => void
   jumpTo: (step: number) => void
@@ -648,6 +666,8 @@ export const useHireWizard = create<HireWizardState>()(
       employeeClassToggle: 'PERMANENT' as EmployeeClassToggle,
       stepValidity: initialStepValidity,
       hrbpAssignee: '',
+      candidateContext: null,
+      sectionCollapse: {},
 
       setStepData: (step, patch) => {
         set((state) => ({
@@ -664,6 +684,63 @@ export const useHireWizard = create<HireWizardState>()(
         })),
 
       setHrbpAssignee: (id) => set({ hrbpAssignee: id }),
+
+      freezeCandidateContext: (snapshot) => {
+        set((state) => {
+          const existing = state.candidateContext
+          const sameContext = existing
+            && existing.candidateId === snapshot.candidateId
+            && (existing.applicantId ?? '') === (snapshot.applicantId ?? '')
+
+          if (sameContext) return {}
+          if (existing) return {}
+
+          const [firstName = '', ...rest] = snapshot.displayName.trim().split(/\s+/)
+          const lastName = rest.join(' ')
+          const nextFormData = {
+            ...state.formData,
+            identity: {
+              ...state.formData.identity,
+              firstNameEn: state.formData.identity.firstNameEn || firstName,
+              lastNameEn: state.formData.identity.lastNameEn || lastName,
+            },
+            contact: {
+              ...state.formData.contact,
+              phones: snapshot.phone && state.formData.contact.phones.every((phone) => phone.value.trim() === '')
+                ? [{ type: 'mobile' as const, value: snapshot.phone, isPrimary: true }, ...state.formData.contact.phones.slice(1)]
+                : state.formData.contact.phones,
+              emails: snapshot.email && state.formData.contact.emails.every((email) => email.value.trim() === '')
+                ? [{ type: 'personal' as const, value: snapshot.email, isPrimary: true }, ...state.formData.contact.emails.slice(1)]
+                : state.formData.contact.emails,
+            },
+            job: {
+              ...state.formData.job,
+              position: state.formData.job.position || snapshot.position || '',
+            },
+          }
+
+          return {
+            candidateContext: snapshot,
+            formData: nextFormData,
+            lastSavedAt: Date.now(),
+          }
+        })
+      },
+
+      clearCandidateContext: () => set({ candidateContext: null, lastSavedAt: Date.now() }),
+
+      setSectionCollapsed: (sectionId, collapsed) => set((state) => ({
+        sectionCollapse: { ...state.sectionCollapse, [sectionId]: collapsed },
+        lastSavedAt: Date.now(),
+      })),
+
+      toggleSection: (sectionId) => set((state) => ({
+        sectionCollapse: {
+          ...state.sectionCollapse,
+          [sectionId]: !(state.sectionCollapse[sectionId] ?? false),
+        },
+        lastSavedAt: Date.now(),
+      })),
 
       goNext: () => {
         const { currentStep, maxUnlockedStep, formData, stepValidity, hrbpAssignee } = get()
@@ -702,6 +779,8 @@ export const useHireWizard = create<HireWizardState>()(
         employeeClassToggle: 'PERMANENT',
         stepValidity: initialStepValidity,
         hrbpAssignee: '',
+        candidateContext: null,
+        sectionCollapse: {},
       }),
     }),
     {
@@ -717,13 +796,16 @@ export const useHireWizard = create<HireWizardState>()(
       // Version 6 adds: Phase 5b-2/3/4 globalInfo, workPermit, dependents slices.
       // Version 7 adds: Phase 5 compensation.recurringComponents + bank/payment fields.
       // Version 8 adds BA attachment fields across remaining hire sections.
-      version: 8,
+      // Version 9 adds frozen candidate context and persisted collapsible sections.
+      version: 9,
       partialize: (state) => ({
         currentStep: state.currentStep,
         maxUnlockedStep: state.maxUnlockedStep,
         formData: state.formData,
         lastSavedAt: state.lastSavedAt,
         employeeClassToggle: state.employeeClassToggle,
+        candidateContext: state.candidateContext,
+        sectionCollapse: state.sectionCollapse,
         // stepValidity intentionally NOT persisted — recomputed on mount from step components
         // hrbpAssignee intentionally NOT persisted — must be re-selected each session
       }),
@@ -731,6 +813,10 @@ export const useHireWizard = create<HireWizardState>()(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const p = persisted as any
         if (!p || typeof p !== 'object' || !p.formData) return p
+        if (!('candidateContext' in p)) p.candidateContext = null
+        if (!p.sectionCollapse || typeof p.sectionCollapse !== 'object' || Array.isArray(p.sectionCollapse)) {
+          p.sectionCollapse = {}
+        }
         const fd = p.formData
         if (!fd.identity || typeof fd.identity !== 'object') {
           fd.identity = {}
@@ -836,7 +922,7 @@ export const useHireWizard = create<HireWizardState>()(
         if (!('paymentAttachmentName' in fd.compensation)) {
           fd.compensation.paymentAttachmentName = null
         }
-        console.warn(`[useHireWizard] migrated draft from v${fromVersion} → v8`)
+        console.warn(`[useHireWizard] migrated draft from v${fromVersion} → v9`)
         return p
       },
     },
