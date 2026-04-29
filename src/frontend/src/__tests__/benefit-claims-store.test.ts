@@ -1,84 +1,77 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
   BENEFIT_STATUS_LABEL,
-  projectBenefitClaimToRequest,
+  selectBenefitRequestSummaries,
   useBenefitClaimsStore,
-  validateBenefitAttachments,
-  validateBenefitClaimInput,
-  type BenefitClaimSubmitInput,
+  validateBenefitAttachmentRules,
 } from '@/stores/benefit-claims';
-
-const baseInput: BenefitClaimSubmitInput = {
-  employeeId: 'EMP001',
-  employeeName: 'จงรักษ์ ทานากะ',
-  company: 'Central Group',
-  businessUnit: 'Head Office',
-  employeeGroup: 'Monthly Staff',
-  personalGrade: 'PG4',
-  benefitCode: 'MED-OPD',
-  benefitName: 'Medical reimbursement',
-  claimType: 'medical',
-  receiptNo: 'RX-3381',
-  receiptDate: '2026-04-15',
-  receiptAmount: 4820,
-  claimAmount: 4820,
-  remainingAmount: 25600,
-  hospitalType: 'private',
-  hospitalName: 'BNH Hospital',
-  opdIpd: 'OPD',
-  patientTransferDocument: 'PT-1',
-  diseaseDetails: 'ไข้หวัด',
-  attachments: [{ id: 'att-1', filename: 'receipt.pdf', mimeType: 'application/pdf', size: 200_000 }],
-};
 
 describe('benefit claim store', () => {
   beforeEach(() => {
     localStorage.clear();
-    useBenefitClaimsStore.getState().clear();
+    useBenefitClaimsStore.setState({ claims: [] });
   });
 
-  it('creates a benefit claim with workflow request projection and audit trail', () => {
-    const id = useBenefitClaimsStore.getState().submitClaim(baseInput);
-    const claim = useBenefitClaimsStore.getState().claims.find((item) => item.id === id)!;
+  it('creates a benefit claim aggregate and projects it into request tracking', () => {
+    const claim = useBenefitClaimsStore.getState().submitClaim({
+      benefitType: 'medical',
+      receiptNo: 'RCPT-001',
+      receiptDate: '2026-04-29',
+      receiptAmount: 1500,
+      totalClaimAmount: 1500,
+      hospitalName: 'Bangkok Hospital',
+      attachments: [{ id: 'a1', filename: 'receipt.pdf', sizeMb: 1 }],
+    });
 
+    expect(claim.id).toMatch(/^BEN-CLM-/);
     expect(claim.workflowRequestId).toMatch(/^REQ-BEN-/);
     expect(claim.status).toBe('pending_spd');
-    expect(claim.audit[0]).toMatchObject({ action: 'submit', actorRole: 'employee' });
+    expect(claim.audit).toHaveLength(1);
 
-    const projected = projectBenefitClaimToRequest(claim);
-    expect(projected.id).toBe(claim.workflowRequestId);
-    expect(projected.type).toContain('เบิกสวัสดิการ');
-    expect(projected.status).toBe('pending');
+    const [row] = selectBenefitRequestSummaries(useBenefitClaimsStore.getState().claims);
+    expect(row.id).toBe(claim.workflowRequestId);
+    expect(row.type).toContain('เบิกสวัสดิการ');
+    expect(row.sub).toContain('RCPT-001');
+    expect(row.status).toBe('pending');
   });
 
-  it('persists approve, reject, send-back labels and duplicate receipt detection', () => {
-    const id = useBenefitClaimsStore.getState().submitClaim(baseInput);
+  it('tracks approve, reject, and send-back audit history with Thai labels', () => {
+    const claim = useBenefitClaimsStore.getState().submitClaim({
+      benefitType: 'gasoline',
+      receiptNo: 'FUEL-001',
+      receiptDate: '2026-04-29',
+      receiptAmount: 800,
+      totalClaimAmount: 800,
+      gasolineClaimType: 'actual',
+    });
 
-    expect(useBenefitClaimsStore.getState().duplicateReceiptExists({ employeeId: 'EMP001', benefitCode: 'MED-OPD', receiptNo: 'rx-3381' })).toBe(true);
+    useBenefitClaimsStore.getState().sendBackClaim(claim.id, { role: 'spd', name: 'SPD' }, 'แก้ไขเลขที่ใบเสร็จ');
+    expect(useBenefitClaimsStore.getState().claims[0].status).toBe('send_back');
     expect(BENEFIT_STATUS_LABEL.send_back).toBe('ส่งกลับให้แก้ไข');
 
-    useBenefitClaimsStore.getState().sendBack(id, { name: 'SPD Benefits' }, 'แนบเอกสารเพิ่ม');
-    let claim = useBenefitClaimsStore.getState().claims[0];
-    expect(claim.status).toBe('send_back');
-    expect(claim.audit.at(-1)?.action).toBe('send_back');
+    useBenefitClaimsStore.getState().resubmitClaim(claim.id, { receiptNo: 'FUEL-002' });
+    useBenefitClaimsStore.getState().approveClaim(claim.id, { role: 'spd', name: 'SPD' });
 
-    useBenefitClaimsStore.getState().resubmitCorrection(id, { receiptNo: 'RX-3381-A' });
-    claim = useBenefitClaimsStore.getState().claims[0];
-    expect(claim.status).toBe('pending_spd');
-    expect(claim.previousVersions).toHaveLength(1);
-
-    useBenefitClaimsStore.getState().approve(id, { name: 'SPD Benefits' });
-    expect(useBenefitClaimsStore.getState().claims[0].status).toBe('approved');
+    const updated = useBenefitClaimsStore.getState().claims[0];
+    expect(updated.status).toBe('approved');
+    expect(updated.previousVersions).toHaveLength(1);
+    expect(updated.audit.map((entry) => entry.action)).toEqual(['submit', 'send_back', 'resubmit', 'approve']);
   });
 
-  it('validates workbook-required medical fields and attachment rules', () => {
-    expect(validateBenefitClaimInput({ ...baseInput, hospitalName: '', attachments: [] })).toEqual(
-      expect.arrayContaining(['กรุณากรอกชื่อสถานพยาบาล', 'กรุณาแนบเอกสารค่ารักษาอย่างน้อย 1 ไฟล์']),
-    );
+  it('detects duplicate receipts and validates attachment rules', () => {
+    useBenefitClaimsStore.getState().submitClaim({
+      benefitType: 'mobile',
+      receiptNo: 'MOB-001',
+      receiptDate: '2026-04-29',
+      receiptAmount: 500,
+      totalClaimAmount: 500,
+    });
 
-    expect(validateBenefitAttachments([
-      { id: 'bad', filename: 'script.exe', mimeType: 'application/octet-stream', size: 1 },
-      { id: 'big', filename: 'large.pdf', mimeType: 'application/pdf', size: 11 * 1024 * 1024 },
-    ])).toEqual(expect.arrayContaining(['ไม่รองรับไฟล์ .exe', 'large.pdf มีขนาดเกิน 10 MB']));
+    expect(useBenefitClaimsStore.getState().hasDuplicateReceipt('EMP001', 'BEN-MOBILE', 'MOB-001')).toBe(true);
+    expect(validateBenefitAttachmentRules({ benefitType: 'medical', attachments: [] })).toContain('ค่ารักษาพยาบาลต้องแนบเอกสารอย่างน้อย 1 ไฟล์');
+    expect(validateBenefitAttachmentRules({ benefitType: 'mobile', attachments: [{ id: 'x', filename: 'receipt.exe', sizeMb: 11 }] })).toEqual([
+      'ชนิดไฟล์ไม่รองรับ: receipt.exe',
+      'ไฟล์เกิน 10 MB: receipt.exe',
+    ]);
   });
 });

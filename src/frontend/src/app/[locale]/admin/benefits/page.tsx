@@ -69,7 +69,7 @@ export default function AdminBenefitsPage() {
         <CardTitle>CSV export preview and payment process</CardTitle>
         <p className="mt-2 text-small text-ink-muted">Preview columns: employee_id, benefit_code, receipt_no, receipt_date, claim_amount, approved_amount, payment_period, status. Actual CSV/Excel export remains disabled.</p>
         <div className="mt-4 grid gap-3 md:grid-cols-5">
-          {paymentSteps.map((step) => <div key={step} className="rounded-xl bg-canvas-soft p-3 text-small font-medium text-ink">{step}<div className="mt-1 text-[length:var(--text-eyebrow)] uppercase tracking-[0.14em] text-ink-muted">Read-only / deferred integration</div></div>)}
+          {paymentSteps.map((step) => <div key={step} className="rounded-md bg-canvas-soft p-3 text-small font-medium text-ink">{step}<div className="mt-1 text-[length:var(--text-eyebrow)] uppercase tracking-[0.14em] text-ink-muted">Read-only / deferred integration</div></div>)}
         </div>
         <p className="mt-4 text-small text-ink-muted">Deferred: bank file generation, finance posting, payroll calculation, real Excel import/export, BE User Management editing for data permission group/application role group/user assignment.</p>
       </Card>

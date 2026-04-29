@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import {
   Plus,
   FileText,
@@ -381,7 +382,7 @@ function RequestDetailModal({ open, request, onClose }: { open: boolean; request
   return (
     <Modal open={open} onClose={onClose} title={`${request.type} · ${request.id}`} widthClass="max-w-xl">
       <div className="space-y-4">
-        <div className="rounded-xl bg-canvas-soft px-4 py-3">
+        <div className="rounded-md bg-canvas-soft px-4 py-3">
           <p className="text-small text-ink-muted">{request.sub}</p>
           <p className="mt-1 text-small text-ink-muted">
             ส่งเมื่อ {request.submitted}
@@ -614,9 +615,9 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
                 {f.subtitle}
               </p>
               {f.id === 'claim' ? (
-                <a href="/th/profile/me?tab=benefits" className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-canvas-soft px-4 py-2.5 text-small font-semibold text-ink hover:bg-accent-soft">
+                <Link href="/th/profile/me?tab=benefits" className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-canvas-soft px-4 py-2.5 text-small font-semibold text-ink hover:bg-accent-soft">
                   ไปที่โปรไฟล์เพื่อเบิกสวัสดิการ
-                </a>
+                </Link>
               ) : (
                 <Button
                   variant={isSelected ? 'secondary' : 'ghost'}
