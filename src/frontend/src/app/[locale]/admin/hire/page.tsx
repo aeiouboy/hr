@@ -1,9 +1,11 @@
 'use client'
 
 // hire/page.tsx — Hire Wizard entry (Option-1 3-step restructure)
-// Shell + 3 cluster wrappers. State/validation/persist live in useHireWizard.
-// UX refactor: URL mirrored step navigation + frozen candidate context.
-import { useCallback, useEffect, useMemo, useState } from 'react'
+// Shell + 3 cluster wrappers. State/validation/persist live in
+// useHireWizard store — persist middleware auto-saves draft to
+// localStorage on every setStepData call.
+// DEF-01: Add confirmation state after successful submit
+import { useEffect, useMemo, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { WizardShell } from '@/components/admin/wizard/WizardShell'
 import { type HireCandidateContext, useHireWizard } from '@/lib/admin/store/useHireWizard'
@@ -14,23 +16,22 @@ import ClusterWho from './clusters/ClusterWho'
 import ClusterJob from './clusters/ClusterJob'
 import ClusterReview from './clusters/ClusterReview'
 
-function parseStep(value: string | null): 1 | 2 | 3 | null {
-  if (value === '1' || value === '2' || value === '3') return Number(value) as 1 | 2 | 3
-  return null
+function parseStep(value: string | null): number | null {
+  if (value == null) return null
+  const n = Number(value)
+  return n === 1 || n === 2 || n === 3 ? n : null
 }
 
 export default function HirePage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const search = searchParams.toString()
-  const candidateId = searchParams.get('candidateId')
-  const applicantId = searchParams.get('applicantId') ?? undefined
-  const source = searchParams.get('source') ?? undefined
   const {
     currentStep,
     maxUnlockedStep,
     lastSavedAt,
+    candidateContext,
+    freezeCandidateContext,
     goNext,
     goBack,
     jumpTo,
@@ -52,6 +53,80 @@ export default function HirePage() {
   const [hrbpError, setHrbpError] = useState(false)
   // DEF-HYBRID: Strict validation error state for final submit
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const paramsString = searchParams.toString()
+  const requestedCandidateId = searchParams.get('candidateId')
+  const requestedApplicantId = searchParams.get('applicantId') ?? undefined
+
+  const requestedCandidate = useMemo(
+    () => candidates.find((candidate) => candidate.id === requestedCandidateId),
+    [candidates, requestedCandidateId],
+  )
+
+  const makeStepUrl = (step: number) => {
+    const params = new URLSearchParams(paramsString)
+    params.set('step', String(step))
+    const query = params.toString()
+    return query ? `${pathname}?${query}` : pathname
+  }
+
+  const mirrorStepToUrl = (step: number, mode: 'push' | 'replace' = 'push') => {
+    const url = makeStepUrl(step)
+    const currentUrl = paramsString ? `${pathname}?${paramsString}` : pathname
+    if (url === currentUrl) return
+    router[mode](url, { scroll: false })
+  }
+
+  useEffect(() => {
+    const urlStep = parseStep(searchParams.get('step'))
+    if (urlStep == null || urlStep > maxUnlockedStep) {
+      mirrorStepToUrl(currentStep, 'replace')
+      return
+    }
+    if (urlStep !== currentStep) {
+      jumpTo(urlStep)
+    }
+  // `searchParams` is intentionally represented as paramsString to avoid
+  // object-identity churn from Next navigation mocks and runtime wrappers.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramsString, currentStep, maxUnlockedStep, pathname])
+
+  useEffect(() => {
+    if (!requestedCandidateId || candidateContext) return
+    if (recruitmentLoading && !requestedCandidate) return
+    freezeCandidateContext({
+      candidateId: requestedCandidateId,
+      applicantId: requestedApplicantId,
+      source: requestedCandidate?.source ?? 'url',
+      displayName: requestedCandidate?.name ?? requestedCandidateId,
+      email: requestedCandidate?.email,
+      phone: requestedCandidate?.phone,
+      position: requestedCandidate?.position,
+      initialStatus: requestedCandidate?.status,
+      frozenAt: new Date().toISOString(),
+    })
+  }, [candidateContext, freezeCandidateContext, recruitmentLoading, requestedApplicantId, requestedCandidate, requestedCandidateId])
+
+  const hasCandidateConflict = Boolean(
+    candidateContext &&
+    requestedCandidateId &&
+    (candidateContext.candidateId !== requestedCandidateId ||
+      (candidateContext.applicantId ?? '') !== (requestedApplicantId ?? '')),
+  )
+
+  const handleBack = () => {
+    goBack()
+    mirrorStepToUrl(useHireWizard.getState().currentStep)
+  }
+
+  const handleNext = () => {
+    goNext()
+    mirrorStepToUrl(useHireWizard.getState().currentStep)
+  }
+
+  const handleStepClick = (step: number) => {
+    jumpTo(step)
+    mirrorStepToUrl(useHireWizard.getState().currentStep)
+  }
 
   const buildStepHref = useCallback((step: number) => {
     const params = new URLSearchParams(search)
@@ -221,20 +296,22 @@ export default function HirePage() {
         </div>
       )}
       {candidateContext && (
-        <div className="mx-6 mt-4 rounded-md border border-hairline bg-surface px-4 py-3 text-sm text-ink-soft">
-          <div className="humi-eyebrow">Frozen candidate context</div>
-          <div className="mt-1 font-medium text-ink">{candidateContext.displayName}</div>
-          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
-            <span>Candidate: {candidateContext.candidateId}</span>
-            {candidateContext.applicantId && <span>Applicant: {candidateContext.applicantId}</span>}
-            {candidateContext.email && <span>{candidateContext.email}</span>}
-            {candidateContext.position && <span>{candidateContext.position}</span>}
-          </div>
-        </div>
+        <section className="mb-4 humi-card humi-card--cream" aria-label="Frozen candidate context">
+          <div className="humi-eyebrow">Candidate snapshot</div>
+          <h2 className="mt-1 font-display text-base font-semibold text-ink">
+            {candidateContext.displayName}
+          </h2>
+          <p className="mt-1 text-small text-ink-soft">
+            {candidateContext.position ?? 'Manual hire'} · {candidateContext.email ?? candidateContext.candidateId}
+          </p>
+          <p className="mt-1 text-[11px] text-ink-muted">
+            Frozen at {new Date(candidateContext.frozenAt).toLocaleString('th-TH')}
+          </p>
+        </section>
       )}
-      {urlCandidateDiffers && (
-        <div className="mx-6 mt-4 rounded-md border border-warning bg-warning-soft px-4 py-3 text-sm text-ink">
-          This draft is frozen for {candidateContext?.candidateId}. The URL requested {candidateId}, so the stored draft context was preserved.
+      {hasCandidateConflict && (
+        <div className="mb-4 rounded border border-warning/30 bg-warning/10 p-3 text-sm text-ink" role="alert">
+          URL candidate differs from the frozen hire draft. The existing draft snapshot was not overwritten.
         </div>
       )}
       <WizardShell

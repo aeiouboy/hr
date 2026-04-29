@@ -14,7 +14,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 // ประเภท step number — จำกัดเป็น 1-3 เท่านั้น (Who / Job / Review)
-type StepNumber = 1 | 2 | 3
+export type StepNumber = 1 | 2 | 3
 
 export interface HireCandidateContext {
   candidateId: string
@@ -126,6 +126,20 @@ export interface EmergencyContactEntry {
 
 // employeeClass toggle — BA cols H/I (Permanent vs Partime field visibility)
 export type EmployeeClassToggle = 'PERMANENT' | 'PARTIME'
+
+export interface HireCandidateContext {
+  candidateId: string
+  applicantId?: string
+  source?: string
+  displayName: string
+  email?: string
+  phone?: string
+  position?: string
+  initialStatus?: string
+  frozenAt: string
+}
+
+export type SectionCollapseState = Record<string, boolean>
 
 // รูปแบบข้อมูลของแต่ละ slice — trace กลับ BA-EC-SUMMARY.md ทุก field
 // Exported so sfMapper can type-narrow per portlet input (Phase 1+).
@@ -510,7 +524,7 @@ interface HireWizardState {
   // DEF-04: HRBP assignee lifted from ClusterReview local state (BRD #109)
   hrbpAssignee: string
   candidateContext: HireCandidateContext | null
-  sectionCollapse: Record<string, boolean>
+  sectionCollapse: SectionCollapseState
 
   setStepData: <K extends keyof FormData>(step: K, patch: Partial<FormData[K]>) => void
   setEmployeeClassToggle: (v: EmployeeClassToggle) => void
@@ -685,61 +699,56 @@ export const useHireWizard = create<HireWizardState>()(
 
       setHrbpAssignee: (id) => set({ hrbpAssignee: id }),
 
-      freezeCandidateContext: (snapshot) => {
-        set((state) => {
-          const existing = state.candidateContext
-          const sameContext = existing
-            && existing.candidateId === snapshot.candidateId
-            && (existing.applicantId ?? '') === (snapshot.applicantId ?? '')
+      freezeCandidateContext: (snapshot) => set((state) => {
+        const existing = state.candidateContext
+        if (existing) {
+          const sameCandidate = existing.candidateId === snapshot.candidateId
+          const sameApplicant = (existing.applicantId ?? '') === (snapshot.applicantId ?? '')
+          return sameCandidate && sameApplicant ? state : state
+        }
 
-          if (sameContext) return {}
-          if (existing) return {}
+        const nameParts = snapshot.displayName.trim().split(/\s+/).filter(Boolean)
+        const firstNameEn = nameParts[0] ?? ''
+        const lastNameEn = nameParts.slice(1).join(' ')
 
-          const [firstName = '', ...rest] = snapshot.displayName.trim().split(/\s+/)
-          const lastName = rest.join(' ')
-          const nextFormData = {
+        return {
+          candidateContext: snapshot,
+          formData: {
             ...state.formData,
             identity: {
               ...state.formData.identity,
-              firstNameEn: state.formData.identity.firstNameEn || firstName,
-              lastNameEn: state.formData.identity.lastNameEn || lastName,
+              firstNameEn: state.formData.identity.firstNameEn || firstNameEn,
+              lastNameEn: state.formData.identity.lastNameEn || lastNameEn,
             },
             contact: {
               ...state.formData.contact,
-              phones: snapshot.phone && state.formData.contact.phones.every((phone) => phone.value.trim() === '')
-                ? [{ type: 'mobile' as const, value: snapshot.phone, isPrimary: true }, ...state.formData.contact.phones.slice(1)]
+              phones: snapshot.phone && state.formData.contact.phones.every((p) => !p.value.trim())
+                ? [{ type: 'mobile', value: snapshot.phone, isPrimary: true }]
                 : state.formData.contact.phones,
-              emails: snapshot.email && state.formData.contact.emails.every((email) => email.value.trim() === '')
-                ? [{ type: 'personal' as const, value: snapshot.email, isPrimary: true }, ...state.formData.contact.emails.slice(1)]
+              emails: snapshot.email && state.formData.contact.emails.every((e) => !e.value.trim())
+                ? [{ type: 'personal', value: snapshot.email, isPrimary: true }]
                 : state.formData.contact.emails,
             },
             job: {
               ...state.formData.job,
               position: state.formData.job.position || snapshot.position || '',
             },
-          }
+          },
+          lastSavedAt: Date.now(),
+        }
+      }),
 
-          return {
-            candidateContext: snapshot,
-            formData: nextFormData,
-            lastSavedAt: Date.now(),
-          }
-        })
-      },
-
-      clearCandidateContext: () => set({ candidateContext: null, lastSavedAt: Date.now() }),
+      clearCandidateContext: () => set({ candidateContext: null }),
 
       setSectionCollapsed: (sectionId, collapsed) => set((state) => ({
         sectionCollapse: { ...state.sectionCollapse, [sectionId]: collapsed },
-        lastSavedAt: Date.now(),
       })),
 
       toggleSection: (sectionId) => set((state) => ({
         sectionCollapse: {
           ...state.sectionCollapse,
-          [sectionId]: !(state.sectionCollapse[sectionId] ?? false),
+          [sectionId]: !state.sectionCollapse[sectionId],
         },
-        lastSavedAt: Date.now(),
       })),
 
       goNext: () => {
@@ -796,7 +805,7 @@ export const useHireWizard = create<HireWizardState>()(
       // Version 6 adds: Phase 5b-2/3/4 globalInfo, workPermit, dependents slices.
       // Version 7 adds: Phase 5 compensation.recurringComponents + bank/payment fields.
       // Version 8 adds BA attachment fields across remaining hire sections.
-      // Version 9 adds frozen candidate context and persisted collapsible sections.
+      // Version 9 adds frozen candidate context + persisted section collapse.
       version: 9,
       partialize: (state) => ({
         currentStep: state.currentStep,
@@ -810,7 +819,6 @@ export const useHireWizard = create<HireWizardState>()(
         // hrbpAssignee intentionally NOT persisted — must be re-selected each session
       }),
       migrate: (persisted: unknown, fromVersion: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const p = persisted as any
         if (!p || typeof p !== 'object' || !p.formData) return p
         if (!('candidateContext' in p)) p.candidateContext = null

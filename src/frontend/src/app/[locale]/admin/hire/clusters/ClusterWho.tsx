@@ -18,7 +18,7 @@ import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 export default function ClusterWho() {
   const setStepValidity = useHireWizard((s) => s.setStepValidity)
   const sectionCollapse = useHireWizard((s) => s.sectionCollapse)
-  const setSectionCollapsed = useHireWizard((s) => s.setSectionCollapsed)
+  const toggleSection = useHireWizard((s) => s.toggleSection)
   // Stable callbacks — required, otherwise child useEffect deps change every render and loop
   const onIdentityValid = useCallback((v: boolean) => setStepValidity('identity', v), [setStepValidity])
   const onBiographicalValid = useCallback((v: boolean) => setStepValidity('biographical', v), [setStepValidity])
@@ -31,31 +31,87 @@ export default function ClusterWho() {
 
   return (
     <div className="space-y-5">
-      <CollapsibleSectionCard id="who.identity" icon={Fingerprint} eyebrow="ระบุตัวตน" title="ข้อมูลระบุตัวตน" sub="วันที่เริ่มงาน บริษัท ชื่อ วันเกิด บัตรประชาชน" collapsed={collapsed('who.identity')} onCollapsedChange={(value) => onCollapse('who.identity', value)}>
+      <CollapsibleSectionCard
+        id="who.identity"
+        collapsed={sectionCollapse['who.identity'] ?? false}
+        onToggle={() => toggleSection('who.identity')}
+          icon={Fingerprint}
+          eyebrow="ระบุตัวตน"
+          title="ข้อมูลระบุตัวตน"
+          sub="วันที่เริ่มงาน บริษัท ชื่อ วันเกิด บัตรประชาชน"
+      >
         <StepIdentity onValidChange={onIdentityValid} />
       </CollapsibleSectionCard>
 
-      <CollapsibleSectionCard id="who.biographical" icon={User2} eyebrow="ประวัติส่วนตัว" title="ข้อมูลส่วนตัว" sub="ชื่อท้องถิ่น ชื่อเล่น เพศ สัญชาติ กรุ๊ปเลือด สถานภาพสมรส" collapsed={collapsed('who.biographical')} onCollapsedChange={(value) => onCollapse('who.biographical', value)}>
+      <CollapsibleSectionCard
+        id="who.biographical"
+        collapsed={sectionCollapse['who.biographical'] ?? false}
+        onToggle={() => toggleSection('who.biographical')}
+          icon={User2}
+          eyebrow="ประวัติส่วนตัว"
+          title="ข้อมูลส่วนตัว"
+          sub="ชื่อท้องถิ่น ชื่อเล่น เพศ สัญชาติ กรุ๊ปเลือด สถานภาพสมรส"
+      >
         <StepBiographical onValidChange={onBiographicalValid} />
       </CollapsibleSectionCard>
 
-      <CollapsibleSectionCard id="who.contact" icon={Phone} eyebrow="ข้อมูลติดต่อ" title="ข้อมูลการติดต่อ" sub="เบอร์โทร อีเมล บุคคลที่เกี่ยวข้อง" collapsed={collapsed('who.contact')} onCollapsedChange={(value) => onCollapse('who.contact', value)}>
+      <CollapsibleSectionCard
+        id="who.contact"
+        collapsed={sectionCollapse['who.contact'] ?? false}
+        onToggle={() => toggleSection('who.contact')}
+          icon={Phone}
+          eyebrow="ข้อมูลติดต่อ"
+          title="ข้อมูลการติดต่อ"
+          sub="เบอร์โทร อีเมล บุคคลที่เกี่ยวข้อง"
+      >
         <StepContact />
       </CollapsibleSectionCard>
 
-      <CollapsibleSectionCard id="who.emergencyContacts" icon={AlertCircle} eyebrow="ผู้ติดต่อฉุกเฉิน" title="ผู้ติดต่อฉุกเฉิน / Emergency Contacts" sub="ชื่อ ความสัมพันธ์ เบอร์โทร ที่อยู่ (ถ้ามี)" collapsed={collapsed('who.emergencyContacts')} onCollapsedChange={(value) => onCollapse('who.emergencyContacts', value)}>
+      <CollapsibleSectionCard
+        id="who.emergencyContacts"
+        collapsed={sectionCollapse['who.emergencyContacts'] ?? false}
+        onToggle={() => toggleSection('who.emergencyContacts')}
+          icon={AlertCircle}
+          eyebrow="ผู้ติดต่อฉุกเฉิน"
+          title="ผู้ติดต่อฉุกเฉิน / Emergency Contacts"
+          sub="ชื่อ ความสัมพันธ์ เบอร์โทร ที่อยู่ (ถ้ามี)"
+      >
         <StepEmergencyContacts onValidChange={onEmergencyContactsValid} />
       </CollapsibleSectionCard>
 
-      <CollapsibleSectionCard id="who.globalInfo" icon={Globe} eyebrow="ข้อมูลทั่วไป" title="ข้อมูลทั่วไป / Global Information" sub="ศาสนา จำนวนบุตร สถานะความพิการ เลขบัตรคู่สมรส ข้อมูลเพิ่มเติม" collapsed={collapsed('who.globalInfo')} onCollapsedChange={(value) => onCollapse('who.globalInfo', value)}>
+      <CollapsibleSectionCard
+        id="who.globalInfo"
+        collapsed={sectionCollapse['who.globalInfo'] ?? false}
+        onToggle={() => toggleSection('who.globalInfo')}
+          icon={Globe}
+          eyebrow="ข้อมูลทั่วไป"
+          title="ข้อมูลทั่วไป / Global Information"
+          sub="ศาสนา จำนวนบุตร สถานะความพิการ เลขบัตรคู่สมรส ข้อมูลเพิ่มเติม"
+      >
         <StepGlobalInfo onValidChange={onGlobalInfoValid} />
       </CollapsibleSectionCard>
 
-      <CollapsibleSectionCard id="who.workPermit" icon={FileText} eyebrow="ใบอนุญาตทำงาน" title="ใบอนุญาตทำงาน / Work Permit" sub="ประเภทเอกสาร เลขที่ ประเทศ วันออก วันหมดอายุ (สำหรับชาวต่างชาติเท่านั้น)" collapsed={collapsed('who.workPermit')} onCollapsedChange={(value) => onCollapse('who.workPermit', value)}>
+      <CollapsibleSectionCard
+        id="who.workPermit"
+        collapsed={sectionCollapse['who.workPermit'] ?? false}
+        onToggle={() => toggleSection('who.workPermit')}
+          icon={FileText}
+          eyebrow="ใบอนุญาตทำงาน"
+          title="ใบอนุญาตทำงาน / Work Permit"
+          sub="ประเภทเอกสาร เลขที่ ประเทศ วันออก วันหมดอายุ (สำหรับชาวต่างชาติเท่านั้น)"
+      >
         <StepWorkPermit onValidChange={onWorkPermitValid} />
       </CollapsibleSectionCard>
 
-      <CollapsibleSectionCard id="who.dependents" icon={Users} eyebrow="บุคคลในอุปการะ" title="บุคคลในอุปการะ / Dependents" sub="คู่สมรส บุตร บิดามารดา (ถ้ามี) — สูงสุด 10 คน" collapsed={collapsed('who.dependents')} onCollapsedChange={(value) => onCollapse('who.dependents', value)}>
+      <CollapsibleSectionCard
+        id="who.dependents"
+        collapsed={sectionCollapse['who.dependents'] ?? false}
+        onToggle={() => toggleSection('who.dependents')}
+          icon={Users}
+          eyebrow="บุคคลในอุปการะ"
+          title="บุคคลในอุปการะ / Dependents"
+          sub="คู่สมรส บุตร บิดามารดา (ถ้ามี) — สูงสุด 10 คน"
+      >
         <StepDependents onValidChange={onDependentsValid} />
       </CollapsibleSectionCard>
 
