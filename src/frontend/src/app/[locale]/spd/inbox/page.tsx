@@ -13,9 +13,11 @@ import { WorkflowRequestInbox, type StoreSlot } from '@/components/workflow/Work
 import { ApprovalInbox } from '@/components/workflow/ApprovalInbox';
 import { TerminationInbox } from '@/components/workflow/TerminationInbox';
 import { PromotionInbox } from '@/components/workflow/PromotionInbox';
+import { BenefitClaimsInbox } from '@/components/workflow/BenefitClaimsInbox';
 import { useWorkflowApprovals } from '@/stores/workflow-approvals';
 import { useTerminationApprovals } from '@/stores/termination-approvals';
 import { usePromotionApprovals } from '@/stores/promotion-approvals';
+import { BENEFIT_STATUS_LABEL, useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { STEP_LABEL } from '@/stores/workflow-approvals';
 import { TERMINATION_STEP_LABEL } from '@/stores/termination-approvals';
 import { PROMOTION_STEP_LABEL } from '@/stores/promotion-approvals';
@@ -25,6 +27,7 @@ function useSPDStoreSlots(): StoreSlot[] {
   const wfRequests   = useWorkflowApprovals((s) => s.requests);
   const termRequests = useTerminationApprovals((s) => s.requests);
   const promRequests = usePromotionApprovals((s) => s.requests);
+  const benefitClaims = useBenefitClaimsStore((s) => s.claims);
 
   const wfRows: WorkflowRow[] = wfRequests.map((r) => ({
     id: r.id,
@@ -53,10 +56,20 @@ function useSPDStoreSlots(): StoreSlot[] {
     status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
   }));
 
+  const benefitRows: WorkflowRow[] = benefitClaims.map((r) => ({
+    id: r.workflowRequestId,
+    requestType: 'Benefit Reimbursement',
+    requestedBy: r.employeeName,
+    requestedOn: r.submittedAt,
+    currentStep: BENEFIT_STATUS_LABEL[r.status],
+    status: r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending',
+  }));
+
   return [
     { name: 'แก้ไขข้อมูลส่วนตัว (BRD #166)', rows: wfRows },
     { name: 'คำขอลาออก (BRD #172)',           rows: termRows },
     { name: 'คำขอเลื่อนตำแหน่ง (BRD #103)',   rows: promRows },
+    { name: 'Benefit Reimbursement',           rows: benefitRows },
   ];
 }
 
@@ -95,6 +108,11 @@ export default function SPDInboxPage() {
 
       {/* Chain 4 — Promotion (BRD #103) */}
       <PromotionInbox />
+
+      <div style={{ borderTop: '1px solid var(--color-hairline-soft)' }} />
+
+      {/* Benefit Reimbursement — BRD benefit module */}
+      <BenefitClaimsInbox />
     </div>
   );
 }
