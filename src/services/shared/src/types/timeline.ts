@@ -52,6 +52,10 @@ export interface TerminateEvent extends TimelineEventBase {
 export interface RehireEvent extends TimelineEventBase {
   kind: 'rehire'
   priorEmployeeId: string
+  /** EmpEmployment.originalStartDate preserved from the prior employment record. */
+  originalStartDate?: string
+  /** Optional override for continuous-service / seniority date on rehire. */
+  seniorityDateOverride?: string
 }
 
 export interface ContractRenewalEvent extends TimelineEventBase {

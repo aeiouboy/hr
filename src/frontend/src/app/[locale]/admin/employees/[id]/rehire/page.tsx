@@ -208,8 +208,8 @@ export default function RehirePage() {
       seniorityDateOverride: null,
       useNewCode: defaultCode,
       reason: '',
-      // BRD #102: preserved from prior employment — default to employee's original hire_date
-      originalStartDate: employee?.hire_date ?? null,
+      // BRD #102: preserved from prior employment — default to EmpEmployment.originalStartDate
+      originalStartDate: employee?.original_start_date ?? employee?.hire_date ?? null,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [empId]) // intentionally stable per empId
@@ -276,6 +276,9 @@ export default function RehirePage() {
   const handleSubmit = useCallback(() => {
     if (!employee || !isValid || submitted) return
 
+    const originalStartDate = rehire.originalStartDate ?? employee.original_start_date ?? employee.hire_date
+    const seniorityStartDate = rehire.seniorityDateOverride ?? rehire.newHireDate!
+
     const event: RehireEvent = {
       id: `evt-rehire-${Date.now()}`,
       employeeId: empId,
@@ -284,6 +287,8 @@ export default function RehirePage() {
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
       priorEmployeeId: empId,
+      originalStartDate,
+      seniorityDateOverride: rehire.seniorityDateOverride || undefined,
       notes: rehire.reason || undefined,
     }
 
@@ -294,6 +299,9 @@ export default function RehirePage() {
     updateEmployee(empId, {
       status: 'active',
       hire_date: rehire.newHireDate!,
+      original_start_date: originalStartDate,
+      seniority_start_date: seniorityStartDate,
+      service_date: seniorityStartDate,
       employee_id: newId,
     })
 
