@@ -127,7 +127,7 @@ export default function PayrollTaxReviewPage() {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <CardEyebrow>Payroll tax review</CardEyebrow>
-          <h1 className="font-display text-[28px] font-semibold text-ink">ตรวจแผนภาษี</h1>
+          <h1 className="font-display text-3xl font-semibold text-ink">ตรวจแผนภาษี</h1>
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             ตรวจเฉพาะสรุปที่ปลอดภัยจาก Tax Planning ไม่แสดงเลขประจำตัวผู้เสียภาษีเต็ม รายละเอียดเงินเดือนเต็ม หรือข้อมูลบัญชีธนาคาร
           </p>
