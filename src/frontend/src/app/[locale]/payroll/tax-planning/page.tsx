@@ -13,7 +13,7 @@ export default function PayrollTaxPlanningPage() {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <CardEyebrow>Payroll tax planning</CardEyebrow>
-          <h1 className="font-display text-[28px] font-semibold text-ink">วางแผนภาษี</h1>
+          <h1 className="font-display text-3xl font-semibold text-ink">วางแผนภาษี</h1>
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             พนักงานจำลองภาษีจากข้อมูลสรุปที่ปลอดภัย แล้วส่งให้ Payroll ตรวจเพื่อวางแผนเท่านั้น ไม่ใช่การยื่นภาษีหรือแก้ไข payroll snapshot โดยตรง
           </p>
