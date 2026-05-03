@@ -157,7 +157,7 @@ export default function IntegrationsPage() {
               className={cn('humi-stat-card', KPI_TONE_MAP[kpi.accentClass])}
             >
               <CardEyebrow>{kpi.label}</CardEyebrow>
-              <p className="mt-1.5 font-display text-[28px] font-semibold leading-none tracking-tight text-ink">
+              <p className="mt-1.5 font-display text-3xl font-semibold leading-none tracking-tight text-ink">
                 {kpi.value}
               </p>
             </div>
