@@ -66,12 +66,24 @@ export function EmergencyContactList({
       name: '',
       relation: '',
       phones: [],
+      primaryFlag: value.length === 0, // first row is always primary
     };
     onChange([...value, newRow]);
   };
 
   const removeRow = (id: string) => {
-    onChange(value.filter((r) => r.id !== id));
+    if (value.length <= 1) return; // can't remove last row
+    const removing = value.find((r) => r.id === id);
+    let updated = value.filter((r) => r.id !== id);
+    // Promote first remaining row if we removed the primary
+    if (removing?.primaryFlag && updated.length > 0) {
+      updated = updated.map((r, i) => ({ ...r, primaryFlag: i === 0 }));
+    }
+    onChange(updated);
+  };
+
+  const setPrimary = (id: string) => {
+    onChange(value.map((r) => ({ ...r, primaryFlag: r.id === id })));
   };
 
   const updateRow = (id: string, patch: Partial<EmergencyContactRow>) => {
@@ -107,9 +119,23 @@ export function EmergencyContactList({
         >
           {/* Row header */}
           <div className="flex items-center justify-between">
-            <span className="text-small font-semibold text-ink">
-              {`${t('emergencyContact.add').replace('เพิ่ม', 'ผู้ติดต่อ')} ${rowIdx + 1}`}
-            </span>
+            <div className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="ec-primary-group"
+                aria-label={`ตั้งเป็นผู้ติดต่อหลัก ${rowIdx + 1}`}
+                checked={!!row.primaryFlag}
+                onChange={() => setPrimary(row.id)}
+                disabled={disabled}
+                className="h-4 w-4 accent-[var(--color-accent)] cursor-pointer disabled:cursor-not-allowed"
+              />
+              <span className="text-small font-semibold text-ink">
+                {`ผู้ติดต่อ ${rowIdx + 1}`}
+              </span>
+              {row.primaryFlag && (
+                <span className="text-xs text-accent font-medium">(หลัก)</span>
+              )}
+            </div>
             {!disabled && (
               <Button
                 type="button"
@@ -117,6 +143,7 @@ export function EmergencyContactList({
                 size="sm"
                 aria-label={`ลบผู้ติดต่อที่ ${rowIdx + 1}`}
                 onClick={() => removeRow(row.id)}
+                disabled={value.length <= 1}
                 className="text-danger hover:text-danger hover:bg-danger/10"
               >
                 <Trash2 size={16} aria-hidden />

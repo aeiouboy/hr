@@ -11,6 +11,7 @@ export interface EmergencyContactRow {
   name: string;
   relation: string;  // one of ['บิดา','มารดา','คู่สมรส','บุตร','พี่น้อง','อื่นๆ']
   phones: string[];  // at least one
+  primaryFlag?: boolean; // BRD #19: which emergency contact is the primary
 }
 
 export interface Address8 {
@@ -53,7 +54,7 @@ interface ProfileDraft {
   emailsArr: EmailEntry[];
   bank: BankDetails;
   // v4 additions
-  dependents: HumiDependent[];
+  dependents?: HumiDependent[];
 }
 
 const DRAFT_DEFAULTS: ProfileDraft = {

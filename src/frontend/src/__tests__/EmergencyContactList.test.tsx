@@ -241,3 +241,67 @@ describe('areAllRowsValid — unit', () => {
     expect(areAllRowsValid([makeRow(), makeRow({ name: '' })])).toBe(false);
   });
 });
+
+// ════════════════════════════════════════════════════════════════════════════
+// primaryFlag invariant — BRD #19
+// ════════════════════════════════════════════════════════════════════════════
+
+describe('EmergencyContactList — primaryFlag invariant', () => {
+  it('adding first row to empty list sets primaryFlag:true', () => {
+    const onChange = vi.fn();
+    render(<EmergencyContactList value={[]} onChange={onChange} />);
+    const addBtn = screen.getByText(/emergencyContact\.add/i);
+    fireEvent.click(addBtn);
+    const newRows: EmergencyContactRow[] = onChange.mock.calls[0][0];
+    expect(newRows[0].primaryFlag).toBe(true);
+  });
+
+  it('adding second row sets primaryFlag:false on new row', () => {
+    const row1 = makeRow({ id: 'r1', primaryFlag: true });
+    const onChange = vi.fn();
+    render(<EmergencyContactList value={[row1]} onChange={onChange} />);
+    const addBtn = screen.getByText(/emergencyContact\.add/i);
+    fireEvent.click(addBtn);
+    const newRows: EmergencyContactRow[] = onChange.mock.calls[0][0];
+    expect(newRows).toHaveLength(2);
+    expect(newRows[1].primaryFlag).toBe(false);
+    expect(newRows[0].primaryFlag).toBe(true); // first row stays primary
+  });
+
+  it('toggling primary on row 2 sets row2=true, row1=false', () => {
+    const row1 = makeRow({ id: 'r1', primaryFlag: true });
+    const row2 = makeRow({ id: 'r2', primaryFlag: false });
+    const onChange = vi.fn();
+    render(<EmergencyContactList value={[row1, row2]} onChange={onChange} />);
+    const radios = document.querySelectorAll('input[type="radio"]');
+    expect(radios.length).toBe(2);
+    fireEvent.click(radios[1]); // click second row's radio
+    const updated: EmergencyContactRow[] = onChange.mock.calls[0][0];
+    expect(updated[0].primaryFlag).toBe(false);
+    expect(updated[1].primaryFlag).toBe(true);
+  });
+
+  it('removing primary row promotes first remaining row', () => {
+    const row1 = makeRow({ id: 'r1', primaryFlag: true });
+    const row2 = makeRow({ id: 'r2', primaryFlag: false });
+    const onChange = vi.fn();
+    render(<EmergencyContactList value={[row1, row2]} onChange={onChange} />);
+    const trashBtns = document.querySelectorAll('[data-testid="icon-trash"]');
+    const firstTrash = trashBtns[0]?.closest('button');
+    expect(firstTrash).toBeTruthy();
+    fireEvent.click(firstTrash!);
+    const updated: EmergencyContactRow[] = onChange.mock.calls[0][0];
+    expect(updated).toHaveLength(1);
+    expect(updated[0].id).toBe('r2');
+    expect(updated[0].primaryFlag).toBe(true);
+  });
+
+  it('cannot remove the last row (button disabled)', () => {
+    const row = makeRow({ id: 'r1', primaryFlag: true });
+    const onChange = vi.fn();
+    render(<EmergencyContactList value={[row]} onChange={onChange} />);
+    const trashBtn = document.querySelector('[data-testid="icon-trash"]')?.closest('button');
+    expect(trashBtn).toBeTruthy();
+    expect(trashBtn!.disabled).toBe(true);
+  });
+});
