@@ -22,6 +22,7 @@ import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
+import { Button } from '@/components/humi'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
@@ -157,6 +158,13 @@ export default function PromotionPage() {
   // SF source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json
   const [eventReason, setEventReason] = useState<string | null>(null)
   const [reasonError, setReasonError] = useState('')
+  const [mode, setMode] = useState<'promotion' | 'salary-adjust'>('promotion')
+
+  const handleToggleMode = useCallback((next: 'promotion' | 'salary-adjust') => {
+    setMode(next)
+    setSelectedPosition(null)
+    setEventReason(null)
+  }, [])
 
   const currentTitle = employee
     ? ((employee as unknown as Record<string, unknown>).corporate_title as string | undefined) ?? employee.position_title
@@ -166,7 +174,9 @@ export default function PromotionPage() {
   const salaryInvalid = salaryChangePct !== '' && (isNaN(salaryPct!) || !isSalaryPctValid(salaryPct!))
 
   // BRD #95: eventReason required for promotion (event 5587 PRCHG group)
-  const isFormValid = !!selectedPosition && !salaryInvalid && !!effectiveDate && !!eventReason
+  const isFormValid = mode === 'promotion'
+    ? !!selectedPosition && !salaryInvalid && !!effectiveDate && !!eventReason
+    : Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
 
   const doSubmit = useCallback(() => {
     if (!employee || !isFormValid || !effectiveDate) return
@@ -175,7 +185,7 @@ export default function PromotionPage() {
       return
     }
 
-    if (!selectedPosition) return
+    if (mode === 'promotion' && !selectedPosition) return
 
     // Chain 4 — submit to promotion-approvals store for SPD review (BRD #103)
     // Timeline event is written ONLY when SPD approves (in promotion-approvals.ts approve action).
@@ -184,7 +194,7 @@ export default function PromotionPage() {
       employeeId: empId,
       employeeName: empName,
       fromPosition: currentTitle,
-      toPosition: selectedPosition.titleTh,
+      toPosition: mode === 'salary-adjust' ? '(ปรับเงินเดือน)' : selectedPosition!.titleTh,
       effectiveDate,
       salaryDelta: salaryPct,
       notes: notes.trim() || undefined,
@@ -278,6 +288,22 @@ export default function PromotionPage() {
           <div className="humi-card">
             <div className="humi-eyebrow" style={{ marginBottom: 16 }}>ข้อมูลการเลื่อนตำแหน่ง</div>
 
+            {/* ── Mode toggle ── */}
+            <div className="flex gap-2 mb-4">
+              <Button
+                type="button"
+                variant={mode === 'promotion' ? 'primary' : 'secondary'}
+                size="sm"
+                onClick={() => handleToggleMode('promotion')}
+              >เลื่อนตำแหน่ง</Button>
+              <Button
+                type="button"
+                variant={mode === 'salary-adjust' ? 'primary' : 'secondary'}
+                size="sm"
+                onClick={() => handleToggleMode('salary-adjust')}
+              >ปรับเงินเดือน</Button>
+            </div>
+
             {/* ── ตำแหน่งปัจจุบัน (read-only banner) ── */}
             <div style={{ marginBottom: 20 }}>
               <div className="humi-eyebrow" style={{ marginBottom: 6 }}>ตำแหน่งปัจจุบัน</div>
@@ -295,18 +321,20 @@ export default function PromotionPage() {
               </div>
             </div>
 
-            {/* ── เลื่อนไปเป็น (required, picks active Position from master per BRD #95 cascade) ── */}
-            <div style={{ marginBottom: 20 }}>
-              <PositionLookup
-                id="toCorporateTitle"
-                positionMaster={MOCK_POSITION_MASTER}
-                required
-                label="เลื่อนไปเป็น (ระดับ/ตำแหน่งใหม่)"
-                placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
-                filter={(p: Position) => p.active}
-                onSelect={setSelectedPosition}
-              />
-            </div>
+            {/* ── เลื่อนไปเป็น (required in promotion mode only) ── */}
+            {mode === 'promotion' && (
+              <div style={{ marginBottom: 20 }}>
+                <PositionLookup
+                  id="toCorporateTitle"
+                  positionMaster={MOCK_POSITION_MASTER}
+                  required
+                  label="เลื่อนไปเป็น (ระดับ/ตำแหน่งใหม่)"
+                  placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+                  filter={(p: Position) => p.active}
+                  onSelect={setSelectedPosition}
+                />
+              </div>
+            )}
 
             {/* ── เหตุผลการเลื่อนตำแหน่ง (required) — BRD #95 event 5587 PRCHG group ── */}
             {/* SF source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json */}

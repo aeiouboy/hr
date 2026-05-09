@@ -160,6 +160,7 @@ export default function ContractRenewalPage() {
   const [renewalReason, setRenewalReason] = useState<string>('')
   const [newAllowanceAmount, setNewAllowanceAmount] = useState<string>('')
   const [newAllowanceNote, setNewAllowanceNote] = useState<string>('')
+  const [allowanceError, setAllowanceError] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
   // ── Seed timeline ────────────────────────────────────────────────────────
@@ -175,10 +176,21 @@ export default function ContractRenewalPage() {
   const showDay30Banner =
     daysUntilExpiry !== null && daysUntilExpiry >= 0 && daysUntilExpiry <= 30
 
+  // ── Allowance handler ────────────────────────────────────────────────────
+  const handleAllowanceChange = (value: string) => {
+    setNewAllowanceAmount(value)
+    if (value === '') { setAllowanceError(''); return }
+    setAllowanceError(
+      isNaN(Number(value)) || Number(value) <= 0
+        ? 'กรุณาระบุตัวเลขที่มากกว่า 0'
+        : ''
+    )
+  }
+
   // ── Validation ───────────────────────────────────────────────────────────
   const newEndDateValid =
     !!newEndDate && !!currentEndDate && newEndDate > currentEndDate
-  const isValid = newEndDateValid
+  const isValid = newEndDateValid && (newAllowanceAmount === '' || allowanceError === '')
 
   // ── Submit ───────────────────────────────────────────────────────────────
   const handleSubmit = useCallback(() => {
@@ -432,7 +444,7 @@ export default function ContractRenewalPage() {
               step="100"
               value={newAllowanceAmount}
               onChange={(e) => {
-                setNewAllowanceAmount(e.target.value)
+                handleAllowanceChange(e.target.value)
                 if (!e.target.value || parseFloat(e.target.value) <= 0) {
                   setNewAllowanceNote('')
                 }
@@ -444,6 +456,9 @@ export default function ContractRenewalPage() {
             />
             <span className="text-body text-ink-muted">บาท</span>
           </div>
+          {allowanceError && (
+            <p className="mt-1 text-xs text-danger" role="alert">{allowanceError}</p>
+          )}
         </div>
 
         {/* หมายเหตุค่าตอบแทน (conditional: shown when newAllowanceAmount > 0) */}

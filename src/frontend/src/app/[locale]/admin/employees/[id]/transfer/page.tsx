@@ -21,6 +21,7 @@ import { ArrowLeft, ArrowRightLeft } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { useOrgUnits } from '@/lib/admin/store/useOrgUnits'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
@@ -154,6 +155,7 @@ export default function TransferPage() {
   const locale = useLocale()
 
   const employee = useEmployees((s) => s.getById(empId)) ?? null
+  const units = useOrgUnits((s) => s.all)
 
   // ── Factory: per-employee wizard instance (Archetype B, D1 factory pattern) ──
   // Memoized so factory is called once per empId.
@@ -379,16 +381,22 @@ export default function TransferPage() {
           >
             หน่วยงานปลายทาง <span style={{ color: 'var(--color-danger)' }}>*</span>
           </label>
-          <input
+          <select
             id="targetBusinessUnit"
-            type="text"
             value={movement.targetBusinessUnit}
             onChange={(e) => patch({ targetBusinessUnit: e.target.value })}
-            placeholder="เช่น ฝ่ายการตลาด, สำนักงานใหญ่"
-            className="humi-input"
+            className="humi-input w-full"
             style={{ maxWidth: 400 }}
             aria-label="หน่วยงานปลายทาง"
-          />
+          >
+            <option value="">— เลือกหน่วยงาน —</option>
+            {units
+              .filter((u) => u.active === true && (!movement.targetCompany || u.company === movement.targetCompany))
+              .map((u) => (
+                <option key={u.id} value={u.id}>{u.nameTh}</option>
+              ))
+            }
+          </select>
         </div>
 
         {/* ── ตำแหน่งปลายทาง (required) — BRD #110: PositionLookup replaces free-text ── */}

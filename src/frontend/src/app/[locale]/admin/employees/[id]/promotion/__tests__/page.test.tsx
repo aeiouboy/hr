@@ -49,6 +49,32 @@ describe('MockEmployee data integrity', () => {
   })
 })
 
+describe('isFormValid logic — salary-adjust mode', () => {
+  // Mirror the isFormValid branch: mode === 'salary-adjust'
+  // => Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
+  function salaryAdjustValid(salaryChangePct: string, effectiveDate: string | null, eventReason: string | null): boolean {
+    const pct = salaryChangePct !== '' ? parseFloat(salaryChangePct) : NaN
+    const salaryInvalid = salaryChangePct !== '' && (isNaN(pct) || !isSalaryPctValid(pct))
+    return Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
+  }
+
+  it('salaryChangePct="30", effectiveDate set, eventReason set → valid', () => {
+    expect(salaryAdjustValid('30', '2026-06-01', 'PRCHG_PROMO')).toBe(true)
+  })
+  it('salaryChangePct="0" → invalid (not > 0)', () => {
+    expect(salaryAdjustValid('0', '2026-06-01', 'PRCHG_PROMO')).toBe(false)
+  })
+  it('salaryChangePct="" → invalid (empty string evaluates to 0)', () => {
+    expect(salaryAdjustValid('', '2026-06-01', 'PRCHG_PROMO')).toBe(false)
+  })
+  it('salaryChangePct="10", effectiveDate null → invalid', () => {
+    expect(salaryAdjustValid('10', null, 'PRCHG_PROMO')).toBe(false)
+  })
+  it('salaryChangePct="10", eventReason null → invalid', () => {
+    expect(salaryAdjustValid('10', '2026-06-01', null)).toBe(false)
+  })
+})
+
 describe('PromotionEvent field mapping', () => {
   it('fromTitle falls back to position_title when corporate_title absent', () => {
     const emp = MOCK_EMPLOYEES[0]
