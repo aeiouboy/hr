@@ -81,6 +81,19 @@ export async function mockAuthSession(
   role: UserRole,
 ): Promise<TestUser> {
   const user = TEST_USERS[role];
+  const humiAuthState = {
+    userId: user.employeeId,
+    username: user.name,
+    email: user.username,
+    roles: user.roles,
+    isAuthenticated: true,
+    originalUser: null,
+  };
+
+  await page.addInitScript((authState) => {
+    localStorage.setItem('humi-auth', JSON.stringify({ state: authState, version: 0 }));
+  }, humiAuthState);
+
   // Set a mock session cookie that next-auth recognizes in dev mode
   await page.context().addCookies([
     {

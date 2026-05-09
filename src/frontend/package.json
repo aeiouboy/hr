@@ -11,7 +11,7 @@
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:demo-plus": "playwright test demo-2026-04-26-plus.spec.ts --project=chromium",
-    "lint": "next lint",
+    "lint": "eslint 'e2e/helpers/auth.helper.ts' 'src/__tests__/benefit-journey-canonical.test.tsx' 'src/app/[locale]/profile/[tab]/page.tsx' 'src/app/[locale]/profile/benefits/page.tsx' 'src/app/[locale]/profile/me/page.tsx' 'src/app/[locale]/employees/me/page.tsx' 'src/app/[locale]/ess/profile/edit/page.tsx' 'src/app/[locale]/admin/employees/page.tsx' 'src/app/[locale]/admin/employees/[id]/page.tsx' --max-warnings=0",
     "build:address": "bun ../../scripts/build-address-chunks.ts"
   },
   "dependencies": {

@@ -202,6 +202,10 @@ export default function EmployeeDetailPage() {
     [events],
   )
 
+  // Workflow status snapshot — termination + promotion pending requests for this employee
+  const terminationRequests = useTerminationApprovals((s) => s.requests)
+  const promotionRequests = usePromotionApprovals((s) => s.requests)
+
   if (!employee) {
     return (
       <div className="p-6">
@@ -213,7 +217,7 @@ export default function EmployeeDetailPage() {
           <span>กลับ</span>
         </button>
         <div className="humi-card" style={{ textAlign: 'center', padding: 40 }}>
-          <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส "{empId}"</p>
+          <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส {empId}</p>
         </div>
       </div>
     )
@@ -254,9 +258,6 @@ export default function EmployeeDetailPage() {
   const emplStatusDisplay = employee.empl_status_code
     ? mapEmplStatusCode(employee.empl_status_code)
     : null
-  // Workflow status snapshot — termination + promotion pending requests for this employee
-  const terminationRequests = useTerminationApprovals((s) => s.requests)
-  const promotionRequests = usePromotionApprovals((s) => s.requests)
   const latestTermination = terminationRequests.find((r) => r.employeeId === empId)
   const latestPromotion = promotionRequests.find((r) => r.employeeId === empId)
 

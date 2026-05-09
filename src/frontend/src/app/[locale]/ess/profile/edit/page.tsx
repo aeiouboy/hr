@@ -481,7 +481,7 @@ export default function ProfileEditPage() {
                 void ingestFiles(Array.from(e.dataTransfer.files))
               }}
               className={cn(
-                'flex flex-col items-center justify-center gap-2 rounded-xl cursor-pointer',
+                'flex flex-col items-center justify-center gap-2 rounded-md cursor-pointer',
                 'border border-dashed py-12',
                 'transition-all duration-150',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',

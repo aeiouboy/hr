@@ -152,22 +152,24 @@ describe('benefit claim journey canonical route', () => {
     expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/benefits-hub');
   });
 
-  it('/profile/benefits redirects to the profile benefits tab instead of rendering a second profile page', async () => {
+  it('/profile/benefits renders the canonical profile benefits tab without a redirect hop', async () => {
     const { default: ProfileBenefitsPage } = await import('@/app/[locale]/profile/benefits/page');
 
-    await expect(
-      ProfileBenefitsPage({ params: Promise.resolve({ locale: 'th' }) } as never),
-    ).rejects.toThrow('NEXT_REDIRECT:/th/profile/me?tab=benefits');
-    expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me?tab=benefits');
+    const element = ProfileBenefitsPage();
+
+    expect(navigationMocks.redirect).not.toHaveBeenCalled();
+    expect(element.props.initialTab).toBe('benefits');
   });
 
-  it('/profile/[tab] legacy profile routes redirect to /profile/me instead of rendering a second profile implementation', async () => {
+  it('/profile/[tab] legacy profile routes render the canonical profile implementation with tab intent', async () => {
     const { default: ProfileTabPage } = await import('@/app/[locale]/profile/[tab]/page');
 
-    await expect(
-      ProfileTabPage({ params: Promise.resolve({ locale: 'th', tab: 'personal' }) } as never),
-    ).rejects.toThrow('NEXT_REDIRECT:/th/profile/me');
-    expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me');
+    const element = await ProfileTabPage({
+      params: Promise.resolve({ locale: 'th', tab: 'employment' }),
+    } as never);
+
+    expect(navigationMocks.redirect).not.toHaveBeenCalled();
+    expect(element.props.initialTab).toBe('employment');
   });
 
   it('/employees/me redirects to the canonical personal profile entry', async () => {

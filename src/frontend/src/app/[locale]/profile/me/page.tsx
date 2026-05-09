@@ -105,7 +105,10 @@ function profileTabHref(locale: string, tab: ProfileTab) {
 
 type ProfileSearchParams = Pick<URLSearchParams, 'get'>;
 
-function resolveProfileTab(searchParams: ProfileSearchParams | null | undefined): ProfileTab {
+function resolveProfileTab(
+  searchParams: ProfileSearchParams | null | undefined,
+  fallbackTab: ProfileTab = 'personal',
+): ProfileTab {
   const requestedTab = searchParams?.get('tab');
   if (requestedTab && PROFILE_TAB_FROM_QUERY[requestedTab]) {
     return PROFILE_TAB_FROM_QUERY[requestedTab];
@@ -116,7 +119,7 @@ function resolveProfileTab(searchParams: ProfileSearchParams | null | undefined)
   if (searchParams?.get('mode') === 'planning') {
     return 'activity';
   }
-  return 'personal';
+  return fallbackTab;
 }
 
 const AVATAR_TONE_MAP = {
@@ -296,7 +299,11 @@ function PendingSectionBadge({ section }: { section: SectionKey }) {
   );
 }
 
-export default function HumiProfileMePage() {
+export default function HumiProfileMePage({
+  initialTab = 'personal',
+}: {
+  initialTab?: ProfileTab;
+} = {}) {
   const t = useTranslations('humiProfile');
   const tEdit = useTranslations('profileEdit');
   const tPending = useTranslations('pending');
@@ -345,18 +352,19 @@ export default function HumiProfileMePage() {
   // Derive panel key from slice activeTab
   const panelKey = SLICE_TO_PANEL[activeTab];
   const profileSearchKey = searchParams?.toString() ?? '';
+  const profileRouteKey = `${initialTab}:${profileSearchKey}`;
 
   useEffect(() => {
-    if (lastAppliedProfileSearchRef.current === profileSearchKey) {
+    if (lastAppliedProfileSearchRef.current === profileRouteKey) {
       return;
     }
-    lastAppliedProfileSearchRef.current = profileSearchKey;
+    lastAppliedProfileSearchRef.current = profileRouteKey;
 
-    const requestedProfileTab = resolveProfileTab(searchParams);
+    const requestedProfileTab = resolveProfileTab(searchParams, initialTab);
     if (activeTab !== requestedProfileTab) {
       setTab(requestedProfileTab);
     }
-  }, [activeTab, profileSearchKey, searchParams, setTab]);
+  }, [activeTab, initialTab, profileRouteKey, searchParams, setTab]);
 
   useEffect(() => {
     if (searchParams?.get('service') === 'referral') {

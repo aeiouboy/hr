@@ -1,11 +1,5 @@
-import { redirect } from 'next/navigation';
-import { benefitProfileRoute } from '@/lib/benefit-routes';
+import HumiProfileMePage from '../me/page';
 
-export default async function ProfileBenefitsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  redirect(benefitProfileRoute(locale));
+export default function ProfileBenefitsPage() {
+  return <HumiProfileMePage initialTab="benefits" />;
 }
