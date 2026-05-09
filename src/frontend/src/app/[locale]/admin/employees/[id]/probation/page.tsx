@@ -47,6 +47,7 @@ interface ProbationAssessment {
   note: string
   allowanceAmount: string | null
   extendUntil: string | null
+  extensionReason: string | null
 }
 
 interface ProbationForm {
@@ -61,6 +62,7 @@ const INITIAL_FORM: ProbationForm = {
     note: '',
     allowanceAmount: null,
     extendUntil: null,
+    extensionReason: null,
   },
 }
 
@@ -299,7 +301,7 @@ export default function ProbationAssessPage() {
   const isValid =
     !!assessment.outcome &&
     !!assessment.effectiveDate &&
-    (assessment.outcome !== 'extend' || !!assessment.extendUntil)
+    (assessment.outcome !== 'extend' || (!!assessment.extendUntil && !!assessment.extensionReason?.trim()))
 
   // ── Probation evaluation store (manager→HR Admin queue) ─────────────────
   const addEvaluation = useProbationApprovals((s) => s.addEvaluation)
@@ -577,7 +579,7 @@ export default function ProbationAssessPage() {
                     name="outcome"
                     value={value}
                     checked={assessment.outcome === value}
-                    onChange={() => patch({ outcome: value, allowanceAmount: null, extendUntil: null })}
+                    onChange={() => patch({ outcome: value, allowanceAmount: null, extendUntil: null, extensionReason: null })}
                     style={{ accentColor: 'var(--color-accent)' }}
                     aria-label={label}
                   />
@@ -613,6 +615,25 @@ export default function ProbationAssessPage() {
                 <p className="text-small text-ink-muted mt-1">
                   ต้องหลังจาก {formatDateTh(assessment.effectiveDate)}
                 </p>
+              )}
+            </div>
+          )}
+
+          {/* ── Extension Reason (conditional) ── */}
+          {assessment.outcome === 'extend' && (
+            <div className="flex flex-col gap-1">
+              <label className="humi-label">
+                เหตุผลการขยายทดลองงาน <span className="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                value={assessment.extensionReason ?? ''}
+                onChange={(e) => patch({ extensionReason: e.target.value })}
+                placeholder="ระบุเหตุผล"
+                className="humi-input w-full"
+              />
+              {assessment.outcome === 'extend' && !assessment.extensionReason?.trim() && !!assessment.extendUntil && (
+                <p className="text-xs text-danger" role="alert">กรุณาระบุเหตุผลการขยายทดลองงาน</p>
               )}
             </div>
           )}

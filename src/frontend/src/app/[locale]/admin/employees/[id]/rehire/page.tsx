@@ -44,6 +44,7 @@ interface RehireCluster {
   newEmployeeCode: string
   seniorityDateOverride: string | null
   useNewCode: boolean
+  eventReason: string
   reason: string
   /** BRD #102: originalStartDate — date preserved from prior employment (before termination) */
   originalStartDate: string | null
@@ -215,6 +216,7 @@ export default function RehirePage() {
       newEmployeeCode: employee ? stubNextCode(allEmployees, empId) : 'EMP-1001',
       seniorityDateOverride: null,
       useNewCode: defaultCode,
+      eventReason: '',
       reason: '',
       // BRD #102: preserved from prior employment — default to employee's original hire_date
       originalStartDate: employee?.hire_date ?? null,
@@ -260,6 +262,7 @@ export default function RehirePage() {
     if (rehire.newHireDate < today) return false
     if (rehire.useNewCode && (!rehire.newEmployeeCode || rehire.newEmployeeCode === empId)) return false
     if (rehire.seniorityDateOverride && rehire.seniorityDateOverride > rehire.newHireDate) return false
+    if (!rehire.eventReason) return false
     return true
   }, [rehire, today, empId])
 
@@ -617,6 +620,26 @@ export default function RehirePage() {
           <p id="orig-start-hint" className="text-small text-ink-muted mt-1">
             กรอกอัตโนมัติจากวันที่เริ่มงานเดิม — แก้ไขได้ตามต้องการ
           </p>
+        </div>
+
+        <hr className="humi-divider" />
+
+        {/* ── เหตุผลการจ้างกลับ (eventReason) ── */}
+        <div className="flex flex-col gap-1" style={{ marginBottom: 20 }}>
+          <label className="humi-label">
+            เหตุผลการจ้างกลับ <span className="text-danger">*</span>
+          </label>
+          <select
+            value={rehire.eventReason}
+            onChange={(e) => patch({ eventReason: e.target.value })}
+            className="humi-input w-full"
+            aria-required="true"
+          >
+            <option value="">— เลือกเหตุผล —</option>
+            <option value="REH_REH">จ้างกลับคืน (Rehire)</option>
+            <option value="REH_CONTRACT">สัญญาจ้างใหม่ (Contract)</option>
+            <option value="REH_TEMP">จ้างชั่วคราว (Temporary)</option>
+          </select>
         </div>
 
         <hr className="humi-divider" />
