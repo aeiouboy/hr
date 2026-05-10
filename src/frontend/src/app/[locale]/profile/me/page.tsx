@@ -150,6 +150,10 @@ const GENDER_OPTIONS = ['male', 'female', 'non_binary', 'prefer_not_to_say'];
 const MARITAL_OPTIONS = ['โสด', 'สมรส', 'หย่า', 'หม้าย'];
 const RELIGION_OPTIONS = ['buddhist', 'christian', 'muslim', 'hindu', 'other', 'none'];
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+// BA source refresh 2026-05-10 removed the old Military Status unique field,
+// but SF/BRD evidence still maps the field to PerPersonal.customString5.
+// Keep it on /profile/me as SF/BRD-only until BA/Ken explicitly decide the
+// BA removal should hide the Central-specific field.
 const MILITARY_OPTIONS = ['completed', 'exempted', 'deferred', 'not_applicable'];
 // BRD #165: SF BLOODGROUP picklist = 4 codes (AB/A/O/B).
 // Humi extends with Rh factor (+/-) for clinical completeness — intentional superset.

@@ -51,10 +51,10 @@ describe('SystemPage — /admin/system landing hub', () => {
   it('TC-SYS-2: แสดง 4 hub cards พร้อม href ถูกต้อง (reports, integration, features, security)', () => {
     render(<SystemPage />)
     // hub links ตาม HUBS constant
-    expect(screen.getByRole('link', { name: /รายงาน/i })).toHaveAttribute('href', '/admin/system/reports')
-    expect(screen.getByRole('link', { name: /การเชื่อมต่อ/i })).toHaveAttribute('href', '/admin/system/integration')
-    expect(screen.getByRole('link', { name: /ฟีเจอร์ระบบ/i })).toHaveAttribute('href', '/admin/system/features')
-    expect(screen.getByRole('link', { name: /ความปลอดภัย/i })).toHaveAttribute('href', '/admin/system/security')
+    expect(screen.getByRole('link', { name: /รายงาน/i })).toHaveAttribute('href', '/th/admin/system/reports')
+    expect(screen.getByRole('link', { name: /การเชื่อมต่อ/i })).toHaveAttribute('href', '/th/admin/system/integration')
+    expect(screen.getByRole('link', { name: /ฟีเจอร์ระบบ/i })).toHaveAttribute('href', '/th/admin/system/system-features')
+    expect(screen.getByRole('link', { name: /ความปลอดภัย/i })).toHaveAttribute('href', '/th/admin/system/security')
   })
 
   it('TC-SYS-3: stat widget "รายงานทั้งหมด" แสดงค่า 10 จาก seed', () => {

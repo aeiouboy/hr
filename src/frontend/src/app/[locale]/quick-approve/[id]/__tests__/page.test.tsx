@@ -6,6 +6,7 @@ import { render, screen, act } from '@testing-library/react';
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ back: vi.fn(), push: vi.fn() }),
+  useParams: () => ({ locale: 'th' }),
 }));
 
 vi.mock('next-intl', () => ({

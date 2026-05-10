@@ -39,6 +39,7 @@ vi.mock('lucide-react', () => ({
   Download: () => null,
   FileText: () => null,
   Filter: () => null,
+  Plus: () => null,
 }))
 
 import MeDocumentsPage from '@/app/[locale]/me/documents/page'

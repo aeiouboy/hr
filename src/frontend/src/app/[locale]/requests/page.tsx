@@ -47,6 +47,19 @@ import {
   useRequestsStore,
   type RequestFilterKey,
 } from '@/stores/humi-requests-slice';
+import {
+  selectBenefitRequestSummaries,
+  useBenefitClaimsStore,
+} from '@/stores/benefit-claims';
+import {
+  selectBenefitReferralRequestSummaries,
+  useBenefitReferralsStore,
+} from '@/stores/benefit-referrals';
+import {
+  selectTaxPlanningRequestSummaries,
+  useBenefitTaxPlanningStore,
+} from '@/stores/benefit-tax-planning';
+import { benefitTaxPlanningRoute } from '@/lib/benefit-routes';
 
 // ════════════════════════════════════════════════════════════
 // /requests — Forms/requests tracker
@@ -123,15 +136,26 @@ function useToast() {
 }
 
 export default function HumiRequestsPage() {
+  const locale = useLocale();
   const [tab, setTab] = useState<TabKey>('mine');
   const { toast, show: showToast } = useToast();
 
   const { submissions, filter } = useRequestsStore();
+  const benefitClaims = useBenefitClaimsStore((s) => s.claims);
+  const benefitReferrals = useBenefitReferralsStore((s) => s.referrals);
+  const taxPlanningDrafts = useBenefitTaxPlanningStore((s) => s.drafts);
 
   const allMine = useMemo(() => {
     const base = HUMI_MY_REQUESTS
       .filter((r) => !isBenefitType(r.type))
       .map((r) => ({ ...r }));
+    const benefitRequests = selectBenefitRequestSummaries(benefitClaims);
+    const referralRequests = selectBenefitReferralRequestSummaries(benefitReferrals);
+    const taxPlanningRequests = selectTaxPlanningRequestSummaries(taxPlanningDrafts)
+      .map((row) => ({
+        ...row,
+        href: benefitTaxPlanningRoute(locale),
+      }));
     const store = submissions.map((s) => ({
       id: s.id,
       type: s.type,
@@ -142,8 +166,8 @@ export default function HumiRequestsPage() {
         { role: 'หัวหน้างาน', name: 'ปรีชา วัฒนกุล', initials: 'ปว', tone: 'teal' as const, status: 'pending' as const, when: 'รอดำเนินการ' },
       ] satisfies HumiApprovalStep[],
     }));
-    return [...store, ...base];
-  }, [submissions]);
+    return [...taxPlanningRequests, ...referralRequests, ...benefitRequests, ...store, ...base];
+  }, [benefitClaims, benefitReferrals, locale, submissions, taxPlanningDrafts]);
 
   const filtered = useMemo(() => {
     if (filter === 'all') return allMine;

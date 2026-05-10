@@ -2,7 +2,8 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
-const BA_CSV_PATH = '/Users/tachongrak/Downloads/EC- list of fields(Employee file).csv'
+const BA_CSV_PATH =
+  '/Users/tachongrak/stark/projects/hr-platform-replacement/ba-source/EC-list-of-fields-2026-05-10.employee-file.csv'
 
 const HIRE_SOURCE_ROOTS = [
   resolve(process.cwd(), 'src/app/[locale]/admin/hire'),
@@ -11,7 +12,7 @@ const HIRE_SOURCE_ROOTS = [
   resolve(process.cwd(), 'src/lib/admin/hire'),
 ]
 
-const EXPECTED_BA_FIELD_ROWS = 204
+const EXPECTED_BA_FIELD_ROWS = 205
 
 const CURRENTLY_UNCOVERED_BA_ROWS = new Map<number, string>([
   [74, 'Social Accounts Information is not represented in the current hire UI/source slices.'],
@@ -25,14 +26,22 @@ const CURRENTLY_UNCOVERED_BA_ROWS = new Map<number, string>([
   [98, 'Payroll-derived address system field is not surfaced in hire source.'],
   [104, 'Emergency-contact copy-address control is not represented in hire source.'],
   [124, 'Dependent copy-address control is not represented in hire source.'],
+  [126, 'Dependent house number has no matching hire source token yet.'],
   [127, 'Dependent house number has no matching hire source token yet.'],
+  [131, 'Dependent lane/soi has no matching hire source token yet.'],
   [132, 'Dependent lane/soi has no matching hire source token yet.'],
   [133, 'Dependent street has no matching hire source token yet.'],
+  [149, 'Termination-only field appears in the hiring worksheet but is not part of hire source.'],
   [150, 'Termination-only field appears in the hiring worksheet but is not part of hire source.'],
+  [156, 'Point of Sales has no matching hire source token yet.'],
   [157, 'Point of Sales has no matching hire source token yet.'],
+  [166, 'Job Role has no matching hire source token yet.'],
   [167, 'Job Role has no matching hire source token yet.'],
+  [170, 'Store Brand/Format has no matching hire source token yet.'],
   [171, 'Store Brand/Format has no matching hire source token yet.'],
+  [197, 'Supervisor ID has no matching hire source token yet.'],
   [198, 'Supervisor ID has no matching hire source token yet.'],
+  [209, 'DVT project fields are not represented in current hire source.'],
   [210, 'DVT project fields are not represented in current hire source.'],
   [211, 'DVT project fields are not represented in current hire source.'],
   [212, 'DVT project fields are not represented in current hire source.'],
@@ -44,19 +53,25 @@ const CURRENTLY_UNCOVERED_BA_ROWS = new Map<number, string>([
   [218, 'DVT project fields are not represented in current hire source.'],
   [219, 'Scholarship has no matching hire source token yet.'],
   [220, 'Override Standard Weekly Hours has no matching hire source token yet.'],
+  [229, 'Probationary Period End Date has no matching hire source token yet.'],
   [230, 'Probationary Period End Date has no matching hire source token yet.'],
   [231, 'Extended Retirement Date has no matching hire source token yet.'],
   [232, 'Extended Probation Date has no matching hire source token yet.'],
+  [234, 'Band Matching has no matching hire source token yet.'],
   [235, 'Band Matching has no matching hire source token yet.'],
   [236, 'Transfer-out field appears in the hiring worksheet but is not part of hire source.'],
   [237, 'Band has no matching hire source token yet.'],
   [238, 'Special Benefit Group has no matching hire source token yet.'],
+  [257, 'PF service end date has no matching hire source token yet.'],
   [258, 'Employee age Y/M/D display has no matching hire source token yet.'],
+  [259, 'Employee age Y/M/D display has no matching hire source token yet.'],
+  [298, 'Job country/region compensation row has no matching hire source token yet.'],
   [297, 'Job country/region compensation row has no matching hire source token yet.'],
 ])
 
 type BaFieldRow = {
   rowNumber: number
+  process: string
   section: string
   subsection: string
   field: string
@@ -108,16 +123,25 @@ function parseCsv(content: string): string[][] {
 }
 
 function parseBaCsv(content: string): BaFieldRow[] {
-  return parseCsv(content)
-    .slice(5)
+  const [headers = [], ...rows] = parseCsv(content)
+  const indexOf = (name: string) => headers.indexOf(name)
+  const sourceRowIndex = indexOf('source_row')
+  const processIndex = indexOf('process')
+  const sectionIndex = indexOf('section')
+  const subsectionIndex = indexOf('sub_section')
+  const fieldIndex = indexOf('ui_field')
+  const dbFieldIndex = indexOf('db_field')
+
+  return rows
     .map((cells, index) => ({
-      rowNumber: index + 6,
-      section: cells[0]?.trim() ?? '',
-      subsection: cells[1]?.trim() ?? '',
-      field: cells[2]?.trim().replace(/\u00ad/g, '') ?? '',
-      dbField: cells[22]?.trim().replace(/\u00ad/g, '') ?? '',
+      rowNumber: Number(cells[sourceRowIndex]) || index + 2,
+      process: cells[processIndex]?.trim() ?? '',
+      section: cells[sectionIndex]?.trim() ?? '',
+      subsection: cells[subsectionIndex]?.trim() ?? '',
+      field: cells[fieldIndex]?.trim().replace(/\u00ad/g, '') ?? '',
+      dbField: cells[dbFieldIndex]?.trim().replace(/\u00ad/g, '') ?? '',
     }))
-    .filter((row) => row.field.length > 0)
+    .filter((row) => row.process === 'Hiring' && row.field.length > 0)
 }
 
 function normalize(value: string): string {
@@ -145,7 +169,7 @@ describe('hire wizard BA field source coverage', () => {
   it('accounts for every Employee-file Hiring UI field from the BA CSV', () => {
     expect(existsSync(BA_CSV_PATH), `Missing BA CSV fixture at ${BA_CSV_PATH}`).toBe(true)
 
-    const rows = parseBaCsv(readFileSync(BA_CSV_PATH, 'latin1'))
+    const rows = parseBaCsv(readFileSync(BA_CSV_PATH, 'utf8'))
     const normalizedSource = normalize(HIRE_SOURCE_ROOTS.flatMap(readSourceFiles).join('\n'))
 
     const sourceCovered = rows.filter((row) => sourceHasField(row, normalizedSource))

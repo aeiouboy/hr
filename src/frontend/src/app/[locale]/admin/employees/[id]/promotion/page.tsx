@@ -26,6 +26,7 @@ import { Button } from '@/components/humi'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
+import { isSalaryPctValid } from './validation'
 
 // ─── Date helpers ────────────────────────────────────────────────────────────
 
@@ -120,13 +121,6 @@ function ApprovalChainBanner({ employeeId }: { employeeId: string }) {
       ))}
     </div>
   )
-}
-
-// ─── Exported helpers (for tests) ────────────────────────────────────────────
-
-/** salaryChangePct must be in 0–50 range */
-export function isSalaryPctValid(pct: number): boolean {
-  return pct >= 0 && pct <= 50
 }
 
 // ─── Main page ────────────────────────────────────────────────────────────────

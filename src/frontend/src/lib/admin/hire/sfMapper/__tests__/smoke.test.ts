@@ -13,6 +13,7 @@ const minimalFormData: FormData = {
     age: null, employeeId: '', nationalIdCardType: null,
     country: null, nationalId: '', issueDate: null, expiryDate: null,
     isPrimary: null, vnIssuePlace: '', salutationLocal: null,
+    attachmentName: null,
   },
   biographical: {
     otherTitleTh: '', firstNameLocal: '', lastNameLocal: '',
@@ -61,6 +62,7 @@ const minimalFormData: FormData = {
     otFlag: '', standardWeeklyHours: 0, dailyWorkingHours: 0,
     workingDaysPerWeek: 0, fte: 0, holidayCalendar: '', timeProfile: '',
     timeRecordingVariant: '',
+    attachmentName: null,
     // Phase 3 new fields
     department: null, division: null, divisionLabel: null,
     costCenter: null, jobFunction: null, jobFunctionLabel: null,

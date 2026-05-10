@@ -119,16 +119,39 @@ export default function ApprovalsInboxPage() {
   const camundaAssignee = userId ?? CAMUNDA_FALLBACK_ASSIGNEE;
   const [camundaTasks, setCamundaTasks] = useState<PendingTaskSummary[]>([]);
   const [camundaError, setCamundaError] = useState<string | null>(null);
+  // First-refresh gate — while false, suppress Mock rows that have a
+  // `workflowInstanceId` so the reviewer doesn't approve a stale local card
+  // before the Camunda lane has populated (Option-1 race fix).
+  const [camundaInitialized, setCamundaInitialized] = useState(false);
+
+  // Derive Camunda candidate groups from Humi roles. A reviewer's task lane
+  // should include both (a) tasks directly assigned to them and (b) tasks
+  // open to a group they belong to — otherwise managers can't pick up a
+  // task that the engine assigned to a fallback user (e.g. `demo`).
+  const camundaCandidateGroups = useMemo(() => {
+    const g: string[] = [];
+    if (roles.includes('manager') || roles.includes('hr_manager')) g.push('managers');
+    if (roles.includes('spd') || roles.includes('hr_admin') || roles.includes('hrbp')) g.push('hr-auditors');
+    return g.join(',');
+  }, [roles]);
 
   const refreshCamunda = useCallback(async () => {
     try {
-      const next = await listPendingTasks({ assignee: camundaAssignee });
-      setCamundaTasks(next);
+      const queries = [listPendingTasks({ assignee: camundaAssignee })];
+      if (camundaCandidateGroups) {
+        queries.push(listPendingTasks({ candidateGroups: camundaCandidateGroups }));
+      }
+      const results = await Promise.all(queries);
+      const byId = new Map<string, PendingTaskSummary>();
+      for (const arr of results) for (const t of arr) byId.set(t.id, t);
+      setCamundaTasks([...byId.values()]);
       setCamundaError(null);
     } catch (e) {
       setCamundaError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setCamundaInitialized(true);
     }
-  }, [camundaAssignee]);
+  }, [camundaAssignee, camundaCandidateGroups]);
 
   useEffect(() => {
     let cancelled = false;
@@ -139,10 +162,20 @@ export default function ApprovalsInboxPage() {
   }, [refreshCamunda]);
 
   // ── Merge ─────────────────────────────────────────────────────────────────
+  // Pre-filter benefit claims: until the first Camunda poll has returned,
+  // hide any local Mock claim that's wired to a Camunda flow. The dedupe
+  // inside mergeApprovalRows only kicks in once camundaTasks is populated,
+  // so without this guard the reviewer briefly sees a Mock card and can
+  // approve it locally before the Camunda lane shows up.
+  const visibleBenefitClaims = useMemo(
+    () => (camundaInitialized ? benefitClaims : benefitClaims.filter((c) => !c.workflowInstanceId)),
+    [benefitClaims, camundaInitialized],
+  );
+
   const allRows = useMemo<ApprovalRow[]>(
     () =>
       mergeApprovalRows({
-        benefitClaims,
+        benefitClaims: visibleBenefitClaims,
         benefitClaimStatusLabels: BENEFIT_STATUS_LABEL,
         camundaTasks,
         referrals,
@@ -155,7 +188,7 @@ export default function ApprovalsInboxPage() {
         promotions,
         promotionStatusLabels: PROMOTION_STEP_LABEL,
       }),
-    [benefitClaims, camundaTasks, referrals, personalInfo, terminations, promotions],
+    [visibleBenefitClaims, camundaTasks, referrals, personalInfo, terminations, promotions],
   );
 
   // ── Filter UI state ───────────────────────────────────────────────────────

@@ -82,7 +82,7 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn().mockReturnValue('/th/profile/me'),
   useRouter: vi.fn().mockReturnValue({ push: vi.fn() }),
   useParams: vi.fn().mockReturnValue({ locale: 'th' }),
-  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
+  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('tab=employment')),
 }));
 
 // ── next/link mock — render as <a href> ───────────────────────────────────────

@@ -59,7 +59,7 @@ describe('Create Role', () => {
       result.current.createRole({
         name: 'Payroll Officer',
         description: 'จัดการ payroll',
-        capabilities: ['EC.Compensation_VIEW', 'EC.Compensation_EDIT'],
+        capabilities: ['ADMIN_VIEW_ALL', 'ADMIN_MANAGE_FOUNDATION'],
       })
     })
 
@@ -67,8 +67,8 @@ describe('Create Role', () => {
 
     const newRole = result.current.roles.find((r) => r.name === 'Payroll Officer')
     expect(newRole).toBeDefined()
-    expect(newRole?.capabilities).toContain('EC.Compensation_VIEW')
-    expect(newRole?.capabilities).toContain('EC.Compensation_EDIT')
+    expect(newRole?.capabilities).toContain('ADMIN_VIEW_ALL')
+    expect(newRole?.capabilities).toContain('ADMIN_MANAGE_FOUNDATION')
     // role ที่สร้างเองต้องไม่เป็น system role
     expect(newRole?.isSystemRole).toBe(false)
     expect(newRole?.id).toBeTruthy()
@@ -88,7 +88,7 @@ describe('Capability Checklist', () => {
       result.current.createRole({
         name: 'Test Role',
         description: 'test',
-        capabilities: ['EC.EmpJob_VIEW'],
+        capabilities: ['HRBP_VIEW_ORG'],
       })
     })
 
@@ -98,16 +98,16 @@ describe('Capability Checklist', () => {
     // อัปเดต capabilities
     act(() => {
       result.current.updateRole(created!.id, {
-        capabilities: ['EC.EmpJob_VIEW', 'EC.EmpJob_EDIT', 'EC.Compensation_VIEW'] as any,
+        capabilities: ['HRBP_VIEW_ORG', 'HRBP_EDIT_PROFILE', 'ADMIN_VIEW_ALL'],
         updatedAt: new Date().toISOString(),
       })
     })
 
     const updated = result.current.roles.find((r) => r.id === created!.id)
     expect(updated?.capabilities).toHaveLength(3)
-    expect(updated?.capabilities).toContain('EC.EmpJob_VIEW')
-    expect(updated?.capabilities).toContain('EC.EmpJob_EDIT')
-    expect(updated?.capabilities).toContain('EC.Compensation_VIEW')
+    expect(updated?.capabilities).toContain('HRBP_VIEW_ORG')
+    expect(updated?.capabilities).toContain('HRBP_EDIT_PROFILE')
+    expect(updated?.capabilities).toContain('ADMIN_VIEW_ALL')
   })
 })
 

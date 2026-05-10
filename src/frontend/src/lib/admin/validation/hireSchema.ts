@@ -167,7 +167,10 @@ export const stepIdentitySchema = z.object({
 
 export type StepIdentityData = z.infer<typeof stepIdentitySchema>
 
-// ── Cluster 2 "Job" — Personal Info (12 fields; all mandatory per BA) ─────────
+// ── Cluster 1 "Who" — Personal Info ──────────────────────────────────────────
+// BA source refreshed 2026-05-10. The old 37-field / rows 2-17 shorthand is
+// historical only; current coverage is validated by StepBAFieldCoverage against
+// `projects/hr-platform-replacement/ba-source/EC-list-of-fields-2026-05-10.employee-file.csv`.
 
 /** BA Personal Info rows 2-17 — biographical cluster */
 export const stepBiographicalSchema = z.object({
@@ -181,7 +184,7 @@ export const stepBiographicalSchema = z.object({
   middleNameLocal: z.string().optional().default(''),
   /** BA Personal Info row 10 — Nickname — optional (SF PerPersonal.preferredName is sap_required=false) */
   nickname: z.string().optional().default(''),
-  /** BA Personal Info row 11 — Military Status — optional (not in SF schema; Thai-locale custom) */
+  /** SF/BRD-only after BA 2026-05-10 refresh — Military Status remains PerPersonal.customString5 */
   militaryStatus: z.string().optional().default(''),
   /** BA Personal Info row 12 — Gender — optional (SF PerPersonal.gender is sap_required=false)
    * SF cite: qas-fields-2026-04-25/sf-qas-picklist-options-LINKED-2026-04-26.json#aggregationByPicklist.gender

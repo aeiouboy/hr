@@ -242,12 +242,19 @@ export interface MergeInput {
   promotionStatusLabels: Record<PromotionStep, string>;
 }
 
-/** Build the unified, sorted (newest first) row stream. Pure — safe to memoise. */
+/** Build the unified, sorted (newest first) row stream. Pure — safe to memoise.
+ *
+ * Mock-vs-Camunda rule: any benefit claim that carries a `workflowInstanceId`
+ * is dropped from the Mock lane entirely — Camunda is the source of truth
+ * for those. Only legacy seed claims (workflowInstanceId = null) keep their
+ * Mock card. This avoids a race where the Camunda lane hasn't loaded yet
+ * and the reviewer sees two cards for one claim, then approves the wrong
+ * one (Mock approve only updates zustand and leaves the Camunda task open). */
 export function mergeApprovalRows(input: MergeInput): ApprovalRow[] {
   const rows: ApprovalRow[] = [
-    ...input.benefitClaims.map((c) =>
-      rowFromBenefitClaim(c, input.benefitClaimStatusLabels[c.status] ?? c.status),
-    ),
+    ...input.benefitClaims
+      .filter((c) => !c.workflowInstanceId)
+      .map((c) => rowFromBenefitClaim(c, input.benefitClaimStatusLabels[c.status] ?? c.status)),
     ...input.camundaTasks.map(rowFromCamundaTask),
     ...input.referrals.map((r) =>
       rowFromReferral(r, input.referralStatusLabels[r.status] ?? r.status),

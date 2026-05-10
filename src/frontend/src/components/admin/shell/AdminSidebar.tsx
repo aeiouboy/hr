@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import {
   LayoutDashboard,
   UserPlus,
@@ -29,17 +30,19 @@ export interface AdminSidebarProps {
 }
 
 type NavItem = { id: string; label: string; href: string; icon: LucideIcon };
-type NavSection = { group: string; items: NavItem[] };
+type NavSection = { group: string; groupKey: string; items: NavItem[] };
 
 const NAV: NavSection[] = [
   {
     group: 'ภาพรวม',
+    groupKey: 'overview',
     items: [
       { id: 'admin-home', label: 'ศูนย์ Admin', href: '/th/admin', icon: LayoutDashboard },
     ],
   },
   {
     group: 'การจ้างงาน',
+    groupKey: 'hiring',
     items: [
       { id: 'hire', label: 'รับพนักงานใหม่', href: '/th/admin/hire', icon: UserPlus },
       { id: 'employees', label: 'พนักงาน', href: '/th/admin/employees', icon: Users },
@@ -47,6 +50,7 @@ const NAV: NavSection[] = [
   },
   {
     group: 'โครงสร้างองค์กร',
+    groupKey: 'orgStructure',
     items: [
       { id: 'organization', label: 'หน่วยงาน', href: '/th/admin/organization', icon: Network },
       { id: 'jobs', label: 'งาน/Job', href: '/th/admin/jobs', icon: BriefcaseBusiness },
@@ -55,6 +59,7 @@ const NAV: NavSection[] = [
   },
   {
     group: 'สวัสดิการ',
+    groupKey: 'benefits',
     items: [
       { id: 'benefits-plans', label: 'แผนสวัสดิการ', href: '/th/admin/benefits/plans', icon: BriefcaseBusiness },
       { id: 'benefits-rules', label: 'กฎสวัสดิการ', href: '/th/admin/benefits/rules', icon: BookOpen },
@@ -62,6 +67,7 @@ const NAV: NavSection[] = [
   },
   {
     group: 'บริหารระบบ',
+    groupKey: 'system',
     items: [
       { id: 'reports', label: 'รายงาน', href: '/th/admin/reports', icon: BarChart3 },
       { id: 'self-service', label: 'Self-Service', href: '/th/admin/self-service', icon: Sliders },
@@ -75,8 +81,15 @@ function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
 }
 
+function localizeHref(href: string, locale: string): string {
+  const barePath = stripLocale(href);
+  return `/${locale}${barePath}`;
+}
+
 export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarProps = {}) {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations('shell');
   const barePath = stripLocale(pathname);
   const isActive = (href: string) => {
     const bareHref = stripLocale(href);
@@ -85,7 +98,7 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
   };
 
   return (
-    <aside className={cn('humi-sidebar', className)} aria-label="เมนู Admin">
+    <aside className={cn('humi-sidebar', className)} aria-label={t('a11y.adminMenu')}>
       <div className="humi-brand">
         <div className="humi-wordmark">
           <Image
@@ -101,7 +114,7 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
           <button
             type="button"
             className="humi-icon-btn humi-drawer-close"
-            aria-label="ปิดเมนู"
+            aria-label={t('a11y.closeMenu')}
             onClick={onClose}
             style={{ marginLeft: 'auto' }}
           >
@@ -110,17 +123,19 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
         )}
       </div>
 
-      <nav className="humi-nav" aria-label="เมนู Admin">
+      <nav className="humi-nav" aria-label={t('a11y.adminMenu')}>
         {NAV.map((section) => (
-          <div key={section.group} className="humi-nav-section">
-            <div className="humi-nav-label">{section.group}</div>
+          <div key={section.groupKey} className="humi-nav-section">
+            <div className="humi-nav-label">{t(`groups.${section.groupKey}`)}</div>
             {section.items.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
+              const itemHref = localizeHref(item.href, locale);
+              const itemLabel = t(`items.${item.id}`);
               return (
                 <Link
                   key={item.id}
-                  href={item.href}
+                  href={itemHref}
                   className={cn('humi-nav-item', active && 'active')}
                   aria-current={active ? 'page' : undefined}
                   onClick={onNavigate}
@@ -128,7 +143,7 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
                   <span className="humi-nav-icon" aria-hidden="true">
                     <Icon size={16} />
                   </span>
-                  <span className="humi-nav-text">{item.label}</span>
+                  <span className="humi-nav-text">{itemLabel}</span>
                 </Link>
               );
             })}
@@ -137,24 +152,24 @@ export function AdminSidebar({ onNavigate, onClose, className }: AdminSidebarPro
 
         <div className="humi-nav-section" style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <Link
-            href="/th/home"
+            href={`/${locale}/home`}
             className="humi-nav-item"
             onClick={onNavigate}
           >
             <span className="humi-nav-icon" aria-hidden="true">
               <ArrowLeft size={16} />
             </span>
-            <span className="humi-nav-text">กลับสู่พนักงาน</span>
+            <span className="humi-nav-text">{t('actions.backToEmployee')}</span>
           </Link>
           <Link
-            href="/th/login"
+            href={`/${locale}/login`}
             className="humi-nav-item"
             onClick={onNavigate}
           >
             <span className="humi-nav-icon" aria-hidden="true">
               <LogOut size={16} />
             </span>
-            <span className="humi-nav-text">ออกจากระบบ</span>
+            <span className="humi-nav-text">{t('actions.logout')}</span>
           </Link>
         </div>
       </nav>

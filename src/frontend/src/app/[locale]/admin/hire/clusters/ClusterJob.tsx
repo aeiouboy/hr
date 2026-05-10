@@ -33,7 +33,7 @@ export default function ClusterJob() {
 
       <CollapsibleSectionCard
         id="job.assignment"
-        collapsed={sectionCollapse['job.assignment'] ?? false}
+        collapsed={sectionCollapse['job.assignment'] ?? true}
         onToggle={() => toggleSection('job.assignment')}
           icon={Building2}
           eyebrow="ตำแหน่งและสังกัด"
@@ -45,7 +45,7 @@ export default function ClusterJob() {
 
       <CollapsibleSectionCard
         id="job.compensation"
-        collapsed={sectionCollapse['job.compensation'] ?? false}
+        collapsed={sectionCollapse['job.compensation'] ?? true}
         onToggle={() => toggleSection('job.compensation')}
           icon={Wallet}
           eyebrow="ค่าตอบแทน"

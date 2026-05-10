@@ -1,6 +1,6 @@
 // promotion/page.test.tsx — Unit tests สำหรับ Promotion route
 import { describe, it, expect } from 'vitest'
-import { isSalaryPctValid } from '../page'
+import { isSalaryPctValid } from '../validation'
 import { MOCK_EMPLOYEES } from '@/mocks/employees'
 
 describe('isSalaryPctValid', () => {

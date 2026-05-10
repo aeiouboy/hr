@@ -1,7 +1,10 @@
 'use client'
 
-// StepBiographical.tsx — Cluster 2 "Job"
-// BA Personal Info rows 2-17 = 12 fields (all mandatory per BA-EC-SUMMARY.md)
+// StepBiographical.tsx — Cluster 1 "Who" / Personal Information.
+// BA source refreshed 2026-05-10:
+// - current Hiring / Personal Information rows live in
+//   stark/projects/hr-platform-replacement/ba-source/EC-list-of-fields-2026-05-10.employee-file.csv
+// - the old 37-field / BA rows 2-17 shorthand is historical only.
 // Wave 2-A: BRD #12 gender/marital alignment, #13 spouse fields + nativePreferredLang + religion
 // Picklist source: @hrms/shared/picklists (C7: single source of truth)
 
@@ -277,7 +280,10 @@ export default function StepBiographical({ onValidChange }: StepBiographicalProp
         {errMsg('nickname')}
       </fieldset>
 
-      {/* ─── BA Personal Info row 11 — Military Status — optional (not in SF schema; Thai-locale custom) ─── */}
+      {/* ─── SF/BRD-only after BA 2026-05-10 refresh — Military Status.
+           The refreshed BA workbook removed the old Military Status unique field,
+           but SF/BRD evidence still maps it to PerPersonal.customString5.
+           Keep visible until Ken/BA explicitly decide BA removal should hide it. ─── */}
       <fieldset>
         <label htmlFor="military-status" className="humi-label">
           {t('militaryStatus')}
