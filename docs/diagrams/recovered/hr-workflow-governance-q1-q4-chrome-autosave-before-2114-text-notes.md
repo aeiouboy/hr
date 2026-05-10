@@ -1,0 +1,178 @@
+# Chrome autosave recovered text notes
+
+Source: Google Chrome Local Storage `https://excalidraw.com` key `excalidraw`
+
+Recovered elements: 370
+
+- HR Workflow Governance: Four Decisions
+- Q1: UI Control And Permission Enforcement
+- Q2: Employee Role In Workflow
+- ใช้คุยกับทีมเพื่อแยก security, workflow, API contract, และ business logic ownership ให้ชัด
+- ปลอดภัยและดูแลง่ายกว่าเมื่อ backend ส่ง capability/status และ enforce ซ้ำที่ API
+- Role, position, manager, org unit ควร resolve จาก HR domain service ก่อนส่งเข้า workflow
+- Q1
+- Q2
+- Q3
+- Q4
+- HR Master Data / Employee, position, org
+- Policy / DMN / Approver route
+- Camunda / User tasks by group
+- Frontend-only decision
+- Backend capability model
+- attributes
+- route
+- recommended
+- UI Control
+- Workflow Role
+- API Exposure
+- Logic Boundary
+- ซ่อนปุ่มได้ / แต่ bypass API ได้ / logic กระจายหลายหน้า
+- API ส่ง canEdit/canApprove / API enforce authorization / UI แสดงตาม contract
+- ใครตัดสินใจว่าเห็นปุ่มอะไร
+- Role/position setup อยู่ที่ไหน
+- ผู้ใช้ต่างกลุ่มเห็นข้อมูลต่างกัน
+- อะไรอยู่ใน workflow / domain service
+- Team decision
+- Avoid
+- Preferred
+- Main principle: Frontend can hide for UX, but Backend must decide and enforce. Workflow should orchestrate approvals, not become the employee-data authority.
+- UI control = convenience. Backend authorization = security source of truth.
+- Do not make workflow the owner of org chart, position hierarchy, or employee profile.
+- Workflow stores approver group/user snapshot for audit; HR service remains source.
+- Q3: One Employee Profile API, Different Views
+- Q4: Business Logic Boundary
+- Target Operating Model
+- ทำได้ แต่ต้องออกแบบเป็น policy-based projection ไม่ใช่ให้ client เลือก field เอง
+- แยกจากคำถามว่า logic นั้นเป็น process orchestration หรือ domain truth
+- Contract ที่ทีมควรตกลงก่อน implement workflow replacement
+- Put in Workflow
+- Frontend
+- Render capability / Do not enforce security alone
+- Employee UI
+- LMS
+- yes
+- Profile API / Policy + projection
+- approval steps / SLA/escalation / manual task state / process audit
+- self view / masked salary
+- learning fields / no payroll
+- Is it approval / sequence/state?
+- Backend API
+- Authorize every action / Return allowed actions + views
+- HR Domain
+- Own employee data / Resolve roles and positions
+- no
+- Manager UI
+- PMS
+- Put Outside Workflow
+- team view / work info
+- performance fields / job context
+- leave balance / salary rules / PII masking / org hierarchy
+- Workflow
+- Own process state / Tasks, SLA, audit, escalation
+- Integration
+- External tasks / Notify, LMS/PMS/payroll sync
+- Rule: same resource, different projection by actor + purpose + scope.
+- Workflow asks services to do domain work; it should not duplicate domain rules.
+- Decision to align: backend is the control plane; workflow is the orchestration plane; HR domain is the data authority.
+- Scenario A: UI Permission And Action Control
+- Scenario B: Role, Position, And Approver Routing
+- Scenario C: Employee Profile API For UI, LMS, PMS
+- ใช้แยก UX visibility ออกจาก security enforcement
+- Workflow consumes resolved approvers; HR domain owns org truth
+- One API can serve many consumers through policy-based projections
+- Use Case
+- Use Camunda
+- Not Use Camunda
+- Use Case
+- Use Camunda
+- Not Use Camunda
+- Use Case
+- Use Camunda
+- Not Use Camunda
+- Only if action needs approval state, task status, or SLA in process.
+- Backend returns canEdit/canSubmit. API rejects unauthorized edits.
+- Use workflow for task assignment and approval sequence.
+- Manager-of-employee comes from HR org service.
+- No unless a submitted change enters approval.
+- Backend returns self projection with masked sensitive fields.
+- Employee profile edit button
+- Manager approval route
+- Employee self profile
+- Yes. Approval task ownership, claim, complete, audit should be in workflow.
+- UI just renders allowedActions from backend.
+- Use DMN when rule affects route: level >= M4 requires HRBP.
+- Position hierarchy source stays outside workflow.
+- No for read access. Use workflow only for change approval.
+- Projection includes team work info, excludes private fields.
+- Approve / reject button
+- Position / job level rule
+- Manager team profile
+- No. This is data access control, not process orchestration.
+- Policy engine / backend projection masks or removes fields.
+- Use workflow if delegation affects active tasks and audit.
+- Delegation source/policy owned by identity or HR service.
+- No for read sync unless sync is part of onboarding workflow.
+- Expose minimum learning identity fields via integration scope.
+- View salary / bank info
+- Temporary delegation
+- LMS integration
+- Yes if cancellation needs approval and audit trail.
+- Direct cancel only if policy allows immediate reversal.
+- No. Do not remodel org chart inside BPMN.
+- HR master data updates; new processes resolve new approvers.
+- No for profile read. Yes for performance review workflow.
+- Expose job context and reporting line by PMS contract.
+- Cancel approved leave
+- Org restructure
+- PMS integration
+- Scenario D: Business Logic Boundary
+- Scenario E: SuccessFactors Replacement Modules
+- Team Decision Matrix
+- Put process logic in Camunda; keep business truth in domain services
+- Use Camunda per module where there is durable process state
+- Practical rule to avoid overusing Camunda
+- Use Case
+- Use Camunda
+- Not Use Camunda
+- Use Case
+- Use Camunda
+- Not Use Camunda
+- Use Case
+- Use Camunda
+- Not Use Camunda
+- Yes. User tasks, escalation, reminders, approval audit.
+- Leave balance calculation remains in leave service.
+- Yes. Multi-step checklist across HR, manager, IT, payroll.
+- Employee master record belongs to HR domain.
+- Use Camunda.
+- Do not implement as scattered status flags only.
+- Leave approval sequence
+- Hire / onboarding
+- Long-running human approval
+- Only route approval based on compensation decision.
+- Salary rules, limits, and calculations live in comp service.
+- Yes. Multi-approver lifecycle action with audit.
+- Job data validation and effective dating outside workflow.
+- Usually no.
+- Use backend service validation.
+- Salary eligibility
+- Transfer / promotion
+- Single synchronous validation
+- Use external task to request/check verification step.
+- Document storage, virus scan, PII rules live outside workflow.
+- Yes if review/approval/document workflow exists.
+- Eligibility and benefit balances in benefits service.
+- Use Camunda.
+- Backend still enforces authorization.
+- Document verification
+- Benefits claim
+- Needs SLA / escalation / audit
+- Use external task to trigger update after approval.
+- HR service validates and commits final data.
+- No. Workflow may feed status, not analytics truth.
+- Use reporting/warehouse layer.
+- No.
+- Use policy-based API projection and masking.
+- Employee record update
+- Reporting dashboard
+- Sensitive data access

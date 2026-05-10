@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 4800 3200">
+  <rect width="4800" height="3200" fill="#ffffff"/>
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #1e1e1e; }
+    .muted { fill: #5f6368; }
+    .title { font-size: 54px; font-weight: 700; }
+    .panel-title { font-size: 34px; font-weight: 700; }
+    .body { font-size: 24px; }
+    .small { font-size: 20px; }
+    .panel { fill: #f8f9fa; stroke: #dee2e6; stroke-width: 3; rx: 8; }
+    .box { stroke: #495057; stroke-width: 3; rx: 6; }
+    .arrow { stroke: #495057; stroke-width: 5; marker-end: url(#arrow); fill: none; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10" fill="none" stroke="#495057" stroke-width="2"/>
+    </marker>
+  </defs>
+  <text x="120" y="90" class="title">Camunda 7 For HR Platform Replacement Strategy</text>
+  <text x="120" y="135" class="body muted">Workflow layer for approvals, routing, automation, and audit while HRMS remains the system of record.</text>
+
+  <rect x="120" y="220" width="1450" height="760" class="panel"/>
+  <text x="170" y="290" class="panel-title">Reference Architecture</text>
+  <rect x="190" y="390" width="240" height="110" fill="#a5d8ff" class="box"/><text x="245" y="435" class="body">HRMS UI</text><text x="250" y="468" class="small muted">Next.js</text>
+  <rect x="570" y="390" width="280" height="110" fill="#ffec99" class="box"/><text x="625" y="435" class="body">Workflow API</text><text x="612" y="468" class="small muted">Auth + HR rules</text>
+  <rect x="990" y="370" width="320" height="150" fill="#d0bfff" class="box"/><text x="1042" y="430" class="body">Camunda 7</text><text x="1020" y="463" class="small muted">BPMN + DMN + Tasks</text>
+  <rect x="990" y="650" width="320" height="120" fill="#b2f2bb" class="box"/><text x="1035" y="705" class="body">HR Domain DB</text><text x="1040" y="738" class="small muted">Source of truth</text>
+  <rect x="570" y="650" width="280" height="120" fill="#e9ecef" class="box"/><text x="608" y="705" class="body">External Workers</text><text x="615" y="738" class="small muted">Payroll, docs, notify</text>
+  <path d="M430 445 H570" class="arrow"/><path d="M850 445 H990" class="arrow"/><path d="M1150 520 V650" class="arrow"/><path d="M990 710 H850" class="arrow"/>
+
+  <rect x="1690" y="220" width="1450" height="760" class="panel"/>
+  <text x="1740" y="290" class="panel-title">Module Workflow Topics</text>
+  <rect x="1760" y="380" width="280" height="150" fill="#a5d8ff" class="box"/><text x="1784" y="425" class="body">Employee Central</text><text x="1784" y="465" class="small muted">profile change</text><text x="1784" y="495" class="small muted">bank info</text>
+  <rect x="2090" y="380" width="280" height="150" fill="#b2f2bb" class="box"/><text x="2114" y="425" class="body">Hire / Onboarding</text><text x="2114" y="465" class="small muted">new hire</text><text x="2114" y="495" class="small muted">docs</text>
+  <rect x="2420" y="380" width="280" height="150" fill="#ffec99" class="box"/><text x="2444" y="425" class="body">Job Information</text><text x="2444" y="465" class="small muted">transfer</text><text x="2444" y="495" class="small muted">promotion</text>
+  <rect x="2750" y="380" width="280" height="150" fill="#ffc9c9" class="box"/><text x="2774" y="425" class="body">Time Off</text><text x="2774" y="465" class="small muted">leave</text><text x="2774" y="495" class="small muted">cancel leave</text>
+  <rect x="1760" y="600" width="280" height="150" fill="#e9ecef" class="box"/><text x="1784" y="645" class="body">Attendance</text><text x="1784" y="685" class="small muted">time correction</text><text x="1784" y="715" class="small muted">overtime</text>
+  <rect x="2090" y="600" width="280" height="150" fill="#d0bfff" class="box"/><text x="2114" y="645" class="body">Compensation</text><text x="2114" y="685" class="small muted">salary change</text><text x="2114" y="715" class="small muted">allowance</text>
+  <rect x="2420" y="600" width="280" height="150" fill="#a5d8ff" class="box"/><text x="2444" y="645" class="body">Benefits</text><text x="2444" y="685" class="small muted">claims</text><text x="2444" y="715" class="small muted">dependents</text>
+  <rect x="2750" y="600" width="280" height="150" fill="#ffc9c9" class="box"/><text x="2774" y="645" class="body">Offboarding</text><text x="2774" y="685" class="small muted">resignation</text><text x="2774" y="715" class="small muted">termination</text>
+
+  <rect x="3260" y="220" width="1450" height="760" class="panel"/>
+  <text x="3310" y="290" class="panel-title">Pilot: Leave With Document</text>
+  <ellipse cx="3410" cy="445" rx="100" ry="55" fill="#a5d8ff" stroke="#1864ab" stroke-width="3"/><text x="3360" y="455" class="body">Submit</text>
+  <rect x="3630" y="390" width="230" height="110" fill="#ffec99" class="box"/><text x="3680" y="455" class="body">DMN Route</text>
+  <rect x="4000" y="390" width="230" height="110" fill="#a5d8ff" class="box"/><text x="4040" y="455" class="body">Manager</text>
+  <polygon points="4380,445 4480,365 4580,445 4480,525" fill="#ffc9c9" stroke="#c92a2a" stroke-width="3"/><text x="4435" y="440" class="small">Docs?</text>
+  <rect x="4730" y="320" width="230" height="110" fill="#a5d8ff" class="box"/><text x="4780" y="385" class="body">HRBP</text>
+  <rect x="4730" y="560" width="230" height="110" fill="#e9ecef" class="box"/><text x="4762" y="625" class="body">Update DB</text>
+  <path d="M3510 445 H3630 M3860 445 H4000 M4230 445 H4380 M4580 420 L4730 375 M4580 475 L4730 615" class="arrow"/>
+
+  <rect x="120" y="1100" width="1450" height="760" class="panel"/>
+  <text x="170" y="1170" class="panel-title">Responsibility Split</text>
+  <rect x="220" y="1290" width="330" height="190" fill="#d0bfff" class="box"/><text x="270" y="1350" class="body">BPMN</text><text x="270" y="1390" class="small muted">Process state</text><text x="270" y="1420" class="small muted">User task sequence</text>
+  <rect x="650" y="1290" width="330" height="190" fill="#ffec99" class="box"/><text x="700" y="1350" class="body">DMN</text><text x="700" y="1390" class="small muted">Routing rules</text><text x="700" y="1420" class="small muted">Eligibility</text>
+  <rect x="1080" y="1290" width="330" height="190" fill="#e9ecef" class="box"/><text x="1130" y="1350" class="body">External Tasks</text><text x="1130" y="1390" class="small muted">Side effects</text><text x="1130" y="1420" class="small muted">Integrations</text>
+
+  <rect x="1690" y="1100" width="1450" height="760" class="panel"/>
+  <text x="1740" y="1170" class="panel-title">SuccessFactors Replacement Boundary</text>
+  <rect x="1780" y="1290" width="420" height="350" fill="#d0bfff" class="box"/><text x="1840" y="1360" class="body">Camunda Owns</text><text x="1840" y="1410" class="small muted">Approvals</text><text x="1840" y="1445" class="small muted">Routing</text><text x="1840" y="1480" class="small muted">Workflow audit</text>
+  <rect x="2330" y="1290" width="620" height="350" fill="#b2f2bb" class="box"/><text x="2390" y="1360" class="body">HR Platform Owns</text><text x="2390" y="1410" class="small muted">Employee data, org structure, payroll, documents, reports, UX</text>
+  <path d="M2200 1465 H2330" class="arrow"/>
+
+  <rect x="3260" y="1100" width="1450" height="760" class="panel"/>
+  <text x="3310" y="1170" class="panel-title">Implementation Roadmap</text>
+  <circle cx="3380" cy="1280" r="38" fill="#b2f2bb" stroke="#495057" stroke-width="3"/><text x="3368" y="1289" class="body">1</text><rect x="3460" y="1235" width="1040" height="82" fill="#ffffff" class="box"/><text x="3500" y="1272" class="body">Leave With Document</text><text x="3820" y="1272" class="small muted">DMN route + manager + HRBP + balance update</text>
+  <circle cx="3380" cy="1385" r="38" fill="#b2f2bb" stroke="#495057" stroke-width="3"/><text x="3368" y="1394" class="body">2</text><rect x="3460" y="1340" width="1040" height="82" fill="#ffffff" class="box"/><text x="3500" y="1377" class="body">Profile Change</text><text x="3820" y="1377" class="small muted">Employee edit + HR verification + record update</text>
+  <circle cx="3380" cy="1490" r="38" fill="#b2f2bb" stroke="#495057" stroke-width="3"/><text x="3368" y="1499" class="body">3</text><rect x="3460" y="1445" width="1040" height="82" fill="#ffffff" class="box"/><text x="3500" y="1482" class="body">Transfer Request</text><text x="3820" y="1482" class="small muted">Current manager + new manager + HR admin</text>
+  <circle cx="3380" cy="1595" r="38" fill="#b2f2bb" stroke="#495057" stroke-width="3"/><text x="3368" y="1604" class="body">4</text><rect x="3460" y="1550" width="1040" height="82" fill="#ffffff" class="box"/><text x="3500" y="1587" class="body">New Hire Onboarding</text><text x="3820" y="1587" class="small muted">HR + manager + IT + payroll checklist</text>
+  <circle cx="3380" cy="1700" r="38" fill="#ffec99" stroke="#495057" stroke-width="3"/><text x="3368" y="1709" class="body">5</text><rect x="3460" y="1655" width="1040" height="82" fill="#ffffff" class="box"/><text x="3500" y="1692" class="body">Workflow Admin</text><text x="3820" y="1692" class="small muted">Template catalog, approver groups, SLA rules</text>
+</svg>

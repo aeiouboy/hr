@@ -1,0 +1,69 @@
+{
+  "slug": "profile-emergency-contact-primaryflag",
+  "generated": "2026-05-09",
+  "source": "BRD #19 / ess-personal-data-edit-v2 AC-1",
+  "proceed_decision": "ok",
+  "mode": "EXTEND",
+  "beats": {
+    "q1_ambiguity": {
+      "question": "งานนี้ broad spec alignment หรือ narrow fix?",
+      "tentative": "Narrow fix — Address8/Bank/ContactArray implement แล้วครบ gap จริง = primaryFlag ใน EmergencyContactList เท่านั้น",
+      "answer": "ok"
+    },
+    "q2_scope": {
+      "question": "Scope?",
+      "tentative": "EmergencyContactList.tsx เพิ่ม primaryFlag toggle + invariant",
+      "answer": "ok",
+      "files": [
+        "src/frontend/src/components/profile/EmergencyContactList.tsx"
+      ]
+    },
+    "q3_prior_art": {
+      "question": "Prior art?",
+      "tentative": "EXTEND — ContactArrayEditor มี primary flag pattern อยู่แล้ว reuse pattern นั้น",
+      "answer": "ok",
+      "existing": [
+        "src/frontend/src/components/profile/ContactArrayEditor.tsx (primary flag pattern)",
+        "src/frontend/src/components/profile/EmergencyContactList.tsx (no primaryFlag)"
+      ]
+    },
+    "q4_success_criteria": {
+      "question": "Done when?",
+      "answer": "ok",
+      "criteria": [
+        "EmergencyContactList แต่ละ row มี primary toggle",
+        "invariant: 1 primary เสมอ — toggle row อื่น = unset row เดิม",
+        "ลบ primary row ไม่ได้ (หรือ auto-promote row ถัดไป)",
+        "primaryFlag ส่งออกใน submitChangeRequest payload",
+        "Vitest: primary-flag invariant test pass"
+      ]
+    },
+    "q5_anti_goals": {
+      "question": "Anti-goals?",
+      "answer": "ok",
+      "anti_goals": [
+        "ห้าม refactor Bank/Address/ContactArrayEditor",
+        "ห้ามแตะ personal info 21 fields",
+        "ห้ามเพิ่ม field อื่นนอกจาก primaryFlag",
+        "ห้ามแตะ admin employee detail page"
+      ]
+    },
+    "q6_discoverability": {
+      "question": "Entry point?",
+      "tentative": "tab ข้อมูลส่วนตัว → Emergency Contact section มีอยู่แล้ว",
+      "answer": "ok"
+    },
+    "q7_design_system": {
+      "question": "Design system?",
+      "tentative": "radio-style button + lucide icon (Star/CircleDot) + humi tokens (text-accent, border-accent)",
+      "answer": "ok"
+    }
+  },
+  "verdict": {
+    "decision": "ok",
+    "mode": "EXTEND",
+    "effort_loc": "~30 lines EmergencyContactList.tsx + ~20 lines test",
+    "primary_file": "src/frontend/src/components/profile/EmergencyContactList.tsx",
+    "pattern_ref": "src/frontend/src/components/profile/ContactArrayEditor.tsx"
+  }
+}

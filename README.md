@@ -1,5 +1,21 @@
 # Central Retail Next-Gen HRMS
 
+> **Active surface (2026-05): Next.js mockup in `src/frontend/`**
+>
+> The current dev target is a clickable Next.js mockup of an HR platform replacement (EC + Benefits modules) for HR walkthrough approval. Demo-only, in-memory data, no real backend.
+>
+> **Canonical entry point:** [`projects/hr-platform-replacement/HANDOFF.md`](projects/hr-platform-replacement/HANDOFF.md) — read this first.
+>
+> **Quick start:**
+> ```bash
+> cd src/frontend && NEXT_PUBLIC_DEMO_MODE=true npm run dev
+> # http://localhost:3000/th/login
+> ```
+>
+> The vanilla JS SPA (`apps/`) and 14 NestJS microservices (`src/services/*`) described below are **legacy / aspirational** — kept as historical reference for the eventual production sprint, not the current dev target.
+
+---
+
 A comprehensive, enterprise-grade Human Resource Management System built for Central Group. Monorepo architecture with 14 NestJS microservices + 1 shared library, a vanilla JS SPA frontend, and full bilingual Thai/English support.
 
 ## Architecture Overview

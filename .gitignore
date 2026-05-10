@@ -32,3 +32,12 @@ chrome/
 # Generated framework/debug artifacts
 .next/
 src/frontend/test-artifacts/**/debug-*.png
+.vercel
+
+# Local agent/runtime files
+.env.local
+.claude/*.lock
+.ouroboros/
+.ouroboros_eval_artifact.md
+# Recovered browser cache is machine-local; keep exported diagrams/text only
+docs/diagrams/recovered/chrome-excalidraw-cache-copy/

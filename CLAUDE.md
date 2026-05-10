@@ -14,81 +14,105 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | #221 | 1:42 PM | 🔵 | RIS HR System - Employee Information Module Architecture | ~480 |
 </claude-mem-context>
 
+## Active surface
+
+**The active app is the Next.js mockup in `src/frontend/`** — a clickable HR platform replacement (EC + Benefits) for Central Group, built for HR walkthrough approval before production sprint kickoff. In-memory data, no real backend.
+
+**Canonical entry point:** `projects/hr-platform-replacement/HANDOFF.md`. Read it before starting any work — it covers persona model, demo logins, what's done, open decisions, deferred items, and production-readiness gates.
+
+Legacy surfaces (do **not** use for new work):
+- `apps/` — vanilla JS SPA, replaced by `src/frontend/`
+- `src/services/*` — 14 NestJS microservices, aspirational/historical reference; mockup uses no real backend
+
 ## Running the Application
 
-No build step required. The app runs directly from static files:
-
 ```bash
-# Serve the app (recommended)
-python -m http.server 8080 -d apps
-# Then open http://localhost:8080
-
-# Or open directly
-open apps/index.html
+cd src/frontend
+npm install
+NEXT_PUBLIC_DEMO_MODE=true npm run dev
+# http://localhost:3000/th/login
 ```
+
+`NEXT_PUBLIC_DEMO_MODE=true` is **load-bearing** — without it `switchPersona` is a no-op. `.env.development` already sets it; `.env.production` must NOT.
+
+Demo logins (full table in HANDOFF.md §3): `admin@humi.test` / `admin2026` proxies into all 5 personas. Use the PersonaSwitcher in the Topbar to swap mid-session.
 
 ## Running Tests
 
 ```bash
-# Run all unit/verification tests
-npm run test:all
-
-# Run individual test suites
-npm test                        # verification-test.js
-npm run test:additional         # additional modules
-npm run test:profile            # profile-details
-npm run test:scorecard          # scorecard tab
-npm run test:benefits           # benefits tab
-
-# E2E tests use Playwright MCP (see .mcp.json)
+cd src/frontend
+npm test                                                     # full vitest run
+npx vitest run src/lib/__tests__/capabilities.test.ts        # single file
+npx playwright test e2e/persona-walkthrough.spec.ts \
+  --project=chromium --workers=1                             # E2E persona walkthrough
 ```
 
 ## Architecture
 
-### Frontend SPA (`apps/`)
+### Next.js frontend (`src/frontend/`)
 
-Vanilla JavaScript with no build tooling. All modules are IIFE (Immediately Invoked Function Expression) patterns loaded via `<script>` tags in `apps/index.html`. **Script load order matters** — core modules must be loaded before pages that depend on them.
-
-**Load order in `index.html`:**
-1. Core: `state.js` → `i18n.js` → `api.js` → `router.js`
-2. Utils: `date.js`, `mask.js`, `rbac.js`, `validation.js`, `accessibility.js`
-3. Mock data: `mock-*.js` files
-4. Components: reusable UI (`header.js`, `modal.js`, `tabs.js`, etc.)
-5. Workflow engine: `engine.js`, `rules.js`, `notifications.js`
-6. Pages: `home.js`, `profile.js`, etc.
-7. Bootstrap: `app.js` (initializes everything)
-
-**Key modules:**
-- `apps/js/state.js` — Centralized pub/sub state store (`AppState.get/set/subscribe`)
-- `apps/js/router.js` — Hash-based SPA routing (`#/profile/tab`, `#/home`)
-- `apps/js/api.js` — Mock API client with simulated 300ms delays and retry logic
-- `apps/js/i18n.js` — Internationalization (Thai/English), loads from `apps/locales/`
-- `apps/js/utils/rbac.js` — Role-based access control (Employee, Manager, HR Admin, HR Manager)
-
-**Adding a new page:**
-1. Create `apps/js/pages/my-page.js` with `render()` and `init()` functions
-2. Add `<script src="js/pages/my-page.js">` to `apps/index.html`
-3. Register route in `apps/js/app.js` `registerRoutes()`
-4. Add translations to `apps/locales/en.json` and `apps/locales/th.json`
-
-### State Management
-
-```javascript
-AppState.set('currentEmployee', data);     // Update state
-AppState.get('currentEmployee');           // Read state
-AppState.subscribe('language', callback);  // React to changes
+```
+src/frontend/src/
+├── app/[locale]/                ← all routes; locale-prefixed (/th/, /en/)
+├── components/
+│   ├── humi/                    ← design system primitives + shell
+│   ├── benefits/templates/      ← 6 reusable BE workflow templates
+│   ├── quick-approve/           ← unified Approver workspace + ApprovalChain
+│   ├── manager/, spd/, talent/  ← persona-specific surfaces
+│   └── admin/, profile/, workflow/
+├── data/                        ← mock data registries
+│   ├── benefits/{plan-registry,rules-registry}.ts
+│   ├── documents/templates.ts
+│   ├── notifications/mock.ts
+│   └── audit/mock.ts
+├── lib/
+│   ├── rbac.ts                  ← Role + ROLE_HIERARCHY + MODULE_ACCESS
+│   ├── capabilities.ts          ← field-level RBAC bundles per role
+│   ├── demo-users.ts            ← 10 demo logins
+│   ├── demo-mode-guard.ts       ← assertDemoModeSafe()
+│   └── humi-mock-data*.ts
+├── hooks/                       ← use-capabilities, use-* per domain
+├── stores/                      ← Zustand (auth-store, *-approvals)
+└── messages/{th,en}.json        ← i18n
 ```
 
-### Routing
+### Persona model (locked)
 
-```javascript
-Router.register('profile/:tab', { render: (params) => ..., onEnter: (params) => ... });
-Router.navigate('profile', { id: 'EMP001' }); // → #/profile/EMP001
+3 UI shells × 5 capability variants:
+- **User** (Employee) → `/home`, `/profile`, `/benefits-hub`, `/ess`
+- **Approver** (Manager · SPD · HRBP) → same shell, **field-level RBAC** + queue scope differ
+- **Admin** (HR Admin · HRIS Admin) → `/admin/*` (47+ pages)
+
+Capability bundles in `src/lib/capabilities.ts` encode this. Manager has 0 fields of `BenefitEmployeeClaim` per SF probe — collapsing Manager/HRBP would hide the RBAC posture HR must validate.
+
+### Persona resolution chain
+
 ```
+PersonaSwitcher.tsx → auth-store.switchPersona({roles}) → useAuthStore({roles})
+  → useCapabilities() → resolveCapabilities(roles) → CapabilityBundle
+  → <Capability entity="…" action="…">{children}</Capability>
+```
+
+### Adding work (cheat sheet)
+
+- **New persona** → update `Role` in `src/lib/rbac.ts`, add to `ROLE_HIERARCHY`/`MODULE_ACCESS`, add bundle in `src/lib/capabilities.ts` `BUNDLES`, add demo user in `src/lib/demo-users.ts`, add test in `src/lib/__tests__/capabilities.test.ts`
+- **New BE plan** → append to `src/data/benefits/plan-registry.ts` with `schemaVersion: 'v2'` and all 5 sub-objects; reference rule from `rules-registry.ts`; pick a `template` (UI auto-routes via `pickTemplate(plan)`)
+- **New workflow with chain** → render `<ApprovalChain stages={…} currentStage={…} />` from `@/components/quick-approve/ApprovalChain`; add to `/ess/workflows/page.tsx` mock list; (optional) add to `/quick-approve` filter chips
+
+Full extension recipes: HANDOFF.md §12.
+
+### Production-readiness gates (open)
+
+Demo build is internal-safe. Production deployment requires (HANDOFF.md §11):
+1. Strip mock-auth path; ignore persisted localStorage `roles` when real OIDC session exists
+2. **Backend RBAC parity** — every `<Capability>` gate re-enforced server-side
+3. Tighten persist allowlist (in-memory + httpOnly refresh-token cookie)
+4. Replace `MOCK_DEPENDENTS`, `MOCK_SALARY_THB`, `Date.now()` workflow IDs with backend-issued
+5. CI grep that fails build if `NEXT_PUBLIC_DEMO_MODE` appears in `.env.production*`
 
 ### Branding
 
-Custom Tailwind colors: `cg-red` (#C8102E), `cg-dark`, `cg-light`, `cg-success`, `cg-warning`, `cg-error`, `cg-info`.
+Humi tokens (sweep complete — no `border-border`, no raw `gray/blue/red-N`, no `bg-white`, no `rounded-[Xpx]`). Use `var(--shadow-*)`, `var(--radius-*)`. Legacy CG colors (`cg-red` #C8102E, `cg-dark`, `cg-light`) referenced in older code only.
 
 ### MCP Servers (`.mcp.json`)
 
@@ -126,9 +150,10 @@ ADW outputs are saved to `agents/{adw_id}/` with raw JSONL, parsed JSON, and sum
 
 ## Key Conventions
 
-- All JS uses IIFE module pattern — no ES modules, no `import/export` (except `module.exports` guards for test compatibility)
-- Mock data lives in `apps/js/data/mock-*.js` and is imported by `api.js`
-- i18n keys follow dot notation: `nav.home`, `profile.personalInfo`, `common.save`
-- Thai Buddhist Era dates: use `apps/js/utils/date.js` helpers
-- Sensitive fields (bank accounts, national IDs) use `apps/js/utils/mask.js`
-- All implememnt task must follow same code pattern
+- TypeScript everywhere in `src/frontend/`; React components, Zustand stores, Vitest + Playwright for tests
+- Mock data lives in `src/frontend/src/data/` and `src/frontend/src/lib/humi-mock-data*.ts`
+- i18n keys follow dot notation; both `src/frontend/src/messages/th.json` and `en.json` must be updated together
+- All routes locale-prefixed (`/th/...`); never write a bare `/admin/...` href
+- Sensitive fields use Humi masking utilities; gate visibility with `<Capability>`
+- Follow existing component patterns — check neighbors before introducing new abstractions
+- Legacy `apps/` (vanilla JS, IIFE modules) is frozen; do not extend it

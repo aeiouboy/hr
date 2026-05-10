@@ -191,3 +191,33 @@ When using `omx team api`, prefer JSON-mode operations and stable envelopes:
 - `.omx/specs/` stores OMX interview and planning artifacts.
 - `specs/` stores project specs and chore plans.
 - For substantial changes, update or create a local spec only when it helps future agents understand route decisions, test contracts, or non-goals.
+
+## Decision-Point Gate (Ouroboros as maintainer)
+
+Treat Ouroboros (`ouroboros_evaluate`) as a **maintainer** with veto authority — not a peer advisor. When you hit a real scope/ambiguity decision DURING execution — *not covered* by the issue AC — Q00's verdict is BINDING.
+
+**When to call** (decision classes that REQUIRE Q00 consultation):
+- Scope creep vs strict scope decisions
+- "Fix unrelated lint/TS errors or fail-CLOSED"
+- "Include adjacent file changes or split into separate PR"
+- "Interpret reviewer feedback as broader work or narrow fix"
+- "Add doc/comment beyond what AC specifies"
+
+**Call protocol:**
+- Before deciding: call `ouroboros_evaluate` with a `prompt` describing the situation in 1-3 sentences and the candidate options.
+- Read Q00's `Final Approval` field:
+  - **APPROVED** → proceed with the change
+  - **REJECTED** → fail-CLOSED: do NOT proceed. Post a Thai+English comment on the PR/issue with Q00's reasoning + the option you would have taken. Set tower status `awaiting_human` and stop.
+  - **PASSED with low score (< 0.5)** → treat as borderline; require explicit AC update or human approval before proceeding.
+- After making the approved change: call `ouroboros_evaluate` AGAIN with the artifact path to verify Stage-2 score ≥ 0.7. If post-change verification fails, revert the change and fail-CLOSED.
+
+**When NOT to call** (skip Q00):
+- Issue AC already specifies the answer (AC overrides Q00).
+- Trivial micro-decisions: variable names, formatting, comment phrasing.
+- Pure mechanical work (rename one variable across 3 files, etc.).
+
+**Anti-loop guard:**
+- One consultation per decision class per session is enough. Do not re-poll Q00 on the same question.
+- If Q00 timed out, retry once with a smaller prompt; on second timeout, fail-CLOSED with "Q00 unavailable" comment and stop.
+
+This is a per-repo policy. Other repos may use Q00 only as advisor or not at all.

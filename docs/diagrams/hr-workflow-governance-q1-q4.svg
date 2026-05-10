@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1800" viewBox="0 0 4800 5200">
+<rect width="4800" height="5200" fill="#fff"/>
+<style>
+text{font-family:Inter,Arial,sans-serif;fill:#1e1e1e}.muted{fill:#5f6368}.title{font-size:54px;font-weight:700}.h{font-size:34px;font-weight:700}.b{font-size:24px}.s{font-size:20px}.panel{fill:#f8f9fa;stroke:#dee2e6;stroke-width:3}.box{stroke:#495057;stroke-width:3}.a{stroke:#495057;stroke-width:5;marker-end:url(#a);fill:none}
+</style>
+<defs><marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10" fill="none" stroke="#495057" stroke-width="2"/></marker></defs>
+<text x="120" y="90" class="title">แนวทางกำกับ Workflow HR: Q1-Q4</text>
+<text x="120" y="135" class="b muted">เอกสารคุยกับทีมเรื่อง UI control, Workflow roles, API exposure และ business logic boundaries.</text>
+<rect x="120" y="220" width="1450" height="760" class="panel"/><text x="170" y="290" class="h">Q1 UI Control</text>
+<rect x="210" y="390" width="430" height="180" fill="#ffc9c9" class="box"/><text x="250" y="455" class="b">Frontend-only</text><text x="250" y="500" class="s muted">ใช้กับ UX เท่านั้น ไม่ใช่ security</text>
+<rect x="840" y="390" width="500" height="180" fill="#b2f2bb" class="box"/><text x="880" y="455" class="b">Backend capability model</text><text x="880" y="500" class="s muted">ปลอดภัยกว่า และ govern ง่ายกว่า</text><path d="M640 480 H840" class="a"/>
+<text x="210" y="700" class="b">คำตอบ: Frontend ซ่อนปุ่มได้ แต่ Backend ต้องส่ง capability และ enforce ทุก action.</text>
+<rect x="1690" y="220" width="1450" height="760" class="panel"/><text x="1740" y="290" class="h">Q2 Workflow Role Setup</text>
+<rect x="1790" y="410" width="330" height="140" fill="#b2f2bb" class="box"/><text x="1830" y="475" class="b">HR Master Data</text>
+<rect x="2280" y="410" width="330" height="140" fill="#ffec99" class="box"/><text x="2320" y="475" class="b">DMN / Policy</text>
+<rect x="2770" y="410" width="300" height="140" fill="#d0bfff" class="box"/><text x="2810" y="475" class="b">Camunda Task</text>
+<path d="M2120 480 H2280 M2610 480 H2770" class="a"/><text x="1790" y="700" class="b">คำตอบ: resolve role/position นอก Workflow; ส่ง approver snapshot เข้า Workflow เพื่อ audit.</text>
+<rect x="3260" y="220" width="1450" height="760" class="panel"/><text x="3310" y="290" class="h">Q3 API สำหรับหลาย consumer</text>
+<rect x="3810" y="430" width="360" height="150" fill="#ffec99" class="box"/><text x="3860" y="500" class="b">Profile API</text><text x="3860" y="535" class="s muted">Policy + projection</text>
+<rect x="3370" y="380" width="270" height="120" fill="#a5d8ff" class="box"/><text x="3410" y="450" class="s">Employee UI</text>
+<rect x="3370" y="600" width="270" height="120" fill="#d0bfff" class="box"/><text x="3410" y="670" class="s">Manager UI</text>
+<rect x="4350" y="380" width="270" height="120" fill="#b2f2bb" class="box"/><text x="4410" y="450" class="s">LMS</text>
+<rect x="4350" y="600" width="270" height="120" fill="#e9ecef" class="box"/><text x="4410" y="670" class="s">PMS</text>
+<text x="3370" y="820" class="b">คำตอบ: API เดียว serve projection ต่างกันได้ตาม actor, purpose และ scope.</text>
+<rect x="120" y="1100" width="1450" height="760" class="panel"/><text x="170" y="1170" class="h">Q4 Logic Boundary</text>
+<polygon points="420,1450 560,1340 700,1450 560,1560" fill="#ffec99" stroke="#e67700" stroke-width="3"/><text x="500" y="1445" class="s">Process?</text>
+<rect x="900" y="1290" width="420" height="160" fill="#d0bfff" class="box"/><text x="950" y="1360" class="b">Workflow</text><text x="950" y="1400" class="s muted">approval, SLA, task state</text>
+<rect x="900" y="1580" width="420" height="160" fill="#b2f2bb" class="box"/><text x="950" y="1650" class="b">Domain Service</text><text x="950" y="1690" class="s muted">data truth, validation, masking</text>
+<path d="M700 1430 L900 1370 M640 1560 L900 1660" class="a"/><text x="170" y="1810" class="b">คำตอบ: Workflow orchestrate; domain services เป็นเจ้าของ business truth.</text>
+<rect x="1690" y="1100" width="1450" height="760" class="panel"/><text x="1740" y="1170" class="h">Operating Model เป้าหมาย</text>
+<rect x="1810" y="1280" width="1080" height="78" fill="#a5d8ff" class="box"/><text x="1850" y="1330" class="s">Frontend</text><text x="2150" y="1330" class="s muted">Render capability / ไม่ enforce security คนเดียว</text><rect x="1810" y="1385" width="1080" height="78" fill="#b2f2bb" class="box"/><text x="1850" y="1435" class="s">Backend API</text><text x="2150" y="1435" class="s muted">Authorize ทุก action / ส่ง allowed actions + views</text><rect x="1810" y="1490" width="1080" height="78" fill="#ffec99" class="box"/><text x="1850" y="1540" class="s">HR Domain</text><text x="2150" y="1540" class="s muted">เป็นเจ้าของ employee data / resolve roles และ positions</text><rect x="1810" y="1595" width="1080" height="78" fill="#d0bfff" class="box"/><text x="1850" y="1645" class="s">Workflow</text><text x="2150" y="1645" class="s muted">เป็นเจ้าของ process state / Tasks, SLA, audit, escalation</text><rect x="1810" y="1700" width="1080" height="78" fill="#e9ecef" class="box"/><text x="1850" y="1750" class="s">Integration</text><text x="2150" y="1750" class="s muted">External tasks / Notify, LMS/PMS/payroll sync</text>
+<rect x="120" y="2100" width="1450" height="850" class="panel"/>
+<text x="170" y="2170" class="h">สถานการณ์ A: UI Permission และ Action Control</text>
+<rect x="180" y="2260" width="330" height="72" fill="#a5d8ff" class="box"/><text x="210" y="2307" class="s">Use case</text>
+<rect x="620" y="2260" width="390" height="72" fill="#d0bfff" class="box"/><text x="650" y="2307" class="s">ใช้ Camunda</text>
+<rect x="1120" y="2260" width="360" height="72" fill="#b2f2bb" class="box"/><text x="1150" y="2307" class="s">ไม่ใช้ Camunda</text>
+<rect x="180" y="2390" width="330" height="180" fill="#ffffff" class="box"/><text x="210" y="2450" class="s">ปุ่ม approve/reject, cancel approved leave</text>
+<rect x="620" y="2390" width="390" height="180" fill="#d0bfff" class="box"/><text x="650" y="2450" class="s">Task assignment, claim, complete, SLA, audit</text>
+<rect x="1120" y="2390" width="360" height="180" fill="#b2f2bb" class="box"/><text x="1150" y="2450" class="s">Backend capabilities enforce security</text>
+<text x="180" y="2720" class="b">Decision format: ใช้ Camunda เฉพาะจุดที่มี workflow state, approval, SLA, escalation หรือ audit.</text>
+<rect x="1690" y="2100" width="1450" height="850" class="panel"/>
+<text x="1740" y="2170" class="h">สถานการณ์ B: Role, Position และ Approver Routing</text>
+<rect x="1750" y="2260" width="330" height="72" fill="#a5d8ff" class="box"/><text x="1780" y="2307" class="s">Use case</text>
+<rect x="2190" y="2260" width="390" height="72" fill="#d0bfff" class="box"/><text x="2220" y="2307" class="s">ใช้ Camunda</text>
+<rect x="2690" y="2260" width="360" height="72" fill="#b2f2bb" class="box"/><text x="2720" y="2307" class="s">ไม่ใช้ Camunda</text>
+<rect x="1750" y="2390" width="330" height="180" fill="#ffffff" class="box"/><text x="1780" y="2450" class="s">Manager approval, delegation, level rule</text>
+<rect x="2190" y="2390" width="390" height="180" fill="#d0bfff" class="box"/><text x="2220" y="2450" class="s">Approval sequence และ approver snapshot</text>
+<rect x="2690" y="2390" width="360" height="180" fill="#b2f2bb" class="box"/><text x="2720" y="2450" class="s">HR org service เป็นเจ้าของ role/position truth</text>
+<text x="1750" y="2720" class="b">Decision format: ใช้ Camunda เฉพาะจุดที่มี workflow state, approval, SLA, escalation หรือ audit.</text>
+<rect x="3260" y="2100" width="1450" height="850" class="panel"/>
+<text x="3310" y="2170" class="h">สถานการณ์ C: Employee Profile API</text>
+<rect x="3320" y="2260" width="330" height="72" fill="#a5d8ff" class="box"/><text x="3350" y="2307" class="s">Use case</text>
+<rect x="3760" y="2260" width="390" height="72" fill="#d0bfff" class="box"/><text x="3790" y="2307" class="s">ใช้ Camunda</text>
+<rect x="4260" y="2260" width="360" height="72" fill="#b2f2bb" class="box"/><text x="4290" y="2307" class="s">ไม่ใช้ Camunda</text>
+<rect x="3320" y="2390" width="330" height="180" fill="#ffffff" class="box"/><text x="3350" y="2450" class="s">Employee UI, manager UI, LMS, PMS</text>
+<rect x="3760" y="2390" width="390" height="180" fill="#d0bfff" class="box"/><text x="3790" y="2450" class="s">ใช้เฉพาะเมื่อ profile change เข้า approval</text>
+<rect x="4260" y="2390" width="360" height="180" fill="#b2f2bb" class="box"/><text x="4290" y="2450" class="s">Policy projection คุม visible fields</text>
+<text x="3320" y="2720" class="b">Decision format: ใช้ Camunda เฉพาะจุดที่มี workflow state, approval, SLA, escalation หรือ audit.</text>
+<rect x="120" y="3120" width="1450" height="850" class="panel"/>
+<text x="170" y="3190" class="h">สถานการณ์ D: Boundary ของ Business Logic</text>
+<rect x="180" y="3280" width="330" height="72" fill="#a5d8ff" class="box"/><text x="210" y="3327" class="s">Use case</text>
+<rect x="620" y="3280" width="390" height="72" fill="#d0bfff" class="box"/><text x="650" y="3327" class="s">ใช้ Camunda</text>
+<rect x="1120" y="3280" width="360" height="72" fill="#b2f2bb" class="box"/><text x="1150" y="3327" class="s">ไม่ใช้ Camunda</text>
+<rect x="180" y="3410" width="330" height="180" fill="#ffffff" class="box"/><text x="210" y="3470" class="s">Leave approval, salary change, document review</text>
+<rect x="620" y="3410" width="390" height="180" fill="#d0bfff" class="box"/><text x="650" y="3470" class="s">Process state, SLA, external task trigger</text>
+<rect x="1120" y="3410" width="360" height="180" fill="#b2f2bb" class="box"/><text x="1150" y="3470" class="s">Domain service เป็นเจ้าของ validation และ final write</text>
+<text x="180" y="3740" class="b">Decision format: ใช้ Camunda เฉพาะจุดที่มี workflow state, approval, SLA, escalation หรือ audit.</text>
+<rect x="1690" y="3120" width="1450" height="850" class="panel"/>
+<text x="1740" y="3190" class="h">สถานการณ์ E: Module แทน SuccessFactors</text>
+<rect x="1750" y="3280" width="330" height="72" fill="#a5d8ff" class="box"/><text x="1780" y="3327" class="s">Use case</text>
+<rect x="2190" y="3280" width="390" height="72" fill="#d0bfff" class="box"/><text x="2220" y="3327" class="s">ใช้ Camunda</text>
+<rect x="2690" y="3280" width="360" height="72" fill="#b2f2bb" class="box"/><text x="2720" y="3327" class="s">ไม่ใช้ Camunda</text>
+<rect x="1750" y="3410" width="330" height="180" fill="#ffffff" class="box"/><text x="1780" y="3470" class="s">Hire, transfer, benefits claim, offboarding</text>
+<rect x="2190" y="3410" width="390" height="180" fill="#d0bfff" class="box"/><text x="2220" y="3470" class="s">Durable workflow ข้ามหลายทีม</text>
+<rect x="2690" y="3410" width="360" height="180" fill="#b2f2bb" class="box"/><text x="2720" y="3470" class="s">Master data และ reporting อยู่ใน HR platform</text>
+<text x="1750" y="3740" class="b">Decision format: ใช้ Camunda เฉพาะจุดที่มี workflow state, approval, SLA, escalation หรือ audit.</text>
+<rect x="3260" y="3120" width="1450" height="850" class="panel"/>
+<text x="3310" y="3190" class="h">Team Decision Matrix</text>
+<rect x="3320" y="3280" width="330" height="72" fill="#a5d8ff" class="box"/><text x="3350" y="3327" class="s">Use case</text>
+<rect x="3760" y="3280" width="390" height="72" fill="#d0bfff" class="box"/><text x="3790" y="3327" class="s">ใช้ Camunda</text>
+<rect x="4260" y="3280" width="360" height="72" fill="#b2f2bb" class="box"/><text x="4290" y="3327" class="s">ไม่ใช้ Camunda</text>
+<rect x="3320" y="3410" width="330" height="180" fill="#ffffff" class="box"/><text x="3350" y="3470" class="s">Long-running approval หรือ escalation</text>
+<rect x="3760" y="3410" width="390" height="180" fill="#d0bfff" class="box"/><text x="3790" y="3470" class="s">ใช่: workflow orchestration plane</text>
+<rect x="4260" y="3410" width="360" height="180" fill="#b2f2bb" class="box"/><text x="4290" y="3470" class="s">ไม่ใช่: synchronous validation หรือ data masking</text>
+<text x="3320" y="3740" class="b">Decision format: ใช้ Camunda เฉพาะจุดที่มี workflow state, approval, SLA, escalation หรือ audit.</text>
+</svg>
