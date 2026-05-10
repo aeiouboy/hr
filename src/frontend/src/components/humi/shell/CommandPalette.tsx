@@ -15,6 +15,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HUMI_COMMANDS, filterCommands, type HumiCommand } from '@/lib/humi-command-registry';
@@ -39,11 +40,18 @@ function localePrefix(pathname: string): string {
 export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const tShell = useTranslations('shell');
+  const tCommand = useTranslations('commandPalette');
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const results = filterCommands(query);
+  const commands = HUMI_COMMANDS.map((cmd) => ({
+    ...cmd,
+    label: tShell(`items.${cmd.labelKey ?? cmd.id}`),
+    group: cmd.groupKey ? tShell(`groups.${cmd.groupKey}`) : cmd.group,
+  }));
+  const results = filterCommands(query, commands);
 
   // Reset state when opening
   useEffect(() => {
@@ -113,7 +121,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         )}
         role="dialog"
         aria-modal="true"
-        aria-label="แผงคำสั่ง"
+        aria-label={tCommand('aria')}
       >
         {/* Search input — min-h-[44px] touch target */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-hairline min-h-[44px]">
@@ -124,13 +132,13 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="ค้นหา…"
-            aria-label="ค้นหาในแผงคำสั่ง"
+            placeholder={tCommand('placeholder')}
+            aria-label={tShell('a11y.searchInCommandPalette')}
             className="flex-1 bg-transparent text-body text-ink placeholder:text-ink-muted focus:outline-none"
           />
           <kbd
             className="hidden sm:inline-flex items-center gap-0.5 rounded-md border border-hairline bg-canvas-soft px-1.5 py-0.5 text-[11px] text-ink-muted"
-            aria-label="กด Escape เพื่อปิด"
+            aria-label={tShell('a11y.escapeToClose')}
           >
             Esc
           </kbd>
@@ -139,12 +147,12 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         {/* Results list — fills remaining height on mobile */}
         <ul
           role="listbox"
-          aria-label="ผลลัพธ์การค้นหา"
+          aria-label={tShell('a11y.commandResults')}
           className="flex-1 overflow-y-auto py-2 sm:flex-none sm:max-h-80"
         >
           {results.length === 0 ? (
             <li className="px-4 py-8 text-center text-small text-ink-muted">
-              ไม่มีผลลัพธ์
+              {tCommand('noResults')}
             </li>
           ) : (
             results.map((cmd, i) => (
@@ -173,7 +181,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         {/* Footer hint — hidden on mobile (too cramped), visible sm+ */}
         <div className="hidden sm:flex items-center gap-3 border-t border-hairline px-4 py-2.5">
           <span className="text-[11px] text-ink-faint">
-            ↑↓ เลือก · Enter ไป · Esc ปิด
+            {tShell('command.footerHint')}
           </span>
           <span className="ml-auto text-[11px] text-ink-faint">
             {isMac() ? '⌘K' : 'Ctrl+K'}

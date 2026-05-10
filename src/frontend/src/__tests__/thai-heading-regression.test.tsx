@@ -23,6 +23,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('next-intl', () => ({
+  useLocale: () => 'th',
   useTranslations: () => (key: string) => {
     // Return realistic Thai strings so headings have Thai content
     const map: Record<string, string> = {

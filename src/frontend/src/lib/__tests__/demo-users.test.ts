@@ -13,16 +13,16 @@ describe('demo user landing routes', () => {
     expect(landingForDemoUser('rungrote@humi.test', 'th')).toBe('/th/home');
   });
 
-  it('keeps stale manager dashboard URLs from falling through to 404', () => {
-    const redirectPagePath = resolve(
+  it('keeps direct manager dashboard URLs from falling through to 404', () => {
+    const managerDashboardPath = resolve(
       process.cwd(),
       'src/app/[locale]/manager-dashboard/page.tsx',
     );
 
-    expect(existsSync(redirectPagePath)).toBe(true);
+    expect(existsSync(managerDashboardPath)).toBe(true);
 
-    const source = readFileSync(redirectPagePath, 'utf8');
-    expect(source).toContain("from 'next/navigation'");
-    expect(source).toContain('redirect(`/${locale}/home`)');
+    const source = readFileSync(managerDashboardPath, 'utf8');
+    expect(source).toContain('ManagerDashboardPage');
+    expect(source).toContain('/manager-dashboard');
   });
 });

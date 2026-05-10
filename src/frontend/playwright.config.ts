@@ -1,5 +1,21 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const baseURL = process.env.BASE_URL ?? 'http://localhost:3000';
+const targetHost = (() => {
+  try {
+    return new URL(baseURL).hostname.toLowerCase();
+  } catch {
+    return 'localhost';
+  }
+})();
+const isProductionTarget =
+  process.env.HR_TEST_TARGET === 'prod' ||
+  process.env.HR_TEST_TARGET === 'production' ||
+  process.env.VERCEL_ENV === 'production' ||
+  !['localhost', '127.0.0.1', '::1'].includes(targetHost);
+const isDemoOrSeededDataScope = process.env.HR_TEST_DATA_SCOPE === 'demo' || process.env.HR_TEST_DATA_SCOPE === 'seeded';
+const allowProductionScreenshots = process.env.HR_TEST_ALLOW_PROD_SCREENSHOTS === '1' && isDemoOrSeededDataScope;
+
 export default defineConfig({
   testDir: './e2e',
   globalSetup: './e2e/global-setup.ts',
@@ -10,9 +26,9 @@ export default defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
   timeout: 30_000,
   use: {
-    baseURL: process.env.BASE_URL ?? 'http://localhost:3000',
+    baseURL,
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    screenshot: isProductionTarget && !allowProductionScreenshots ? 'off' : 'only-on-failure',
     locale: 'en',
   },
   projects: [

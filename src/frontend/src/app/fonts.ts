@@ -1,10 +1,7 @@
 import localFont from 'next/font/local';
-import { Anuphan, Geist_Mono } from 'next/font/google';
 
 // ════════════════════════════════════════════════════════════
-// Humi — CPN (display + body) + Anuphan fallback (Thai glyph
-// coverage) + Geist Mono (numerics). CPN ships with Latin only;
-// Anuphan fills Thai sub-glyphs via next/font fallback stack.
+// Humi — CPN (display + body) + Thai/system fallback + mono numerics.
 // Ref: specs/humi-frontend-redesign.md — Task 2 design system.
 // ════════════════════════════════════════════════════════════
 
@@ -34,18 +31,12 @@ export const cpnCondensed = localFont({
   fallback: ['ui-sans-serif', 'system-ui', 'sans-serif'],
 });
 
-// Anuphan = Thai-glyph fallback (CPN ships Latin only).
-// ให้ browser เลือกตัวที่รองรับ glyph ได้อัตโนมัติผ่าน CSS font stack
-export const anuphan = Anuphan({
-  weight: ['300', '400', '500', '600', '700'],
-  subsets: ['thai', 'latin'],
-  variable: '--font-anuphan',
-  display: 'swap',
-});
+// Offline-safe fallbacks. next/font/google fetches at build time, which makes
+// production builds depend on external network access.
+export const anuphan = {
+  variable: 'font-fallback-anuphan',
+};
 
-export const geistMono = Geist_Mono({
-  weight: ['400', '500', '600'],
-  subsets: ['latin'],
-  variable: '--font-geist-mono',
-  display: 'swap',
-});
+export const geistMono = {
+  variable: 'font-fallback-geist-mono',
+};

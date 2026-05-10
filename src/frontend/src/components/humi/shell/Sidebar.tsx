@@ -26,6 +26,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import {
   Home,
   User,
@@ -81,12 +82,14 @@ type NavItem = {
 
 type NavSection = {
   group: string;
+  groupKey: string;
   items: NavItem[];
 };
 
 const NAV: NavSection[] = [
   {
     group: 'พื้นที่ทำงานของฉัน',
+    groupKey: 'myWorkspace',
     items: [
       { id: 'home', label: 'หน้าหลัก', href: '/th/home', icon: Home },
       { id: 'profile', label: 'โปรไฟล์ของฉัน', href: '/th/profile/me', icon: User },
@@ -111,6 +114,7 @@ const NAV: NavSection[] = [
   },
   {
     group: 'กล่องอนุมัติ',
+    groupKey: 'approvals',
     items: [
       {
         id: 'quick-approve',
@@ -120,16 +124,18 @@ const NAV: NavSection[] = [
         roles: ['manager', 'hr_admin', 'hr_manager'],
       },
       {
-        id: 'spd-inbox',
-        label: 'กล่องอนุมัติ SPD',
-        href: '/th/spd/inbox',
+        id: 'approvals-inbox',
+        label: 'กล่องอนุมัติรวม',
+        href: '/th/approvals',
         icon: Inbox,
-        roles: ['spd', 'hr_admin', 'hr_manager'],
+        // Now shared between Manager / HRBP / SPD / HR — one inbox for all roles.
+        roles: ['manager', 'hrbp', 'spd', 'hr_admin', 'hr_manager'],
       },
     ],
   },
   {
     group: 'บุคลากร',
+    groupKey: 'people',
     items: [
       { id: 'goals', label: 'เป้าหมายและผลงาน', href: '/th/goals', icon: Target },
       { id: 'learning', label: 'การเรียนรู้', href: '/th/learning-directory', icon: BookOpen },
@@ -146,6 +152,7 @@ const NAV: NavSection[] = [
   },
   {
     group: 'บริษัท',
+    groupKey: 'company',
     items: [
       { id: 'announce', label: 'ประกาศ', href: '/th/announcements', icon: Megaphone },
       { id: 'integrations', label: 'จัดการระบบ', href: '/th/integrations', icon: Plug },
@@ -162,13 +169,25 @@ function stripLocale(path: string): string {
   return path.replace(/^\/(th|en)/, '') || '/';
 }
 
+function localizeHref(href: string, locale: string): string {
+  if (/^https?:\/\//.test(href)) return href;
+  const hashIndex = href.indexOf('#');
+  const hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
+  const beforeHash = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+  const [path, query] = beforeHash.split('?');
+  const barePath = stripLocale(path);
+  return `/${locale}${barePath}${query ? `?${query}` : ''}${hash}`;
+}
+
 export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const locale = useLocale();
+  const t = useTranslations('shell');
   const userRoles = useAuthStore((s) => s.roles);
   // Compare without locale prefix so /en/home matches href="/th/home"
   const barePath = stripLocale(pathname);
-  const currentLocale = pathname.match(/^\/(th|en)/)?.[1] ?? 'th';
+  const currentLocale = locale;
   const isActive = (href: string) => {
     const [hrefPath, hrefQuery = ''] = href.split('?');
     const bareHref = stripLocale(hrefPath);
@@ -187,7 +206,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
     items: section.items.filter(hasRoleFor),
   })).filter((section) => section.items.length > 0);
   return (
-    <aside className={cn('humi-sidebar', className)} aria-label="เมนูหลัก">
+    <aside className={cn('humi-sidebar', className)} aria-label={t('a11y.mainMenu')}>
       <div className="humi-brand">
         <div className="humi-wordmark">
           {/* Sidebar bg = navy ink (`--color-ink`). The base humi-logo.png has
@@ -212,7 +231,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
           <button
             type="button"
             className="humi-icon-btn humi-drawer-close"
-            aria-label="ปิดเมนู"
+            aria-label={t('a11y.closeMenu')}
             onClick={onClose}
             style={{ marginLeft: 'auto' }}
           >
@@ -221,18 +240,20 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
         )}
       </div>
 
-      <nav className="humi-nav" aria-label="เมนูหลัก">
+      <nav className="humi-nav" aria-label={t('a11y.mainMenu')}>
         {visibleSections.map((section) => (
-          <div key={section.group} className="humi-nav-section">
-            <div className="humi-nav-label">{section.group}</div>
+          <div key={section.groupKey} className="humi-nav-section">
+            <div className="humi-nav-label">{t(`groups.${section.groupKey}`)}</div>
             {section.items.map((item) => {
               const Icon = item.icon;
+              const itemHref = localizeHref(item.href, currentLocale);
+              const itemLabel = t(`items.${item.id}`);
               const active = isActive(item.href);
               if (item.external) {
                 return (
                   <a
                     key={item.id}
-                    href={item.href}
+                    href={itemHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="humi-nav-item"
@@ -241,7 +262,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
                     <span className="humi-nav-icon" aria-hidden="true">
                       <Icon size={16} />
                     </span>
-                    <span className="humi-nav-text">{item.label}</span>
+                    <span className="humi-nav-text">{itemLabel}</span>
                     <ExternalLink size={12} className="ml-auto text-ink-muted" aria-hidden="true" />
                   </a>
                 );
@@ -249,7 +270,7 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
               return (
                 <Link
                   key={item.id}
-                  href={item.href}
+                  href={itemHref}
                   className={cn('humi-nav-item', active && 'active')}
                   aria-current={active ? 'page' : undefined}
                   onClick={onNavigate}
@@ -257,9 +278,9 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
                   <span className="humi-nav-icon" aria-hidden="true">
                     <Icon size={16} />
                   </span>
-                  <span className="humi-nav-text">{item.label}</span>
+                  <span className="humi-nav-text">{itemLabel}</span>
                   {item.badge && (
-                    <span className="humi-pill" aria-label={`${item.badge} รายการใหม่`}>
+                    <span className="humi-pill" aria-label={t('a11y.newItems', { count: Number(item.badge) })}>
                       {item.badge}
                     </span>
                   )}
@@ -274,14 +295,14 @@ export function Sidebar({ onNavigate, onClose, className }: SidebarProps = {}) {
         href={`/${currentLocale}/login`}
         className="humi-sidebar-foot"
         style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
-        aria-label="ออกจากระบบและกลับไปหน้าเข้าสู่ระบบ"
+        aria-label={t('a11y.logoutToLogin')}
       >
         <div className="humi-avatar coral" aria-hidden="true">
-          จท
+          {t('user.initials')}
         </div>
         <div className="humi-user-meta">
-          <div className="humi-user-name">จงรักษ์ ทานากะ</div>
-          <div className="humi-user-role">กดเพื่อออกจากระบบ</div>
+          <div className="humi-user-name">{t('user.name')}</div>
+          <div className="humi-user-role">{t('user.logoutHint')}</div>
         </div>
       </Link>
 

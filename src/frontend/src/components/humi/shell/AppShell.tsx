@@ -17,6 +17,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
@@ -29,62 +30,64 @@ import { ensureDemoSeed } from '@/lib/demo-seed';
  *  Keep 1:1 with Sidebar.tsx NAV items — every sidebar destination MUST have a
  *  title entry here, otherwise topbar falls back to 'Humi' and visually
  *  duplicates the sidebar brand logo (Ken UAT 2026-04-22 "double humi"). */
-const TITLE_MAP: Array<{ prefix: string; title: string }> = [
-  { prefix: '/th/home', title: 'หน้าหลัก' },
-  { prefix: '/en/home', title: 'หน้าหลัก' },
-  { prefix: '/th/profile', title: 'โปรไฟล์ของฉัน' },
-  { prefix: '/en/profile', title: 'โปรไฟล์ของฉัน' },
-  { prefix: '/th/timeoff', title: 'ลางาน' },
-  { prefix: '/en/timeoff', title: 'ลางาน' },
-  { prefix: '/th/benefits-hub', title: 'สวัสดิการ' },
-  { prefix: '/en/benefits-hub', title: 'สวัสดิการ' },
-  { prefix: '/th/employees/me/payslip', title: 'สลิปเงินเดือน' },
-  { prefix: '/en/employees/me/payslip', title: 'สลิปเงินเดือน' },
-  { prefix: '/th/employees/me', title: 'โปรไฟล์ของฉัน' },
-  { prefix: '/en/employees/me', title: 'โปรไฟล์ของฉัน' },
-  { prefix: '/th/ess/workflows', title: 'คำขอของฉัน' },
-  { prefix: '/en/ess/workflows', title: 'คำขอของฉัน' },
-  { prefix: '/th/quick-approve', title: 'คำขอรออนุมัติ' },
-  { prefix: '/en/quick-approve', title: 'คำขอรออนุมัติ' },
-  { prefix: '/th/spd/inbox', title: 'กล่องอนุมัติ SPD' },
-  { prefix: '/en/spd/inbox', title: 'กล่องอนุมัติ SPD' },
-  { prefix: '/th/requests', title: 'คำร้องและแบบฟอร์ม' },
-  { prefix: '/en/requests', title: 'คำร้องและแบบฟอร์ม' },
-  { prefix: '/th/goals', title: 'เป้าหมายและผลงาน' },
-  { prefix: '/en/goals', title: 'เป้าหมายและผลงาน' },
-  { prefix: '/th/learning-directory', title: 'การเรียนรู้' },
-  { prefix: '/en/learning-directory', title: 'การเรียนรู้' },
-  { prefix: '/th/org-chart', title: 'ผังองค์กร' },
-  { prefix: '/en/org-chart', title: 'ผังองค์กร' },
-  { prefix: '/th/performance-form', title: 'ประเมินผลงาน' },
-  { prefix: '/en/performance-form', title: 'ประเมินผลงาน' },
-  { prefix: '/th/development', title: 'การพัฒนา' },
-  { prefix: '/en/development', title: 'การพัฒนา' },
-  { prefix: '/th/succession', title: 'สายการสืบทอด' },
-  { prefix: '/en/succession', title: 'สายการสืบทอด' },
-  { prefix: '/th/announcements', title: 'ประกาศ' },
-  { prefix: '/en/announcements', title: 'ประกาศ' },
-  { prefix: '/th/integrations', title: 'จัดการระบบ' },
-  { prefix: '/en/integrations', title: 'จัดการระบบ' },
-  { prefix: '/th/careers', title: 'ตำแหน่งว่างภายใน' },
-  { prefix: '/en/careers', title: 'ตำแหน่งว่างภายใน' },
-  { prefix: '/th/recruiting', title: 'สรรหา' },
-  { prefix: '/en/recruiting', title: 'สรรหา' },
-  { prefix: '/th/reports', title: 'รายงาน' },
-  { prefix: '/en/reports', title: 'รายงาน' },
-  { prefix: '/th/admin', title: 'ศูนย์ Admin' },
-  { prefix: '/en/admin', title: 'ศูนย์ Admin' },
-  { prefix: '/th/ess', title: 'บริการตนเอง' },
-  { prefix: '/en/ess', title: 'บริการตนเอง' },
+const TITLE_MAP: Array<{ prefix: string; titleKey: string }> = [
+  { prefix: '/th/home', titleKey: 'home' },
+  { prefix: '/en/home', titleKey: 'home' },
+  { prefix: '/th/profile', titleKey: 'profile' },
+  { prefix: '/en/profile', titleKey: 'profile' },
+  { prefix: '/th/timeoff', titleKey: 'timeoff' },
+  { prefix: '/en/timeoff', titleKey: 'timeoff' },
+  { prefix: '/th/benefits-hub', titleKey: 'benefits' },
+  { prefix: '/en/benefits-hub', titleKey: 'benefits' },
+  { prefix: '/th/employees/me/payslip', titleKey: 'payslip' },
+  { prefix: '/en/employees/me/payslip', titleKey: 'payslip' },
+  { prefix: '/th/employees/me', titleKey: 'profile' },
+  { prefix: '/en/employees/me', titleKey: 'profile' },
+  { prefix: '/th/ess/workflows', titleKey: 'my-workflows' },
+  { prefix: '/en/ess/workflows', titleKey: 'my-workflows' },
+  { prefix: '/th/quick-approve', titleKey: 'quick-approve' },
+  { prefix: '/en/quick-approve', titleKey: 'quick-approve' },
+  { prefix: '/th/approvals', titleKey: 'approvals-inbox' },
+  { prefix: '/en/approvals', titleKey: 'approvals-inbox' },
+  { prefix: '/th/spd/inbox', titleKey: 'spd-inbox' },
+  { prefix: '/en/spd/inbox', titleKey: 'spd-inbox' },
+  { prefix: '/th/requests', titleKey: 'requests' },
+  { prefix: '/en/requests', titleKey: 'requests' },
+  { prefix: '/th/goals', titleKey: 'goals' },
+  { prefix: '/en/goals', titleKey: 'goals' },
+  { prefix: '/th/learning-directory', titleKey: 'learning' },
+  { prefix: '/en/learning-directory', titleKey: 'learning' },
+  { prefix: '/th/org-chart', titleKey: 'directory' },
+  { prefix: '/en/org-chart', titleKey: 'directory' },
+  { prefix: '/th/performance-form', titleKey: 'performance-form' },
+  { prefix: '/en/performance-form', titleKey: 'performance-form' },
+  { prefix: '/th/development', titleKey: 'development' },
+  { prefix: '/en/development', titleKey: 'development' },
+  { prefix: '/th/succession', titleKey: 'succession' },
+  { prefix: '/en/succession', titleKey: 'succession' },
+  { prefix: '/th/announcements', titleKey: 'announce' },
+  { prefix: '/en/announcements', titleKey: 'announce' },
+  { prefix: '/th/integrations', titleKey: 'integrations' },
+  { prefix: '/en/integrations', titleKey: 'integrations' },
+  { prefix: '/th/careers', titleKey: 'careers' },
+  { prefix: '/en/careers', titleKey: 'careers' },
+  { prefix: '/th/recruiting', titleKey: 'recruiting' },
+  { prefix: '/en/recruiting', titleKey: 'recruiting' },
+  { prefix: '/th/reports', titleKey: 'reports' },
+  { prefix: '/en/reports', titleKey: 'reports' },
+  { prefix: '/th/admin', titleKey: 'admin' },
+  { prefix: '/en/admin', titleKey: 'admin' },
+  { prefix: '/th/ess', titleKey: 'ess' },
+  { prefix: '/en/ess', titleKey: 'ess' },
 ];
 
 type ReadonlyURLSearchParamsLike = {
   get(name: string): string | null;
 };
 
-function resolveTitle(pathname: string, searchParams?: ReadonlyURLSearchParamsLike | null): string {
+function resolveTitleKey(pathname: string, searchParams?: ReadonlyURLSearchParamsLike | null): string | null {
   const hit = TITLE_MAP.find((m) => pathname === m.prefix || pathname.startsWith(m.prefix + '/'));
-  return hit?.title ?? 'Humi';
+  return hit?.titleKey ?? null;
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -95,6 +98,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('shell');
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const hasHydrated = useAuthStore((s) => s._hasHydrated);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -207,7 +211,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return <AdminShell>{children}</AdminShell>;
   }
 
-  const title = resolveTitle(pathname, searchParams);
+  const titleKey = resolveTitleKey(pathname, searchParams);
+  const title = titleKey ? t(`titles.${titleKey}`) : 'Humi';
 
   return (
     <div className="humi-app">
@@ -233,7 +238,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             id="humi-mobile-drawer"
             role="dialog"
             aria-modal="true"
-            aria-label="เมนูหลัก"
+            aria-label={t('a11y.mobileDrawer')}
             className="fixed inset-y-0 left-0 z-40 lg:hidden"
           >
             <Sidebar

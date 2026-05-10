@@ -9,12 +9,14 @@
  *
  *   2. partialize excludes _hasHydrated and originalUser from the persisted
  *      snapshot so they always reset to their defaults on the next page load.
+ *      While proxying, it persists the original identity fields rather than
+ *      the active view-as persona so reloads cannot strand proxy mode.
  *
  * DO NOT remove these tests — if either invariant breaks, hydration-sensitive
  * UI (e.g. AppShell auth guard) may flash wrong content on page load.
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 // localStorage stub must be defined before any module import so Zustand's
 // createJSONStorage(() => localStorage) picks up the mock during module init.
@@ -36,6 +38,7 @@ Object.defineProperty(globalThis, 'localStorage', {
 import { useAuthStore } from '@/stores/auth-store';
 
 beforeEach(() => {
+  vi.unstubAllEnvs();
   localStorageMock.clear();
   useAuthStore.setState({
     userId: null,
@@ -45,7 +48,7 @@ beforeEach(() => {
     isAuthenticated: false,
     originalUser: null,
     _hasHydrated: false,
-  } as Parameters<typeof useAuthStore.setState>[0]);
+  } as unknown as Parameters<typeof useAuthStore.setState>[0]);
 });
 
 describe('auth-store hydration gate', () => {
@@ -81,6 +84,39 @@ describe('auth-store partialize allowlist', () => {
     const options = useAuthStore.persist.getOptions();
     const partialize = options.partialize!;
     const partial = partialize(fullState) as Record<string, unknown>;
+    expect(Object.keys(partial)).not.toContain('originalUser');
+  });
+
+  it('partialize persists the original identity while proxying', () => {
+    vi.stubEnv('NEXT_PUBLIC_DEMO_MODE', 'true');
+    useAuthStore.getState().setUser({
+      id: 'ADM001',
+      name: 'HR Admin',
+      email: 'admin@humi.test',
+      roles: ['hr_admin', 'employee'],
+    });
+    useAuthStore.getState().switchPersona({
+      id: 'EMP001',
+      name: 'Employee',
+      email: 'employee@humi.test',
+      roles: ['employee'],
+    });
+
+    const fullState = useAuthStore.getState();
+    expect(fullState.email).toBe('employee@humi.test');
+    expect(fullState.originalUser?.email).toBe('admin@humi.test');
+
+    const options = useAuthStore.persist.getOptions();
+    const partialize = options.partialize!;
+    const partial = partialize(fullState) as Record<string, unknown>;
+
+    expect(partial).toMatchObject({
+      userId: 'ADM001',
+      username: 'HR Admin',
+      email: 'admin@humi.test',
+      roles: ['hr_admin', 'employee'],
+      isAuthenticated: true,
+    });
     expect(Object.keys(partial)).not.toContain('originalUser');
   });
 

@@ -3,6 +3,7 @@
 import { useRouter, useParams } from 'next/navigation';
 import { UserCog, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
+import { landingForRoles } from '@/lib/demo-users';
 
 export function ActingBadge() {
   const router = useRouter();
@@ -16,8 +17,9 @@ export function ActingBadge() {
   if (!originalUser) return null;
 
   function handleExit() {
+    const landing = landingForRoles(originalUser!.roles, locale);
     exitPersona();
-    router.push(`/${locale}/home`);
+    router.push(landing);
   }
 
   return (

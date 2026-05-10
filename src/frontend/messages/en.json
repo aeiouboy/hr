@@ -3297,9 +3297,9 @@
   },
   "spd_management": {
     "title": "SPD Case Management",
-    "titleTh": "การจัดการเคส SPD",
+    "titleTh": "SPD case management",
     "subtitle": "Case-load overview, escalations queue and override audit trail",
-    "subtitleTh": "ภาพรวมเคส คิวการยกระดับ และประวัติการ Override",
+    "subtitleTh": "Case-load overview, escalation queue, and override audit history",
     "persona": "SPD Specialist",
     "kpi": {
       "activeCases": "Active Cases",
@@ -3309,7 +3309,7 @@
     },
     "escalations": {
       "title": "Escalations Queue",
-      "titleTh": "คิวการยกระดับ",
+      "titleTh": "Escalations queue",
       "subtitle": "Approval requests escalated beyond normal SLA",
       "caseId": "Case ID",
       "type": "Type",
@@ -3322,7 +3322,7 @@
     },
     "overridePanel": {
       "title": "Recent Override Actions",
-      "titleTh": "รายการ Override ล่าสุด",
+      "titleTh": "Recent override actions",
       "subtitle": "Audit trail for all override actions taken by this account",
       "caseId": "Case ID",
       "action": "Action",
@@ -3716,6 +3716,116 @@
       "th": "ภาษาไทย",
       "en": "English",
       "aria": "Select language"
+    },
+    "greeting": {
+      "morningKen": "Good morning, Khun Chongrak"
+    },
+    "a11y": {
+      "mainMenu": "Main menu",
+      "adminMenu": "Admin menu",
+      "closeMenu": "Close menu",
+      "openMenu": "Open menu",
+      "logoutToLogin": "Log out and return to login",
+      "search": "Search",
+      "searchInCommandPalette": "Search in command palette",
+      "escapeToClose": "Press Escape to close",
+      "commandResults": "Search results",
+      "mobileDrawer": "Main menu",
+      "adminMobileDrawer": "Admin menu",
+      "newItems": "{count} new items"
+    },
+    "actions": {
+      "menu": "Menu",
+      "backToEmployee": "Back to employee workspace",
+      "logout": "Log out"
+    },
+    "search": {
+      "placeholder": "Search employees, documents…"
+    },
+    "command": {
+      "footerHint": "↑↓ Select · Enter Go · Esc Close"
+    },
+    "user": {
+      "initials": "CT",
+      "name": "Chongrak Tanaka",
+      "logoutHint": "Click to log out"
+    },
+    "groups": {
+      "myWorkspace": "My workspace",
+      "approvals": "Approvals",
+      "people": "People",
+      "company": "Company",
+      "overview": "Overview",
+      "hiring": "Hiring",
+      "orgStructure": "Organization structure",
+      "benefits": "Benefits",
+      "system": "System administration"
+    },
+    "items": {
+      "home": "Home",
+      "profile": "My Profile",
+      "timeoff": "Time Off",
+      "benefits": "Benefits",
+      "requests": "Requests & Forms",
+      "my-workflows": "My Requests",
+      "time-attendance": "Time & Attendance",
+      "quick-approve": "Pending Requests",
+      "approvals-inbox": "Unified Approvals",
+      "goals": "Goals & Performance",
+      "learning": "Learning",
+      "directory": "Org Chart",
+      "performance-form": "Performance Review",
+      "development": "Development",
+      "succession": "Succession",
+      "announce": "Announcements",
+      "integrations": "System Management",
+      "careers": "Internal Jobs",
+      "recruiting": "Recruiting",
+      "reports": "Reports",
+      "admin": "Admin Centre",
+      "admin-home": "Admin Centre",
+      "hire": "Hire Employee",
+      "employees": "Employees",
+      "organization": "Organization Units",
+      "jobs": "Jobs",
+      "positions": "Positions",
+      "benefits-plans": "Benefit Plans",
+      "benefits-rules": "Benefit Rules",
+      "self-service": "Self-Service",
+      "users": "Users & Permissions",
+      "system": "System",
+      "payslip": "Payslips"
+    },
+    "titles": {
+      "home": "Home",
+      "profile": "My Profile",
+      "timeoff": "Time Off",
+      "benefits": "Benefits",
+      "payslip": "Payslips",
+      "my-workflows": "My Requests",
+      "quick-approve": "Pending Requests",
+      "approvals-inbox": "Approvals Inbox",
+      "spd-inbox": "SPD Inbox",
+      "requests": "Requests & Forms",
+      "goals": "Goals & Performance",
+      "learning": "Learning",
+      "directory": "Org Chart",
+      "performance-form": "Performance Review",
+      "development": "Development",
+      "succession": "Succession",
+      "announce": "Announcements",
+      "integrations": "System Management",
+      "careers": "Internal Jobs",
+      "recruiting": "Recruiting",
+      "reports": "Reports",
+      "admin": "Admin Centre",
+      "ess": "Self-Service",
+      "hire": "Hire Employee",
+      "employees": "Employees",
+      "adminReports": "Reports (Admin)",
+      "self-service": "Self-Service Config",
+      "users": "Users & Permissions",
+      "system": "System"
     }
   },
   "commandPalette": {

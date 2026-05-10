@@ -14,7 +14,7 @@
  * AC-6  touch-target — icon buttons h-11 w-11 / min-h-[44px]
  * AC-7  hamburger-drawer — hamburger lg:hidden, drawer panel classes
  * AC-8  topbar-compressed — eyebrow hidden sm:block, search sm:hidden/sm:flex
- * AC-9  cmdpalette-fullscreen — fixed inset-0, sm:max-w-lg sm:rounded-2xl
+ * AC-9  cmdpalette-fullscreen — fixed inset-0, sm:max-w-lg sm:rounded-[var(--radius-2xl)]
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
@@ -39,6 +39,7 @@ vi.mock('next/navigation', () => ({
 
 // ── Mock next-intl ───────────────────────────────────────────────────────────
 vi.mock('next-intl', () => ({
+  useLocale: () => 'th',
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       newRequest: 'สร้างคำขอใหม่',
@@ -301,15 +302,15 @@ describe('AC-5 + AC-9 — CommandPalette fullscreen/modal tokens', () => {
     expect(tokens).toContain('sm:max-w-lg');
   });
 
-  it('CommandPalette panel has sm:rounded-2xl (rounded corners on sm+ only)', async () => {
+  it('CommandPalette panel has tokenized sm radius (rounded corners on sm+ only)', async () => {
     const { CommandPalette } = await import('@/components/humi/shell/CommandPalette');
     const { container } = render(
       <CommandPalette open={true} onClose={() => {}} />
     );
     const tokens = allClassTokens(container);
-    // Mobile = rounded-none; sm+ = sm:rounded-2xl
+    // Mobile = rounded-none; sm+ = tokenized radius
     expect(tokens).toContain('rounded-none');
-    expect(tokens).toContain('sm:rounded-2xl');
+    expect(tokens).toContain('sm:rounded-[var(--radius-2xl)]');
   });
 
   it('CommandPalette search row has min-h-[44px] touch target', async () => {
@@ -403,12 +404,12 @@ describe('AC-3 — benefits-hub page grid tokens', () => {
 describe('AC-3 — requests page grid tokens', () => {
   beforeEach(() => { vi.resetModules(); });
 
-  it('requests summary section has grid-cols-2 sm:grid-cols-4 tokens', async () => {
+  it('requests summary section has grid-cols-2 sm:grid-cols-5 tokens', async () => {
     const { default: Page } = await import('@/app/[locale]/requests/page');
     const { container } = render(<Page />);
     const tokens = allClassTokens(container);
     expect(tokens).toContain('grid-cols-2');
-    expect(tokens).toContain('sm:grid-cols-4');
+    expect(tokens).toContain('sm:grid-cols-5');
   });
 });
 

@@ -27,7 +27,7 @@ const ROUTES = [
 ];
 
 async function globalSetup(): Promise<void> {
-  const baseURL = process.env.BASE_URL ?? 'http://localhost:3001';
+  const baseURL = process.env.BASE_URL ?? 'http://localhost:3000';
 
   console.log(`[global-setup] Warming up ${ROUTES.length} routes on ${baseURL} …`);
 

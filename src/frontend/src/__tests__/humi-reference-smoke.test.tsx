@@ -21,6 +21,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('next-intl', () => ({
+  useLocale: () => 'th',
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       newRequest: 'สร้างคำขอใหม่',
@@ -185,14 +186,14 @@ describe('AC-4 smoke — /benefits-hub', () => {
   it('renders benefits tab switcher', async () => {
     const { default: Page } = await import('@/app/[locale]/benefits-hub/page');
     render(<Page />);
-    expect(screen.getByText('สวัสดิการ')).toBeTruthy();
+    expect(screen.getByText('สิทธิ์และผู้รับสิทธิ์')).toBeTruthy();
   });
 
   it('renders benefit plan cards from mock data', async () => {
     const { default: Page } = await import('@/app/[locale]/benefits-hub/page');
     render(<Page />);
-    expect(screen.getByText('ประกันสุขภาพและทันตกรรม')).toBeTruthy();
-    expect(screen.getByText('กองทุนสำรองเลี้ยงชีพ')).toBeTruthy();
+    expect(screen.getByText('ค่ารักษาพยาบาล (ผู้ป่วยนอก)')).toBeTruthy();
+    expect(screen.getByText('ค่าทันตกรรม (ส่วนหนึ่งของวงเงินการรักษาพยาบาล)')).toBeTruthy();
   });
 });
 

@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:demo-plus": "playwright test demo-2026-04-26-plus.spec.ts --project=chromium",
+    "test:e2e:full": "playwright test e2e/full-suite",
+    "test:e2e:full:mobile": "playwright test e2e/full-suite --project=mobile",
+    "test:e2e:evidence": "HR_TEST_EVIDENCE=1 playwright test e2e/full-suite --project=chromium --grep @evidence --workers=1",
     "lint": "eslint 'e2e/helpers/auth.helper.ts' 'src/__tests__/benefit-journey-canonical.test.tsx' 'src/app/[locale]/profile/[tab]/page.tsx' 'src/app/[locale]/profile/benefits/page.tsx' 'src/app/[locale]/profile/me/page.tsx' 'src/app/[locale]/employees/me/page.tsx' 'src/app/[locale]/ess/profile/edit/page.tsx' 'src/app/[locale]/admin/employees/page.tsx' 'src/app/[locale]/admin/employees/[id]/page.tsx' --max-warnings=0",
     "build:address": "bun ../../scripts/build-address-chunks.ts"
   },

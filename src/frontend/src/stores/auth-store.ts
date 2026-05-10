@@ -6,9 +6,13 @@ import type { Role } from '@/lib/rbac';
 // Keycloak/NextAuth-Sync will overwrite on real auth in prod.
 //
 // Proxy-persona mode: when the demo switcher swaps roles in-session, the
-// current user fields reflect the *active* persona while `originalUserId`
-// points back to the real signed-in account. Clearing `originalUserId`
+// current user fields reflect the *active* persona while `originalUser`
+// points back to the real signed-in account. Clearing `originalUser`
 // (via exitPersona) restores the original account.
+//
+// Persistence rule: proxy state is session-only. While proxying, persist the
+// original identity rather than the active persona so reloads never strand the
+// browser in a view-as role without the original account needed to exit.
 
 interface StoredIdentity {
   userId: string;
@@ -118,12 +122,14 @@ export const useAuthStore = create<AuthState>()(
       name: 'humi-auth',
       storage: createJSONStorage(() => localStorage),
       // exclude _hasHydrated from persist so it always starts false and set to true after rehydrate
+      // exclude originalUser itself, but when proxying persist the original
+      // identity fields instead of the active persona.
       partialize: (state) => ({
-        userId: state.userId,
-        username: state.username,
-        email: state.email,
-        roles: state.roles,
-        isAuthenticated: state.isAuthenticated,
+        userId: state.originalUser?.userId ?? state.userId,
+        username: state.originalUser?.username ?? state.username,
+        email: state.originalUser?.email ?? state.email,
+        roles: state.originalUser?.roles ?? state.roles,
+        isAuthenticated: state.originalUser ? true : state.isAuthenticated,
       }),
       onRehydrateStorage: () => (state) => {
         if (state) state.setHasHydrated(true);

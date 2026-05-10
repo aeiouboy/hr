@@ -23,6 +23,7 @@
 import { Menu, Moon, Search, Sun } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useUIStore } from '@/stores/ui-store';
 import { cn } from '@/lib/utils';
 import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
@@ -33,7 +34,7 @@ import { ActingBadge } from '@/components/humi/ActingBadge';
 export interface TopbarProps {
   /** h2 page title — typically derived from route */
   title: string;
-  /** eyebrow above title — default: "สวัสดีตอนเช้าค่ะ คุณจงรักษ์" */
+  /** eyebrow above title; defaults to the localized demo greeting. */
   subtitle?: string;
   /** optional extra action buttons rendered to the right of the bell */
   actions?: React.ReactNode;
@@ -43,11 +44,12 @@ export interface TopbarProps {
 
 export function Topbar({
   title,
-  subtitle = 'สวัสดีตอนเช้าค่ะ คุณจงรักษ์',
+  subtitle,
   actions,
   onSearchClick,
 }: TopbarProps) {
   const { theme, setTheme, toggleMobileMenu, mobileMenuOpen } = useUIStore();
+  const t = useTranslations('shell');
   const isDark = theme === 'dark';
   const [scrolled, setScrolled] = useState(false);
   const topbarRef = useRef<HTMLDivElement>(null);
@@ -77,17 +79,17 @@ export function Topbar({
           of icon-only — Nielsen Norman 2014: hamburger discoverability hurts UX.
           Visible text label kills the "what does this do?" question. aria-expanded
           + aria-controls let screen readers announce the controlled drawer + its
-          open state. Dynamic aria-label flips ปิดเมนู / เปิดเมนู for VoiceOver. */}
+          open state. Dynamic aria-label flips open/close for VoiceOver. */}
       <button
         type="button"
         className="humi-menu-btn lg:!hidden"
-        aria-label={mobileMenuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
+        aria-label={mobileMenuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')}
         aria-expanded={mobileMenuOpen}
         aria-controls="humi-mobile-drawer"
         onClick={toggleMobileMenu}
       >
         <Menu size={18} aria-hidden="true" />
-        <span>เมนู</span>
+        <span>{t('actions.menu')}</span>
       </button>
 
       {/* Title block — min-w-0 lets it shrink below content; whitespace-nowrap +
@@ -98,7 +100,7 @@ export function Topbar({
           className="humi-eyebrow hidden sm:block whitespace-nowrap overflow-hidden text-ellipsis"
           style={{ marginBottom: 4 }}
         >
-          {subtitle}
+          {subtitle ?? t('greeting.morningKen')}
         </div>
         <h2
           className="truncate whitespace-nowrap text-[18px] sm:text-[20px] lg:text-[24px]"
@@ -114,13 +116,13 @@ export function Topbar({
       <div
         className="humi-search !hidden sm:!flex"
         role="search"
-        aria-label="ค้นหา"
+        aria-label={t('a11y.search')}
         onClick={onSearchClick}
         style={{ cursor: onSearchClick ? 'pointer' : undefined }}
       >
         <Search size={16} aria-hidden="true" />
         <span className="humi-search-placeholder">
-          ค้นหาพนักงาน เอกสาร…
+          {t('search.placeholder')}
         </span>
         <kbd className="hidden md:inline-flex">⌘K</kbd>
       </div>
@@ -129,14 +131,14 @@ export function Topbar({
       <button
         type="button"
         className="humi-icon-btn sm:!hidden"
-        aria-label="ค้นหา"
+        aria-label={t('a11y.search')}
         onClick={onSearchClick}
       >
         <Search size={18} aria-hidden="true" />
       </button>
 
       {/* Locale switcher — ย้ายมาจาก Sidebar 2026-04-23 (แก้ overflow) */}
-      <div className="flex items-center gap-1" role="group" aria-label="เลือกภาษา">
+      <div className="flex items-center gap-1" role="group" aria-label={t('locale.aria')}>
         {(['th', 'en'] as SupportedLocale[]).map((loc) => (
           <button
             key={loc}
@@ -158,8 +160,8 @@ export function Topbar({
       <button
         type="button"
         className="humi-icon-btn"
-        aria-label={isDark ? 'สลับโหมดสว่าง' : 'สลับโหมดมืด'}
-        title={isDark ? 'สลับโหมดสว่าง' : 'สลับโหมดมืด'}
+        aria-label={isDark ? t('theme.light') : t('theme.dark')}
+        title={isDark ? t('theme.light') : t('theme.dark')}
         onClick={handleThemeToggle}
       >
         {isDark ? (

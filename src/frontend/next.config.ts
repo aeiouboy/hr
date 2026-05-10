@@ -3,13 +3,15 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'path';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+const workspaceRoot = path.resolve(__dirname, '../..');
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: workspaceRoot,
   turbopack: {
     // Workspace root — npm workspace places node_modules at hr/, not src/frontend/.
     // Explicit setting silences the "multiple lockfiles" warning that otherwise
     // mis-selects /Users/tachongrak/Projects/package-lock.json as root.
-    root: path.resolve(__dirname, '../..'),
+    root: workspaceRoot,
   },
   async redirects() {
     return [

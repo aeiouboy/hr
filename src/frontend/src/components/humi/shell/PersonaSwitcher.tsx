@@ -2,7 +2,7 @@
 
 // PersonaSwitcher — demo-only role proxy dropdown. Lets Ken walk the
 // 5-persona approval chain in a single browser session without logout.
-// - Persists nothing beyond the auth store (originalUser is saved there).
+// - Proxy mode is session-only; persistence falls back to the original identity.
 // - Switching redirects to the new persona's landing page.
 // - A small "proxy mode" pill in the Topbar links back to the original.
 
@@ -15,6 +15,7 @@ import {
   PERSONA_ORDER,
   PERSONA_BADGE,
   landingForDemoUser,
+  landingForRoles,
 } from '@/lib/demo-users';
 import { cn } from '@/lib/utils';
 
@@ -47,9 +48,10 @@ export function PersonaSwitcher() {
 
   function handleExit() {
     if (!originalUser) return;
+    const landing = landingForRoles(originalUser.roles, locale);
     exitPersona();
     setOpen(false);
-    router.push(`/${locale}/admin`);
+    router.push(landing);
   }
 
   return (

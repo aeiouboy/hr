@@ -55,6 +55,7 @@ vi.mock('@/stores/auth-store', () => {
 });
 
 vi.mock('next-intl', () => ({
+  useLocale: () => 'th',
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       newRequest: 'สร้างคำขอใหม่',

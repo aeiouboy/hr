@@ -2,6 +2,59 @@
 
 @variant dark (.dark &);
 
+@font-face {
+  font-family: 'Anuphan Local';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/anuphan/Anuphan-Thai.woff2') format('woff2');
+  unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'Anuphan Local';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/anuphan/Anuphan-Thai.woff2') format('woff2');
+  unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'Anuphan Local';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/anuphan/Anuphan-Thai.woff2') format('woff2');
+  unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'Anuphan Local';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/anuphan/Anuphan-Thai.woff2') format('woff2');
+  unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'Anuphan Local';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/anuphan/Anuphan-Thai.woff2') format('woff2');
+  unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+.font-fallback-anuphan {
+  --font-anuphan: 'Anuphan Local', 'Noto Sans Thai', 'IBM Plex Sans Thai', 'Sarabun', ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-fallback-geist-mono {
+  --font-geist-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
 /* ════════════════════════════════════════════════════════════
    Humi — Central Group HR Design System
    Ref: specs/humi-frontend-redesign.md + docs/shelfly-hr-design-research.md
