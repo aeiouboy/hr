@@ -10,7 +10,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useAuthStore } from '@/stores/auth-store';
 import {
   Plus,
@@ -37,6 +37,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/humi';
 import { QuickActionsTile, DEFAULT_ESS_ACTIONS, type QuickAction } from '@/components/humi/QuickActionsTile';
 import { useAdminSelfService } from '@/lib/admin/store/useAdminSelfService';
+import { normalizeQuickActionRoutes } from '@/lib/humi-quick-action-routes';
 import type { RoleName } from '@/lib/admin/types/adminSelfService';
 import type { Role } from '@/lib/rbac';
 import {
@@ -75,8 +76,9 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 function makeAdminQuickActions(
   tiles: { id: string; label: string; icon: string; href: string; enabled: boolean; order: number }[],
+  locale: string,
 ): QuickAction[] {
-  return tiles
+  const actions = tiles
     .filter((t) => t.enabled)
     .sort((a, b) => a.order - b.order)
     .map((t) => ({
@@ -87,6 +89,8 @@ function makeAdminQuickActions(
       labelTh: t.label,
       href: t.href,
     }));
+
+  return normalizeQuickActionRoutes(actions, locale);
 }
 
 const AVATAR_TONE_MAP = {
@@ -108,6 +112,7 @@ function getTimeGreeting(): string {
 
 export default function HumiHomePage() {
   const t = useTranslations('humiHero');
+  const locale = useLocale();
   const router = useRouter();
   const username = useAuthStore((s) => s.username);
   const roles    = useAuthStore((s) => s.roles);
@@ -117,8 +122,8 @@ export default function HumiHomePage() {
   // Read published quickActions; fall back to DEFAULT_ESS_ACTIONS if empty.
   const publishedQuickActions = useAdminSelfService((s) => s.published.quickActions);
   const quickActions: QuickAction[] = publishedQuickActions.length > 0
-    ? makeAdminQuickActions(publishedQuickActions)
-    : DEFAULT_ESS_ACTIONS;
+    ? makeAdminQuickActions(publishedQuickActions, locale)
+    : normalizeQuickActionRoutes(DEFAULT_ESS_ACTIONS, locale);
 
   // BRD #183 — tile pool filtered by current role.
   const publishedTiles = useAdminSelfService((s) => s.published.tiles);

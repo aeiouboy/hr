@@ -27,16 +27,16 @@ describe('QuickActionsTile — AC-1 RENDER', () => {
 });
 
 // ────────────────────────────────────────────────────────────
-// AC-2 BASELINE ACTIONS — 4 default items, correct labels
+// AC-2 BASELINE ACTIONS — 5 default items, correct labels
 // ────────────────────────────────────────────────────────────
 describe('QuickActionsTile — AC-2 BASELINE ACTIONS', () => {
-  it('DEFAULT_ESS_ACTIONS export มี exactly 4 รายการ', () => {
-    expect(DEFAULT_ESS_ACTIONS).toHaveLength(4);
+  it('DEFAULT_ESS_ACTIONS export มี exactly 5 รายการ', () => {
+    expect(DEFAULT_ESS_ACTIONS).toHaveLength(5);
   });
 
-  it('renders 4 action links เมื่อไม่ส่ง props.actions', () => {
+  it('renders 5 action links เมื่อไม่ส่ง props.actions', () => {
     render(<QuickActionsTile />);
-    expect(screen.getAllByRole('link')).toHaveLength(4);
+    expect(screen.getAllByRole('link')).toHaveLength(5);
   });
 
   it.each([
@@ -44,6 +44,7 @@ describe('QuickActionsTile — AC-2 BASELINE ACTIONS', () => {
     ['สลิปเงินเดือน', '/th/profile/me?tab=employment#pay-statements'],
     ['ดูข้อมูลส่วนตัว', '/th/profile/me'],
     ['เบิกสวัสดิการ', '/th/benefits-hub/reimbursement'],
+    ['ขอเอกสาร', '/th/me/documents/request'],
   ])('renders link "%s" → href "%s"', (labelTh, href) => {
     render(<QuickActionsTile />);
     const link = screen.getByRole('link', { name: labelTh });
@@ -55,7 +56,7 @@ describe('QuickActionsTile — AC-2 BASELINE ACTIONS', () => {
 // AC-3 NAVIGATION — href correctness (user-event click + assertion)
 // ────────────────────────────────────────────────────────────
 describe('QuickActionsTile — AC-3 NAVIGATION', () => {
-  it('แต่ละ link ใน DEFAULT_ESS_ACTIONS มี href ถูกต้องครบ 4 รายการ', () => {
+  it('แต่ละ link ใน DEFAULT_ESS_ACTIONS มี href ถูกต้องครบ 5 รายการ', () => {
     render(<QuickActionsTile />);
     DEFAULT_ESS_ACTIONS.forEach((action) => {
       const link = screen.getByRole('link', { name: action.labelTh });

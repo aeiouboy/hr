@@ -402,7 +402,7 @@
       "id": "qa_pay_statement",
       "label": "สลิปเงินเดือน",
       "icon": "FileText",
-      "href": "/th/employees/me/payslip",
+      "href": "/profile/me?tab=employment#pay-statements",
       "enabled": true,
       "order": 1
     },
