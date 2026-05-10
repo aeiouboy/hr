@@ -26,7 +26,7 @@ interface StepperProps {
 export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, stepperLabel = 'ขั้นตอน Hire Wizard' }: StepperProps) {
   return (
     <nav aria-label={stepperLabel}>
-      <ol className="flex flex-col gap-1">
+      <ol className="flex flex-col gap-2">
         {steps.map((step) => {
           const isActive = step.number === currentStep
           const isComplete = step.number < currentStep
@@ -42,7 +42,7 @@ export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, step
                 aria-current={isActive ? 'step' : undefined}
                 aria-disabled={isDisabled ? 'true' : undefined}
                 className={cn(
-                  'flex w-full items-start gap-3 rounded-lg px-3 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
+                  'flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
                   isDisabled && 'cursor-not-allowed opacity-45',
                   !isDisabled && 'cursor-pointer',
                   isActive && 'bg-accent-soft',
@@ -71,7 +71,7 @@ export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, step
                   >
                     {step.labelTh}
                   </span>
-                  <span className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-ink-muted">
+                  <span className="mt-0.5 text-[11px] font-medium tracking-wide text-ink-muted">
                     {step.labelEn}
                   </span>
                   {step.descTh && (

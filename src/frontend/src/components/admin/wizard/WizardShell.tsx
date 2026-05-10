@@ -14,9 +14,9 @@ import { Stepper } from './Stepper'
 import { WizardFooter } from './WizardFooter'
 
 export const WIZARD_STEPS = [
-  { number: 1, labelTh: 'ข้อมูลบุคคล',    labelEn: 'Who',    descTh: 'ระบุตัวตน • ชื่อ • บัตรประชาชน • ประวัติ' },
-  { number: 2, labelTh: 'ข้อมูลงาน',       labelEn: 'Job',    descTh: 'Employee Info • ตำแหน่ง • ค่าตอบแทน' },
-  { number: 3, labelTh: 'ตรวจสอบและส่ง',  labelEn: 'Review', descTh: 'ข้อมูลติดต่อ • สรุปก่อน Submit' },
+  { number: 1, labelTh: 'ข้อมูลบุคคล',    labelEn: 'ข้อมูลหลัก',    descTh: 'ระบุตัวตน • ชื่อ • บัตรประชาชน • ประวัติ' },
+  { number: 2, labelTh: 'ข้อมูลงาน',       labelEn: 'งานและค่าตอบแทน', descTh: 'ประเภทการจ้างงาน • ตำแหน่ง • ค่าตอบแทน' },
+  { number: 3, labelTh: 'ตรวจสอบและส่ง',  labelEn: 'ส่งอนุมัติ',     descTh: 'ข้อมูลติดต่อ • ตรวจสอบก่อนส่ง' },
 ] as const
 
 interface StepItem {
@@ -66,7 +66,7 @@ export function WizardShell({
   onSubmit,
   children,
   steps = WIZARD_STEPS,
-  flowEyebrow = 'Hire Workflow',
+  flowEyebrow = 'ขั้นตอนการจ้างงาน',
   flowTitleTh = 'เพิ่มพนักงานใหม่',
   stepperLabel,
   sidebarContent,
@@ -84,8 +84,8 @@ export function WizardShell({
   return (
     <div className="flex h-full min-h-0 flex-col">
       {/* Header — humi-card style without the card chrome so it reads as page section */}
-      <div className="border-b border-hairline bg-canvas-soft px-6 py-5">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="border-b border-hairline bg-surface px-6 py-4 lg:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="humi-eyebrow">{flowEyebrow}</div>
             <h1 className="mt-1 font-display text-[22px] font-semibold leading-tight text-ink">
@@ -109,7 +109,7 @@ export function WizardShell({
 
       {/* Body — stepper rail + form scroll area */}
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
-        <aside className="hidden w-64 shrink-0 overflow-y-auto border-r border-hairline bg-surface px-3 py-5 md:block">
+        <aside className="hidden w-[280px] shrink-0 overflow-y-auto border-r border-hairline bg-canvas-soft px-4 py-5 md:block">
           <Stepper
             steps={[...steps]}
             currentStep={currentStep}
@@ -145,7 +145,7 @@ export function WizardShell({
 
         {/* Content — max-width container with generous rhythm */}
         <div className="flex-1 overflow-y-auto bg-canvas">
-          <div className="mx-auto w-full max-w-5xl px-6 py-6 lg:px-8 lg:py-8">{children}</div>
+          <div className="mx-auto w-full max-w-[1120px] px-5 py-6 lg:px-8 lg:py-8">{children}</div>
         </div>
       </div>
 

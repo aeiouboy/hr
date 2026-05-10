@@ -85,10 +85,10 @@ export function HireCheckpointSidebar() {
   return (
     <nav
       aria-label="หัวข้อการกรอกข้อมูล"
-      className="mt-3 space-y-3 px-1"
+      className="mt-4 space-y-4 px-1"
     >
-      <p className="px-1 text-[10px] font-semibold uppercase tracking-widest text-ink-muted">
-        Checkpoints
+      <p className="px-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+        หัวข้อย่อย
       </p>
 
       {CHECKPOINT_GROUPS.map((group) => {
@@ -96,11 +96,11 @@ export function HireCheckpointSidebar() {
         const isCurrentStep = group.step === currentStep
 
         return (
-          <div key={group.step} className="space-y-0.5">
+          <div key={group.step} className="space-y-1">
             {/* Step group label */}
             <div
               className={cn(
-                'flex items-center gap-1.5 px-1 py-0.5',
+                'flex items-center gap-2 px-1 py-0.5',
                 locked && 'opacity-40',
               )}
             >
@@ -118,7 +118,7 @@ export function HireCheckpointSidebar() {
               </span>
               <span
                 className={cn(
-                  'text-[10px] font-semibold uppercase tracking-wide',
+                  'text-[11px] font-semibold tracking-wide',
                   isCurrentStep ? 'text-accent' : 'text-ink-soft',
                 )}
               >
@@ -127,7 +127,7 @@ export function HireCheckpointSidebar() {
             </div>
 
             {/* Section items */}
-            <div className="ml-3 space-y-0.5 border-l border-hairline pl-2">
+            <div className="ml-3 space-y-1 border-l border-hairline pl-2.5">
               {group.sections.map((section) => {
                 const isValid =
                   section.validityKey != null
@@ -143,7 +143,7 @@ export function HireCheckpointSidebar() {
                     disabled={locked}
                     title={locked ? 'ต้องผ่านขั้นตอนก่อนหน้าก่อน' : undefined}
                     className={cn(
-                      'flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-xs transition-colors',
+                      'flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition-colors',
                       locked
                         ? 'cursor-not-allowed opacity-40'
                         : 'cursor-pointer text-ink-soft hover:bg-canvas-soft hover:text-ink',

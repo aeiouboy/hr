@@ -15,12 +15,12 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ icon: Icon, eyebrow, title, sub }: SectionHeaderProps) {
   return (
-    <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-        <Icon size={20} aria-hidden />
+    <div className="mb-4 flex items-start gap-3">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+        <Icon size={18} aria-hidden />
       </div>
-      <div>
-        <div className="humi-eyebrow">{eyebrow}</div>
+      <div className="min-w-0">
+        <div className="mb-0.5 text-[11px] font-semibold tracking-[0.08em] text-ink-muted">{eyebrow}</div>
         <h3 className="humi-section-title">{title}</h3>
         <p className="humi-section-sub" style={{ marginBottom: 0 }}>{sub}</p>
       </div>

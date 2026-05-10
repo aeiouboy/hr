@@ -31,8 +31,12 @@ export function CollapsibleSectionCard({
   const contentId = `${id}-content`
 
   return (
-    <section id={id} className="humi-card" aria-labelledby={`${id}-title`}>
-      <div className="flex items-start justify-between gap-3">
+    <section
+      id={id}
+      className="humi-card rounded-[22px] p-[22px] shadow-[0_1px_0_rgba(14,27,44,0.03)]"
+      aria-labelledby={`${id}-title`}
+    >
+      <div className="flex items-start justify-between gap-4">
         <div id={`${id}-title`} className="min-w-0 flex-1">
           <SectionHeader icon={icon} eyebrow={eyebrow} title={title} sub={sub} />
         </div>
@@ -41,7 +45,7 @@ export function CollapsibleSectionCard({
         )}
         <button
           type="button"
-          className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 text-small font-semibold text-ink-soft transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+          className="inline-flex min-h-9 shrink-0 items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-1.5 text-small font-semibold text-ink-soft transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
           aria-expanded={!collapsed}
           aria-controls={contentId}
           onClick={onToggle}

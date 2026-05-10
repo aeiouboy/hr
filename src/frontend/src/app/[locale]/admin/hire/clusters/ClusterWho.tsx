@@ -75,7 +75,7 @@ export default function ClusterWho() {
         isValid={stepValidity['emergencyContacts']}
           icon={AlertCircle}
           eyebrow="ผู้ติดต่อฉุกเฉิน"
-          title="ผู้ติดต่อฉุกเฉิน / Emergency Contacts"
+          title="ผู้ติดต่อฉุกเฉิน"
           sub="ชื่อ ความสัมพันธ์ เบอร์โทร ที่อยู่ (ถ้ามี)"
       >
         <StepEmergencyContacts onValidChange={onEmergencyContactsValid} />
@@ -88,7 +88,7 @@ export default function ClusterWho() {
         isValid={stepValidity['globalInfo']}
           icon={Globe}
           eyebrow="ข้อมูลทั่วไป"
-          title="ข้อมูลทั่วไป / Global Information"
+          title="ข้อมูลทั่วไป"
           sub="ศาสนา จำนวนบุตร สถานะความพิการ เลขบัตรคู่สมรส ข้อมูลเพิ่มเติม"
       >
         <StepGlobalInfo onValidChange={onGlobalInfoValid} />
@@ -101,7 +101,7 @@ export default function ClusterWho() {
         isValid={stepValidity['workPermit']}
           icon={FileText}
           eyebrow="ใบอนุญาตทำงาน"
-          title="ใบอนุญาตทำงาน / Work Permit"
+          title="ใบอนุญาตทำงาน"
           sub="ประเภทเอกสาร เลขที่ ประเทศ วันออก วันหมดอายุ (สำหรับชาวต่างชาติเท่านั้น)"
       >
         <StepWorkPermit onValidChange={onWorkPermitValid} />
@@ -114,7 +114,7 @@ export default function ClusterWho() {
         isValid={stepValidity['dependents']}
           icon={Users}
           eyebrow="บุคคลในอุปการะ"
-          title="บุคคลในอุปการะ / Dependents"
+          title="บุคคลในอุปการะ"
           sub="คู่สมรส บุตร บิดามารดา (ถ้ามี) — สูงสุด 10 คน"
       >
         <StepDependents onValidChange={onDependentsValid} />
