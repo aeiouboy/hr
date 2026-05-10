@@ -87,4 +87,16 @@ describe('benefitInboxMerge', () => {
   it('mergeBenefitInboxRows returns an empty array when both sources are empty', () => {
     expect(mergeBenefitInboxRows([], [])).toEqual([]);
   });
+
+  it('mergeBenefitInboxRows dedupes a mock claim whose workflowInstanceId matches a Camunda task', () => {
+    const linkedMock: BenefitClaimRequest = { ...makeMockClaim('BEN-CLM-LINK'), workflowInstanceId: 'pi-task-1' };
+    const unlinkedMock = makeMockClaim('BEN-CLM-UNLINK');
+    const rows = mergeBenefitInboxRows(
+      [linkedMock, unlinkedMock],
+      [makeCamundaTask('task-1')],
+    );
+    expect(rows).toHaveLength(2);
+    expect(rows[0]).toMatchObject({ source: 'camunda', key: 'camunda:task-1' });
+    expect(rows[1]).toMatchObject({ source: 'mock', key: 'mock:BEN-CLM-UNLINK' });
+  });
 });

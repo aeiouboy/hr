@@ -251,7 +251,17 @@ export function BenefitClaimCard({ claim, onApprove, onReject, onSendBack }: { c
     <div className="humi-card" style={{ padding: 18 }}>
       <div className="humi-row" style={{ gap: 10, flexWrap: 'wrap', alignItems: 'flex-start' }}>
         <div style={{ flex: 1, minWidth: 220 }}>
-          <div className="humi-eyebrow" style={{ marginBottom: 2 }}>{claim.workflowRequestId} · {claim.id}</div>
+          <div className="humi-eyebrow" style={{ marginBottom: 2 }}>
+            {claim.workflowRequestId} · {claim.id}
+            {claim.workflowInstanceId && (
+              <>
+                {' · '}
+                <span style={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', textTransform: 'none', letterSpacing: 0 }}>
+                  flow {claim.workflowInstanceId.slice(0, 8)}
+                </span>
+              </>
+            )}
+          </div>
           <div className="text-body font-semibold text-ink">{BENEFIT_TYPE_LABEL[claim.benefitType]} — {claim.employeeName}</div>
           <div className="text-small text-ink-muted mt-0.5">{claim.employeeId} · ส่งเมื่อ {formatDate(claim.submittedAt)} · {claim.company}/{claim.businessUnit}</div>
         </div>
@@ -263,6 +273,7 @@ export function BenefitClaimCard({ claim, onApprove, onReject, onSendBack }: { c
         <div className="humi-eyebrow" style={{ marginBottom: 8 }}>รายละเอียดคำขอ</div>
         <dl className="grid gap-2 md:grid-cols-2 text-small">
           <Info label="Benefit code" value={claim.benefitCode} />
+          <Info label="Flow ID (Camunda)" value={claim.workflowInstanceId ?? '— ไม่ผูก Camunda —'} />
           <Info label="ใบเสร็จ/เลขที่เอกสาร" value={claim.receiptNo} />
           <Info label="วันที่เอกสาร" value={claim.receiptDate} />
           <Info label="จำนวนเงินขอเบิก" value={`฿${claim.totalClaimAmount.toLocaleString('th-TH')}`} />

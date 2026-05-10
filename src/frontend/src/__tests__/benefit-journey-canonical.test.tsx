@@ -40,6 +40,7 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('next-intl', () => ({
+  useLocale: () => 'th',
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       'benefits.activeEnrollments': 'สวัสดิการที่ใช้งานอยู่',
@@ -81,8 +82,8 @@ describe('benefit claim journey canonical route', () => {
     const { default: BenefitsHubPage } = await import('@/app/[locale]/benefits-hub/page');
     render(<BenefitsHubPage />);
 
-    const claimStart = screen.getByRole('link', { name: 'เริ่มเบิกสวัสดิการ' });
-    expect(claimStart).toHaveAttribute('href', '/th/benefits-hub/reimbursement');
+    const claimStart = screen.getByRole('link', { name: /เบิกสวัสดิการ/ });
+    expect(claimStart).toHaveAttribute('href', '/th/benefits-hub/claim');
     expect(screen.queryByRole('button', { name: 'สร้างคำขอเบิก' })).not.toBeInTheDocument();
   });
 
@@ -93,18 +94,16 @@ describe('benefit claim journey canonical route', () => {
     const { default: BenefitsHubPage } = await import('@/app/[locale]/benefits-hub/page');
     render(<BenefitsHubPage />);
 
-    expect(screen.getByRole('heading', { name: 'งานสวัสดิการ' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'เลือกงานที่ต้องการทำ' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'สิทธิ์จากข้อมูล HRMS/EC' })).toBeInTheDocument();
-    expect(document.querySelectorAll('[data-benefit-owned-action="true"]')).toHaveLength(2);
-    expect(screen.getByRole('link', { name: 'ดูสรุปสิทธิ์ในโปรไฟล์' })).toHaveAttribute('href', '/th/profile/me?tab=benefits');
-    const reimbursementAction = screen.getByRole('link', { name: 'เบิกสวัสดิการ' });
-    const referralAction = screen.getByRole('link', { name: 'ขอใบส่งตัว' });
-    expect(reimbursementAction).toHaveAttribute('href', '/th/benefits-hub/reimbursement');
+    expect(screen.getByRole('heading', { name: 'ศูนย์รวมสวัสดิการ' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'ไม่สบายใช่ไหม? ขอใบส่งตัวเข้าโรงพยาบาล' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'แผนสวัสดิการของคุณ' })).toBeInTheDocument();
+    const reimbursementAction = screen.getByRole('link', { name: /เบิกค่ารักษา/ });
+    const referralAction = screen.getByRole('link', { name: 'ขอใบส่งตัวตอนนี้' });
+    expect(reimbursementAction).toHaveAttribute('href', '/th/benefits-hub/claim?planId=BE-MED-001');
     expect(referralAction).toHaveAttribute('href', '/th/benefits-hub/referral');
     expect(reimbursementAction.querySelector('button')).toBeNull();
     expect(referralAction.querySelector('button')).toBeNull();
-    expect(screen.getByRole('button', { name: 'ดูรายละเอียด แพลน Flex Plus · ครอบครัว' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'ดูรายละเอียด ค่ารักษาพยาบาล (ผู้ป่วยนอก)' })).toBeInTheDocument();
     expect(screen.queryByRole('tab', { name: 'สลิปเงินเดือน' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /วางแผนภาษี/ })).not.toBeInTheDocument();
     expect(screen.queryByText(/Payroll\/Tax|เงินเดือนและสวัสดิการ/)).not.toBeInTheDocument();

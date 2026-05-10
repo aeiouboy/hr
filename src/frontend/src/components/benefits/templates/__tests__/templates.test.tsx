@@ -10,6 +10,7 @@ import React from 'react';
 // ── next-intl mock ────────────────────────────────────────────────────────────
 vi.mock('next-intl', () => ({
   useLocale: vi.fn().mockReturnValue('th'),
+  useTranslations: () => (key: string) => key,
 }));
 
 // ── next/navigation mock ──────────────────────────────────────────────────────

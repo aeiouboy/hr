@@ -6,9 +6,8 @@ import { Button, Card, CardEyebrow, CardTitle, FormField, FormInput } from '@/co
 import { FileUploadField } from '@/components/humi/FileUploadField';
 import { Capability } from '@/components/humi';
 import type { BenefitPlan } from '@/data/benefits/plan-registry';
-import { mapPlanToWorkflowType, type BenefitTemplateProps } from './SimpleClaimForm';
-import { ApprovalChain } from '@/components/quick-approve/ApprovalChain';
-import { submitBenefitRequest } from '@/lib/workflow-api';
+import { ApprovalChainChips, mapPlanToWorkflowType, type BenefitTemplateProps } from './SimpleClaimForm';
+import { submitBenefitRequest, waitUntilWorkflowReady } from '@/lib/workflow-api';
 import { useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { useAuthStore } from '@/stores/auth-store';
 import { lookupManagerId, lookupName } from '@/lib/demo-org-chart';
@@ -38,7 +37,7 @@ export function HospitalClaimForm({
   const submitClaim = useBenefitClaimsStore((s) => s.submitClaim);
   const rawUserId = useAuthStore((s) => s.userId);
   // Default to 'emp-042' (Wichai Thamdee) for stable demo persona when no user is logged in
-  // or when the legacy placeholder 'EMP001' is set.
+  // or when the generic placeholder 'EMP001' is set.
   const requesterId = (!rawUserId || rawUserId === 'EMP001') ? 'emp-042' : rawUserId;
 
   const planName = isTh ? plan.nameTh : plan.nameEn;
@@ -114,6 +113,9 @@ export function HospitalClaimForm({
       setLastWorkflowId(response.id);
       setForm({ admissionType: 'ipd', hospitalName: '', transferDocNo: '', dependentId: '', receiptNo: '', receiptDate: '', receiptAmount: '', attachmentName: '' });
       setErrors([]);
+      // Block redirect until Camunda has surfaced the user task — closes the
+      // /approvals race where Mock card renders before Camunda lane populates.
+      await waitUntilWorkflowReady(response.id);
       onSubmitted?.(response.id);
     } catch (err) {
       const networkLike = err instanceof TypeError;
@@ -136,6 +138,8 @@ export function HospitalClaimForm({
           {isTh ? `วงเงินรายปี: ${plan.annualLimitThb.toLocaleString()} บาท` : `Annual limit: ${plan.annualLimitThb.toLocaleString()} THB`}
         </p>
       )}
+
+      <ApprovalChainChips chain={plan.approvalChain} />
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {/* OPD / IPD toggle */}
@@ -249,14 +253,6 @@ export function HospitalClaimForm({
         />
       </div>
 
-      {/* Approval chain */}
-      <div className="mt-4 rounded-[var(--radius-md)] border border-hairline bg-canvas-soft p-3">
-        <p className="mb-2 text-small font-medium text-ink">
-          {isTh ? 'ขั้นตอนอนุมัติ' : 'Approval chain'}
-        </p>
-        <ApprovalChain chain={plan.approvalChain} locale={locale} />
-      </div>
-
       {errors.length > 0 && (
         <div role="alert" className="mt-4 rounded-[var(--radius-md)] bg-danger-soft p-3 text-small text-ink">
           <ul className="list-disc pl-5">{errors.map((e) => <li key={e}>{e}</li>)}</ul>
@@ -270,7 +266,7 @@ export function HospitalClaimForm({
       )}
 
       <div className="mt-4 flex justify-end">
-        <Capability action="edit" fallback={
+        <Capability action="view" fallback={
           <Button variant="primary" disabled>
             {tWorkflow('actions.submit')}
           </Button>

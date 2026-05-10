@@ -6,8 +6,7 @@ import { Button, Card, CardEyebrow, CardTitle, FormField, FormInput } from '@/co
 import { FileUploadField } from '@/components/humi/FileUploadField';
 import { Capability } from '@/components/humi';
 import type { BenefitPlan } from '@/data/benefits/plan-registry';
-import { ApprovalChain } from '@/components/quick-approve/ApprovalChain';
-import { submitBenefitRequest, type WorkflowBenefitType } from '@/lib/workflow-api';
+import { submitBenefitRequest, waitUntilWorkflowReady, type WorkflowBenefitType } from '@/lib/workflow-api';
 import { useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { useAuthStore } from '@/stores/auth-store';
 import { lookupManagerId, lookupName } from '@/lib/demo-org-chart';
@@ -34,6 +33,29 @@ export function mapPlanToWorkflowType(plan: BenefitPlan): WorkflowBenefitType {
   return 'medical-reimbursement';
 }
 
+const APPROVER_STAGE_LABEL: Record<string, string> = {
+  hrbp: 'HRBP',
+  spd: 'SPD',
+  hr_admin: 'HR Admin',
+};
+
+export function ApprovalChainChips({ chain }: { chain: BenefitPlan['approvalChain'] }) {
+  if (chain.length === 0) return null;
+
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-2" aria-label="Approval chain">
+      {chain.map((stage) => (
+        <span
+          key={stage}
+          className="rounded-full border border-hairline bg-canvas-soft px-3 py-1 text-small font-medium text-ink-muted"
+        >
+          {APPROVER_STAGE_LABEL[stage] ?? stage}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 // ── SimpleClaimForm ───────────────────────────────────────────────────────────
 // Template: simple-claim
 // Use cases: OPD medical, dental, physical checkup, gasoline, toll, parking
@@ -50,7 +72,7 @@ export function SimpleClaimForm({
   const submitClaim = useBenefitClaimsStore((s) => s.submitClaim);
   const rawUserId = useAuthStore((s) => s.userId);
   // Default to 'emp-042' (Wichai Thamdee) for stable demo persona when no user is logged in
-  // or when the legacy placeholder 'EMP001' is set.
+  // or when the generic placeholder 'EMP001' is set.
   const requesterId = (!rawUserId || rawUserId === 'EMP001') ? 'emp-042' : rawUserId;
 
   const planName = isTh ? plan.nameTh : plan.nameEn;
@@ -111,6 +133,9 @@ export function SimpleClaimForm({
       setLastWorkflowId(response.id);
       setForm({ receiptNo: '', receiptDate: '', receiptAmount: '', claimAmount: '', attachmentName: '' });
       setErrors([]);
+      // Block redirect until Camunda has surfaced the user task — closes the
+      // /approvals race where Mock card renders before Camunda lane populates.
+      await waitUntilWorkflowReady(response.id);
       onSubmitted?.(response.id);
     } catch (err) {
       // Surface the network/4xx failure inline via the existing errors box.
@@ -134,6 +159,8 @@ export function SimpleClaimForm({
           {isTh ? `วงเงินรายปี: ${plan.annualLimitThb.toLocaleString()} บาท` : `Annual limit: ${plan.annualLimitThb.toLocaleString()} THB`}
         </p>
       )}
+
+      <ApprovalChainChips chain={plan.approvalChain} />
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <FormField id={`${plan.id}-receipt-no`} label={isTh ? 'เลขที่ใบเสร็จ/เอกสาร' : 'Receipt / doc no.'} required>
@@ -194,14 +221,6 @@ export function SimpleClaimForm({
         />
       </div>
 
-      {/* Approval chain */}
-      <div className="mt-4 rounded-[var(--radius-md)] border border-hairline bg-canvas-soft p-3">
-        <p className="mb-2 text-small font-medium text-ink">
-          {isTh ? 'ขั้นตอนอนุมัติ' : 'Approval chain'}
-        </p>
-        <ApprovalChain chain={plan.approvalChain} locale={locale} />
-      </div>
-
       {errors.length > 0 && (
         <div role="alert" className="mt-4 rounded-[var(--radius-md)] bg-danger-soft p-3 text-small text-ink">
           <ul className="list-disc pl-5">{errors.map((e) => <li key={e}>{e}</li>)}</ul>
@@ -215,7 +234,7 @@ export function SimpleClaimForm({
       )}
 
       <div className="mt-4 flex justify-end">
-        <Capability action="edit" fallback={
+        <Capability action="view" fallback={
           <Button variant="primary" disabled>
             {tWorkflow('actions.submit')}
           </Button>

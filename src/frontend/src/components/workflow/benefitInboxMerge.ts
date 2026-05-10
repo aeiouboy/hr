@@ -30,16 +30,25 @@ export function pendingTaskToInboxRow(task: PendingTaskSummary): BenefitInboxRow
  * Merge legacy mock claims (only those still pending SPD review) with the
  * live Camunda task list. Camunda rows surface first because they reflect
  * live workflow state; legacy mock rows follow.
+ *
+ * Dedupe: when a mock claim's `workflowInstanceId` matches a Camunda task's
+ * `instanceId`, the mock row is dropped — the Camunda card is the live
+ * source of truth and exposes the same claim. Without this, an SPD reviewer
+ * sees two cards for one claim and can approve the wrong one (the mock
+ * approve only updates local zustand, leaving the real Camunda task open).
  */
 export function mergeBenefitInboxRows(
   pendingClaims: BenefitClaimRequest[],
   camundaTasks: PendingTaskSummary[],
 ): BenefitInboxRow[] {
+  const linkedInstanceIds = new Set(camundaTasks.map((t) => t.instanceId));
   const camundaRows: BenefitInboxRow[] = camundaTasks.map(pendingTaskToInboxRow);
-  const mockRows: BenefitInboxRow[] = pendingClaims.map((claim) => ({
-    source: 'mock',
-    key: `mock:${claim.id}`,
-    claim,
-  }));
+  const mockRows: BenefitInboxRow[] = pendingClaims
+    .filter((claim) => !claim.workflowInstanceId || !linkedInstanceIds.has(claim.workflowInstanceId))
+    .map((claim) => ({
+      source: 'mock',
+      key: `mock:${claim.id}`,
+      claim,
+    }));
   return [...camundaRows, ...mockRows];
 }

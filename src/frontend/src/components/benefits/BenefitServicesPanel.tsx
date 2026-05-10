@@ -47,7 +47,7 @@ export function BenefitServicesPanel({ locale }: { locale: string; onOpenClaim?:
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href={benefitReferralRoute(locale)}
-                className={cn(buttonVariants({ variant: 'primary' }), 'gap-2 text-body')}
+                className={cn(buttonVariants({ variant: 'primary' }), 'min-h-[44px] gap-2 text-body')}
               >
                 <Stethoscope size={16} aria-hidden />
                 {isTh ? 'ขอใบส่งตัวตอนนี้' : 'Request referral now'}
@@ -126,8 +126,9 @@ function SecondaryAction({
   return (
     <Link
       href={href}
+      data-benefit-owned-action="true"
       className={cn(
-        'group flex items-center gap-4 rounded-[var(--radius-md)] border border-hairline bg-surface px-5 py-4',
+        'group flex min-h-[44px] items-center gap-4 rounded-[var(--radius-md)] border border-hairline bg-surface px-5 py-4',
         'shadow-[var(--shadow-sm)] transition-all hover:border-accent hover:shadow-[var(--shadow-md)]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2'
       )}

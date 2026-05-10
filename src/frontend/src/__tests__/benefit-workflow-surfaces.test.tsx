@@ -14,6 +14,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('next-intl', () => ({
+  useLocale: () => 'th',
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       pending: 'รออนุมัติ',
@@ -76,7 +77,7 @@ describe('benefit workflow surfaces', () => {
     expect(screen.getAllByText(/Benefit Reimbursement/).length).toBeGreaterThan(0);
     // BenefitClaimsInbox renders the pending claim card as "BENEFIT_TYPE_LABEL — employeeName"
     expect(screen.getAllByText(/ค่ารักษาพยาบาล/).length).toBeGreaterThan(0);
-    expect(screen.getByText('กล่องอนุมัติคำขอเบิกสวัสดิการ')).toBeInTheDocument();
+    expect(screen.getByText('คำขอเบิกสวัสดิการรออนุมัติ')).toBeInTheDocument();
   });
 
   it('/admin/benefits renders read-only admin, reporting and deferred payment surfaces', async () => {
