@@ -8,22 +8,43 @@ import userEvent from '@testing-library/user-event'
 import ProfileEditPage from '@/app/[locale]/ess/profile/edit/page'
 import { useProfileEdit } from '@/lib/admin/store/useProfileEdit'
 
+const navMocks = vi.hoisted(() => ({
+  push: vi.fn(),
+  locale: 'th',
+}))
+
 // mock next/navigation — ProfileEditPage ใช้ useRouter().push
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
-    push: vi.fn(),
+    push: navMocks.push,
   }),
+  useParams: () => ({ locale: navMocks.locale }),
+}))
+
+vi.mock('next/link', () => ({
+  default: ({ href, children, className, ...props }: { href: string; children: React.ReactNode; className?: string; [k: string]: unknown }) => (
+    <a href={href} className={className} {...props}>{children}</a>
+  ),
 }))
 
 // reset Zustand store + localStorage ก่อนทุก test
 beforeEach(() => {
   localStorage.clear()
+  navMocks.push.mockClear()
+  navMocks.locale = 'th'
   act(() => {
     useProfileEdit.getState().reset()
   })
 })
 
 describe('ProfileEditPage — 4 sections render', () => {
+  it('EC UX Slice 4 — back link points to the localized profile owner route', () => {
+    navMocks.locale = 'en'
+    render(<ProfileEditPage />)
+
+    expect(screen.getByTestId('profile-edit-back-link')).toHaveAttribute('href', '/en/profile/me')
+  })
+
   it('แสดง section headings: ข้อมูลส่วนตัว, ที่อยู่, ผู้ติดต่อฉุกเฉิน', () => {
     const { container } = render(<ProfileEditPage />)
 
@@ -103,6 +124,35 @@ describe('ProfileEditPage — ส่งเพื่ออนุมัติ', ()
       },
       { timeout: 3000 }
     )
+  })
+
+  it('EC UX Slice 4 — submit success routes to the current locale workflows page', async () => {
+    vi.useFakeTimers()
+    navMocks.locale = 'en'
+
+    act(() => {
+      useProfileEdit.setState({
+        isDirty: true,
+        draft: { ...useProfileEdit.getState().draft, nickname: 'Locale test' },
+      })
+    })
+
+    render(<ProfileEditPage />)
+    const submitBtn = screen.getByRole('button', { name: /ส่งเพื่ออนุมัติ/i })
+    fireEvent.click(submitBtn)
+
+    await act(async () => {
+      vi.advanceTimersByTime(250)
+    })
+
+    expect(screen.getByRole('status')).toHaveTextContent('ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว')
+
+    act(() => {
+      vi.advanceTimersByTime(1500)
+    })
+
+    expect(navMocks.push).toHaveBeenCalledWith('/en/ess/workflows')
+    vi.useRealTimers()
   })
 
   it('ระหว่าง submit — ปุ่มต้องแสดง loading state "กำลังส่ง..." เมื่อ isSubmitting=true', async () => {

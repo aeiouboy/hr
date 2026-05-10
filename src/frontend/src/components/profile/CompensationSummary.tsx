@@ -25,7 +25,27 @@ const PAY_STATEMENTS = [
 export default function CompensationSummary() {
   const params = useParams();
   const locale = (params?.locale as string) ?? 'th';
-  const employmentRoute = `/${locale}/profile/me?tab=employment#pay-statements`;
+  const isTh = locale !== 'en';
+  const statementArchiveRoute = `/${locale}/me/documents?type=payslip-archive`;
+  const copy = {
+    title: isTh ? 'สรุปค่าตอบแทน' : 'Compensation summary',
+    showSalary: isTh ? 'แสดงเงินเดือน' : 'Show salary',
+    hideSalary: isTh ? 'ซ่อนเงินเดือน' : 'Hide salary',
+    revealToast: isTh
+      ? 'ระบบจะร้องขอ PIN ในรุ่นถัดไป (BRD #170 SH1 re-auth — backend deferred)'
+      : 'PIN confirmation will be requested in a later release (BRD #170 SH1 re-auth — backend deferred)',
+    currentSalary: isTh ? 'เงินเดือนปัจจุบัน' : 'Current salary',
+    recurring: isTh ? 'ส่วนประกอบเงินเดือนปกติ' : 'Recurring compensation',
+    bonus: isTh ? 'โบนัส' : 'Bonus',
+    equity: isTh ? 'หุ้น/Equity' : 'Equity',
+    statementEyebrow: isTh ? 'statement เงินเดือน' : 'Salary statements',
+    canonicalMark: isTh ? 'ช่องทางหลักในเอกสารส่วนบุคคล' : 'Primary channel in Documents',
+    statementTitle: isTh ? 'ดู statement เงินเดือนและย้อนหลัง' : 'View salary statements and archive',
+    archiveLink: isTh ? 'ดูย้อนหลัง' : 'View archive',
+    netPrefix: isTh ? 'สุทธิ' : 'Net',
+    statementAria: (monthLabel: string) =>
+      isTh ? `statement เงินเดือน ${monthLabel}` : `salary statement ${monthLabel}`,
+  };
   const [isMasked, setIsMasked] = useState(true);
   const [revealToast, setRevealToast] = useState<string | null>(null);
   const p = HUMI_MY_PROFILE;
@@ -35,7 +55,7 @@ export default function CompensationSummary() {
   function handleReveal() {
     setIsMasked((m) => !m);
     if (isMasked) {
-      setRevealToast('ระบบจะร้องขอ PIN ในรุ่นถัดไป (BRD #170 SH1 re-auth — backend deferred)');
+      setRevealToast(copy.revealToast);
       setTimeout(() => setRevealToast(null), 3500);
     }
   }
@@ -46,7 +66,7 @@ export default function CompensationSummary() {
         <div className="humi-row" style={{ gap: 8, alignItems: 'center' }}>
           <Wallet size={18} aria-hidden />
           <h3 className="font-display text-[18px] font-semibold leading-[1.2] tracking-tight text-ink">
-            สรุปค่าตอบแทน
+            {copy.title}
           </h3>
         </div>
         <button
@@ -54,15 +74,15 @@ export default function CompensationSummary() {
           onClick={handleReveal}
           className="humi-row"
           style={{ gap: 6, fontSize: 13, color: 'var(--color-ink-muted)' }}
-          aria-label={isMasked ? 'แสดงเงินเดือน' : 'ซ่อนเงินเดือน'}
+          aria-label={isMasked ? copy.showSalary : copy.hideSalary}
         >
           {isMasked ? <Eye size={14} aria-hidden /> : <EyeOff size={14} aria-hidden />}
-          {isMasked ? 'แสดง' : 'ซ่อน'}
+          {isMasked ? (isTh ? 'แสดง' : 'Show') : (isTh ? 'ซ่อน' : 'Hide')}
         </button>
       </header>
 
       <div style={{ marginBottom: 18 }} data-testid="comp-base">
-        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 4 }}>เงินเดือนปัจจุบัน</div>
+        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 4 }}>{copy.currentSalary}</div>
         <div className="font-mono tabular-nums" style={{ fontSize: 28, fontWeight: 700, color: 'var(--color-ink)' }}>
           {baseDisplay}
         </div>
@@ -70,10 +90,10 @@ export default function CompensationSummary() {
       </div>
 
       <div style={{ marginBottom: 18 }} data-testid="comp-recurring">
-        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 8 }}>ส่วนประกอบเงินเดือนปกติ</div>
+        <div style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginBottom: 8 }}>{copy.recurring}</div>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: 14, color: 'var(--color-ink)' }}>
-          <li style={{ padding: '6px 0' }}>โบนัส: {p.comp.bonus}</li>
-          <li style={{ padding: '6px 0' }}>หุ้น/Equity: {p.comp.equity}</li>
+          <li style={{ padding: '6px 0' }}>{copy.bonus}: {p.comp.bonus}</li>
+          <li style={{ padding: '6px 0' }}>{copy.equity}: {p.comp.equity}</li>
         </ul>
       </div>
 
@@ -81,7 +101,7 @@ export default function CompensationSummary() {
         <div className="humi-row" style={{ justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', marginBottom: 10 }}>
           <div>
             <div className="humi-row" style={{ gap: 8, alignItems: 'center', marginBottom: 4 }}>
-              <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>statement เงินเดือน</div>
+              <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{copy.statementEyebrow}</div>
               <span
                 className="humi-tag"
                 data-testid="pay-statements-canonical-mark"
@@ -92,20 +112,20 @@ export default function CompensationSummary() {
                   fontSize: 11,
                 }}
               >
-                ช่องทางหลักในแท็บการจ้างงาน
+                {copy.canonicalMark}
               </span>
             </div>
             <h4 className="font-display text-[16px] font-semibold leading-[1.2] tracking-tight text-ink">
-              ดู statement เงินเดือนและย้อนหลัง
+              {copy.statementTitle}
             </h4>
           </div>
           <Link
-            href={employmentRoute}
+            href={statementArchiveRoute}
             className="humi-row"
             style={{ gap: 6, fontSize: 14, color: 'var(--color-accent)', textDecoration: 'underline' }}
             data-testid="comp-payslip-link"
           >
-            ดูย้อนหลัง
+            {copy.archiveLink}
             <ExternalLink size={14} aria-hidden />
           </Link>
         </div>
@@ -114,8 +134,8 @@ export default function CompensationSummary() {
           {PAY_STATEMENTS.map((statement) => (
             <Link
               key={statement.id}
-              href={employmentRoute}
-              aria-label={`statement เงินเดือน ${statement.monthLabel}`}
+              href={`${statementArchiveRoute}&statement=${statement.id}`}
+              aria-label={copy.statementAria(statement.monthLabel)}
               className="humi-row"
               style={{
                 justifyContent: 'space-between',
@@ -131,7 +151,7 @@ export default function CompensationSummary() {
                 <span style={{ fontSize: 14, fontWeight: 600 }}>{statement.monthLabel}</span>
               </span>
               <span className="font-mono tabular-nums" style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}>
-                สุทธิ {statement.net}
+                {copy.netPrefix} {statement.net}
               </span>
             </Link>
           ))}

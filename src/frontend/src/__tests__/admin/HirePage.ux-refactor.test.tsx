@@ -42,13 +42,14 @@ vi.mock('@/hooks/use-recruitment', () => ({
 }))
 
 vi.mock('@/components/admin/wizard/WizardShell', () => ({
-  WizardShell: ({ currentStep, maxUnlockedStep, onBack, onNext, onStepClick, children }: any) => (
+  WizardShell: ({ currentStep, maxUnlockedStep, onBack, onNext, onStepClick, onSubmit, children }: any) => (
     <div>
       <div data-testid="step-state">{currentStep}/{maxUnlockedStep}</div>
       <button type="button" onClick={onBack}>Back</button>
       <button type="button" onClick={onNext}>Next</button>
       <button type="button" onClick={() => onStepClick(2)}>Step 2</button>
       <button type="button" onClick={() => onStepClick(3)}>Step 3</button>
+      <button type="button" onClick={onSubmit}>Submit hire</button>
       {children}
     </div>
   ),
@@ -62,9 +63,10 @@ vi.mock('@/app/[locale]/admin/hire/clusters/ClusterReview', () => ({ default: ()
 
 import HirePage from '@/app/[locale]/admin/hire/page'
 
-function resetPage(search = '') {
+function resetPage(search = '', pathname = '/th/admin/hire') {
   nav.push.mockClear()
   nav.replace.mockClear()
+  nav.pathname = pathname
   nav.params = new URLSearchParams(search)
   localStorage.clear()
   act(() => useHireWizard.getState().reset())
@@ -148,5 +150,68 @@ describe('HirePage UX refactor navigation and candidate context', () => {
 
     expect(useHireWizard.getState().candidateContext).toBeNull()
     expect(useHireWizard.getState().isStepValid(1)).toBe(true)
+  })
+
+  it('EC UX Slice 5 — post-submit employee detail navigation preserves locale', async () => {
+    resetPage('step=3', '/en/admin/hire')
+    act(() => {
+      const state = useHireWizard.getState()
+      useHireWizard.setState({
+        currentStep: 3,
+        maxUnlockedStep: 3,
+        hrbpAssignee: 'HRBP001',
+        formData: {
+          ...state.formData,
+          identity: {
+            ...state.formData.identity,
+            hireDate: '2026-05-10',
+            companyCode: 'CEN',
+            eventReason: 'HIRNEW',
+            salutationEn: 'Mr.',
+            firstNameEn: 'Ken',
+            lastNameEn: 'Test',
+            dateOfBirth: '1990-01-01',
+            employeeId: 'EMP-UX-001',
+            nationalIdCardType: 'Thai National ID',
+            country: 'THA',
+            nationalId: '1102003039997',
+            isPrimary: 'true',
+            salutationLocal: 'นาย',
+          },
+          biographical: {
+            ...state.formData.biographical,
+            otherTitleTh: 'นาย',
+            firstNameLocal: 'เคน',
+            lastNameLocal: 'ทดสอบ',
+            nationality: 'THA',
+          },
+          employeeInfo: {
+            ...state.formData.employeeInfo,
+            employeeClass: 'PERMANENT',
+          },
+          job: {
+            ...state.formData.job,
+            position: 'UX Manager',
+          },
+          compensation: {
+            ...state.formData.compensation,
+            baseSalary: 50000,
+          },
+          contact: {
+            ...state.formData.contact,
+            phones: [{ type: 'mobile', value: '0812345678', isPrimary: true }],
+            emails: [{ type: 'personal', value: 'ken@example.com', isPrimary: true }],
+          },
+        },
+      })
+    })
+
+    render(<HirePage />)
+    fireEvent.click(screen.getByRole('button', { name: 'Submit hire' }))
+
+    expect(await screen.findByText('EMP-UX-001')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /ดูรายละเอียดพนักงาน/i }))
+
+    expect(nav.push).toHaveBeenCalledWith('/en/admin/employees/EMP-UX-001')
   })
 })

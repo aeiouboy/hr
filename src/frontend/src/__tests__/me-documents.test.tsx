@@ -19,12 +19,17 @@
  *   test at AC-7b below.
  */
 
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, cleanup } from '@testing-library/react'
+
+const navMocks = vi.hoisted(() => ({
+  search: '',
+}))
 
 // Mock next/navigation — useParams returns locale 'th'
 vi.mock('next/navigation', () => ({
   useParams: () => ({ locale: 'th' }),
+  useSearchParams: () => new URLSearchParams(navMocks.search),
 }))
 
 // Mock next/link — render as plain <a> so href is inspectable
@@ -44,6 +49,10 @@ vi.mock('lucide-react', () => ({
 
 import MeDocumentsPage from '@/app/[locale]/me/documents/page'
 import { HUMI_HR_DOCS, HR_DOC_TYPE_LABELS } from '@/lib/humi-mock-data'
+
+beforeEach(() => {
+  navMocks.search = ''
+})
 
 afterEach(() => {
   cleanup()
@@ -145,6 +154,19 @@ describe('hr#84 BRD #173 — /me/documents', () => {
     fireEvent.click(screen.getByTestId('docs-filter-all'))
     HUMI_HR_DOCS.forEach((doc) => {
       expect(screen.getByTestId(`doc-row-${doc.id}`)).toBeInTheDocument()
+    })
+  })
+
+  it('EC UX Slice 3 — ?type=payslip-archive preselects the payslip archive filter', () => {
+    navMocks.search = 'type=payslip-archive'
+    render(<MeDocumentsPage />)
+
+    expect(screen.getByTestId('docs-filter-payslip-archive')).toHaveAttribute('aria-pressed', 'true')
+    HUMI_HR_DOCS.filter((d) => d.type === 'payslip-archive').forEach((doc) => {
+      expect(screen.getByTestId(`doc-row-${doc.id}`)).toBeInTheDocument()
+    })
+    HUMI_HR_DOCS.filter((d) => d.type !== 'payslip-archive').forEach((doc) => {
+      expect(screen.queryByTestId(`doc-row-${doc.id}`)).toBeNull()
     })
   })
 

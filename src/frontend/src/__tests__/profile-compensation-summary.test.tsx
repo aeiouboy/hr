@@ -6,7 +6,7 @@
  *   AC-1 — 3 sections render (base/recurring/link) — YTD removed per Ken UAT 2026-04-26
  *   AC-2 — base salary masked by default (last 4 chars visible, '฿ ••••,500')
  *   AC-3 — reveal button unmasks salary + shows SH1-deferral toast with PIN mention
- *   AC-4 — salary statement/history href stays in /profile/me?tab=employment
+ *   AC-4 — salary statement/history href opens the document archive, not the same profile anchor loop
  *   AC-6 — all visible labels are Thai-primary (no SF-style bilingual duplicates)
  *
  * Edge cases:
@@ -140,10 +140,10 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
 
   // ── AC-4: salary statements are canonical inside Profile > Employment ─────
 
-  it('AC-4 — statement history link href is /th/profile/me?tab=employment#pay-statements', () => {
+  it('AC-4 — statement history link opens the payslip archive document journey', () => {
     render(<CompensationSummary />)
     const link = screen.getByTestId('comp-payslip-link')
-    expect(link.getAttribute('href')).toBe('/th/profile/me?tab=employment#pay-statements')
+    expect(link.getAttribute('href')).toBe('/th/me/documents?type=payslip-archive')
   })
 
   it('AC-4 — link text contains ดูย้อนหลัง', () => {
@@ -152,17 +152,30 @@ describe('hr#83 BRD #170 — CompensationSummary', () => {
     expect(link.textContent).toMatch(/ดูย้อนหลัง/)
   })
 
-  it('AC-4 — renders salary statement rows in the employment tab surface', () => {
+  it('AC-4 — renders salary statement rows with the document archive as the canonical target', () => {
     render(<CompensationSummary />)
     const statements = screen.getByTestId('pay-statements')
     expect(statements.textContent).toMatch(/ดู statement เงินเดือนและย้อนหลัง/)
     expect(screen.getByTestId('pay-statements-canonical-mark')).toHaveTextContent(
-      'ช่องทางหลักในแท็บการจ้างงาน',
+      'ช่องทางหลักในเอกสารส่วนบุคคล',
     )
     expect(screen.getByRole('link', { name: /statement เงินเดือน มีนาคม 2569/ })).toHaveAttribute(
       'href',
-      '/th/profile/me?tab=employment#pay-statements',
+      '/th/me/documents?type=payslip-archive&statement=PS-2026-03',
     )
+  })
+
+  it('EC UX Slice 3 — no pay-statement row links back to the same profile anchor loop', () => {
+    render(<CompensationSummary />)
+    const statementLinks = screen
+      .getAllByRole('link')
+      .filter((link) => (link.getAttribute('aria-label') ?? '').includes('statement เงินเดือน'))
+
+    expect(statementLinks.length).toBeGreaterThan(0)
+    statementLinks.forEach((link) => {
+      expect(link.getAttribute('href')).not.toBe('/th/profile/me?tab=employment#pay-statements')
+      expect(link.getAttribute('href')).toMatch(/^\/th\/me\/documents\?type=payslip-archive/)
+    })
   })
 
   // ── AC-6: all visible labels are Thai-primary ───────────────────────────────

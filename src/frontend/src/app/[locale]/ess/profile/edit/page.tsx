@@ -10,7 +10,8 @@
 // Name-change gate: requires ≥1 attachment before submit.
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useParams, useRouter } from 'next/navigation'
 import { ChevronDown, UploadCloud, FileText, X, CalendarDays } from 'lucide-react'
 import { useProfileEdit } from '@/lib/admin/store/useProfileEdit'
 import type { Attachment } from '@/stores/workflow-approvals'
@@ -63,6 +64,8 @@ const inputCls =
 
 export default function ProfileEditPage() {
   const router = useRouter()
+  const params = useParams()
+  const locale = (params?.locale as string) === 'en' ? 'en' : 'th'
   const { draft, baseline, isDirty, isSubmitting, setField, loadFromEmployee, submit } = useProfileEdit()
   const [toast, setToast] = useState<string | null>(null)
   const [attachments, setAttachments] = useState<Attachment[]>([])
@@ -158,7 +161,7 @@ export default function ProfileEditPage() {
       }
       showToast('ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว — รอ SPD อนุมัติ')
       setAttachments([])
-      setTimeout(() => router.push('/th/ess/workflows'), 1500)
+      setTimeout(() => router.push(`/${locale}/ess/workflows`), 1500)
     } catch (err) {
       console.warn('[ProfileEditPage] submit error:', err)
       showToast('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
@@ -179,9 +182,21 @@ export default function ProfileEditPage() {
 
       {/* Header */}
       <div>
+        <Link
+          href={`/${locale}/profile/me`}
+          className="mb-3 inline-flex text-sm font-medium text-accent hover:underline"
+          data-testid="profile-edit-back-link"
+        >
+          {locale === 'th' ? '← กลับโปรไฟล์ของฉัน' : '← Back to my profile'}
+        </Link>
         <h1 className="font-display text-[22px] font-semibold text-ink">แก้ไขข้อมูลส่วนตัว</h1>
         <p className="mt-1 text-sm text-ink-muted">
           การแก้ไขจะถูกส่งให้ SPD พิจารณาอนุมัติก่อนมีผลในระบบ (BRD #166)
+        </p>
+        <p className="mt-2 text-xs text-ink-muted">
+          {locale === 'th'
+            ? 'Profile เป็นจุดแก้ไขหลักแบบ inline; หน้านี้คงไว้สำหรับกรอกข้อมูลขั้นสูงหรือ deep link เดิม'
+            : 'Profile inline editing is the primary journey; this advanced form remains for full-form and legacy deep links.'}
         </p>
       </div>
 

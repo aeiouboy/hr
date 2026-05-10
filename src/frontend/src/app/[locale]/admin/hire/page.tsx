@@ -56,6 +56,7 @@ export default function HirePage() {
   const paramsString = searchParams.toString()
   const requestedCandidateId = searchParams.get('candidateId')
   const requestedApplicantId = searchParams.get('applicantId') ?? undefined
+  const locale = pathname.split('/').find((segment) => segment === 'th' || segment === 'en') ?? 'th'
 
   const requestedCandidate = useMemo(
     () => candidates.find((candidate) => candidate.id === requestedCandidateId),
@@ -187,7 +188,7 @@ export default function HirePage() {
 
   const handleViewEmployee = () => {
     if (submittedEmployeeId) {
-      router.push(`/admin/employees/${submittedEmployeeId}`)
+      router.push(`/${locale}/admin/employees/${submittedEmployeeId}`)
     }
   }
 

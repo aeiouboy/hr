@@ -434,8 +434,8 @@
       "id": "qa_manage_data",
       "label": "จัดการข้อมูลของฉัน",
       "icon": "UserCog",
-      "href": "/th/ess/profile/edit",
-      "enabled": true,
+      "href": "/ess/profile/edit",
+      "enabled": false,
       "order": 5
     },
     {
