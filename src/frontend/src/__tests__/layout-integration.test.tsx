@@ -25,8 +25,48 @@ vi.mock('next/navigation', () => ({
 }));
 
 // ── Mock next-intl ───────────────────────────────────────────────────────────
+const shellMessages: Record<string, string> = {
+  'a11y.mainMenu': 'เมนูหลัก',
+  'a11y.mobileDrawer': 'เมนูหลัก',
+  'a11y.openMenu': 'เปิดเมนู',
+  'a11y.closeMenu': 'ปิดเมนู',
+  'a11y.search': 'ค้นหา',
+  'a11y.newItems': 'รายการใหม่',
+  'a11y.logoutToLogin': 'ออกจากระบบ',
+  'groups.myWorkspace': 'พื้นที่ทำงานของฉัน',
+  'groups.people': 'บุคลากร',
+  'groups.company': 'บริษัท',
+  'items.home': 'หน้าหลัก',
+  'items.profile': 'โปรไฟล์ของฉัน',
+  'items.timeoff': 'ลางาน',
+  'items.benefits': 'สวัสดิการ',
+  'items.requests': 'คำร้องและแบบฟอร์ม',
+  'items.my-workflows': 'คำขอของฉัน',
+  'items.time-attendance': 'เวลา & การเข้างาน',
+  'items.goals': 'เป้าหมายและผลงาน',
+  'items.learning': 'การเรียนรู้',
+  'items.directory': 'ผังองค์กร',
+  'items.performance-form': 'ประเมินผลงาน',
+  'items.development': 'การพัฒนา',
+  'items.succession': 'สายการสืบทอด',
+  'items.announce': 'ประกาศ',
+  'items.integrations': 'จัดการระบบ',
+  'items.careers': 'ตำแหน่งว่างภายใน',
+  'items.recruiting': 'สรรหา',
+  'items.reports': 'รายงาน',
+  'items.admin': 'ศูนย์ Admin',
+  'titles.home': 'หน้าหลัก',
+  'locale.aria': 'เปลี่ยนภาษา',
+  'theme.dark': 'สลับโหมดมืด',
+  'theme.light': 'สลับโหมดสว่าง',
+  'command.footerHint': 'Enter เพื่อเปิด',
+  'user.initials': 'จท',
+  'user.name': 'จงรักษ์ ทานากะ',
+  'user.logoutHint': 'ออกจากระบบ',
+};
 vi.mock('next-intl', () => ({
-  useTranslations: () => (key: string) => key,
+  useLocale: () => 'th',
+  useTranslations: () => (key: string) => shellMessages[key] ?? key,
 }));
 
 // ── Mock next/link ───────────────────────────────────────────────────────────

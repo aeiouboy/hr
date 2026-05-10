@@ -90,6 +90,7 @@ vi.mock('next-intl', () => {
   };
 
   return {
+    useLocale: () => 'th',
     useTranslations: (namespace: string) => makeT(namespace),
     NextIntlClientProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   };
