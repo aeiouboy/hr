@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Check, FileText, Download, Pencil, X, FileX } from 'lucide-react';
+import { Check, FileText, Download, Pencil, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   benefitReferralRoute,
@@ -1411,28 +1411,6 @@ export default function HumiProfileMePage({
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* ── การลาออก link — Ken U1: keep as separate page ─────────────── */}
-          <div className="humi-card" style={{ marginTop: 16 }}>
-            <div className="humi-eyebrow">{t('resignationSectionEyebrow')}</div>
-            <div
-              className="humi-row"
-              style={{ marginTop: 10, justifyContent: 'space-between', alignItems: 'center' }}
-            >
-              <div className="humi-row" style={{ gap: 10 }}>
-                <FileX className="h-5 w-5 text-ink-muted" aria-hidden />
-                <span style={{ fontSize: 14, color: 'var(--color-ink)' }}>
-                  {t('resignationSectionDesc')}
-                </span>
-              </div>
-              <Link
-                href={`/${locale}/resignation`}
-                className="text-sm font-medium text-accent hover:underline"
-              >
-                {t('resignationSectionLink')}
-              </Link>
             </div>
           </div>
 

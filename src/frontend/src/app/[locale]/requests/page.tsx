@@ -26,6 +26,7 @@ import { useLocale } from 'next-intl';
 import {
   Avatar,
   Button,
+  buttonVariants,
   Card,
   CardEyebrow,
   CardTitle,
@@ -90,10 +91,13 @@ const FILTER_CHIPS: Array<{ key: RequestFilterKey; label: string }> = [
   { key: 'info', label: 'ขอข้อมูลเพิ่ม' },
 ];
 
-const REQUEST_PAGE_FORM_IDS = ['leave', 'cert-emp', 'cert-salary'] as const;
+const REQUEST_PAGE_FORM_IDS = ['leave', 'cert-emp', 'cert-salary', 'resign'] as const;
 const REQUEST_FORM_CATALOG = HUMI_REQUEST_CATALOG.filter((form) =>
   (REQUEST_PAGE_FORM_IDS as readonly string[]).includes(form.id)
 );
+const ROUTE_ONLY_REQUESTS: Record<string, (locale: string) => string> = {
+  resign: (locale) => `/${locale}/resignation`,
+};
 
 const BENEFIT_TYPE_KEYWORDS = ['เบิก', 'สวัสดิการ', 'เบี้ยเลี้ยง'] as const;
 const isBenefitType = (type: string): boolean =>
@@ -546,6 +550,7 @@ function RequestDetailModal({ open, request, onClose }: { open: boolean; request
 // ────────────────────────────────────────────────────────────
 
 function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
+  const locale = useLocale();
   const submit = useRequestsStore((s) => s.submit);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
@@ -687,6 +692,7 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
         {REQUEST_FORM_CATALOG.map((f) => {
           const Icon = ICONS[f.icon];
           const isSelected = selectedTemplate === f.id;
+          const routeOnlyHref = ROUTE_ONLY_REQUESTS[f.id]?.(locale);
           return (
             <Card
               key={f.id}
@@ -717,15 +723,27 @@ function CatalogTab({ onSubmitted }: { onSubmitted: (msg: string) => void }) {
               <p className="mt-1 text-small text-ink-soft leading-relaxed">
                 {f.subtitle}
               </p>
-              <Button
-                variant={isSelected ? 'secondary' : 'ghost'}
-                block
-                className="mt-4"
-                trailingIcon={<ArrowRight size={13} />}
-                onClick={() => setSelectedTemplate(isSelected ? null : f.id)}
-              >
-                {isSelected ? 'กำลังกรอก' : 'เริ่มกรอก'}
-              </Button>
+              {routeOnlyHref ? (
+                <Link
+                  href={routeOnlyHref}
+                  className={cn(buttonVariants({ variant: 'ghost', block: true }), 'mt-4')}
+                >
+                  <span>
+                    {locale === 'th' ? 'เริ่มกระบวนการ' : 'Start workflow'}
+                  </span>
+                  <ArrowRight size={13} aria-hidden />
+                </Link>
+              ) : (
+                <Button
+                  variant={isSelected ? 'secondary' : 'ghost'}
+                  block
+                  className="mt-4"
+                  trailingIcon={<ArrowRight size={13} />}
+                  onClick={() => setSelectedTemplate(isSelected ? null : f.id)}
+                >
+                  {isSelected ? 'กำลังกรอก' : 'เริ่มกรอก'}
+                </Button>
+              )}
             </Card>
           );
         })}

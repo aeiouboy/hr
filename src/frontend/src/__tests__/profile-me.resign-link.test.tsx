@@ -1,7 +1,7 @@
 /**
  * profile-me.resign-link.test.tsx
- * AC-5: /profile/me Employment tab มี Link ไปยัง /resignation พร้อม Thai label
- *       ตรวจ href pattern + visible Thai label "ดูคำขอลาออก"
+ * EC UX Slice 2: /profile/me Employment tab must not launch resignation.
+ * Resignation belongs in the requests/workflow domain; /resignation stays URL-accessible.
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
@@ -142,33 +142,23 @@ afterEach(() => {
 });
 
 // ════════════════════════════════════════════════════════════════════════════
-// AC-5: Link ไปยัง /resignation ต้องปรากฏใน Employment tab
+// EC UX Slice 2: Profile must not expose resignation as a primary CTA.
 // ════════════════════════════════════════════════════════════════════════════
 
-describe('AC-5: profile/me Employment tab มี link ไปยัง /resignation', () => {
-  it('AC-5: ต้องมี <a> ที่ href ประกอบด้วย "resignation"', async () => {
+describe('EC UX Slice 2: profile/me Employment tab ไม่มี resignation entrypoint', () => {
+  it('ต้องไม่มี <a> ที่ href ประกอบด้วย "resignation"', async () => {
     await renderProfileMePage();
 
-    // AC-5: ค้นหา link ที่ href มี "resignation" path
-    const links = screen.getAllByRole('link');
+    const links = screen.queryAllByRole('link');
     const resignLink = links.find((l) =>
       (l.getAttribute('href') ?? '').includes('resignation'),
     );
-    expect(resignLink).toBeDefined();
+    expect(resignLink).toBeUndefined();
   });
 
-  it('AC-5: resignation link ต้องมี Thai label (ดูคำขอลาออก)', async () => {
+  it('ต้องไม่มี Thai CTA label เดิม (ดูคำขอลาออก)', async () => {
     await renderProfileMePage();
 
-    // AC-5: getByRole('link') + Thai label text (Ken U1: visible Thai label)
-    const resignLink = screen.getByRole('link', { name: /ดูคำขอลาออก/i });
-    expect(resignLink).toBeInTheDocument();
-  });
-
-  it('AC-5: resignation link href ต้องมี path "/resignation"', async () => {
-    await renderProfileMePage();
-
-    const resignLink = screen.getByRole('link', { name: /ดูคำขอลาออก/i });
-    expect(resignLink.getAttribute('href')).toMatch(/resignation/);
+    expect(screen.queryByRole('link', { name: /ดูคำขอลาออก/i })).not.toBeInTheDocument();
   });
 });
