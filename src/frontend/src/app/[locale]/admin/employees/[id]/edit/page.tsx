@@ -25,7 +25,6 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Check } from 'lucide-react'
 import { buttonVariants } from '@/components/humi'
-import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import {
@@ -426,8 +425,6 @@ export default function EmployeeEditPage() {
           {employee.position_title} · {employee.company}
         </div>
       </div>
-
-      <ActionRequirementBanner actionKey="edit" />
 
       {/* Personal Info edit = direct-edit method per SF DOC-F2B0E487 + audit #22.
           EffectiveDateGate removed — Pattern 2 reserves effective-dating for state

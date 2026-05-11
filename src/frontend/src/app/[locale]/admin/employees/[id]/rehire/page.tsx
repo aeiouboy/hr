@@ -28,7 +28,6 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
-import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import type { MockEmployee } from '@/mocks/employees'
 import type { RehireEvent } from '@hrms/shared/types/timeline'
@@ -422,8 +421,6 @@ export default function RehirePage() {
 
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
-
-      <ActionRequirementBanner actionKey="rehire" />
 
       {/* Approval chain (rehire: no manager — outside team, HRBP initiates) */}
       <div className="humi-card">

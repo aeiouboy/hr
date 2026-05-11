@@ -881,10 +881,6 @@ export default function EmployeeDetailPage() {
                         <Lock size={12} className="text-ink-faint" aria-hidden />
                       </div>
                       <div className="text-small text-ink-faint mt-0.5">{card.requirement.descriptionTh}</div>
-                      <div className="humi-row" style={{ gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
-                        {card.requirement.sfEvent && <span className="humi-tag" style={{ fontSize: 10 }}>SF {card.requirement.sfEvent}</span>}
-                        <span className="humi-tag humi-tag--accent" style={{ fontSize: 10 }}>{card.requirement.brdRefs[0]}</span>
-                      </div>
                       {card.lockReason && (
                         <div className="mt-1.5 text-small text-ink-muted" style={{ fontSize: 11, lineHeight: 1.4 }}>
                           {card.lockReason}
@@ -919,10 +915,6 @@ export default function EmployeeDetailPage() {
                       {card.requirement.labelTh}
                     </div>
                     <div className="text-small text-ink-soft mt-0.5">{card.requirement.descriptionTh}</div>
-                    <div className="humi-row" style={{ gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
-                      {card.requirement.sfEvent && <span className="humi-tag" style={{ fontSize: 10 }}>SF {card.requirement.sfEvent}</span>}
-                      <span className="humi-tag humi-tag--accent" style={{ fontSize: 10 }}>{card.requirement.brdRefs[0]}</span>
-                    </div>
                   </div>
                 </div>
               </Link>

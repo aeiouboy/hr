@@ -25,7 +25,6 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
-import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import { useProbationApprovals, type ProbationOutcome } from '@/stores/probation-approvals'
@@ -506,8 +505,6 @@ export default function ProbationAssessPage() {
 
         {/* Employee snapshot */}
         <EmployeeSnapshot employee={employee} />
-
-      <ActionRequirementBanner actionKey="probation" />
 
         {/* Approval chain (probation eval: manager-led, HR Admin closes) */}
         <div className="humi-card">

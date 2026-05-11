@@ -12,7 +12,6 @@ import { useLocale } from 'next-intl'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
-import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
@@ -122,7 +121,6 @@ export default function ChangeTypePage() {
       </div>
 
       <EmployeeSnapshot employee={employee} />
-      <ActionRequirementBanner actionKey="change_type" />
 
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 8 }}>{locale === 'en' ? 'Approval Chain' : 'ขั้นตอนอนุมัติ'}</div>

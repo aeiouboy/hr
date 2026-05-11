@@ -19,7 +19,6 @@ import { usePromotionApprovals, PROMOTION_STEP_LABEL } from '@/stores/promotion-
 import { useAuthStore } from '@/stores/auth-store'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
-import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
@@ -269,8 +268,6 @@ export default function PromotionPage() {
 
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
-
-      <ActionRequirementBanner actionKey="promotion" />
 
       {/* SPD Approval Chain Banner — BRD #103: surfaces pending chain status (in-memory store) */}
       <ApprovalChainBanner employeeId={empId} />
