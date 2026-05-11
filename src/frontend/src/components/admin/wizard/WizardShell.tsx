@@ -46,6 +46,8 @@ interface WizardShellProps {
   stepperLabel?: string
   /** Optional section-level checkpoint nav rendered below the Stepper in the left aside. */
   sidebarContent?: React.ReactNode
+  /** Hide the primary 3-step rail when the caller provides a fuller checkpoint nav. */
+  showStepperRail?: boolean
 }
 
 function formatTime(ts: number): string {
@@ -70,6 +72,7 @@ export function WizardShell({
   flowTitleTh = 'เพิ่มพนักงานใหม่',
   stepperLabel,
   sidebarContent,
+  showStepperRail = true,
 }: WizardShellProps) {
   const step = steps[currentStep - 1] ?? steps[0]
 
@@ -110,16 +113,18 @@ export function WizardShell({
       {/* Body — stepper rail + form scroll area */}
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
         <aside className="hidden w-[280px] shrink-0 overflow-y-auto border-r border-hairline bg-canvas-soft px-4 py-5 md:block">
-          <Stepper
-            steps={[...steps]}
-            currentStep={currentStep}
-            maxUnlockedStep={maxUnlockedStep}
-            onStepClick={onStepClick}
-            stepperLabel={stepperLabel}
-          />
+          {showStepperRail && (
+            <Stepper
+              steps={[...steps]}
+              currentStep={currentStep}
+              maxUnlockedStep={maxUnlockedStep}
+              onStepClick={onStepClick}
+              stepperLabel={stepperLabel}
+            />
+          )}
           {sidebarContent && (
             <>
-              <div className="my-3 border-t border-hairline" />
+              {showStepperRail && <div className="my-3 border-t border-hairline" />}
               {sidebarContent}
             </>
           )}

@@ -254,6 +254,7 @@ export default function HirePage() {
         onNext={handleNext}
         onSubmit={handleSubmit}
         sidebarContent={<HireCheckpointSidebar />}
+        showStepperRail={false}
       >
         {currentStep === 1 && <ClusterWho />}
         {currentStep === 2 && <ClusterJob />}
