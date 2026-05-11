@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   Fingerprint, User2, Phone, AlertCircle, Globe, FileText,
   Users, Briefcase, Building2, Wallet, ClipboardList,
@@ -73,16 +74,25 @@ function tryScroll(sectionId: string, attempts = 0): void {
 }
 
 export function HireCheckpointSidebar() {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const currentStep = useHireWizard((s) => s.currentStep)
-  const maxUnlockedStep = useHireWizard((s) => s.maxUnlockedStep)
   const stepValidity = useHireWizard((s) => s.stepValidity)
   const formData = useHireWizard((s) => s.formData)
   const jumpTo = useHireWizard((s) => s.jumpTo)
   const setSectionCollapsed = useHireWizard((s) => s.setSectionCollapsed)
 
+  const mirrorStepToUrl = (step: 1 | 2 | 3) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('step', String(step))
+    const query = params.toString()
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false })
+  }
+
   const handleSectionClick = (step: 1 | 2 | 3, sectionId: string) => {
-    if (step > maxUnlockedStep) return
     jumpTo(step)
+    mirrorStepToUrl(step)
     if (step !== 3) {
       setSectionCollapsed(sectionId, false)
     }
@@ -99,25 +109,17 @@ export function HireCheckpointSidebar() {
       </p>
 
       {CHECKPOINT_GROUPS.map((group) => {
-        const locked = group.step > maxUnlockedStep
         const isCurrentStep = group.step === currentStep
 
         return (
           <div key={group.step} className="space-y-1">
             {/* Step group label */}
-            <div
-              className={cn(
-                'flex items-center gap-2 px-1 py-0.5',
-                locked && 'opacity-40',
-              )}
-            >
+            <div className="flex items-center gap-2 px-1 py-0.5">
               <span
                 className={cn(
                   'flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold',
                   isCurrentStep
                     ? 'bg-accent text-white'
-                    : locked
-                    ? 'bg-canvas-soft text-ink-muted'
                     : 'bg-accent/20 text-accent',
                 )}
               >
@@ -151,13 +153,9 @@ export function HireCheckpointSidebar() {
                     key={section.id}
                     type="button"
                     onClick={() => handleSectionClick(group.step, section.id)}
-                    disabled={locked}
-                    title={locked ? 'ต้องผ่านขั้นตอนก่อนหน้าก่อน' : undefined}
                     className={cn(
                       'flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition-colors',
-                      locked
-                        ? 'cursor-not-allowed opacity-40'
-                        : 'cursor-pointer text-ink-soft hover:bg-canvas-soft hover:text-ink',
+                      'cursor-pointer text-ink-soft hover:bg-canvas-soft hover:text-ink',
                     )}
                   >
                     <Icon size={11} className="shrink-0 text-ink-muted" aria-hidden />

@@ -238,10 +238,9 @@ export function createClusterWizard<TFormData extends object>(
         },
 
         jumpTo: (step: number) => {
-          const { maxUnlockedStep } = get()
-          if (step > maxUnlockedStep || step < 1 || step > totalSteps) {
+          if (step < 1 || step > totalSteps) {
             console.warn(
-              `[${name}Wizard] jumpTo: step ${step} ยังถูกล็อคอยู่ (max: ${maxUnlockedStep})`,
+              `[${name}Wizard] jumpTo: step ${step} อยู่นอกช่วง 1-${totalSteps}`,
             )
             return
           }

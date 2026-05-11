@@ -89,16 +89,16 @@ describe('HirePage UX refactor navigation and candidate context', () => {
     expect(screen.getByTestId('current-step')).toHaveTextContent('1')
   })
 
-  it('does not unlock a direct URL to a locked step', async () => {
+  it('honors a direct URL to any wizard step without treating navigation as validation', async () => {
     currentSearch = 'step=3&candidateId=CAN001'
 
     render(<HirePage />)
 
     await waitFor(() => {
-      expect(replace).toHaveBeenCalledWith('/th/admin/hire?step=1&candidateId=CAN001', { scroll: false })
+      expect(useHireWizard.getState().currentStep).toBe(3)
     })
-    expect(useHireWizard.getState().currentStep).toBe(1)
     expect(useHireWizard.getState().maxUnlockedStep).toBe(1)
+    expect(replace).not.toHaveBeenCalledWith('/th/admin/hire?step=1&candidateId=CAN001', { scroll: false })
   })
 
   it('mirrors Next and Stepper actions to the URL after store navigation resolves', async () => {

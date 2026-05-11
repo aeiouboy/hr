@@ -770,9 +770,8 @@ export const useHireWizard = create<HireWizardState>()(
       },
 
       jumpTo: (step: number) => {
-        const { maxUnlockedStep } = get()
-        if (step > maxUnlockedStep || step < 1 || step > 3) {
-          console.warn(`[useHireWizard] jumpTo: step ${step} ยังถูกล็อคอยู่ (max: ${maxUnlockedStep})`)
+        if (step < 1 || step > 3) {
+          console.warn(`[useHireWizard] jumpTo: step ${step} อยู่นอกช่วง 1-3`)
           return
         }
         set({ currentStep: step as StepNumber })

@@ -312,13 +312,13 @@ export const useLifecycleWizard = create<LifecycleWizardState>((set, get) => ({
     set({ currentStep: currentStep - 1 })
   },
 
-  // กระโดดไป step ที่ระบุ — reject ถ้า step > maxUnlockedStep
+  // กระโดดไป step ที่ระบุ — free navigation; validation remains on Next/Submit.
   jumpTo: (step: number) => {
-    const { active, maxUnlockedStep } = get()
+    const { active } = get()
     if (!active) return
 
-    if (step < 1 || step > active.maxStep || step > maxUnlockedStep) {
-      console.warn(`[useLifecycleWizard] jumpTo: step ${step} ยังถูกล็อค (max unlocked: ${maxUnlockedStep})`)
+    if (step < 1 || step > active.maxStep) {
+      console.warn(`[useLifecycleWizard] jumpTo: step ${step} อยู่นอกช่วง 1-${active.maxStep}`)
       return
     }
     set({ currentStep: step })

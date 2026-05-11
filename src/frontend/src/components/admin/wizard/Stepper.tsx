@@ -23,30 +23,26 @@ interface StepperProps {
   stepperLabel?: string
 }
 
-export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, stepperLabel = 'ขั้นตอน Hire Wizard' }: StepperProps) {
+export function Stepper({ steps, currentStep, onStepClick, stepperLabel = 'ขั้นตอน Hire Wizard' }: StepperProps) {
   return (
     <nav aria-label={stepperLabel}>
       <ol className="flex flex-col gap-2">
         {steps.map((step) => {
           const isActive = step.number === currentStep
           const isComplete = step.number < currentStep
-          const isUnlocked = step.number <= maxUnlockedStep
-          const isDisabled = !isUnlocked
 
           return (
             <li key={step.number} data-testid="step-item">
               <button
                 type="button"
-                onClick={() => !isDisabled && onStepClick(step.number)}
-                disabled={isDisabled}
+                onClick={() => onStepClick(step.number)}
                 aria-current={isActive ? 'step' : undefined}
-                aria-disabled={isDisabled ? 'true' : undefined}
+                aria-disabled="false"
                 className={cn(
                   'flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)]',
-                  isDisabled && 'cursor-not-allowed opacity-45',
-                  !isDisabled && 'cursor-pointer',
+                  'cursor-pointer',
                   isActive && 'bg-accent-soft',
-                  !isActive && !isDisabled && 'hover:bg-canvas-soft',
+                  !isActive && 'hover:bg-canvas-soft',
                 )}
               >
                 <span
@@ -54,8 +50,7 @@ export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, step
                     'mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold transition-colors',
                     isActive && 'border-accent bg-accent text-white',
                     isComplete && !isActive && 'border-accent bg-surface text-accent',
-                    !isActive && !isComplete && !isDisabled && 'border-hairline bg-surface text-ink-muted',
-                    isDisabled && 'border-hairline bg-surface text-ink-faint',
+                    !isActive && !isComplete && 'border-hairline bg-surface text-ink-muted',
                   )}
                   aria-hidden="true"
                 >
@@ -66,7 +61,7 @@ export function Stepper({ steps, currentStep, maxUnlockedStep, onStepClick, step
                   <span
                     className={cn(
                       'font-display text-[14px] font-semibold leading-tight',
-                      isActive ? 'text-accent' : isDisabled ? 'text-ink-faint' : 'text-ink',
+                      isActive ? 'text-accent' : 'text-ink',
                     )}
                   >
                     {step.labelTh}

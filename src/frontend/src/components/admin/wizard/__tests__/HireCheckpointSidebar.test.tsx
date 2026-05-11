@@ -7,6 +7,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { HireCheckpointSidebar } from '../HireCheckpointSidebar'
 
+const mockRouterPush = vi.fn()
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockRouterPush }),
+  usePathname: () => '/th/admin/hire',
+  useSearchParams: () => new URLSearchParams('step=1&candidateId=CAN001'),
+}))
+
 vi.mock('lucide-react', () => {
   const stub = (name: string) => ({ 'aria-hidden': _h, ...rest }: Record<string, unknown>) =>
     <span data-icon={name} {...rest} />
@@ -110,6 +118,7 @@ describe('HireCheckpointSidebar — navigation', () => {
     fireEvent.click(screen.getByText('ระบุตัวตน'))
     expect(mockJumpTo).toHaveBeenCalledWith(1)
     expect(mockSetSectionCollapsed).toHaveBeenCalledWith('who.identity', false)
+    expect(mockRouterPush).toHaveBeenCalledWith('/th/admin/hire?step=1&candidateId=CAN001', { scroll: false })
   })
 
   it('click review section (step=3) calls jumpTo(3) but NOT setSectionCollapsed', () => {
@@ -117,24 +126,26 @@ describe('HireCheckpointSidebar — navigation', () => {
     fireEvent.click(screen.getByText('สรุปข้อมูลก่อนส่ง'))
     expect(mockJumpTo).toHaveBeenCalledWith(3)
     expect(mockSetSectionCollapsed).not.toHaveBeenCalled()
+    expect(mockRouterPush).toHaveBeenCalledWith('/th/admin/hire?step=3&candidateId=CAN001', { scroll: false })
   })
 })
 
-describe('HireCheckpointSidebar — locked step', () => {
-  it('step=2 section buttons are disabled and have tooltip when maxUnlockedStep=1', () => {
+describe('HireCheckpointSidebar — free navigation', () => {
+  it('step=2 section buttons remain enabled when maxUnlockedStep=1', () => {
     stateOverride = { maxUnlockedStep: 1 }
     render(<HireCheckpointSidebar />)
     const jobBtn = screen.getByText('ประเภทการจ้างงาน').closest('button') as HTMLButtonElement
-    expect(jobBtn.disabled).toBe(true)
-    expect(jobBtn.title).toBe('ต้องผ่านขั้นตอนก่อนหน้าก่อน')
+    expect(jobBtn.disabled).toBe(false)
+    expect(jobBtn.title).toBe('')
   })
 
-  it('click on locked section does not call jumpTo or setSectionCollapsed', () => {
+  it('click on a future section navigates and opens that section', () => {
     stateOverride = { maxUnlockedStep: 1 }
     render(<HireCheckpointSidebar />)
     fireEvent.click(screen.getByText('ประเภทการจ้างงาน').closest('button')!)
-    expect(mockJumpTo).not.toHaveBeenCalled()
-    expect(mockSetSectionCollapsed).not.toHaveBeenCalled()
+    expect(mockJumpTo).toHaveBeenCalledWith(2)
+    expect(mockSetSectionCollapsed).toHaveBeenCalledWith('job.employeeInfo', false)
+    expect(mockRouterPush).toHaveBeenCalledWith('/th/admin/hire?step=2&candidateId=CAN001', { scroll: false })
   })
 })
 

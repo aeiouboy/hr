@@ -109,22 +109,20 @@ describe('useHireWizard — isStepValid', () => {
   })
 })
 
-describe('useHireWizard — jumpTo gating', () => {
-  it('jumpTo(step > maxUnlockedStep) ต้องไม่เปลี่ยน currentStep', () => {
-    // AC-5: ป้องกัน navigation ไปยัง step ที่ยังล็อคอยู่
+describe('useHireWizard — free jump navigation', () => {
+  it('jumpTo(step > maxUnlockedStep) ต้องเปลี่ยน currentStep ได้ แต่ไม่ปลด validation gate', () => {
+    // UX: step/checkpoint nav เป็น navigation ไม่ใช่ validation gate
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {
-      result.current.jumpTo(3) // maxUnlockedStep = 1, ต้อง reject
+      result.current.jumpTo(3)
     })
 
-    // currentStep ต้องยังเป็น 1
-    expect(result.current.currentStep).toBe(1)
+    expect(result.current.currentStep).toBe(3)
     expect(result.current.maxUnlockedStep).toBe(1)
   })
 
-  it('jumpTo(1) ต้องทำงานได้ (step ที่ unlock แล้ว)', () => {
-    // jumpTo step ที่ unlock แล้ว — ต้องสำเร็จ
+  it('jumpTo(1) ต้องทำงานได้', () => {
     const { result } = renderHook(() => useHireWizard())
 
     act(() => {

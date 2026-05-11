@@ -79,7 +79,7 @@ export default function HirePage() {
 
   useEffect(() => {
     const urlStep = parseStep(searchParams.get('step'))
-    if (urlStep == null || urlStep > maxUnlockedStep) {
+    if (urlStep == null) {
       mirrorStepToUrl(currentStep, 'replace')
       return
     }

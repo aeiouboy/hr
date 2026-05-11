@@ -1,5 +1,5 @@
 // Stepper.test.tsx — Unit tests สำหรับ Stepper component
-// ครอบคลุม AC-3 (8 steps visible), AC-5 (locked steps disabled)
+// ครอบคลุม AC-3 (8 steps visible), AC-5 (steps are always navigable)
 
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
@@ -62,9 +62,8 @@ describe('Stepper — AC-3: 8 steps visible', () => {
   })
 })
 
-describe('Stepper — AC-5: locked steps disabled', () => {
-  it('Steps 2-8 ต้องมี aria-disabled="true" เมื่อ maxUnlockedStep=1', () => {
-    // AC-5: Steps ที่ยังล็อคต้องไม่ clickable
+describe('Stepper — AC-5: free navigation', () => {
+  it('Steps 2-8 ต้อง clickable แม้ maxUnlockedStep=1', () => {
     render(
       <Stepper
         steps={MOCK_STEPS}
@@ -87,13 +86,12 @@ describe('Stepper — AC-5: locked steps disabled', () => {
 
     for (const label of lockedLabels) {
       const btn = screen.getByRole('button', { name: new RegExp(label) })
-      expect(btn).toHaveAttribute('aria-disabled', 'true')
-      expect(btn).toBeDisabled()
+      expect(btn).toHaveAttribute('aria-disabled', 'false')
+      expect(btn).not.toBeDisabled()
     }
   })
 
-  it('คลิก locked step ต้องไม่ fire onStepClick callback', async () => {
-    // AC-5: disabled step ต้องเป็น noop — onStepClick ต้องไม่ถูกเรียก
+  it('คลิก step ถัดไปต้อง fire onStepClick callback', async () => {
     const user = userEvent.setup()
     const mockClick = vi.fn()
 
@@ -106,12 +104,9 @@ describe('Stepper — AC-5: locked steps disabled', () => {
       />
     )
 
-    // พยายามคลิก Step 2 (locked)
     const step2Button = screen.getByRole('button', { name: /ชื่อ-นามสกุล/i })
-    // userEvent จะ skip click บน disabled button โดยอัตโนมัติ
     await user.click(step2Button)
 
-    // onStepClick ต้องไม่ถูกเรียก
-    expect(mockClick).not.toHaveBeenCalled()
+    expect(mockClick).toHaveBeenCalledWith(2)
   })
 })

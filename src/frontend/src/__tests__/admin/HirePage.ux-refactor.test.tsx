@@ -81,7 +81,7 @@ describe('HirePage UX refactor navigation and candidate context', () => {
     await waitFor(() => expect(nav.replace).toHaveBeenCalledWith('/th/admin/hire?step=1', { scroll: false }))
   })
 
-  it('honors an unlocked URL step and rejects a locked direct URL step', async () => {
+  it('honors direct URL steps without locking navigation behind prior validation', async () => {
     act(() => {
       useHireWizard.getState().goNext()
     })
@@ -93,9 +93,11 @@ describe('HirePage UX refactor navigation and candidate context', () => {
     render(<HirePage />)
     await waitFor(() => expect(screen.getByTestId('step-state')).toHaveTextContent('2/2'))
 
+    nav.replace.mockClear()
     resetPage('step=3')
     render(<HirePage />)
-    await waitFor(() => expect(nav.replace).toHaveBeenCalledWith('/th/admin/hire?step=1', { scroll: false }))
+    await waitFor(() => expect(screen.getAllByTestId('step-state').at(-1)).toHaveTextContent('3/1'))
+    expect(nav.replace).not.toHaveBeenCalledWith('/th/admin/hire?step=1', { scroll: false })
     expect(useHireWizard.getState().maxUnlockedStep).toBe(1)
   })
 
