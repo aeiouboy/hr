@@ -50,6 +50,54 @@ describe('Manage Employee action field contracts', () => {
 
     expect(page).not.toContain('htmlFor="migrationNote"')
     expect(page).not.toContain('onChange={(e) => patch({ migrationNote')
+    expect(page).not.toMatch(/<(input|select|textarea)\b[^>]*(id|name)=["']migrationNote["']/)
+    expect(page).not.toMatch(/<(input|select|textarea)\b[^>]*aria-label=\{TRANSFER_FIELDS\.migrationNote\.labelTh\}/)
+    expect(page).toContain('TRANSFER_MIGRATION_NOTE_DEFAULT = String(TRANSFER_FIELDS.migrationNote.defaultValue')
     expect(page).toContain('TRANSFER_FIELDS.migrationNote.labelTh')
+  })
+
+  it('locks Termination reason semantics to the SF TERM_* event reasons', () => {
+    const terminate = getLifecycleActionFieldContract('terminate')
+
+    expect(terminate.fields.reasonCode.component).toBe('reasonPicker')
+    expect(terminate.fields.reasonCode.sfMapping).toMatchObject({
+      entity: 'EmpEmploymentTermination',
+      field: 'eventReason',
+      event: '5597',
+    })
+    expect(terminate.fields.reasonCode.sfMapping?.eventReasons).toEqual([
+      'TERM_RETIRE',
+      'TERM_DISMISS',
+      'TERM_DM',
+      'TERM_ENDASSIGN',
+      'TERM_EOC',
+      'TERM_ERLRETIRE',
+      'TERM_LAYOFF',
+      'TERM_NOSHOW',
+      'TERM_PASSAWAY',
+      'TERM_RESIGN',
+      'TERM_REORG',
+      'TERM_TRANS',
+      'TERM_UNSUCPROB',
+      'TERM_COVID',
+      'TERM_CRISIS',
+      'TERM_ABSENT',
+      'TERM_REDUNDANCY',
+    ])
+    expect(terminate.fields.reasonCode.sfMapping?.eventReasons).toHaveLength(17)
+    expect(terminate.fields.reasonCode.sfMapping?.eventReasons?.every((code) => code.startsWith('TERM_'))).toBe(true)
+  })
+
+  it('does not allow Termination to fall back to a page-local reason-code stub', () => {
+    const page = readFileSync(
+      resolve(process.cwd(), 'src/app/[locale]/admin/employees/[id]/terminate/page.tsx'),
+      'utf8',
+    )
+
+    expect(page).toContain('TERMINATE_REASON_EVENT = (TERMINATE_FIELDS.reasonCode.sfMapping?.event')
+    expect(page).toContain('event={TERMINATE_REASON_EVENT}')
+    expect(page).not.toContain('event="5597"')
+    expect(page).not.toMatch(/const\s+TERMINATION_(REASON|REASONS|REASON_CODES)\s*=/)
+    expect(page).not.toMatch(/const\s+TERMINATE_(REASON|REASONS|REASON_CODES)\s*=/)
   })
 })

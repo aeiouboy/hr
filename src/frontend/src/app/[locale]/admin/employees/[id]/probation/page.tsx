@@ -29,6 +29,8 @@ import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import { useProbationApprovals, type ProbationOutcome } from '@/stores/probation-approvals'
 import { useAuthStore } from '@/stores/auth-store'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
+import { deriveHiddenLifecycleEventReason, withSystemEventReasonNote } from '@/lib/admin/lifecycle/hiddenEventReasonPayload'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ProbationEvent } from '@hrms/shared/types/timeline'
 import type { ApproverStage } from '@/data/benefits/plan-registry'
@@ -37,6 +39,8 @@ import type { ApproverStage } from '@/data/benefits/plan-registry'
 const PROBATION_CHAIN: ApproverStage[] = ['manager', 'hr_admin']
 // Mock: chain is currently at manager step for HR demo visibility
 const PROBATION_CURRENT_STAGE: ApproverStage = 'manager'
+const PROBATION_FIELD_CONTRACT = getLifecycleActionFieldContract('probation')
+const PROBATION_FIELDS = PROBATION_FIELD_CONTRACT.fields
 
 // ─── Wizard config types ────────────────────────────────────────────────────
 
@@ -103,10 +107,7 @@ function calcDaysRemaining(hireDateStr: string): number {
 }
 
 function probationEventReasonForOutcome(outcome: ProbationAssessment['outcome']): string | null {
-  if (outcome === 'pass') return 'COMPROB_COMPROB'
-  if (outcome === 'extend') return 'DC_EXTPROB'
-  if (outcome === 'no_pass') return 'TERM_UNSUCPROB'
-  return null
+  return deriveHiddenLifecycleEventReason('probation', { outcome }) || null
 }
 
 // ─── Days-remaining banner ────────────────────────────────────────────────────
@@ -308,7 +309,7 @@ export default function ProbationAssessPage() {
   const isValid =
     !!assessment.outcome &&
     !!assessment.effectiveDate &&
-    (assessment.outcome !== 'extend' || (!!assessment.extendUntil && !!assessment.extensionReason?.trim()))
+    (assessment.outcome !== 'extend' || !!assessment.extendUntil)
 
   // ── Probation evaluation store (manager→HR Admin queue) ─────────────────
   const addEvaluation = useProbationApprovals((s) => s.addEvaluation)
@@ -385,8 +386,6 @@ export default function ProbationAssessPage() {
 
     // confirmDate (HR payroll confirm) stored in notes until backend field added
     const noteParts: string[] = []
-    const sfEventReason = probationEventReasonForOutcome(assessment.outcome)
-    if (sfEventReason) noteParts.push(`[sfEventReason:${sfEventReason}]`)
     if (assessment.note) noteParts.push(assessment.note)
     if (assessment.outcome === 'pass' && assessment.confirmDate) {
       noteParts.push(`[confirmDate:${assessment.confirmDate}]`)
@@ -400,7 +399,10 @@ export default function ProbationAssessPage() {
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
       outcome: outcomeMap[assessment.outcome!],
-      notes: noteParts.length > 0 ? noteParts.join('\n') : undefined,
+      notes: withSystemEventReasonNote(
+        noteParts.length > 0 ? noteParts.join('\n') : undefined,
+        probationEventReasonForOutcome(assessment.outcome) ?? '',
+      ),
     }
 
     append(empId, event)
@@ -525,6 +527,7 @@ export default function ProbationAssessPage() {
           max={maxEffectiveDate || undefined}
           initialEffectiveDate={assessment.effectiveDate ?? undefined}
           onEffectiveDateChange={(date) => patch({ effectiveDate: date })}
+          label={PROBATION_FIELDS.effectiveDate.labelTh}
         >
           {() => (
         <div className="humi-card">
@@ -555,7 +558,7 @@ export default function ProbationAssessPage() {
           {/* ── Outcome radio ── */}
           <div style={{ marginBottom: 20 }}>
             <label className="text-body font-semibold text-ink" style={{ display: 'block', marginBottom: 8 }}>
-              ผลการประเมิน <span style={{ color: 'var(--color-danger)' }}>*</span>
+              {PROBATION_FIELDS.outcome.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
             </label>
             <div
               role="radiogroup"
@@ -599,13 +602,13 @@ export default function ProbationAssessPage() {
             </div>
           </div>
 
-          {assessment.outcome && (
+          {assessment.outcome && PROBATION_FIELDS.eventReason.visibility === 'system' && (
             <div
               className="humi-card humi-card--cream"
               style={{ padding: 12, marginBottom: 20 }}
-              aria-label="SF event reason ที่ระบบจะส่ง"
+              aria-label={PROBATION_FIELDS.eventReason.labelTh}
             >
-              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>SF Event Reason</div>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>{PROBATION_FIELDS.eventReason.labelTh}</div>
               <div className="text-body font-semibold text-ink">
                 {probationEventReasonForOutcome(assessment.outcome)}
               </div>
@@ -625,7 +628,7 @@ export default function ProbationAssessPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                ขยายถึงวันที่ <span style={{ color: 'var(--color-danger)' }}>*</span>
+                {PROBATION_FIELDS.extendUntil.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
               </label>
               <input
                 id="extendUntil"
@@ -645,25 +648,6 @@ export default function ProbationAssessPage() {
             </div>
           )}
 
-          {/* ── Extension Reason (conditional) ── */}
-          {assessment.outcome === 'extend' && (
-            <div className="flex flex-col gap-1">
-              <label className="humi-label">
-                เหตุผลการขยายทดลองงาน <span className="text-danger">*</span>
-              </label>
-              <input
-                type="text"
-                value={assessment.extensionReason ?? ''}
-                onChange={(e) => patch({ extensionReason: e.target.value })}
-                placeholder="ระบุเหตุผล"
-                className="humi-input w-full"
-              />
-              {assessment.outcome === 'extend' && !assessment.extensionReason?.trim() && !!assessment.extendUntil && (
-                <p className="text-xs text-danger" role="alert">กรุณาระบุเหตุผลการขยายทดลองงาน</p>
-              )}
-            </div>
-          )}
-
           {/* ── Allowance Amount (shown when outcome=pass) ── */}
           {assessment.outcome === 'pass' && (
             <div style={{ marginBottom: 20 }}>
@@ -672,7 +656,7 @@ export default function ProbationAssessPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                จำนวน Allowance <span className="text-small text-ink-muted">(ถ้ามี ตามสัญญา)</span>
+                {PROBATION_FIELDS.allowanceAmount.labelTh} <span className="text-small text-ink-muted">(ถ้ามี ตามสัญญา)</span>
               </label>
               <div className="humi-row" style={{ gap: 8, alignItems: 'center', maxWidth: 240 }}>
                 <input
@@ -705,7 +689,7 @@ export default function ProbationAssessPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                วันที่ยืนยัน (HR){' '}
+                {PROBATION_FIELDS.confirmDate.labelTh}{' '}
                 <span className="text-small text-ink-muted">(ไม่บังคับ)</span>
               </label>
               <input
@@ -730,7 +714,7 @@ export default function ProbationAssessPage() {
               className="text-body font-semibold text-ink"
               style={{ display: 'block', marginBottom: 6 }}
             >
-              หมายเหตุ <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+              {PROBATION_FIELDS.note.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
             </label>
             <textarea
               id="note"

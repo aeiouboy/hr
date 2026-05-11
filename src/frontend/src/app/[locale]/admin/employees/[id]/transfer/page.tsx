@@ -73,6 +73,7 @@ interface TransferForm {
 const TODAY = new Date().toISOString().slice(0, 10)
 const TRANSFER_FIELD_CONTRACT = getLifecycleActionFieldContract('transfer')
 const TRANSFER_FIELDS = TRANSFER_FIELD_CONTRACT.fields
+const TRANSFER_MIGRATION_NOTE_DEFAULT = String(TRANSFER_FIELDS.migrationNote.defaultValue ?? '')
 
 const INITIAL_FORM: TransferForm = {
   movement: {
@@ -83,7 +84,7 @@ const INITIAL_FORM: TransferForm = {
     effectiveDate: null,
     costCenter: '',
     reason: '',
-    migrationNote: 'Seniority continuous',
+    migrationNote: TRANSFER_MIGRATION_NOTE_DEFAULT,
     eventReason: '',
   },
 }
@@ -510,7 +511,7 @@ export default function TransferPage() {
             {TRANSFER_FIELDS.migrationNote.labelTh}
           </div>
           <div className="text-body font-medium text-ink">
-            {movement.migrationNote}
+            {TRANSFER_MIGRATION_NOTE_DEFAULT}
           </div>
           <p className="text-small text-ink-muted mt-1">
             {TRANSFER_FIELDS.migrationNote.helperTh}

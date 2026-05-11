@@ -12,14 +12,29 @@ import { useLocale } from 'next-intl'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
-import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
+import { deriveHiddenLifecycleEventReason } from '@/lib/admin/lifecycle/hiddenEventReasonPayload'
 import type { MockEmployee } from '@/mocks/employees'
 import type { ApproverStage } from '@/data/benefits/plan-registry'
 
 const CHANGE_TYPE_CHAIN: ApproverStage[] = ['hrbp', 'hr_admin']
 const CHANGE_TYPE_CURRENT_STAGE: ApproverStage = 'hrbp'
+const CHANGE_TYPE_FIELD_CONTRACT = getLifecycleActionFieldContract('change_type')
+const CHANGE_TYPE_FIELDS = CHANGE_TYPE_FIELD_CONTRACT.fields
+const CHANGE_TYPE_EVENT_REASON_FIELD = CHANGE_TYPE_FIELDS.eventReason
+const CHANGE_TYPE_EVENT_REASON_CODES = CHANGE_TYPE_EVENT_REASON_FIELD.sfMapping?.eventReasons
+const CHANGE_TYPE_EVENT_REASON = String(
+  CHANGE_TYPE_EVENT_REASON_FIELD.defaultValue
+    ?? CHANGE_TYPE_EVENT_REASON_FIELD.sfMapping?.eventReasons?.[0]
+    ?? deriveHiddenLifecycleEventReason('change_type'),
+)
+const SHOULD_RENDER_CHANGE_TYPE_EVENT_REASON_INPUT =
+  CHANGE_TYPE_EVENT_REASON_FIELD.visibility === 'visible' &&
+  CHANGE_TYPE_EVENT_REASON_FIELD.component === 'reasonPicker'
+const SHOULD_RENDER_CHANGE_TYPE_EVENT_REASON_NOTE = CHANGE_TYPE_EVENT_REASON_FIELD.visibility === 'system'
 
 type EmployeeClass = MockEmployee['employee_class']
 
@@ -51,7 +66,7 @@ export default function ChangeTypePage() {
 
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
   const [targetClass, setTargetClass] = useState<EmployeeClass | null>(null)
-  const [eventReason, setEventReason] = useState<string | null>('JCHG_EMPTYPE')
+  const [eventReason, setEventReason] = useState<string | null>(null)
   const [notes, setNotes] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
@@ -60,7 +75,13 @@ export default function ChangeTypePage() {
     : null
   const effectiveTargetClass = targetClass ?? defaultTargetClass
 
-  const isValid = !!employee && !!effectiveDate && !!effectiveTargetClass && !!eventReason && effectiveTargetClass !== employee.employee_class
+  const effectiveEventReason = SHOULD_RENDER_CHANGE_TYPE_EVENT_REASON_INPUT ? eventReason : CHANGE_TYPE_EVENT_REASON
+  const isValid =
+    !!employee &&
+    !!effectiveDate &&
+    !!effectiveTargetClass &&
+    effectiveTargetClass !== employee.employee_class &&
+    (!SHOULD_RENDER_CHANGE_TYPE_EVENT_REASON_INPUT || !!eventReason)
 
   const doSubmit = useCallback(() => {
     if (!employee || !isValid || !effectiveTargetClass) return
@@ -71,9 +92,9 @@ export default function ChangeTypePage() {
     })
 
     setSubmitted(true)
-    const message = `บันทึกเปลี่ยนประเภทการจ้างเป็น ${classLabel(effectiveTargetClass)} แล้ว — Event Reason ${eventReason}`
+    const message = `บันทึกเปลี่ยนประเภทการจ้างเป็น ${classLabel(effectiveTargetClass)} แล้ว — Event Reason ${effectiveEventReason}`
     router.push(`/${locale}/admin/employees/${empId}?banner=${encodeURIComponent(message)}`)
-  }, [employee, isValid, effectiveTargetClass, updateEmployee, empId, eventReason, router, locale])
+  }, [employee, isValid, effectiveTargetClass, effectiveEventReason, updateEmployee, empId, router, locale])
 
   if (!employee) {
     return (
@@ -132,6 +153,7 @@ export default function ChangeTypePage() {
         min={employee.hire_date || undefined}
         initialEffectiveDate={effectiveDate ?? undefined}
         onEffectiveDateChange={setEffectiveDate}
+        label={CHANGE_TYPE_FIELDS.effectiveDate.labelTh}
       >
         {() => (
           <div className="humi-card">
@@ -139,9 +161,9 @@ export default function ChangeTypePage() {
 
             <div style={{ marginBottom: 20 }}>
               <label className="text-body font-semibold text-ink" style={{ display: 'block', marginBottom: 8 }}>
-                ประเภทการจ้างใหม่ <span style={{ color: 'var(--color-danger)' }}>*</span>
+                {CHANGE_TYPE_FIELDS.targetEmployeeClass.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
               </label>
-              <div role="radiogroup" aria-label="ประเภทการจ้างใหม่" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+              <div role="radiogroup" aria-label={CHANGE_TYPE_FIELDS.targetEmployeeClass.labelTh} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
                 {(['PERMANENT', 'PARTIME'] as const).map((value) => (
                   <label key={value} className="humi-row" style={{ gap: 10, cursor: value === employee.employee_class ? 'not-allowed' : 'pointer', padding: '12px 14px', borderRadius: 10, border: `1.5px solid ${targetClass === value ? 'var(--color-accent)' : 'var(--color-hairline-soft)'}`, opacity: value === employee.employee_class ? 0.55 : 1 }}>
                     <input
@@ -160,19 +182,32 @@ export default function ChangeTypePage() {
               </div>
             </div>
 
-            <div style={{ marginBottom: 20 }}>
-              <ReasonPicker
-                id="change-type-event-reason"
-                event="5594"
-                value={eventReason}
-                onChange={setEventReason}
-                required
-              />
-            </div>
+            {SHOULD_RENDER_CHANGE_TYPE_EVENT_REASON_INPUT && (
+              <div style={{ marginBottom: 20 }}>
+                <ReasonPicker
+                  id="change-type-event-reason"
+                  event="5594"
+                  optionCodes={CHANGE_TYPE_EVENT_REASON_CODES}
+                  value={eventReason}
+                  onChange={setEventReason}
+                  required={CHANGE_TYPE_EVENT_REASON_FIELD.requirement === 'required'}
+                  label={CHANGE_TYPE_EVENT_REASON_FIELD.labelTh}
+                  placeholder={CHANGE_TYPE_EVENT_REASON_FIELD.placeholderTh}
+                  helperText={CHANGE_TYPE_EVENT_REASON_FIELD.helperTh}
+                />
+              </div>
+            )}
+
+            {SHOULD_RENDER_CHANGE_TYPE_EVENT_REASON_NOTE && (
+              <div className="humi-card humi-card--cream" style={{ padding: 12, marginBottom: 20 }} aria-label={CHANGE_TYPE_EVENT_REASON_FIELD.labelTh}>
+                <div className="humi-eyebrow" style={{ marginBottom: 4 }}>{CHANGE_TYPE_EVENT_REASON_FIELD.labelTh}</div>
+                <div className="text-body font-semibold text-ink">{CHANGE_TYPE_EVENT_REASON}</div>
+              </div>
+            )}
 
             <div style={{ marginBottom: 24 }}>
               <label htmlFor="changeTypeNotes" className="text-body font-semibold text-ink" style={{ display: 'block', marginBottom: 6 }}>
-                หมายเหตุ <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+                {CHANGE_TYPE_FIELDS.notes.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
               </label>
               <textarea
                 id="changeTypeNotes"

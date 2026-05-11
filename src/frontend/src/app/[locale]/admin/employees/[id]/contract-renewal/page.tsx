@@ -3,8 +3,7 @@
 
 // contract-renewal/page.tsx — ต่อสัญญาจ้าง (M3, BRD #93)
 //
-// Archetype B contextual lifecycle action — mirrors S4 Probation pattern.
-// Template source: probation/page.tsx (same wizard structure, no wizard dep here)
+// Archetype B contextual lifecycle action — one-page contract-backed form.
 //
 // BRD #93: Contract Renewal + Contract auto-terminate Day-30 rule
 //   - currentEndDate = stub as hire_date + 1 year (employment field not in MockEmployee schema)
@@ -15,7 +14,6 @@
 //
 // /** BA validation pending — HR Expert May 1 */
 //
-// C1: touches only this file.
 // C8: ContractRenewalEvent shape from @hrms/shared — no invented fields.
 
 import { useEffect, useMemo, useState, useCallback } from 'react'
@@ -25,18 +23,20 @@ import { RefreshCcw } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
-import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
+import { buildContractRenewalTimelineEvent } from '@/lib/admin/lifecycle/contractRenewalPayload'
 import type { MockEmployee } from '@/mocks/employees'
-import type { ContractRenewalEvent } from '@hrms/shared/types/timeline'
 import type { ApproverStage } from '@/data/benefits/plan-registry'
 
 // ─── Contract-renewal approval chain config (SF FOEventReason routing) ───────
 const CONTRACT_RENEWAL_CHAIN: ApproverStage[] = ['manager', 'hrbp', 'hr_admin']
 // Mock: chain is currently at HRBP step for HR demo visibility
 const CONTRACT_RENEWAL_CURRENT_STAGE: ApproverStage = 'hrbp'
+const CONTRACT_RENEWAL_FIELD_CONTRACT = getLifecycleActionFieldContract('contract_renewal')
+const CONTRACT_RENEWAL_FIELDS = CONTRACT_RENEWAL_FIELD_CONTRACT.fields
 
 // ─── Form state ──────────────────────────────────────────────────────────────
 
@@ -55,6 +55,12 @@ interface ContractRenewalForm {
 function addYears(isoDate: string, years: number): string {
   const d = new Date(isoDate)
   d.setFullYear(d.getFullYear() + years)
+  return d.toISOString().slice(0, 10)
+}
+
+function addDays(isoDate: string, days: number): string {
+  const d = new Date(isoDate)
+  d.setDate(d.getDate() + days)
   return d.toISOString().slice(0, 10)
 }
 
@@ -155,7 +161,6 @@ export default function ContractRenewalPage() {
   )
 
   // ── Local form state ─────────────────────────────────────────────────────
-  const [gatedEffectiveDate, setGatedEffectiveDate] = useState<string | undefined>(undefined)
   const [newEndDate, setNewEndDate] = useState<string>('')
   const [renewalReason, setRenewalReason] = useState<string>('')
   const [newAllowanceAmount, setNewAllowanceAmount] = useState<string>('')
@@ -181,8 +186,8 @@ export default function ContractRenewalPage() {
     setNewAllowanceAmount(value)
     if (value === '') { setAllowanceError(''); return }
     setAllowanceError(
-      isNaN(Number(value)) || Number(value) <= 0
-        ? 'กรุณาระบุตัวเลขที่มากกว่า 0'
+      isNaN(Number(value)) || Number(value) < 0
+        ? 'กรุณาระบุตัวเลข 0 หรือมากกว่า'
         : ''
     )
   }
@@ -196,17 +201,15 @@ export default function ContractRenewalPage() {
   const handleSubmit = useCallback(() => {
     if (!employee || !isValid) return
 
-    const event: ContractRenewalEvent = {
+    const event = buildContractRenewalTimelineEvent({
       id: `evt-contract-renewal-${Date.now()}`,
       employeeId: empId,
-      kind: 'contract_renewal',
-      // effectiveDate = gate-confirmed date (BRD #93: renewal takes effect at confirmed date)
-      effectiveDate: gatedEffectiveDate ?? currentEndDate,
+      currentEndDate,
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
-      newEndDate: newEndDate,
-      notes: renewalReason || undefined,
-    }
+      newEndDate,
+      renewalReason,
+    })
 
     append(empId, event)
     // NOTE: useEmployees record is intentionally NOT updated here —
@@ -219,7 +222,7 @@ export default function ContractRenewalPage() {
         `ต่อสัญญาแล้ว — สิ้นสุดสัญญาใหม่ ${formatDateShort(newEndDate)}`,
       )}`,
     )
-  }, [employee, isValid, empId, currentEndDate, gatedEffectiveDate, newEndDate, renewalReason, append, router, locale])
+  }, [employee, isValid, empId, currentEndDate, newEndDate, renewalReason, append, router, locale])
 
   // ── Not found ────────────────────────────────────────────────────────────
   if (!employee) {
@@ -331,13 +334,6 @@ export default function ContractRenewalPage() {
       )}
 
       {/* Contract renewal form */}
-      <EffectiveDateGate
-        mode="inline"
-        min={employee.hire_date || undefined}
-        initialEffectiveDate={gatedEffectiveDate}
-        onEffectiveDateChange={setGatedEffectiveDate}
-      >
-        {() => (
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 16 }}>
           รายละเอียดการต่อสัญญา
@@ -349,7 +345,7 @@ export default function ContractRenewalPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            วันสิ้นสุดสัญญาปัจจุบัน
+            {CONTRACT_RENEWAL_FIELDS.currentEndDate.labelTh}
           </label>
           <div
             className="humi-input"
@@ -361,13 +357,10 @@ export default function ContractRenewalPage() {
               userSelect: 'none',
             }}
             aria-readonly="true"
-            aria-label="วันสิ้นสุดสัญญาปัจจุบัน"
+            aria-label={CONTRACT_RENEWAL_FIELDS.currentEndDate.labelTh}
           >
             {currentEndDate ? formatDateTh(currentEndDate) : '—'}
           </div>
-          <p className="text-small text-ink-muted mt-1">
-            (stub: วันที่เริ่มงาน + 1 ปี — รอข้อมูล contract จริง)
-          </p>
         </div>
 
         <hr className="humi-divider" />
@@ -379,14 +372,14 @@ export default function ContractRenewalPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            วันสิ้นสุดสัญญาใหม่{' '}
+            {CONTRACT_RENEWAL_FIELDS.newEndDate.labelTh}{' '}
             <span style={{ color: 'var(--color-danger)' }}>*</span>
           </label>
           <input
             id="newEndDate"
             type="date"
             value={newEndDate}
-            min={currentEndDate ? addYears(currentEndDate, 0).slice(0, 10) : undefined}
+            min={currentEndDate ? addDays(currentEndDate, 1) : undefined}
             onChange={(e) => setNewEndDate(e.target.value)}
             className="humi-input"
             aria-describedby="newEndDate-hint"
@@ -412,7 +405,7 @@ export default function ContractRenewalPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            เหตุผลการต่อสัญญา{' '}
+            {CONTRACT_RENEWAL_FIELDS.renewalReason.labelTh}{' '}
             <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
           </label>
           <textarea
@@ -420,10 +413,9 @@ export default function ContractRenewalPage() {
             value={renewalReason}
             onChange={(e) => setRenewalReason(e.target.value)}
             rows={3}
-            placeholder="รายละเอียดเหตุผลการต่อสัญญา..."
             className="humi-input"
             style={{ width: '100%', resize: 'vertical' }}
-            aria-label="เหตุผลการต่อสัญญา"
+            aria-label={CONTRACT_RENEWAL_FIELDS.renewalReason.labelTh}
           />
         </div>
 
@@ -434,7 +426,7 @@ export default function ContractRenewalPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            ค่าตอบแทนเพิ่มเติม (THB){' '}
+            {CONTRACT_RENEWAL_FIELDS.newAllowanceAmount.labelTh}{' '}
             <span className="text-small text-ink-muted">(ถ้ามี ตามสัญญา)</span>
           </label>
           <div className="humi-row" style={{ gap: 8, alignItems: 'center', maxWidth: 240 }}>
@@ -450,10 +442,9 @@ export default function ContractRenewalPage() {
                   setNewAllowanceNote('')
                 }
               }}
-              placeholder="0"
               className="humi-input"
               style={{ flex: 1 }}
-              aria-label="ค่าตอบแทนเพิ่มเติม (บาท)"
+              aria-label={CONTRACT_RENEWAL_FIELDS.newAllowanceAmount.labelTh}
             />
             <span className="text-body text-ink-muted">บาท</span>
           </div>
@@ -470,7 +461,7 @@ export default function ContractRenewalPage() {
               className="text-body font-semibold text-ink"
               style={{ display: 'block', marginBottom: 6 }}
             >
-              หมายเหตุค่าตอบแทน{' '}
+              {CONTRACT_RENEWAL_FIELDS.newAllowanceNote.labelTh}{' '}
               <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
             </label>
             <textarea
@@ -478,10 +469,9 @@ export default function ContractRenewalPage() {
               value={newAllowanceNote}
               onChange={(e) => setNewAllowanceNote(e.target.value)}
               rows={2}
-              placeholder="รายละเอียดค่าตอบแทนเพิ่มเติม..."
               className="humi-input"
               style={{ width: '100%', resize: 'vertical' }}
-              aria-label="หมายเหตุค่าตอบแทนเพิ่มเติม"
+              aria-label={CONTRACT_RENEWAL_FIELDS.newAllowanceNote.labelTh}
             />
           </div>
         )}
@@ -504,8 +494,6 @@ export default function ContractRenewalPage() {
           </button>
         </div>
       </div>
-        )}
-      </EffectiveDateGate>
     </div>
   )
 }

@@ -27,6 +27,7 @@ import { ArrowLeft, Check } from 'lucide-react'
 import { buttonVariants } from '@/components/humi'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
 import {
   PICKLIST_SALUTATION_EN,
   PICKLIST_GENDER,
@@ -37,6 +38,9 @@ import {
   PICKLIST_MILITARY_STATUS,
   PICKLIST_COUNTRY_ISO,
 } from '@hrms/shared/picklists'
+
+const EDIT_FIELD_CONTRACT = getLifecycleActionFieldContract('edit')
+const EDIT_FIELDS = EDIT_FIELD_CONTRACT.fields
 
 // ─── Form data type ───────────────────────────────────────────
 
@@ -440,7 +444,7 @@ export default function EmployeeEditPage() {
 
           {/* ── Group 1: Names (Local) ── */}
           <section aria-labelledby="section-names">
-            <SectionLabel title="ชื่อ (ภาษาท้องถิ่น)" />
+            <SectionLabel title={EDIT_FIELDS.localName.labelTh} />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
               {/* Salutation (Local) */}
@@ -566,8 +570,8 @@ export default function EmployeeEditPage() {
               {/* Gender — mandatory */}
               <PicklistSelect
                 id="gender"
-                label="เพศ"
-                required
+                label={EDIT_FIELDS.gender.labelTh}
+                required={EDIT_FIELDS.gender.requirement === 'required'}
                 value={attributes.gender}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, gender: v }))}
                 onBlur={() => touch('gender')}
@@ -578,8 +582,8 @@ export default function EmployeeEditPage() {
               {/* Nationality — mandatory */}
               <PicklistSelect
                 id="nationality"
-                label="สัญชาติ"
-                required
+                label={EDIT_FIELDS.nationality.labelTh}
+                required={EDIT_FIELDS.nationality.requirement === 'required'}
                 value={attributes.nationality}
                 onChange={(v) => setAttributesLocal((p) => ({ ...p, nationality: v }))}
                 onBlur={() => touch('nationality')}
@@ -653,7 +657,7 @@ export default function EmployeeEditPage() {
 
           {/* ── Group 4: Contact ── */}
           <section aria-labelledby="section-contact">
-            <SectionLabel title="ข้อมูลติดต่อ" />
+            <SectionLabel title={EDIT_FIELDS.contact.labelTh} />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
               {/* Phone — mandatory */}

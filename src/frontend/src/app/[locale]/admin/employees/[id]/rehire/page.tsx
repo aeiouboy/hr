@@ -28,7 +28,8 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
-import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
+import { deriveHiddenLifecycleEventReason, withSystemEventReasonNote } from '@/lib/admin/lifecycle/hiddenEventReasonPayload'
 import type { MockEmployee } from '@/mocks/employees'
 import type { RehireEvent } from '@hrms/shared/types/timeline'
 import type { ApproverStage } from '@/data/benefits/plan-registry'
@@ -37,6 +38,9 @@ import type { ApproverStage } from '@/data/benefits/plan-registry'
 const REHIRE_CHAIN: ApproverStage[] = ['hrbp', 'hr_admin']
 // Mock: chain is currently at HRBP step for HR demo visibility
 const REHIRE_CURRENT_STAGE: ApproverStage = 'hrbp'
+const REHIRE_FIELD_CONTRACT = getLifecycleActionFieldContract('rehire')
+const REHIRE_FIELDS = REHIRE_FIELD_CONTRACT.fields
+const SHOULD_RENDER_REHIRE_EVENT_REASON_NOTE = REHIRE_FIELDS.eventReason.visibility === 'system'
 
 // ─── Form shape ──────────────────────────────────────────────────────────────
 
@@ -47,8 +51,6 @@ interface RehireCluster {
   useNewCode: boolean
   eventReason: string
   reason: string
-  /** BRD #102: originalStartDate — date preserved from prior employment (before termination) */
-  originalStartDate: string | null
 }
 
 interface RehireForm {
@@ -93,6 +95,12 @@ function stubNextCode(all: MockEmployee[], currentEmpId: string): string {
     .filter((n) => n > 0)
   const max = nums.length > 0 ? Math.max(...nums) : 1000
   return `EMP-${max + 1}`
+}
+
+function rehireEventReasonForDate(newHireDate: string | null): string {
+  // Contract keeps eventReason hidden; backend derives LT1/GE1 from last termination vs new hire.
+  // Frontend records the system value without rendering an editable picklist.
+  return newHireDate ? deriveHiddenLifecycleEventReason('rehire') : ''
 }
 
 // ─── Date helpers ─────────────────────────────────────────────────────────────
@@ -217,10 +225,8 @@ export default function RehirePage() {
       newEmployeeCode: employee ? stubNextCode(allEmployees, empId) : 'EMP-1001',
       seniorityDateOverride: null,
       useNewCode: defaultCode,
-      eventReason: '',
+      eventReason: rehireEventReasonForDate(null),
       reason: '',
-      // BRD #102: preserved from prior employment — default to employee's original hire_date
-      originalStartDate: employee?.hire_date ?? null,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [empId]) // intentionally stable per empId
@@ -263,7 +269,6 @@ export default function RehirePage() {
     if (rehire.newHireDate < today) return false
     if (rehire.useNewCode && (!rehire.newEmployeeCode || rehire.newEmployeeCode === empId)) return false
     if (rehire.seniorityDateOverride && rehire.seniorityDateOverride > rehire.newHireDate) return false
-    if (!rehire.eventReason) return false
     return true
   }, [rehire, today, empId])
 
@@ -296,7 +301,7 @@ export default function RehirePage() {
       recordedAt: new Date().toISOString(),
       actorUserId: 'admin-current',
       priorEmployeeId: empId,
-      notes: rehire.reason || undefined,
+      notes: withSystemEventReasonNote(rehire.reason, rehireEventReasonForDate(rehire.newHireDate)),
     }
 
     append(empId, event)
@@ -440,11 +445,12 @@ export default function RehirePage() {
         initialEffectiveDate={rehire.newHireDate ?? undefined}
         onEffectiveDateChange={(date) => patch({
           newHireDate: date,
+          eventReason: rehireEventReasonForDate(date),
           seniorityDateOverride: rehire.seniorityDateOverride && rehire.seniorityDateOverride > date
             ? null
             : rehire.seniorityDateOverride,
         })}
-        label="วันที่กลับมาทำงาน"
+        label={REHIRE_FIELDS.newHireDate.labelTh}
       >
         {() => (
       <div className="humi-card">
@@ -458,7 +464,7 @@ export default function RehirePage() {
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
             <span className="text-body font-semibold text-ink">
-              ใช้รหัสพนักงานใหม่?
+              {REHIRE_FIELDS.useNewCode.labelTh}
             </span>
             {!companyHasExplicitRule(company) && <OtherCompanyTooltip />}
           </div>
@@ -532,7 +538,7 @@ export default function RehirePage() {
               className="text-body font-semibold text-ink"
               style={{ display: 'block', marginBottom: 6 }}
             >
-              รหัสพนักงานใหม่ <span style={{ color: 'var(--color-danger)' }}>*</span>
+              {REHIRE_FIELDS.newEmployeeCode.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
             </label>
             <input
               id="newEmployeeCode"
@@ -570,7 +576,7 @@ export default function RehirePage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            วันเริ่มอายุงาน (Seniority){' '}
+            {REHIRE_FIELDS.seniorityDateOverride.labelTh}{' '}
             <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
           </label>
           <input
@@ -597,47 +603,15 @@ export default function RehirePage() {
           )}
         </div>
 
-        <hr className="humi-divider" />
-
-        {/* ── วันที่เริ่มงานเดิม (originalStartDate) — BRD #102 ── */}
-        {/* SF source: EmpJob.originalStartDate — preserved from prior employment (before termination) */}
-        <div style={{ marginBottom: 20 }}>
-          <label
-            htmlFor="originalStartDate"
-            className="text-body font-semibold text-ink"
-            style={{ display: 'block', marginBottom: 6 }}
-          >
-            วันที่เริ่มงานเดิม (Original Start Date){' '}
-            <span className="text-small text-ink-muted">(สงวนจากการจ้างงานก่อนหน้า)</span>
-          </label>
-          <input
-            id="originalStartDate"
-            type="date"
-            value={rehire.originalStartDate ?? ''}
-            onChange={(e) => patch({ originalStartDate: e.target.value || null })}
-            className="humi-input"
-            style={{ maxWidth: 240 }}
-            aria-describedby="orig-start-hint"
-          />
-          <p id="orig-start-hint" className="text-small text-ink-muted mt-1">
-            กรอกอัตโนมัติจากวันที่เริ่มงานเดิม — แก้ไขได้ตามต้องการ
-          </p>
-        </div>
-
-        <hr className="humi-divider" />
-
-        {/* ── เหตุผลการจ้างกลับ (eventReason) — SF event 5584 RE_REHIRE_* ── */}
-        <div style={{ marginBottom: 20 }}>
-          <ReasonPicker
-            id="rehire-event-reason"
-            event="5584"
-            value={rehire.eventReason || null}
-            onChange={(code) => patch({ eventReason: code })}
-            required
-          />
-        </div>
-
-        <hr className="humi-divider" />
+        {SHOULD_RENDER_REHIRE_EVENT_REASON_NOTE && (
+          <>
+            <hr className="humi-divider" />
+            <div className="humi-card humi-card--cream" style={{ padding: 12, marginBottom: 20 }} aria-label={REHIRE_FIELDS.eventReason.labelTh}>
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>{REHIRE_FIELDS.eventReason.labelTh}</div>
+              <div className="text-body font-semibold text-ink">{rehire.eventReason || 'จะคำนวณโดยระบบเมื่อเลือกวันที่กลับมาทำงาน'}</div>
+            </div>
+          </>
+        )}
 
         {/* ── เหตุผล ── */}
         <div style={{ marginBottom: 24 }}>
@@ -646,7 +620,7 @@ export default function RehirePage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            เหตุผล <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+            {REHIRE_FIELDS.reason.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
           </label>
           <textarea
             id="reason"

@@ -176,7 +176,7 @@ export const ACTION_FIELD_CONTRACTS = {
     actionKey: 'terminate', route: 'terminate',
     sourceRefs: [`${COMMON_SOURCE_REFS.audit}:100-129`, `${COMMON_SOURCE_REFS.master}:139-180`, `${COMMON_SOURCE_REFS.master}:548-564`],
     fields: {
-      reasonCode: { name: 'reasonCode', labelTh: 'สาเหตุการสิ้นสุดสภาพ', component: 'reasonPicker', requirement: 'required', visibility: 'visible', sourceRefs: [`${COMMON_SOURCE_REFS.audit}:104`, `${COMMON_SOURCE_REFS.master}:548-564`], sfMapping: { entity: 'EmpEmploymentTermination', field: 'eventReason', event: '5597' }, submitMapping: 'EmpEmploymentTermination', status: 'confirmed' },
+      reasonCode: { name: 'reasonCode', labelTh: 'สาเหตุการสิ้นสุดสภาพ', component: 'reasonPicker', requirement: 'required', visibility: 'visible', sourceRefs: [`${COMMON_SOURCE_REFS.audit}:104`, `${COMMON_SOURCE_REFS.master}:548-564`], sfMapping: { entity: 'EmpEmploymentTermination', field: 'eventReason', event: '5597', eventReasons: ['TERM_RETIRE', 'TERM_DISMISS', 'TERM_DM', 'TERM_ENDASSIGN', 'TERM_EOC', 'TERM_ERLRETIRE', 'TERM_LAYOFF', 'TERM_NOSHOW', 'TERM_PASSAWAY', 'TERM_RESIGN', 'TERM_REORG', 'TERM_TRANS', 'TERM_UNSUCPROB', 'TERM_COVID', 'TERM_CRISIS', 'TERM_ABSENT', 'TERM_REDUNDANCY'] }, submitMapping: 'EmpEmploymentTermination', status: 'confirmed' },
       reasonNote: { name: 'reasonNote', labelTh: 'รายละเอียดเพิ่มเติม', component: 'textarea', requirement: 'optional', visibility: 'visible', sourceRefs: [`${COMMON_SOURCE_REFS.audit}:105`], submitMapping: 'timelineNotes', status: 'confirmed' },
       lastDay: { name: 'lastDay', labelTh: 'วันสุดท้ายที่ทำงาน', component: 'date', requirement: 'required', visibility: 'visible', validation: '>= hire_date', sourceRefs: [`${COMMON_SOURCE_REFS.audit}:106`], submitMapping: 'EmpEmploymentTermination', status: 'confirmed' },
       payrollEffectiveDate: { name: 'payrollEffectiveDate', labelTh: 'วันที่มีผล Payroll', component: 'date', requirement: 'required', visibility: 'visible', validation: '>= lastDay', sourceRefs: [`${COMMON_SOURCE_REFS.audit}:107`], submitMapping: 'EmpEmploymentTermination', status: 'confirmed' },
@@ -246,7 +246,7 @@ export const ACTION_FIELD_CONTRACTS = {
 export type LifecycleActionFieldContractMap = typeof ACTION_FIELD_CONTRACTS
 export type LifecycleActionFieldName<K extends EmployeeActionKey> = keyof LifecycleActionFieldContractMap[K]['fields']
 
-export function getLifecycleActionFieldContract<K extends EmployeeActionKey>(key: K): LifecycleActionFieldContractMap[K] {
+export function getLifecycleActionFieldContract<K extends EmployeeActionKey>(key: K): LifecycleActionFieldContractSet {
   return ACTION_FIELD_CONTRACTS[key]
 }
 

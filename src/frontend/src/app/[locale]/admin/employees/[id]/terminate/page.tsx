@@ -9,7 +9,7 @@
 // BRD #111: Submit stub only — real 5-step approval chain (Employee→Manager→HRBP→SPD)
 //   deferred to Phase 2.5 backend. UI records intent and updates local state.
 // BRD #111: 50ทวิ auto-gen — deferred to Phase 2.5 backend. Note only.
-// BRD #113: Role-based reason visibility — Phase 2.5+ RBAC. Stub shows all 5 codes.
+// BRD #113: Role-based reason visibility — Phase 2.5+ RBAC. ReasonPicker shows contract-backed SF TERM_* codes.
 //
 // C1: touches only this file (placeholder replaced).
 // C8: TerminateEvent shape from @hrms/shared — no invented variants.
@@ -29,6 +29,7 @@ import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { useAuthStore } from '@/stores/auth-store'
 import { useTerminationApprovals, TERMINATION_REASON_LABEL } from '@/stores/termination-approvals'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
 import type { MockEmployee } from '@/mocks/employees'
 import type { TerminateEvent } from '@hrms/shared/types/timeline'
 
@@ -43,6 +44,9 @@ const CHAIN_STEPS = [
   { id: 'hrbp',     labelTh: 'HRBP' },
   { id: 'spd',      labelTh: 'SPD' },
 ] as const
+const TERMINATE_FIELD_CONTRACT = getLifecycleActionFieldContract('terminate')
+const TERMINATE_FIELDS = TERMINATE_FIELD_CONTRACT.fields
+const TERMINATE_REASON_EVENT = (TERMINATE_FIELDS.reasonCode.sfMapping?.event ?? '5597') as '5597'
 
 function ApprovalChainStepper() {
   return (
@@ -527,7 +531,7 @@ export default function TerminatePage() {
           min={hireDate !== today ? hireDate : undefined}
           initialEffectiveDate={termination.lastDay ?? undefined}
           onEffectiveDateChange={(date) => handleLastDayChange(date)}
-          label="วันสุดท้ายที่ทำงาน"
+          label={TERMINATE_FIELDS.lastDay.labelTh}
         >
           {() => (
         <div className="humi-card">
@@ -538,11 +542,12 @@ export default function TerminatePage() {
           {/* ── Reason code picklist — 17 canonical TERM_* codes via ReasonPicker ── */}
           <div style={{ marginBottom: 20 }}>
             <ReasonPicker
-              event="5597"
+              event={TERMINATE_REASON_EVENT}
               id="reasonCode"
               value={termination.reasonCode}
               onChange={(code) => patch({ reasonCode: code })}
-              required
+              required={TERMINATE_FIELDS.reasonCode.requirement === 'required'}
+              label={TERMINATE_FIELDS.reasonCode.labelTh}
             />
           </div>
 
@@ -553,7 +558,7 @@ export default function TerminatePage() {
               className="text-body font-semibold text-ink"
               style={{ display: 'block', marginBottom: 6 }}
             >
-              รายละเอียดเพิ่มเติม{' '}
+              {TERMINATE_FIELDS.reasonNote.labelTh}{' '}
               <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
             </label>
             <textarea
@@ -577,7 +582,7 @@ export default function TerminatePage() {
               className="text-body font-semibold text-ink"
               style={{ display: 'block', marginBottom: 6 }}
             >
-              วันที่มีผล Payroll <span style={{ color: 'var(--color-danger)' }}>*</span>
+              {TERMINATE_FIELDS.payrollEffectiveDate.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
             </label>
             <input
               id="payrollEffectiveDate"
@@ -610,7 +615,7 @@ export default function TerminatePage() {
           <div style={{ marginBottom: 20 }}>
             <fieldset disabled={!isSPD}>
               <legend className="text-body font-semibold text-ink" style={{ marginBottom: 8 }}>
-                อนุญาตให้จ้างซ้ำในอนาคต?{' '}
+                {TERMINATE_FIELDS.okToRehire.labelTh}{' '}
                 <span style={{ color: 'var(--color-danger)' }}>*</span>
               </legend>
               {!isSPD && (
@@ -625,7 +630,7 @@ export default function TerminatePage() {
               )}
               <div
                 role="radiogroup"
-                aria-label="อนุญาตให้จ้างซ้ำในอนาคต"
+                aria-label={TERMINATE_FIELDS.okToRehire.labelTh}
                 aria-disabled={!isSPD}
                 style={{ display: 'flex', gap: 12 }}
               >
@@ -675,7 +680,7 @@ export default function TerminatePage() {
             <AttachmentDropzone
               files={termination.attachmentFiles}
               onFilesChange={(files) => patch({ attachmentFiles: files })}
-              label="เอกสารประกอบการเลิกจ้าง"
+              label={TERMINATE_FIELDS.attachmentNote.labelTh}
               maxFiles={5}
               maxSizeMB={10}
             />

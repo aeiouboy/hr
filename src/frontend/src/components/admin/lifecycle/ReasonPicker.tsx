@@ -94,6 +94,8 @@ interface ReasonPickerProps {
   helperText?: string
   /** mode='ess-voluntary': แสดงเฉพาะ 4 RESIGN_* codes (employee self-service). Default 'admin' = 17 TERM_* codes. */
   mode?: 'admin' | 'ess-voluntary'
+  /** Contract-backed override for actions whose allowed eventReason codes span more than one SF event. */
+  optionCodes?: readonly string[]
 }
 
 export function ReasonPicker({
@@ -107,11 +109,12 @@ export function ReasonPicker({
   placeholder = '— เลือกเหตุผล —',
   helperText,
   mode = 'admin',
+  optionCodes,
 }: ReasonPickerProps) {
   const allOptions = EVENT_REASONS[event] ?? []
-  const options = mode === 'ess-voluntary' && event === '5597'
+  const options = optionCodes ?? (mode === 'ess-voluntary' && event === '5597'
     ? ESS_VOLUNTARY_CODES
-    : allOptions
+    : allOptions)
   const labelId = `${id}-label`
 
   return (

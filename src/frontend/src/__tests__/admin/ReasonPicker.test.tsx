@@ -88,6 +88,24 @@ describe('ReasonPicker — interaction', () => {
     expect(screen.getByText('เป็น SF Event Reason ไม่ใช่เหตุผลข้อความอิสระ')).toBeInTheDocument()
   })
 
+  it('รองรับ contract-backed optionCodes เมื่อ action มี eventReason ข้ามหลาย SF events', () => {
+    render(
+      <ReasonPicker
+        event="5607"
+        optionCodes={['PRM_PRM', 'PRCHG_SALADJ']}
+        value={null}
+        onChange={() => {}}
+      />,
+    )
+
+    const select = screen.getByRole('combobox')
+    const values = Array.from(select.querySelectorAll('option')).map((option) => option.value)
+    expect(values).toEqual(['', 'PRM_PRM', 'PRCHG_SALADJ'])
+    expect(screen.getByText(/PRM_PRM/)).toBeInTheDocument()
+    expect(screen.getByText(/PRCHG_SALADJ/)).toBeInTheDocument()
+    expect(screen.queryByText(/PRM_DEMO/)).not.toBeInTheDocument()
+  })
+
   it('value prop ต้อง reflect เป็น selected option', () => {
     render(<ReasonPicker event="5597" value="TERM_RESIGN" onChange={() => {}} />)
     const select = screen.getByRole('combobox') as HTMLSelectElement

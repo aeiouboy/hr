@@ -20,7 +20,8 @@ import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
-import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
+import { deriveHiddenLifecycleEventReason, withSystemEventReasonNote } from '@/lib/admin/lifecycle/hiddenEventReasonPayload'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import type { PositionCascade } from '@/lib/admin/types/position'
@@ -32,6 +33,9 @@ import type { ApproverStage } from '@/data/benefits/plan-registry'
 const ACTING_CHAIN: ApproverStage[] = ['manager', 'hr_admin']
 // Mock: chain is currently at manager step for HR demo visibility
 const ACTING_CURRENT_STAGE: ApproverStage = 'manager'
+const ACTING_FIELD_CONTRACT = getLifecycleActionFieldContract('acting')
+const ACTING_FIELDS = ACTING_FIELD_CONTRACT.fields
+const ACTING_EVENT_REASON = deriveHiddenLifecycleEventReason('acting')
 
 // ─── Date helpers ────────────────────────────────────────────────────────────
 
@@ -108,11 +112,7 @@ export default function ActingPage() {
   const [notes, setNotes] = useState('')
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
-  // BRD #104: event reason picker — event 5589 POSCHG_POSCHG
-  // SF source: jq '.foEventReason[] | select(.event=="5589")' sf-qas-workflow-2026-04-25.json
-  const [eventReason, setEventReason] = useState<string | null>(null)
-
-  const isFormValid = !!selectedActingPosition && !!effectiveDate && !!eventReason
+  const isFormValid = !!selectedActingPosition && !!effectiveDate
 
   const doSubmit = useCallback(() => {
     if (!employee || !isFormValid || !effectiveDate || !selectedActingPosition) return
@@ -128,7 +128,7 @@ export default function ActingPage() {
       actorUserId: 'admin-current',
       position: positionTitle,
       isPrimary,
-      notes: notes.trim() || undefined,
+      notes: withSystemEventReasonNote(notes, ACTING_EVENT_REASON),
     }
     append(empId, startEvent)
 
@@ -142,6 +142,7 @@ export default function ActingPage() {
         actorUserId: 'admin-current',
         position: positionTitle,
         isPrimary,
+        notes: withSystemEventReasonNote(undefined, ACTING_EVENT_REASON),
       }
       append(empId, endEvent)
     }
@@ -238,6 +239,7 @@ export default function ActingPage() {
         min={employee.hire_date || undefined}
         initialEffectiveDate={effectiveDate ?? undefined}
         onEffectiveDateChange={(date) => setEffectiveDate(date)}
+        label={ACTING_FIELDS.effectiveDate.labelTh}
       >
         {() => (
           <div className="humi-card">
@@ -248,24 +250,24 @@ export default function ActingPage() {
               <PositionLookup
                 id="actingPosition"
                 positionMaster={MOCK_POSITION_MASTER}
-                required
-                label="ตำแหน่งที่รักษาการ"
-                placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+                required={ACTING_FIELDS.actingPosition.requirement === 'required'}
+                label={ACTING_FIELDS.actingPosition.labelTh}
                 onSelect={setSelectedActingPosition}
               />
             </div>
 
-            {/* ── เหตุผลการรักษาการ (required) — BRD #104 event 5589 POSCHG_POSCHG ── */}
-            {/* SF source: jq '.foEventReason[] | select(.event=="5589")' sf-qas-workflow-2026-04-25.json */}
-            <div style={{ marginBottom: 20 }}>
-              <ReasonPicker
-                id="acting-event-reason"
-                event="5589"
-                value={eventReason}
-                onChange={setEventReason}
-                required
-              />
-            </div>
+            {ACTING_FIELDS.eventReason.visibility === 'system' && (
+              <div
+                className="humi-card humi-card--cream"
+                style={{ padding: 12, marginBottom: 20 }}
+                aria-label={ACTING_FIELDS.eventReason.labelTh}
+              >
+                <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+                  {ACTING_FIELDS.eventReason.labelTh}
+                </div>
+                <div className="text-body font-semibold text-ink">{ACTING_EVENT_REASON}</div>
+              </div>
+            )}
 
             {/* ── วันที่สิ้นสุด (optional) ── */}
             <div style={{ marginBottom: 20 }}>
@@ -274,7 +276,7 @@ export default function ActingPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                วันที่สิ้นสุด <span className="text-small text-ink-muted">(ถ้ามี — ถ้าว่างคือต่อเนื่อง)</span>
+                {ACTING_FIELDS.endDate.labelTh} <span className="text-small text-ink-muted">(ถ้ามี — ถ้าว่างคือต่อเนื่อง)</span>
               </label>
               <input
                 id="endDate"
@@ -303,7 +305,7 @@ export default function ActingPage() {
                   aria-label="กำหนดเป็นตำแหน่งหลัก"
                   style={{ width: 16, height: 16, cursor: 'pointer' }}
                 />
-                <span>กำหนดเป็นตำแหน่งหลัก</span>
+                <span>{ACTING_FIELDS.isPrimary.labelTh}</span>
               </label>
               <div className="text-small text-ink-muted" style={{ marginTop: 4, paddingLeft: 26 }}>
                 ทำเครื่องหมายดาว (star-primary) ที่ตำแหน่งรักษาการนี้
@@ -317,7 +319,7 @@ export default function ActingPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                หมายเหตุ <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+                {ACTING_FIELDS.notes.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
               </label>
               <textarea
                 id="actingNotes"

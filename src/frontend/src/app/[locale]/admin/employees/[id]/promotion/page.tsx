@@ -22,11 +22,15 @@ import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
-import { Button } from '@/components/humi'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
 import type { Position, PositionCascade } from '@/lib/admin/types/position'
 import type { MockEmployee } from '@/mocks/employees'
-import { isSalaryPctValid } from './validation'
+import { isPromotionFormSubmittable, isSalaryPctValid, promotionEventReasonRequiresPosition } from './validation'
+
+const PROMOTION_FIELD_CONTRACT = getLifecycleActionFieldContract('promotion')
+const PROMOTION_FIELDS = PROMOTION_FIELD_CONTRACT.fields
+const PROMOTION_EVENT_REASON_CODES = PROMOTION_FIELDS.eventReason.sfMapping?.eventReasons ?? []
 
 // ─── Date helpers ────────────────────────────────────────────────────────────
 
@@ -148,29 +152,27 @@ export default function PromotionPage() {
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [salaryError, setSalaryError] = useState('')
-  // BRD #103: promotion/demotion uses event 5607 (PRM_*).
-  // Pay-only changes stay on event 5587 (PRCHG_*).
+  // Contract eventReason drives the visible change type control.
+  // PRM_* and PRCHG_* codes intentionally live in one selector; notes remain a separate timeline field.
   const [eventReason, setEventReason] = useState<string | null>(null)
   const [reasonError, setReasonError] = useState('')
-  const [mode, setMode] = useState<'promotion' | 'salary-adjust'>('promotion')
-
-  const handleToggleMode = useCallback((next: 'promotion' | 'salary-adjust') => {
-    setMode(next)
-    setSelectedPosition(null)
-    setEventReason(null)
-  }, [])
 
   const currentTitle = employee
     ? ((employee as unknown as Record<string, unknown>).corporate_title as string | undefined) ?? employee.position_title
     : ''
+  const requiresPosition = promotionEventReasonRequiresPosition(eventReason)
 
   const salaryPct = salaryChangePct !== '' ? parseFloat(salaryChangePct) : undefined
   const salaryInvalid = salaryChangePct !== '' && (isNaN(salaryPct!) || !isSalaryPctValid(salaryPct!))
 
-  // BRD #95/#103: eventReason required; event source depends on action mode.
-  const isFormValid = mode === 'promotion'
-    ? !!selectedPosition && !salaryInvalid && !!effectiveDate && !!eventReason
-    : Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
+  // BRD #95/#103: visible change type is the SF eventReason; position is conditional by selected reason.
+  // Notes are independent optional timeline text and intentionally do not affect contract/change-type validity.
+  const isFormValid = isPromotionFormSubmittable({
+    salaryChangePct,
+    effectiveDate,
+    eventReason,
+    hasSelectedPosition: !!selectedPosition,
+  })
 
   const doSubmit = useCallback(() => {
     if (!employee || !isFormValid || !effectiveDate) return
@@ -179,7 +181,7 @@ export default function PromotionPage() {
       return
     }
 
-    if (mode === 'promotion' && !selectedPosition) return
+    if (requiresPosition && !selectedPosition) return
 
     // Chain 4 — submit to promotion-approvals store for SPD review (BRD #103)
     // Timeline event is written ONLY when SPD approves (in promotion-approvals.ts approve action).
@@ -188,7 +190,7 @@ export default function PromotionPage() {
       employeeId: empId,
       employeeName: empName,
       fromPosition: currentTitle,
-      toPosition: mode === 'salary-adjust' ? '(ปรับเงินเดือน)' : selectedPosition!.titleTh,
+      toPosition: selectedPosition?.titleTh ?? currentTitle,
       effectiveDate,
       salaryDelta: salaryPct,
       notes: notes.trim() || undefined,
@@ -199,7 +201,7 @@ export default function PromotionPage() {
     router.push(
       `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการเลื่อนตำแหน่งเรียบร้อยแล้ว — รอ SPD อนุมัติ')}`,
     )
-  }, [employee, isFormValid, effectiveDate, salaryInvalid, mode, empId, currentTitle, selectedPosition, salaryPct, notes, addPromotionRequest, actorId, actorName, router, locale])
+  }, [employee, isFormValid, effectiveDate, salaryInvalid, requiresPosition, empId, currentTitle, selectedPosition, salaryPct, notes, addPromotionRequest, actorId, actorName, router, locale])
 
   if (!employee) {
     return (
@@ -278,26 +280,11 @@ export default function PromotionPage() {
         min={employee.hire_date || undefined}
         initialEffectiveDate={effectiveDate ?? undefined}
         onEffectiveDateChange={(date) => setEffectiveDate(date)}
+        label={PROMOTION_FIELDS.effectiveDate.labelTh}
       >
         {() => (
           <div className="humi-card">
             <div className="humi-eyebrow" style={{ marginBottom: 16 }}>ข้อมูลการเลื่อนตำแหน่ง</div>
-
-            {/* ── Mode toggle ── */}
-            <div className="flex gap-2 mb-4">
-              <Button
-                type="button"
-                variant={mode === 'promotion' ? 'primary' : 'secondary'}
-                size="sm"
-                onClick={() => handleToggleMode('promotion')}
-              >เลื่อนตำแหน่ง</Button>
-              <Button
-                type="button"
-                variant={mode === 'salary-adjust' ? 'primary' : 'secondary'}
-                size="sm"
-                onClick={() => handleToggleMode('salary-adjust')}
-              >ปรับเงินเดือน</Button>
-            </div>
 
             {/* ── ตำแหน่งปัจจุบัน (read-only banner) ── */}
             <div style={{ marginBottom: 20 }}>
@@ -316,32 +303,37 @@ export default function PromotionPage() {
               </div>
             </div>
 
-            {/* ── เลื่อนไปเป็น (required in promotion mode only) ── */}
-            {mode === 'promotion' && (
+            {/* ── ประเภทการเปลี่ยนแปลง (required) — SF eventReason values from actionFieldContracts ── */}
+            <div style={{ marginBottom: 20 }}>
+              <ReasonPicker
+                id="promotion-event-reason"
+                event="5607"
+                optionCodes={PROMOTION_EVENT_REASON_CODES}
+                value={eventReason}
+                onChange={(code) => {
+                  setEventReason(code)
+                  setReasonError('')
+                  if (!promotionEventReasonRequiresPosition(code)) setSelectedPosition(null)
+                }}
+                required={PROMOTION_FIELDS.eventReason.requirement === 'required'}
+                label={PROMOTION_FIELDS.eventReason.labelTh}
+                error={reasonError || undefined}
+              />
+            </div>
+
+            {/* ── เลื่อนไปเป็น (required only for position-changing eventReason values) ── */}
+            {requiresPosition && (
               <div style={{ marginBottom: 20 }}>
                 <PositionLookup
                   id="toCorporateTitle"
                   positionMaster={MOCK_POSITION_MASTER}
-                  required
-                  label="เลื่อนไปเป็น (ระดับ/ตำแหน่งใหม่)"
-                  placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+                  required={PROMOTION_FIELDS.selectedPosition.requirement !== 'optional'}
+                  label={PROMOTION_FIELDS.selectedPosition.labelTh}
                   filter={(p: Position) => p.active}
                   onSelect={setSelectedPosition}
                 />
               </div>
             )}
-
-            {/* ── เหตุผลรายการ (required) — Promotion=5607 PRM_*, Pay change=5587 PRCHG_* ── */}
-            <div style={{ marginBottom: 20 }}>
-              <ReasonPicker
-                id="promotion-event-reason"
-                event={mode === 'promotion' ? '5607' : '5587'}
-                value={eventReason}
-                onChange={(code) => { setEventReason(code); setReasonError('') }}
-                required
-                error={reasonError || undefined}
-              />
-            </div>
 
             {/* ── ปรับขึ้น % (optional, 0–50) ── */}
             <div style={{ marginBottom: 20 }}>
@@ -350,7 +342,7 @@ export default function PromotionPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                ปรับขึ้น (%) <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+                {PROMOTION_FIELDS.salaryChangePct.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
               </label>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <input
@@ -382,7 +374,7 @@ export default function PromotionPage() {
                 className="text-body font-semibold text-ink"
                 style={{ display: 'block', marginBottom: 6 }}
               >
-                หมายเหตุ <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+                {PROMOTION_FIELDS.notes.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
               </label>
               <textarea
                 id="notes"

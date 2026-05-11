@@ -1,7 +1,12 @@
 // promotion/page.test.tsx — Unit tests สำหรับ Promotion route
 import { describe, it, expect } from 'vitest'
-import { isSalaryPctValid } from '../validation'
+import {
+  isPromotionFormSubmittable,
+  isSalaryPctValid,
+  promotionEventReasonRequiresPosition,
+} from '../validation'
 import { MOCK_EMPLOYEES } from '@/mocks/employees'
+import { ACTION_FIELD_CONTRACTS } from '@/lib/admin/lifecycle/actionFieldContracts'
 
 describe('isSalaryPctValid', () => {
   it('0 คือค่าต่ำสุดที่ valid', () => { expect(isSalaryPctValid(0)).toBe(true) })
@@ -49,29 +54,70 @@ describe('MockEmployee data integrity', () => {
   })
 })
 
-describe('isFormValid logic — salary-adjust mode', () => {
-  // Mirror the isFormValid branch: mode === 'salary-adjust'
-  // => Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
-  function salaryAdjustValid(salaryChangePct: string, effectiveDate: string | null, eventReason: string | null): boolean {
-    const pct = salaryChangePct !== '' ? parseFloat(salaryChangePct) : NaN
-    const salaryInvalid = salaryChangePct !== '' && (isNaN(pct) || !isSalaryPctValid(pct))
-    return Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
+describe('isFormValid logic — contract eventReason change type', () => {
+  function promotionValid(
+    salaryChangePct: string,
+    effectiveDate: string | null,
+    eventReason: string | null,
+    hasSelectedPosition: boolean,
+  ): boolean {
+    return isPromotionFormSubmittable({
+      salaryChangePct,
+      effectiveDate,
+      eventReason,
+      hasSelectedPosition,
+    })
   }
 
-  it('salaryChangePct="30", effectiveDate set, eventReason set → valid', () => {
-    expect(salaryAdjustValid('30', '2026-06-01', 'PRCHG_PROMO')).toBe(true)
+  it('uses contract eventReason codes as the visible change type source', () => {
+    expect(ACTION_FIELD_CONTRACTS.promotion.fields.eventReason.sfMapping?.eventReasons).toEqual([
+      'PRM_PRM',
+      'PRM_DEMO',
+      'PRCHG_PROMO',
+      'PRCHG_MERINC',
+      'PRCHG_ADJPOS',
+      'PRCHG_SALADJ',
+      'PRCHG_SALCUT',
+    ])
+    expect(ACTION_FIELD_CONTRACTS.promotion.fields.notes.name).toBe('notes')
+    expect(ACTION_FIELD_CONTRACTS.promotion.fields.notes.submitMapping).toBe('timelineNotes')
   })
-  it('salaryChangePct="0" → invalid (not > 0)', () => {
-    expect(salaryAdjustValid('0', '2026-06-01', 'PRCHG_PROMO')).toBe(false)
+
+  it('position-changing eventReason requires a selected position', () => {
+    expect(promotionValid('', '2026-06-01', 'PRM_PRM', false)).toBe(false)
+    expect(promotionValid('', '2026-06-01', 'PRM_PRM', true)).toBe(true)
   })
-  it('salaryChangePct="" → invalid (empty string evaluates to 0)', () => {
-    expect(salaryAdjustValid('', '2026-06-01', 'PRCHG_PROMO')).toBe(false)
+
+  it('salary-only eventReason stays valid without selected position', () => {
+    expect(promotionValid('0', '2026-06-01', 'PRCHG_SALADJ', false)).toBe(true)
   })
-  it('salaryChangePct="10", effectiveDate null → invalid', () => {
-    expect(salaryAdjustValid('10', null, 'PRCHG_PROMO')).toBe(false)
+
+  it('free-text notes remain independent from change type and form validity', () => {
+    const withEmptyNotes = isPromotionFormSubmittable({
+      salaryChangePct: '',
+      effectiveDate: '2026-06-01',
+      eventReason: 'PRCHG_SALADJ',
+      hasSelectedPosition: false,
+    })
+    const withLongNotes = isPromotionFormSubmittable({
+      salaryChangePct: '',
+      effectiveDate: '2026-06-01',
+      eventReason: 'PRCHG_SALADJ',
+      hasSelectedPosition: false,
+      // @ts-expect-error notes are timeline text, not promotion validity/change-type input.
+      notes: 'free-text note must not drive change type or contract logic',
+    })
+
+    expect(withEmptyNotes).toBe(true)
+    expect(withLongNotes).toBe(withEmptyNotes)
+    expect(promotionEventReasonRequiresPosition('PRCHG_SALADJ')).toBe(false)
+  })
+
+  it('effectiveDate null → invalid', () => {
+    expect(promotionValid('10', null, 'PRCHG_SALADJ', false)).toBe(false)
   })
   it('salaryChangePct="10", eventReason null → invalid', () => {
-    expect(salaryAdjustValid('10', '2026-06-01', null)).toBe(false)
+    expect(promotionValid('10', '2026-06-01', null, false)).toBe(false)
   })
 })
 
