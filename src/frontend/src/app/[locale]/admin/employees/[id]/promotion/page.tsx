@@ -19,6 +19,7 @@ import { usePromotionApprovals, PROMOTION_STEP_LABEL } from '@/stores/promotion-
 import { useAuthStore } from '@/stores/auth-store'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
@@ -148,8 +149,8 @@ export default function PromotionPage() {
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [salaryError, setSalaryError] = useState('')
-  // BRD #95: event reason picker — event 5587 PRCHG group, required reason is PRCHG_PROMO
-  // SF source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json
+  // BRD #103: promotion/demotion uses event 5607 (PRM_*).
+  // Pay-only changes stay on event 5587 (PRCHG_*).
   const [eventReason, setEventReason] = useState<string | null>(null)
   const [reasonError, setReasonError] = useState('')
   const [mode, setMode] = useState<'promotion' | 'salary-adjust'>('promotion')
@@ -167,7 +168,7 @@ export default function PromotionPage() {
   const salaryPct = salaryChangePct !== '' ? parseFloat(salaryChangePct) : undefined
   const salaryInvalid = salaryChangePct !== '' && (isNaN(salaryPct!) || !isSalaryPctValid(salaryPct!))
 
-  // BRD #95: eventReason required for promotion (event 5587 PRCHG group)
+  // BRD #95/#103: eventReason required; event source depends on action mode.
   const isFormValid = mode === 'promotion'
     ? !!selectedPosition && !salaryInvalid && !!effectiveDate && !!eventReason
     : Number(salaryChangePct) > 0 && !salaryInvalid && !!effectiveDate && !!eventReason
@@ -199,7 +200,7 @@ export default function PromotionPage() {
     router.push(
       `/${locale}/admin/employees/${empId}?banner=${encodeURIComponent('บันทึกการเลื่อนตำแหน่งเรียบร้อยแล้ว — รอ SPD อนุมัติ')}`,
     )
-  }, [employee, isFormValid, effectiveDate, salaryInvalid, empId, currentTitle, selectedPosition, salaryPct, notes, addPromotionRequest, actorId, actorName, router, locale])
+  }, [employee, isFormValid, effectiveDate, salaryInvalid, mode, empId, currentTitle, selectedPosition, salaryPct, notes, addPromotionRequest, actorId, actorName, router, locale])
 
   if (!employee) {
     return (
@@ -269,11 +270,14 @@ export default function PromotionPage() {
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
 
+      <ActionRequirementBanner actionKey="promotion" />
+
       {/* SPD Approval Chain Banner — BRD #103: surfaces pending chain status (in-memory store) */}
       <ApprovalChainBanner employeeId={empId} />
 
       {/* Promotion form — gated by effectiveDate */}
       <EffectiveDateGate
+        mode="inline"
         min={employee.hire_date || undefined}
         initialEffectiveDate={effectiveDate ?? undefined}
         onEffectiveDateChange={(date) => setEffectiveDate(date)}
@@ -330,12 +334,11 @@ export default function PromotionPage() {
               </div>
             )}
 
-            {/* ── เหตุผลการเลื่อนตำแหน่ง (required) — BRD #95 event 5587 PRCHG group ── */}
-            {/* SF source: jq '.foEventReason[] | select(.event=="5587")' sf-qas-workflow-2026-04-25.json */}
+            {/* ── เหตุผลรายการ (required) — Promotion=5607 PRM_*, Pay change=5587 PRCHG_* ── */}
             <div style={{ marginBottom: 20 }}>
               <ReasonPicker
                 id="promotion-event-reason"
-                event="5587"
+                event={mode === 'promotion' ? '5607' : '5587'}
                 value={eventReason}
                 onChange={(code) => { setEventReason(code); setReasonError('') }}
                 required

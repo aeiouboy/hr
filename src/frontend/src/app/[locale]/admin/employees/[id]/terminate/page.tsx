@@ -26,6 +26,7 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { useAuthStore } from '@/stores/auth-store'
 import { useTerminationApprovals, TERMINATION_REASON_LABEL } from '@/stores/termination-approvals'
@@ -483,6 +484,8 @@ export default function TerminatePage() {
         {/* Employee snapshot */}
         <EmployeeSnapshot employee={employee} />
 
+      <ActionRequirementBanner actionKey="terminate" />
+
         {/* Resignation cross-reference: approved or pending ESS resignation */}
         {approvedResignation && (
           <div className="humi-card humi-card--success" style={{ padding: '12px 16px' }}>
@@ -523,6 +526,7 @@ export default function TerminatePage() {
 
         {/* Terminate form */}
         <EffectiveDateGate
+        mode="inline"
           min={hireDate !== today ? hireDate : undefined}
           initialEffectiveDate={termination.lastDay ?? undefined}
           onEffectiveDateChange={(date) => handleLastDayChange(date)}

@@ -25,6 +25,7 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import { useProbationApprovals, type ProbationOutcome } from '@/stores/probation-approvals'
@@ -100,6 +101,13 @@ function calcDaysRemaining(hireDateStr: string): number {
   today.setHours(0, 0, 0, 0)
   hire.setHours(0, 0, 0, 0)
   return Math.max(0, Math.floor((hire.getTime() - today.getTime()) / 86_400_000))
+}
+
+function probationEventReasonForOutcome(outcome: ProbationAssessment['outcome']): string | null {
+  if (outcome === 'pass') return 'COMPROB_COMPROB'
+  if (outcome === 'extend') return 'DC_EXTPROB'
+  if (outcome === 'no_pass') return 'TERM_UNSUCPROB'
+  return null
 }
 
 // ─── Days-remaining banner ────────────────────────────────────────────────────
@@ -378,6 +386,8 @@ export default function ProbationAssessPage() {
 
     // confirmDate (HR payroll confirm) stored in notes until backend field added
     const noteParts: string[] = []
+    const sfEventReason = probationEventReasonForOutcome(assessment.outcome)
+    if (sfEventReason) noteParts.push(`[sfEventReason:${sfEventReason}]`)
     if (assessment.note) noteParts.push(assessment.note)
     if (assessment.outcome === 'pass' && assessment.confirmDate) {
       noteParts.push(`[confirmDate:${assessment.confirmDate}]`)
@@ -497,6 +507,8 @@ export default function ProbationAssessPage() {
         {/* Employee snapshot */}
         <EmployeeSnapshot employee={employee} />
 
+      <ActionRequirementBanner actionKey="probation" />
+
         {/* Approval chain (probation eval: manager-led, HR Admin closes) */}
         <div className="humi-card">
           <div className="humi-eyebrow" style={{ marginBottom: 8 }}>
@@ -511,6 +523,7 @@ export default function ProbationAssessPage() {
 
         {/* Assessment form */}
         <EffectiveDateGate
+        mode="inline"
           min={hireDate || undefined}
           max={maxEffectiveDate || undefined}
           initialEffectiveDate={assessment.effectiveDate ?? undefined}
@@ -588,6 +601,22 @@ export default function ProbationAssessPage() {
               ))}
             </div>
           </div>
+
+          {assessment.outcome && (
+            <div
+              className="humi-card humi-card--cream"
+              style={{ padding: 12, marginBottom: 20 }}
+              aria-label="SF event reason ที่ระบบจะส่ง"
+            >
+              <div className="humi-eyebrow" style={{ marginBottom: 4 }}>SF Event Reason</div>
+              <div className="text-body font-semibold text-ink">
+                {probationEventReasonForOutcome(assessment.outcome)}
+              </div>
+              <p className="text-small text-ink-muted mt-0.5">
+                Pass = COMPROB_COMPROB, Extend = DC_EXTPROB, No Pass = TERM_UNSUCPROB
+              </p>
+            </div>
+          )}
 
           <hr className="humi-divider" />
 

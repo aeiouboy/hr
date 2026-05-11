@@ -5,13 +5,13 @@
 // Sections:
 //   A. Snapshot card — avatar + name + ID + class + hire date + tenure + org info + status
 //   B. Timeline event log — TimelineEvent[] sorted newest first, scrollable
-//   C. Action menu — 5 action cards (2 active, 3 placeholder per Plan §0.2 + §4)
+//   C. Action menu — BRD/SF-backed action cards from central actionRequirements
 //
 // Consume-only patterns (C1 surgical):
 //   - useEmployees (S2) — read via selector, no internal mutation
 //   - useTimelines (S3 own) — seed on mount, read via .get()
 //
-// C8: exactly 5 action cards — no extras
+// C8: action cards must stay backed by actionRequirements registry
 
 import { useEffect, useMemo } from 'react'
 import { useParams, useRouter } from 'next/navigation'
@@ -148,8 +148,7 @@ function TimelineRow({ event }: { event: TimelineEvent }) {
 // ── Action card types ────────────────────────────────────────
 interface ActionCard {
   icon: React.ElementType
-  label: string
-  desc: string
+  requirement: EmployeeActionRequirement
   href?: string
   locked: boolean
   lockReason?: string
@@ -166,7 +165,8 @@ interface ActionCard {
 // ─────────────────────────────────────────────────────────────
 // actionAvailability moved to @/lib/admin/actionAvailability — shared with
 // per-route guard banners (P3). Single source of truth for status gating.
-import { actionAvailability } from '@/lib/admin/actionAvailability'
+import { actionAvailability, type ActionKey } from '@/lib/admin/actionAvailability'
+import { MANAGE_EMPLOYEE_ACTIONS, type EmployeeActionRequirement } from '@/lib/admin/lifecycle/actionRequirements'
 
 export default function EmployeeDetailPage() {
   const params = useParams()
@@ -263,80 +263,27 @@ export default function EmployeeDetailPage() {
 
   // Compute status-gated availability once per render
   const avail = actionAvailability(employee)
-  const ACTION_CARDS: ActionCard[] = [
-    {
-      icon: ClipboardCheck,
-      label: 'ประเมินทดลองงาน',
-      desc: 'บันทึกผลการประเมินช่วงทดลองงาน',
-      href: `/${locale}/admin/employees/${empId}/probation`,
-      locked: !avail.probation.ok,
-      lockReason: avail.probation.reason,
-    },
-    {
-      icon: Pencil,
-      label: 'แก้ไขข้อมูลส่วนตัว',
-      desc: 'อัปเดตข้อมูลชื่อ ที่อยู่ และข้อมูลส่วนตัว',
-      href: `/${locale}/admin/employees/${empId}/edit`,
-      locked: !avail.edit.ok,
-      lockReason: avail.edit.reason,
-    },
-    {
-      icon: ArrowRightLeft,
-      label: 'โอนย้าย',
-      desc: 'เปลี่ยนบริษัท หน่วยงาน ตำแหน่ง',
-      href: `/${locale}/admin/employees/${empId}/transfer`,
-      locked: !avail.transfer.ok,
-      lockReason: avail.transfer.reason,
-    },
-    {
-      icon: UserX,
-      label: 'สิ้นสุดสภาพพนักงาน',
-      desc: 'บันทึกการลาออกหรือสิ้นสุดการจ้างงาน',
-      href: `/${locale}/admin/employees/${empId}/terminate`,
-      locked: !avail.terminate.ok,
-      lockReason: avail.terminate.reason,
-    },
-    {
-      icon: FileText,
-      label: 'ต่อสัญญา',
-      desc: 'ต่ออายุสัญญาการจ้างงาน',
-      href: `/${locale}/admin/employees/${empId}/contract-renewal`,
-      locked: !avail.contract_renewal.ok,
-      lockReason: avail.contract_renewal.reason,
-    },
-    {
-      icon: UserCheck,
-      label: 'จ้างซ้ำ',
-      desc: 'รับกลับเข้าทำงานหลังสิ้นสุดสภาพ',
-      href: `/${locale}/admin/employees/${empId}/rehire`,
-      locked: !avail.rehire.ok,
-      lockReason: avail.rehire.reason,
-    },
-    {
-      icon: RefreshCw,
-      label: 'เปลี่ยนประเภทการจ้าง',
-      desc: 'เปลี่ยนระหว่างพนักงานประจำกับพนักงานบางเวลา',
-      href: `/${locale}/admin/employees/${empId}/change-type`,
-      locked: !avail.change_type.ok,
-      lockReason: avail.change_type.reason,
-    },
-    {
-      icon: TrendingUp,
-      label: 'เลื่อนตำแหน่ง',
-      desc: 'เลื่อนระดับ ปรับตำแหน่ง หรือปรับเงินเดือน',
-      href: `/${locale}/admin/employees/${empId}/promotion`,
-      locked: !avail.promotion.ok,
-      lockReason: avail.promotion.reason,
-    },
-    {
-      icon: Star,
-      label: 'มอบหมายปฏิบัติการ',
-      desc: 'กำหนดรักษาการตำแหน่ง',
-      href: `/${locale}/admin/employees/${empId}/acting`,
-      locked: !avail.acting.ok,
-      lockReason: avail.acting.reason,
-    },
-  ]
+  const ACTION_ICON: Record<ActionKey, React.ElementType> = {
+    probation: ClipboardCheck,
+    edit: Pencil,
+    transfer: ArrowRightLeft,
+    terminate: UserX,
+    contract_renewal: FileText,
+    rehire: UserCheck,
+    change_type: RefreshCw,
+    promotion: TrendingUp,
+    acting: Star,
+  }
+  const ACTION_CARDS: ActionCard[] = MANAGE_EMPLOYEE_ACTIONS.map((requirement) => {
+    const gate = avail[requirement.key]
+    return {
+      icon: ACTION_ICON[requirement.key],
+      requirement,
+      href: requirement.implemented ? `/${locale}/admin/employees/${empId}/${requirement.route}` : undefined,
+      locked: !gate.ok || !requirement.implemented,
+      lockReason: requirement.implemented ? gate.reason : 'ยังไม่มีฟอร์มที่ผูก BRD/SF requirement',
+    }
+  })
 
   return (
     <div className="pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -906,7 +853,7 @@ export default function EmployeeDetailPage() {
             if (card.locked) {
               return (
                 <div
-                  key={card.label}
+                  key={card.requirement.key}
                   className="humi-card humi-card--cream"
                   style={{
                     padding: 16,
@@ -930,10 +877,14 @@ export default function EmployeeDetailPage() {
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div className="humi-row" style={{ gap: 6 }}>
-                        <span className="text-body font-semibold text-ink-muted">{card.label}</span>
+                        <span className="text-body font-semibold text-ink-muted">{card.requirement.labelTh}</span>
                         <Lock size={12} className="text-ink-faint" aria-hidden />
                       </div>
-                      <div className="text-small text-ink-faint mt-0.5">{card.desc}</div>
+                      <div className="text-small text-ink-faint mt-0.5">{card.requirement.descriptionTh}</div>
+                      <div className="humi-row" style={{ gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+                        {card.requirement.sfEvent && <span className="humi-tag" style={{ fontSize: 10 }}>SF {card.requirement.sfEvent}</span>}
+                        <span className="humi-tag humi-tag--accent" style={{ fontSize: 10 }}>{card.requirement.brdRefs[0]}</span>
+                      </div>
                       {card.lockReason && (
                         <div className="mt-1.5 text-small text-ink-muted" style={{ fontSize: 11, lineHeight: 1.4 }}>
                           {card.lockReason}
@@ -947,7 +898,7 @@ export default function EmployeeDetailPage() {
 
             return (
               <Link
-                key={card.label}
+                key={card.requirement.key}
                 href={card.href!}
                 className="humi-card group transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 style={{ padding: 16 }}
@@ -965,9 +916,13 @@ export default function EmployeeDetailPage() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div className="text-body font-semibold text-ink group-hover:text-accent transition-colors">
-                      {card.label}
+                      {card.requirement.labelTh}
                     </div>
-                    <div className="text-small text-ink-soft mt-0.5">{card.desc}</div>
+                    <div className="text-small text-ink-soft mt-0.5">{card.requirement.descriptionTh}</div>
+                    <div className="humi-row" style={{ gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+                      {card.requirement.sfEvent && <span className="humi-tag" style={{ fontSize: 10 }}>SF {card.requirement.sfEvent}</span>}
+                      <span className="humi-tag humi-tag--accent" style={{ fontSize: 10 }}>{card.requirement.brdRefs[0]}</span>
+                    </div>
                   </div>
                 </div>
               </Link>

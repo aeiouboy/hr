@@ -28,6 +28,8 @@ import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
+import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
 import type { MockEmployee } from '@/mocks/employees'
 import type { RehireEvent } from '@hrms/shared/types/timeline'
 import type { ApproverStage } from '@/data/benefits/plan-registry'
@@ -421,6 +423,8 @@ export default function RehirePage() {
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
 
+      <ActionRequirementBanner actionKey="rehire" />
+
       {/* Approval chain (rehire: no manager — outside team, HRBP initiates) */}
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 8 }}>
@@ -435,6 +439,7 @@ export default function RehirePage() {
 
       {/* Rehire form */}
       <EffectiveDateGate
+        mode="inline"
         initialEffectiveDate={rehire.newHireDate ?? undefined}
         onEffectiveDateChange={(date) => patch({
           newHireDate: date,
@@ -624,22 +629,15 @@ export default function RehirePage() {
 
         <hr className="humi-divider" />
 
-        {/* ── เหตุผลการจ้างกลับ (eventReason) ── */}
-        <div className="flex flex-col gap-1" style={{ marginBottom: 20 }}>
-          <label className="humi-label">
-            เหตุผลการจ้างกลับ <span className="text-danger">*</span>
-          </label>
-          <select
-            value={rehire.eventReason}
-            onChange={(e) => patch({ eventReason: e.target.value })}
-            className="humi-input w-full"
-            aria-required="true"
-          >
-            <option value="">— เลือกเหตุผล —</option>
-            <option value="REH_REH">จ้างกลับคืน (Rehire)</option>
-            <option value="REH_CONTRACT">สัญญาจ้างใหม่ (Contract)</option>
-            <option value="REH_TEMP">จ้างชั่วคราว (Temporary)</option>
-          </select>
+        {/* ── เหตุผลการจ้างกลับ (eventReason) — SF event 5584 RE_REHIRE_* ── */}
+        <div style={{ marginBottom: 20 }}>
+          <ReasonPicker
+            id="rehire-event-reason"
+            event="5584"
+            value={rehire.eventReason || null}
+            onChange={(code) => patch({ eventReason: code })}
+            required
+          />
         </div>
 
         <hr className="humi-divider" />

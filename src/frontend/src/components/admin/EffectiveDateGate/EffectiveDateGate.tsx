@@ -34,7 +34,10 @@ export interface EffectiveDateGateProps {
   min?: string
   max?: string
 
-  /** Render-prop child — only mounts after gate is confirmed. Receives effectiveDate + reopenGate. */
+  /** mode='gate' preserves legacy step-gate; mode='inline' renders one-page form with date as a normal field. */
+  mode?: 'gate' | 'inline'
+
+  /** Render-prop child — gate mode mounts after confirm; inline mode mounts immediately. */
   children: (ctx: { effectiveDate: string; reopenGate: () => void }) => ReactNode
 
   /** Called every time gate confirms / re-confirms with new date. */
@@ -323,6 +326,67 @@ function Ribbon({ effectiveDate, onReopen }: RibbonProps) {
   )
 }
 
+
+interface InlineEffectiveDateFieldProps {
+  value: string
+  label: string
+  instructions: string
+  min?: string
+  max?: string
+  inputId: string
+  onChange: (date: string) => void
+}
+
+function InlineEffectiveDateField({
+  value,
+  label,
+  instructions,
+  min,
+  max,
+  inputId,
+  onChange,
+}: InlineEffectiveDateFieldProps) {
+  const isPast = !!value && value < todayISO()
+  const isFuture = !!value && value > todayISO()
+
+  return (
+    <div className="humi-card humi-card--cream" style={{ padding: 16 }}>
+      <div className="humi-eyebrow" style={{ marginBottom: 6 }}>วันมีผล</div>
+      <label htmlFor={inputId} className="humi-label">
+        {label}
+        <span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+      </label>
+      <input
+        id={inputId}
+        type="date"
+        value={value}
+        min={min}
+        max={max}
+        aria-required="true"
+        aria-label={label}
+        onChange={(e) => onChange(e.target.value)}
+        className="humi-input"
+        style={{ display: 'block', marginTop: 6, maxWidth: 240 }}
+      />
+      <p className="text-small text-ink-muted mt-2">{instructions}</p>
+      {isPast && (
+        <div style={{ marginTop: 10 }}>
+          <WarningCallout>
+            ปรับย้อนหลัง — ระบบจะ recompute calculated fields (อายุงาน, probation, ฯลฯ)
+          </WarningCallout>
+        </div>
+      )}
+      {isFuture && (
+        <div style={{ marginTop: 10 }}>
+          <WarningCallout>
+            ข้อมูลจะมีผลในอนาคต — ยังไม่ปรากฏบน Profile จนถึงวันดังกล่าว
+          </WarningCallout>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── Main component ────────────────────────────────────────────
 
 const DEFAULT_LABEL = 'วันที่มีผล'
@@ -331,6 +395,7 @@ const DEFAULT_INSTRUCTIONS =
 
 export function EffectiveDateGate({
   initialEffectiveDate,
+  mode = 'gate',
   label = DEFAULT_LABEL,
   instructions = DEFAULT_INSTRUCTIONS,
   min,
@@ -358,6 +423,26 @@ export function EffectiveDateGate({
   const handleModalCancel = useCallback(() => {
     setModalOpen(false)
   }, [])
+
+  if (mode === 'inline') {
+    const inlineDate = confirmedDate ?? ''
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <InlineEffectiveDateField
+          value={inlineDate}
+          label={label}
+          instructions={instructions}
+          min={min}
+          max={max}
+          inputId={inputId}
+          onChange={handleGateConfirm}
+        />
+        <div data-testid="child-form">
+          {children({ effectiveDate: inlineDate, reopenGate })}
+        </div>
+      </div>
+    )
+  }
 
   // Gate not yet confirmed — show only the gate card
   if (!confirmedDate) {

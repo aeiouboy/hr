@@ -25,6 +25,7 @@ import { useOrgUnits } from '@/lib/admin/store/useOrgUnits'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
@@ -322,6 +323,8 @@ export default function TransferPage() {
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
 
+      <ActionRequirementBanner actionKey="transfer" />
+
       {/* Approval chain (SF FOEventReason routing — event 5604 TRN_*: manager → HRBP → HR Admin) */}
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 8 }}>
@@ -336,6 +339,7 @@ export default function TransferPage() {
 
       {/* Transfer form */}
       <EffectiveDateGate
+        mode="inline"
         min={employee.hire_date || undefined}
         initialEffectiveDate={movement.effectiveDate ?? undefined}
         onEffectiveDateChange={(date) => patch({ effectiveDate: date })}

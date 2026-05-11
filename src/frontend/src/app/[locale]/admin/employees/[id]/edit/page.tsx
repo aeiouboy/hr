@@ -25,6 +25,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Check } from 'lucide-react'
 import { buttonVariants } from '@/components/humi'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { createClusterWizard } from '@/lib/admin/wizard-template/createClusterWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import {
@@ -345,7 +346,6 @@ export default function EmployeeEditPage() {
       first_name_en: namesEn.firstNameEn,
       last_name_en:  namesEn.lastNameEn,
       // effectiveDate is passed through to the API when backend implements it
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...(effectiveDate ? { effectiveDate } as any : {}),
     })
 
@@ -369,7 +369,7 @@ export default function EmployeeEditPage() {
           <span>รายการพนักงาน</span>
         </Link>
         <div className="humi-card" style={{ textAlign: 'center', padding: 40 }}>
-          <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส "{empId}"</p>
+          <p className="text-body text-ink-muted">ไม่พบพนักงานรหัส &ldquo;{empId}&rdquo;</p>
         </div>
       </div>
     )
@@ -426,6 +426,8 @@ export default function EmployeeEditPage() {
           {employee.position_title} · {employee.company}
         </div>
       </div>
+
+      <ActionRequirementBanner actionKey="edit" />
 
       {/* Personal Info edit = direct-edit method per SF DOC-F2B0E487 + audit #22.
           EffectiveDateGate removed — Pattern 2 reserves effective-dating for state

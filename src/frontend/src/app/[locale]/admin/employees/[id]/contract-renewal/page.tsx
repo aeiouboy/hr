@@ -27,6 +27,7 @@ import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { EffectiveDateGate } from '@/components/admin/EffectiveDateGate'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
+import { ActionRequirementBanner } from '@/components/admin/lifecycle/ActionRequirementBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import type { MockEmployee } from '@/mocks/employees'
@@ -295,6 +296,8 @@ export default function ContractRenewalPage() {
       {/* Employee snapshot */}
       <EmployeeSnapshot employee={employee} />
 
+      <ActionRequirementBanner actionKey="contract_renewal" />
+
       {/* Approval chain (contract renewal: manager → HRBP → HR Admin) */}
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 8 }}>
@@ -332,6 +335,7 @@ export default function ContractRenewalPage() {
 
       {/* Contract renewal form */}
       <EffectiveDateGate
+        mode="inline"
         min={employee.hire_date || undefined}
         initialEffectiveDate={gatedEffectiveDate}
         onEffectiveDateChange={setGatedEffectiveDate}
