@@ -7,13 +7,13 @@
 // Attachment ย้ายไป StepBiographical (Step 1) ใน PR #35 — ไม่ต้องซ้ำที่นี่
 // DEF-04: hrbpAssignee lifted from local state into Zustand store (BRD #109 gate)
 import { useState } from 'react'
+import type { ElementType } from 'react'
 import { useTranslations } from 'next-intl'
 import { useHireWizard, sliceValid } from '@/lib/admin/store/useHireWizard'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
 import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
 import { useHrbpRoster } from '@/lib/admin/store/hrbpRoster'
 import { deriveUserId, deriveUsername } from '@/lib/admin/hire/sfMapper/derivedRules'
-import { SectionHeader } from '@/components/admin/wizard/SectionHeader'
 import { ClipboardCheck, Check, AlertCircle, UserCheck, PhoneCall, Users } from 'lucide-react'
 
 function SummaryRow({ label, value, ok }: { label: string; value: string; ok: boolean }) {
@@ -30,6 +30,28 @@ function SummaryRow({ label, value, ok }: { label: string; value: string; ok: bo
       <span style={{ flex: 1, fontSize: 14, color: ok ? 'var(--color-ink)' : 'var(--color-ink-muted)', fontWeight: ok ? 500 : 400 }}>
         {value}
       </span>
+    </div>
+  )
+}
+
+function ReviewCheckpointHeader({
+  icon: Icon,
+  title,
+  sub,
+}: {
+  icon: ElementType
+  title: string
+  sub?: string
+}) {
+  return (
+    <div className="mb-4 flex items-start gap-2.5">
+      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+        <Icon size={14} aria-hidden />
+      </div>
+      <div className="min-w-0">
+        <h3 className="font-display text-[16px] font-semibold leading-tight text-ink">{title}</h3>
+        {sub && <p className="mt-1 text-small text-ink-muted">{sub}</p>}
+      </div>
     </div>
   )
 }
@@ -86,10 +108,9 @@ export default function ClusterReview({ hrbpError = false }: ClusterReviewProps)
   return (
     <div id="review" className="space-y-5">
       {/* ── ยืนยันชื่อ (EN) — 4 readonly mirror fields in 2-col grid ─── */}
-      <div className="humi-card">
-        <SectionHeader
+      <div id="review.enName" className="humi-card scroll-mt-6">
+        <ReviewCheckpointHeader
           icon={UserCheck}
-          eyebrow={t('enNameSectionEyebrow')}
           title={t('enNameSectionTitle')}
           sub={t('enNameSectionSub')}
         />
@@ -125,10 +146,9 @@ export default function ClusterReview({ hrbpError = false }: ClusterReviewProps)
       </div>
 
       {/* ── HRBP assignee — audit #14 / BRD #109 (mockup stub) ─────────── */}
-      <div className="humi-card">
-        <SectionHeader
+      <div id="review.hrbp" className="humi-card scroll-mt-6">
+        <ReviewCheckpointHeader
           icon={UserCheck}
-          eyebrow={t('hrbpSectionEyebrow')}
           title={t('hrbpSectionTitle')}
           sub={t('hrbpSectionSub')}
         />
@@ -171,10 +191,9 @@ export default function ClusterReview({ hrbpError = false }: ClusterReviewProps)
       </div>
 
       {/* ── สรุปข้อมูลก่อนส่ง ─────────────────────────────────────────── */}
-      <div className="humi-card humi-card--cream">
-        <SectionHeader
+      <div id="review.summary" className="humi-card humi-card--cream scroll-mt-6">
+        <ReviewCheckpointHeader
           icon={ClipboardCheck}
-          eyebrow={t('summarySectionEyebrow')}
           title={t('summarySectionTitle')}
           sub={t('summarySectionSub')}
         />
@@ -217,9 +236,8 @@ export default function ClusterReview({ hrbpError = false }: ClusterReviewProps)
       {/* ── ผู้ติดต่อฉุกเฉิน (Phase 1.4) — read-only mirror ─────────────── */}
       {emergencyContacts && emergencyContacts.length > 0 && (
         <div className="humi-card">
-          <SectionHeader
+          <ReviewCheckpointHeader
             icon={PhoneCall}
-            eyebrow="ผู้ติดต่อฉุกเฉิน"
             title="ผู้ติดต่อฉุกเฉิน / Emergency Contacts"
             sub={`${emergencyContacts.length} รายการ`}
           />
@@ -256,9 +274,8 @@ export default function ClusterReview({ hrbpError = false }: ClusterReviewProps)
       {/* ── บุคคลในอุปการะ (Phase 5b-4) — read-only mirror ──────────────── */}
       {dependents && dependents.length > 0 && (
         <div className="humi-card">
-          <SectionHeader
+          <ReviewCheckpointHeader
             icon={Users}
-            eyebrow="บุคคลในอุปการะ"
             title="บุคคลในอุปการะ / Dependents"
             sub={`${dependents.length} รายการ`}
           />

@@ -52,7 +52,9 @@ const CHECKPOINT_GROUPS: StepGroup[] = [
     step: 3,
     labelTh: 'ตรวจสอบและส่ง',
     sections: [
-      { id: 'review', validityKey: null, icon: ClipboardList, labelTh: 'สรุปและยืนยัน' },
+      { id: 'review.enName', validityKey: null, icon: User2, labelTh: 'ชื่อ-นามสกุลภาษาอังกฤษ' },
+      { id: 'review.hrbp', validityKey: null, icon: User2, labelTh: 'ผู้ดูแล HRBP' },
+      { id: 'review.summary', validityKey: null, icon: ClipboardList, labelTh: 'สรุปข้อมูลก่อนส่ง' },
     ],
   },
 ]

@@ -67,12 +67,14 @@ beforeEach(() => {
 })
 
 describe('HireCheckpointSidebar — render', () => {
-  it('renders only always-applicable section buttons by default: 5 who + 3 job + 1 review', () => {
+  it('renders only always-applicable section buttons by default: 5 who + 3 job + 3 review', () => {
     render(<HireCheckpointSidebar />)
-    expect(screen.getAllByRole('button')).toHaveLength(9)
+    expect(screen.getAllByRole('button')).toHaveLength(11)
     expect(screen.getByText('ระบุตัวตน')).toBeTruthy()
     expect(screen.getByText('ประเภทการจ้างงาน')).toBeTruthy()
-    expect(screen.getByText('สรุปและยืนยัน')).toBeTruthy()
+    expect(screen.getByText('ชื่อ-นามสกุลภาษาอังกฤษ')).toBeTruthy()
+    expect(screen.getByText('ผู้ดูแล HRBP')).toBeTruthy()
+    expect(screen.getByText('สรุปข้อมูลก่อนส่ง')).toBeTruthy()
     expect(screen.queryByText('ใบอนุญาตทำงาน')).toBeNull()
     expect(screen.queryByText('บุคคลในอุปการะ')).toBeNull()
   })
@@ -112,7 +114,7 @@ describe('HireCheckpointSidebar — navigation', () => {
 
   it('click review section (step=3) calls jumpTo(3) but NOT setSectionCollapsed', () => {
     render(<HireCheckpointSidebar />)
-    fireEvent.click(screen.getByText('สรุปและยืนยัน'))
+    fireEvent.click(screen.getByText('สรุปข้อมูลก่อนส่ง'))
     expect(mockJumpTo).toHaveBeenCalledWith(3)
     expect(mockSetSectionCollapsed).not.toHaveBeenCalled()
   })
