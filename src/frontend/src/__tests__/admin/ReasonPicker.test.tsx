@@ -71,6 +71,23 @@ describe('ReasonPicker — interaction', () => {
     expect(onChange).toHaveBeenCalledWith('RE_REHIRE_LT1')
   })
 
+  it('รองรับ contract-driven label, placeholder, และ helper text', () => {
+    render(
+      <ReasonPicker
+        event="5604"
+        value={null}
+        onChange={() => {}}
+        label="ประเภทการโอนย้าย"
+        placeholder="— เลือกประเภทการโอนย้าย —"
+        helperText="เป็น SF Event Reason ไม่ใช่เหตุผลข้อความอิสระ"
+      />,
+    )
+
+    expect(screen.getByLabelText('ประเภทการโอนย้าย')).toBeInTheDocument()
+    expect(screen.getByText('— เลือกประเภทการโอนย้าย —')).toBeInTheDocument()
+    expect(screen.getByText('เป็น SF Event Reason ไม่ใช่เหตุผลข้อความอิสระ')).toBeInTheDocument()
+  })
+
   it('value prop ต้อง reflect เป็น selected option', () => {
     render(<ReasonPicker event="5597" value="TERM_RESIGN" onChange={() => {}} />)
     const select = screen.getByRole('combobox') as HTMLSelectElement

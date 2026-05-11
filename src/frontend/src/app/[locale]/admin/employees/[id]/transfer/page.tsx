@@ -9,7 +9,7 @@
 //   - targetCompany required (PICKLIST_COMPANY)
 //   - targetBusinessUnit, targetPosition, effectiveDate required
 //   - effectiveDate >= today
-//   - migrationNote auto-filled "Seniority continuous", admin can edit
+//   - migrationNote auto-filled "Seniority continuous" as a system note
 //
 // C1: touches only this file (placeholder → real form replace).
 // C8: TransferEvent shape from @hrms/shared — no invented variants.
@@ -28,6 +28,7 @@ import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import PositionLookup from '@/components/admin/PositionLookup'
 import { ReasonPicker } from '@/components/admin/lifecycle/ReasonPicker'
+import { getLifecycleActionFieldContract } from '@/lib/admin/lifecycle/actionFieldContracts'
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain'
 import { MOCK_POSITION_MASTER } from '@/lib/admin/mock/positions'
 import { PICKLIST_COMPANY } from '@hrms/shared/picklists'
@@ -59,7 +60,7 @@ interface TransferMovement {
   costCenter: string
   /** เหตุผล — free text, optional | BA validation pending — HR Expert May 1 */
   reason: string
-  /** หมายเหตุการโอนย้าย — auto-filled "Seniority continuous", admin can edit | BA validation pending — HR Expert May 1 */
+  /** System seniority note — auto-filled "Seniority continuous"; not editable per field contract */
   migrationNote: string
   /** BRD #110: event reason code — SF event 5604 TRN_* group */
   eventReason: string
@@ -70,6 +71,8 @@ interface TransferForm {
 }
 
 const TODAY = new Date().toISOString().slice(0, 10)
+const TRANSFER_FIELD_CONTRACT = getLifecycleActionFieldContract('transfer')
+const TRANSFER_FIELDS = TRANSFER_FIELD_CONTRACT.fields
 
 const INITIAL_FORM: TransferForm = {
   movement: {
@@ -354,7 +357,7 @@ export default function TransferPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            บริษัทปลายทาง <span style={{ color: 'var(--color-danger)' }}>*</span>
+            {TRANSFER_FIELDS.targetCompany.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
           </label>
           <select
             id="targetCompany"
@@ -380,7 +383,7 @@ export default function TransferPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            หน่วยงานปลายทาง <span style={{ color: 'var(--color-danger)' }}>*</span>
+            {TRANSFER_FIELDS.targetBusinessUnit.labelTh} <span style={{ color: 'var(--color-danger)' }}>*</span>
           </label>
           <select
             id="targetBusinessUnit"
@@ -406,8 +409,8 @@ export default function TransferPage() {
             id="targetPosition"
             positionMaster={MOCK_POSITION_MASTER}
             required
-            label="ตำแหน่งปลายทาง"
-            placeholder="ค้นด้วยรหัส / ชื่อตำแหน่ง (TH/EN)"
+            label={TRANSFER_FIELDS.targetPosition.labelTh}
+            placeholder={TRANSFER_FIELDS.targetPosition.placeholderTh}
             onSelect={(cascade) => {
               setSelectedTargetPosition(cascade)
               patch({ targetPosition: cascade?.code ?? '' })
@@ -424,6 +427,9 @@ export default function TransferPage() {
             value={movement.eventReason || null}
             onChange={(code) => patch({ eventReason: code })}
             required
+            label={TRANSFER_FIELDS.eventReason.labelTh}
+            placeholder={TRANSFER_FIELDS.eventReason.placeholderTh}
+            helperText={TRANSFER_FIELDS.eventReason.helperTh}
           />
         </div>
 
@@ -434,14 +440,14 @@ export default function TransferPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            สถานที่ปลายทาง <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+            {TRANSFER_FIELDS.targetLocation.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
           </label>
           <input
             id="targetLocation"
             type="text"
             value={movement.targetLocation}
             onChange={(e) => patch({ targetLocation: e.target.value })}
-            placeholder="เช่น สำนักงานใหญ่, สาขาเชียงใหม่"
+            placeholder={TRANSFER_FIELDS.targetLocation.placeholderTh}
             className="humi-input"
             style={{ maxWidth: 400 }}
             aria-label="สถานที่ปลายทาง"
@@ -457,14 +463,14 @@ export default function TransferPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            Cost Center <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+            {TRANSFER_FIELDS.costCenter.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
           </label>
           <input
             id="costCenter"
             type="text"
             value={movement.costCenter}
             onChange={(e) => patch({ costCenter: e.target.value })}
-            placeholder="เช่น CC-1001"
+            placeholder={TRANSFER_FIELDS.costCenter.placeholderTh}
             className="humi-input"
             style={{ maxWidth: 240 }}
             aria-label="Cost Center"
@@ -480,40 +486,34 @@ export default function TransferPage() {
             className="text-body font-semibold text-ink"
             style={{ display: 'block', marginBottom: 6 }}
           >
-            เหตุผล <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
+            {TRANSFER_FIELDS.reason.labelTh} <span className="text-small text-ink-muted">(ไม่จำเป็น)</span>
           </label>
           <textarea
             id="reason"
             value={movement.reason}
             onChange={(e) => patch({ reason: e.target.value })}
             rows={3}
-            placeholder="เหตุผลในการโอนย้าย..."
+            placeholder={TRANSFER_FIELDS.reason.placeholderTh}
             className="humi-input"
             style={{ width: '100%', resize: 'vertical' }}
             aria-label="เหตุผลการโอนย้าย"
           />
         </div>
 
-        {/* ── หมายเหตุการโอนย้าย (auto-filled, editable) ── */}
-        <div style={{ marginBottom: 24 }}>
-          <label
-            htmlFor="migrationNote"
-            className="text-body font-semibold text-ink"
-            style={{ display: 'block', marginBottom: 6 }}
-          >
-            หมายเหตุการโอนย้าย
-          </label>
-          <input
-            id="migrationNote"
-            type="text"
-            value={movement.migrationNote}
-            onChange={(e) => patch({ migrationNote: e.target.value })}
-            className="humi-input"
-            style={{ maxWidth: 400 }}
-            aria-label="หมายเหตุการโอนย้าย (auto-filled)"
-          />
+        {/* ── System seniority note (auto-filled, not editable) ── */}
+        <div
+          className="rounded-md border border-hairline bg-surface-muted"
+          style={{ marginBottom: 24, padding: 14 }}
+          aria-label={TRANSFER_FIELDS.migrationNote.labelTh}
+        >
+          <div className="humi-eyebrow" style={{ marginBottom: 4 }}>
+            {TRANSFER_FIELDS.migrationNote.labelTh}
+          </div>
+          <div className="text-body font-medium text-ink">
+            {movement.migrationNote}
+          </div>
           <p className="text-small text-ink-muted mt-1">
-            กรอกอัตโนมัติ — แก้ไขได้ตามต้องการ
+            {TRANSFER_FIELDS.migrationNote.helperTh}
           </p>
         </div>
 

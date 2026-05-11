@@ -89,6 +89,9 @@ interface ReasonPickerProps {
   required?: boolean
   error?: string
   id?: string
+  label?: string
+  placeholder?: string
+  helperText?: string
   /** mode='ess-voluntary': แสดงเฉพาะ 4 RESIGN_* codes (employee self-service). Default 'admin' = 17 TERM_* codes. */
   mode?: 'admin' | 'ess-voluntary'
 }
@@ -100,6 +103,9 @@ export function ReasonPicker({
   required = false,
   error,
   id = 'reason-picker',
+  label = 'เหตุผล / ประเภทรายการ',
+  placeholder = '— เลือกเหตุผล —',
+  helperText,
   mode = 'admin',
 }: ReasonPickerProps) {
   const allOptions = EVENT_REASONS[event] ?? []
@@ -111,7 +117,7 @@ export function ReasonPicker({
   return (
     <div>
       <label id={labelId} htmlFor={id} className="block text-body font-medium text-ink-soft mb-1">
-        เหตุผล / ประเภทรายการ
+        {label}
         {required && <span className="ml-1 text-danger" aria-hidden="true">*</span>}
       </label>
 
@@ -129,7 +135,7 @@ export function ReasonPicker({
         ].join(' ')}
       >
         <option value="" disabled>
-          — เลือกเหตุผล —
+          {placeholder}
         </option>
         {options.map((code) => (
           <option key={code} value={code}>
@@ -142,6 +148,11 @@ export function ReasonPicker({
       {error && (
         <p className="mt-1 text-xs text-danger" role="alert">
           {error}
+        </p>
+      )}
+      {helperText && !error && (
+        <p className="mt-1 text-xs text-ink-muted">
+          {helperText}
         </p>
       )}
     </div>
