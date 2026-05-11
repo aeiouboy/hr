@@ -138,14 +138,6 @@ export default function PositionLookup({
     return () => clearTimeout(t)
   }, [query])
 
-  // ── controlled: sync when value changes externally (E4) ─────────
-  useEffect(() => {
-    if (isControlled) {
-      setQuery('')
-      setFocusedIndex(-1)
-    }
-  }, [value, isControlled])
-
   // ── filter + search results (I1, I3, I7) ────────────────────────
   const candidates = master.filter((p) => {
     if (!p.active) return false // I1: active only
@@ -156,6 +148,24 @@ export default function PositionLookup({
   const results: Position[] = debouncedQuery
     ? candidates.filter((p) => matchesQuery(p, debouncedQuery))
     : candidates.sort((a, b) => a.titleTh.localeCompare(b.titleTh, 'th')).slice(0, DEFAULT_TOP_N)
+
+  const handleSelect = useCallback((p: Position) => {
+    if (!isControlled) setInternalSelected(p)
+    onSelect(toCascade(p))
+    setQuery('')
+    setOpen(false)
+    setFocusedIndex(-1)
+    // Return focus to input (a11y)
+    setTimeout(() => inputRef.current?.focus(), 0)
+  }, [isControlled, onSelect])
+
+  const handleClear = useCallback(() => {
+    if (!isControlled) setInternalSelected(null)
+    onSelect(null)
+    setQuery('')
+    setOpen(false)
+    setTimeout(() => inputRef.current?.focus(), 0)
+  }, [isControlled, onSelect])
 
   // ── keyboard handlers (I6) ──────────────────────────────────────
   const handleKeyDown = useCallback(
@@ -189,26 +199,8 @@ export default function PositionLookup({
           break
       }
     },
-    [open, focusedIndex, results, disabled],
+    [open, focusedIndex, results, disabled, handleSelect],
   )
-
-  function handleSelect(p: Position) {
-    if (!isControlled) setInternalSelected(p)
-    onSelect(toCascade(p))
-    setQuery('')
-    setOpen(false)
-    setFocusedIndex(-1)
-    // Return focus to input (a11y)
-    setTimeout(() => inputRef.current?.focus(), 0)
-  }
-
-  function handleClear() {
-    if (!isControlled) setInternalSelected(null)
-    onSelect(null)
-    setQuery('')
-    setOpen(false)
-    setTimeout(() => inputRef.current?.focus(), 0)
-  }
 
   // ── empty positionMaster (E1) ────────────────────────────────────
   if (master.length === 0 && !isLoading) {
@@ -335,7 +327,7 @@ export default function PositionLookup({
           id={listboxId}
           role="listbox"
           aria-label={`ผลการค้นหา${label}`}
-          className="absolute z-50 mt-1 w-full max-w-sm rounded border border-hairline bg-surface shadow-[var(--shadow-md)] max-h-60 overflow-y-auto"
+          className="relative z-10 mt-1 w-full max-w-sm rounded border border-hairline bg-[var(--color-surface,#fff)] shadow-[var(--shadow-md)] max-h-56 overflow-y-auto"
         >
           {results.length === 0 ? (
             <li
