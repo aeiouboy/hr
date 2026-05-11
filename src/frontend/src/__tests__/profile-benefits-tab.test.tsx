@@ -151,6 +151,10 @@ describe('/profile/me benefits tab', () => {
       'href',
       '/th/benefits-hub',
     );
+    const benefitsHubLinks = screen
+      .getAllByRole('link')
+      .filter((link) => link.getAttribute('href') === '/th/benefits-hub');
+    expect(benefitsHubLinks).toHaveLength(1);
     expect(screen.queryByLabelText('เลขที่ใบเสร็จ/เอกสาร')).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/เหตุผลหรือบริการที่ต้องการพบแพทย์/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText('รายได้เพิ่มเติมคาดการณ์ทั้งปี')).not.toBeInTheDocument();

@@ -1539,32 +1539,13 @@ export default function HumiProfileMePage({
       {panelKey === 'benefits' && (
         <div className="grid gap-4">
           <div className="humi-card">
-            <div
-              className="humi-row"
-              style={{ justifyContent: 'space-between', gap: 12, alignItems: 'flex-start' }}
-            >
-              <div>
-                <div className="humi-eyebrow">{t('tabBenefits')}</div>
-                <h3 className="mt-2 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
-                  {t('benefitsTitle')}
-                </h3>
-                <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
-                  {t('benefitsHelp')}
-                </p>
-              </div>
-              <Link
-                href={benefitsHubRoute(locale)}
-                className="humi-tag"
-                style={{
-                  padding: '6px 12px',
-                  color: 'var(--color-accent)',
-                  textDecoration: 'underline',
-                  fontSize: 13,
-                }}
-              >
-                {t('benefitsHubLink')}
-              </Link>
-            </div>
+            <div className="humi-eyebrow">{t('tabBenefits')}</div>
+            <h3 className="mt-2 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+              {t('benefitsTitle')}
+            </h3>
+            <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, marginTop: 6 }}>
+              {t('benefitsHelp')}
+            </p>
           </div>
           <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="humi-card lg:col-span-2">
