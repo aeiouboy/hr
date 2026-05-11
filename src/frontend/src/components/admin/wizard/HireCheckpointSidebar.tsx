@@ -7,6 +7,10 @@ import {
 } from 'lucide-react'
 import { useHireWizard, type StepValidity } from '@/lib/admin/store/useHireWizard'
 import { cn } from '@/lib/utils'
+import {
+  shouldShowDependentsSection,
+  shouldShowWorkPermitSection,
+} from '@/lib/admin/hire/conditional-sections'
 
 interface SectionDef {
   id: string
@@ -70,6 +74,7 @@ export function HireCheckpointSidebar() {
   const currentStep = useHireWizard((s) => s.currentStep)
   const maxUnlockedStep = useHireWizard((s) => s.maxUnlockedStep)
   const stepValidity = useHireWizard((s) => s.stepValidity)
+  const formData = useHireWizard((s) => s.formData)
   const jumpTo = useHireWizard((s) => s.jumpTo)
   const setSectionCollapsed = useHireWizard((s) => s.setSectionCollapsed)
 
@@ -128,7 +133,11 @@ export function HireCheckpointSidebar() {
 
             {/* Section items */}
             <div className="ml-3 space-y-1 border-l border-hairline pl-2.5">
-              {group.sections.map((section) => {
+              {group.sections.filter((section) => {
+                if (section.id === 'who.workPermit') return shouldShowWorkPermitSection(formData)
+                if (section.id === 'who.dependents') return shouldShowDependentsSection(formData)
+                return true
+              }).map((section) => {
                 const isValid =
                   section.validityKey != null
                     ? stepValidity[section.validityKey]

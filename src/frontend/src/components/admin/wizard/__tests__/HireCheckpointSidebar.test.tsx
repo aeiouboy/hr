@@ -36,6 +36,11 @@ const mockSetSectionCollapsed = vi.fn()
 const defaultState = {
   currentStep: 1,
   maxUnlockedStep: 3,
+  formData: {
+    biographical: { nationality: null as string | null },
+    workPermit: { documentType: '', country: '', documentNumber: '', issueDate: null, expiryDate: null, arrivalDateVisa: null, ninetyDayReportVisa: null, attachmentName: '' },
+    dependents: [] as Array<{ relationshipType: string }>,
+  },
   stepValidity: {
     identity: false, biographical: false, contact: false,
     emergencyContacts: false, employeeInfo: false, job: false,
@@ -62,12 +67,38 @@ beforeEach(() => {
 })
 
 describe('HireCheckpointSidebar — render', () => {
-  it('renders 11 section buttons: 7 who + 3 job + 1 review', () => {
+  it('renders only always-applicable section buttons by default: 5 who + 3 job + 1 review', () => {
     render(<HireCheckpointSidebar />)
-    expect(screen.getAllByRole('button')).toHaveLength(11)
+    expect(screen.getAllByRole('button')).toHaveLength(9)
     expect(screen.getByText('ระบุตัวตน')).toBeTruthy()
     expect(screen.getByText('ประเภทการจ้างงาน')).toBeTruthy()
     expect(screen.getByText('สรุปและยืนยัน')).toBeTruthy()
+    expect(screen.queryByText('ใบอนุญาตทำงาน')).toBeNull()
+    expect(screen.queryByText('บุคคลในอุปการะ')).toBeNull()
+  })
+
+  it('shows Work Permit checkpoint only for non-Thai nationality', () => {
+    stateOverride = {
+      formData: {
+        ...defaultState.formData,
+        biographical: { nationality: 'USA' },
+      },
+    }
+    render(<HireCheckpointSidebar />)
+    expect(screen.getByText('ใบอนุญาตทำงาน')).toBeTruthy()
+    expect(screen.queryByText('บุคคลในอุปการะ')).toBeNull()
+  })
+
+  it('shows Dependents checkpoint only when dependent rows exist', () => {
+    stateOverride = {
+      formData: {
+        ...defaultState.formData,
+        dependents: [{ relationshipType: 'Child' }],
+      },
+    }
+    render(<HireCheckpointSidebar />)
+    expect(screen.queryByText('ใบอนุญาตทำงาน')).toBeNull()
+    expect(screen.getByText('บุคคลในอุปการะ')).toBeTruthy()
   })
 })
 

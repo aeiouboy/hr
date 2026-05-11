@@ -18,6 +18,7 @@ import {
   attachmentNameFromFiles,
   filesFromAttachmentName,
 } from '@/components/admin/AttachmentDropzone/attachmentFiles'
+import { isForeignNationality } from '@/lib/admin/hire/conditional-sections'
 
 // Work permit document type options (SF EmpWorkPermit.documentType picklist codes)
 const DOCUMENT_TYPE_OPTIONS = [
@@ -54,8 +55,7 @@ export default function StepWorkPermit({ onValidChange }: StepWorkPermitProps) {
   const nationality = formData.biographical?.nationality ?? ''
 
   // Foreigner check — nationality ISO2 'TH' or ISO3 'THA' → Thai national
-  const nat = nationality.toUpperCase()
-  const isForeigner = nat !== '' && nat !== 'TH' && nat !== 'THA'
+  const isForeigner = isForeignNationality(nationality)
 
   // ── Local field state ──────────────────────────────────────────────────────
   const [documentType,        setDocumentType]        = useState(wp.documentType ?? '')

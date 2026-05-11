@@ -12,6 +12,7 @@
 //   - persist key ยังคง 'hire-wizard-draft' (ไม่ทำลาย existing drafts)
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { isForeignNationality } from '@/lib/admin/hire/conditional-sections'
 
 // ประเภท step number — จำกัดเป็น 1-3 เท่านั้น (Who / Job / Review)
 export type StepNumber = 1 | 2 | 3
@@ -600,7 +601,7 @@ const sliceValid = {
   globalInfo: (_d: FormData) => true,
   // Phase 5b-3: workPermit — required only when foreigner (nationality !== THA)
   workPermit: (d: FormData) => {
-    const isForeigner = d.biographical.nationality && d.biographical.nationality.toUpperCase() !== 'THA'
+    const isForeigner = isForeignNationality(d.biographical.nationality)
     if (!isForeigner) return true
     return !!(d.workPermit.documentType.trim() && d.workPermit.country.trim() &&
       d.workPermit.documentNumber.trim() && d.workPermit.issueDate)
