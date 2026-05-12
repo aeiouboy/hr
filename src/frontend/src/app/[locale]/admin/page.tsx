@@ -39,6 +39,15 @@ const ADMIN_SECTIONS = [
     tone: 'cream' as const,
   },
   {
+    href: '/th/admin/ec-field-catalogue',
+    icon: FileText,
+    eyebrow: 'EC Field Validation',
+    title: 'แคตตาล็อกฟิลด์ EC',
+    desc: 'ตรวจ 593 fields • Hiring/Maintain • HR review status',
+    stat: '593 fields',
+    tone: 'cream' as const,
+  },
+  {
     href: '/th/admin/self-service',
     icon: Settings,
     eyebrow: 'Self-Service Config',
@@ -201,7 +210,7 @@ export default function AdminDashboardPage() {
                 className={`${cardClass} group relative transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2`}
               >
                 <div className="humi-row" style={{ alignItems: 'flex-start', gap: 12 }}>
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-soft text-accent">
                     <Icon size={20} aria-hidden="true" />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
