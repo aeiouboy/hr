@@ -116,3 +116,23 @@ describe('hire wizard BA attachment rows beyond Work Permit', () => {
     }
   }
 })
+
+describe('hire compensation payment information copy', () => {
+  it('renders the P0 payment account slice with Thai-primary Humi field labels', () => {
+    render(<StepCompensation />)
+
+    expect(screen.getByText('ข้อมูลบัญชีจ่ายเงินเดือน')).toBeInTheDocument()
+    expect(screen.getByLabelText(/ประเทศของบัญชีธนาคาร/)).toBeInTheDocument()
+    expect(screen.getByLabelText(/วิธีการจ่ายเงิน/)).toBeInTheDocument()
+    expect(screen.getByLabelText(/รูปแบบการจ่าย/)).toBeInTheDocument()
+    expect(screen.getByLabelText('ชื่อธนาคาร')).toBeInTheDocument()
+    expect(screen.getByLabelText('เลขที่บัญชี')).toBeInTheDocument()
+    expect(screen.getByLabelText('รหัสธนาคาร (BIC/SWIFT)')).toBeInTheDocument()
+    expect(screen.getByText('ไฟล์แนบข้อมูลบัญชีจ่ายเงินเดือน')).toBeInTheDocument()
+
+    expect(screen.queryByText(/Payment Information/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Bank Country\/Region/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Payment Method/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Pay Type/)).not.toBeInTheDocument()
+  })
+})

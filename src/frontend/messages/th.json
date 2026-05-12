@@ -101,7 +101,8 @@
     "header": "ส่วนหัว",
     "employeeId": "รหัสพนักงาน",
     "location": "สถานที่",
-    "ecPersonal": "ข้อมูลพนักงาน"
+    "ecPersonal": "ข้อมูลพนักงาน",
+    "emergency": "ติดต่อฉุกเฉิน"
   },
   "personal": {
     "title": "ข้อมูลส่วนตัว",
@@ -3573,7 +3574,7 @@
     "save": "บันทึกการเปลี่ยนแปลง",
     "statusActive": "กำลังทำงาน",
     "tabPersonal": "ข้อมูลส่วนตัว",
-    "tabJob": "ตำแหน่งและค่าตอบแทน",
+    "tabJob": "ตำแหน่งงาน",
     "tabEmergency": "ติดต่อฉุกเฉิน",
     "tabBenefits": "สิทธิ์ของฉัน",
     "tabDocs": "เอกสาร",
@@ -3614,7 +3615,8 @@
     "profileFieldAddress": "ที่อยู่",
     "resignationSectionEyebrow": "การลาออก",
     "resignationSectionDesc": "ยื่นคำขอลาออกและติดตามสถานะ",
-    "resignationSectionLink": "ดูคำขอลาออก"
+    "resignationSectionLink": "ดูคำขอลาออก",
+    "tabCompensation": "ค่าตอบแทน"
   },
   "humiAnnouncements": {
     "subtitle": "ฟีดของทีมและบริษัท",

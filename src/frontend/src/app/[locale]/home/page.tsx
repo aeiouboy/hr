@@ -292,7 +292,7 @@ export default function HumiHomePage() {
       {/* Row 1.5 — Quick Actions (BRD #182: from admin config bus, per-role BRD #183) */}
       <div style={{ marginTop: 20 }}>
         <QuickActionsTile actions={quickActions} />
-        {/* BRD #183 tile visibility debug — visibleTiles is computed above and
+        {/* BRD #183 tile visibility trace — visibleTiles is computed above and
             available for future tile widget rendering. Currently tiles render as
             a row of chips below the quick-actions; full tile widgets are Sprint 3+. */}
         {visibleTiles.length > 0 && (
@@ -413,7 +413,7 @@ export default function HumiHomePage() {
             </div>
           ))}
           <Link
-            href="/th/benefits-hub"
+            href={`/${locale}/me/documents`}
             className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-body font-medium text-accent transition-colors hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {t('docsAll')} <ArrowRight size={14} />

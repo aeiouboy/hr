@@ -108,6 +108,7 @@ vi.mock('next-intl', () => ({
       // profile — tab labels
       tabPersonal: 'ข้อมูลส่วนตัว',
       tabJob: 'การจ้างงาน',
+      tabCompensation: 'ค่าตอบแทน',
       tabEmergency: 'ผู้ติดต่อฉุกเฉิน',
       tabBenefits: 'สิทธิ์ของฉัน',
       tabDocs: 'เอกสาร',
@@ -183,6 +184,25 @@ describe('AC-3 — /profile/me functional', () => {
     await user.click(jobTab);
 
     expect(useHumiProfileStore.getState().activeTab).toBe('employment');
+  });
+
+  it('BRD #170 keeps compensation as a standalone profile tab separate from emergency contacts', async () => {
+    const user = userEvent.setup();
+    const { default: Page } = await import('@/app/[locale]/profile/me/page');
+    render(<Page />);
+
+    const compensationTab = screen.getByRole('tab', { name: 'ค่าตอบแทน' });
+    const emergencyTab = screen.getByRole('tab', { name: 'ผู้ติดต่อฉุกเฉิน' });
+
+    expect(compensationTab).toBeInTheDocument();
+    expect(emergencyTab).toBeInTheDocument();
+
+    await user.click(compensationTab);
+
+    const { useHumiProfileStore } = await import('@/stores/humi-profile-slice');
+    expect(useHumiProfileStore.getState().activeTab).toBe('compensation');
+    expect(screen.getByTestId('compensation-summary')).toBeInTheDocument();
+    expect(screen.queryByText('ผู้ติดต่อกรณีฉุกเฉิน')).not.toBeInTheDocument();
   });
 
   it('clicking edit button enters draft mode', async () => {

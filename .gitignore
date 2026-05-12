@@ -41,3 +41,11 @@ src/frontend/test-artifacts/**/debug-*.png
 .ouroboros_eval_artifact.md
 # Recovered browser cache is machine-local; keep exported diagrams/text only
 docs/diagrams/recovered/chrome-excalidraw-cache-copy/
+.codex/*
+!.codex/agents/
+!.codex/agents/**
+!.codex/skills/
+!.codex/skills/**
+.codex/skills/.system/**
+!.codex/prompts/
+!.codex/prompts/**

@@ -280,12 +280,12 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
       {/* BA Required: Bank Country, Currency (above), Payment Method, Pay Type */}
       {/* SF: PaymentInformationV3.paymentInformationDetailV3Nav deep-insert */}
       <fieldset className="md:col-span-2 mt-4 pt-4 border-t border-hairline-soft">
-        <div className="humi-eyebrow mb-3">ข้อมูลธนาคาร / Payment Information</div>
+        <div className="humi-eyebrow mb-3">ข้อมูลบัญชีจ่ายเงินเดือน</div>
         <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
           {/* Bank Country/Region — BA Required — SF: bankCountry */}
           <fieldset>
             <label htmlFor="bank-country" className="humi-label">
-              Bank Country/Region<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              ประเทศของบัญชีธนาคาร<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="bank-country"
@@ -293,19 +293,19 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
               onChange={(e) => setBankCountry(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">เลือกประเทศ / Select Country</option>
-              <option value="THA">Thailand (THA)</option>
-              <option value="SGP">Singapore (SGP)</option>
-              <option value="USA">United States (USA)</option>
-              <option value="GBR">United Kingdom (GBR)</option>
-              <option value="JPN">Japan (JPN)</option>
+              <option value="">เลือกประเทศ</option>
+              <option value="THA">ไทย (THA)</option>
+              <option value="SGP">สิงคโปร์ (SGP)</option>
+              <option value="USA">สหรัฐอเมริกา (USA)</option>
+              <option value="GBR">สหราชอาณาจักร (GBR)</option>
+              <option value="JPN">ญี่ปุ่น (JPN)</option>
             </select>
           </fieldset>
 
           {/* Payment Method — BA Required — SF: paymentMethod */}
           <fieldset>
             <label htmlFor="payment-method" className="humi-label">
-              Payment Method<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              วิธีการจ่ายเงิน<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="payment-method"
@@ -313,17 +313,17 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">เลือกวิธีชำระ / Select Method</option>
-              <option value="B">Bank Transfer (โอนธนาคาร)</option>
-              <option value="C">Check (เช็ค)</option>
-              <option value="M">Cash (เงินสด)</option>
+              <option value="">เลือกวิธีการจ่ายเงิน</option>
+              <option value="B">โอนเข้าบัญชีธนาคาร</option>
+              <option value="C">เช็ค</option>
+              <option value="M">เงินสด</option>
             </select>
           </fieldset>
 
           {/* Pay Type — BA Required — SF: payType */}
           <fieldset>
             <label htmlFor="pay-type" className="humi-label">
-              Pay Type<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
+              รูปแบบการจ่าย<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
             </label>
             <select
               id="pay-type"
@@ -331,48 +331,48 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
               onChange={(e) => setPayType(e.target.value)}
               className="humi-select w-full"
             >
-              <option value="">เลือก Pay Type / Select Pay Type</option>
-              <option value="P">Percentage (%)</option>
-              <option value="V">Value (Fixed Amount)</option>
-              <option value="R">Remaining Amount</option>
+              <option value="">เลือกรูปแบบการจ่าย</option>
+              <option value="P">เปอร์เซ็นต์ (%)</option>
+              <option value="V">จำนวนเงินคงที่</option>
+              <option value="R">ยอดเงินคงเหลือ</option>
             </select>
           </fieldset>
 
           {/* Bank Name — optional — SF: bank */}
           <fieldset>
-            <label htmlFor="bank-name" className="humi-label">Bank Name</label>
+            <label htmlFor="bank-name" className="humi-label">ชื่อธนาคาร</label>
             <input
               id="bank-name"
               type="text"
               value={bank}
               onChange={(e) => setBank(e.target.value)}
-              placeholder="ชื่อธนาคาร / Bank name"
+              placeholder="ระบุชื่อธนาคาร"
               className="humi-input w-full"
             />
           </fieldset>
 
           {/* Account Number — optional — SF: accountNumber */}
           <fieldset>
-            <label htmlFor="account-number" className="humi-label">Account Number</label>
+            <label htmlFor="account-number" className="humi-label">เลขที่บัญชี</label>
             <input
               id="account-number"
               type="text"
               value={accountNumber}
               onChange={(e) => setAccountNumber(e.target.value)}
-              placeholder="เลขที่บัญชี / Account number"
+              placeholder="ระบุเลขที่บัญชี"
               className="humi-input w-full"
             />
           </fieldset>
 
           {/* Bank Code (BIC/SWIFT) — optional — SF: businessIdentifierCode */}
           <fieldset>
-            <label htmlFor="bank-code" className="humi-label">Bank Code (BIC/SWIFT)</label>
+            <label htmlFor="bank-code" className="humi-label">รหัสธนาคาร (BIC/SWIFT)</label>
             <input
               id="bank-code"
               type="text"
               value={bankCode}
               onChange={(e) => setBankCode(e.target.value)}
-              placeholder="รหัสธนาคาร / BIC or SWIFT code"
+              placeholder="ระบุรหัสธนาคาร"
               className="humi-input w-full"
             />
           </fieldset>
@@ -383,7 +383,7 @@ export default function StepCompensation({ onValidChange }: StepCompensationProp
               id="payment-info-attachment"
               files={paymentAttachmentFiles}
               onFilesChange={handlePaymentAttachmentFilesChange}
-              label="ไฟล์แนบ Payment Information (Attachment)"
+              label="ไฟล์แนบข้อมูลบัญชีจ่ายเงินเดือน"
               maxFiles={5}
               maxSizeMB={10}
             />

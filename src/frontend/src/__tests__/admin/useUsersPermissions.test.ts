@@ -1,5 +1,5 @@
 // useUsersPermissions.test.ts — Unit tests สำหรับ Users & Permissions store
-// ครอบคลุม BRD #185-189: roles, users, proxy, audit, CSV export, persist
+// ครอบคลุม BRD #184-189: data permissions, roles, users, proxy, audit, CSV export, persist
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
@@ -47,6 +47,25 @@ describe('initial state', () => {
     expect(scopes).toContain('TEAM_DATA')
     expect(scopes).toContain('COMPANY_WIDE')
     expect(scopes).toContain('GLOBAL')
+  })
+
+  it('BRD #184 data permissions map each scope to Thai labels and allowed roles', () => {
+    const { result } = renderHook(() => useUsersPermissions())
+
+    const expected = [
+      ['OWN_DATA', 'ข้อมูลตัวเอง', ['role-employee']],
+      ['TEAM_DATA', 'ข้อมูลทีม', ['role-manager']],
+      ['COMPANY_WIDE', 'ข้อมูลบริษัท', ['role-hrbp', 'role-spd', 'role-hris-admin']],
+      ['GLOBAL', 'ข้อมูลทั่วโลก', ['role-system-admin']],
+    ] as const
+
+    expected.forEach(([scope, label, roleIds]) => {
+      const permission = result.current.dataPermissions.find((item) => item.scope === scope)
+      expect(permission?.label).toBe(label)
+      roleIds.forEach((roleId) => {
+        expect(permission?.applicableRoles).toContain(roleId)
+      })
+    })
   })
 
   it('ต้องโหลด users จาก seed data ครบ 10 คน', () => {
@@ -221,6 +240,26 @@ describe('filterAuditReport', () => {
       const to = new Date('2026-04-15T23:59:59.999Z').getTime()
       expect(ts).toBeGreaterThanOrEqual(from)
       expect(ts).toBeLessThanOrEqual(to)
+    })
+  })
+
+  it('filter by user + action + entity → return เฉพาะรายการ audit ที่ match ทุกเงื่อนไข', () => {
+    const { result } = renderHook(() => useUsersPermissions())
+
+    let filtered: ReturnType<typeof result.current.filterAuditReport> = []
+    act(() => {
+      filtered = result.current.filterAuditReport({
+        user: 'EMP009',
+        action: 'EXPORT',
+        entity: 'AUDIT_REPORT',
+      })
+    })
+
+    expect(filtered.length).toBeGreaterThan(0)
+    filtered.forEach((entry) => {
+      expect(entry.userId).toContain('EMP009')
+      expect(entry.action).toBe('EXPORT')
+      expect(entry.entityType).toBe('AUDIT_REPORT')
     })
   })
 

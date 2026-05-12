@@ -73,6 +73,11 @@ describe('hr#84 BRD #173 — /me/documents', () => {
     expect(screen.getByText('เอกสารส่วนบุคคล')).toBeInTheDocument()
   })
 
+  it('BRD #173 — request CTA links from document access to the document request flow', () => {
+    render(<MeDocumentsPage />)
+    expect(screen.getByTestId('request-doc-cta')).toHaveAttribute('href', '/th/me/documents/request')
+  })
+
   it('AC-1 — all 5 mock docs visible by default (filter = all)', () => {
     render(<MeDocumentsPage />)
     HUMI_HR_DOCS.forEach((doc) => {

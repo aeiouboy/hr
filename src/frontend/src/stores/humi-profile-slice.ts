@@ -2,7 +2,14 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { HUMI_DEPENDENTS, type HumiDependent } from '@/lib/humi-mock-data';
 
-export type ProfileTab = 'personal' | 'employment' | 'compensation' | 'benefits' | 'documents' | 'activity';
+export type ProfileTab =
+  | 'personal'
+  | 'employment'
+  | 'compensation'
+  | 'emergency'
+  | 'benefits'
+  | 'documents'
+  | 'activity';
 
 // ── v2 nested types ────────────────────────────────────────────────────────────
 

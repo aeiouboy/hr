@@ -7,7 +7,7 @@ const LEGACY_PROFILE_TAB: Record<string, ProfileTab> = {
   employment: 'employment',
   job: 'employment',
   compensation: 'compensation',
-  emergency: 'compensation',
+  emergency: 'emergency',
   benefits: 'benefits',
   documents: 'documents',
   docs: 'documents',

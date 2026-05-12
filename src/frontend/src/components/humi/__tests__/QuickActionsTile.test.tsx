@@ -149,3 +149,31 @@ describe('QuickActionsTile — AC-6 ISOLATION', () => {
     expect(() => unmount()).not.toThrow();
   });
 });
+
+// ────────────────────────────────────────────────────────────
+// EC/SF parity continuation — BRD #171/#173 traceability
+// ────────────────────────────────────────────────────────────
+describe('QuickActionsTile — EC/SF parity traceability', () => {
+  it('BRD #171 keeps the ESS quick action tile Thai-primary and canonical', () => {
+    render(<QuickActionsTile />);
+
+    const labels = DEFAULT_ESS_ACTIONS.map((action) => action.labelTh);
+    expect(labels).toEqual([
+      'ขอลาหยุด',
+      'สลิปเงินเดือน',
+      'ดูข้อมูลส่วนตัว',
+      'เบิกสวัสดิการ',
+      'ขอเอกสาร',
+    ]);
+    labels.forEach((label) => expect(label).toMatch(/[ก-๙]/));
+  });
+
+  it('BRD #173 keeps document access wired to the ESS document request flow', () => {
+    render(<QuickActionsTile />);
+
+    expect(screen.getByRole('link', { name: 'ขอเอกสาร' })).toHaveAttribute(
+      'href',
+      '/th/me/documents/request',
+    );
+  });
+});

@@ -18,6 +18,7 @@ const TABS = [
  { id:'personal', icon: User, labelKey:'profile.personal' },
  { id:'employment', icon: Briefcase, labelKey:'profile.employment' },
  { id:'compensation', icon: DollarSign, labelKey:'profile.compensation' },
+ { id:'emergency', icon: UserCircle, labelKey:'profile.emergency' },
  { id:'benefits', icon: Gift, labelKey:'profile.benefits' },
  { id:'profile-details', icon: UserCircle, labelKey:'profile.profileDetails' },
  { id:'scorecard', icon: BarChart3, labelKey:'profile.scorecard' },

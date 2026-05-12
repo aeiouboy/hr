@@ -190,23 +190,23 @@ describe('benefit claim journey canonical route', () => {
     expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me?tab=benefits');
   });
 
-  it('/employees/me/payslip redirects salary statements to Profile Employment', async () => {
+  it('/employees/me/payslip redirects salary statements to Profile Compensation', async () => {
     const { default: EmployeePayslipPage } =
       await import('@/app/[locale]/employees/me/payslip/page');
 
     await expect(
       EmployeePayslipPage({ params: Promise.resolve({ locale: 'th' }) } as never),
-    ).rejects.toThrow('NEXT_REDIRECT:/th/profile/me?tab=employment#pay-statements');
-    expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me?tab=employment#pay-statements');
+    ).rejects.toThrow('NEXT_REDIRECT:/th/profile/me?tab=compensation#pay-statements');
+    expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me?tab=compensation#pay-statements');
   });
 
-  it('/payslip redirects legacy payslip entry to Profile Employment', async () => {
+  it('/payslip redirects legacy payslip entry to Profile Compensation', async () => {
     const { default: LegacyPayslipPage } = await import('@/app/[locale]/payslip/page');
 
     await expect(
       LegacyPayslipPage({ params: Promise.resolve({ locale: 'th' }) } as never),
-    ).rejects.toThrow('NEXT_REDIRECT:/th/profile/me?tab=employment#pay-statements');
-    expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me?tab=employment#pay-statements');
+    ).rejects.toThrow('NEXT_REDIRECT:/th/profile/me?tab=compensation#pay-statements');
+    expect(navigationMocks.redirect).toHaveBeenCalledWith('/th/profile/me?tab=compensation#pay-statements');
   });
 
   it('/hospital-referral redirects to the dedicated Benefits Hub referral route', async () => {

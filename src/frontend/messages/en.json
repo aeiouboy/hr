@@ -101,7 +101,8 @@
     "header": "Header",
     "employeeId": "Employee ID",
     "location": "Location",
-    "ecPersonal": "Employee Info"
+    "ecPersonal": "Employee Info",
+    "emergency": "Emergency contact"
   },
   "personal": {
     "title": "Personal Information",
@@ -3617,7 +3618,7 @@
     "save": "Save changes",
     "statusActive": "Active",
     "tabPersonal": "Personal information",
-    "tabJob": "Role and compensation",
+    "tabJob": "Role",
     "tabEmergency": "Emergency contact",
     "tabBenefits": "My coverage",
     "tabDocs": "Documents",
@@ -3658,7 +3659,8 @@
     "profileFieldAddress": "Address",
     "resignationSectionEyebrow": "Resignation",
     "resignationSectionDesc": "Submit and track resignation requests",
-    "resignationSectionLink": "View resignation requests"
+    "resignationSectionLink": "View resignation requests",
+    "tabCompensation": "Compensation"
   },
   "humiAnnouncements": {
     "subtitle": "Team and company feed",

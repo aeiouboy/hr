@@ -1,5 +1,5 @@
 // usersPermissions.ts — TypeScript definitions สำหรับ Users & Permissions module
-// ครอบคลุม BRD #185-189: Roles, Data Permissions, User Assignment, Proxy, Audit
+// ครอบคลุม BRD #184-189: Data Permissions, Roles, User Assignment, Proxy, Audit
 
 // -----------------------------------------------------------------------
 // Capability Codes — รหัสสิทธิ์ที่แต่ละ role สามารถมีได้

@@ -60,17 +60,16 @@ import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/Co
 import CompensationSummary from '@/components/profile/CompensationSummary';
 
 // Map slice tab keys → display keys used by existing tab panels
-type TabKey = 'personal' | 'job' | 'emergency' | 'benefits' | 'docs' | 'tax';
+type TabKey = 'personal' | 'job' | 'compensation' | 'emergency' | 'benefits' | 'docs' | 'tax';
 
 // Mapping from Zustand ProfileTab → legacy panel key.
-// NOTE: slice key `compensation` is a legacy name from an earlier sprint where
-// Compensation was a standalone tab. Today's tab #3 displays "ติดต่อฉุกเฉิน"
-// and must route to the emergency panel. Compensation cards are
-// rendered inside the `job` panel.
+// Keep Compensation and Emergency as separate profile tabs; BRD #170 salary
+// visibility must not be hidden inside the employment or emergency panels.
 const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
   personal: 'personal',
   employment: 'job',
-  compensation: 'emergency',
+  compensation: 'compensation',
+  emergency: 'emergency',
   benefits: 'benefits',
   documents: 'docs',
   activity: 'tax', // activity mapped to tax tab panel — now shows pendingChanges
@@ -79,7 +78,8 @@ const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
 const PROFILE_TAB_QUERY: Record<ProfileTab, string | null> = {
   personal: null,
   employment: 'employment',
-  compensation: 'emergency',
+  compensation: 'compensation',
+  emergency: 'emergency',
   benefits: 'benefits',
   documents: 'documents',
   activity: 'tax',
@@ -89,8 +89,8 @@ const PROFILE_TAB_FROM_QUERY: Record<string, ProfileTab> = {
   personal: 'personal',
   employment: 'employment',
   job: 'employment',
-  emergency: 'compensation',
   compensation: 'compensation',
+  emergency: 'emergency',
   benefits: 'benefits',
   documents: 'documents',
   docs: 'documents',
@@ -457,7 +457,8 @@ export default function HumiProfileMePage({
   const tabs: Array<[ProfileTab, string]> = [
     ['personal', t('tabPersonal')],
     ['employment', t('tabJob')],
-    ['compensation', t('tabEmergency')],
+    ['compensation', t('tabCompensation')],
+    ['emergency', t('tabEmergency')],
     ['benefits', t('tabBenefits')],
     ['documents', t('tabDocs')],
     ['activity', t('tabTax')],
@@ -1369,17 +1370,12 @@ export default function HumiProfileMePage({
         </div>
       )}
 
-      {/* ── Job/Compensation tab ──────────────────────────────────────────── */}
+      {/* ── Job tab ───────────────────────────────────────────────────────── */}
       {panelKey === 'job' && (
         <>
           <div className="grid gap-4 md:grid-cols-2">
             <FieldCard eyebrow={t('jobEyebrow')} title={t('jobTitle')} rows={p.job} labelW={160} />
             <div className="humi-col" style={{ gap: 16 }}>
-              {/* Raw 'ค่าตอบแทน 82,500 / เดือน' card removed — duplicated the
-                BRD #170 CompensationSummary which is the canonical default-masked
-                surface (Ken UAT 2026-04-26: 'salary has double show and it must
-                mark as default'). CompensationSummary lives lower in this same
-                column when bottom panels render. */}
               <div className="humi-card">
                 <div className="humi-eyebrow">{t('historyEyebrow')}</div>
                 <div className="humi-col" style={{ gap: 14, marginTop: 10 }}>
@@ -1440,11 +1436,11 @@ export default function HumiProfileMePage({
               )}
             </div>
           </div>
-
-          {/* ── BRD #170 ESS Compensation Summary ─────────────────────────── */}
-          <CompensationSummary />
         </>
       )}
+
+      {/* ── Compensation tab — BRD #170 ESS Compensation Summary ─────────── */}
+      {panelKey === 'compensation' && <CompensationSummary />}
 
       {/* ── Emergency contacts tab ────────────────────────────────────────── */}
       {panelKey === 'emergency' && (

@@ -1,5 +1,5 @@
 // useUsersPermissions.ts — Zustand store สำหรับ Users & Permissions module
-// ครอบคลุม BRD #185-189: Roles, Data Permissions, User Assignment, Proxy, Audit
+// ครอบคลุม BRD #184-189: Data Permissions, Roles, User Assignment, Proxy, Audit
 // C7 SSoT: 1 store ต่อ module — ห้ามแยก store ย่อย
 
 import { create } from 'zustand'

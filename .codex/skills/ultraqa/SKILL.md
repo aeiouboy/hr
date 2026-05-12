@@ -1,0 +1,140 @@
+---
+name: ultraqa
+description: "[OMX] QA cycling workflow - test, verify, fix, repeat until goal met"
+---
+
+# UltraQA Skill
+
+## Operating Contract
+
+- Use outcome-first framing with concise, evidence-dense progress and completion reporting.
+- Treat newer user updates as local overrides for the active workflow branch while preserving earlier non-conflicting constraints.
+- If the user says `continue`, advance the current verified next step instead of restarting discovery.
+
+[ULTRAQA ACTIVATED - AUTONOMOUS QA CYCLING]
+
+## Overview
+
+## Goal Parsing
+
+Parse the goal from arguments. Supported formats:
+
+| Invocation | Goal Type | What to Check |
+|------------|-----------|---------------|
+| `/ultraqa --tests` | tests | All test suites pass |
+| `/ultraqa --build` | build | Build succeeds with exit 0 |
+| `/ultraqa --lint` | lint | No lint errors |
+| `/ultraqa --typecheck` | typecheck | No TypeScript errors |
+| `/ultraqa --custom "pattern"` | custom | Custom success pattern in output |
+
+If no structured goal provided, interpret the argument as a custom goal.
+
+## Cycle Workflow
+
+### Cycle N (Max 5)
+
+1. **RUN QA**: Execute verification based on goal type
+   - `--tests`: Run the project's test command
+   - `--build`: Run the project's build command
+   - `--lint`: Run the project's lint command
+   - `--typecheck`: Run the project's type check command
+   - `--custom`: Run appropriate command and check for pattern
+   - `--interactive`: Use qa-tester for interactive CLI/service testing:
+     ```
+     Use `/prompts:qa-tester` with:
+     Goal: [describe what to verify]
+     Service: [how to start]
+     Test cases: [specific scenarios to verify]
+     ```
+
+2. **CHECK RESULT**: Did the goal pass?
+   - **YES** → Exit with success message
+   - **NO** → Continue to step 3
+
+3. **ARCHITECT DIAGNOSIS**: Spawn architect to analyze failure
+   ```
+   Use `/prompts:architect` with:
+   Goal: [goal type]
+   Output: [test/build output]
+   Provide root cause and specific fix recommendations.
+   ```
+
+4. **FIX ISSUES**: Apply architect's recommendations
+   ```
+   Use `/prompts:executor` with:
+   Issue: [architect diagnosis]
+   Files: [affected files]
+   Apply the fix precisely as recommended.
+   ```
+
+5. **REPEAT**: Go back to step 1
+
+## Exit Conditions
+
+| Condition | Action |
+|-----------|--------|
+| **Goal Met** | Exit with success: "ULTRAQA COMPLETE: Goal met after N cycles" |
+| **Cycle 5 Reached** | Exit with diagnosis: "ULTRAQA STOPPED: Max cycles. Diagnosis: ..." |
+| **Same Failure 3x** | Exit early: "ULTRAQA STOPPED: Same failure detected 3 times. Root cause: ..." |
+| **Environment Error** | Exit: "ULTRAQA ERROR: [tmux/port/dependency issue]" |
+
+## Observability
+
+Output progress each cycle:
+```
+[ULTRAQA Cycle 1/5] Running tests...
+[ULTRAQA Cycle 1/5] FAILED - 3 tests failing
+[ULTRAQA Cycle 1/5] Architect diagnosing...
+[ULTRAQA Cycle 1/5] Fixing: auth.test.ts - missing mock
+[ULTRAQA Cycle 2/5] Running tests...
+[ULTRAQA Cycle 2/5] PASSED - All 47 tests pass
+[ULTRAQA COMPLETE] Goal met after 2 cycles
+```
+
+## State Tracking
+
+Use the CLI-first state surface (`omx state ... --json`) for UltraQA lifecycle state. If explicit MCP compatibility tools are already available, equivalent `omx_state` calls are optional compatibility, not the default.
+
+- **On start**:
+  `omx state write --input '{"mode":"ultraqa","active":true,"current_phase":"qa","iteration":1,"started_at":"<now>"}' --json`
+- **On each cycle**:
+  `omx state write --input '{"mode":"ultraqa","current_phase":"qa","iteration":<cycle>}' --json`
+- **On diagnose/fix transitions**:
+  `omx state write --input '{"mode":"ultraqa","current_phase":"diagnose"}' --json`
+  `omx state write --input '{"mode":"ultraqa","current_phase":"fix"}' --json`
+- **On completion**:
+  `omx state write --input '{"mode":"ultraqa","active":false,"current_phase":"complete","completed_at":"<now>"}' --json`
+- **For resume detection**:
+  `omx state read --input '{"mode":"ultraqa"}' --json`
+
+## Scenario Examples
+
+**Good:** The user says `continue` after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.
+
+**Good:** The user changes only the output shape or downstream delivery step (for example `make a PR`). Preserve earlier non-conflicting workflow constraints and apply the update locally.
+
+**Bad:** The user says `continue`, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.
+
+## Cancellation
+
+User can cancel with `/cancel` which clears the state file.
+
+## Important Rules
+
+1. **PARALLEL when possible** - Run diagnosis while preparing potential fixes
+2. **TRACK failures** - Record each failure to detect patterns
+3. **EARLY EXIT on pattern** - 3x same failure = stop and surface
+4. **CLEAR OUTPUT** - User should always know current cycle and status
+5. **CLEAN UP** - Clear state file on completion or cancellation
+
+## STATE CLEANUP ON COMPLETION
+
+When goal is met OR max cycles reached OR exiting early, run `$cancel` or call:
+
+`omx state clear --input '{"mode":"ultraqa"}' --json`
+
+Use CLI state cleanup rather than deleting files directly.
+
+---
+
+Begin ULTRAQA cycling now. Parse the goal and start cycle 1.
