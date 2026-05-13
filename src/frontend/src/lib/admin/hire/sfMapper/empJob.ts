@@ -51,6 +51,7 @@ export const EmpJobMapper: PortletMapper = {
         jobCode: job.jobCode,
         jobTitle,                                        // derived from jobLabel or position
         position: job.position || null,
+        managerId: job.supervisorId || null,             // Supervisor ID auto-derived from Position FO
 
         // ── Location ───────────────────────────────────────────────────────────
         location: job.storeBranchCode || job.branch,    // SF: Store/ Branch Code

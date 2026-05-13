@@ -174,7 +174,12 @@ describe('useHireWizard — goNext และ sequential unlock', () => {
     })
 
     act(() => {
-      result.current.setStepData('employeeInfo', { employeeClass: 'A' })
+      result.current.setStepData('employeeInfo', {
+        employeeGroup: '1',
+        employeeSubGroup: 'U0',
+        originalStartDate: '2026-05-01',
+        seniorityStartDate: '2026-05-01',
+      })
       result.current.setStepData('job', { position: 'HR Officer' })
       result.current.setStepData('compensation', { baseSalary: 50000 })
       result.current.setStepValidity('employeeInfo', true)
@@ -218,9 +223,9 @@ describe('useHireWizard — v2→v3 localStorage migration', () => {
           nationalId: { value: '' },
           personal: { addressLine1: '' },
           job: { position: '', businessUnit: null, businessUnitLabel: null, branch: null, branchLabel: null,
-            jobCode: null, jobLabel: null, jobGrade: null, jobGradeLabel: null, storeBranchCode: null, hrDistrict: null,
+            jobCode: null, jobLabel: null, jobGrade: null, jobGradeLabel: null, storeBranchCode: null, hrDistrict: null, supervisorId: null, supervisorLabel: null,
             workSchedule: '', holidayTypeCondition: '', timeManagementStatus: '', otFlag: '',
-            standardWeeklyHours: 40, dailyWorkingHours: 8, workingDaysPerWeek: 5, fte: 1,
+            standardWeeklyHours: 40, overrideStandardWeeklyHours: false, dayOffType: '', dailyWorkingHours: 8, workingDaysPerWeek: 5, fte: 1,
             holidayCalendar: '', timeProfile: '', timeRecordingVariant: '' },
           compensation: { baseSalary: null, costDistribution: [] },
         },
@@ -282,9 +287,9 @@ describe('useHireWizard — v2→v3 localStorage migration', () => {
           nationalId: { value: '' },
           personal: { addressLine1: '' },
           job: { position: '', businessUnit: null, businessUnitLabel: null, branch: null, branchLabel: null,
-            jobCode: null, jobLabel: null, jobGrade: null, jobGradeLabel: null, storeBranchCode: null, hrDistrict: null,
+            jobCode: null, jobLabel: null, jobGrade: null, jobGradeLabel: null, storeBranchCode: null, hrDistrict: null, supervisorId: null, supervisorLabel: null,
             workSchedule: '', holidayTypeCondition: '', timeManagementStatus: '', otFlag: '',
-            standardWeeklyHours: 40, dailyWorkingHours: 8, workingDaysPerWeek: 5, fte: 1,
+            standardWeeklyHours: 40, overrideStandardWeeklyHours: false, dayOffType: '', dailyWorkingHours: 8, workingDaysPerWeek: 5, fte: 1,
             holidayCalendar: '', timeProfile: '', timeRecordingVariant: '' },
           compensation: { baseSalary: null, costDistribution: [] },
         },

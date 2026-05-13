@@ -80,6 +80,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
   const [timeManagementStatus,setTimeManagementStatus]= useState<string>(job.timeManagementStatus ?? '')
   const [otFlag,              setOtFlag]              = useState<string>(job.otFlag ?? '')
   const [standardWeeklyHours, setStandardWeeklyHours] = useState<number>(job.standardWeeklyHours ?? 40)
+  const [overrideStandardWeeklyHours, setOverrideStandardWeeklyHours] = useState<boolean>(job.overrideStandardWeeklyHours ?? false)
+  const [dayOffType,          setDayOffType]          = useState<string>(job.dayOffType ?? '')
   const [dailyWorkingHours,   setDailyWorkingHours]   = useState<number>(job.dailyWorkingHours ?? 8)
   const [workingDaysPerWeek,  setWorkingDaysPerWeek]  = useState<number>(job.workingDaysPerWeek ?? 5)
   const [fte,                 setFte]                 = useState<number>(job.fte ?? 1)
@@ -94,12 +96,6 @@ export default function StepJob({ onValidChange }: StepJobProps) {
   const [costCenter,       setCostCenter]       = useState<string>(job.costCenter ?? '')
   const [jobFunction,      setJobFunction]      = useState<string>(job.jobFunction ?? '')
   const [corporateTitle,   setCorporateTitle]   = useState<string>(job.corporateTitle ?? '')
-
-  // Phase 3: Compensation Org fields
-  const [payScaleType,  setPayScaleType]  = useState<string>(job.payScaleType ?? '')
-  const [payScaleArea,  setPayScaleArea]  = useState<string>(job.payScaleArea ?? '')
-  const [payScaleGroup, setPayScaleGroup] = useState<string>(job.payScaleGroup ?? '')
-  const [payScaleLevel, setPayScaleLevel] = useState<string>(job.payScaleLevel ?? '')
 
   // Phase 3: Classification fields
   const [policyProfile,     setPolicyProfile]     = useState<string>(job.policyProfile ?? '')
@@ -128,6 +124,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       timeManagementStatus,
       otFlag,
       standardWeeklyHours,
+      overrideStandardWeeklyHours,
+      dayOffType,
       dailyWorkingHours,
       workingDaysPerWeek,
       fte,
@@ -136,8 +134,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       timeRecordingVariant,
     })
   }, [workSchedule, holidayTypeCondition, timeManagementStatus, otFlag, standardWeeklyHours,
-      dailyWorkingHours, workingDaysPerWeek, fte, holidayCalendar, timeProfile, timeRecordingVariant,
-      setStepData])
+      overrideStandardWeeklyHours, dayOffType, dailyWorkingHours, workingDaysPerWeek, fte,
+      holidayCalendar, timeProfile, timeRecordingVariant, setStepData])
 
   // Sync Phase 3 Job Org fields to store
   useEffect(() => {
@@ -149,16 +147,6 @@ export default function StepJob({ onValidChange }: StepJobProps) {
       corporateTitle: corporateTitle || null,
     })
   }, [department, division, costCenter, jobFunction, corporateTitle, setStepData])
-
-  // Sync Phase 3 Compensation Org fields to store
-  useEffect(() => {
-    setStepData('job', {
-      payScaleType: payScaleType || null,
-      payScaleArea: payScaleArea || null,
-      payScaleGroup: payScaleGroup || null,
-      payScaleLevel: payScaleLevel || null,
-    })
-  }, [payScaleType, payScaleArea, payScaleGroup, payScaleLevel, setStepData])
 
   // Sync Phase 3 Classification fields to store
   useEffect(() => {
@@ -210,6 +198,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           jobGrade: null,
           jobGradeLabel: null,
           hrDistrict: null,
+          supervisorId: null,
+          supervisorLabel: null,
         })
         return
       }
@@ -227,6 +217,8 @@ export default function StepJob({ onValidChange }: StepJobProps) {
         jobGrade: cascade.jobGrade,
         jobGradeLabel: cascade.jobGradeLabel,
         hrDistrict: cascade.hrDistrict ?? null,
+        supervisorId: cascade.managerPositionCode ?? null,
+        supervisorLabel: cascade.managerPositionLabel ?? null,
       })
     },
     [setStepData],
@@ -341,6 +333,19 @@ export default function StepJob({ onValidChange }: StepJobProps) {
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
+      </fieldset>
+
+      {/* Supervisor ID — auto-derived from Position FO reporting line */}
+      <fieldset>
+        <label className="humi-label">
+          {t('supervisorId')}
+          <span className="text-xs text-ink-muted ml-1">{t('fromPosition')}</span>
+        </label>
+        <div className="humi-input w-full bg-canvas-soft text-ink-muted">
+          {job.supervisorId
+            ? `${job.supervisorId}${job.supervisorLabel ? ` — ${job.supervisorLabel}` : ''}`
+            : '—'}
+        </div>
       </fieldset>
 
       {/* ── Phase 3: Job Organisation (SF EmpJob mandatory) ─────────────────────── */}
@@ -458,76 +463,10 @@ export default function StepJob({ onValidChange }: StepJobProps) {
           onClick={() => setShowAdvanced(v => !v)}
           className="text-small text-accent underline-offset-2 hover:underline flex items-center gap-1 mb-3"
         >
-          {showAdvanced ? 'ซ่อนการตั้งค่าขั้นสูง' : 'ดูการตั้งค่าขั้นสูง (Pay Scale, Time, FTE)'}
+          {showAdvanced ? 'ซ่อนการตั้งค่าขั้นสูง' : 'ดูการตั้งค่าขั้นสูง (Time, FTE)'}
         </button>
         {showAdvanced && (
           <>
-            {/* ── Phase 3: Compensation Organisation ──────────────────────────────────── */}
-            <fieldset className="md:col-span-2 mt-4 pt-4 border-t border-hairline-soft">
-              <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">
-                Compensation Organisation / โครงสร้างเงินเดือน
-              </legend>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
-
-                <fieldset>
-                  <label htmlFor="pay-scale-type" className="humi-label">
-                    Pay Scale Type<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-                  </label>
-                  <input
-                    id="pay-scale-type"
-                    type="text"
-                    value={payScaleType}
-                    onChange={(e) => setPayScaleType(e.target.value)}
-                    placeholder="เช่น TH01"
-                    className="humi-input w-full"
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label htmlFor="pay-scale-area" className="humi-label">
-                    Pay Scale Area<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-                  </label>
-                  <input
-                    id="pay-scale-area"
-                    type="text"
-                    value={payScaleArea}
-                    onChange={(e) => setPayScaleArea(e.target.value)}
-                    placeholder="เช่น 01"
-                    className="humi-input w-full"
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label htmlFor="pay-scale-group" className="humi-label">
-                    Pay Scale Group<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-                  </label>
-                  <input
-                    id="pay-scale-group"
-                    type="text"
-                    value={payScaleGroup}
-                    onChange={(e) => setPayScaleGroup(e.target.value)}
-                    placeholder="เช่น TH_MGMT"
-                    className="humi-input w-full"
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label htmlFor="pay-scale-level" className="humi-label">
-                    Pay Scale Level<span aria-hidden="true" className="humi-asterisk ml-1">*</span>
-                  </label>
-                  <input
-                    id="pay-scale-level"
-                    type="text"
-                    value={payScaleLevel}
-                    onChange={(e) => setPayScaleLevel(e.target.value)}
-                    placeholder="เช่น 08"
-                    className="humi-input w-full"
-                  />
-                </fieldset>
-
-              </div>
-            </fieldset>
-
             {/* ── Time Information (Area C — SF Image 15) ────────────────────────── */}
             <fieldset className="md:col-span-2 mt-4 pt-4 border-t border-hairline-soft">
               <legend className="humi-section-legend text-sm font-semibold text-ink mb-3">{t('timeInfoSection')}</legend>
@@ -616,6 +555,36 @@ export default function StepJob({ onValidChange }: StepJobProps) {
                     onChange={(e) => setStandardWeeklyHours(Number(e.target.value))}
                     className="humi-input w-full"
                   />
+                </fieldset>
+
+                {/* Override Standard Weekly Hours */}
+                <fieldset>
+                  <label htmlFor="override-weekly-hours" className="humi-label">{t('overrideStandardWeeklyHours')}</label>
+                  <select
+                    id="override-weekly-hours"
+                    value={overrideStandardWeeklyHours ? 'YES' : 'NO'}
+                    onChange={(e) => setOverrideStandardWeeklyHours(e.target.value === 'YES')}
+                    className="humi-select w-full"
+                  >
+                    <option value="NO">{t('overrideNo')}</option>
+                    <option value="YES">{t('overrideYes')}</option>
+                  </select>
+                </fieldset>
+
+                {/* Day off Type */}
+                <fieldset>
+                  <label htmlFor="day-off-type" className="humi-label">{t('dayOffType')}</label>
+                  <select
+                    id="day-off-type"
+                    value={dayOffType}
+                    onChange={(e) => setDayOffType(e.target.value)}
+                    className="humi-select w-full"
+                  >
+                    <option value="">{t('selectDayOffType')}</option>
+                    <option value="FIXED">{t('dayOffFixed')}</option>
+                    <option value="SHIFT">{t('dayOffShift')}</option>
+                    <option value="ROTATION">{t('dayOffRotation')}</option>
+                  </select>
                 </fieldset>
 
                 {/* ชั่วโมงทำงานต่อวัน (SF: EmpJob.customDouble1 — Daily Working Hours) */}

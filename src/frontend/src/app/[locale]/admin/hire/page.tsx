@@ -14,6 +14,8 @@ import { useHireWizard } from '@/lib/admin/store/useHireWizard'
 import { useHireAudit } from '@/stores/hire-audit'
 import { useAuthStore } from '@/stores/auth-store'
 import { useRecruitment } from '@/hooks/use-recruitment'
+import { useEmployees } from '@/lib/admin/store/useEmployees'
+import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
 import ClusterWho from './clusters/ClusterWho'
 import ClusterJob from './clusters/ClusterJob'
 import ClusterReview from './clusters/ClusterReview'
@@ -41,6 +43,7 @@ export default function HirePage() {
     reset,
   } = useHireWizard()
   const { candidates, loading: recruitmentLoading } = useRecruitment()
+  const allEmployees = useEmployees((s) => s.all)
 
   const appendHireAudit = useHireAudit((s) => s.append)
   const hrAdminId = useAuthStore((s) => s.userId) ?? 'ADM001'
@@ -152,24 +155,35 @@ export default function HirePage() {
       return
     }
 
-    // Log SH4 hire notification audit entry (Chain 2 / BRD #109)
+    const directManagerId = formData.job?.supervisorId?.trim() || ''
+    if (!directManagerId) {
+      setSubmitError('กรุณาเลือกตำแหน่งที่มี Direct Manager ก่อนบันทึก (Please select a position with Direct Manager approval before saving)')
+      return
+    }
+
+    // Log SH4 hire approval + notification audit entry (Chain 2 / BRD #109)
     const firstNameTh = formData.biographical?.firstNameLocal?.trim() || formData.identity?.firstNameEn?.trim() || 'พนักงานใหม่'
     const lastNameTh = formData.biographical?.lastNameLocal?.trim() || formData.identity?.lastNameEn?.trim() || ''
     const candidateName = `${firstNameTh} ${lastNameTh}`.trim()
     const position = formData.job?.position?.trim() || 'ไม่ระบุตำแหน่ง'
     const company = formData.identity?.companyCode ?? 'CEN'
     const hireDate = formData.identity?.hireDate ?? new Date().toISOString().slice(0, 10)
-    const employeeId = formData.identity?.employeeId || 'EMP-NEW'
+    const employeeId = nextEmployeeCode(allEmployees)
 
     // Resolve selected HRBP email from roster if available
     const hrbpEmail = hrbpAssignee ? `${hrbpAssignee}@humi.test` : 'hrbp@humi.test'
+    const directManagerEmail = `${directManagerId}@humi.test`
 
     appendHireAudit({
       candidateName,
       position,
       company: company ?? 'CEN',
       hireDate: hireDate ?? new Date().toISOString().slice(0, 10),
+      directManagerId,
+      directManagerEmail,
       hrbpEmail,
+      notificationRecipients: [directManagerEmail, hrbpEmail],
+      approvalStep: 'direct-manager',
       hrAdminName,
       hrAdminId,
     })

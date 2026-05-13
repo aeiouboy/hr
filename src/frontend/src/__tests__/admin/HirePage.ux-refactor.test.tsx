@@ -9,6 +9,10 @@ const nav = vi.hoisted(() => ({
   params: new URLSearchParams(),
 }))
 
+const hireAudit = vi.hoisted(() => ({
+  append: vi.fn(),
+}))
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: nav.push, replace: nav.replace }),
   usePathname: () => nav.pathname,
@@ -55,7 +59,9 @@ vi.mock('@/components/admin/wizard/WizardShell', () => ({
   ),
 }))
 
-vi.mock('@/stores/hire-audit', () => ({ useHireAudit: () => vi.fn() }))
+vi.mock('@/stores/hire-audit', () => ({
+  useHireAudit: (selector: any) => selector({ append: hireAudit.append }),
+}))
 vi.mock('@/stores/auth-store', () => ({ useAuthStore: (selector: any) => selector({ userId: 'ADM001', username: 'HR Admin' }) }))
 vi.mock('@/app/[locale]/admin/hire/clusters/ClusterWho', () => ({ default: () => <div>Cluster Who</div> }))
 vi.mock('@/app/[locale]/admin/hire/clusters/ClusterJob', () => ({ default: () => <div>Cluster Job</div> }))
@@ -68,6 +74,7 @@ function resetPage(search = '', pathname = '/th/admin/hire') {
   nav.replace.mockClear()
   nav.pathname = pathname
   nav.params = new URLSearchParams(search)
+  hireAudit.append.mockClear()
   localStorage.clear()
   act(() => useHireWizard.getState().reset())
 }
@@ -154,7 +161,7 @@ describe('HirePage UX refactor navigation and candidate context', () => {
     expect(useHireWizard.getState().isStepValid(1)).toBe(true)
   })
 
-  it('EC UX Slice 5 — post-submit employee detail navigation preserves locale', async () => {
+  it('EC UX Slice 5 — post-submit employee detail navigation preserves locale and uses generated numeric employee ID', async () => {
     resetPage('step=3', '/en/admin/hire')
     act(() => {
       const state = useHireWizard.getState()
@@ -168,17 +175,17 @@ describe('HirePage UX refactor navigation and candidate context', () => {
             ...state.formData.identity,
             hireDate: '2026-05-10',
             companyCode: 'CEN',
-            eventReason: 'HIRNEW',
-            salutationEn: 'Mr.',
+            eventReason: 'H_NEWHIRE',
+            salutationEn: 'MR',
             firstNameEn: 'Ken',
             lastNameEn: 'Test',
             dateOfBirth: '1990-01-01',
-            employeeId: 'EMP-UX-001',
-            nationalIdCardType: 'Thai National ID',
+            employeeId: '',
+            nationalIdCardType: 'NATIONAL_ID',
             country: 'THA',
             nationalId: '1102003039997',
-            isPrimary: 'true',
-            salutationLocal: 'นาย',
+            isPrimary: 'YES',
+            salutationLocal: 'MR',
           },
           biographical: {
             ...state.formData.biographical,
@@ -189,11 +196,16 @@ describe('HirePage UX refactor navigation and candidate context', () => {
           },
           employeeInfo: {
             ...state.formData.employeeInfo,
-            employeeClass: 'PERMANENT',
+            employeeGroup: '1',
+            employeeSubGroup: 'U0',
+            originalStartDate: '2026-05-10',
+            seniorityStartDate: '2026-05-10',
           },
           job: {
             ...state.formData.job,
             position: 'UX Manager',
+            supervisorId: '20001001',
+            supervisorLabel: 'Direct Manager from FO',
           },
           compensation: {
             ...state.formData.compensation,
@@ -211,9 +223,16 @@ describe('HirePage UX refactor navigation and candidate context', () => {
     render(<HirePage />)
     fireEvent.click(screen.getByRole('button', { name: 'Submit hire' }))
 
-    expect(await screen.findByText('EMP-UX-001')).toBeInTheDocument()
+    expect(await screen.findByText('20001001')).toBeInTheDocument()
+    expect(hireAudit.append).toHaveBeenCalledWith(expect.objectContaining({
+      directManagerId: '20001001',
+      directManagerEmail: '20001001@humi.test',
+      hrbpEmail: 'HRBP001@humi.test',
+      notificationRecipients: ['20001001@humi.test', 'HRBP001@humi.test'],
+      approvalStep: 'direct-manager',
+    }))
     fireEvent.click(screen.getByRole('button', { name: /ดูรายละเอียดพนักงาน/i }))
 
-    expect(nav.push).toHaveBeenCalledWith('/en/admin/employees/EMP-UX-001')
+    expect(nav.push).toHaveBeenCalledWith('/en/admin/employees/20001001')
   })
 })

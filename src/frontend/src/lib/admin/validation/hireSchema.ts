@@ -88,8 +88,8 @@ export const stepIdentitySchema = z.object({
   regionOfBirth: z.string().default(''),
   // BA row 11 (Age) เป็น derived value จาก dateOfBirth — ไม่ใส่ใน schema เพื่อกัน
   // single-source-of-truth drift (C7); validate ผ่าน .refine ด้านล่างแทน
-  /** BA row 12 — Employee ID * */
-  employeeId: z.string().min(1, 'กรุณาระบุรหัสพนักงาน'),
+  /** BA row 12 — Employee ID: generated after submit */
+  employeeId: z.string().optional().default(''),
   /** BA row 13 — National ID Card Type * */
   nationalIdCardType: z.enum(ID_CARD_TYPE_IDS),
   /** BA row 14 — Country * */
@@ -356,6 +356,8 @@ export const stepEmployeeInfoSchema = z.object({
   // Phase 6: employeeClass UI removed — rely on employeeGroup+employeeSubGroup only.
   // Keep optional in schema for migration compat; mapper already drops it.
   employeeClass: z.enum(EMPLOYEE_CLASSES).optional(),
+  employeeGroup: z.string().min(1, 'กรุณาเลือกกลุ่มพนักงาน'),
+  employeeSubGroup: z.string().min(1, 'กรุณาเลือกกลุ่มย่อยพนักงาน'),
   originalStartDate: z.string().min(1, 'กรุณาระบุวันเริ่มงานครั้งแรก'),
   seniorityStartDate: z.string().min(1, 'กรุณาระบุวันนับอายุงาน'),
   // Phase 4: SSN — User.ssn (sap_label="National ID", sap_creatable=true).
@@ -398,6 +400,8 @@ export const EMPLOYMENT_TYPE_CODES = [
 export const stepJobSchema = z.object({
   position: z.string().min(1, 'กรุณาระบุตำแหน่ง'),
   businessUnit: z.string().min(1, 'กรุณาเลือกหน่วยธุรกิจ'),
+  supervisorId: z.string().optional().nullable(),
+  supervisorLabel: z.string().optional().nullable(),
   // Phase 3: new optional/nullable fields — mandatory enforcement happens at mapper level
   department: z.string().optional().nullable(),
   division: z.string().optional().nullable(),
@@ -411,6 +415,8 @@ export const stepJobSchema = z.object({
   payScaleGroup: z.string().optional().nullable(),
   payScaleLevel: z.string().optional().nullable(),
   policyProfile: z.string().optional().nullable(),
+  overrideStandardWeeklyHours: z.boolean().optional(),
+  dayOffType: z.string().optional(),
   ssoLocation: z.string().optional().nullable(),
   groupCompanyGroup: z.string().optional().nullable(),
   contractType: z.string().optional().nullable(),

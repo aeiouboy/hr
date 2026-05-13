@@ -4114,7 +4114,10 @@
       "requiredHint": "Required fields",
       "isPrimaryHint": "Is Primary = main identity document — select \"No\" only for dual-company employment (secondary card)",
       "nationalIdChecksumError": "National ID checksum invalid (mod-11 failed)",
-      "forwardDateWarning": "A future hire date requires SPD pre-approval before activation (BRD #101)"
+      "forwardDateWarning": "A future hire date requires SPD pre-approval before activation (BRD #101)",
+      "dvtPreviousId": "Previous Employee ID (DVT)",
+      "dvtPreviousIdPlaceholder": "Enter if previously an intern/DVT",
+      "dvtPreviousIdHelp": "Used to look up previous intern records and prefill matching data when available"
     },
     "biographical": {
       "sectionTitle": "Personal Information",
@@ -4258,7 +4261,16 @@
       "selectStoreBranch": "— None / Not a branch —",
       "selectHrDistrict": "— None / Not a branch —",
       "otYes": "OT eligible",
-      "otNo": "No OT"
+      "otNo": "No OT",
+      "supervisorId": "Supervisor ID",
+      "overrideStandardWeeklyHours": "Override Standard Weekly Hours",
+      "dayOffType": "Day off Type",
+      "selectDayOffType": "— Select day off type —",
+      "dayOffFixed": "Fixed day off",
+      "dayOffShift": "Shift-based day off",
+      "dayOffRotation": "Rotating day off",
+      "overrideYes": "Override",
+      "overrideNo": "Use standard"
     },
     "compensation": {
       "sectionTitle": "Compensation",
@@ -4312,14 +4324,16 @@
       "enNameSectionTitle": "Name (English)",
       "enNameSectionSub": "Copied from identity step — edit at step 1",
       "hrbpSectionEyebrow": "Assignment",
-      "hrbpSectionTitle": "HRBP Manager",
-      "hrbpSectionSub": "Select the HRBP to receive the case and notify on submission",
+      "hrbpSectionTitle": "Direct Manager Approval + HRBP",
+      "hrbpSectionSub": "Direct Manager must approve the hire; notify both Direct Manager and HRBP when submitted",
+      "directManagerApprover": "Direct Manager Approver",
+      "directManagerHelp": "Auto-filled from the selected Position FO Supervisor ID",
       "summarySectionEyebrow": "Summary",
       "summarySectionTitle": "Pre-submission Summary",
       "summarySectionSub": "Review before saving — click a step on the left to go back and edit",
       "selectHrbp": "— Select HRBP —",
       "hrbpRequiredError": "Please select an HRBP before submitting (BRD #109)",
-      "notifyHrbpHelp": "SH4 trigger + template per BRD #109 — backend will be wired in Sprint 2",
+      "notifyHrbpHelp": "Direct Manager approval is required; HRBP receives the hiring notification",
       "summaryHireDate": "Hire Date",
       "summaryCompany": "Company",
       "summaryEventReason": "Event Reason",
@@ -4338,13 +4352,14 @@
       "summaryNationality": "Nationality",
       "summaryBloodType": "Blood Type",
       "summaryMaritalStatus": "Marital Status",
-      "summaryEmployeeClass": "Employee Class",
+      "summaryEmployeeClass": "Employee Group / Sub-Group",
       "summaryPosition": "Position",
       "summaryCompensation": "Compensation",
+      "summaryDirectManager": "Direct Manager Approver",
       "summaryHrbp": "Assigned HRBP",
       "summaryNotSelected": "— Not selected —",
       "salarySuffix": "THB/month",
-      "notifyHrbpLabel": "Notify HRBP via email when submitted"
+      "notifyHrbpLabel": "Notify both Direct Manager and HRBP via email when submitted"
     }
   },
   "manager_dashboard": {

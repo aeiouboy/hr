@@ -1,7 +1,7 @@
 'use client'
 
 // StepIdentity.tsx — Cluster 1 "Who"
-// BA rows 1-19 + Personal Info row 1 = 19 input fields.
+// BA rows 1-19 + Personal Info row 1, with DVT previous ID surfaced first for rehire/intern lookup.
 // (BA row 12 employeeId is system-generated per BRD #102:2267 — NOT an input,
 // assigned on submit, surfaced on Review cluster + post-save.)
 // 12 mandatory (*), 7 optional per BA-EC-SUMMARY.md
@@ -11,8 +11,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import { useHireWizard } from '@/lib/admin/store/useHireWizard'
-import { useEmployees } from '@/lib/admin/store/useEmployees'
-import { nextEmployeeCode } from '@/lib/admin/utils/employeeCode'
 import { stepIdentitySchema, calcAge } from '@/lib/admin/validation/hireSchema'
 // BRD #14: mod-11 Thai National ID checksum — validated at UI layer to avoid blocking schema parse
 import { validateThaiNationalIdMod11, requiresThaiMod11 } from '@/lib/admin/validation/thaiNationalId'
@@ -64,22 +62,16 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   const { formData, setStepData } = useHireWizard()
   const id = formData.identity
   const nationality = formData.biographical?.nationality ?? ''
-  const allEmployees = useEmployees((s) => s.all)
 
   // BRD #178-181 PILOT — self-service config bus: read mandatory matrix.
   // HR Admin role is 'SPD' in RoleName (CapCase). Pilot: national_id field.
   const selfServiceConfig = useSelfServiceConfig()
   const nationalIdMandatory = selfServiceConfig.isMandatory('national_id', 'SPD')
 
-  // employeeId is system-generated per BRD #102 line 2267 (Invariant I1)
-  const generatedEmployeeId = useMemo(
-    () => id.employeeId || nextEmployeeCode(allEmployees),
-    [allEmployees, id.employeeId]
-  )
-
   // ── Local field state ───────────────────────────────────────────────────────
   const [showBirthDetails,  setShowBirthDetails]  = useState(false)
 
+  const [dvtPreviousId,     setDvtPreviousId]     = useState(formData.employeeInfo.dvtPreviousId ?? '')
   const [hireDate,          setHireDate]          = useState(id.hireDate ?? todayISO())
   const [companyCode,       setCompanyCode]       = useState(id.companyCode ?? '')
   const [eventReason,       setEventReason]       = useState(id.eventReason ?? '')
@@ -90,7 +82,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
   const [dateOfBirth,       setDateOfBirth]       = useState(id.dateOfBirth ?? '')
   const [countryOfBirth,    setCountryOfBirth]    = useState(id.countryOfBirth ?? '')
   const [regionOfBirth,     setRegionOfBirth]     = useState(id.regionOfBirth ?? '')
-  const [employeeId,        setEmployeeId]        = useState(id.employeeId || generatedEmployeeId)
+  const employeeId = id.employeeId ?? ''
   const [nationalIdCardType,setNationalIdCardType]= useState(id.nationalIdCardType ?? '')
   const [country,           setCountry]           = useState(id.country ?? '')
   const [nationalId,        setNationalId]        = useState(id.nationalId ?? '')
@@ -140,7 +132,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
       dateOfBirth:        dateOfBirth  || undefined,
       countryOfBirth:     countryOfBirth || null,
       regionOfBirth,
-      employeeId:         employeeId   || undefined,
+      employeeId:         employeeId   || '',
       nationalIdCardType: nationalIdCardType || undefined,
       country:            country      || undefined,
       nationalId:         nationalId   || undefined,
@@ -184,6 +176,11 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
 
   useEffect(() => { validate() }, [validate])
 
+  // Surface DVT Previous Employee ID on Step 1 so it is available before later sections render.
+  useEffect(() => {
+    setStepData('employeeInfo', { dvtPreviousId })
+  }, [dvtPreviousId, setStepData])
+
   // sync hireDate default ครั้งแรก
   useEffect(() => {
     if (!id.hireDate && hireDate) setStepData('identity', { hireDate })
@@ -205,6 +202,22 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+      {/* DVT Previous Employee ID — placed first to support previous internship/rehire lookup. */}
+      <fieldset className="md:col-span-2">
+        <label htmlFor="dvt-prev-id" className="humi-label">
+          {t('dvtPreviousId')}
+        </label>
+        <input
+          id="dvt-prev-id"
+          type="text"
+          value={dvtPreviousId}
+          onChange={(e) => setDvtPreviousId(e.target.value)}
+          placeholder={t('dvtPreviousIdPlaceholder')}
+          className="humi-input w-full"
+        />
+        <p className="mt-1 text-xs text-ink-faint">{t('dvtPreviousIdHelp')}</p>
+      </fieldset>
+
       {/* ─── BA row 1 — Hire Date * ─── */}
       <fieldset>
         <label htmlFor="hire-date" className="humi-label">
@@ -392,7 +405,7 @@ export default function StepIdentity({ onValidChange }: StepIdentityProps) {
           aria-readonly="true"
           aria-label={t('employeeId')}
         >
-          {employeeId}
+          {employeeId || 'สร้างหลัง Submit'}
         </div>
       </fieldset>
 

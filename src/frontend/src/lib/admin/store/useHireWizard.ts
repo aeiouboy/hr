@@ -283,12 +283,16 @@ export interface FormData {
     jobGradeLabel: string | null
     storeBranchCode: string | null
     hrDistrict: string | null
+    supervisorId: string | null
+    supervisorLabel: string | null
     // Time Information (Area C — SF Image 15)
     workSchedule: string
     holidayTypeCondition: string
     timeManagementStatus: string
     otFlag: string
     standardWeeklyHours: number
+    overrideStandardWeeklyHours: boolean
+    dayOffType: string
     dailyWorkingHours: number
     workingDaysPerWeek: number
     fte: number
@@ -434,6 +438,8 @@ const initialFormData: FormData = {
     pfServiceDate: '',
     dvtPreviousId: '',
     cgPreviousEmployeeId: '',
+    employeeGroup: '',
+    employeeSubGroup: '',
   },
   nationalId:   { value: '' },
   personal:     { addressLine1: '' },
@@ -449,12 +455,16 @@ const initialFormData: FormData = {
     jobGradeLabel: null,
     storeBranchCode: null,
     hrDistrict: null,
+    supervisorId: null,
+    supervisorLabel: null,
     // Time Information (Area C — SF Image 15)
     workSchedule: '',
     holidayTypeCondition: '',
     timeManagementStatus: '',
     otFlag: '',
     standardWeeklyHours: 40,
+    overrideStandardWeeklyHours: false,
+    dayOffType: '',
     dailyWorkingHours: 8,
     workingDaysPerWeek: 5,
     fte: 1,
@@ -544,7 +554,7 @@ interface HireWizardState {
 
 // Per-slice validators
 // Step 1 "Who" — identity required: hireDate + companyCode + eventReason + salutationEn
-//   + firstNameEn + lastNameEn + dateOfBirth + employeeId + nationalIdCardType
+//   + firstNameEn + lastNameEn + dateOfBirth + nationalIdCardType
 //   + country + nationalId + isPrimary + salutationLocal
 // Step 2 "Job" — biographical required: otherTitleTh + firstNameLocal + lastNameLocal
 //   + middleNameLocal + nickname + militaryStatus + gender + nationality
@@ -560,7 +570,6 @@ const sliceValid = {
       d.identity.firstNameEn.trim() &&
       d.identity.lastNameEn.trim() &&
       d.identity.dateOfBirth &&
-      d.identity.employeeId.trim() &&
       d.identity.nationalIdCardType &&
       d.identity.country &&
       d.identity.nationalId.trim() &&
@@ -614,7 +623,12 @@ const sliceValid = {
   },
   // Legacy validators — kept for backward compat with existing tests
   name:         (d: FormData) => d.name.firstNameTh.trim() !== '' && d.name.lastNameTh.trim() !== '',
-  employeeInfo: (d: FormData) => !!d.employeeInfo.employeeClass,
+  employeeInfo: (d: FormData) => !!(
+    d.employeeInfo.employeeGroup &&
+    d.employeeInfo.employeeSubGroup &&
+    d.employeeInfo.originalStartDate &&
+    d.employeeInfo.seniorityStartDate
+  ),
   nationalId:   (d: FormData) => d.nationalId.value.trim() !== '',
   personal:     (d: FormData) => d.personal.addressLine1.trim() !== '',
   job:          (d: FormData) => d.job.position.trim() !== '',
@@ -870,7 +884,7 @@ export const useHireWizard = create<HireWizardState>()(
         if (!fd.job || typeof fd.job !== 'object') {
           fd.job = {}
         }
-        const jobDefaults: Record<string, null | ''> = {
+        const jobDefaults: Record<string, unknown> = {
           department: null, division: null, divisionLabel: null,
           costCenter: null, jobFunction: null, jobFunctionLabel: null,
           corporateTitle: null, payScaleType: null, payScaleArea: null,
@@ -878,7 +892,8 @@ export const useHireWizard = create<HireWizardState>()(
           ssoLocation: null, groupCompanyGroup: null, contractType: null,
           zone: null, contractEndDate: null, probationEndDate: null,
           emplStatus: null, event: null, employmentType: null,
-          attachmentName: null,
+          attachmentName: null, supervisorId: null, supervisorLabel: null,
+          overrideStandardWeeklyHours: false, dayOffType: '',
         }
         for (const [k, v] of Object.entries(jobDefaults)) {
           if (!(k in fd.job)) fd.job[k] = v
@@ -889,6 +904,12 @@ export const useHireWizard = create<HireWizardState>()(
         }
         if (!('ssn' in fd.employeeInfo)) {
           fd.employeeInfo.ssn = ''
+        }
+        if (!('employeeGroup' in fd.employeeInfo)) {
+          fd.employeeInfo.employeeGroup = ''
+        }
+        if (!('employeeSubGroup' in fd.employeeInfo)) {
+          fd.employeeInfo.employeeSubGroup = ''
         }
         // v6: Phase 5b-2/3/4 — backfill new slices for v5 drafts
         if (!fd.globalInfo) {

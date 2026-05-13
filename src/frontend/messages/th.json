@@ -4070,7 +4070,10 @@
       "requiredHint": "ช่องที่บังคับกรอก",
       "isPrimaryHint": "บัตรหลัก = เอกสารยืนยันตัวตนหลัก — เลือก \"ไม่ใช่\" เฉพาะกรณีการจ้างคู่ในเครือ (บัตรรอง)",
       "nationalIdChecksumError": "เลขบัตรประชาชนไม่ถูกต้อง (checksum mod-11 ไม่ผ่าน) / National ID checksum invalid",
-      "forwardDateWarning": "วันที่เริ่มงานล่วงหน้าต้องผ่านการอนุมัติจาก SPD ก่อนเปิดใช้งาน (BRD #101)"
+      "forwardDateWarning": "วันที่เริ่มงานล่วงหน้าต้องผ่านการอนุมัติจาก SPD ก่อนเปิดใช้งาน (BRD #101)",
+      "dvtPreviousId": "รหัสพนักงานเดิม (DVT)",
+      "dvtPreviousIdPlaceholder": "กรอกถ้าเคยฝึกงาน/เคยเป็น DVT",
+      "dvtPreviousIdHelp": "ใช้ค้นประวัติเดิมและเติมข้อมูลอัตโนมัติเมื่อพบข้อมูลพนักงานฝึกงานเดิม"
     },
     "biographical": {
       "sectionTitle": "ข้อมูลส่วนตัว",
@@ -4214,7 +4217,16 @@
       "selectStoreBranch": "— ไม่ระบุ / ไม่ใช่สาขา —",
       "selectHrDistrict": "— ไม่ระบุ / ไม่ใช่สาขา —",
       "otYes": "ได้รับ OT",
-      "otNo": "ไม่ได้รับ OT"
+      "otNo": "ไม่ได้รับ OT",
+      "supervisorId": "Supervisor ID",
+      "overrideStandardWeeklyHours": "Override Standard Weekly Hours",
+      "dayOffType": "Day off Type",
+      "selectDayOffType": "— เลือกประเภทวันหยุด —",
+      "dayOffFixed": "วันหยุดประจำ",
+      "dayOffShift": "วันหยุดตามกะ",
+      "dayOffRotation": "วันหยุดหมุนเวียน",
+      "overrideYes": "Override",
+      "overrideNo": "ใช้ค่ามาตรฐาน"
     },
     "compensation": {
       "sectionTitle": "ค่าตอบแทน",
@@ -4268,14 +4280,16 @@
       "enNameSectionTitle": "ชื่อ-นามสกุลภาษาอังกฤษ",
       "enNameSectionSub": "คัดลอกจากขั้นตอนระบุตัวตน — แก้ไขได้ที่ขั้นตอนที่ 1",
       "hrbpSectionEyebrow": "การมอบหมาย",
-      "hrbpSectionTitle": "ผู้ดูแล HRBP",
-      "hrbpSectionSub": "เลือก HRBP ที่จะรับเรื่องและแจ้งเตือนเมื่อส่งข้อมูล",
+      "hrbpSectionTitle": "อนุมัติโดย Direct Manager + HRBP",
+      "hrbpSectionSub": "Direct Manager ต้องอนุมัติการจ้าง และแจ้งเตือนทั้ง Direct Manager กับ HRBP เมื่อส่งข้อมูล",
+      "directManagerApprover": "Direct Manager ผู้อนุมัติ",
+      "directManagerHelp": "ดึงอัตโนมัติจาก Supervisor ID ของ Position FO ที่เลือก",
       "summarySectionEyebrow": "สรุป",
       "summarySectionTitle": "สรุปข้อมูลก่อนส่ง",
       "summarySectionSub": "ตรวจสอบก่อนบันทึก — คลิกขั้นตอนด้านซ้ายเพื่อย้อนกลับแก้ไข",
       "selectHrbp": "— เลือก HRBP —",
       "hrbpRequiredError": "กรุณาเลือก HRBP ก่อนบันทึก (BRD #109)",
-      "notifyHrbpHelp": "SH4 trigger + template ตาม BRD #109 — Sprint 2 จะ wire backend",
+      "notifyHrbpHelp": "ต้องผ่านการอนุมัติจาก Direct Manager และ HRBP จะได้รับ notification ของเคสจ้างนี้",
       "summaryHireDate": "วันที่เริ่มงาน",
       "summaryCompany": "บริษัท",
       "summaryEventReason": "สาเหตุการจ้าง",
@@ -4294,13 +4308,14 @@
       "summaryNationality": "สัญชาติ",
       "summaryBloodType": "กรุ๊ปเลือด",
       "summaryMaritalStatus": "สถานภาพสมรส",
-      "summaryEmployeeClass": "ประเภทพนักงาน",
+      "summaryEmployeeClass": "กลุ่มพนักงาน / กลุ่มย่อย",
       "summaryPosition": "ตำแหน่ง",
       "summaryCompensation": "ค่าตอบแทน",
+      "summaryDirectManager": "Direct Manager ผู้อนุมัติ",
       "summaryHrbp": "HRBP ที่มอบหมาย",
       "summaryNotSelected": "— ยังไม่เลือก —",
       "salarySuffix": "บาท/เดือน",
-      "notifyHrbpLabel": "แจ้ง HRBP ทางอีเมลเมื่อส่งข้อมูล"
+      "notifyHrbpLabel": "แจ้งทั้ง Direct Manager และ HRBP ทางอีเมลเมื่อส่งข้อมูล"
     }
   },
   "manager_dashboard": {

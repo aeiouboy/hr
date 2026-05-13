@@ -59,8 +59,10 @@ const baseFormData: FormData = {
     branch: 'ROB-RMA', branchLabel: 'Robinson Rama 9', jobCode: 'RETAIL_OPS',
     jobLabel: 'Retail Operations Manager', jobGrade: 'JG-08', jobGradeLabel: 'Senior Manager',
     storeBranchCode: 'cust_WorkLocation_TOPS_PHUKET', hrDistrict: 'HR01-08',
+    supervisorId: '20001001', supervisorLabel: 'Direct Manager from FO',
     workSchedule: 'D05H0800', holidayTypeCondition: 'HO', timeManagementStatus: '9',
-    otFlag: 'YES', standardWeeklyHours: 40, dailyWorkingHours: 8,
+    otFlag: 'YES', standardWeeklyHours: 40, overrideStandardWeeklyHours: true,
+    dayOffType: 'FIXED', dailyWorkingHours: 8,
     workingDaysPerWeek: 5, fte: 1, holidayCalendar: 'TH_PUBLIC', timeProfile: 'TP_STD',
     timeRecordingVariant: '01',
     attachmentName: null,
@@ -121,6 +123,12 @@ describe('EmpJobMapper', () => {
     const result = EmpJobMapper.build(baseFormData)
     const p = result.payload as Record<string, unknown>
     expect(p.customString7).toBe('cust_WorkLocation_TOPS_PHUKET')
+  })
+
+  it('maps Supervisor ID from Position FO to managerId', () => {
+    const result = EmpJobMapper.build(baseFormData)
+    const p = result.payload as Record<string, unknown>
+    expect(p.managerId).toBe('20001001')
   })
 
   it('customString2 (Employee Group) from employeeInfo slice', () => {

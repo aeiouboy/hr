@@ -81,7 +81,7 @@ describe('HireCheckpointSidebar — render', () => {
     expect(screen.getByText('ระบุตัวตน')).toBeTruthy()
     expect(screen.getByText('ประเภทการจ้างงาน')).toBeTruthy()
     expect(screen.getByText('ชื่อ-นามสกุลภาษาอังกฤษ')).toBeTruthy()
-    expect(screen.getByText('ผู้ดูแล HRBP')).toBeTruthy()
+    expect(screen.getByText('อนุมัติโดย Direct Manager + HRBP')).toBeTruthy()
     expect(screen.getByText('สรุปข้อมูลก่อนส่ง')).toBeTruthy()
     expect(screen.queryByText('ใบอนุญาตทำงาน')).toBeNull()
     expect(screen.queryByText('บุคคลในอุปการะ')).toBeNull()

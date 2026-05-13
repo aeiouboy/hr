@@ -1,7 +1,6 @@
 'use client'
 
 // StepEmployeeInfo.tsx — Step 4: ข้อมูลพนักงาน
-// Fields: employeeClass dropdown A-H — required
 // BRD #23, #30: employeeGroup + employeeSubGroup pickers (separate from employeeClass)
 //   SF source: EmpJob.employeeGroup, EmpJob.employeeSubGroup
 //   jq '.d.results[0] | {employeeClass, employeeGroup, employeeSubGroup}' sf-qas-EmpJob-2026-04-26.json
@@ -60,11 +59,8 @@ function calcRetirementDate(dob: string): string {
 export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProps) {
   const t = useTranslations('hireForm.employeeInfo')
   const { formData, setStepData } = useHireWizard()
-  const [employeeClass, setEmployeeClass] = useState<string>(formData.employeeInfo.employeeClass ?? '')
   const [employeeGroup, setEmployeeGroup] = useState<string>((formData.employeeInfo as Record<string,unknown>).employeeGroup as string ?? '')
   const [employeeSubGroup, setEmployeeSubGroup] = useState<string>((formData.employeeInfo as Record<string,unknown>).employeeSubGroup as string ?? '')
-  const [touched, setTouched]             = useState(false)
-  const [error, setError]                 = useState<string | undefined>()
 
   // Employment Details state (Area C — SF Image 15)
   const hireDate = formData.identity.hireDate ?? ''
@@ -75,18 +71,16 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   const [cgPreviousEmployeeId, setCgPreviousEmployeeId] = useState<string>(formData.employeeInfo.cgPreviousEmployeeId ?? '')
 
   const validate = useCallback(
-    (cls: string, origStart: string, senStart: string) => {
+    (group: string, subGroup: string, origStart: string, senStart: string) => {
       const result = stepEmployeeInfoSchema.safeParse({
-        employeeClass: cls || undefined,
+        employeeGroup: group || undefined,
+        employeeSubGroup: subGroup || undefined,
         originalStartDate: origStart,
         seniorityStartDate: senStart,
       })
       if (result.success) {
-        setError(undefined)
-        setStepData('employeeInfo', { employeeClass: cls })
         onValidChange?.(true)
       } else {
-        setError(result.error.issues[0]?.message)
         onValidChange?.(false)
       }
     },
@@ -94,10 +88,10 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   )
 
   useEffect(() => {
-    // Existing validation callback updates local errors and wizard validity while synchronizing this legacy step.
+    // Existing validation callback updates wizard validity while synchronizing this legacy step.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    validate(employeeClass, originalStartDate, seniorityStartDate)
-  }, [employeeClass, originalStartDate, seniorityStartDate, validate])
+    validate(employeeGroup, employeeSubGroup, originalStartDate, seniorityStartDate)
+  }, [employeeGroup, employeeSubGroup, originalStartDate, seniorityStartDate, validate])
 
   // Sync employeeGroup/SubGroup to store (BRD #23, #30)
   useEffect(() => {
@@ -116,8 +110,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
-      {/* employeeClass UI input removed per Phase 6 — rely on employeeGroup + employeeSubGroup.
-          State + store write kept for migration compat. Mapper already drops employeeClass. */}
+      {/* employeeClass UI input removed per Phase 6 — rely on employeeGroup + employeeSubGroup. */}
 
       {/* กลุ่มพนักงาน — BRD #23 — SF EmpJob.employeeGroup (required for payroll classification) */}
       {/* SF source: jq '.d.results[0].employeeGroup' sf-qas-EmpJob-2026-04-26.json */}

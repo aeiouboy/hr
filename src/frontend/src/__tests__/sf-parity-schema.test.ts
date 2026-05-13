@@ -136,9 +136,9 @@ const minimalFormData: FormData = {
   job: {
     position: '', businessUnit: null, businessUnitLabel: null,
     branch: null, branchLabel: null, jobCode: null, jobLabel: null,
-    jobGrade: null, jobGradeLabel: null, storeBranchCode: null, hrDistrict: null,
+    jobGrade: null, jobGradeLabel: null, storeBranchCode: null, hrDistrict: null, supervisorId: null, supervisorLabel: null,
     workSchedule: '', holidayTypeCondition: '', timeManagementStatus: '',
-    otFlag: '', standardWeeklyHours: 0, dailyWorkingHours: 0,
+    otFlag: '', standardWeeklyHours: 0, overrideStandardWeeklyHours: false, dayOffType: '', dailyWorkingHours: 0,
     workingDaysPerWeek: 0, fte: 0, holidayCalendar: '', timeProfile: '',
     timeRecordingVariant: '',
     attachmentName: null,

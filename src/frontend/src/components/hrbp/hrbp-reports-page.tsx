@@ -243,7 +243,7 @@ export function HRBPReportsPage() {
 
  {/* ── Hire Notifications (SH4) — Chain 2 / BRD #109 ── */}
  {activeTab ==='hire-notifications' && <Card
- header={<><CardTitle>{t('tabs.hireNotifications')}</CardTitle><p className="text-sm text-ink-muted mt-1">HR Admin ได้บันทึกการจ้างงานใหม่ — SH4 แจ้ง HRBP อัตโนมัติ (ข้อมูลเพื่อรับทราบเท่านั้น)</p></>}
+ header={<><CardTitle>{t('tabs.hireNotifications')}</CardTitle><p className="text-sm text-ink-muted mt-1">HR Admin ได้บันทึกการจ้างงานใหม่ — Direct Manager ต้องอนุมัติ และ SH4 แจ้ง Direct Manager กับ HRBP อัตโนมัติ</p></>}
  >
  {hireAuditEntries.length === 0 ? (
  <p className="text-sm text-ink-muted py-4 text-center">ยังไม่มีการบันทึกการจ้างงานใหม่</p>
@@ -254,6 +254,7 @@ export function HRBPReportsPage() {
  <tr className="border-b bg-surface-raised border-hairline">
  <th className="text-left px-3 py-2">พนักงานใหม่</th>
  <th className="text-left px-3 py-2">ตำแหน่ง</th>
+ <th className="text-left px-3 py-2">Direct Manager</th>
  <th className="text-left px-3 py-2">บริษัท</th>
  <th className="text-left px-3 py-2">วันที่เริ่มงาน</th>
  <th className="text-left px-3 py-2">HR Admin</th>
@@ -265,6 +266,7 @@ export function HRBPReportsPage() {
  <tr key={entry.id} className="border-b border-hairline last:border-0">
  <td className="px-3 py-2 font-medium text-ink">{entry.candidateName}</td>
  <td className="px-3 py-2 text-ink-muted">{entry.position}</td>
+ <td className="px-3 py-2 text-ink-muted">{entry.directManagerId || '—'}</td>
  <td className="px-3 py-2">
  <Badge variant="info">{entry.company}</Badge>
  </td>
