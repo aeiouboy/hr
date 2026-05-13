@@ -94,6 +94,8 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   )
 
   useEffect(() => {
+    // Existing validation callback updates local errors and wizard validity while synchronizing this legacy step.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     validate(employeeClass, originalStartDate, seniorityStartDate)
   }, [employeeClass, originalStartDate, seniorityStartDate, validate])
 
