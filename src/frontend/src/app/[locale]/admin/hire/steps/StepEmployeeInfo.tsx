@@ -72,11 +72,7 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
   const [originalStartDate,    setOriginalStartDate]    = useState<string>(formData.employeeInfo.originalStartDate || hireDate)
   const [seniorityStartDate,   setSeniorityStartDate]   = useState<string>(formData.employeeInfo.seniorityStartDate || hireDate)
   const [retirementDate,       setRetirementDate]       = useState<string>(formData.employeeInfo.retirementDate || calcRetirementDate(dob))
-  const [pfServiceDate,        setPfServiceDate]        = useState<string>(formData.employeeInfo.pfServiceDate ?? '')
-  const [dvtPreviousId,        setDvtPreviousId]        = useState<string>(formData.employeeInfo.dvtPreviousId ?? '')
   const [cgPreviousEmployeeId, setCgPreviousEmployeeId] = useState<string>(formData.employeeInfo.cgPreviousEmployeeId ?? '')
-  // Phase 4: SSN — User.ssn (sap_label="National ID", sap_creatable=true, sap_upsertable=true)
-  const [ssn, setSsn] = useState<string>(formData.employeeInfo.ssn ?? '')
 
   const validate = useCallback(
     (cls: string, origStart: string, senStart: string) => {
@@ -112,13 +108,9 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
       originalStartDate,
       seniorityStartDate,
       retirementDate,
-      pfServiceDate,
-      dvtPreviousId,
       cgPreviousEmployeeId,
-      ssn,
     })
-  }, [originalStartDate, seniorityStartDate, retirementDate, pfServiceDate,
-      dvtPreviousId, cgPreviousEmployeeId, ssn, setStepData])
+  }, [originalStartDate, seniorityStartDate, retirementDate, cgPreviousEmployeeId, setStepData])
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
@@ -216,31 +208,6 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
             />
           </fieldset>
 
-          {/* วันเข้ากองทุนสำรองเลี้ยงชีพ */}
-          <fieldset>
-            <label htmlFor="pf-service-date" className="humi-label">{t('pfServiceDate')}</label>
-            <input
-              id="pf-service-date"
-              type="date"
-              value={pfServiceDate}
-              onChange={(e) => setPfServiceDate(e.target.value)}
-              className="humi-input w-full"
-            />
-          </fieldset>
-
-          {/* รหัสพนักงานเดิม DVT */}
-          <fieldset>
-            <label htmlFor="dvt-prev-id" className="humi-label">{t('dvtPreviousId')}</label>
-            <input
-              id="dvt-prev-id"
-              type="text"
-              value={dvtPreviousId}
-              onChange={(e) => setDvtPreviousId(e.target.value)}
-              placeholder={t('idPlaceholder')}
-              className="humi-input w-full"
-            />
-          </fieldset>
-
           {/* รหัสพนักงาน CG เดิม */}
           <fieldset>
             <label htmlFor="cg-prev-id" className="humi-label">{t('cgPreviousEmployeeId')}</label>
@@ -250,24 +217,6 @@ export default function StepEmployeeInfo({ onValidChange }: StepEmployeeInfoProp
               value={cgPreviousEmployeeId}
               onChange={(e) => setCgPreviousEmployeeId(e.target.value)}
               placeholder={t('idPlaceholder')}
-              className="humi-input w-full"
-            />
-          </fieldset>
-
-          {/* เลขประกันสังคม / SSN — Phase 4: User.ssn (SF sap_label="National ID", sap_creatable=true) */}
-          <fieldset>
-            <label htmlFor="ssn" className="humi-label">
-              {t('ssn')}
-              <span className="ml-1 text-xs text-ink-muted">{t('ssnHint')}</span>
-            </label>
-            <input
-              id="ssn"
-              type="text"
-              inputMode="numeric"
-              maxLength={13}
-              value={ssn}
-              onChange={(e) => setSsn(e.target.value.replace(/\D/g, '').slice(0, 13))}
-              placeholder={t('ssnPlaceholder')}
               className="humi-input w-full"
             />
           </fieldset>
