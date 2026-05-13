@@ -15,12 +15,83 @@ import { usePositions, type Position } from '@/lib/admin/store/usePositions'
 import { useJobs } from '@/lib/admin/store/useJobs'
 import { useOrgUnits } from '@/lib/admin/store/useOrgUnits'
 import { PICKLIST_COMPANY } from '@hrms/shared/picklists'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 // ──────────────────────────────────────────────
 // Helpers — cross-reference resolvers
 // ──────────────────────────────────────────────
 
 const PLACEHOLDER_JOB = '— กรุณากำหนดงาน/หน่วยงานก่อน —'
+
+function useCurrentLocale() {
+  const params = useParams()
+  return (params?.locale as string) ?? 'th'
+}
+
+function CoverageLink({
+  href,
+  children,
+}: {
+  href: string
+  children: React.ReactNode
+}) {
+  return (
+    <Link
+      href={href}
+      className="humi-btn"
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+    >
+      {children}
+    </Link>
+  )
+}
+
+function PositionHeaderActions() {
+  const locale = useCurrentLocale()
+  return (
+    <>
+      <CoverageLink href={`/${locale}/admin/organization`}>
+        โครงสร้างหน่วยงาน
+      </CoverageLink>
+      <CoverageLink href={`/${locale}/org-chart`}>
+        ดูผังองค์กร
+      </CoverageLink>
+    </>
+  )
+}
+
+function MetricCard({ label, value, help }: { label: string; value: string | number; help: string }) {
+  return (
+    <div
+      className="humi-card"
+      style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}
+    >
+      <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{label}</div>
+      <div className="font-display text-[22px] font-semibold text-ink">{value}</div>
+      <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{help}</div>
+    </div>
+  )
+}
+
+function PositionCoverageSummary({ positions }: { positions: Position[] }) {
+  const activeCount = positions.filter((p) => p.active).length
+  const vacantCount = positions.filter((p) => p.active && p.currentHeadcount === 0).length
+  const plannedHeadcount = positions.reduce((sum, p) => sum + p.defaultHeadcount, 0)
+  const companies = new Set(positions.map((p) => p.company)).size
+
+  return (
+    <section
+      aria-label="สรุปตำแหน่งงาน"
+      className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <MetricCard label="ตำแหน่งใช้งาน" value={activeCount.toLocaleString('th-TH')} help="พร้อมใช้งานสำหรับงาน HR" />
+      <MetricCard label="ตำแหน่งว่าง" value={vacantCount.toLocaleString('th-TH')} help="ไม่มีผู้ดำรงตำแหน่งปัจจุบัน" />
+      <MetricCard label="อัตรากำลังตามแผน" value={plannedHeadcount.toLocaleString('th-TH')} help="รวมอัตรากำลังที่วางแผนไว้" />
+      <MetricCard label="บริษัทที่ครอบคลุม" value={companies.toLocaleString('th-TH')} help="จากรายการตำแหน่งปัจจุบัน" />
+    </section>
+  )
+}
 
 /** แสดง "code — titleTh" สำหรับ job column, fallback เป็น jobId ถ้าไม่พบ */
 function resolveJobLabel(jobId: string, jobs: ReturnType<typeof useJobs.getState>['all']): string {
@@ -295,8 +366,8 @@ const { Page } = createCrudPage<Position>({
         {/* ─── BRD #5: Position effective dates (MED) ──────────────────────────
              SF cite: qas-fields-2026-04-26/sf-qas-Position-2026-04-26.json#.d.results[0] */}
         <label className="humi-label">
-          วันที่มีผล (startDate)
-          <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)', marginLeft: 4 }}>SF: startDate</span>
+          วันที่มีผล
+          <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)', marginLeft: 4 }}>วันเริ่มต้นของตำแหน่ง</span>
           <input
             className="humi-input"
             type="date"
@@ -306,8 +377,8 @@ const { Page } = createCrudPage<Position>({
         </label>
 
         <label className="humi-label">
-          วันที่สิ้นสุด (endDate)
-          <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)', marginLeft: 4 }}>SF: endDate — ว่าง = ไม่มีกำหนด</span>
+          วันที่สิ้นสุด
+          <span style={{ fontWeight: 400, fontSize: 11, color: 'var(--color-ink-muted)', marginLeft: 4 }}>ว่าง = ไม่มีกำหนด</span>
           <input
             className="humi-input"
             type="date"
@@ -337,6 +408,8 @@ const { Page } = createCrudPage<Position>({
     titleTh: 'ไม่พบรายการตำแหน่ง',
     bodyTh: 'ลองเปลี่ยนคำค้นหา หรือกด "เพิ่มรายการ" เพื่อสร้างใหม่',
   },
+  renderHeaderActions: () => <PositionHeaderActions />,
+  renderSummary: (items) => <PositionCoverageSummary positions={items} />,
 })
 
 export default Page

@@ -12,6 +12,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Plus, ChevronRight, ChevronDown, Building2, X, Search } from 'lucide-react'
 import { useOrgUnits, type OrgUnit } from '@/lib/admin/store/useOrgUnits'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 // ──────────────────────────────────────────────
 // Constants
@@ -25,6 +27,37 @@ const COMPANY_LABELS: Record<OrgUnit['company'], string> = {
   CU:       'เซ็นทรัล ยูนิต (CU)',
   CPN:      'เซ็นทรัล พัฒนา (CPN)',
   ROBINSON: 'โรบินสัน (ROBINSON)',
+}
+
+function CoverageLink({
+  href,
+  children,
+}: {
+  href: string
+  children: React.ReactNode
+}) {
+  return (
+    <Link
+      href={href}
+      className="humi-btn"
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+    >
+      {children}
+    </Link>
+  )
+}
+
+function MetricCard({ label, value, help }: { label: string; value: string | number; help: string }) {
+  return (
+    <div
+      className="humi-card"
+      style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}
+    >
+      <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{label}</div>
+      <div className="font-display text-[22px] font-semibold text-ink">{value}</div>
+      <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{help}</div>
+    </div>
+  )
 }
 
 // ──────────────────────────────────────────────
@@ -348,7 +381,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
 
       {/* effectiveStartDate — BRD #3 */}
       <div>
-        <label style={labelStyle}>วันที่มีผล (startDate)</label>
+        <label style={labelStyle}>วันที่มีผล</label>
         <input
           type="date"
           style={inputStyle}
@@ -360,7 +393,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
       {/* endDate — BRD #3: FODepartment temporal validity (MED)
           SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].endDate */}
       <div>
-        <label style={labelStyle}>วันที่สิ้นสุด (endDate) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>— ว่าง = ไม่มีกำหนด</span></label>
+        <label style={labelStyle}>วันที่สิ้นสุด <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>— ว่าง = ไม่มีกำหนด</span></label>
         <input
           type="date"
           style={inputStyle}
@@ -372,7 +405,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
       {/* costCenter — BRD #2: FODepartment costCenter linkage
           SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].costCenter */}
       <div>
-        <label style={labelStyle}>ศูนย์ต้นทุน (Cost Center) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: costCenter</span></label>
+        <label style={labelStyle}>ศูนย์ต้นทุน (Cost Center)</label>
         <input
           type="text"
           style={inputStyle}
@@ -386,12 +419,12 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
           SF cite: qas-fields-2026-04-26/sf-qas-FODepartment-2026-04-26.json#.d.results[0].cust_Dep1 */}
       <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: 12 }}>
         <div style={{ ...labelStyle, display: 'block', marginBottom: 8, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          FODepartment ลำดับชั้น (BRD #2)
+          ลำดับชั้นหน่วยงาน
         </div>
 
         {(['cust_Dep1', 'cust_Dep2', 'cust_Dep3', 'cust_Dep4'] as const).map((field, i) => (
           <div key={field} style={{ marginBottom: 10 }}>
-            <label style={labelStyle}>Dep{i + 1} <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: {field}</span></label>
+            <label style={labelStyle}>Dep{i + 1}</label>
             <input
               type="text"
               style={inputStyle}
@@ -403,7 +436,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         ))}
 
         <div style={{ marginBottom: 10 }}>
-          <label style={labelStyle}>กลุ่มส่วน (Section Group) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_SectionGroup</span></label>
+          <label style={labelStyle}>กลุ่มส่วน (Section Group)</label>
           <input
             type="text"
             style={inputStyle}
@@ -414,7 +447,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         </div>
 
         <div>
-          <label style={labelStyle}>ส่วน (Section) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_section</span></label>
+          <label style={labelStyle}>ส่วน (Section)</label>
           <input
             type="text"
             style={inputStyle}
@@ -429,11 +462,11 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
           SF cite: qas-fields-2026-04-26/sf-qas-FOBusinessUnit-2026-04-26.json#.d.results[0].cust_businessGroup */}
       <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: 12 }}>
         <div style={{ ...labelStyle, display: 'block', marginBottom: 8, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          FOBusinessUnit Custom Fields (BRD #1)
+          ข้อมูลธุรกิจและหน่วยงาน
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <label style={labelStyle}>กลุ่มธุรกิจ (Business Group) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_businessGroup</span></label>
+          <label style={labelStyle}>กลุ่มธุรกิจ (Business Group)</label>
           <input
             type="text"
             style={inputStyle}
@@ -444,7 +477,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <label style={labelStyle}>นโยบาย (Policy Profile) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_policyProfile</span></label>
+          <label style={labelStyle}>นโยบาย (Policy Profile)</label>
           <input
             type="text"
             style={inputStyle}
@@ -455,7 +488,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <label style={labelStyle}>นิติบุคคล (Legal Entity) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_toLegalEntity</span></label>
+          <label style={labelStyle}>นิติบุคคล (Legal Entity)</label>
           <input
             type="text"
             style={inputStyle}
@@ -466,7 +499,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <label style={labelStyle}>กลุ่ม (To Group) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: cust_toGroup</span></label>
+          <label style={labelStyle}>กลุ่ม (To Group)</label>
           <input
             type="text"
             style={inputStyle}
@@ -479,7 +512,7 @@ function OrgUnitForm({ draft, onChange, allUnits, editingId }: OrgUnitFormProps)
         {/* headOfUnit — BRD #1: FOBusinessUnit.headOfUnit (employee code of unit head)
             SF cite: qas-fields-2026-04-26/sf-qas-FOBusinessUnit-2026-04-26.json#.d.results[0].headOfUnit */}
         <div>
-          <label style={labelStyle}>หัวหน้าหน่วยงาน (Head of Unit) <span style={{ fontWeight: 400, color: 'var(--color-ink-muted)' }}>SF: headOfUnit</span></label>
+          <label style={labelStyle}>หัวหน้าหน่วยงาน (Head of Unit)</label>
           <input
             type="text"
             style={inputStyle}
@@ -526,6 +559,8 @@ function createEmptyUnit(): Partial<OrgUnit> {
 
 export default function OrganizationPage() {
   const { all, getChildren, upsert, remove, searchFilter } = useOrgUnits()
+  const params = useParams()
+  const locale = (params?.locale as string) ?? 'th'
 
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set(['CEN', 'CRC', 'CU', 'CPN', 'ROBINSON']))
   const [selected, setSelected] = useState<string | null>(null)
@@ -632,25 +667,46 @@ export default function OrganizationPage() {
 
   const totalCount = all.length
   const matchCount = matchIds?.size ?? totalCount
+  const activeCount = all.filter((u) => u.active).length
+  const rootCount = roots.length
+  const companyCount = new Set(all.map((u) => u.company)).size
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
         <div>
           <div className="humi-eyebrow">ORGANIZATIONAL STRUCTURE</div>
           <h1 className="font-display text-[22px] font-semibold text-ink">โครงสร้างหน่วยงาน</h1>
         </div>
-        <button
-          type="button"
-          className="humi-btn humi-btn--primary"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-          onClick={openCreate}
-        >
-          <Plus size={16} aria-hidden />
-          <span>เพิ่มหน่วยงาน</span>
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'wrap', gap: 8 }}>
+          <CoverageLink href={`/${locale}/admin/positions`}>
+            ตำแหน่งงาน
+          </CoverageLink>
+          <CoverageLink href={`/${locale}/org-chart`}>
+            ดูผังองค์กร
+          </CoverageLink>
+          <button
+            type="button"
+            className="humi-btn humi-btn--primary"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            onClick={openCreate}
+          >
+            <Plus size={16} aria-hidden />
+            <span>เพิ่มหน่วยงาน</span>
+          </button>
+        </div>
       </div>
+
+      <section
+        aria-label="สรุปโครงสร้างหน่วยงาน"
+        className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        <MetricCard label="หน่วยงานทั้งหมด" value={totalCount.toLocaleString('th-TH')} help="รวมทุกบริษัทในระบบ" />
+        <MetricCard label="หน่วยงานใช้งาน" value={activeCount.toLocaleString('th-TH')} help="พร้อมใช้งานสำหรับงาน HR" />
+        <MetricCard label="หน่วยงานราก" value={rootCount.toLocaleString('th-TH')} help="บริษัท/โครงสร้างหลัก" />
+        <MetricCard label="บริษัทที่ครอบคลุม" value={companyCount.toLocaleString('th-TH')} help="จากโครงสร้างปัจจุบัน" />
+      </section>
 
       {/* Search */}
       <div style={{ position: 'relative', maxWidth: 420 }}>

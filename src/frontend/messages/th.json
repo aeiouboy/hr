@@ -3574,6 +3574,7 @@
     "save": "บันทึกการเปลี่ยนแปลง",
     "statusActive": "กำลังทำงาน",
     "tabPersonal": "ข้อมูลส่วนตัว",
+    "tabOrgChart": "ผังองค์กร",
     "tabJob": "ตำแหน่งงาน",
     "tabEmergency": "ติดต่อฉุกเฉิน",
     "tabBenefits": "สิทธิ์ของฉัน",
@@ -3591,6 +3592,7 @@
     "compBonusLabel": "โบนัสรายไตรมาส",
     "compEquityLabel": "หุ้นบริษัท",
     "historyEyebrow": "ประวัติการทำงาน",
+    "orgChartProfileEyebrow": "ผังองค์กร",
     "emergencyTitle": "ผู้ติดต่อกรณีฉุกเฉิน",
     "emergencyHelp": "กรุณาให้ข้อมูลอย่างน้อย 1 คนเป็นปัจจุบัน ใช้เฉพาะกรณีฉุกเฉินในที่ทำงานเท่านั้น",
     "benefitsTitle": "สวัสดิการของฉัน",
@@ -3616,7 +3618,9 @@
     "resignationSectionEyebrow": "การลาออก",
     "resignationSectionDesc": "ยื่นคำขอลาออกและติดตามสถานะ",
     "resignationSectionLink": "ดูคำขอลาออก",
-    "tabCompensation": "ค่าตอบแทน"
+    "tabCompensation": "ค่าตอบแทน",
+    "orgChartProfileCta": "ดูผังองค์กร",
+    "orgChartProfileHelp": "เปิดผังองค์กรจากโปรไฟล์พนักงานเพื่อดูผู้บังคับบัญชา เพื่อนร่วมทีม และผู้ใต้บังคับบัญชา"
   },
   "humiAnnouncements": {
     "subtitle": "ฟีดของทีมและบริษัท",

@@ -36,6 +36,8 @@ export interface CrudPageConfig<TItem extends { id: string }> {
     item: Partial<TItem>,
     onChange: (patch: Partial<TItem>) => void,
   ) => React.ReactNode
+  renderHeaderActions?: () => React.ReactNode
+  renderSummary?: (items: TItem[]) => React.ReactNode
   emptyState?: { icon?: React.ReactNode; titleTh: string; bodyTh?: string }
 }
 
@@ -77,21 +79,26 @@ export function createCrudPage<TItem extends { id: string }>(
     return (
       <div className="pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
           <div>
             <div className="humi-eyebrow">{config.titleEn.toUpperCase()}</div>
             <h1 className="font-display text-[22px] font-semibold text-ink">{config.titleTh}</h1>
           </div>
-          <button
-            type="button"
-            onClick={openCreate}
-            className="humi-btn humi-btn--primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-          >
-            <Plus size={16} aria-hidden />
-            <span>เพิ่มรายการ</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'wrap', gap: 8 }}>
+            {config.renderHeaderActions?.()}
+            <button
+              type="button"
+              onClick={openCreate}
+              className="humi-btn humi-btn--primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <Plus size={16} aria-hidden />
+              <span>เพิ่มรายการ</span>
+            </button>
+          </div>
         </div>
+
+        {config.renderSummary?.(items)}
 
         {/* Search */}
         <div style={{ position: 'relative', maxWidth: 420 }}>
@@ -225,7 +232,7 @@ export function createCrudPage<TItem extends { id: string }>(
                   <button
                     type="button"
                     className="humi-btn"
-                    style={{ color: 'var(--color-danger-ink, #dc2626)' }}
+                    style={{ color: 'var(--color-danger-ink)' }}
                     onClick={() => {
                       if (editing.id) {
                         config.remove!(editing.id)

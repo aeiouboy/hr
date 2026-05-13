@@ -35,6 +35,7 @@ import {
   HUMI_CLAIM_ALLOWANCES,
   HUMI_CLAIM_HISTORY,
   HUMI_MY_PROFILE,
+  HUMI_ORG_PEOPLE,
   type HumiEmployee,
 } from '@/lib/humi-mock-data';
 import {
@@ -44,6 +45,7 @@ import {
   maskNationalId,
 } from '@/lib/all-ported-employees';
 import { useAuthStore } from '@/stores/auth-store';
+import { useOrgChartStore } from '@/stores/humi-orgchart-slice';
 import {
   useHumiProfileStore,
   type ProfileTab,
@@ -58,9 +60,10 @@ import { Address8Editor, isAddress8Valid } from '@/components/profile/Address8Ed
 import { BankDetailsEditor, isBankValid } from '@/components/profile/BankDetailsEditor';
 import { ContactArrayEditor, isContactArrayValid } from '@/components/profile/ContactArrayEditor';
 import CompensationSummary from '@/components/profile/CompensationSummary';
+import OrgChartPage from '@/app/[locale]/org-chart/page';
 
 // Map slice tab keys → display keys used by existing tab panels
-type TabKey = 'personal' | 'job' | 'compensation' | 'emergency' | 'benefits' | 'docs' | 'tax';
+type TabKey = 'personal' | 'job' | 'orgChart' | 'compensation' | 'emergency' | 'benefits' | 'docs' | 'tax';
 
 // Mapping from Zustand ProfileTab → legacy panel key.
 // Keep Compensation and Emergency as separate profile tabs; BRD #170 salary
@@ -68,6 +71,7 @@ type TabKey = 'personal' | 'job' | 'compensation' | 'emergency' | 'benefits' | '
 const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
   personal: 'personal',
   employment: 'job',
+  orgChart: 'orgChart',
   compensation: 'compensation',
   emergency: 'emergency',
   benefits: 'benefits',
@@ -78,6 +82,7 @@ const SLICE_TO_PANEL: Record<ProfileTab, TabKey> = {
 const PROFILE_TAB_QUERY: Record<ProfileTab, string | null> = {
   personal: null,
   employment: 'employment',
+  orgChart: 'org-chart',
   compensation: 'compensation',
   emergency: 'emergency',
   benefits: 'benefits',
@@ -89,6 +94,8 @@ const PROFILE_TAB_FROM_QUERY: Record<string, ProfileTab> = {
   personal: 'personal',
   employment: 'employment',
   job: 'employment',
+  'org-chart': 'orgChart',
+  orgChart: 'orgChart',
   compensation: 'compensation',
   emergency: 'emergency',
   benefits: 'benefits',
@@ -319,6 +326,8 @@ export default function HumiProfileMePage({
   const searchParams = useSearchParams();
   const locale = (params?.locale as string) ?? 'th';
   const p = HUMI_MY_PROFILE;
+  const profileOrgChartPersonId =
+    Object.values(HUMI_ORG_PEOPLE).find((person) => person.name === p.nameTh)?.id ?? 'ava';
 
   const {
     activeTab,
@@ -334,6 +343,7 @@ export default function HumiProfileMePage({
     attachments,
     submitChangeRequest,
   } = useHumiProfileStore();
+  const selectOrgChartPerson = useOrgChartStore((state) => state.select);
 
   const [toast, setToast] = useState<string | null>(null);
   const [showToastOk, setShowToastOk] = useState(false);
@@ -382,13 +392,22 @@ export default function HumiProfileMePage({
 
   const handleProfileTabClick = useCallback(
     (tab: ProfileTab) => {
+      if (tab === 'orgChart') {
+        selectOrgChartPerson(profileOrgChartPersonId);
+      }
       setTab(tab);
       if (typeof window !== 'undefined') {
         window.history.pushState(null, '', profileTabHref(locale, tab));
       }
     },
-    [locale, setTab],
+    [locale, profileOrgChartPersonId, selectOrgChartPerson, setTab],
   );
+
+  useEffect(() => {
+    if (activeTab === 'orgChart') {
+      selectOrgChartPerson(profileOrgChartPersonId);
+    }
+  }, [activeTab, profileOrgChartPersonId, selectOrgChartPerson]);
 
   // ── Toast helper ──────────────────────────────────────────────────────────
 
@@ -457,6 +476,7 @@ export default function HumiProfileMePage({
   const tabs: Array<[ProfileTab, string]> = [
     ['personal', t('tabPersonal')],
     ['employment', t('tabJob')],
+    ['orgChart', t('tabOrgChart')],
     ['compensation', t('tabCompensation')],
     ['emergency', t('tabEmergency')],
     ['benefits', t('tabBenefits')],
@@ -1370,11 +1390,31 @@ export default function HumiProfileMePage({
         </div>
       )}
 
+      {/* ── Org Chart tab ─────────────────────────────────────────────────── */}
+      {panelKey === 'orgChart' && <OrgChartPage />}
+
       {/* ── Job tab ───────────────────────────────────────────────────────── */}
       {panelKey === 'job' && (
         <>
           <div className="grid gap-4 md:grid-cols-2">
             <FieldCard eyebrow={t('jobEyebrow')} title={t('jobTitle')} rows={p.job} labelW={160} />
+            <div className="humi-card">
+              <div className="humi-eyebrow">{t('orgChartProfileEyebrow')}</div>
+              <h3 className="mt-1.5 font-display text-[20px] font-semibold leading-[1.2] tracking-tight text-ink">
+                {t('orgChartProfileCta')}
+              </h3>
+              <p style={{ marginTop: 8, fontSize: 13, color: 'var(--color-ink-muted)' }}>
+                {t('orgChartProfileHelp')}
+              </p>
+              <button
+                type="button"
+                className="humi-btn humi-btn--primary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 14 }}
+                onClick={() => handleProfileTabClick('orgChart')}
+              >
+                {t('orgChartProfileCta')}
+              </button>
+            </div>
             <div className="humi-col" style={{ gap: 16 }}>
               <div className="humi-card">
                 <div className="humi-eyebrow">{t('historyEyebrow')}</div>

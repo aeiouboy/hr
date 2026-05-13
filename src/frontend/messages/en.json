@@ -3618,6 +3618,7 @@
     "save": "Save changes",
     "statusActive": "Active",
     "tabPersonal": "Personal information",
+    "tabOrgChart": "Org chart",
     "tabJob": "Role",
     "tabEmergency": "Emergency contact",
     "tabBenefits": "My coverage",
@@ -3635,6 +3636,7 @@
     "compBonusLabel": "Quarterly bonus",
     "compEquityLabel": "Equity",
     "historyEyebrow": "Work history",
+    "orgChartProfileEyebrow": "Org chart",
     "emergencyTitle": "Emergency contacts",
     "emergencyHelp": "Please keep at least 1 contact current. Used only for workplace emergencies.",
     "benefitsTitle": "My benefits",
@@ -3660,7 +3662,9 @@
     "resignationSectionEyebrow": "Resignation",
     "resignationSectionDesc": "Submit and track resignation requests",
     "resignationSectionLink": "View resignation requests",
-    "tabCompensation": "Compensation"
+    "tabCompensation": "Compensation",
+    "orgChartProfileCta": "View org chart",
+    "orgChartProfileHelp": "Open the org chart from this employee profile to view managers, peers, and direct reports."
   },
   "humiAnnouncements": {
     "subtitle": "Team and company feed",

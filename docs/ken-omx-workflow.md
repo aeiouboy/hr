@@ -1,6 +1,6 @@
 # Ken OMX Workflow — HR
 
-Purpose: keep the Agent OS workflow clear: Ouroboros is the first layer for requirements/seed/contracts; OMX is the execution engine after scope is defined; JARVIS verifies and reports. Keep commands direct; no extra wrapper unless it clearly adds value.
+Purpose: keep the Agent OS workflow clear: Ouroboros is the first layer for requirements/seed/contracts; OMX team is the quality-focused execution lane after scope is defined; JARVIS verifies and reports. Keep commands direct; no extra wrapper unless it clearly adds value.
 
 ## Project
 
@@ -12,7 +12,7 @@ Purpose: keep the Agent OS workflow clear: Ouroboros is the first layer for requ
 ## Layered routing
 
 1. **Ouroboros / Agent OS** — interview, clarify requirements, generate Seed Contract / Acceptance Criteria.
-2. **OMX** — execute the approved Seed/AC against the repo.
+2. **OMX team** — execute the approved Seed/AC against the repo when quality matters more than speed.
 3. **JARVIS** — interface, memory, independent verification, Discord reporting.
 
 Use JARVIS direct only for small bounded work where an Ouroboros interview would be heavier than the change.
@@ -37,6 +37,9 @@ ouroboros init start --llm-backend codex "HR task: <context>"
 
 The output Seed/AC becomes the contract for execution.
 
+### OMX exec
+Use only for small one-shot work, smoke tests, or technical runtime bridge validation. Do not make it the default product implementation lane when quality matters.
+
 ### OMX scout
 Use after/alongside Ouroboros when repo context is unclear. Must be read-only.
 
@@ -47,7 +50,7 @@ omx sparkshell git status --short
 ```
 
 ### OMX team
-Use only after Ouroboros/Seed scope or a JARVIS-approved plan exists and the task is large enough to split.
+Default for product implementation after Ouroboros/Seed scope or a JARVIS-approved plan exists. Use this when quality matters more than speed.
 
 ```bash
 cd /Users/tachongrak/Projects/hr
@@ -79,7 +82,7 @@ omx ultragoal status --json
    omx explore "identify files/tests for <task>; read-only"
    ```
 3. Draft/approve plan in Discord with JARVIS.
-4. Execute large approved work through OMX team:
+4. Execute approved product work through OMX team:
    ```bash
    cd /Users/tachongrak/Projects/hr
    omx team "<approved task>"
@@ -94,5 +97,6 @@ omx ultragoal status --json
 ## Do not use by default
 
 - `omx adapt hermes` — observation only, not useful for HR delivery
+- `omx exec` for normal product implementation; reserve it for small one-shot/smoke/bridge validation
 - deprecated OMX workflows (`swarm`, `ecomode`, `deepsearch`, old direct `autoresearch`)
 - `--madmax` unless explicitly approved

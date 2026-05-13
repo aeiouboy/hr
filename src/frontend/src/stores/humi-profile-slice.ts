@@ -5,6 +5,7 @@ import { HUMI_DEPENDENTS, type HumiDependent } from '@/lib/humi-mock-data';
 export type ProfileTab =
   | 'personal'
   | 'employment'
+  | 'orgChart'
   | 'compensation'
   | 'emergency'
   | 'benefits'
