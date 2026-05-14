@@ -58,6 +58,7 @@
   --color-warning-soft:   #FEF3C7;
   --color-danger:         #FB923C;  /* pumpkin — orange-leaning, replaces clay per NO-RED guardrail */
   --color-danger-soft:    #FFEDD5;
+  --color-danger-tint:    #FFEDD5;  /* alias of danger-soft for legacy bg-danger-tint usage — TODO: refactor 28 files to bg-danger-soft and remove this alias */
   --color-danger-ink:     #9A3412;  /* readable ink on pumpkin-soft */
   --color-info:           #5B6CE0;  /* indigo */
   --color-info-soft:      #E1E4FB;
@@ -99,6 +100,7 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
   --radius-2xl: 18px;
+  --radius-full: 9999px;  /* pill shape — Humi design uses literal 999px on .humi-tag/.humi-pill; this alias supports legacy `rounded-[var(--radius-full)]` usage. TODO: refactor those callers to `rounded-full` */
 
   /* ── Shadows — warm navy tint on cream ──────────────────── */
   --shadow-sm:   0 1px 0 rgba(14,27,44,0.04), 0 2px 6px  rgba(14,27,44,0.04);
