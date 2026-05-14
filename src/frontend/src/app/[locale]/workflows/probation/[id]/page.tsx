@@ -238,8 +238,7 @@ export default function ProbationDetailPage() {
         className="mb-6"
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="space-y-6">
           <FieldGroup title={t('probation.employeeContextTitle')} columns={2}>
             <Field label={t('probation.employeeId')} value={c.employeeId} mono />
             <Field label={t('probation.position')} value={displayValue(c.position)} />
@@ -315,50 +314,8 @@ export default function ProbationDetailPage() {
                 </Card>
               </div>
 
-              {/* Right: Info + Actions */}
-              <div className="space-y-6">
-                {/* Employee org/job context */}
-                <FieldGroup title={isTh ? 'บริบทพนักงาน / องค์กร' : 'Employee org/job context'} columns={1}>
-                  <Field label={isTh ? 'บริษัท' : 'Company'} value={c.company} emptyKind="pending" />
-                  <Field label={isTh ? 'หน่วยธุรกิจ' : 'Business Unit'} value={c.businessUnit} emptyKind="pending" />
-                  <Field label={isTh ? 'แผนก' : 'Department'} value={c.department} />
-                  <Field label={isTh ? 'ตำแหน่ง' : 'Position'} value={c.position} />
-                  <Field label={isTh ? 'รหัสงาน' : 'Job Code'} value={c.jobCode} emptyKind="pending" mono />
-                  <Field label={isTh ? 'ระดับงาน' : 'Job Level'} value={c.jobLevel} emptyKind="pending" />
-                  <Field label={isTh ? 'กลุ่มพนักงาน' : 'Employee Group'} value={c.employeeGroup} emptyKind="pending" />
-                  <Field label={isTh ? 'สถานที่ทำงาน' : 'Location'} value={c.location} emptyKind="pending" />
-                </FieldGroup>
-
-                {/* Request and manager context */}
-                <FieldGroup title={isTh ? 'บริบทคำขอ / ผู้จัดการ' : 'Request / manager context'} columns={1}>
-                  <Field label={isTh ? 'รหัสคำขอ' : 'Request ID'} value={c.id} mono />
-                  <Field label={isTh ? 'สร้างโดย' : 'Requested By'} value={`${c.request.requestedBy} (${c.request.requestedRole})`} />
-                  <Field label={isTh ? 'วันที่สร้างคำขอ' : 'Requested At'} value={formatDate(c.request.requestedAt, 'long', locale)} mono />
-                  <Field label={isTh ? 'แหล่งข้อมูล' : 'Source'} value={c.request.source} emptyKind="pending" />
-                  <Field
-                    label={isTh ? 'ผู้จัดการโดยตรง' : 'Direct Manager'}
-                    value={`${c.manager.name}${c.manager.employeeId ? ` (${c.manager.employeeId})` : ''}`}
-                    emptyKind="pending"
-                  />
-                  <Field label={isTh ? 'ผู้อนุมัติปัจจุบัน' : 'Current Approver'} value={`${c.currentApprover.name} (${c.currentApprover.role})`} />
-                </FieldGroup>
-
-                {/* Probation Info */}
-                <FieldGroup title={t('probation.infoTitle')} columns={1}>
-                  <Field label={t('probation.hireDate')} value={formatDate(c.hireDate, 'long', locale)} mono />
-                  <Field label={t('probation.probationEnd')} value={formatDate(c.probationEndDate, 'long', locale)} mono />
-                  <Field label="SLA Deadline" value={formatDate(c.slaDeadline, 'long', locale)} mono />
-                  <Field label={t('probation.statusLabel')} value={STATUS_LABEL[c.status]} />
-                </FieldGroup>
-
-                {/* Assessment/result context */}
-                <FieldGroup title={isTh ? 'ผลประเมิน / เหตุผล / หมายเหตุ' : 'Assessment / reason / remarks'} columns={1}>
-                  <Field label={isTh ? 'ผลลัพธ์' : 'Result'} value={c.assessment.result} emptyKind="pending" />
-                  <Field label={isTh ? 'คะแนน / ระดับ' : 'Score / Rating'} value={c.assessment.score} emptyKind="pending" />
-                  <Field label={isTh ? 'เหตุผล' : 'Reason'} value={c.assessment.reason} emptyKind="pending" />
-                  <Field label={isTh ? 'หมายเหตุ' : 'Remarks'} value={c.assessment.remarks} emptyKind="pending" />
-                </FieldGroup>
-
+              {/* Right: Action first, then info — keeps decision visible without scrolling */}
+              <div className="space-y-6 lg:sticky lg:top-6 lg:self-start">
                 {/* Action panel — only show for pending */}
                 {isPending && (
                   <Capability
@@ -407,7 +364,7 @@ export default function ProbationDetailPage() {
                           <Button
                             variant="primary"
                             size="sm"
-                            className="flex-1 bg-success text-white hover:bg-success/90"
+                            className="flex-1"
                             onClick={() => openConfirm('approve')}
                             disabled={isSaving || missingCriticalFields.length > 0}
                             loading={savingAction === 'approve'}
@@ -441,9 +398,50 @@ export default function ProbationDetailPage() {
                     <p className="text-xs text-ink-muted mt-2">{t('probation.workflowCompleted')}</p>
                   </Card>
                 )}
+
+                {/* Employee org/job context */}
+                <FieldGroup title={isTh ? 'บริบทพนักงาน / องค์กร' : 'Employee org/job context'} columns={1}>
+                  <Field label={isTh ? 'บริษัท' : 'Company'} value={c.company} emptyKind="pending" />
+                  <Field label={isTh ? 'หน่วยธุรกิจ' : 'Business Unit'} value={c.businessUnit} emptyKind="pending" />
+                  <Field label={isTh ? 'แผนก' : 'Department'} value={c.department} />
+                  <Field label={isTh ? 'ตำแหน่ง' : 'Position'} value={c.position} />
+                  <Field label={isTh ? 'รหัสงาน' : 'Job Code'} value={c.jobCode} emptyKind="pending" mono />
+                  <Field label={isTh ? 'ระดับงาน' : 'Job Level'} value={c.jobLevel} emptyKind="pending" />
+                  <Field label={isTh ? 'กลุ่มพนักงาน' : 'Employee Group'} value={c.employeeGroup} emptyKind="pending" />
+                  <Field label={isTh ? 'สถานที่ทำงาน' : 'Location'} value={c.location} emptyKind="pending" />
+                </FieldGroup>
+
+                {/* Request and manager context */}
+                <FieldGroup title={isTh ? 'บริบทคำขอ / ผู้จัดการ' : 'Request / manager context'} columns={1}>
+                  <Field label={isTh ? 'รหัสคำขอ' : 'Request ID'} value={c.id} mono />
+                  <Field label={isTh ? 'สร้างโดย' : 'Requested By'} value={`${c.request.requestedBy} (${c.request.requestedRole})`} />
+                  <Field label={isTh ? 'วันที่สร้างคำขอ' : 'Requested At'} value={formatDate(c.request.requestedAt, 'long', locale)} mono />
+                  <Field label={isTh ? 'แหล่งข้อมูล' : 'Source'} value={c.request.source} emptyKind="pending" />
+                  <Field
+                    label={isTh ? 'ผู้จัดการโดยตรง' : 'Direct Manager'}
+                    value={`${c.manager.name}${c.manager.employeeId ? ` (${c.manager.employeeId})` : ''}`}
+                    emptyKind="pending"
+                  />
+                  <Field label={isTh ? 'ผู้อนุมัติปัจจุบัน' : 'Current Approver'} value={`${c.currentApprover.name} (${c.currentApprover.role})`} />
+                </FieldGroup>
+
+                {/* Probation Info */}
+                <FieldGroup title={t('probation.infoTitle')} columns={1}>
+                  <Field label={t('probation.hireDate')} value={formatDate(c.hireDate, 'long', locale)} mono />
+                  <Field label={t('probation.probationEnd')} value={formatDate(c.probationEndDate, 'long', locale)} mono />
+                  <Field label="SLA Deadline" value={formatDate(c.slaDeadline, 'long', locale)} mono />
+                  <Field label={t('probation.statusLabel')} value={STATUS_LABEL[c.status]} />
+                </FieldGroup>
+
+                {/* Assessment/result context */}
+                <FieldGroup title={isTh ? 'ผลประเมิน / เหตุผล / หมายเหตุ' : 'Assessment / reason / remarks'} columns={1}>
+                  <Field label={isTh ? 'ผลลัพธ์' : 'Result'} value={c.assessment.result} emptyKind="pending" />
+                  <Field label={isTh ? 'คะแนน / ระดับ' : 'Score / Rating'} value={c.assessment.score} emptyKind="pending" />
+                  <Field label={isTh ? 'เหตุผล' : 'Reason'} value={c.assessment.reason} emptyKind="pending" />
+                  <Field label={isTh ? 'หมายเหตุ' : 'Remarks'} value={c.assessment.remarks} emptyKind="pending" />
+                </FieldGroup>
               </div>
             </div>
-        </div>
       </div>
 
       {activeAction && (
