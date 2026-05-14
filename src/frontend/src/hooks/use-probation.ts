@@ -26,12 +26,42 @@ export interface ProbationCase {
   photo?: string;
   position: string;
   department: string;
+  company?: string;
+  businessUnit?: string;
+  location?: string;
+  jobCode?: string;
+  jobLevel?: string;
+  employeeGroup?: string;
   hireDate: string;
   probationEndDate: string;
   status: ProbationStatus;
   currentApprover: { name: string; role: string };
+  request: {
+    requestedBy: string;
+    requestedRole: string;
+    requestedAt: string;
+    source: string;
+  };
+  manager: {
+    name: string;
+    role: string;
+    employeeId?: string;
+  };
+  assessment: {
+    result?: string;
+    score?: string;
+    reason?: string;
+    remarks?: string;
+  };
   slaDeadline: string;
   timeline: ProbationTimelineEntry[];
+  requestType?: string;
+  requestReason?: string;
+  assessmentSummary?: string;
+  managerRemarks?: string;
+  hrRemarks?: string;
+  submittedAt?: string;
+  decidedAt?: string;
 }
 
 const STATUS_LABEL: Record<ProbationStatus, string> = {
@@ -55,14 +85,50 @@ const MOCK_CASES: ProbationCase[] = [
     photo: 'https://i.pravatar.cc/150?img=33',
     position: 'Software Engineer',
     department: 'Product & Technology',
+    company: 'Central Group',
+    businessUnit: 'Digital & IT',
+    location: 'Silom Tower',
+    jobCode: 'SE-TL2',
+    jobLevel: 'TL2',
+    employeeGroup: 'A - Permanent',
     hireDate: '2025-10-09',
     probationEndDate: '2026-04-09',
     status: 'pending_manager',
     currentApprover: { name: 'Rungrote Amnuaysopon', role: 'VP Product & Technology' },
+    request: {
+      requestedBy: 'ระบบ',
+      requestedRole: 'System',
+      requestedAt: '2026-04-09T09:00:00',
+      source: 'TBD: EC probation workflow API',
+    },
+    manager: { name: 'Rungrote Amnuaysopon', role: 'Direct Manager', employeeId: 'EMP006' },
+    assessment: {
+      result: 'Pending manager decision',
+      score: 'TBD',
+      reason: 'Auto-created when probation reached configured end date.',
+      remarks: '',
+    },
     slaDeadline: '2026-04-11T17:00:00',
+    requestType: 'Probation manager approval',
+    requestReason: '120-day probation review requires manager sign-off before HR update',
+    assessmentSummary:
+      'Delivery is on track, collaborates well with squad, and has no critical conduct issue.',
+    managerRemarks: 'TBD — manager decision comment will be captured on submit',
+    hrRemarks: 'TBD — EC/SharePoint property mapping pending backend confirmation',
+    submittedAt: '2026-04-09T09:00:00',
     timeline: [
-      { actor: 'ระบบ', actorRole: 'System', action: 'สร้าง workflow อัตโนมัติ — probation ครบ 120 วัน', date: '2026-04-09T09:00:00' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน) — SLA 48 ชม.', date: '2026-04-09T09:01:00' },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'สร้าง workflow อัตโนมัติ — probation ครบ 120 วัน',
+        date: '2026-04-09T09:00:00',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน) — SLA 48 ชม.',
+        date: '2026-04-09T09:01:00',
+      },
     ],
   },
   {
@@ -73,16 +139,61 @@ const MOCK_CASES: ProbationCase[] = [
     photo: 'https://i.pravatar.cc/150?img=45',
     position: 'UX Designer',
     department: 'Product & Technology',
+    company: 'Central Group',
+    businessUnit: 'Experience Design',
+    location: 'Silom Tower',
+    jobCode: 'UX-TL2',
+    jobLevel: 'TL2',
+    employeeGroup: 'A - Permanent',
     hireDate: '2025-10-01',
     probationEndDate: '2026-04-01',
     status: 'pending_hr',
     currentApprover: { name: 'กัณณิกา ศรีสวัสดิ์', role: 'VP Human Resources' },
+    request: {
+      requestedBy: 'ระบบ',
+      requestedRole: 'System',
+      requestedAt: '2026-04-01T09:00:00',
+      source: 'TBD: EC probation workflow API',
+    },
+    manager: { name: 'Rungrote Amnuaysopon', role: 'Direct Manager', employeeId: 'EMP006' },
+    assessment: {
+      result: 'Escalated to HR Director',
+      score: 'TBD',
+      reason: 'Manager SLA elapsed before decision.',
+      remarks: 'HR Director can close or return per workflow configuration.',
+    },
     slaDeadline: '2026-04-10T17:00:00',
+    requestType: 'Probation HR escalation',
+    requestReason: 'Manager SLA elapsed; HR Director review required.',
+    assessmentSummary: 'TBD — manager assessment did not arrive before SLA escalation.',
+    managerRemarks: 'TBD',
+    hrRemarks: 'รอ HR Director ตรวจสอบ',
+    submittedAt: '2026-04-01T09:00:00',
     timeline: [
-      { actor: 'ระบบ', actorRole: 'System', action: 'สร้าง workflow — probation ครบ 120 วัน', date: '2026-04-01T09:00:00' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน)', date: '2026-04-01T09:01:00' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'หัวหน้างานไม่ตอบใน 48 ชม. — escalate ไป HR Director', date: '2026-04-03T09:01:00' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'แจ้ง กัณณิกา ศรีสวัสดิ์ (HR Director) — SLA 24 ชม.', date: '2026-04-03T09:02:00' },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'สร้าง workflow — probation ครบ 120 วัน',
+        date: '2026-04-01T09:00:00',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน)',
+        date: '2026-04-01T09:01:00',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'หัวหน้างานไม่ตอบใน 48 ชม. — escalate ไป HR Director',
+        date: '2026-04-03T09:01:00',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'แจ้ง กัณณิกา ศรีสวัสดิ์ (HR Director) — SLA 24 ชม.',
+        date: '2026-04-03T09:02:00',
+      },
     ],
   },
   {
@@ -93,16 +204,63 @@ const MOCK_CASES: ProbationCase[] = [
     photo: 'https://i.pravatar.cc/150?img=52',
     position: 'Backend Developer',
     department: 'Product & Technology',
+    company: 'Central Group',
+    businessUnit: 'Digital & IT',
+    location: 'Silom Tower',
+    jobCode: 'BE-TL2',
+    jobLevel: 'TL2',
+    employeeGroup: 'A - Permanent',
     hireDate: '2025-09-15',
     probationEndDate: '2026-03-15',
     status: 'approved',
     currentApprover: { name: 'Rungrote Amnuaysopon', role: 'VP Product & Technology' },
+    request: {
+      requestedBy: 'ระบบ',
+      requestedRole: 'System',
+      requestedAt: '2026-03-15T09:00:00',
+      source: 'TBD: EC probation workflow API',
+    },
+    manager: { name: 'Rungrote Amnuaysopon', role: 'Direct Manager', employeeId: 'EMP006' },
+    assessment: {
+      result: 'Pass probation',
+      score: 'Exceeds expectations',
+      reason: 'Delivered agreed goals and demonstrated production readiness.',
+      remarks: 'ผลงานดีมาก deliver ตรงเวลา code quality สูง',
+    },
     slaDeadline: '2026-03-17T17:00:00',
+    requestType: 'Probation manager approval',
+    requestReason: 'Completed probation period; manager approved permanent status.',
+    assessmentSummary: 'Consistent delivery, strong ownership, and positive peer feedback.',
+    managerRemarks: 'ผลงานดีมาก deliver ตรงเวลา code quality สูง',
+    hrRemarks: 'Approved record ready for EC update.',
+    submittedAt: '2026-03-15T09:00:00',
+    decidedAt: '2026-03-16T14:30:01',
     timeline: [
-      { actor: 'ระบบ', actorRole: 'System', action: 'สร้าง workflow — probation ครบ 120 วัน', date: '2026-03-15T09:00:00' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน)', date: '2026-03-15T09:01:00' },
-      { actor: 'Rungrote Amnuaysopon', actorRole: 'Manager', action: 'อนุมัติ — ผ่านทดลองงาน', date: '2026-03-16T14:30:00', comment: 'ผลงานดีมาก deliver ตรงเวลา code quality สูง' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'อัพเดทสถานะ → พนักงานประจำ', date: '2026-03-16T14:30:01' },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'สร้าง workflow — probation ครบ 120 วัน',
+        date: '2026-03-15T09:00:00',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน)',
+        date: '2026-03-15T09:01:00',
+      },
+      {
+        actor: 'Rungrote Amnuaysopon',
+        actorRole: 'Manager',
+        action: 'อนุมัติ — ผ่านทดลองงาน',
+        date: '2026-03-16T14:30:00',
+        comment: 'ผลงานดีมาก deliver ตรงเวลา code quality สูง',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'อัพเดทสถานะ → พนักงานประจำ',
+        date: '2026-03-16T14:30:01',
+      },
     ],
   },
   {
@@ -113,16 +271,63 @@ const MOCK_CASES: ProbationCase[] = [
     photo: 'https://i.pravatar.cc/150?img=49',
     position: 'QA Analyst',
     department: 'Product & Technology',
+    company: 'Central Group',
+    businessUnit: 'Digital & IT',
+    location: undefined,
+    jobCode: 'QA-TL1',
+    jobLevel: 'TL1',
+    employeeGroup: 'A - Permanent',
     hireDate: '2025-09-01',
     probationEndDate: '2026-03-01',
     status: 'extended',
     currentApprover: { name: 'Rungrote Amnuaysopon', role: 'VP Product & Technology' },
+    request: {
+      requestedBy: 'ระบบ',
+      requestedRole: 'System',
+      requestedAt: '2026-03-01T09:00:00',
+      source: 'TBD: EC probation workflow API',
+    },
+    manager: { name: 'Rungrote Amnuaysopon', role: 'Direct Manager', employeeId: 'EMP006' },
+    assessment: {
+      result: 'Extend probation',
+      score: 'Needs improvement',
+      reason: 'Needs more evidence before permanent conversion.',
+      remarks: 'ต้องปรับปรุงเรื่อง test coverage และ communication skill',
+    },
     slaDeadline: '2026-06-01T17:00:00',
+    requestType: 'Probation manager review',
+    requestReason: 'Manager requested more evidence before permanent conversion.',
+    assessmentSummary: 'Needs additional consistency on test coverage and communication rituals.',
+    managerRemarks: 'ต้องปรับปรุงเรื่อง test coverage และ communication skill',
+    hrRemarks: 'Extended review scheduled.',
+    submittedAt: '2026-03-01T09:00:00',
+    decidedAt: '2026-03-02T10:15:01',
     timeline: [
-      { actor: 'ระบบ', actorRole: 'System', action: 'สร้าง workflow — probation ครบ 120 วัน', date: '2026-03-01T09:00:00' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน)', date: '2026-03-01T09:01:00' },
-      { actor: 'Rungrote Amnuaysopon', actorRole: 'Manager', action: 'ไม่อนุมัติ — ขยายเวลาทดลองงาน 90 วัน', date: '2026-03-02T10:15:00', comment: 'ต้องปรับปรุงเรื่อง test coverage และ communication skill' },
-      { actor: 'ระบบ', actorRole: 'System', action: 'ขยาย probation → ครบ 1 มิ.ย. 2026 — re-review scheduled', date: '2026-03-02T10:15:01' },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'สร้าง workflow — probation ครบ 120 วัน',
+        date: '2026-03-01T09:00:00',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'แจ้ง Rungrote Amnuaysopon (หัวหน้างาน)',
+        date: '2026-03-01T09:01:00',
+      },
+      {
+        actor: 'Rungrote Amnuaysopon',
+        actorRole: 'Manager',
+        action: 'ไม่อนุมัติ — ขยายเวลาทดลองงาน 90 วัน',
+        date: '2026-03-02T10:15:00',
+        comment: 'ต้องปรับปรุงเรื่อง test coverage และ communication skill',
+      },
+      {
+        actor: 'ระบบ',
+        actorRole: 'System',
+        action: 'ขยาย probation → ครบ 1 มิ.ย. 2026 — re-review scheduled',
+        date: '2026-03-02T10:15:01',
+      },
     ],
   },
 ];
@@ -152,28 +357,40 @@ export function useProbationCase(id: string) {
     }, 200);
   }, [id]);
 
-  const approve = useCallback((comment: string) => {
-    if (!probationCase) return;
-    setProbationCase({
-      ...probationCase,
-      status: 'approved',
-      timeline: [
-        ...probationCase.timeline,
-        { actor: 'You', actorRole: 'Manager', action: 'อนุมัติ — ผ่านทดลองงาน', date: new Date().toISOString(), comment },
-        { actor: 'ระบบ', actorRole: 'System', action: 'อัพเดทสถานะ → พนักงานประจำ', date: new Date().toISOString() },
-      ],
-    });
-  }, [probationCase]);
+  const approve = useCallback(
+    (comment: string) => {
+      if (!probationCase) return;
+      const now = new Date().toISOString();
+      setProbationCase({
+        ...probationCase,
+        status: 'approved',
+        managerRemarks: comment || probationCase.managerRemarks,
+        decidedAt: now,
+        timeline: [
+          ...probationCase.timeline,
+          {
+            actor: 'You',
+            actorRole: 'Manager',
+            action: 'อนุมัติ — ผ่านทดลองงาน',
+            date: now,
+            comment: comment || undefined,
+          },
+          { actor: 'ระบบ', actorRole: 'System', action: 'อัพเดทสถานะ → พนักงานประจำ', date: now },
+        ],
+      });
+    },
+    [probationCase],
+  );
 
   const reject = useCallback((comment: string) => {
     if (!probationCase) return;
     setProbationCase({
       ...probationCase,
-      status: 'extended',
+      status: 'rejected',
       timeline: [
         ...probationCase.timeline,
-        { actor: 'You', actorRole: 'Manager', action: 'ไม่อนุมัติ — ขยายเวลาทดลองงาน', date: new Date().toISOString(), comment },
-        { actor: 'ระบบ', actorRole: 'System', action: 'ขยาย probation 90 วัน', date: new Date().toISOString() },
+        { actor: 'You', actorRole: 'Manager', action: 'ปฏิเสธ — ไม่ผ่านทดลองงาน', date: new Date().toISOString(), comment },
+        { actor: 'ระบบ', actorRole: 'System', action: 'อัพเดทสถานะ → ไม่ผ่านทดลองงาน', date: new Date().toISOString() },
       ],
     });
   }, [probationCase]);
