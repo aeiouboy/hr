@@ -46,6 +46,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { useCapabilities } from '@/hooks/use-capabilities';
 import { useQuickApprove } from '@/hooks/use-quick-approve';
 import { MOCK_PENDING_REQUESTS } from '@/components/quick-approve/mock-requests';
+import { useProbationCases, type ProbationCase } from '@/hooks/use-probation';
 import type { PendingRequest, RequestType, Urgency } from '@/lib/quick-approve-api';
 import { cn } from '@/lib/utils';
 
@@ -58,6 +59,7 @@ const TYPE_LABELS_TH: Record<RequestType | 'all', string> = {
   claim: 'เบิก',
   transfer: 'ย้าย',
   change_request: 'เปลี่ยนข้อมูล',
+  probation: 'ทดลองงาน',
 };
 
 const TYPE_LABELS_EN: Record<RequestType | 'all', string> = {
@@ -67,6 +69,7 @@ const TYPE_LABELS_EN: Record<RequestType | 'all', string> = {
   claim: 'Claim',
   transfer: 'Transfer',
   change_request: 'Change',
+  probation: 'Probation',
 };
 
 const URGENCY_LABELS_TH: Record<Urgency | 'all', string> = {
@@ -148,6 +151,54 @@ function pickTone(seed: string) {
   return AVATAR_TONES[Math.abs(h) % AVATAR_TONES.length];
 }
 
+// Probation cases live in their own mock store (PR #135) — adapt the pending
+// ones into PendingRequest shape so they interleave with the other workflow
+// approvals. Drill-in is special-cased to /workflows/probation/<id>.
+function probationToPendingRequest(c: ProbationCase): PendingRequest {
+  const slaMs = new Date(c.slaDeadline).getTime() - Date.now();
+  const slaHours = slaMs / (1000 * 60 * 60);
+  const urgency: Urgency = slaHours < 12 ? 'urgent' : slaHours < 48 ? 'normal' : 'low';
+  const waitingDays = Math.max(
+    0,
+    Math.floor((Date.now() - new Date(c.submittedAt ?? c.hireDate).getTime()) / 86400000),
+  );
+  const managerStatus =
+    c.status === 'pending_manager' ? 'pending'
+    : c.status === 'pending_hr' || c.status === 'escalated_ceo' || c.status === 'approved' ? 'approved'
+    : 'pending';
+  const hrStatus =
+    c.status === 'pending_hr' || c.status === 'escalated_ceo' ? 'pending'
+    : c.status === 'approved' ? 'approved'
+    : 'pending';
+  return {
+    id: c.id,
+    type: 'probation',
+    requester: {
+      id: c.employeeId,
+      name: c.fullNameTh,
+      position: c.position,
+      department: c.department,
+    },
+    description: `อนุมัติผลทดลองงาน — ${c.fullNameTh}`,
+    submittedAt: c.submittedAt ?? c.hireDate,
+    urgency,
+    waitingDays,
+    details: {},
+    approvalTimeline: [
+      { step: 1, approver: 'หัวหน้างาน', status: managerStatus },
+      { step: 2, approver: 'HR Director', status: hrStatus },
+    ],
+  };
+}
+
+function isProbationPending(c: ProbationCase): boolean {
+  return (
+    c.status === 'pending_manager' ||
+    c.status === 'pending_hr' ||
+    c.status === 'escalated_ceo'
+  );
+}
+
 function applyFilters(items: PendingRequest[], filters: FilterState): PendingRequest[] {
   return items.filter((item) => {
     if (filters.type !== 'all' && item.type !== filters.type) return false;
@@ -209,8 +260,18 @@ export function QuickApprovePage() {
     revokeDelegation,
   } = useQuickApprove();
 
-  // Use mock data directly for the demo workspace
-  const allItems = MOCK_PENDING_REQUESTS;
+  // Probation cases (PR #135) — interleave pending ones into the unified list.
+  const { cases: probationCases } = useProbationCases();
+  const probationItems = useMemo(
+    () => probationCases.filter(isProbationPending).map(probationToPendingRequest),
+    [probationCases],
+  );
+
+  // Use mock data directly for the demo workspace; merge in probation.
+  const allItems = useMemo(
+    () => [...MOCK_PENDING_REQUESTS, ...probationItems],
+    [probationItems],
+  );
 
   // Local filter state
   const [filters, setFilters] = useState<FilterState>({
@@ -279,6 +340,7 @@ export function QuickApprovePage() {
     claim: allItems.filter((i) => i.type === 'claim').length,
     transfer: allItems.filter((i) => i.type === 'transfer').length,
     change_request: allItems.filter((i) => i.type === 'change_request').length,
+    probation: allItems.filter((i) => i.type === 'probation').length,
   }), [allItems]);
 
   // DataTable columns
@@ -375,20 +437,28 @@ export function QuickApprovePage() {
       id: 'action',
       header: '',
       headerVisuallyHidden: true,
-      cell: (row) => (
-        <Link
-          href={`/quick-approve/${row.id}`}
-          className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-xs font-medium text-brand hover:bg-accent-soft transition"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {isTh ? 'ดู' : 'View'}
-          <ChevronRight className="h-3.5 w-3.5" />
-        </Link>
-      ),
+      cell: (row) => {
+        // Probation drill-in lives on the standalone PR #135 detail page; all
+        // other types stay on the unified /quick-approve/<id> route.
+        const href =
+          row.type === 'probation'
+            ? `/${locale}/workflows/probation/${row.id}`
+            : `/quick-approve/${row.id}`;
+        return (
+          <Link
+            href={href}
+            className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-xs font-medium text-brand hover:bg-accent-soft transition"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {isTh ? 'ดู' : 'View'}
+            <ChevronRight className="h-3.5 w-3.5" />
+          </Link>
+        );
+      },
       className: 'w-16',
       align: 'right',
     },
-  ], [selectedIds, filteredItems, handleSelectAll, handleToggleSelect, t, typeLabels, urgencyLabels, isTh]);
+  ], [selectedIds, filteredItems, handleSelectAll, handleToggleSelect, t, typeLabels, urgencyLabels, isTh, locale]);
 
   if (loading) {
     return (
@@ -496,7 +566,7 @@ export function QuickApprovePage() {
             <Filter className="h-4 w-4 text-ink-muted shrink-0" />
 
             {/* Type filter chips */}
-            {(['all', 'leave', 'overtime', 'transfer', 'change_request'] as const).map((type) => (
+            {(['all', 'leave', 'overtime', 'transfer', 'change_request', 'probation'] as const).map((type) => (
               <button
                 key={type}
                 onClick={() => setFilters((f) => ({ ...f, type }))}

@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 
 // ── next-intl mock ─────────────────────────────────────────────────────────
 vi.mock('next-intl', () => ({
@@ -33,11 +33,22 @@ vi.mock('@/components/humi', async () => {
     Button: ({ children, onClick }: any) => <button onClick={onClick}>{children}</button>,
     Modal: ({ open, children, title }: any) =>
       open ? <div role="dialog" aria-label={title}>{children}</div> : null,
-    DataTable: ({ rows, emptyState }: any) => (
+    DataTable: ({ rows, columns, emptyState }: any) => (
       <div data-testid="data-table">
         {rows.length === 0
           ? <div data-testid="empty-state">{emptyState}</div>
-          : <div data-testid="has-rows">{rows.length} rows</div>}
+          : (
+            <div data-testid="has-rows">
+              <span data-testid="rows-count">{rows.length} rows</span>
+              {rows.map((row: any) => (
+                <div key={row.id} data-testid={`row-${row.id}`} data-type={row.type}>
+                  {columns?.map((col: any) => (
+                    <span key={col.id}>{col.cell ? col.cell(row) : null}</span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
       </div>
     ),
     Capability,
@@ -108,5 +119,38 @@ describe('/quick-approve page route', () => {
     render(<QuickApprovePageRoute />);
     expect(screen.getByTestId('data-table')).toBeInTheDocument();
     expect(screen.getByTestId('has-rows')).toBeInTheDocument();
+  });
+
+  it('shows the probation tab chip and probation rows drill-in to /workflows/probation', async () => {
+    const { default: QuickApprovePageRoute } = await import('@/app/[locale]/quick-approve/page');
+    render(<QuickApprovePageRoute />);
+
+    // The "ทดลองงาน" chip is rendered alongside the other type filter chips.
+    const probationChip = await screen.findByRole('button', { name: /ทดลองงาน/ });
+    expect(probationChip).toBeInTheDocument();
+
+    // Probation cases load asynchronously (300ms setTimeout in useProbationCases).
+    // Wait until at least one probation row has been merged into the unified list.
+    await waitFor(() => {
+      const probationRows = document.querySelectorAll('[data-type="probation"]');
+      expect(probationRows.length).toBeGreaterThan(0);
+    });
+
+    // Activating the chip narrows the list to probation only.
+    fireEvent.click(probationChip);
+    await waitFor(() => {
+      const rows = document.querySelectorAll('[data-testid^="row-"]');
+      expect(rows.length).toBeGreaterThan(0);
+      rows.forEach((row) => {
+        expect(row.getAttribute('data-type')).toBe('probation');
+      });
+    });
+
+    // Drill-in href resolves to /<locale>/workflows/probation/<id>, not /quick-approve/<id>.
+    const probationRow = document.querySelector('[data-type="probation"]');
+    expect(probationRow).not.toBeNull();
+    const link = probationRow!.querySelector('a[href*="/workflows/probation/"]');
+    expect(link).not.toBeNull();
+    expect(link!.getAttribute('href')).toMatch(/^\/th\/workflows\/probation\/PB-/);
   });
 });
