@@ -12,7 +12,7 @@ const ELIGIBILITY_MANAGED_BENEFIT_KEYS = new Set([
   'travel-allowance',
 ]);
 import { Card, CardEyebrow, CardTitle, Button, DataTable, FormField, FormInput, Modal } from '@/components/humi';
-import { updateBenefitPlan } from '@/lib/workflow-api';
+import { updateBenefitPlan, createBenefitPlan } from '@/lib/workflow-api';
 import { Capability } from '@/components/humi';
 import { BENEFIT_PLAN_REGISTRY, type BenefitPlan, type PlanCategory, type RecordType, isV2Plan } from '@/data/benefits/plan-registry';
 
@@ -234,6 +234,175 @@ function EditPlanModal({
   );
 }
 
+function CreatePlanModal({
+  onClose,
+  isTh,
+}: {
+  onClose: () => void;
+  isTh: boolean;
+}) {
+  const [key, setKey] = useState('');
+  const [displayNameTh, setDisplayNameTh] = useState('');
+  const [displayNameEn, setDisplayNameEn] = useState('');
+  const [category, setCategory] = useState<PlanCategory>('medical');
+  // 'records' is the safest no-side-effect default; user explicitly picks 'claimable' if needed.
+  const [recordType, setRecordType] = useState<RecordType>('records');
+  const [annualLimit, setAnnualLimit] = useState('');
+  const [eligibilityRuleId, setEligibilityRuleId] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const isValid = key.trim() && displayNameTh.trim() && displayNameEn.trim();
+
+  const handleSave = async () => {
+    if (!isValid) return;
+    setSaving(true);
+    setError(null);
+    try {
+      await createBenefitPlan({
+        key: key.trim(),
+        displayNameTh: displayNameTh.trim(),
+        displayNameEn: displayNameEn.trim(),
+        category,
+        recordType,
+        annualLimitThb: annualLimit ? Number(annualLimit) : null,
+        eligibilityRuleId: eligibilityRuleId.trim() || null,
+      });
+      setSaved(true);
+      // Plans come from a static registry import — reload so the new plan appears in the table.
+      setTimeout(() => {
+        onClose();
+        if (typeof window !== 'undefined') window.location.reload();
+      }, 1200);
+    } catch (err) {
+      console.warn('[CreatePlanModal] createBenefitPlan failed:', err);
+      setError(err instanceof Error ? err.message : 'Create failed');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Modal
+      open
+      onClose={onClose}
+      title={isTh ? 'สร้างแผนสวัสดิการใหม่' : 'Create Benefit Plan'}
+      widthClass="max-w-xl"
+    >
+      <div className="space-y-4">
+        <FormField id="create-plan-key" label={isTh ? 'รหัสแผน (Plan key)' : 'Plan key'} required>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+              placeholder="BE-MED-005"
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-name-th" label={isTh ? 'ชื่อแผน (ภาษาไทย)' : 'Plan name (Thai)'} required>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              value={displayNameTh}
+              onChange={(e) => setDisplayNameTh(e.target.value)}
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-name-en" label={isTh ? 'ชื่อแผน (ภาษาอังกฤษ)' : 'Plan name (English)'} required>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              value={displayNameEn}
+              onChange={(e) => setDisplayNameEn(e.target.value)}
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-category" label={isTh ? 'หมวดหมู่' : 'Category'} required>
+          {() => (
+            <select
+              id="create-plan-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value as PlanCategory)}
+              className={selectClass}
+            >
+              {Object.entries(isTh ? CATEGORY_LABELS_TH : CATEGORY_LABELS_EN).map(([k, label]) => (
+                <option key={k} value={k}>{label}</option>
+              ))}
+            </select>
+          )}
+        </FormField>
+
+        <FormField id="create-plan-record-type" label={isTh ? 'ประเภทการบันทึก' : 'Record type'} required>
+          {() => (
+            <select
+              id="create-plan-record-type"
+              value={recordType}
+              onChange={(e) => setRecordType(e.target.value as RecordType)}
+              className={selectClass}
+            >
+              <option value="claimable">{isTh ? 'เบิกได้' : 'Claimable'}</option>
+              <option value="records">{isTh ? 'บันทึก' : 'Records'}</option>
+              <option value="info">{isTh ? 'ข้อมูล' : 'Info'}</option>
+            </select>
+          )}
+        </FormField>
+
+        <FormField id="create-plan-limit" label={isTh ? 'วงเงินต่อปี (บาท)' : 'Annual limit (THB)'}>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              type="number"
+              min={0}
+              value={annualLimit}
+              onChange={(e) => setAnnualLimit(e.target.value)}
+              placeholder={isTh ? 'ว่าง = ไม่จำกัด' : 'Leave blank = uncapped'}
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-eligibility-rule" label={isTh ? 'รหัสกฎเงื่อนไขสิทธิ์' : 'Eligibility rule ID'}>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              value={eligibilityRuleId}
+              onChange={(e) => setEligibilityRuleId(e.target.value)}
+              placeholder={isTh ? 'ว่าง = ไม่ระบุ' : 'Leave blank = none'}
+            />
+          )}
+        </FormField>
+
+        {saved && (
+          <div role="status" className="rounded-[var(--radius-md)] bg-success-soft p-3 text-small font-medium text-ink">
+            {isTh ? 'สร้างแผนสำเร็จ' : 'Plan created'}
+          </div>
+        )}
+
+        {error && (
+          <div role="alert" className="rounded-[var(--radius-md)] bg-error-soft p-3 text-small font-medium text-error">
+            {error}
+          </div>
+        )}
+
+        <div className="flex justify-end gap-2 pt-2 border-t border-hairline">
+          <Button variant="ghost" onClick={onClose}>{isTh ? 'ยกเลิก' : 'Cancel'}</Button>
+          <Capability action="edit" fallback={
+            <Button variant="primary" disabled>{isTh ? 'สร้างแผน' : 'Create Plan'}</Button>
+          }>
+            <Button variant="primary" onClick={handleSave} disabled={saving || !isValid}>
+              {saving ? (isTh ? 'กำลังสร้าง…' : 'Creating…') : (isTh ? 'สร้างแผน' : 'Create Plan')}
+            </Button>
+          </Capability>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
 export default function BenefitPlansPage() {
   const t = useTranslations('admin_benefits_plans');
   const locale = useLocale();
@@ -242,6 +411,7 @@ export default function BenefitPlansPage() {
   const [filterCategory, setFilterCategory] = useState<FilterCategory>('all');
   const [filterRecordType, setFilterRecordType] = useState<FilterRecordType>('all');
   const [editingPlan, setEditingPlan] = useState<BenefitPlan | null>(null);
+  const [creatingPlan, setCreatingPlan] = useState(false);
 
   const filteredPlans = useMemo(() => {
     return BENEFIT_PLAN_REGISTRY.filter((p) => {
@@ -377,6 +547,13 @@ export default function BenefitPlansPage() {
             <Button variant="secondary" disabled>{t('import')}</Button>
           </Capability>
           <Button variant="secondary" disabled>{t('export')}</Button>
+          <Capability action="edit" fallback={
+            <Button variant="primary" disabled>{isTh ? '+ เพิ่มแผน' : '+ Add Plan'}</Button>
+          }>
+            <Button variant="primary" onClick={() => setCreatingPlan(true)}>
+              {isTh ? '+ เพิ่มแผน' : '+ Add Plan'}
+            </Button>
+          </Capability>
         </div>
       </header>
 
@@ -473,6 +650,14 @@ export default function BenefitPlansPage() {
           onClose={() => setEditingPlan(null)}
           isTh={isTh}
           locale={locale}
+        />
+      )}
+
+      {/* Create modal */}
+      {creatingPlan && (
+        <CreatePlanModal
+          onClose={() => setCreatingPlan(false)}
+          isTh={isTh}
         />
       )}
     </div>

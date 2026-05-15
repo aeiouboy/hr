@@ -356,6 +356,32 @@ export async function updateBenefitPlan(
   return res.json() as Promise<BenefitDefinition>;
 }
 
+export interface CreateBenefitPlanInput {
+  key: string;
+  displayNameTh: string;
+  displayNameEn: string;
+  category: string;
+  recordType: string;
+  annualLimitThb?: number | null;
+  eligibilityRuleId?: string | null;
+}
+
+export async function createBenefitPlan(
+  input: CreateBenefitPlanInput,
+): Promise<{ id: string; key: string }> {
+  const headers = await buildAuthHeaders();
+  const res = await fetch(`${BASE_URL}/admin/benefits`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) {
+    const text = await readErrorText(res);
+    throw new Error(`workflow-api createBenefitPlan failed (${res.status}): ${text}`);
+  }
+  return res.json() as Promise<{ id: string; key: string }>;
+}
+
 export async function setEligibilityEnabled(benefitKey: string, enabled: boolean): Promise<void> {
   const headers = await buildAuthHeaders();
   const res = await fetch(
