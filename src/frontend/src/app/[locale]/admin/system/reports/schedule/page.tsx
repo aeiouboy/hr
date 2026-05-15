@@ -62,7 +62,7 @@ export default function ScheduleReportPage() {
           </div>
 
           <div>
-            <label className="block text-xs text-ink-muted mb-2">ความถี่</label>
+            <div className="block text-xs text-ink-muted mb-2">ความถี่</div>
             <CronPicker value={cron} onChange={setCron} />
           </div>
 
