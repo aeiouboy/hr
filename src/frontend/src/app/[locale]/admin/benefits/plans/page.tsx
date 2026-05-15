@@ -15,6 +15,8 @@ import { Card, CardEyebrow, CardTitle, Button, DataTable, FormField, FormInput, 
 import { updateBenefitPlan, createBenefitPlan } from '@/lib/workflow-api';
 import { Capability } from '@/components/humi';
 import { BENEFIT_PLAN_REGISTRY, type BenefitPlan, type PlanCategory, type RecordType, isV2Plan } from '@/data/benefits/plan-registry';
+import { PlanConfiguratorShell, type PlanConfiguratorTab } from '@/components/benefits/PlanConfiguratorShell';
+import { Tab1IdentityFields, type Tab1IdentityValues } from '@/components/benefits/Tab1IdentityFields';
 
 // ── Plan catalog — CRUD-style mockup ─────────────────────────────────────────
 // Reads all 28 plans from BENEFIT_PLAN_REGISTRY.
@@ -76,6 +78,69 @@ type FilterRecordType = typeof ALL_RECORD_TYPES[number];
 const selectClass =
   'h-10 rounded-[var(--radius-md)] border border-hairline bg-surface px-3 text-body text-ink transition-[border-color,box-shadow] duration-[var(--dur-fast)] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 focus:ring-offset-canvas';
 
+// ── ComingNextCard — placeholder for tabs 2-9 ─────────────────────────────
+function ComingNextCard({ tabId, prNumber, isTh }: { tabId: string; prNumber: string; isTh: boolean }) {
+  return (
+    <div className="rounded-[var(--radius-md)] bg-canvas-soft p-6 text-center">
+      <p className="text-small text-ink-muted">
+        {isTh ? `แท็บ "${tabId}" — กำลังพัฒนาใน ${prNumber}` : `Tab "${tabId}" — coming in ${prNumber}`}
+      </p>
+    </div>
+  );
+}
+
+// ── Default Tab1 identity values for Edit ─────────────────────────────────
+function editPlanDefaultIdentity(plan: BenefitPlan, isTh: boolean): Tab1IdentityValues {
+  const prefix: Tab1IdentityValues['prefix'] =
+    plan.recordType === 'records' ? 'records'
+    : plan.recordType === 'info'   ? 'info'
+    : 'none';
+  return {
+    ttt: plan.ttt,
+    planKey: plan.id,
+    nameTh: plan.nameTh,
+    nameEn: plan.nameEn,
+    prefix,
+    category: plan.category,
+    schemaVersion: (plan as { schemaVersion?: 'v1' | 'v2' }).schemaVersion ?? 'v2',
+    template: plan.template,
+    effectiveFrom: '',
+    effectiveTo: '',
+  };
+}
+
+// ── TABS definition shared by both modals ─────────────────────────────────
+function buildTabs(
+  tab1Panel: React.ReactNode,
+  isTh: boolean,
+): PlanConfiguratorTab[] {
+  const placeholders: Array<{ id: string; labelTh: string; labelEn: string; pr: string }> = [
+    { id: 'coverage',      labelTh: 'ความคุ้มครอง', labelEn: 'Coverage',      pr: 'PR-B' },
+    { id: 'eligibility',   labelTh: 'คุณสมบัติ',    labelEn: 'Eligibility',   pr: 'PR-C' },
+    { id: 'claim',         labelTh: 'เคลม',          labelEn: 'Claim',         pr: 'PR-D' },
+    { id: 'form',          labelTh: 'แบบฟอร์ม',      labelEn: 'Form',          pr: 'PR-E' },
+    { id: 'approval',      labelTh: 'อนุมัติ',       labelEn: 'Approval',      pr: 'PR-F' },
+    { id: 'payroll',       labelTh: 'เงินเดือน',     labelEn: 'Payroll',       pr: 'PR-G' },
+    { id: 'notifications', labelTh: 'แจ้งเตือน',     labelEn: 'Notifications', pr: 'PR-G' },
+    { id: 'audit',         labelTh: 'ประวัติ',        labelEn: 'Audit',         pr: 'PR-H' },
+  ];
+
+  return [
+    {
+      id: 'identity',
+      labelTh: 'ข้อมูลพื้นฐาน',
+      labelEn: 'Identity',
+      panel: tab1Panel,
+    },
+    ...placeholders.map((p) => ({
+      id: p.id,
+      labelTh: p.labelTh,
+      labelEn: p.labelEn,
+      panel: <ComingNextCard tabId={p.labelEn} prNumber={p.pr} isTh={isTh} />,
+    })),
+  ];
+}
+
 function EditPlanModal({
   plan,
   onClose,
@@ -87,15 +152,36 @@ function EditPlanModal({
   isTh: boolean;
   locale: string;
 }) {
-  const [name, setName] = useState(isTh ? plan.nameTh : plan.nameEn);
-  const [limit, setLimit] = useState(plan.annualLimitThb != null ? String(plan.annualLimitThb) : '');
+  const [tab1Values, setTab1Values] = useState<Tab1IdentityValues>(() =>
+    editPlanDefaultIdentity(plan, isTh),
+  );
+  const [activeTab, setActiveTab] = useState('identity');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+
+  const handleTab1Change = <K extends keyof Tab1IdentityValues>(
+    field: K,
+    value: Tab1IdentityValues[K],
+  ) => {
+    setTab1Values((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const tab1Panel = (
+    <Tab1IdentityFields
+      values={tab1Values}
+      onChange={handleTab1Change}
+      mode="edit"
+      isTh={isTh}
+    />
+  );
+
+  const tabs = buildTabs(tab1Panel, isTh);
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      await updateBenefitPlan(plan.id, { display_name: name });
+      console.log('[EditPlanModal] Tab1 values:', tab1Values);
+      await updateBenefitPlan(plan.id, { display_name: tab1Values.nameTh });
       setSaved(true);
       setTimeout(onClose, 1200);
     } catch (err) {
@@ -110,89 +196,19 @@ function EditPlanModal({
       open
       onClose={onClose}
       title={isTh ? `แก้ไขแผน: ${plan.id}` : `Edit plan: ${plan.id}`}
-      widthClass="max-w-xl"
+      widthClass="max-w-3xl"
     >
       <div className="space-y-4">
-        <div className="rounded-[var(--radius-md)] bg-canvas-soft px-4 py-3 text-small text-ink-muted">
-          <span className="font-medium text-ink">TTT:</span> {plan.ttt}
-          {' · '}
-          <span className="font-medium text-ink">{isTh ? 'เทมเพลต' : 'Template'}:</span> {plan.template}
-          {' · '}
-          <span className="font-medium text-ink">{isTh ? 'ประเภท' : 'Type'}:</span>{' '}
-          {isTh ? RECORD_TYPE_CHIP[plan.recordType].labelTh : RECORD_TYPE_CHIP[plan.recordType].label}
-        </div>
+        <PlanConfiguratorShell
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          isTh={isTh}
+        />
 
-        <FormField id="edit-plan-name" label={isTh ? 'ชื่อแผน' : 'Plan name'} required>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          )}
-        </FormField>
-
-        <FormField id="edit-plan-limit" label={isTh ? 'วงเงินต่อปี (บาท)' : 'Annual limit (THB)'}>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              type="number"
-              min={0}
-              value={limit}
-              onChange={(e) => setLimit(e.target.value)}
-              placeholder={isTh ? 'ว่าง = ไม่จำกัด' : 'Leave blank = uncapped'}
-            />
-          )}
-        </FormField>
-
-        <FormField id="edit-plan-eligibility" label={isTh ? 'เงื่อนไขสิทธิ์' : 'Eligibility'}>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              value={plan.eligibilityTh}
-              readOnly
-              className="bg-canvas-soft text-ink-muted"
-            />
-          )}
-        </FormField>
-
-        <div>
-          <p className="mb-2 text-small font-medium text-ink">
-            {isTh ? 'เอกสารที่ต้องแนบ' : 'Required documents'}
-          </p>
-          {plan.requiredDocsEn.length === 0 ? (
-            <p className="text-small text-ink-muted">—</p>
-          ) : (
-            <ul className="list-disc pl-5 text-small text-ink-muted">
-              {(isTh ? plan.requiredDocsTh : plan.requiredDocsEn).map((doc) => (
-                <li key={doc}>{doc}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        <div>
-          <p className="mb-2 text-small font-medium text-ink">
-            {isTh ? 'ขั้นตอนอนุมัติ' : 'Approval chain'}
-          </p>
-          {plan.approvalChain.length === 0 ? (
-            <p className="text-small text-ink-muted">{isTh ? 'ไม่มีขั้นตอนอนุมัติ (admin เท่านั้น)' : 'No approval chain (admin-only)'}</p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {plan.approvalChain.map((stage, i) => (
-                <span
-                  key={stage}
-                  className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] bg-accent-soft px-2 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.1em] text-accent"
-                >
-                  <span className="text-ink-muted">{i + 1}.</span> {stage.toUpperCase()}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
+        {/* Eligibility rule link (v2 plans only) */}
         {isV2Plan(plan) && plan.eligibility.eligibilityRuleId && (
-          <div>
+          <div className="pt-2 border-t border-hairline">
             <p className="mb-2 text-small font-medium text-ink">
               {isTh ? 'กฎเงื่อนไขสิทธิ์' : 'Eligibility rule'}
             </p>
@@ -241,33 +257,54 @@ function CreatePlanModal({
   onClose: () => void;
   isTh: boolean;
 }) {
-  const [key, setKey] = useState('');
-  const [displayNameTh, setDisplayNameTh] = useState('');
-  const [displayNameEn, setDisplayNameEn] = useState('');
-  const [category, setCategory] = useState<PlanCategory>('medical');
-  // 'records' is the safest no-side-effect default; user explicitly picks 'claimable' if needed.
-  const [recordType, setRecordType] = useState<RecordType>('records');
-  const [annualLimit, setAnnualLimit] = useState('');
-  const [eligibilityRuleId, setEligibilityRuleId] = useState('');
+  const defaultTab1: Tab1IdentityValues = {
+    ttt: '',
+    planKey: '',
+    nameTh: '',
+    nameEn: '',
+    prefix: 'none',
+    category: 'medical',
+    schemaVersion: 'v2',
+    template: 'simple-claim',
+    effectiveFrom: '',
+    effectiveTo: '',
+  };
+
+  const [tab1Values, setTab1Values] = useState<Tab1IdentityValues>(defaultTab1);
+  const [activeTab, setActiveTab] = useState('identity');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const isValid = key.trim() && displayNameTh.trim() && displayNameEn.trim();
+  const handleTab1Change = <K extends keyof Tab1IdentityValues>(
+    field: K,
+    value: Tab1IdentityValues[K],
+  ) => {
+    setTab1Values((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Derive recordType inline — no useEffect
+  const derivedRecordType: RecordType =
+    tab1Values.prefix === 'records' ? 'records'
+    : tab1Values.prefix === 'info'   ? 'info'
+    : 'claimable';
+
+  const isValid = tab1Values.planKey.trim() && tab1Values.nameTh.trim() && tab1Values.nameEn.trim();
 
   const handleSave = async () => {
     if (!isValid) return;
     setSaving(true);
     setError(null);
     try {
+      console.log('[CreatePlanModal] Tab1 values:', tab1Values);
       await createBenefitPlan({
-        key: key.trim(),
-        displayNameTh: displayNameTh.trim(),
-        displayNameEn: displayNameEn.trim(),
-        category,
-        recordType,
-        annualLimitThb: annualLimit ? Number(annualLimit) : null,
-        eligibilityRuleId: eligibilityRuleId.trim() || null,
+        key: tab1Values.planKey.trim(),
+        displayNameTh: tab1Values.nameTh.trim(),
+        displayNameEn: tab1Values.nameEn.trim(),
+        category: tab1Values.category,
+        recordType: derivedRecordType,
+        annualLimitThb: null,
+        eligibilityRuleId: null,
       });
       setSaved(true);
       // Plans come from a static registry import — reload so the new plan appears in the table.
@@ -283,98 +320,31 @@ function CreatePlanModal({
     }
   };
 
+  const tab1Panel = (
+    <Tab1IdentityFields
+      values={tab1Values}
+      onChange={handleTab1Change}
+      mode="create"
+      isTh={isTh}
+    />
+  );
+
+  const tabs = buildTabs(tab1Panel, isTh);
+
   return (
     <Modal
       open
       onClose={onClose}
       title={isTh ? 'สร้างแผนสวัสดิการใหม่' : 'Create Benefit Plan'}
-      widthClass="max-w-xl"
+      widthClass="max-w-3xl"
     >
       <div className="space-y-4">
-        <FormField id="create-plan-key" label={isTh ? 'รหัสแผน (Plan key)' : 'Plan key'} required>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-              placeholder="BE-MED-005"
-            />
-          )}
-        </FormField>
-
-        <FormField id="create-plan-name-th" label={isTh ? 'ชื่อแผน (ภาษาไทย)' : 'Plan name (Thai)'} required>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              value={displayNameTh}
-              onChange={(e) => setDisplayNameTh(e.target.value)}
-            />
-          )}
-        </FormField>
-
-        <FormField id="create-plan-name-en" label={isTh ? 'ชื่อแผน (ภาษาอังกฤษ)' : 'Plan name (English)'} required>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              value={displayNameEn}
-              onChange={(e) => setDisplayNameEn(e.target.value)}
-            />
-          )}
-        </FormField>
-
-        <FormField id="create-plan-category" label={isTh ? 'หมวดหมู่' : 'Category'} required>
-          {() => (
-            <select
-              id="create-plan-category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value as PlanCategory)}
-              className={selectClass}
-            >
-              {Object.entries(isTh ? CATEGORY_LABELS_TH : CATEGORY_LABELS_EN).map(([k, label]) => (
-                <option key={k} value={k}>{label}</option>
-              ))}
-            </select>
-          )}
-        </FormField>
-
-        <FormField id="create-plan-record-type" label={isTh ? 'ประเภทการบันทึก' : 'Record type'} required>
-          {() => (
-            <select
-              id="create-plan-record-type"
-              value={recordType}
-              onChange={(e) => setRecordType(e.target.value as RecordType)}
-              className={selectClass}
-            >
-              <option value="claimable">{isTh ? 'เบิกได้' : 'Claimable'}</option>
-              <option value="records">{isTh ? 'บันทึก' : 'Records'}</option>
-              <option value="info">{isTh ? 'ข้อมูล' : 'Info'}</option>
-            </select>
-          )}
-        </FormField>
-
-        <FormField id="create-plan-limit" label={isTh ? 'วงเงินต่อปี (บาท)' : 'Annual limit (THB)'}>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              type="number"
-              min={0}
-              value={annualLimit}
-              onChange={(e) => setAnnualLimit(e.target.value)}
-              placeholder={isTh ? 'ว่าง = ไม่จำกัด' : 'Leave blank = uncapped'}
-            />
-          )}
-        </FormField>
-
-        <FormField id="create-plan-eligibility-rule" label={isTh ? 'รหัสกฎเงื่อนไขสิทธิ์' : 'Eligibility rule ID'}>
-          {(cp) => (
-            <FormInput
-              {...cp}
-              value={eligibilityRuleId}
-              onChange={(e) => setEligibilityRuleId(e.target.value)}
-              placeholder={isTh ? 'ว่าง = ไม่ระบุ' : 'Leave blank = none'}
-            />
-          )}
-        </FormField>
+        <PlanConfiguratorShell
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          isTh={isTh}
+        />
 
         {saved && (
           <div role="status" className="rounded-[var(--radius-md)] bg-success-soft p-3 text-small font-medium text-ink">
