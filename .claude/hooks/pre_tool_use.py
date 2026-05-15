@@ -4,9 +4,18 @@
 # ///
 
 import json
+import os
 import sys
 import re
 from pathlib import Path
+
+# Humi design-system contract validator (see validators/humi_design_check.py).
+# Loaded once; falls back to no-op if the validator file is absent or breaks.
+sys.path.insert(0, str(Path(__file__).parent / 'validators'))
+try:
+    from humi_design_check import check_content as _humi_check  # type: ignore
+except Exception:  # noqa: BLE001 — never let the import break the hook
+    _humi_check = None
 
 def is_dangerous_rm_command(command):
     """
@@ -98,12 +107,59 @@ def main():
         # Check for dangerous rm -rf commands
         if tool_name == 'Bash':
             command = tool_input.get('command', '')
-            
+
             # Block rm -rf commands with comprehensive pattern matching
             if is_dangerous_rm_command(command):
                 print("BLOCKED: Dangerous rm command detected and prevented", file=sys.stderr)
                 sys.exit(2)  # Exit code 2 blocks tool call and shows error to Claude
-        
+
+        # Humi design-system contract check on Write/Edit/MultiEdit targeting
+        # src/frontend/. See AGENTS.md > "Humi Design System Contract" and
+        # docs/humi-design-audit.md (if present). Set HUMI_DESIGN_CHECK=off
+        # to disable temporarily.
+        if (
+            _humi_check is not None
+            and os.environ.get('HUMI_DESIGN_CHECK', '').lower() not in ('off', '0', 'false')
+        ):
+            pairs = []
+            if tool_name == 'Write':
+                fp = tool_input.get('file_path', '')
+                content = tool_input.get('content', '')
+                if fp and isinstance(content, str):
+                    pairs.append((fp, content))
+            elif tool_name == 'Edit':
+                fp = tool_input.get('file_path', '')
+                ns = tool_input.get('new_string', '')
+                if fp and isinstance(ns, str):
+                    pairs.append((fp, ns))
+            elif tool_name == 'MultiEdit':
+                fp = tool_input.get('file_path', '')
+                for edit in (tool_input.get('edits') or []):
+                    ns = edit.get('new_string', '') if isinstance(edit, dict) else ''
+                    if fp and isinstance(ns, str) and ns:
+                        pairs.append((fp, ns))
+            violations = []
+            for fp, content in pairs:
+                try:
+                    violations.extend(_humi_check(fp, content) or [])
+                except Exception:
+                    pass  # never break the hook on validator errors
+            if violations:
+                print(
+                    "Humi design contract violations — tool call BLOCKED:",
+                    file=sys.stderr,
+                )
+                for v in violations[:50]:
+                    print("  " + v.format(), file=sys.stderr)
+                if len(violations) > 50:
+                    print(f"  ... and {len(violations) - 50} more", file=sys.stderr)
+                print(
+                    "Reference: AGENTS.md > Humi Design System Contract. "
+                    "Bypass: HUMI_DESIGN_CHECK=off.",
+                    file=sys.stderr,
+                )
+                sys.exit(2)
+
         # Ensure log directory exists
         log_dir = Path.cwd() / 'logs'
         log_dir.mkdir(parents=True, exist_ok=True)
