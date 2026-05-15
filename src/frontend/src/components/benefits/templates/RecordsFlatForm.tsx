@@ -7,6 +7,13 @@ import { FileUploadField } from '@/components/humi/FileUploadField';
 import { Capability } from '@/components/humi';
 import type { BenefitTemplateProps } from './SimpleClaimForm';
 
+export interface RecordsFlatFormValues {
+  employeeId: string;
+  eventDate: string;
+  notes: string;
+  attachmentName: string;
+}
+
 // ── RecordsFlatForm ───────────────────────────────────────────────────────────
 // Template: records-flat
 // Use cases: funeral assistance (employee), wreath (employee), gifts (patient/ordination/wedding/childbirth)
@@ -18,7 +25,9 @@ export function RecordsFlatForm({
   onSubmitted,
   defaultEmployeeId,
   className,
-}: BenefitTemplateProps) {
+}: Omit<BenefitTemplateProps, 'onSubmitted'> & {
+  onSubmitted?: (wfId: string, formValues: RecordsFlatFormValues) => void;
+}) {
   const locale = useLocale();
   const isTh = locale !== 'en';
 
@@ -53,10 +62,11 @@ export function RecordsFlatForm({
       return;
     }
     const wfId = `WF-${Date.now()}`;
+    const submittedValues: RecordsFlatFormValues = { ...form };
     setLastWorkflowId(wfId);
     setForm({ employeeId: defaultEmployeeId ?? '', eventDate: '', notes: '', attachmentName: '' });
     setErrors([]);
-    onSubmitted?.(wfId);
+    onSubmitted?.(wfId, submittedValues);
   };
 
   return (

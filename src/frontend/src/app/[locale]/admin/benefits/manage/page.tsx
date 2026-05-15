@@ -23,16 +23,47 @@ type TabId = typeof TABS[number]['id'];
 
 const PAYMENT_PLAN_ID = 'BE-CYC-005';
 
+const TOTAL_STEPS = 8;
+
+const RUN_JOB_ROWS = [
+  { id: 'BE-CYC-001', labelTh: 'ลงทะเบียนประจำปี',    labelEn: 'Annual Enrollment',    ok: true },
+  { id: 'BE-CYC-002', labelTh: 'รับเข้างาน',           labelEn: 'On-boarding',           ok: true },
+  { id: 'BE-CYC-003', labelTh: 'เปลี่ยนแปลงสถานะ',    labelEn: 'Status Change',         ok: true },
+  { id: 'BE-CYC-004', labelTh: 'ลาออก',                labelEn: 'Off-boarding',          ok: true },
+  { id: 'BE-CYC-005', labelTh: 'รอบจ่ายเงิน',          labelEn: 'Payment Cycle',         ok: true },
+  { id: 'BE-CYC-005A', labelTh: 'ตรวจสอบวงเงิน',      labelEn: 'Entitlement check',     ok: false },
+  { id: 'BE-CYC-005B', labelTh: 'รายการค้างจ่าย',     labelEn: 'Pending disbursement',  ok: false },
+  { id: 'BE-CYC-SYN', labelTh: 'ซิงก์ข้อมูลพนักงาน', labelEn: 'Employee data sync',    ok: true },
+];
+
 export default function ManageBenefitsPage() {
   const t = useTranslations('admin_benefits_manage');
   const locale = useLocale();
   const isTh = locale !== 'en';
 
   const [activeTab, setActiveTab] = useState<TabId>('onboard');
+  const [runState, setRunState] = useState<'idle' | 'running' | 'done'>('idle');
+  const [currentStep, setCurrentStep] = useState(0);
 
   const currentTab = TABS.find((tab) => tab.id === activeTab)!;
   const activePlan = getPlan(currentTab.planId);
   const paymentPlan = getPlan(PAYMENT_PLAN_ID);
+
+  const handleRunAll = async () => {
+    setRunState('running');
+    setCurrentStep(0);
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      await new Promise<void>((resolve) => setTimeout(resolve, 600));
+      setCurrentStep(i);
+    }
+    setRunState('done');
+  };
+
+  const runButtonLabel = runState === 'running'
+    ? (isTh ? `กำลังทำงาน… (${currentStep}/${TOTAL_STEPS})` : `Running… (${currentStep}/${TOTAL_STEPS})`)
+    : runState === 'done'
+    ? (isTh ? 'รันใหม่' : 'Re-run')
+    : t('runAll');
 
   return (
     <div className="space-y-6">
@@ -43,12 +74,61 @@ export default function ManageBenefitsPage() {
           <h1 className="font-display text-[28px] font-semibold text-ink">{t('title')}</h1>
           <p className="mt-2 text-small text-ink-muted">{t('subtitle')}</p>
         </div>
-        <Capability action="editFoundation" fallback={
-          <Button variant="secondary" disabled>{t('runAllDisabled')}</Button>
-        }>
-          <Button variant="secondary" disabled>{t('runAll')}</Button>
-        </Capability>
+        <div className="flex flex-col items-end gap-2">
+          <Capability action="editFoundation" fallback={
+            <Button variant="secondary" disabled>{t('runAllDisabled')}</Button>
+          }>
+            <Button
+              variant="secondary"
+              disabled={runState === 'running'}
+              onClick={handleRunAll}
+            >
+              {runButtonLabel}
+            </Button>
+          </Capability>
+          {runState !== 'idle' && (
+            <div className="w-full min-w-[200px] space-y-1">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-canvas-soft">
+                <div
+                  className="h-full bg-accent transition-[width] duration-[var(--dur-base)]"
+                  style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
+                />
+              </div>
+              <p className="text-small text-ink-muted">
+                {isTh ? `ขั้นตอน ${currentStep}/${TOTAL_STEPS}` : `Step ${currentStep}/${TOTAL_STEPS}`}
+              </p>
+            </div>
+          )}
+        </div>
       </header>
+
+      {/* Run result panel */}
+      {runState === 'done' && (
+        <Card variant="raised" size="md">
+          <CardEyebrow>{isTh ? 'ผลการรัน' : 'Run result'}</CardEyebrow>
+          <CardTitle>{isTh ? '8/8 ผ่าน · 2 รายการต้องตรวจ' : '8/8 OK · 2 anomalies'}</CardTitle>
+          <ul className="mt-3 space-y-1 text-small text-ink-muted">
+            {RUN_JOB_ROWS.map((job) => (
+              <li key={job.id} className="flex items-center gap-2">
+                <span
+                  className={[
+                    'inline-block h-2 w-2 flex-shrink-0 rounded-full',
+                    job.ok ? 'bg-success' : 'bg-warning',
+                  ].join(' ')}
+                  aria-hidden
+                />
+                <span className="font-mono text-ink-muted">{job.id}</span>
+                <span className="text-ink">{isTh ? job.labelTh : job.labelEn}</span>
+                {!job.ok && (
+                  <span className="ml-auto text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.12em] text-warning">
+                    {isTh ? 'ตรวจสอบ' : 'Review'}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
 
       {/* Tab nav */}
       <div role="tablist" aria-label={t('tabsLabel')} className="flex gap-1 overflow-x-auto rounded-[var(--radius-md)] border border-hairline bg-canvas-soft p-1">

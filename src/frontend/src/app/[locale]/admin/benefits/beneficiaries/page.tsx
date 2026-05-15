@@ -6,38 +6,14 @@ import { useParams } from 'next/navigation';
 import { Button, Card, CardEyebrow, CardTitle, Modal } from '@/components/humi';
 import { Capability } from '@/components/humi';
 import { RecordsFlatForm } from '@/components/benefits/templates/RecordsFlatForm';
+import type { RecordsFlatFormValues } from '@/components/benefits/templates/RecordsFlatForm';
 import { getPlan } from '@/data/benefits/plan-registry';
+import { useBeneficiariesStore } from '@/stores/benefit-beneficiaries';
+import type { BeneficiaryRow } from '@/stores/benefit-beneficiaries';
 
 // ── Beneficiary management page ───────────────────────────────────────────────
-// Table of mock beneficiaries + Modal-driven add/edit via RecordsFlatForm (BE-BEN-001).
-
-interface BeneficiaryRow {
-  id: string;
-  employeeId: string;
-  employeeName: string;
-  beneficiaryName: string;
-  relationship: string;
-  relationshipEn: string;
-  nationalId: string;
-  percentage: number;
-  updatedDate: string;
-  status: 'active' | 'inactive';
-}
-
-const MOCK_BENEFICIARIES: BeneficiaryRow[] = [
-  { id: 'BEN-001', employeeId: 'EMP001', employeeName: 'สมชาย ใจดี',      beneficiaryName: 'สมหญิง ใจดี',      relationship: 'คู่สมรส',  relationshipEn: 'Spouse',  nationalId: '1-2345-67890-12-3', percentage: 100, updatedDate: '2026-01-15', status: 'active' },
-  { id: 'BEN-002', employeeId: 'EMP002', employeeName: 'วิภา รักงาน',       beneficiaryName: 'ประยุทธ รักงาน',   relationship: 'บิดา',     relationshipEn: 'Father',  nationalId: '1-9876-54321-00-1', percentage: 50,  updatedDate: '2026-02-03', status: 'active' },
-  { id: 'BEN-003', employeeId: 'EMP002', employeeName: 'วิภา รักงาน',       beneficiaryName: 'ศรีประภา รักงาน',  relationship: 'มารดา',    relationshipEn: 'Mother',  nationalId: '1-9876-54321-00-2', percentage: 50,  updatedDate: '2026-02-03', status: 'active' },
-  { id: 'BEN-004', employeeId: 'EMP003', employeeName: 'ธนกร มั่นคง',       beneficiaryName: 'ธนพร มั่นคง',      relationship: 'คู่สมรส',  relationshipEn: 'Spouse',  nationalId: '2-1111-22222-33-4', percentage: 70,  updatedDate: '2025-11-20', status: 'active' },
-  { id: 'BEN-005', employeeId: 'EMP003', employeeName: 'ธนกร มั่นคง',       beneficiaryName: 'ธนวัฒน์ มั่นคง',   relationship: 'บุตร',     relationshipEn: 'Child',   nationalId: '2-1111-22222-33-5', percentage: 30,  updatedDate: '2025-11-20', status: 'active' },
-  { id: 'BEN-006', employeeId: 'EMP004', employeeName: 'นภาพร สุขสันต์',    beneficiaryName: 'ณัฐพงษ์ สุขสันต์', relationship: 'คู่สมรส',  relationshipEn: 'Spouse',  nationalId: '3-4567-89012-34-5', percentage: 100, updatedDate: '2026-03-10', status: 'active' },
-  { id: 'BEN-007', employeeId: 'EMP005', employeeName: 'อาทิตย์ วิจิตร',    beneficiaryName: 'สุมาลี วิจิตร',    relationship: 'มารดา',    relationshipEn: 'Mother',  nationalId: '4-5678-90123-45-6', percentage: 100, updatedDate: '2026-01-28', status: 'active' },
-  { id: 'BEN-008', employeeId: 'EMP006', employeeName: 'กมลา ประสิทธิ์',    beneficiaryName: 'ภาณุวัฒน์ ประสิทธิ์', relationship: 'คู่สมรส', relationshipEn: 'Spouse', nationalId: '5-6789-01234-56-7', percentage: 60,  updatedDate: '2025-12-05', status: 'active' },
-  { id: 'BEN-009', employeeId: 'EMP006', employeeName: 'กมลา ประสิทธิ์',    beneficiaryName: 'สิริยา ประสิทธิ์',  relationship: 'บุตร',     relationshipEn: 'Child',   nationalId: '5-6789-01234-56-8', percentage: 40,  updatedDate: '2025-12-05', status: 'active' },
-  { id: 'BEN-010', employeeId: 'EMP007', employeeName: 'พิชิต เจริญรุ่ง',   beneficiaryName: 'มานิตา เจริญรุ่ง',  relationship: 'คู่สมรส',  relationshipEn: 'Spouse',  nationalId: '6-7890-12345-67-8', percentage: 100, updatedDate: '2026-04-02', status: 'active' },
-  { id: 'BEN-011', employeeId: 'EMP008', employeeName: 'รัตนา ศิริโชค',     beneficiaryName: 'ชัยวัฒน์ ศิริโชค',  relationship: 'บิดา',     relationshipEn: 'Father',  nationalId: '7-8901-23456-78-9', percentage: 100, updatedDate: '2026-02-18', status: 'inactive' },
-  { id: 'BEN-012', employeeId: 'EMP009', employeeName: 'ประสิทธิ์ แสงทอง', beneficiaryName: 'พรพิมล แสงทอง',   relationship: 'คู่สมรส',  relationshipEn: 'Spouse',  nationalId: '8-9012-34567-89-0', percentage: 100, updatedDate: '2026-03-25', status: 'active' },
-];
+// Table of beneficiaries + Modal-driven add/edit via RecordsFlatForm (BE-BEN-001).
+// State is persisted via useBeneficiariesStore (Zustand + localStorage).
 
 const BEN_PLAN = getPlan('BE-BEN-001')!;
 
@@ -47,7 +23,10 @@ export default function AdminBeneficiariesPage() {
   const loc = routeParams?.locale ?? locale ?? 'th';
   const isTh = loc !== 'en';
 
-  const [rows] = useState<BeneficiaryRow[]>(MOCK_BENEFICIARIES);
+  const rows = useBeneficiariesStore((s) => s.rows);
+  const upsertBeneficiary = useBeneficiariesStore((s) => s.upsertBeneficiary);
+  const archiveBeneficiary = useBeneficiariesStore((s) => s.archiveBeneficiary);
+
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [editRow, setEditRow] = useState<BeneficiaryRow | null>(null);
@@ -71,8 +50,23 @@ export default function AdminBeneficiariesPage() {
     setModalOpen(true);
   };
 
-  const activeCount  = rows.filter((r) => r.status === 'active').length;
-  const empCount     = new Set(rows.map((r) => r.employeeId)).size;
+  const handleSubmitted = (_wfId: string, formValues: RecordsFlatFormValues) => {
+    upsertBeneficiary({
+      id: editRow?.id,
+      employeeId: formValues.employeeId,
+      employeeName: editRow?.employeeName ?? formValues.employeeId,
+      beneficiaryName: editRow?.beneficiaryName ?? (formValues.notes || formValues.employeeId),
+      relationship: editRow?.relationship ?? 'คู่สมรส',
+      relationshipEn: editRow?.relationshipEn ?? 'Spouse',
+      nationalId: editRow?.nationalId,
+      percentage: editRow?.percentage ?? 100,
+      status: 'active',
+    });
+    setModalOpen(false);
+  };
+
+  const activeCount = rows.filter((r) => r.status === 'active').length;
+  const empCount    = new Set(rows.map((r) => r.employeeId)).size;
 
   return (
     <div className="space-y-6">
@@ -187,21 +181,40 @@ export default function AdminBeneficiariesPage() {
                   </span>
                 </td>
                 <td className="whitespace-nowrap px-3 py-2">
-                  <Capability
-                    action="edit"
-                    fallback={
-                      <button disabled className="text-small font-medium text-ink-faint cursor-not-allowed">
+                  <div className="flex items-center gap-3">
+                    <Capability
+                      action="edit"
+                      fallback={
+                        <button disabled className="text-small font-medium text-ink-faint cursor-not-allowed">
+                          {isTh ? 'แก้ไข' : 'Edit'}
+                        </button>
+                      }
+                    >
+                      <button
+                        onClick={() => openEdit(row)}
+                        className="text-small font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
+                      >
                         {isTh ? 'แก้ไข' : 'Edit'}
                       </button>
-                    }
-                  >
-                    <button
-                      onClick={() => openEdit(row)}
-                      className="text-small font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
-                    >
-                      {isTh ? 'แก้ไข' : 'Edit'}
-                    </button>
-                  </Capability>
+                    </Capability>
+                    {row.status === 'active' && (
+                      <Capability
+                        action="edit"
+                        fallback={
+                          <button disabled className="text-small font-medium text-ink-faint cursor-not-allowed">
+                            {isTh ? 'เก็บเข้าระบบ' : 'Archive'}
+                          </button>
+                        }
+                      >
+                        <button
+                          onClick={() => archiveBeneficiary(row.id)}
+                          className="text-small font-medium text-ink-muted hover:text-ink hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
+                        >
+                          {isTh ? 'เก็บเข้าระบบ' : 'Archive'}
+                        </button>
+                      </Capability>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
@@ -230,7 +243,7 @@ export default function AdminBeneficiariesPage() {
         <RecordsFlatForm
           plan={BEN_PLAN}
           defaultEmployeeId={editRow?.employeeId}
-          onSubmitted={() => setModalOpen(false)}
+          onSubmitted={handleSubmitted}
         />
       </Modal>
     </div>
