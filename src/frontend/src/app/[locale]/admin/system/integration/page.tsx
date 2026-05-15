@@ -160,7 +160,7 @@ export default function IntegrationPage() {
             </div>
 
             <div>
-              <label className="block text-xs text-ink-muted mb-1">สถานะการเชื่อมต่อ</label>
+              <div className="block text-xs text-ink-muted mb-1">สถานะการเชื่อมต่อ</div>
               <span className={[
                 'inline-block rounded-full px-3 py-1 text-xs font-medium',
                 STATUS_COLORS[teamsVivaConfig.status] ?? 'bg-canvas-soft text-ink-muted',
@@ -170,7 +170,7 @@ export default function IntegrationPage() {
             </div>
 
             <div>
-              <label className="block text-xs text-ink-muted mb-2">Fields ที่ Sync</label>
+              <div className="block text-xs text-ink-muted mb-2">Fields ที่ Sync</div>
               <div className="flex flex-wrap gap-2">
                 {teamsVivaConfig.syncFields.map((f) => (
                   <span key={f} className="rounded-full border border-hairline-soft bg-canvas-soft px-2.5 py-0.5 text-xs text-ink-muted">
