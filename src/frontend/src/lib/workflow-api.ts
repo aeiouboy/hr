@@ -356,6 +356,8 @@ export async function updateBenefitPlan(
   return res.json() as Promise<BenefitDefinition>;
 }
 
+import type { ApproverStage } from '@/data/benefits/plan-registry';
+
 export interface CreateBenefitPlanInput {
   key: string;
   displayNameTh: string;
@@ -364,6 +366,15 @@ export interface CreateBenefitPlanInput {
   recordType: string;
   annualLimitThb?: number | null;
   eligibilityRuleId?: string | null;
+  // NEW (all optional):
+  requiredDocsTh?: string[];
+  requiredDocsEn?: string[];
+  eligibilityTh?: string;
+  eligibilityEn?: string;
+  requiresDependent?: boolean;
+  requiresHospital?: boolean;
+  requiresReceipt?: boolean;
+  approvalChain?: ApproverStage[];
 }
 
 export async function createBenefitPlan(

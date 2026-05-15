@@ -11,10 +11,10 @@ const ELIGIBILITY_MANAGED_BENEFIT_KEYS = new Set([
   'training',
   'travel-allowance',
 ]);
-import { Card, CardEyebrow, CardTitle, Button, DataTable, FormField, FormInput, Modal } from '@/components/humi';
+import { Card, CardEyebrow, CardTitle, Button, DataTable, FormField, FormInput, Textarea, Modal } from '@/components/humi';
 import { updateBenefitPlan, createBenefitPlan } from '@/lib/workflow-api';
 import { Capability } from '@/components/humi';
-import { BENEFIT_PLAN_REGISTRY, type BenefitPlan, type PlanCategory, type RecordType, isV2Plan } from '@/data/benefits/plan-registry';
+import { BENEFIT_PLAN_REGISTRY, type BenefitPlan, type PlanCategory, type RecordType, type ApproverStage, isV2Plan } from '@/data/benefits/plan-registry';
 
 // ── Plan catalog — CRUD-style mockup ─────────────────────────────────────────
 // Reads all 28 plans from BENEFIT_PLAN_REGISTRY.
@@ -252,8 +252,36 @@ function CreatePlanModal({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [docsTh, setDocsTh] = useState('');
+  const [docsEn, setDocsEn] = useState('');
+  const [eligTh, setEligTh] = useState('');
+  const [eligEn, setEligEn] = useState('');
+  const [reqDep, setReqDep] = useState(false);
+  const [reqHosp, setReqHosp] = useState(false);
+  const [reqRcpt, setReqRcpt] = useState(false);
+  const [approvers, setApprovers] = useState<ApproverStage[]>([]);
 
   const isValid = key.trim() && displayNameTh.trim() && displayNameEn.trim();
+
+  const APPROVER_ROLES: ApproverStage[] = ['manager', 'hrbp', 'spd', 'hr_admin'];
+  const APPROVER_LABELS_TH: Record<ApproverStage, string> = {
+    manager: 'หัวหน้างาน',
+    hrbp: 'HRBP',
+    spd: 'SPD',
+    hr_admin: 'HR Admin',
+  };
+  const APPROVER_LABELS_EN: Record<ApproverStage, string> = {
+    manager: 'Manager',
+    hrbp: 'HRBP',
+    spd: 'SPD',
+    hr_admin: 'HR Admin',
+  };
+
+  const toggleApprover = (role: ApproverStage) => {
+    setApprovers((prev) =>
+      prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
+    );
+  };
 
   const handleSave = async () => {
     if (!isValid) return;
@@ -268,6 +296,14 @@ function CreatePlanModal({
         recordType,
         annualLimitThb: annualLimit ? Number(annualLimit) : null,
         eligibilityRuleId: eligibilityRuleId.trim() || null,
+        requiredDocsTh: docsTh.split(',').map((s) => s.trim()).filter(Boolean),
+        requiredDocsEn: docsEn.split(',').map((s) => s.trim()).filter(Boolean),
+        eligibilityTh: eligTh.trim() || undefined,
+        eligibilityEn: eligEn.trim() || undefined,
+        requiresDependent: recordType === 'claimable' ? reqDep : false,
+        requiresHospital: recordType === 'claimable' ? reqHosp : false,
+        requiresReceipt: recordType === 'claimable' ? reqRcpt : false,
+        approvalChain: approvers,
       });
       setSaved(true);
       // Plans come from a static registry import — reload so the new plan appears in the table.
@@ -375,6 +411,119 @@ function CreatePlanModal({
             />
           )}
         </FormField>
+
+        <FormField id="create-plan-docs-th" label={isTh ? 'เอกสารที่ต้องแนบ (TH)' : 'Required documents (TH)'}>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              value={docsTh}
+              onChange={(e) => setDocsTh(e.target.value)}
+              placeholder={isTh ? 'คั่นด้วย , เช่น ใบเสร็จ, ใบรับรองแพทย์' : 'Comma-separated, e.g. receipt, doctor note'}
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-docs-en" label={isTh ? 'เอกสารที่ต้องแนบ (EN)' : 'Required documents (EN)'}>
+          {(cp) => (
+            <FormInput
+              {...cp}
+              value={docsEn}
+              onChange={(e) => setDocsEn(e.target.value)}
+              placeholder={isTh ? 'คั่นด้วย , เช่น receipt, doctor note' : 'Comma-separated, e.g. receipt, doctor note'}
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-eligibility-th" label={isTh ? 'เงื่อนไขสิทธิ์ (TH)' : 'Eligibility (TH)'}>
+          {(cp) => (
+            <Textarea
+              {...cp}
+              rows={3}
+              value={eligTh}
+              onChange={(e) => setEligTh(e.target.value)}
+              placeholder={isTh ? 'สรุปสั้นๆ ใครได้ใช้แผนนี้' : 'Short summary of who is eligible'}
+            />
+          )}
+        </FormField>
+
+        <FormField id="create-plan-eligibility-en" label={isTh ? 'เงื่อนไขสิทธิ์ (EN)' : 'Eligibility (EN)'}>
+          {(cp) => (
+            <Textarea
+              {...cp}
+              rows={3}
+              value={eligEn}
+              onChange={(e) => setEligEn(e.target.value)}
+              placeholder={isTh ? 'สรุปสั้นๆ ใครได้ใช้แผนนี้ (EN)' : 'Short summary of who is eligible'}
+            />
+          )}
+        </FormField>
+
+        {recordType === 'claimable' && (
+          <div className="space-y-2">
+            <p className="text-small font-medium text-ink">
+              {isTh ? 'รูปแบบการเบิก' : 'Claim shape'}
+            </p>
+            <label className="flex items-center gap-2 text-small text-ink-muted">
+              <input
+                type="checkbox"
+                checked={reqDep}
+                onChange={(e) => setReqDep(e.target.checked)}
+                className="h-4 w-4 rounded border-hairline text-accent focus:ring-accent"
+              />
+              {isTh ? 'ต้องระบุผู้รับสิทธิ์ (ครอบครัว)' : 'Requires dependent'}
+            </label>
+            <label className="flex items-center gap-2 text-small text-ink-muted">
+              <input
+                type="checkbox"
+                checked={reqHosp}
+                onChange={(e) => setReqHosp(e.target.checked)}
+                className="h-4 w-4 rounded border-hairline text-accent focus:ring-accent"
+              />
+              {isTh ? 'ต้องระบุโรงพยาบาล' : 'Requires hospital'}
+            </label>
+            <label className="flex items-center gap-2 text-small text-ink-muted">
+              <input
+                type="checkbox"
+                checked={reqRcpt}
+                onChange={(e) => setReqRcpt(e.target.checked)}
+                className="h-4 w-4 rounded border-hairline text-accent focus:ring-accent"
+              />
+              {isTh ? 'ต้องแนบใบเสร็จ' : 'Requires receipt'}
+            </label>
+          </div>
+        )}
+
+        <div>
+          <p className="mb-2 text-small font-medium text-ink">
+            {isTh ? 'ขั้นตอนอนุมัติ' : 'Approval chain'}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {APPROVER_ROLES.map((role) => {
+              const order = approvers.indexOf(role);
+              const selected = order >= 0;
+              return (
+                <button
+                  key={role}
+                  type="button"
+                  onClick={() => toggleApprover(role)}
+                  className={`inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.1em] transition-colors duration-[var(--dur-fast)] ${
+                    selected
+                      ? 'bg-accent-soft text-accent border border-accent/30'
+                      : 'bg-canvas-soft text-ink-muted border border-hairline hover:border-accent/40'
+                  }`}
+                >
+                  {selected && <span className="text-ink-muted">{order + 1}.</span>}
+                  {isTh ? APPROVER_LABELS_TH[role] : APPROVER_LABELS_EN[role]}
+                </button>
+              );
+            })}
+          </div>
+          {approvers.length === 0 && (
+            <p className="mt-1 text-[length:var(--text-eyebrow)] text-ink-muted">
+              {isTh ? 'ไม่เลือก = ไม่มีขั้นตอนอนุมัติ (admin เท่านั้น)' : 'None selected = admin-only (no approval chain)'}
+            </p>
+          )}
+        </div>
 
         {saved && (
           <div role="status" className="rounded-[var(--radius-md)] bg-success-soft p-3 text-small font-medium text-ink">
