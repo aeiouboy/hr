@@ -4,7 +4,7 @@ import { use } from 'react';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { CardEyebrow } from '@/components/humi';
+import { CardEyebrow, CardTitle } from '@/components/humi';
 import { RecordsFlatForm } from '@/components/benefits/templates/RecordsFlatForm';
 import { RecordsDependentForm } from '@/components/benefits/templates/RecordsDependentForm';
 import { RecordsComputedView } from '@/components/benefits/templates/RecordsComputedView';
@@ -55,8 +55,17 @@ export default function AdminBenefitRecordPlanPage({ params }: PageProps) {
           {isTh ? 'บันทึกสวัสดิการ' : 'Benefit Records'}
         </Link>
         <span aria-hidden>/</span>
-        <span className="text-ink">{plan.id}</span>
+        <span className="text-ink">{isTh ? plan.nameTh : plan.nameEn}</span>
       </nav>
+
+      {/* Page header */}
+      <header>
+        <CardEyebrow>{plan.id}</CardEyebrow>
+        <CardTitle>{isTh ? plan.nameTh : plan.nameEn}</CardTitle>
+        <p className="mt-1 text-small text-ink-muted">
+          {isTh ? plan.eligibilityTh : ('eligibilityEn' in plan ? plan.eligibilityEn : plan.eligibilityTh)}
+        </p>
+      </header>
 
       {/* Template switcher */}
       {plan.template === 'records-flat' && (

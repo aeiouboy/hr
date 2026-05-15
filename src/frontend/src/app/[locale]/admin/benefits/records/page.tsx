@@ -4,7 +4,7 @@ import { useState, type ComponentType } from 'react';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Award, Flower2, Gift, Shield, Users, FolderOpen, type LucideProps } from 'lucide-react';
+import { Award, Flower2, Gift, Shield, Users, FolderOpen, RefreshCw, type LucideProps } from 'lucide-react';
 import { Card, CardEyebrow, CardTitle, EmptyState } from '@/components/humi';
 import {
   getPlansByCategory,
@@ -23,6 +23,7 @@ const RECORD_CATEGORIES: { id: PlanCategory; labelTh: string; labelEn: string; I
   { id: 'gift',        labelTh: 'ของเยี่ยม / ช่วยเหลือ', labelEn: 'Gifts',       Icon: Gift },
   { id: 'beneficiary', labelTh: 'ผู้รับผลประโยชน์',      labelEn: 'Beneficiary', Icon: Users },
   { id: 'life',        labelTh: 'ประกันชีวิต',           labelEn: 'Life',         Icon: Shield },
+  { id: 'lifecycle',   labelTh: 'วงจรสวัสดิการ',         labelEn: 'Lifecycle',    Icon: RefreshCw },
 ];
 
 export default function AdminBenefitRecordsPage() {
@@ -100,7 +101,7 @@ export default function AdminBenefitRecordsPage() {
                   {isTh ? plan.nameTh : plan.nameEn}
                 </p>
                 <p className="mt-1.5 text-small text-ink-muted line-clamp-2">
-                  {plan.eligibilityTh}
+                  {isTh ? plan.eligibilityTh : ('eligibilityEn' in plan ? plan.eligibilityEn : plan.eligibilityTh)}
                 </p>
                 <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-canvas-soft px-2.5 py-0.5 text-[length:var(--text-eyebrow)] font-medium uppercase tracking-[0.14em] text-ink-muted">
                   <span className="h-1.5 w-1.5 rounded-full bg-ink-muted" aria-hidden />
