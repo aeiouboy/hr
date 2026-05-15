@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Current Project Phase (2026-05-15)
+
+**Phase: UI Mockup สมบูรณ์ — เพื่อให้ HR Team confirm direction ก่อนเริ่มงานจริง**
+
+- 🎯 **Goal**: Deliver a complete, clickable UI mockup that HR Team can demo end-to-end and approve before any production-grade implementation begins.
+- ⏭️ **Backend: SKIP for now** — workflow-engine endpoints, API contracts, real persistence, auth wiring, payroll integration: all out of scope at this stage. Do NOT spend cycles wiring real POST/PUT handlers.
+- ✅ **In scope**: clickable flows (modals open, tables render, filters work, navigation between screens, state transitions visible), realistic static / registry-backed data, Humi design conformance, bilingual TH/EN parity.
+- ❌ **Out of scope**: real API integration, optimistic-vs-pessimistic update logic, retry/error UX beyond basic states, observability, RBAC enforcement against a real IAM.
+- 🚫 **Mockup data caveat** — "ข้อมูลจำลอง ไม่ต้องมี" applies to *internal registry artifacts* (TTT codes, template names, schemaVersion, etc.) showing up in user-facing **input forms**. It does NOT mean we strip the realistic seed data from tables/lists — that's how HR will judge the design. Use existing registry/static seeds (`BENEFIT_PLAN_REGISTRY`, mock claim history, etc.) freely.
+- ✅ **Definition of done for this phase**: HR Team can step through every admin/employee flow without dead ends, and signs off on the visual + interaction direction.
+- 🔁 When in doubt: prioritize *finishing* missing screens + interactions over *backend correctness*. After HR sign-off, a separate phase will re-scope each screen for real backend wiring.
+
 <claude-mem-context>
 # Recent Activity
 
