@@ -140,7 +140,7 @@ export default function PayrollTaxReviewPage() {
       <section className="grid gap-4 md:grid-cols-3">
         <Card variant="raised" size="md">
           <CardEyebrow>Inbox</CardEyebrow>
-          <p className="mt-1 font-display text-[24px] font-semibold text-ink tabular-nums">{rows.length}</p>
+          <p className="mt-1 font-display text-2xl font-semibold text-ink tabular-nums">{rows.length}</p>
           <p className="mt-1 text-small text-ink-muted">รายการรอ Payroll ตรวจ</p>
         </Card>
         <Card variant="raised" size="md">

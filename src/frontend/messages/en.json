@@ -84,6 +84,51 @@
     },
     "reports": {
       "title": "Reports"
+    },
+    "performance": {
+      "title": "Performance Management",
+      "badge": "External System",
+      "summary": "Performance Management runs on a dedicated third-party platform that handles goal-setting, KPI tracking, mid-year check-ins, annual reviews, and calibration. Employee records and identity are synchronized from HRMS via the identity sync integration.",
+      "integrationLabel": "Integration Point",
+      "integrationFlow": "HRMS (Employee ID + Profile) → Identity Sync → Performance Platform",
+      "integrationNote": "Employee hires, terminations, and department transfers in HRMS trigger automatic sync to the performance platform within 15 minutes.",
+      "hrmsExposes": "What HRMS surfaces",
+      "hrmsExposesItems": [
+        "Performance rating summary on the employee scorecard",
+        "Last review cycle outcome displayed on the profile page",
+        "Link-out to the employee's performance dashboard"
+      ],
+      "openPlatform": "Open Performance Platform"
+    },
+    "learning": {
+      "title": "Learning & Development",
+      "badge": "External System",
+      "summary": "Learning & Development is hosted on a dedicated LMS (Learning Management System). It manages course catalogues, enrollment, completion tracking, mandatory compliance training, and individual development plans (IDP). Learner identity is provisioned from HRMS.",
+      "integrationLabel": "Integration Point",
+      "integrationFlow": "HRMS (Employee ID + Role) → Learner Provisioning → LMS",
+      "integrationNote": "New hires are auto-enrolled in onboarding tracks. Role changes in HRMS update course assignment rules in the LMS within the nightly sync.",
+      "hrmsExposes": "What HRMS surfaces",
+      "hrmsExposesItems": [
+        "Training completion count on the employee profile",
+        "Mandatory training compliance status (compliant / overdue)",
+        "Link-out to the employee's learning dashboard"
+      ],
+      "openPlatform": "Open Learning Platform"
+    },
+    "recruitingExt": {
+      "title": "Recruitment",
+      "badge": "External System",
+      "summary": "Recruitment is managed in a dedicated ATS (Applicant Tracking System). It covers job requisitions, job postings, candidate pipeline, interview scheduling, and offer management. Once a candidate is hired, the ATS triggers onboarding in HRMS.",
+      "integrationLabel": "Integration Point",
+      "integrationFlow": "ATS (Hire event + Candidate data) → HRMS Onboarding → Employee Record",
+      "integrationNote": "When a candidate is marked Hired in the ATS, HRMS automatically creates a pending onboarding task and pre-populates the employee record with offer data.",
+      "hrmsExposes": "What HRMS surfaces",
+      "hrmsExposesItems": [
+        "Open headcount / approved requisition count on the manager dashboard",
+        "Pending onboarding tasks linked to recent hires",
+        "Link-out to the ATS job requisition portal"
+      ],
+      "openPlatform": "Open ATS Portal"
     }
   },
   "placeholders": {
@@ -3599,6 +3644,83 @@
     "prevMonth": "Previous month",
     "nextMonth": "Next month"
   },
+  "moduleContext": {
+    "modules": {
+      "ec": "Employee Center",
+      "time": "Time & Attendance",
+      "payroll": "Payroll",
+      "benefits": "Benefits",
+      "performance": "Performance",
+      "learning": "Learning",
+      "recruiting": "Recruiting"
+    },
+    "personas": {
+      "employee": "Employee",
+      "manager": "Manager",
+      "hr_admin": "HR Admin",
+      "hr_manager": "HR Manager"
+    },
+    "stats": {
+      "pendingApprovals": "pending approvals",
+      "openRequests": "open requests",
+      "teamOnLeave": "on leave today",
+      "pendingPayroll": "pending payroll actions",
+      "activeClaims": "active claims"
+    }
+  },
+  "moduleTiles": {
+    "eyebrow": "Modules",
+    "title": "Your workspace",
+    "ec": {
+      "nameTh": "ข้อมูลพนักงาน",
+      "nameEn": "Employee Center",
+      "cta": "View my profile",
+      "ctaManager": "View team directory",
+      "ctaAdmin": "Manage employees"
+    },
+    "time": {
+      "nameTh": "เวลา & การเข้างาน",
+      "nameEn": "Time & Attendance",
+      "cta": "Clock in / out",
+      "ctaManager": "Approve time requests",
+      "ctaAdmin": "Manage schedules"
+    },
+    "payroll": {
+      "nameTh": "เงินเดือน",
+      "nameEn": "Payroll",
+      "cta": "View payslip",
+      "ctaManager": "Team payroll overview",
+      "ctaAdmin": "Run payroll"
+    },
+    "benefits": {
+      "nameTh": "สวัสดิการ",
+      "nameEn": "Benefits",
+      "cta": "My coverage",
+      "ctaManager": "Team benefits",
+      "ctaAdmin": "Manage plans"
+    },
+    "performance": {
+      "nameTh": "ผลงาน",
+      "nameEn": "Performance",
+      "cta": "My goals",
+      "external": "External system",
+      "externalNote": "Performance management is handled in the SuccessFactors system."
+    },
+    "learning": {
+      "nameTh": "การเรียนรู้",
+      "nameEn": "Learning",
+      "cta": "My courses",
+      "external": "External system",
+      "externalNote": "Learning management is handled in the LMS portal."
+    },
+    "recruiting": {
+      "nameTh": "สรรหา",
+      "nameEn": "Recruiting",
+      "cta": "View openings",
+      "external": "External system",
+      "externalNote": "Recruiting is managed in the Talent Acquisition portal."
+    }
+  },
   "humiProfile": {
     "subtitle": "Employee ID",
     "save": "Save changes",
@@ -4656,5 +4778,32 @@
     "submitEvalBtn": "Submit Evaluation",
     "daysRemaining": "{days} days",
     "probationDue": "Due"
+  },
+  "time": {
+    "landing": {
+      "eyebrow": "Time & Attendance",
+      "title": "Time Module",
+      "desc": "Log hours, request leave, submit overtime, and approve team requests."
+    },
+    "tiles": {
+      "timesheet": "Timesheet",
+      "timesheetDesc": "Log weekly hours per project",
+      "timeOff": "Time Off",
+      "timeOffDesc": "Request and track leave",
+      "overtime": "Overtime",
+      "overtimeDesc": "Submit OT requests (Thai Labor Law)",
+      "approvals": "Manager Approvals",
+      "approvalsDesc": "Review pending requests from your team"
+    },
+    "timesheet": {
+      "title": "Timesheet",
+      "weekOf": "Week of {date}",
+      "project": "Project",
+      "dailyTotal": "Daily total",
+      "total": "Total",
+      "save": "Save",
+      "addProject": "Add project",
+      "newProjectPlaceholder": "New project name"
+    }
   }
 }

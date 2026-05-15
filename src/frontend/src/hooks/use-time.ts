@@ -186,3 +186,158 @@ export function useTime() {
  submitCorrection,
  };
 }
+
+// ─── Timesheet ────────────────────────────────────────────────────────────────
+
+export interface TimesheetRow {
+  project: string;
+  mon: number; tue: number; wed: number; thu: number; fri: number; sat: number; sun: number;
+}
+
+const MOCK_TIMESHEET: TimesheetRow[] = [
+  { project: 'Project Alpha', mon: 4, tue: 4, wed: 3, thu: 4, fri: 4, sat: 0, sun: 0 },
+  { project: 'Project Beta', mon: 4, tue: 4, wed: 5, thu: 4, fri: 4, sat: 0, sun: 0 },
+  { project: 'Internal / Admin', mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0 },
+];
+
+export function useTimesheet() {
+  const [rows, setRows] = useState<TimesheetRow[]>(MOCK_TIMESHEET.map(r => ({ ...r })));
+  const [weekStart] = useState('2026-05-11');
+
+  const updateHours = useCallback((rowIdx: number, day: keyof Omit<TimesheetRow, 'project'>, value: number) => {
+    setRows(prev => prev.map((r, i) => i === rowIdx ? { ...r, [day]: value } : r));
+  }, []);
+
+  const addRow = useCallback((project: string) => {
+    setRows(prev => [...prev, { project, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0 }]);
+  }, []);
+
+  const totalPerDay = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(
+    d => rows.reduce((s, r) => s + (r[d as keyof TimesheetRow] as number), 0),
+  );
+
+  return { rows, weekStart, updateHours, addRow, totalPerDay };
+}
+
+// ─── Time-off Requests ────────────────────────────────────────────────────────
+
+export interface TimeOffRequest {
+  id: string;
+  leaveType: 'annual' | 'sick' | 'personal' | 'maternity' | 'business';
+  startDate: string;
+  endDate: string;
+  days: number;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected';
+  submittedAt: string;
+}
+
+const MOCK_TIME_OFF: TimeOffRequest[] = [
+  { id: 'LR001', leaveType: 'annual', startDate: '2026-03-10', endDate: '2026-03-12', days: 3, reason: 'Family trip', status: 'approved', submittedAt: '2026-03-01' },
+  { id: 'LR002', leaveType: 'sick', startDate: '2026-02-14', endDate: '2026-02-14', days: 1, reason: 'Fever', status: 'approved', submittedAt: '2026-02-14' },
+  { id: 'LR003', leaveType: 'personal', startDate: '2026-05-20', endDate: '2026-05-20', days: 1, reason: 'Personal errand', status: 'pending', submittedAt: '2026-05-10' },
+  { id: 'LR004', leaveType: 'annual', startDate: '2026-01-06', endDate: '2026-01-07', days: 2, reason: 'Rest', status: 'rejected', submittedAt: '2025-12-28' },
+];
+
+export function useTimeOffRequests() {
+  const [requests, setRequests] = useState<TimeOffRequest[]>(MOCK_TIME_OFF);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 200);
+    return () => clearTimeout(t);
+  }, []);
+
+  const submitRequest = useCallback(async (req: Omit<TimeOffRequest, 'id' | 'status' | 'submittedAt'>) => {
+    const item: TimeOffRequest = { ...req, id: `LR${Date.now()}`, status: 'pending', submittedAt: new Date().toISOString().split('T')[0] };
+    setRequests(prev => [item, ...prev]);
+    return item;
+  }, []);
+
+  const leaveBalances = { annual: 8, sick: 12, personal: 3, maternity: 90, business: 3 };
+
+  return { requests, loading, submitRequest, leaveBalances };
+}
+
+// ─── Overtime Requests ────────────────────────────────────────────────────────
+
+export type OvertimeType = 'weekday' | 'weekend' | 'holiday';
+
+export interface OvertimeRequest {
+  id: string;
+  date: string;
+  hours: number;
+  type: OvertimeType;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected';
+  submittedAt: string;
+  approvedBy?: string;
+}
+
+const MOCK_OVERTIME: OvertimeRequest[] = [
+  { id: 'OTR001', date: '2026-02-18', hours: 2, type: 'weekday', reason: 'Project deadline', status: 'approved', submittedAt: '2026-02-17', approvedBy: 'Surachai P.' },
+  { id: 'OTR002', date: '2026-02-22', hours: 6, type: 'weekend', reason: 'System maintenance', status: 'pending', submittedAt: '2026-02-20' },
+  { id: 'OTR003', date: '2026-01-28', hours: 4, type: 'weekday', reason: 'Urgent client request', status: 'rejected', submittedAt: '2026-01-27' },
+];
+
+export function useOvertimeRequests() {
+  const [requests, setRequests] = useState<OvertimeRequest[]>(MOCK_OVERTIME);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 200);
+    return () => clearTimeout(t);
+  }, []);
+
+  const submitRequest = useCallback(async (req: Omit<OvertimeRequest, 'id' | 'status' | 'submittedAt'>) => {
+    const item: OvertimeRequest = { ...req, id: `OTR${Date.now()}`, status: 'pending', submittedAt: new Date().toISOString().split('T')[0] };
+    setRequests(prev => [item, ...prev]);
+    return item;
+  }, []);
+
+  return { requests, loading, submitRequest };
+}
+
+// ─── Manager Approvals ────────────────────────────────────────────────────────
+
+export type ApprovalKind = 'time-off' | 'overtime';
+
+export interface TimeApprovalItem {
+  id: string;
+  kind: ApprovalKind;
+  employeeName: string;
+  employeeId: string;
+  date: string;
+  detail: string;
+  submittedAt: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
+const MOCK_APPROVALS: TimeApprovalItem[] = [
+  { id: 'AP001', kind: 'time-off', employeeId: 'EMP102', employeeName: 'Natcha Panyasiri', date: '2026-05-20', detail: 'Annual leave — 2 days', submittedAt: '2026-05-10', status: 'pending' },
+  { id: 'AP002', kind: 'overtime', employeeId: 'EMP103', employeeName: 'Thanawat Chaiyaporn', date: '2026-05-18', detail: 'Weekend OT — 4 hrs', submittedAt: '2026-05-09', status: 'pending' },
+  { id: 'AP003', kind: 'time-off', employeeId: 'EMP105', employeeName: 'Saran Kongsiri', date: '2026-05-22', detail: 'Sick leave — 1 day', submittedAt: '2026-05-11', status: 'pending' },
+  { id: 'AP004', kind: 'overtime', employeeId: 'EMP101', employeeName: 'Krittin Suksawat', date: '2026-05-15', detail: 'Weekday OT — 2 hrs', submittedAt: '2026-05-08', status: 'approved' },
+];
+
+export function useTimeApprovals() {
+  const [items, setItems] = useState<TimeApprovalItem[]>(MOCK_APPROVALS);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 200);
+    return () => clearTimeout(t);
+  }, []);
+
+  const approve = useCallback((id: string) => {
+    setItems(prev => prev.map(i => i.id === id ? { ...i, status: 'approved' } : i));
+  }, []);
+
+  const reject = useCallback((id: string) => {
+    setItems(prev => prev.map(i => i.id === id ? { ...i, status: 'rejected' } : i));
+  }, []);
+
+  const pending = items.filter(i => i.status === 'pending');
+
+  return { items, pending, loading, approve, reject };
+}

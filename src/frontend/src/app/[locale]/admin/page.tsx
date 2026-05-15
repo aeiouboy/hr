@@ -15,6 +15,7 @@ import {
   Database,
   Users,
   FileText,
+  Layers,
   Sparkles,
   ArrowRight,
 } from 'lucide-react';
@@ -73,6 +74,15 @@ const ADMIN_SECTIONS = [
     desc: 'รายงานทั้งหมด • CSV export',
     stat: 'ดูทั้งหมด',
     tone: 'default' as const,
+  },
+  {
+    href: '/th/admin/foundation',
+    icon: Layers,
+    eyebrow: 'EC Foundation',
+    title: 'โครงสร้างองค์กร',
+    desc: 'ผังองค์กร • ตำแหน่งงาน • หน่วยธุรกิจ',
+    stat: '3 sections',
+    tone: 'cream' as const,
   },
 ];
 
