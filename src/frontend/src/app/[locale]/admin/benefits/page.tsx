@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import { Card, CardEyebrow, CardTitle, Button } from '@/components/humi';
 import { useBenefitClaimsStore } from '@/stores/benefit-claims';
 import { REFERRAL_HOSPITALS, useBenefitReferralsStore } from '@/stores/benefit-referrals';
@@ -27,7 +29,6 @@ const workflowCutoff = [
   ['Medical reimbursement', 'Employee → SPD Benefits → Payment', '1-25 monthly', 'Next payroll date', 'Active'],
   ['Fuel/mobile reimbursement', 'Employee → SPD Benefits → Payment', '1-20 monthly', 'Month-end bank run', 'Active'],
 ];
-const paymentSteps = ['Create payment period', 'Validate approved claims', 'Prepare finance export', 'Preview bank file', 'Close period'];
 const referralWorkflow = [
   ['Employee draft/submit', 'Profile benefits canonical surface', 'Active preview'],
   ['SPD approve/send back/reject', 'Dedicated referral lane', 'Active preview'],
@@ -40,6 +41,8 @@ const eboRows = [
 ];
 
 export default function AdminBenefitsPage() {
+  const locale = useLocale();
+  const isTh = locale !== 'en';
   const claims = useBenefitClaimsStore((s) => s.claims);
   const referrals = useBenefitReferralsStore((s) => s.referrals);
   const pending = claims.filter((c) => c.status === 'pending_spd').length;
@@ -113,17 +116,18 @@ export default function AdminBenefitsPage() {
         <p className="mt-2 text-small text-ink-muted">Preview columns: employee_id, benefit_code, receipt_no, receipt_date, claim_amount, approved_amount, payment_period, status. Actual CSV/Excel export remains disabled.</p>
       </Card>
 
-      <Card variant="raised" size="lg">
-        <CardEyebrow>Read-only payment period status</CardEyebrow>
-        <CardTitle>CSV export preview and payment process</CardTitle>
-        <div className="mt-4 grid gap-3 md:grid-cols-5">
-          {paymentSteps.map((step) => <div key={step} className="rounded-md bg-canvas-soft p-3 text-small font-medium text-ink">{step}<div className="mt-1 text-[length:var(--text-eyebrow)] uppercase tracking-[0.14em] text-ink-muted">Read-only / deferred integration</div></div>)}
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Button variant="secondary" disabled>Post to finance disabled</Button>
-          <Button variant="secondary" disabled>Generate bank file disabled</Button>
-        </div>
-        <p className="mt-4 text-small text-ink-muted">Deferred: bank file generation, finance posting, payroll calculation, tax processing, and real Excel import/export. Benefits Admin only previews payment/export readiness.</p>
+      <Card variant="raised" size="md" className="mt-6">
+        <CardEyebrow>BE-27 · Payment Integration</CardEyebrow>
+        <CardTitle>{isTh ? 'การจ่ายสวัสดิการ' : 'Benefit Payment'}</CardTitle>
+        <p className="mt-2 text-small text-ink-muted">
+          {isTh ? 'ดูแดชบอร์ดการจ่าย (อ่านอย่างเดียว)' : 'View payment dashboard (read-only)'}
+        </p>
+        <Link
+          href={`/${locale}/admin/benefits/payment`}
+          className="mt-3 inline-block text-small font-semibold text-accent hover:underline"
+        >
+          {isTh ? 'ไปยังแดชบอร์ด →' : 'Go to dashboard →'}
+        </Link>
       </Card>
 
       <Card variant="raised" size="lg">
