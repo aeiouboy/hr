@@ -2,15 +2,15 @@
 
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Card, CardEyebrow, CardTitle, Button } from '@/components/humi';
+import { Card, CardEyebrow, Button } from '@/components/humi';
 import { Capability } from '@/components/humi';
 import { LifecycleAdminForm } from '@/components/benefits/templates/LifecycleAdminForm';
 import { getPlan } from '@/data/benefits/plan-registry';
 
-// ── Manage Benefits lifecycle — 4-tab admin surface ──────────────────────────
+// ── Benefit Lifecycle — วงจรสวัสดิการ — 4-tab admin surface ─────────────────
 // Tabs: On-board (BE-CYC-002) / Change (BE-CYC-003) / Off-board (BE-CYC-004)
 //       / Annual Enrollment (BE-CYC-001)
-// Payment Cycle (BE-CYC-005) is shown as a separate card below the tabs.
+// Payment Cycle (BE-CYC-005) moved to /admin/benefits/payment (PR-E).
 
 const TABS = [
   { id: 'onboard',  planId: 'BE-CYC-002', labelTh: 'รับเข้างาน',       labelEn: 'On-boarding' },
@@ -21,27 +21,27 @@ const TABS = [
 
 type TabId = typeof TABS[number]['id'];
 
-const PAYMENT_PLAN_ID = 'BE-CYC-005';
-
-export default function ManageBenefitsPage() {
+export default function BenefitLifecyclePage() {
   const t = useTranslations('admin_benefits_manage');
   const locale = useLocale();
   const isTh = locale !== 'en';
 
   const [activeTab, setActiveTab] = useState<TabId>('onboard');
 
-  const currentTab = TABS.find((tab) => tab.id === activeTab)!;
-  const activePlan = getPlan(currentTab.planId);
-  const paymentPlan = getPlan(PAYMENT_PLAN_ID);
-
   return (
     <div className="space-y-6">
       {/* Page header */}
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <CardEyebrow>{t('eyebrow')}</CardEyebrow>
-          <h1 className="font-display text-[28px] font-semibold text-ink">{t('title')}</h1>
-          <p className="mt-2 text-small text-ink-muted">{t('subtitle')}</p>
+          <CardEyebrow>{isTh ? 'สวัสดิการ' : 'Benefits'}</CardEyebrow>
+          <h1 className="font-display text-3xl font-semibold text-ink">
+            {isTh ? 'วงจรสวัสดิการ' : 'Benefit Lifecycle'}
+          </h1>
+          <p className="mt-2 text-small text-ink-muted">
+            {isTh
+              ? 'จัดการวงจรสวัสดิการตามเหตุการณ์ในชีวิตการทำงาน'
+              : 'Manage benefit lifecycle events for employees'}
+          </p>
         </div>
         <Capability action="editFoundation" fallback={
           <Button variant="secondary" disabled>{t('runAllDisabled')}</Button>
@@ -96,7 +96,7 @@ export default function ManageBenefitsPage() {
       {/* Scope legend */}
       <Card variant="raised" size="md">
         <CardEyebrow>{t('legendEyebrow')}</CardEyebrow>
-        <CardTitle>{t('legendTitle')}</CardTitle>
+        <p className="font-semibold text-ink">{t('legendTitle')}</p>
         <ul className="mt-3 space-y-2 text-small text-ink-muted">
           <li>
             <span className="font-medium text-ink">BE-CYC-002</span>
@@ -121,23 +121,6 @@ export default function ManageBenefitsPage() {
         </ul>
       </Card>
 
-      {/* Payment cycle card — separate from tabs */}
-      {paymentPlan && (
-        <section aria-labelledby="payment-cycle-heading">
-          <h2
-            id="payment-cycle-heading"
-            className="mb-3 font-display text-[length:var(--text-display-h3)] font-semibold text-ink"
-          >
-            {isTh ? 'รอบจ่ายเงินสวัสดิการ' : 'Benefit Payment Cycle'}
-          </h2>
-          <LifecycleAdminForm plan={paymentPlan} />
-          <p className="mt-2 text-small text-ink-muted">
-            {isTh
-              ? 'รอบจ่าย: 6 / 16 / 26 ของเดือน — SAP payroll IT0015 / IT0267'
-              : 'Payment runs on the 6th, 16th, and 26th of each month — SAP payroll IT0015 / IT0267'}
-          </p>
-        </section>
-      )}
     </div>
   );
 }

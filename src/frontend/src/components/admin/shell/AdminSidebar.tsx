@@ -18,6 +18,13 @@ import {
   LogOut,
   X,
   BookOpen,
+  RefreshCw,
+  AlertCircle,
+  FileText,
+  Upload,
+  CreditCard,
+  PieChart,
+  Heart,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -56,8 +63,15 @@ const NAV: NavSection[] = [
   {
     group: 'สวัสดิการ',
     items: [
-      { id: 'benefits-plans', label: 'แผนสวัสดิการ', href: '/th/admin/benefits/plans', icon: BriefcaseBusiness },
-      { id: 'benefits-rules', label: 'กฎสวัสดิการ', href: '/th/admin/benefits/rules', icon: BookOpen },
+      { id: 'benefits-plans',          label: 'แผนสวัสดิการ',      href: '/th/admin/benefits/plans',          icon: BriefcaseBusiness },
+      { id: 'benefits-rules',          label: 'กฎสวัสดิการ',       href: '/th/admin/benefits/rules',          icon: BookOpen },
+      { id: 'benefits-lifecycle',      label: 'วงจรสวัสดิการ',     href: '/th/admin/benefits/lifecycle',      icon: RefreshCw },
+      { id: 'benefits-exception',      label: 'รายการพิเศษ',       href: '/th/admin/benefits/exception',      icon: AlertCircle },
+      { id: 'benefits-records',        label: 'บันทึก',            href: '/th/admin/benefits/records',        icon: FileText },
+      { id: 'benefits-import',         label: 'นำเข้าข้อมูล',     href: '/th/admin/benefits/import',         icon: Upload },
+      { id: 'benefits-payment',        label: 'การจ่าย',           href: '/th/admin/benefits/payment',        icon: CreditCard },
+      { id: 'benefits-reports',        label: 'รายงาน',            href: '/th/admin/benefits/reports',        icon: PieChart },
+      { id: 'benefits-beneficiaries',  label: 'ผู้รับผลประโยชน์', href: '/th/admin/benefits/beneficiaries',  icon: Heart },
     ],
   },
   {
