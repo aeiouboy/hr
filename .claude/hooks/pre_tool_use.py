@@ -6,6 +6,7 @@
 import json
 import sys
 import re
+import subprocess
 from pathlib import Path
 
 def is_dangerous_rm_command(command):
@@ -81,6 +82,26 @@ def is_env_file_access(tool_name, tool_input):
     
     return False
 
+def run_humi_design_check(input_data):
+    """Run the repo-local Humi design-system validator for write/edit payloads."""
+    validator = Path(__file__).parent / 'validators' / 'humi_design_check.py'
+    if not validator.exists():
+        return 0
+
+    result = subprocess.run(
+        [sys.executable, str(validator)],
+        input=json.dumps(input_data),
+        text=True,
+        capture_output=True,
+        timeout=10,
+    )
+    if result.stdout:
+        print(result.stdout, end='')
+    if result.stderr:
+        print(result.stderr, end='', file=sys.stderr)
+    return result.returncode
+
+
 def main():
     try:
         # Read JSON input from stdin
@@ -103,6 +124,11 @@ def main():
             if is_dangerous_rm_command(command):
                 print("BLOCKED: Dangerous rm command detected and prevented", file=sys.stderr)
                 sys.exit(2)  # Exit code 2 blocks tool call and shows error to Claude
+
+        # Enforce Humi design-system contract for frontend Write/Edit/MultiEdit payloads.
+        humi_exit = run_humi_design_check(input_data)
+        if humi_exit != 0:
+            sys.exit(humi_exit)
         
         # Ensure log directory exists
         log_dir = Path.cwd() / 'logs'
