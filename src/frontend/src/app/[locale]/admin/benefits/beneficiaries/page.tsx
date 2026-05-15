@@ -3,13 +3,22 @@
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { Button, Card, CardEyebrow, CardTitle, Modal } from '@/components/humi';
+import { Button, Card, CardEyebrow, CardTitle, Modal, Toggle } from '@/components/humi';
 import { Capability } from '@/components/humi';
 import { RecordsFlatForm } from '@/components/benefits/templates/RecordsFlatForm';
 import { getPlan } from '@/data/benefits/plan-registry';
+import {
+  MOCK_BENEFICIARY_VERSIONS,
+  type VersionEntry,
+} from '@/data/benefits/mock-beneficiary-versions';
+import {
+  MOCK_BENEFICIARY_AUDIT,
+  type AuditAction,
+} from '@/data/benefits/mock-beneficiary-audit';
 
 // ── Beneficiary management page ───────────────────────────────────────────────
-// Table of mock beneficiaries + Modal-driven add/edit via RecordsFlatForm (BE-BEN-001).
+// STA-26 PR-G/G (FINAL): PII mask toggle + version history + audit trail + e-sign note
+// Per §2.7 A-BN-01..05 — extends PR #150 baseline (RecordsFlatForm, useBeneficiariesStore).
 
 interface BeneficiaryRow {
   id: string;
@@ -41,6 +50,50 @@ const MOCK_BENEFICIARIES: BeneficiaryRow[] = [
 
 const BEN_PLAN = getPlan('BE-BEN-001')!;
 
+// ── PII masking helpers ───────────────────────────────────────────────────────
+
+function maskNationalId(id: string): string {
+  // "1-2345-67890-12-3" → "X-XXXX-XXXXX-XX-3" (keep last digit)
+  return id.replace(/[0-9]/g, (ch, idx, arr) =>
+    idx === arr.length - 1 ? ch : 'X',
+  );
+}
+
+function maskName(name: string): string {
+  if (name.length <= 1) return name;
+  return name[0] + '***';
+}
+
+// ── Audit helpers ─────────────────────────────────────────────────────────────
+
+const AUDIT_FILTERS: { key: AuditAction | 'all'; labelTh: string; labelEn: string }[] = [
+  { key: 'all',          labelTh: 'ทั้งหมด',           labelEn: 'All' },
+  { key: 'added',        labelTh: 'เพิ่ม',              labelEn: 'Added' },
+  { key: 'edited',       labelTh: 'แก้ไข',              labelEn: 'Edited' },
+  { key: 'archived',     labelTh: 'เก็บเข้าระบบ',       labelEn: 'Archived' },
+  { key: 'pii_accessed', labelTh: 'ดูข้อมูลส่วนบุคคล',  labelEn: 'PII accessed' },
+];
+
+function auditActionLabel(action: AuditAction, isTh: boolean): string {
+  const map: Record<AuditAction, [string, string]> = {
+    added:        ['เพิ่ม',              'Added'],
+    edited:       ['แก้ไข',             'Edited'],
+    archived:     ['เก็บเข้าระบบ',       'Archived'],
+    pii_accessed: ['ดูข้อมูลส่วนบุคคล', 'PII accessed'],
+  };
+  return isTh ? map[action][0] : map[action][1];
+}
+
+function auditActionColor(action: AuditAction): string {
+  const map: Record<AuditAction, string> = {
+    added:        'bg-success-soft text-success',
+    edited:       'bg-info-soft text-info',
+    archived:     'bg-canvas-soft text-ink-muted',
+    pii_accessed: 'bg-warning-soft text-warning',
+  };
+  return map[action];
+}
+
 export default function AdminBeneficiariesPage() {
   const locale = useLocale();
   const routeParams = useParams<{ locale: string }>();
@@ -49,8 +102,21 @@ export default function AdminBeneficiariesPage() {
 
   const [rows] = useState<BeneficiaryRow[]>(MOCK_BENEFICIARIES);
   const [search, setSearch] = useState('');
+
+  // PII toggle (default masked)
+  const [piiUnmasked, setPiiUnmasked] = useState(false);
+
+  // Add/Edit modal
   const [modalOpen, setModalOpen] = useState(false);
   const [editRow, setEditRow] = useState<BeneficiaryRow | null>(null);
+
+  // Version history modal
+  const [versionRow, setVersionRow] = useState<BeneficiaryRow | null>(null);
+  const [versionModalOpen, setVersionModalOpen] = useState(false);
+
+  // Audit trail
+  const [auditOpen, setAuditOpen] = useState(true);
+  const [auditFilter, setAuditFilter] = useState<AuditAction | 'all'>('all');
 
   const filtered = rows.filter((r) => {
     const q = search.toLowerCase();
@@ -61,18 +127,20 @@ export default function AdminBeneficiariesPage() {
     );
   });
 
-  const openAdd = () => {
-    setEditRow(null);
-    setModalOpen(true);
-  };
+  const filteredAudit = auditFilter === 'all'
+    ? MOCK_BENEFICIARY_AUDIT
+    : MOCK_BENEFICIARY_AUDIT.filter((e) => e.action === auditFilter);
 
-  const openEdit = (row: BeneficiaryRow) => {
-    setEditRow(row);
-    setModalOpen(true);
-  };
+  const openAdd = () => { setEditRow(null); setModalOpen(true); };
+  const openEdit = (row: BeneficiaryRow) => { setEditRow(row); setModalOpen(true); };
+  const openVersion = (row: BeneficiaryRow) => { setVersionRow(row); setVersionModalOpen(true); };
 
   const activeCount  = rows.filter((r) => r.status === 'active').length;
   const empCount     = new Set(rows.map((r) => r.employeeId)).size;
+
+  const versionEntries: VersionEntry[] = versionRow
+    ? (MOCK_BENEFICIARY_VERSIONS[versionRow.id] ?? [])
+    : [];
 
   return (
     <div className="space-y-6">
@@ -120,6 +188,27 @@ export default function AdminBeneficiariesPage() {
         </Card>
       </div>
 
+      {/* PII toggle */}
+      <div className="flex items-center gap-3 rounded-[var(--radius-md)] border border-warning-soft bg-warning-soft/30 px-4 py-3">
+        <Toggle
+          checked={piiUnmasked}
+          onChange={setPiiUnmasked}
+          label={
+            piiUnmasked
+              ? (isTh ? 'ซ่อนข้อมูลส่วนบุคคล' : 'Hide PII')
+              : (isTh ? 'แสดงข้อมูลส่วนบุคคล' : 'Show PII')
+          }
+        />
+        <span className="text-small text-ink-muted">
+          {isTh
+            ? 'ค่าเริ่มต้น: ปิดบังข้อมูลส่วนบุคคล — '
+            : 'Default: PII masked — '}
+          <span className="font-medium text-warning">
+            {isTh ? 'Q8 สิทธิ์ดู PII ยังรอ confirm' : 'Q8 PII access rule pending'}
+          </span>
+        </span>
+      </div>
+
       {/* Search */}
       <div className="flex items-center gap-2">
         <input
@@ -165,11 +254,15 @@ export default function AdminBeneficiariesPage() {
                 <td className="whitespace-nowrap px-3 py-2 font-mono text-ink-muted">{row.id}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-ink-soft">{row.employeeId}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-ink">{row.employeeName}</td>
-                <td className="whitespace-nowrap px-3 py-2 font-medium text-ink">{row.beneficiaryName}</td>
+                <td className="whitespace-nowrap px-3 py-2 font-medium text-ink">
+                  {piiUnmasked ? row.beneficiaryName : maskName(row.beneficiaryName)}
+                </td>
                 <td className="whitespace-nowrap px-3 py-2 text-ink-soft">
                   {isTh ? row.relationship : row.relationshipEn}
                 </td>
-                <td className="whitespace-nowrap px-3 py-2 font-mono text-ink-soft">{row.nationalId}</td>
+                <td className="whitespace-nowrap px-3 py-2 font-mono text-ink-soft">
+                  {piiUnmasked ? row.nationalId : maskNationalId(row.nationalId)}
+                </td>
                 <td className="whitespace-nowrap px-3 py-2 tabular-nums text-ink">{row.percentage}%</td>
                 <td className="whitespace-nowrap px-3 py-2 text-ink-muted">{row.updatedDate}</td>
                 <td className="whitespace-nowrap px-3 py-2">
@@ -187,21 +280,29 @@ export default function AdminBeneficiariesPage() {
                   </span>
                 </td>
                 <td className="whitespace-nowrap px-3 py-2">
-                  <Capability
-                    action="edit"
-                    fallback={
-                      <button disabled className="text-small font-medium text-ink-faint cursor-not-allowed">
+                  <div className="flex items-center gap-2">
+                    <Capability
+                      action="edit"
+                      fallback={
+                        <button disabled className="text-small font-medium text-ink-faint cursor-not-allowed">
+                          {isTh ? 'แก้ไข' : 'Edit'}
+                        </button>
+                      }
+                    >
+                      <button
+                        onClick={() => openEdit(row)}
+                        className="text-small font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
+                      >
                         {isTh ? 'แก้ไข' : 'Edit'}
                       </button>
-                    }
-                  >
+                    </Capability>
                     <button
-                      onClick={() => openEdit(row)}
-                      className="text-small font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
+                      onClick={() => openVersion(row)}
+                      className="text-small font-medium text-ink-soft hover:text-ink hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
                     >
-                      {isTh ? 'แก้ไข' : 'Edit'}
+                      {isTh ? 'ประวัติเวอร์ชัน' : 'Version history'}
                     </button>
-                  </Capability>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -215,6 +316,102 @@ export default function AdminBeneficiariesPage() {
           </tbody>
         </table>
       </Card>
+
+      {/* Audit trail */}
+      <Card variant="raised" size="lg">
+        <button
+          onClick={() => setAuditOpen((v) => !v)}
+          className="flex w-full items-center justify-between text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 rounded"
+        >
+          <div>
+            <CardEyebrow>
+              {isTh ? 'ประวัติการเปลี่ยนแปลง · BE-25 A-BN-04' : 'Audit Trail · BE-25 A-BN-04'}
+            </CardEyebrow>
+            <CardTitle>
+              {isTh ? 'ประวัติการเปลี่ยนแปลง (Audit Trail)' : 'Audit Trail'}
+            </CardTitle>
+          </div>
+          <span className="ml-4 text-small text-ink-muted select-none">
+            {auditOpen ? '▲' : '▼'}
+          </span>
+        </button>
+
+        {auditOpen && (
+          <div className="mt-4 space-y-4">
+            {/* Filter chips */}
+            <div className="flex flex-wrap gap-2">
+              {AUDIT_FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => setAuditFilter(f.key)}
+                  className={[
+                    'rounded-full px-3 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.10em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+                    auditFilter === f.key
+                      ? 'bg-accent text-white'
+                      : 'bg-canvas-soft text-ink-muted hover:bg-canvas',
+                  ].join(' ')}
+                >
+                  {isTh ? f.labelTh : f.labelEn}
+                </button>
+              ))}
+            </div>
+            {/* Event list */}
+            <div className="space-y-2">
+              {filteredAudit.map((evt) => (
+                <div
+                  key={evt.id}
+                  className="flex flex-col gap-1 rounded-[var(--radius-md)] border border-hairline bg-canvas-soft px-4 py-3 sm:flex-row sm:items-start sm:gap-4"
+                >
+                  <span
+                    className={[
+                      'inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.12em]',
+                      auditActionColor(evt.action),
+                    ].join(' ')}
+                  >
+                    {auditActionLabel(evt.action, isTh)}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-small font-medium text-ink">
+                      {piiUnmasked ? evt.beneficiaryName : maskName(evt.beneficiaryName)}
+                      <span className="ml-2 font-mono text-ink-muted">{evt.beneficiaryId}</span>
+                    </p>
+                    {evt.reason && (
+                      <p className="text-small text-ink-muted">{evt.reason}</p>
+                    )}
+                    <p className="text-[length:var(--text-eyebrow)] text-ink-faint">
+                      {evt.actor} · {evt.timestamp}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {filteredAudit.length === 0 && (
+                <p className="py-4 text-center text-small text-ink-muted">
+                  {isTh ? 'ไม่พบรายการ' : 'No audit events.'}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+      </Card>
+
+      {/* E-signature placeholder (A-BN-05) */}
+      <Card variant="flat" size="md" className="border border-dashed border-hairline">
+        <CardEyebrow>
+          A-BN-05 · {isTh ? 'ลายเซ็นอิเล็กทรอนิกส์' : 'E-signature'}
+        </CardEyebrow>
+        <p className="mt-1 text-small text-ink-muted">
+          {isTh
+            ? 'ลายเซ็นอิเล็กทรอนิกส์ (Q8) — รอกำหนดผู้ให้บริการ ยังไม่เปิดใช้งานในเวอร์ชันนี้'
+            : 'E-signature (Q8) — pending vendor decision. Not active in this release.'}
+        </p>
+      </Card>
+
+      {/* Q8 footer note */}
+      <p className="text-[length:var(--text-eyebrow)] text-ink-faint">
+        {isTh
+          ? 'Q8 รอ confirm: สิทธิ์ดู PII / เก็บประวัติ / ลายเซ็นอิเล็กทรอนิกส์'
+          : 'Q8 pending: PII access rule / audit retention / e-signature vendor'}
+      </p>
 
       {/* Add / Edit modal */}
       <Modal
@@ -232,6 +429,60 @@ export default function AdminBeneficiariesPage() {
           defaultEmployeeId={editRow?.employeeId}
           onSubmitted={() => setModalOpen(false)}
         />
+      </Modal>
+
+      {/* Version history modal */}
+      <Modal
+        open={versionModalOpen}
+        onClose={() => setVersionModalOpen(false)}
+        title={
+          versionRow
+            ? (isTh
+                ? `ประวัติเวอร์ชัน — ${piiUnmasked ? versionRow.beneficiaryName : maskName(versionRow.beneficiaryName)} (${versionRow.id})`
+                : `Version History — ${piiUnmasked ? versionRow.beneficiaryName : maskName(versionRow.beneficiaryName)} (${versionRow.id})`)
+            : (isTh ? 'ประวัติเวอร์ชัน' : 'Version History')
+        }
+        widthClass="max-w-xl"
+      >
+        {versionEntries.length === 0 ? (
+          <p className="py-6 text-center text-small text-ink-muted">
+            {isTh ? 'ไม่พบประวัติเวอร์ชัน' : 'No version history available.'}
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {versionEntries.map((v) => (
+              <div
+                key={v.versionId}
+                className={[
+                  'rounded-[var(--radius-md)] border px-4 py-3',
+                  v.isCurrent
+                    ? 'border-accent bg-accent/5'
+                    : 'border-hairline bg-canvas-soft',
+                ].join(' ')}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-small font-semibold text-ink">{v.versionId}</span>
+                  {v.isCurrent && (
+                    <span className="rounded-full bg-accent px-2 py-0.5 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.12em] text-white">
+                      {isTh ? 'เวอร์ชันปัจจุบัน' : 'Current version'}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-[length:var(--text-eyebrow)] text-ink-faint">
+                  {v.date} · {v.actor}
+                </p>
+                <ul className="mt-2 space-y-0.5">
+                  {v.changes.map((ch, i) => (
+                    <li key={i} className="flex items-start gap-1.5 text-small text-ink-soft">
+                      <span className="mt-0.5 shrink-0 text-ink-faint">·</span>
+                      <span>{ch}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
       </Modal>
     </div>
   );
