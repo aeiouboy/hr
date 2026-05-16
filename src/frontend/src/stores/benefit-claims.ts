@@ -26,7 +26,7 @@ export interface BenefitAttachment {
 
 export interface BenefitClaimAuditEntry {
   at: string;
-  actorRole: 'employee' | 'spd';
+  actorRole: 'employee' | 'spd' | 'manager' | 'system';
   actorName: string;
   action: 'submit' | 'approve' | 'reject' | 'send_back' | 'resubmit';
   note?: string;
@@ -66,6 +66,8 @@ export interface BenefitClaimRequest {
   attachments: BenefitAttachment[];
   audit: BenefitClaimAuditEntry[];
   correctionReason?: string;
+  /** Q10 Option A: original remaining amount at time of submission for auto-restore on Send Back. */
+  originalRemainingAmount?: number;
   version: number;
   previousVersions: Array<Pick<BenefitClaimRequest, 'receiptNo' | 'receiptAmount' | 'totalClaimAmount' | 'updatedAt' | 'version'>>;
 }
@@ -116,6 +118,15 @@ interface BenefitClaimsState {
   sendBackClaim: (id: string, actor: Actor, reason: string) => void;
   resubmitClaim: (id: string, input: Partial<BenefitClaimInput>, actor?: Actor) => void;
   hasDuplicateReceipt: (employeeId: string, benefitCode: string, receiptNo: string, excludingId?: string) => boolean;
+  /** STA-28 PR-C: Manager approves → status becomes pending_spd. Mock-async 300ms. */
+  managerApprove: (claimId: string, managerName: string) => Promise<void>;
+  /**
+   * STA-28 PR-C: Manager sends back → status becomes send_back.
+   * Q10 Option A: entitlement is auto-restored immediately on Send Back.
+   * Appends two audit entries: (a) manager send_back entry, (b) system auto-restore entry.
+   * Mock-async 300ms.
+   */
+  managerSendBack: (claimId: string, managerName: string, note: string) => Promise<void>;
   clear: () => void;
 }
 
@@ -214,6 +225,43 @@ function normalizeAttachments(attachments: BenefitAttachment[] = []): BenefitAtt
 }
 
 const initialClaims: BenefitClaimRequest[] = [
+  // STA-28 PR-C: seed claim pending manager approval — routable at /workflows/benefit-claim/BEN-CLM-MGR1
+  {
+    id: 'BEN-CLM-MGR1',
+    workflowRequestId: 'REQ-BEN-MGR1',
+    employeeId: 'EMP002',
+    employeeName: 'สมใจ วงษ์ดี',
+    company: 'Central Group',
+    businessUnit: 'HR',
+    employeeGroup: 'Monthly',
+    personalGrade: 'PG3',
+    benefitType: 'medical',
+    benefitCode: 'BEN-MED-OPD',
+    benefitName: 'ค่ารักษาพยาบาล',
+    remainingAmount: 15000,
+    originalRemainingAmount: 15000,
+    currency: 'THB',
+    receiptNo: 'RCPT-2026-0501',
+    receiptDate: '2026-05-01',
+    receiptAmount: 3200,
+    totalClaimAmount: 3200,
+    status: 'pending_manager_approval',
+    submittedAt: '2026-05-16T08:00:00.000Z',
+    updatedAt: '2026-05-16T08:00:00.000Z',
+    hospitalType: 'private',
+    hospitalName: 'รพ.สมิติเวช',
+    opdIpd: 'OPD',
+    diseaseDetails: 'ไข้หวัดใหญ่',
+    attachments: [
+      { id: 'att-mgr1-1', filename: 'receipt-0501.pdf', sizeMb: 0.9, mimeType: 'application/pdf' },
+      { id: 'att-mgr1-2', filename: 'doctor-note.jpg', sizeMb: 0.4, mimeType: 'image/jpeg' },
+    ],
+    audit: [
+      { at: '2026-05-16T08:00:00.000Z', actorRole: 'employee', actorName: 'สมใจ วงษ์ดี', action: 'submit', note: 'ส่งคำขอเบิกค่ารักษาพยาบาล' },
+    ],
+    version: 1,
+    previousVersions: [],
+  },
   {
     id: 'BEN-CLM-0001',
     workflowRequestId: 'REQ-BEN-0001',
@@ -227,6 +275,7 @@ const initialClaims: BenefitClaimRequest[] = [
     benefitCode: 'BEN-MED-OPD',
     benefitName: 'ค่ารักษาพยาบาล',
     remainingAmount: 18000,
+    originalRemainingAmount: 18000,
     currency: 'THB',
     receiptNo: 'RCPT-2026-0415',
     receiptDate: '2026-04-15',
@@ -468,6 +517,52 @@ export const useBenefitClaimsStore = create<BenefitClaimsState>()(
       })),
       hasDuplicateReceipt: (employeeId, benefitCode, receiptNo, excludingId) =>
         get().claims.some((claim) => claim.id !== excludingId && claim.employeeId === employeeId && claim.benefitCode === benefitCode && claim.receiptNo.trim().toLowerCase() === receiptNo.trim().toLowerCase()),
+      managerApprove: (claimId, managerName) =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            const at = nowIso();
+            set((s) => ({
+              claims: s.claims.map((claim) =>
+                claim.id !== claimId ? claim : {
+                  ...claim,
+                  status: 'pending_spd' as BenefitClaimStatus,
+                  updatedAt: at,
+                  audit: [
+                    ...claim.audit,
+                    { at, actorRole: 'manager' as const, actorName: managerName, action: 'approve' as const, note: 'หัวหน้าอนุมัติ / Manager approved' },
+                  ],
+                }
+              ),
+            }));
+            resolve();
+          }, 300);
+        }),
+      managerSendBack: (claimId, managerName, note) =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            const at = nowIso();
+            set((s) => ({
+              claims: s.claims.map((claim) => {
+                if (claim.id !== claimId) return claim;
+                // Q10 Option A: restore remainingAmount to originalRemainingAmount immediately on Send Back.
+                const restored = claim.originalRemainingAmount ?? claim.remainingAmount;
+                return {
+                  ...claim,
+                  status: 'send_back' as BenefitClaimStatus,
+                  updatedAt: at,
+                  remainingAmount: restored,
+                  correctionReason: note,
+                  audit: [
+                    ...claim.audit,
+                    { at, actorRole: 'manager' as const, actorName: managerName, action: 'send_back' as const, note },
+                    { at, actorRole: 'system' as const, actorName: 'ระบบ / System', action: 'resubmit' as const, note: 'Entitlement auto-restored (Q10 Option A)' },
+                  ],
+                };
+              }),
+            }));
+            resolve();
+          }, 300);
+        }),
       clear: () => set({ claims: [] }),
     }),
     { name: 'humi-benefit-claims' },

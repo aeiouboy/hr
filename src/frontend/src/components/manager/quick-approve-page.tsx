@@ -522,12 +522,15 @@ export function QuickApprovePage() {
       header: '',
       headerVisuallyHidden: true,
       cell: (row) => {
-        // Probation drill-in lives on the standalone PR #135 detail page; all
-        // other types stay on the unified /quick-approve/<id> route.
+        // Probation drill-in → /workflows/probation/<id>
+        // Benefit claims (BEN-CLM-*) → /workflows/benefit-claim/<id> (STA-28 PR-C)
+        // All other types → /quick-approve/<id>
         const href =
           row.type === 'probation'
             ? `/${locale}/workflows/probation/${row.id}`
-            : `/quick-approve/${row.id}`;
+            : row.id.startsWith('BEN-CLM')
+              ? `/${locale}/workflows/benefit-claim/${row.id}`
+              : `/quick-approve/${row.id}`;
         return (
           <Link
             href={href}
