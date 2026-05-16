@@ -26,8 +26,6 @@ import {
   Calendar,
   Filter,
   CheckCircle2,
-  XCircle,
-  X,
   ChevronRight,
   Users,
   Building2,
@@ -50,6 +48,17 @@ import { useProbationCases, type ProbationCase } from '@/hooks/use-probation';
 import { useBenefitClaimsStore, type BenefitClaimRequest } from '@/stores/benefit-claims';
 import type { PendingRequest, RequestType, Urgency } from '@/lib/quick-approve-api';
 import { cn } from '@/lib/utils';
+// STA-28 PR-B v2 — Smart Tabs + Bulk Toolbar
+import { SmartTabs, type ActiveTab } from '@/components/manager/quick-approve/SmartTabs';
+import { BulkActionToolbar } from '@/components/manager/quick-approve/BulkActionToolbar';
+import {
+  computeTabCounts,
+  getPersonaGroup,
+  isActionRequired,
+  isWatching,
+  isHistory,
+} from '@/components/manager/quick-approve/predicates';
+import { usePersonaDefault } from '@/hooks/usePersonaDefault';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -277,10 +286,20 @@ export function QuickApprovePage() {
 
   // Auth + RBAC
   const username = useAuthStore((s) => s.username);
+  const userId = useAuthStore((s) => s.userId);
   const roles = useAuthStore((s) => s.roles);
   const originalUser = useAuthStore((s) => s.originalUser);
   const caps = useCapabilities();
   const primaryRole = roles[0] ?? 'employee';
+
+  // STA-28 PR-B v2 — Smart Tabs: persona-aware default tab (AC-1)
+  // "Show Only Mine" toggle UI deferred to PR-B v3; state seeded here so default is correct.
+  const { defaultTab, mineToggleDefault: _mineToggleDefault } = usePersonaDefault();
+  const [activeTab, setActiveTab] = useState<ActiveTab>(defaultTab);
+  const currentUserId = userId ?? '';
+  const personaGroup = getPersonaGroup(primaryRole as Parameters<typeof getPersonaGroup>[0]);
+  // HR personas get an "All" tab; others get Action/Watching/History
+  const showAllTab = primaryRole === 'hr_admin' || primaryRole === 'hr_manager';
 
   // Hook — API with mock fallback; we always merge in MOCK_PENDING_REQUESTS for demo
   const {
@@ -313,6 +332,14 @@ export function QuickApprovePage() {
     [probationItems, benefitClaimItems],
   );
 
+  // STA-28 PR-B v2 — SINGLE useMemo keyed on (currentUserId, personaGroup, allItems) (AC-3).
+  // Computes all tab counts in one sweep; do NOT add separate per-tab memo calls.
+  const tabCounts = useMemo(
+    () => computeTabCounts(allItems as (PendingRequest & Record<string, unknown>)[], personaGroup, currentUserId),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [allItems, personaGroup, currentUserId],
+  );
+
   // Local filter state
   const [filters, setFilters] = useState<FilterState>({
     type: 'all',
@@ -322,7 +349,17 @@ export function QuickApprovePage() {
     dateTo: '',
   });
 
-  const filteredItems = useMemo(() => applyFilters(allItems, filters), [allItems, filters]);
+  // Apply Smart Tab filter first, then chip-strip filters (AC-4, AC-9)
+  const tabFilteredItems = useMemo(() => {
+    if (activeTab === 'all') return allItems;
+    const cast = allItems as (PendingRequest & Record<string, unknown>)[];
+    if (activeTab === 'action') return cast.filter((row) => isActionRequired(row, personaGroup, currentUserId));
+    if (activeTab === 'watching') return cast.filter((row) => isWatching(row, personaGroup, currentUserId));
+    if (activeTab === 'history') return cast.filter((row) => isHistory(row, personaGroup, currentUserId));
+    return allItems;
+  }, [allItems, activeTab, personaGroup, currentUserId]);
+
+  const filteredItems = useMemo(() => applyFilters(tabFilteredItems, filters), [tabFilteredItems, filters]);
 
   // Selection state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -370,6 +407,13 @@ export function QuickApprovePage() {
 
   // Delegation modal
   const [delegationOpen, setDelegationOpen] = useState(false);
+
+  // STA-28 PR-B v2 — selected row types for high-risk gating in BulkActionToolbar (AC-6)
+  const selectedTypes = useMemo(() => {
+    return filteredItems
+      .filter((item) => selectedIds.has(item.id))
+      .map((item) => item.type);
+  }, [filteredItems, selectedIds]);
 
   // Stats
   const stats = useMemo(() => ({
@@ -566,6 +610,17 @@ export function QuickApprovePage() {
         </div>
       </Card>
 
+      {/* ── Smart Tabs — STA-28 PR-B v2 (AC-4) ── */}
+      <SmartTabs
+        activeTab={activeTab}
+        onChange={(tab) => {
+          setActiveTab(tab);
+          setSelectedIds(new Set());
+        }}
+        counts={tabCounts}
+        showAllTab={showAllTab}
+      />
+
       {/* ── Filter strip ── */}
       <Card>
         <div className="space-y-3">
@@ -666,51 +721,7 @@ export function QuickApprovePage() {
         </div>
       </Card>
 
-      {/* ── Bulk-action bar — gated by bulkApprove capability ── */}
-      <Capability action="bulkApprove">
-        {selectedIds.size > 0 && (
-          <div
-            className="flex items-center justify-between gap-4 rounded-[var(--radius-md)] border border-hairline p-3 bg-surface"
-            data-testid="bulk-action-bar"
-          >
-            <span className="text-sm font-medium text-ink">
-              {isTh ? `เลือก ${selectedIds.size} รายการ` : `${selectedIds.size} selected`}
-            </span>
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                className="bg-success hover:bg-success/90"
-                onClick={() => handleBulkAction('approve')}
-              >
-                <CheckCircle2 className="h-4 w-4 mr-1.5" />
-                {isTh ? `อนุมัติ ${selectedIds.size}` : `Approve ${selectedIds.size}`}
-              </Button>
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => handleBulkAction('reroute')}
-              >
-                {isTh ? `โอนสาย ${selectedIds.size}` : `Reroute ${selectedIds.size}`}
-              </Button>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => handleBulkAction('reject')}
-              >
-                <XCircle className="h-4 w-4 mr-1.5" />
-                {isTh ? `ปฏิเสธ ${selectedIds.size}` : `Reject ${selectedIds.size}`}
-              </Button>
-              <button
-                onClick={handleClearSelection}
-                className="text-sm text-ink-muted hover:text-ink-soft flex items-center gap-1"
-              >
-                <X className="h-3.5 w-3.5" />
-                {t('bulkBar.clearSelection')}
-              </button>
-            </div>
-          </div>
-        )}
-      </Capability>
+      {/* Bulk-action bar — legacy inline bar removed; floating BulkActionToolbar below (AC-5) */}
 
       {/* ── Inbox table ── */}
       <Card header={
@@ -811,6 +822,17 @@ export function QuickApprovePage() {
         onCreateDelegation={createDelegation}
         onRevokeDelegation={revokeDelegation}
       />
+
+      {/* ── Floating Bulk Action Toolbar — STA-28 PR-B v2 (AC-5, AC-6, AC-7) ── */}
+      <Capability action="bulkApprove">
+        <BulkActionToolbar
+          selectedCount={selectedIds.size}
+          selectedTypes={selectedTypes}
+          onApprove={() => handleBulkAction('approve')}
+          onReject={() => handleBulkAction('reject')}
+          onClear={handleClearSelection}
+        />
+      </Capability>
     </div>
   );
 }
