@@ -823,16 +823,17 @@ export function QuickApprovePage() {
         onRevokeDelegation={revokeDelegation}
       />
 
-      {/* ── Floating Bulk Action Toolbar — STA-28 PR-B v2 (AC-5, AC-6, AC-7) ── */}
-      <Capability action="bulkApprove">
-        <BulkActionToolbar
-          selectedCount={selectedIds.size}
-          selectedTypes={selectedTypes}
-          onApprove={() => handleBulkAction('approve')}
-          onReject={() => handleBulkAction('reject')}
-          onClear={handleClearSelection}
-        />
-      </Capability>
+      {/* ── Floating Bulk Action Toolbar — STA-28 PR-B v2 (AC-5, AC-6, AC-7)
+          NOTE: Capability wrapper removed — component self-gates via isHighRiskType()
+          per PR-B v2 spec. Manager bulk-approve safety = high-risk type disable + tooltip,
+          not capability flag (which is reserved for backend bulk endpoints). ── */}
+      <BulkActionToolbar
+        selectedCount={selectedIds.size}
+        selectedTypes={selectedTypes}
+        onApprove={() => handleBulkAction('approve')}
+        onReject={() => handleBulkAction('reject')}
+        onClear={handleClearSelection}
+      />
     </div>
   );
 }
