@@ -130,6 +130,26 @@ const NAV: NavSection[] = [
     ],
   },
   {
+    // STA-28 PR-A — Manager Benefits group (role-gated: manager / hr_admin / hr_manager)
+    group: 'สวัสดิการทีม (ผู้จัดการ)',
+    items: [
+      {
+        id: 'manager-benefits-team',
+        label: 'ทีม',
+        href: '/th/manager/benefits/team',
+        icon: Users2,
+        roles: ['manager', 'hr_admin', 'hr_manager'],
+      },
+      {
+        id: 'manager-benefits-reports',
+        label: 'รายงาน',
+        href: '/th/manager/benefits/reports',
+        icon: BarChart3,
+        roles: ['manager', 'hr_admin', 'hr_manager'],
+      },
+    ],
+  },
+  {
     group: 'บุคลากร',
     items: [
       { id: 'goals', label: 'เป้าหมายและผลงาน', href: '/th/goals', icon: Target },

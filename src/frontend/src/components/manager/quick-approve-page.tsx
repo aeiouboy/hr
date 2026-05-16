@@ -47,6 +47,7 @@ import { useCapabilities } from '@/hooks/use-capabilities';
 import { useQuickApprove } from '@/hooks/use-quick-approve';
 import { MOCK_PENDING_REQUESTS } from '@/components/quick-approve/mock-requests';
 import { useProbationCases, type ProbationCase } from '@/hooks/use-probation';
+import { useBenefitClaimsStore, type BenefitClaimRequest } from '@/stores/benefit-claims';
 import type { PendingRequest, RequestType, Urgency } from '@/lib/quick-approve-api';
 import { cn } from '@/lib/utils';
 
@@ -191,6 +192,35 @@ function probationToPendingRequest(c: ProbationCase): PendingRequest {
   };
 }
 
+// STA-28 PR-A — read-side bridge: surface pending_manager_approval benefit claims
+// alongside legacy PendingRequest items. No store mutation, no schema change.
+function benefitClaimToPendingRequest(c: BenefitClaimRequest): PendingRequest {
+  const slaMs = 72 * 60 * 60 * 1000; // 72-hour SLA for manager approval
+  const elapsedMs = Date.now() - new Date(c.submittedAt).getTime();
+  const slaHours = elapsedMs / (1000 * 60 * 60);
+  const urgency: Urgency = slaHours > 48 ? 'urgent' : slaHours > 24 ? 'normal' : 'low';
+  const waitingDays = Math.max(0, Math.floor(elapsedMs / 86400000));
+  return {
+    id: c.id,
+    type: 'claim',
+    requester: {
+      id: c.employeeId,
+      name: c.employeeName,
+      position: c.benefitName,
+      department: c.businessUnit,
+    },
+    description: `เบิกสวัสดิการ ${c.benefitName} — ฿${c.totalClaimAmount.toLocaleString('th-TH')}`,
+    submittedAt: c.submittedAt,
+    urgency,
+    waitingDays,
+    details: {},
+    approvalTimeline: [
+      { step: 1, approver: 'หัวหน้างาน', status: 'pending' },
+      { step: 2, approver: 'SPD Benefits', status: 'pending' },
+    ],
+  };
+}
+
 function isProbationPending(c: ProbationCase): boolean {
   return (
     c.status === 'pending_manager' ||
@@ -267,10 +297,20 @@ export function QuickApprovePage() {
     [probationCases],
   );
 
-  // Use mock data directly for the demo workspace; merge in probation.
+  // STA-28 PR-A — benefit claims pending manager approval (read-side bridge only)
+  const benefitClaims = useBenefitClaimsStore((s) => s.claims);
+  const benefitClaimItems = useMemo(
+    () =>
+      benefitClaims
+        .filter((c) => c.status === 'pending_manager_approval')
+        .map(benefitClaimToPendingRequest),
+    [benefitClaims],
+  );
+
+  // Use mock data directly for the demo workspace; merge in probation + benefit claims.
   const allItems = useMemo(
-    () => [...MOCK_PENDING_REQUESTS, ...probationItems],
-    [probationItems],
+    () => [...MOCK_PENDING_REQUESTS, ...probationItems, ...benefitClaimItems],
+    [probationItems, benefitClaimItems],
   );
 
   // Local filter state

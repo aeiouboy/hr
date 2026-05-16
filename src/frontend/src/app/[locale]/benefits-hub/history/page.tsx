@@ -12,6 +12,7 @@ import { benefitsHubRoute } from '@/lib/benefit-routes';
 // ── Claim history — own claims only ──────────────────────────────────────────
 
 const STATUS_CHIP: Record<BenefitClaimStatus, { labelTh: string; className: string }> = {
+  pending_manager_approval: { labelTh: 'รออนุมัติจากหัวหน้า', className: 'bg-warning-soft text-warning border border-warning/30' },
   pending_spd: { labelTh: 'รออนุมัติ',   className: 'bg-warning-soft text-warning border border-warning/30' },
   send_back:   { labelTh: 'ส่งคืน',      className: 'bg-accent-soft text-accent border border-accent/30' },
   approved:    { labelTh: 'อนุมัติแล้ว', className: 'bg-success-soft text-success border border-success/30' },
@@ -38,7 +39,7 @@ export default function ClaimHistoryPage() {
 
   const totalClaimed = ownClaims.reduce((sum, c) => sum + c.totalClaimAmount, 0);
   const approvedCount = ownClaims.filter((c) => c.status === 'approved').length;
-  const pendingCount = ownClaims.filter((c) => c.status === 'pending_spd').length;
+  const pendingCount = ownClaims.filter((c) => c.status === 'pending_spd' || c.status === 'pending_manager_approval').length;
 
   const columns: DataTableColumn<BenefitClaimRequest>[] = [
     {

@@ -2,7 +2,12 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { HumiApprovalStep, RequestStatus } from '@/lib/humi-mock-data';
 
-export type BenefitClaimStatus = 'pending_spd' | 'send_back' | 'approved' | 'rejected';
+export type BenefitClaimStatus =
+  | 'pending_manager_approval'   // STA-28: manager must approve before SPD
+  | 'pending_spd'
+  | 'send_back'
+  | 'approved'
+  | 'rejected';
 export type BenefitClaimType = 'medical' | 'gasoline' | 'mobile' | 'physical_checkup' | 'dependent';
 
 export interface BenefitAttachment {
@@ -115,6 +120,7 @@ interface BenefitClaimsState {
 }
 
 export const BENEFIT_STATUS_LABEL: Record<BenefitClaimStatus, string> = {
+  pending_manager_approval: 'รออนุมัติจากหัวหน้า',
   pending_spd: 'รอ SPD อนุมัติ',
   send_back: 'ส่งกลับให้แก้ไข',
   approved: 'อนุมัติแล้ว',
@@ -148,6 +154,7 @@ function statusToRequestStatus(status: BenefitClaimStatus): RequestStatus {
   if (status === 'approved') return 'approved';
   if (status === 'rejected') return 'rejected';
   if (status === 'send_back') return 'info';
+  // pending_manager_approval and pending_spd both map to 'pending'
   return 'pending';
 }
 
