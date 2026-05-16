@@ -150,6 +150,50 @@ const NAV: NavSection[] = [
     ],
   },
   {
+    // STA-27 PR-A — HRBP Benefits group (role-gated: hrbp / hr_admin / hr_manager)
+    // NO inbox entry — approvals route through `/quick-approve` per unified-inbox rule.
+    // Routes ship in PR-B / PR-B′ (stub 404 until then; foundation gates UX only).
+    group: 'สวัสดิการ (HRBP)',
+    items: [
+      {
+        id: 'hrbp-benefits-exceptions',
+        label: 'ข้อยกเว้น',
+        href: '/th/hrbp/benefits/exceptions',
+        icon: ClipboardList,
+        roles: ['hrbp', 'hr_admin', 'hr_manager'],
+      },
+      {
+        id: 'hrbp-benefits-reports',
+        label: 'รายงาน',
+        href: '/th/hrbp/benefits/reports',
+        icon: BarChart3,
+        roles: ['hrbp', 'hr_admin', 'hr_manager'],
+      },
+    ],
+  },
+  {
+    // STA-27 PR-A — SPD Branch Benefits group (role-gated: spd / hr_admin / hr_manager)
+    // NO inbox entry — claim drill-in still routes to `/workflows/benefit-claim/[id]`.
+    // Routes ship in PR-C / PR-D.
+    group: 'สวัสดิการสาขา (SPD)',
+    items: [
+      {
+        id: 'spd-benefits-branch-view',
+        label: 'ภาพรวมสาขา',
+        href: '/th/spd/benefits/branch-view',
+        icon: Users2,
+        roles: ['spd', 'hr_admin', 'hr_manager'],
+      },
+      {
+        id: 'spd-benefits-reports',
+        label: 'รายงาน',
+        href: '/th/spd/benefits/reports',
+        icon: BarChart3,
+        roles: ['spd', 'hr_admin', 'hr_manager'],
+      },
+    ],
+  },
+  {
     group: 'บุคลากร',
     items: [
       { id: 'goals', label: 'เป้าหมายและผลงาน', href: '/th/goals', icon: Target },

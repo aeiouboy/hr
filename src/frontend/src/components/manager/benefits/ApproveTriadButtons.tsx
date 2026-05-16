@@ -1,7 +1,9 @@
 'use client';
 
 // STA-28 PR-A — Approve / Send back / Update triad button row for manager benefit claim actions
-import { CheckCircle2, RotateCcw, Edit3 } from 'lucide-react';
+// STA-27 PR-A — extended with optional onReject + hideUpdate for HRBP exception terminal flows.
+//                 All new props default to manager-friendly behavior (backward-compatible).
+import { CheckCircle2, RotateCcw, Edit3, XCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface ApproveTriadButtonsProps {
@@ -11,8 +13,16 @@ export interface ApproveTriadButtonsProps {
   isTh: boolean;
   /** Disable all buttons (e.g. while a modal is open). */
   disabled?: boolean;
-  /** Hide the Send Back button (e.g. before Q10 answer is known). */
+  /** Hide the Send Back button (e.g. before Q10 answer is known; HRBP terminal flows). */
   hideSendBack?: boolean;
+  /** STA-27 PR-A — Hide the Update button (HRBP exception flow has no edit semantics). */
+  hideUpdate?: boolean;
+  /**
+   * STA-27 PR-A — Optional Reject action.
+   * When provided, renders a danger Reject button alongside Approve.
+   * HRBP exception flow uses this; manager flow leaves it undefined.
+   */
+  onReject?: () => void;
 }
 
 const baseBtn =
@@ -25,6 +35,8 @@ export function ApproveTriadButtons({
   isTh,
   disabled = false,
   hideSendBack = false,
+  hideUpdate = false,
+  onReject,
 }: ApproveTriadButtonsProps) {
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -42,7 +54,23 @@ export function ApproveTriadButtons({
         {isTh ? 'อนุมัติ' : 'Approve'}
       </button>
 
-      {/* Secondary — Send back (hidden while hideSendBack=true per Q10 gate) */}
+      {/* STA-27 PR-A — Reject (danger; only when onReject is provided, e.g. HRBP exception flow) */}
+      {onReject && (
+        <button
+          type="button"
+          onClick={onReject}
+          disabled={disabled}
+          className={cn(
+            baseBtn,
+            'bg-danger text-white hover:bg-danger/90 shadow-sm',
+          )}
+        >
+          <XCircle className="h-4 w-4" aria-hidden />
+          {isTh ? 'ปฏิเสธ' : 'Reject'}
+        </button>
+      )}
+
+      {/* Secondary — Send back (hidden while hideSendBack=true per Q10 gate / HRBP terminal) */}
       {!hideSendBack && (
         <button
           type="button"
@@ -58,19 +86,21 @@ export function ApproveTriadButtons({
         </button>
       )}
 
-      {/* Ghost — Update */}
-      <button
-        type="button"
-        onClick={onUpdate}
-        disabled={disabled}
-        className={cn(
-          baseBtn,
-          'text-ink-muted hover:bg-surface-raised hover:text-ink',
-        )}
-      >
-        <Edit3 className="h-4 w-4" aria-hidden />
-        {isTh ? 'แก้ไข' : 'Update'}
-      </button>
+      {/* Ghost — Update (hidden while hideUpdate=true per HRBP terminal) */}
+      {!hideUpdate && (
+        <button
+          type="button"
+          onClick={onUpdate}
+          disabled={disabled}
+          className={cn(
+            baseBtn,
+            'text-ink-muted hover:bg-surface-raised hover:text-ink',
+          )}
+        >
+          <Edit3 className="h-4 w-4" aria-hidden />
+          {isTh ? 'แก้ไข' : 'Update'}
+        </button>
+      )}
     </div>
   );
 }

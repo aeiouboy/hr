@@ -17,6 +17,8 @@ const ROLE_CHIP_STYLE: Record<BenefitClaimAuditEntry['actorRole'], string> = {
   employee: 'bg-teal-50 text-teal-700 border border-teal-200',
   manager:  'bg-accent-soft text-accent border border-accent/20',
   spd:      'bg-warning-soft text-warning border border-warning/20',
+  // STA-27 PR-A — HRBP audit chip (indigo-tinted Humi accent variant)
+  hrbp:     'bg-info-tint text-info border border-info/20',
   system:   'bg-canvas-soft text-ink-muted border border-hairline',
 };
 
@@ -24,6 +26,7 @@ const ROLE_LABEL_TH: Record<BenefitClaimAuditEntry['actorRole'], string> = {
   employee: 'พนักงาน',
   manager:  'หัวหน้า',
   spd:      'SPD',
+  hrbp:     'HRBP',
   system:   'ระบบ',
 };
 
@@ -31,6 +34,7 @@ const ROLE_LABEL_EN: Record<BenefitClaimAuditEntry['actorRole'], string> = {
   employee: 'Employee',
   manager:  'Manager',
   spd:      'SPD',
+  hrbp:     'HRBP',
   system:   'System',
 };
 
@@ -100,7 +104,9 @@ export function AuditTimeline({ entries, isTh }: AuditTimelineProps) {
                       ? 'bg-accent'
                       : entry.actorRole === 'spd'
                         ? 'bg-warning'
-                        : 'bg-teal-500',
+                        : entry.actorRole === 'hrbp'
+                          ? 'bg-info'
+                          : 'bg-teal-500',
                 )}
                 aria-hidden
               />

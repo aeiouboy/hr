@@ -115,6 +115,12 @@ export interface BenefitPlanV1 {
   requiredDocsEn: string[];
   /** Eligibility one-liner for HR review during walkthrough. */
   eligibilityTh: string;
+  /**
+   * STA-27 PR-A — DVT (branch-aligned variant) flag.
+   * When true, SPD Branch View renders a "DVT Variant" badge for the plan.
+   * Optional; defaults to undefined/false. Read-only registry hint, no behavior change for callers that ignore it.
+   */
+  dvtVariant?: boolean;
 }
 
 // ── A3 hybrid plan shape (v2) ─────────────────────────────────────────────
@@ -143,6 +149,12 @@ export interface BenefitPlanV2 {
   claimRules: PlanClaimRules;
   coverageType: PlanCoverageType;
   notifications: PlanNotifications;
+  /**
+   * STA-27 PR-A — DVT (branch-aligned variant) flag.
+   * When true, SPD Branch View renders a "DVT Variant" badge for the plan.
+   * Optional; defaults to undefined/false.
+   */
+  dvtVariant?: boolean;
 }
 
 export type BenefitPlan = BenefitPlanV1 | BenefitPlanV2;
@@ -177,6 +189,7 @@ export const BENEFIT_PLAN_REGISTRY: BenefitPlan[] = [
     requiredDocsEn: ['Receipt', 'Medical certificate'],
     eligibilityTh: 'พนักงานประจำ ทุกระดับ',
     eligibilityEn: 'All permanent employees',
+    dvtVariant: true, // STA-27 PR-A — branch-aligned OPD variant exists at DVT branches
     coverage: {
       entitlementAmount: 30000,
       currency: 'THB',
@@ -697,6 +710,7 @@ export const BENEFIT_PLAN_REGISTRY: BenefitPlan[] = [
     requiredDocsEn: [],
     eligibilityTh: 'แสดงผลคำนวณตามฐานเงินเดือน — view only',
     eligibilityEn: 'Salary-driven display — view only',
+    dvtVariant: true, // STA-27 PR-A — branch-aligned life/accident variant exists at DVT branches
     coverage: {
       entitlementAmount: null, // Salary × 12 multiplier — display-only
       currency: 'THB',

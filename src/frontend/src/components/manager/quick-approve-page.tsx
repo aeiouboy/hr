@@ -59,6 +59,8 @@ import {
   isHistory,
 } from '@/components/manager/quick-approve/predicates';
 import { usePersonaDefault } from '@/hooks/usePersonaDefault';
+// STA-27 PR-A — transparency banner for HRBP/SPD persona scope limitation
+import { HrbpScopeBanner } from '@/components/manager/quick-approve/HrbpScopeBanner';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -612,6 +614,9 @@ export function QuickApprovePage() {
           </div>
         </div>
       </Card>
+
+      {/* ── HRBP/SPD scope transparency banner — STA-27 PR-A (AC-7) ── */}
+      <HrbpScopeBanner persona={primaryRole} isTh={isTh} locale={locale} />
 
       {/* ── Smart Tabs — STA-28 PR-B v2 (AC-4) ── */}
       <SmartTabs

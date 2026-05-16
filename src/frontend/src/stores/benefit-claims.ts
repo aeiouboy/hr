@@ -26,7 +26,8 @@ export interface BenefitAttachment {
 
 export interface BenefitClaimAuditEntry {
   at: string;
-  actorRole: 'employee' | 'spd' | 'manager' | 'system';
+  // STA-27 PR-A — widened to include 'hrbp' for exception oversight audit entries
+  actorRole: 'employee' | 'spd' | 'manager' | 'hrbp' | 'system';
   actorName: string;
   action: 'submit' | 'approve' | 'reject' | 'send_back' | 'resubmit';
   note?: string;
