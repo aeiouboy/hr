@@ -4887,5 +4887,45 @@
       "addProject": "Add project",
       "newProjectPlaceholder": "New project name"
     }
+  },
+  "spdReports": {
+    "chrome": {
+      "home": "Home",
+      "benefits": "Branch Benefits",
+      "reports": "Reports"
+    },
+    "title": "SPD Benefits Reports",
+    "subtitle": "Branch-scoped enrollment movement, cost snapshot, and special privilege audit reports.",
+    "openDetail": "Open branch detail",
+    "exportCsv": "Export CSV",
+    "exporting": "Exporting…",
+    "reports": {
+      "movement": {
+        "title": "Branch Enrollment Movement",
+        "desc": "Monthly added/removed enrollments across assigned branches."
+      },
+      "cost": {
+        "title": "Branch Cost Snapshot",
+        "desc": "Estimated benefit cost view by assigned branch."
+      },
+      "privilege": {
+        "title": "Branch Special Privilege Audit",
+        "desc": "Audit items for special privilege usage in assigned branches."
+      }
+    },
+    "tiles": {
+      "branches": "Assigned branches",
+      "employees": "Scoped employees",
+      "enrollments": "Plan enrollments",
+      "auditItems": "Privilege audit items"
+    },
+    "table": {
+      "branch": "Branch",
+      "employees": "Employees",
+      "enrollment": "Enrollment",
+      "movement": "Added / removed",
+      "cost": "Estimated cost",
+      "privilege": "Audit items"
+    }
   }
 }
