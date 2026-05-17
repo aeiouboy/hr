@@ -91,7 +91,10 @@ describe('AC-4: Sidebar — 17 total nav items', () => {
     render(<Sidebar />);
     // All nav items render as <a> (Next Link mock + external <a>)
     // Updated 2026-04-24: 17 → 19 items after 5-persona worktree merge added
-    // /th/spd/inbox + /th/ess/workflows sidebar entries.
+    // /th/ess/workflows sidebar entry + role-gated entries.
+    // Updated 2026-05-17: /th/spd/inbox entry removed per [[unified-approval-inbox]]
+    // rule (SPD merged into 'คำขอรออนุมัติ'). Count stays 19 because spd-inbox
+    // was role-gated and invisible to the default (roles:[]) test user anyway.
     const nav = screen.getByRole('navigation', { name: 'เมนูหลัก' });
     const allLinks = within(nav).getAllByRole('link');
     expect(allLinks).toHaveLength(19);

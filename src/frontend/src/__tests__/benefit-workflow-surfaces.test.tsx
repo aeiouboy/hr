@@ -64,16 +64,9 @@ describe('benefit workflow surfaces', () => {
     expect(screen.getByText(/RC-UI-001/)).toBeInTheDocument();
   });
 
-  it('/spd/inbox renders a Benefit Reimbursement lane and pending claim', async () => {
-    useBenefitClaimsStore.getState().submitClaim(claimInput);
-    const { default: SPDInboxPage } = await import('@/app/[locale]/spd/inbox/page');
-
-    render(<SPDInboxPage />);
-
-    expect(screen.getAllByText(/Benefit Reimbursement/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/เบิกสวัสดิการ · ค่ารักษาพยาบาล/).length).toBeGreaterThan(0);
-    expect(screen.getByText('กล่องอนุมัติคำขอเบิกสวัสดิการ')).toBeInTheDocument();
-  });
+  // NOTE: /spd/inbox removed per [[unified-approval-inbox]] memory rule —
+  // SPD persona uses /quick-approve unified inbox via Smart Tabs Watching tab
+  // (PR-B v2 STA-28). Route deleted; sidebar entry merged into 'คำขอรออนุมัติ'.
 
   it('/admin/benefits renders read-only admin, reporting and deferred payment surfaces', async () => {
     useBenefitClaimsStore.getState().submitClaim(claimInput);

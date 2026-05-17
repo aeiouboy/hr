@@ -130,7 +130,7 @@ export const MOCK_IN_APP_NOTIFICATIONS: InAppNotification[] = [
     titleEn: 'Resignation Submitted',
     bodyTh: 'พนักงานยื่นใบลาออก — รอดำเนินการในระบบ',
     bodyEn: 'Employee submitted resignation — pending HR action',
-    href: '/th/spd/inbox',
+    href: '/th/quick-approve',
     read: false,
     createdAt: '2026-04-27T10:00:00Z',
   },

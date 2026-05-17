@@ -143,7 +143,7 @@ export const PERSONA_BADGE: Record<string, { label: string; tone: string }> = {
 const ROLE_LANDING: Array<[Role, string]> = [
   ['hr_manager', '/admin/system'],  // HRIS Admin → system-config landing
   ['hr_admin', '/admin'],
-  ['spd', '/spd/inbox'],
+  ['spd', '/quick-approve'],
   ['hrbp', '/admin/employees'],     // HRBP uses admin direct-edit path
   ['manager', '/home'],
   ['employee', '/home'],
