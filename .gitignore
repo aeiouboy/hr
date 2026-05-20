@@ -32,3 +32,22 @@ chrome/
 # Generated framework/debug artifacts
 .next/
 src/frontend/test-artifacts/**/debug-*.png
+
+# Local Codex project config: keep checked-in prompts/agents/skills only
+.codex/*
+!.codex/agents/
+!.codex/agents/**
+!.codex/skills/
+!.codex/skills/**
+.codex/skills/.system/**
+!.codex/prompts/
+!.codex/prompts/**
+
+# Local agent/runtime scratch artifacts
+.AGENTS.md.bkup
+.clawhip/
+deliverables/
+design.md
+showcase_deck_build.py
+specs/team-alpha-single-requirements-humi.md
+test-artifacts/
