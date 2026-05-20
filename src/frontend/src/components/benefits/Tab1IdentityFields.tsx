@@ -1,15 +1,11 @@
 'use client';
 
 import { FormField, FormInput } from '@/components/humi';
-import {
-  deriveRecordTypeFromBenefitTypeGroup,
-  type BenefitTypeGroup,
-  type PlanCategory,
-  type WorkflowTemplate,
-} from '@/data/benefits/plan-registry';
+import { type PlanCategory, type WorkflowTemplate } from '@/data/benefits/plan-registry';
 
 export type CountryCode = 'TH' | 'VN';
 export type PlanStatus = 'active' | 'inactive';
+export type BenefitTypeGroup = 'reimbursement-employee-hr' | 'reimbursement-hr' | 'info' | 'record';
 // STA-70 follow-up (spec expanded with Enrolment / Claim condition / Legal entity sections)
 export type EnrolmentMode = 'auto' | 'manual';
 export type ClaimPeriod = 'year' | 'month' | 'quarter' | 'one-time' | 'lifetime';
@@ -21,6 +17,7 @@ export interface Tab1IdentityValues {
   planKey: string;
   nameTh: string;
   nameEn: string;
+  prefix: 'records' | 'info' | 'none';
   category: PlanCategory;
   schemaVersion: 'v1' | 'v2';
   template: WorkflowTemplate;
@@ -101,7 +98,7 @@ const TEMPLATE_OPTIONS: WorkflowTemplate[] = [
  * Tab1IdentityFields — pure component; no internal state.
  * Parent (modal) owns all state via `values` + `onChange`.
  *
- * Fields: TTT, Plan key, nameTh, nameEn,
+ * Fields: TTT, Plan key, nameTh, nameEn, prefix selector,
  *         category, schemaVersion, template, effectiveFrom, effectiveTo.
  */
 export function Tab1IdentityFields({
@@ -110,7 +107,12 @@ export function Tab1IdentityFields({
   mode,
   isTh,
 }: Tab1IdentityFieldsProps) {
-  const derivedRecordType = deriveRecordTypeFromBenefitTypeGroup(values.benefitTypeGroup);
+  // Derive recordType inline — no useEffect
+  const derivedRecordType =
+    values.prefix === 'records' ? 'records'
+    : values.prefix === 'info'    ? 'info'
+    : 'claimable';
+
   const chip = RECORD_TYPE_CHIP[derivedRecordType];
 
   return (
@@ -179,7 +181,36 @@ export function Tab1IdentityFields({
         )}
       </FormField>
 
-      {/* 5. Category */}
+      {/* 5. Plan name prefix selector → derives recordType */}
+      <div className="flex flex-col gap-1.5">
+        <span className="text-small font-medium text-ink">
+          {isTh ? 'คำนำหน้าชื่อแผน' : 'Plan name prefix'}
+        </span>
+        <div className="flex flex-wrap gap-4" role="radiogroup" aria-label={isTh ? 'คำนำหน้าชื่อแผน' : 'Plan name prefix'}>
+          {(['records', 'info', 'none'] as const).map((p) => (
+            <label key={p} className="flex items-center gap-2 cursor-pointer text-small text-ink">
+              <input
+                type="radio"
+                name="tab1-prefix"
+                value={p}
+                checked={values.prefix === p}
+                onChange={() => onChange('prefix', p)}
+                className="accent-accent"
+              />
+              {p === 'records' ? '[Records]' : p === 'info' ? '[Info]' : isTh ? 'ไม่มีคำนำหน้า' : 'None'}
+            </label>
+          ))}
+        </div>
+        {/* Derived recordType chip */}
+        <div className="mt-1 flex items-center gap-2">
+          <span className="text-small text-ink-muted">{isTh ? 'ประเภทระเบียน:' : 'Record type:'}</span>
+          <span className={`inline-flex items-center rounded-[var(--radius-sm)] px-2 py-0.5 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.1em] ${chip.className}`}>
+            {isTh ? chip.labelTh : chip.label}
+          </span>
+        </div>
+      </div>
+
+      {/* 6. Category */}
       <FormField
         id="tab1-category"
         label={isTh ? 'หมวดหมู่' : 'Category'}
@@ -201,7 +232,7 @@ export function Tab1IdentityFields({
         )}
       </FormField>
 
-      {/* 6. schemaVersion radio */}
+      {/* 7. schemaVersion radio */}
       <div className="flex flex-col gap-1.5">
         <span className="text-small font-medium text-ink">
           {isTh ? 'เวอร์ชันโครงสร้าง' : 'Schema version'}
@@ -225,7 +256,7 @@ export function Tab1IdentityFields({
         </div>
       </div>
 
-      {/* 7. Template picker */}
+      {/* 8. Template picker */}
       <FormField
         id="tab1-template"
         label={isTh ? 'เทมเพลตเวิร์กโฟลว์' : 'Workflow template'}
@@ -245,7 +276,7 @@ export function Tab1IdentityFields({
         )}
       </FormField>
 
-      {/* 8. Effective dates */}
+      {/* 9. Effective dates */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField
           id="tab1-effectiveFrom"
@@ -283,7 +314,7 @@ export function Tab1IdentityFields({
         </h3>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {/* 9. Country */}
+          {/* 10. Country */}
           <FormField
             id="tab1-country"
             label={isTh ? 'ประเทศ (Country)' : 'Country'}
@@ -302,7 +333,7 @@ export function Tab1IdentityFields({
             )}
           </FormField>
 
-          {/* 10. Status */}
+          {/* 11. Status */}
           <FormField
             id="tab1-status"
             label={isTh ? 'สถานะ (Status)' : 'Status'}
@@ -329,7 +360,7 @@ export function Tab1IdentityFields({
           {isTh ? 'ประเภท / กลุ่มสวัสดิการ (Benefit type / group)' : 'Benefit type / group'}
         </h3>
 
-        {/* 11. Benefit type */}
+        {/* 12. Benefit type */}
         <FormField
           id="tab1-benefitTypeGroup"
           label={isTh ? 'ประเภทสวัสดิการ (Benefit type)' : 'Benefit type'}
@@ -353,12 +384,6 @@ export function Tab1IdentityFields({
             </select>
           )}
         </FormField>
-        <div className="mt-3 flex items-center gap-2">
-          <span className="text-small text-ink-muted">{isTh ? 'ประเภทระเบียนที่ได้:' : 'Derived record type:'}</span>
-          <span className={`inline-flex items-center rounded-[var(--radius-sm)] px-2 py-0.5 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.1em] ${chip.className}`}>
-            {isTh ? chip.labelTh : chip.label}
-          </span>
-        </div>
       </div>
 
       {/* ── STA-70 Enrolment section ────────────────────────────────────── */}
@@ -367,7 +392,7 @@ export function Tab1IdentityFields({
           {isTh ? 'การลงทะเบียน (Enrolment)' : 'Enrolment'}
         </h3>
 
-        {/* 12. Enrolment mode */}
+        {/* 13. Enrolment mode */}
         <FormField
           id="tab1-enrolment"
           label={isTh ? 'รูปแบบการลงทะเบียน (Enrolment)' : 'Enrolment'}
@@ -394,7 +419,7 @@ export function Tab1IdentityFields({
         </h3>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {/* 13. Claim period */}
+          {/* 14. Claim period */}
           <FormField
             id="tab1-claimPeriod"
             label={isTh ? 'รอบการเบิก (Claim period)' : 'Claim period'}
@@ -416,7 +441,7 @@ export function Tab1IdentityFields({
             )}
           </FormField>
 
-          {/* 14. Entitlement calculation method */}
+          {/* 15. Entitlement calculation method */}
           <FormField
             id="tab1-entitlementCalcMethod"
             label={isTh ? 'วิธีคำนวณวงเงิน (Entitlement calc)' : 'Entitlement calc method'}
@@ -436,28 +461,6 @@ export function Tab1IdentityFields({
           </FormField>
         </div>
 
-        {/* 15. Eligible claim date */}
-        <div className="mt-4">
-          <FormField
-            id="tab1-eligibleClaimDate"
-            label={isTh ? 'วันเริ่มเบิกได้ (Eligible claim date)' : 'Eligible claim date'}
-            required
-          >
-            {(cp) => (
-              <select
-                {...cp}
-                value={values.eligibleClaimDate}
-                onChange={(e) => onChange('eligibleClaimDate', e.target.value as EligibleClaimDate)}
-                className={selectClass}
-              >
-                <option value="30">{isTh ? '30 วัน' : '30 days'}</option>
-                <option value="60">{isTh ? '60 วัน' : '60 days'}</option>
-                <option value="90">{isTh ? '90 วัน' : '90 days'}</option>
-                <option value="none">{isTh ? 'ไม่จำกัด (No eligible claim date)' : 'No eligible claim date'}</option>
-              </select>
-            )}
-          </FormField>
-        </div>
       </div>
 
       {/* ── STA-70 Legal Entity section ─────────────────────────────────── */}
@@ -466,7 +469,7 @@ export function Tab1IdentityFields({
           {isTh ? 'นิติบุคคล (Legal Entity)' : 'Legal Entity'}
         </h3>
 
-        {/* 16. Company */}
+        {/* 17. Company */}
         <FormField
           id="tab1-company"
           label={isTh ? 'บริษัท (Company)' : 'Company'}

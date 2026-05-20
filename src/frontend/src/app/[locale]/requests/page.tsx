@@ -259,7 +259,7 @@ function MineTab({
   return (
     <>
       {/* Summary tiles */}
-      <section className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
+      <section className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {summaryCards.map((s) => (
           <div key={s.l} className={cn('humi-stat-card', `humi-stat-card--${s.tone}`)}>
             <CardEyebrow>{s.l}</CardEyebrow>

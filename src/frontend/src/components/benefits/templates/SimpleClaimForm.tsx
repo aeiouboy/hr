@@ -25,7 +25,6 @@ export interface SimpleClaimSubmission {
   claimDate: string;
   remainingAmount?: number;
   receiptNo: string;
-  receiptDate: string;
   receiptAmount: number;
   totalClaimAmount: number;
   remark: string;
@@ -55,7 +54,6 @@ export function SimpleClaimForm({
   const [form, setForm] = useState({
     claimDate: todayIsoDate(),
     receiptNo: '',
-    receiptDate: '',
     receiptAmount: '',
     claimAmount: '',
     remark: '',
@@ -74,9 +72,6 @@ export function SimpleClaimForm({
     const nextErrors: string[] = [];
     if (!form.receiptNo.trim()) {
       nextErrors.push(isTh ? 'กรุณาระบุเลขที่ใบเสร็จ' : 'Receipt number is required');
-    }
-    if (!form.receiptDate) {
-      nextErrors.push(isTh ? 'กรุณาระบุวันที่ใบเสร็จ' : 'Receipt date is required');
     }
     if (!form.claimDate) {
       nextErrors.push(isTh ? 'กรุณาระบุวันที่เคลม' : 'Claim date is required');
@@ -98,7 +93,6 @@ export function SimpleClaimForm({
     setForm({
       claimDate: todayIsoDate(),
       receiptNo: '',
-      receiptDate: '',
       receiptAmount: '',
       claimAmount: '',
       remark: '',
@@ -111,7 +105,6 @@ export function SimpleClaimForm({
       claimDate: form.claimDate,
       remainingAmount: visibleRemainingAmount,
       receiptNo: form.receiptNo.trim(),
-      receiptDate: form.receiptDate,
       receiptAmount: amount,
       totalClaimAmount: claimAmount,
       remark: form.remark.trim(),
@@ -173,17 +166,6 @@ export function SimpleClaimForm({
               value={form.receiptNo}
               onChange={(e) => setField('receiptNo', e.target.value)}
               placeholder={isTh ? 'เช่น RC-2026-0001' : 'e.g. RC-2026-0001'}
-            />
-          )}
-        </FormField>
-
-        <FormField id={`${plan.id}-receipt-date`} label={isTh ? 'วันที่ใบเสร็จ/เอกสาร' : 'Receipt date'} required>
-          {(controlProps) => (
-            <FormInput
-              {...controlProps}
-              type="date"
-              value={form.receiptDate}
-              onChange={(e) => setField('receiptDate', e.target.value)}
             />
           )}
         </FormField>

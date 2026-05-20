@@ -101,7 +101,7 @@ export function Topbar({
           {subtitle}
         </div>
         <h2
-          className="truncate whitespace-nowrap text-[18px] sm:text-[20px] lg:text-[24px]"
+          className="truncate whitespace-nowrap text-lg sm:text-xl lg:text-2xl"
           style={{ fontFamily: 'var(--font-display)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}
         >
           {title}

@@ -124,7 +124,6 @@ describe('benefit claim journey canonical route', () => {
     await user.clear(screen.getByLabelText(/วันที่เคลม/));
     await user.type(screen.getByLabelText(/วันที่เคลม/), '2026-05-20');
     await user.type(screen.getByLabelText(/เลขที่ใบเสร็จ\/เอกสาร/), 'MOB-2026-001');
-    await user.type(screen.getByLabelText(/วันที่ใบเสร็จ\/เอกสาร/), '2026-05-18');
     await user.type(screen.getByLabelText(/จำนวนเงินตามใบเสร็จ \(บาท\)/), '799');
     await user.type(screen.getByLabelText('ยอดเบิกสุทธิ (บาท)'), '799');
     await user.type(screen.getByLabelText('หมายเหตุ'), 'ค่าโทรศัพท์เดือนพฤษภาคม');
@@ -135,7 +134,6 @@ describe('benefit claim journey canonical route', () => {
     expect(claim.benefitCode).toBe('BE-MOB-001');
     expect(claim.benefitName).toBe('ค่าโทรศัพท์');
     expect(claim.receiptNo).toBe('MOB-2026-001');
-    expect(claim.receiptDate).toBe('2026-05-18');
     expect(claim.receiptAmount).toBe(799);
     expect(claim.totalClaimAmount).toBe(799);
     expect(claim.remainingAmount).toBe(4800);

@@ -403,6 +403,7 @@ export default function HumiBenefitsHubPage() {
                   );
                 })}
               </ul>
+
             )}
           </Card>
         </aside>
@@ -458,10 +459,15 @@ export default function HumiBenefitsHubPage() {
                   />
                 </div>
                 <p className="mt-2 text-small text-ink-muted">{b.sub}</p>
+                <span className="mt-3 inline-flex items-center gap-1 rounded-[var(--radius-sm)] bg-accent px-3 py-1.5 text-small font-semibold text-accent-foreground">
+                  Claim
+                  <ArrowRight size={12} aria-hidden />
+                </span>
               </Link>
             );
           })}
         </div>
+
       </section>
 
       {/* Dependents */}

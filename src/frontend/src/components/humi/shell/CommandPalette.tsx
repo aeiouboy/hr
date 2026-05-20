@@ -47,17 +47,22 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 
   // Reset state when opening
   useEffect(() => {
-    if (open) {
+    if (!open) return undefined;
+
+    const timeoutId = window.setTimeout(() => {
       setQuery('');
       setActiveIndex(0);
-      // Focus input on next tick after mount
-      setTimeout(() => inputRef.current?.focus(), 0);
-    }
+      inputRef.current?.focus();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
   }, [open]);
 
   // Reset activeIndex when results change
   useEffect(() => {
-    setActiveIndex(0);
+    const timeoutId = window.setTimeout(() => setActiveIndex(0), 0);
+
+    return () => window.clearTimeout(timeoutId);
   }, [query]);
 
   const navigate = useCallback(
@@ -107,7 +112,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           // Mobile: fills full screen, no rounding
           'rounded-none',
           // sm+: centered modal with radius + max-width
-          'sm:rounded-[var(--radius-2xl)] sm:max-w-lg sm:h-auto sm:self-start',
+          'sm:rounded-2xl sm:max-w-lg sm:h-auto sm:self-start',
           // On mobile stretch to full height via flex parent
           'flex flex-col',
         )}
