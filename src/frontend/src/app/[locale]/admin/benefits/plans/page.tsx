@@ -14,7 +14,15 @@ const ELIGIBILITY_MANAGED_BENEFIT_KEYS = new Set([
 import { Card, CardEyebrow, CardTitle, Button, DataTable, FormField, FormInput, Modal } from '@/components/humi';
 import { updateBenefitPlan, createBenefitPlan } from '@/lib/workflow-api';
 import { Capability } from '@/components/humi';
-import { BENEFIT_PLAN_REGISTRY, type BenefitPlan, type PlanCategory, type RecordType, isV2Plan } from '@/data/benefits/plan-registry';
+import {
+  BENEFIT_PLAN_REGISTRY,
+  deriveRecordTypeFromBenefitTypeGroup,
+  type BenefitPlan,
+  type BenefitTypeGroup,
+  type PlanCategory,
+  type RecordType,
+  isV2Plan,
+} from '@/data/benefits/plan-registry';
 import { PlanConfiguratorShell, type PlanConfiguratorTab } from '@/components/benefits/PlanConfiguratorShell';
 import { Tab1IdentityFields, type Tab1IdentityValues } from '@/components/benefits/Tab1IdentityFields';
 
@@ -94,12 +102,8 @@ function ComingNextCard({ tabId, prNumber, isTh }: { tabId: string; prNumber: st
 
 // ── Default Tab1 identity values for Edit ─────────────────────────────────
 function editPlanDefaultIdentity(plan: BenefitPlan, isTh: boolean): Tab1IdentityValues {
-  const prefix: Tab1IdentityValues['prefix'] =
-    plan.recordType === 'records' ? 'records'
-    : plan.recordType === 'info'   ? 'info'
-    : 'none';
   // STA-70: derive default benefitTypeGroup from recordType when plan has no explicit value
-  const derivedBenefitTypeGroup: 'reimbursement-employee-hr' | 'reimbursement-hr' | 'info' | 'record' =
+  const derivedBenefitTypeGroup: BenefitTypeGroup =
     plan.benefitTypeGroup
       ?? (plan.recordType === 'records' ? 'record'
         : plan.recordType === 'info'    ? 'info'
@@ -109,7 +113,6 @@ function editPlanDefaultIdentity(plan: BenefitPlan, isTh: boolean): Tab1Identity
     planKey: plan.id,
     nameTh: plan.nameTh,
     nameEn: plan.nameEn,
-    prefix,
     category: plan.category,
     schemaVersion: (plan as { schemaVersion?: 'v1' | 'v2' }).schemaVersion ?? 'v2',
     template: plan.template,
@@ -200,7 +203,11 @@ function EditPlanModal({
     setSaving(true);
     try {
       console.log('[EditPlanModal] Tab1 values:', tab1Values);
-      await updateBenefitPlan(plan.id, { display_name: tab1Values.nameTh });
+      await updateBenefitPlan(plan.id, {
+        display_name: tab1Values.nameTh,
+        recordType: deriveRecordTypeFromBenefitTypeGroup(tab1Values.benefitTypeGroup),
+        benefitTypeGroup: tab1Values.benefitTypeGroup,
+      });
       setSaved(true);
       setTimeout(onClose, 1200);
     } catch (err) {
@@ -281,7 +288,6 @@ function CreatePlanModal({
     planKey: '',
     nameTh: '',
     nameEn: '',
-    prefix: 'none',
     category: 'medical',
     schemaVersion: 'v2',
     template: 'simple-claim',
@@ -312,12 +318,6 @@ function CreatePlanModal({
     setTab1Values((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Derive recordType inline — no useEffect
-  const derivedRecordType: RecordType =
-    tab1Values.prefix === 'records' ? 'records'
-    : tab1Values.prefix === 'info'   ? 'info'
-    : 'claimable';
-
   const isValid = tab1Values.planKey.trim() && tab1Values.nameTh.trim() && tab1Values.nameEn.trim();
 
   const handleSave = async () => {
@@ -331,7 +331,8 @@ function CreatePlanModal({
         displayNameTh: tab1Values.nameTh.trim(),
         displayNameEn: tab1Values.nameEn.trim(),
         category: tab1Values.category,
-        recordType: derivedRecordType,
+        recordType: deriveRecordTypeFromBenefitTypeGroup(tab1Values.benefitTypeGroup),
+        benefitTypeGroup: tab1Values.benefitTypeGroup,
         annualLimitThb: null,
         eligibilityRuleId: null,
       });

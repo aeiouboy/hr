@@ -7,6 +7,7 @@ const navigationMocks = vi.hoisted(() => ({
   redirect: vi.fn((href: string) => {
     throw new Error(`NEXT_REDIRECT:${href}`);
   }),
+  useSearchParams: vi.fn(() => new URLSearchParams()),
 }));
 
 vi.mock('next/navigation', () => ({
@@ -20,7 +21,7 @@ vi.mock('next/navigation', () => ({
     forward: vi.fn(),
     refresh: vi.fn(),
   }),
-  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
+  useSearchParams: navigationMocks.useSearchParams,
 }));
 
 vi.mock('next/link', () => ({
@@ -59,6 +60,7 @@ describe('benefit claim journey canonical route', () => {
   beforeEach(() => {
     vi.resetModules();
     navigationMocks.redirect.mockClear();
+    navigationMocks.useSearchParams.mockReturnValue(new URLSearchParams());
     localStorage.clear();
   });
 
@@ -84,7 +86,60 @@ describe('benefit claim journey canonical route', () => {
 
     const claimStart = screen.getByRole('link', { name: 'เริ่มเบิกสวัสดิการ' });
     expect(claimStart).toHaveAttribute('href', '/th/benefits-hub/reimbursement');
+    expect(screen.getByRole('link', { name: 'เบิกค่ารักษาพยาบาล' })).toHaveAttribute(
+      'href',
+      '/th/benefits-hub/reimbursement?allowance=ca-medical',
+    );
+    expect(screen.getByRole('link', { name: 'เบิกค่าทันตกรรม' })).toHaveAttribute(
+      'href',
+      '/th/benefits-hub/reimbursement?allowance=ca-dental',
+    );
+    expect(screen.getByRole('link', { name: 'เบิกค่าโทรศัพท์' })).toHaveAttribute(
+      'href',
+      '/th/benefits-hub/reimbursement?allowance=ca-phone',
+    );
+    expect(screen.getByRole('link', { name: 'เบิกค่าน้ำมันรถ' })).toHaveAttribute(
+      'href',
+      '/th/benefits-hub/reimbursement?allowance=ca-fuel',
+    );
     expect(screen.queryByRole('button', { name: 'สร้างคำขอเบิก' })).not.toBeInTheDocument();
+  });
+
+  it('/benefits-hub reimbursement maps allowance query into visible STA-73 fields and submitted claim metadata', async () => {
+    const user = userEvent.setup();
+    navigationMocks.useSearchParams.mockReturnValue(new URLSearchParams('allowance=ca-phone'));
+    const { useBenefitClaimsStore } = await import('@/stores/benefit-claims');
+    useBenefitClaimsStore.getState().clear();
+
+    const { default: ReimbursementPage } = await import('@/app/[locale]/benefits-hub/reimbursement/page');
+    render(<ReimbursementPage />);
+
+    expect(screen.getByLabelText('สวัสดิการที่เลือก')).toHaveValue('ค่าโทรศัพท์');
+    expect(screen.getByLabelText('วงเงินคงเหลือ')).toHaveValue('฿4,800');
+    expect(screen.getByLabelText('วันที่เคลม')).toBeInTheDocument();
+    expect(screen.getByLabelText('เลขที่ใบเสร็จ/เอกสาร')).toBeInTheDocument();
+    expect(screen.getByLabelText('จำนวนเงินตามใบเสร็จ (บาท)')).toBeInTheDocument();
+    expect(screen.getByLabelText('ยอดเบิกสุทธิ (บาท)')).toBeInTheDocument();
+    expect(screen.getByLabelText('หมายเหตุ')).toBeInTheDocument();
+
+    await user.clear(screen.getByLabelText('วันที่เคลม'));
+    await user.type(screen.getByLabelText('วันที่เคลม'), '2026-05-20');
+    await user.type(screen.getByLabelText('เลขที่ใบเสร็จ/เอกสาร'), 'MOB-2026-001');
+    await user.type(screen.getByLabelText('วันที่ใบเสร็จ/เอกสาร'), '2026-05-18');
+    await user.type(screen.getByLabelText('จำนวนเงินตามใบเสร็จ (บาท)'), '799');
+    await user.type(screen.getByLabelText('ยอดเบิกสุทธิ (บาท)'), '799');
+    await user.type(screen.getByLabelText('หมายเหตุ'), 'ค่าโทรศัพท์เดือนพฤษภาคม');
+    await user.click(screen.getByRole('button', { name: 'ส่งคำขอเบิกสวัสดิการ' }));
+
+    const [claim] = useBenefitClaimsStore.getState().claims;
+    expect(claim.benefitType).toBe('mobile');
+    expect(claim.benefitCode).toBe('BE-MOB-001');
+    expect(claim.benefitName).toBe('ค่าโทรศัพท์');
+    expect(claim.receiptNo).toBe('MOB-2026-001');
+    expect(claim.receiptDate).toBe('2026-05-18');
+    expect(claim.receiptAmount).toBe(799);
+    expect(claim.totalClaimAmount).toBe(799);
+    expect(claim.remainingAmount).toBe(4800);
   });
 
   it('/benefits-hub presents a Benefit Work Zone with exactly two benefit-owned actions', async () => {
@@ -139,6 +194,7 @@ describe('benefit claim journey canonical route', () => {
     } = await import('@/lib/benefit-routes');
 
     expect(benefitProfileRoute('th')).toBe('/th/profile/me?tab=benefits');
+    expect(benefitReimbursementRoute('th', 'ca-medical')).toBe('/th/benefits-hub/reimbursement?allowance=ca-medical');
     expect(benefitReferralRoute('th')).toBe('/th/benefits-hub/referral');
     expect(benefitTaxPlanningRoute('th')).toBe('/th/payroll/tax-planning');
     expect(benefitsHubRoute('th')).toBe('/th/benefits-hub');

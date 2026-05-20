@@ -13,8 +13,9 @@ export function benefitProfileRoute(locale: string | null | undefined) {
   return localizedRoute(locale, BENEFIT_PROFILE_ROUTE);
 }
 
-export function benefitReimbursementRoute(locale: string | null | undefined) {
-  return localizedRoute(locale, BENEFIT_REIMBURSEMENT_ROUTE);
+export function benefitReimbursementRoute(locale: string | null | undefined, allowanceId?: string) {
+  const route = localizedRoute(locale, BENEFIT_REIMBURSEMENT_ROUTE);
+  return allowanceId ? `${route}?allowance=${encodeURIComponent(allowanceId)}` : route;
 }
 
 export function benefitHospitalClaimRoute(locale: string | null | undefined) {

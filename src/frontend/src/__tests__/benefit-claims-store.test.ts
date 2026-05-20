@@ -19,8 +19,10 @@ describe('benefit claim store', () => {
       benefitType: 'medical',
       receiptNo: 'RCPT-001',
       receiptDate: '2026-04-29',
+      claimDate: '2026-04-28',
       receiptAmount: 1500,
       totalClaimAmount: 1500,
+      remark: 'OPD follow-up',
       hospitalName: 'Bangkok Hospital',
       attachments: [{ id: 'a1', filename: 'receipt.pdf', sizeMb: 1 }],
     });
@@ -28,6 +30,8 @@ describe('benefit claim store', () => {
     expect(claim.id).toMatch(/^BEN-CLM-/);
     expect(claim.workflowRequestId).toMatch(/^REQ-BEN-/);
     expect(claim.status).toBe('pending_spd');
+    expect(claim.claimDate).toBe('2026-04-28');
+    expect(claim.remark).toBe('OPD follow-up');
     expect(claim.audit).toHaveLength(1);
 
     const [row] = selectBenefitRequestSummaries(useBenefitClaimsStore.getState().claims);
@@ -57,6 +61,11 @@ describe('benefit claim store', () => {
     const updated = useBenefitClaimsStore.getState().claims[0];
     expect(updated.status).toBe('approved');
     expect(updated.previousVersions).toHaveLength(1);
+    expect(updated.previousVersions[0]).toMatchObject({
+      receiptNo: 'FUEL-001',
+      claimDate: '2026-04-29',
+      remark: '',
+    });
     expect(updated.audit.map((entry) => entry.action)).toEqual(['submit', 'send_back', 'resubmit', 'approve']);
   });
 
@@ -78,10 +87,104 @@ describe('benefit claim store', () => {
   });
 
   it('provides a persist migration for stored benefit-claims snapshots', () => {
-    expect(BENEFIT_CLAIMS_PERSIST_VERSION).toBeGreaterThan(0);
+    expect(BENEFIT_CLAIMS_PERSIST_VERSION).toBe(2);
 
     const migrated = migrateBenefitClaimsPersistedState({ claims: [] });
     expect(migrated.claims).toEqual([]);
+
+    const receiptDateFallback = migrateBenefitClaimsPersistedState({
+      claims: [{
+        id: 'old-claim-1',
+        workflowRequestId: 'REQ-OLD-1',
+        employeeId: 'EMP001',
+        employeeName: 'จงรักษ์ ทานากะ',
+        company: 'Central Group',
+        businessUnit: 'People Operations',
+        employeeGroup: 'Monthly',
+        personalGrade: 'PG4',
+        benefitType: 'medical',
+        benefitCode: 'BEN-MED-OPD',
+        benefitName: 'ค่ารักษาพยาบาล',
+        remainingAmount: 1000,
+        currency: 'THB',
+        receiptNo: 'OLD-001',
+        receiptDate: '2026-03-03',
+        receiptAmount: 100,
+        totalClaimAmount: 100,
+        status: 'pending_spd',
+        submittedAt: '2026-03-04T02:00:00.000Z',
+        updatedAt: '2026-03-04T02:00:00.000Z',
+        attachments: [],
+        audit: [],
+        version: 1,
+        previousVersions: [{ receiptNo: 'OLD-000', receiptAmount: 90, totalClaimAmount: 90, updatedAt: '2026-03-02T02:00:00.000Z', version: 1 }],
+      }],
+    });
+    expect(receiptDateFallback.claims?.[0]).toMatchObject({
+      claimDate: '2026-03-03',
+      remark: '',
+      previousVersions: [{ claimDate: '2026-03-03', remark: '' }],
+    });
+
+    const submittedAtFallback = migrateBenefitClaimsPersistedState({
+      claims: [{
+        id: 'old-claim-2',
+        workflowRequestId: 'REQ-OLD-2',
+        employeeId: 'EMP001',
+        employeeName: 'จงรักษ์ ทานากะ',
+        company: 'Central Group',
+        businessUnit: 'People Operations',
+        employeeGroup: 'Monthly',
+        personalGrade: 'PG4',
+        benefitType: 'medical',
+        benefitCode: 'BEN-MED-OPD',
+        benefitName: 'ค่ารักษาพยาบาล',
+        remainingAmount: 1000,
+        currency: 'THB',
+        receiptNo: 'OLD-002',
+        receiptDate: '',
+        receiptAmount: 100,
+        totalClaimAmount: 100,
+        claimDate: '2026-03-05',
+        remark: 'preserve me',
+        status: 'pending_spd',
+        submittedAt: '2026-03-06T02:00:00.000Z',
+        updatedAt: '2026-03-06T02:00:00.000Z',
+        attachments: [],
+        audit: [],
+        version: 1,
+        previousVersions: [{ receiptNo: 'OLD-001', receiptAmount: 90, totalClaimAmount: 90, claimDate: '2026-03-04', remark: 'old note', updatedAt: '2026-03-05T02:00:00.000Z', version: 1 }],
+      }, {
+        id: 'old-claim-3',
+        workflowRequestId: 'REQ-OLD-3',
+        employeeId: 'EMP001',
+        employeeName: 'จงรักษ์ ทานากะ',
+        company: 'Central Group',
+        businessUnit: 'People Operations',
+        employeeGroup: 'Monthly',
+        personalGrade: 'PG4',
+        benefitType: 'medical',
+        benefitCode: 'BEN-MED-OPD',
+        benefitName: 'ค่ารักษาพยาบาล',
+        remainingAmount: 1000,
+        currency: 'THB',
+        receiptNo: 'OLD-003',
+        receiptDate: '',
+        receiptAmount: 100,
+        totalClaimAmount: 100,
+        status: 'pending_spd',
+        submittedAt: '2026-03-07T02:00:00.000Z',
+        updatedAt: '2026-03-07T02:00:00.000Z',
+        attachments: [],
+        audit: [],
+        version: 1,
+        previousVersions: [],
+      }],
+    });
+    expect(submittedAtFallback.claims?.[0].claimDate).toBe('2026-03-05');
+    expect(submittedAtFallback.claims?.[0].remark).toBe('preserve me');
+    expect(submittedAtFallback.claims?.[0].previousVersions[0]).toMatchObject({ claimDate: '2026-03-04', remark: 'old note' });
+    expect(submittedAtFallback.claims?.[1].claimDate).toBe('2026-03-07');
 
     const fallback = migrateBenefitClaimsPersistedState({ stale: true });
     expect(fallback.claims?.length).toBeGreaterThan(0);

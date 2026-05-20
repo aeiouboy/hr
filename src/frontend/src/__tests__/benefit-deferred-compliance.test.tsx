@@ -41,7 +41,7 @@ describe('deferred benefit journey and token compliance', () => {
   it('routes only benefit-owned services through Benefits Hub and keeps tax planning out of the hub', () => {
     render(<BenefitServicesPanel locale="th" onOpenClaim={vi.fn()} />);
 
-    expect(screen.getByRole('heading', { name: 'เลือกงานที่ต้องการทำ' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'เลือกสวัสดิการที่ต้องการ' })).toBeInTheDocument();
     expect(document.querySelectorAll('[data-benefit-owned-action="true"]')).toHaveLength(2);
     expect(screen.getByRole('link', { name: /ขอใบส่งตัว/ })).toHaveAttribute('href', '/th/benefits-hub/referral');
     expect(screen.queryByRole('link', { name: /วางแผนภาษี/ })).not.toBeInTheDocument();

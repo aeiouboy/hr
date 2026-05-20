@@ -2,7 +2,7 @@
 // Import via: `import { SimpleClaimForm, pickTemplate } from '@/components/benefits/templates';`
 
 export { SimpleClaimForm } from './SimpleClaimForm';
-export type { BenefitTemplateProps } from './SimpleClaimForm';
+export type { BenefitTemplateProps, SimpleClaimSubmission } from './SimpleClaimForm';
 
 export { HospitalClaimForm } from './HospitalClaimForm';
 export { RecordsFlatForm } from './RecordsFlatForm';

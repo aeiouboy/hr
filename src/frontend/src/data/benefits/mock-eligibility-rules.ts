@@ -19,13 +19,24 @@ export type MockEligibilityRule = {
   effective_from: string;
   effective_to: string | null;
   policy_profile: string | null;
+  rule_id: string | null;
+  rule_name: string | null;
+  plan_id: string | null;
+  status: 'draft' | 'active' | 'inactive' | null;
+  business_unit: string | null;
+  company_code: string | null;
   employee_group: string | null;
+  employee_subgroup: string | null;
+  dvt_project: string | null;
   pg_from: number | null;
   pg_to: number | null;
   plan_effective: string | null;
+  effective_type: 'hire_date' | 'pass_probation_date' | 'day_from_hire_date' | 'hour_from_hire_date' | null;
+  waiting_period_days: number | null;
   no_of_years_from_hiring: number | null;
   hiring_date_from: string | null;
   hiring_date_to: string | null;
+  claim_period: string | null;
   entitlement_amount: number | null;
   max_per_claim: number | null;
   company: string | null;
@@ -36,15 +47,29 @@ export type MockEligibilityRule = {
 const COMMON: Pick<MockEligibilityRule,
   'created_by' | 'effective_from' | 'effective_to' | 'plan_effective' |
   'no_of_years_from_hiring' | 'hiring_date_from' | 'hiring_date_to' |
-  'company' | 'job_code' | 'additional_condition'
+  'company' | 'company_code' | 'job_code' | 'additional_condition' |
+  'rule_id' | 'rule_name' | 'plan_id' | 'status' | 'business_unit' |
+  'employee_subgroup' | 'dvt_project' | 'effective_type' | 'waiting_period_days' |
+  'claim_period'
 > = {
   created_by: 'system-seed',
   effective_from: '2026-01-01',
   effective_to: null,
   plan_effective: 'hire_date',
+  effective_type: 'hire_date',
+  rule_id: null,
+  rule_name: null,
+  plan_id: 'TH_MAD_001',
+  status: 'active',
+  business_unit: null,
+  company_code: 'CG',
   no_of_years_from_hiring: null,
   hiring_date_from: null,
   hiring_date_to: null,
+  waiting_period_days: null,
+  claim_period: null,
+  employee_subgroup: null,
+  dvt_project: null,
   company: 'CG',
   job_code: null,
   additional_condition: null,

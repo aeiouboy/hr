@@ -3,10 +3,10 @@
 // — some collapse to one plan, others split into tiers like Medical OPD/IPD).
 //
 // Each plan binds to one of 6 reusable workflow templates so the UI does NOT
-// need 27 bespoke screens. Plan-name prefix encodes workflow:
-//   [Records] = admin-only logging      → records-flat / records-dependent
-//   [Info]    = display-only             → records-computed
-//   <no prefix> = employee-claimable    → simple-claim / hospital-claim
+// need 27 bespoke screens. Record type encodes workflow:
+//   records = admin-only logging         → records-flat / records-dependent
+//   info    = display-only               → records-computed
+//   claimable = employee-claimable       → simple-claim / hospital-claim
 //
 // schemaVersion discriminator:
 //   'v2' — all 28 plans on A3 hybrid sub-objects (coverage, eligibility,
@@ -35,6 +35,22 @@ export type PlanCategory =
   | 'lifecycle';
 
 export type RecordType = 'records' | 'info' | 'claimable';
+
+export type BenefitTypeGroup = 'reimbursement-employee-hr' | 'reimbursement-hr' | 'info' | 'record';
+
+export function deriveRecordTypeFromBenefitTypeGroup(
+  benefitTypeGroup: BenefitTypeGroup,
+): RecordType {
+  switch (benefitTypeGroup) {
+    case 'record':
+      return 'records';
+    case 'info':
+      return 'info';
+    case 'reimbursement-employee-hr':
+    case 'reimbursement-hr':
+      return 'claimable';
+  }
+}
 
 /** Approver chain stages, in order. Manager is intentionally absent for BE
  *  flows because Manager has 0 fields on BenefitEmployeeClaim per SF probe. */
@@ -133,7 +149,7 @@ export interface BenefitPlanV1 {
    * STA-70 — Top-level benefit-type grouping for configurator. Distinct from the
    * nested `coverage.benefitType` string. Optional; use-site default derives from `recordType`.
    */
-  benefitTypeGroup?: 'reimbursement-employee-hr' | 'reimbursement-hr' | 'info' | 'record';
+  benefitTypeGroup?: BenefitTypeGroup;
   /** STA-70 follow-up — Enrolment mode. */
   enrolment?: 'auto' | 'manual';
   /** STA-70 follow-up — Claim period grouping. */
@@ -183,7 +199,7 @@ export interface BenefitPlanV2 {
   /** STA-70 — Active/Inactive flag. Optional; existing seeds default to 'active' at use sites. */
   status?: 'active' | 'inactive';
   /** STA-70 — Top-level benefit-type grouping. Optional; use-site default derives from `recordType`. */
-  benefitTypeGroup?: 'reimbursement-employee-hr' | 'reimbursement-hr' | 'info' | 'record';
+  benefitTypeGroup?: BenefitTypeGroup;
   /** STA-70 follow-up — Enrolment mode. */
   enrolment?: 'auto' | 'manual';
   /** STA-70 follow-up — Claim period grouping. */

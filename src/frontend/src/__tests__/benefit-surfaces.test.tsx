@@ -66,6 +66,6 @@ describe('benefit workflow/admin surfaces', () => {
     expect(screen.getByText('Benefit claim report fields')).toBeInTheDocument();
     expect(screen.getByText(/Read-only payment period status/)).toBeInTheDocument();
     expect(screen.getByText('Data permission group editing')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Export CSV disabled' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Export CSV (จำลอง)' })).toBeEnabled();
   });
 });

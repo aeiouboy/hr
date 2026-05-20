@@ -49,10 +49,12 @@ export interface BenefitClaimRequest {
   currency: 'THB';
   receiptNo: string;
   receiptDate: string;
+  claimDate: string;
   receiptAmount: number;
   totalClaimAmount: number;
   /** Compatibility alias from earlier claim-form drafts. */
   claimAmount?: number;
+  remark: string;
   status: BenefitClaimStatus;
   submittedAt: string;
   updatedAt: string;
@@ -70,7 +72,7 @@ export interface BenefitClaimRequest {
   /** Q10 Option A: original remaining amount at time of submission for auto-restore on Send Back. */
   originalRemainingAmount?: number;
   version: number;
-  previousVersions: Array<Pick<BenefitClaimRequest, 'receiptNo' | 'receiptAmount' | 'totalClaimAmount' | 'updatedAt' | 'version'>>;
+  previousVersions: Array<Pick<BenefitClaimRequest, 'receiptNo' | 'receiptAmount' | 'totalClaimAmount' | 'claimDate' | 'remark' | 'updatedAt' | 'version'>>;
 }
 
 export interface BenefitClaimInput {
@@ -88,10 +90,14 @@ export interface BenefitClaimInput {
   remainingAmount?: number;
   receiptNo: string;
   receiptDate: string;
+  claimDate?: string;
   receiptAmount: number;
   totalClaimAmount?: number;
   /** Compatibility alias from earlier claim-form drafts. */
   claimAmount?: number;
+  remark?: string;
+  /** Compatibility alias from medical-claim drafts. */
+  remarks?: string;
   hospitalType?: string;
   opdIpd?: string;
   hospitalName?: string;
@@ -225,6 +231,28 @@ function normalizeAttachments(attachments: BenefitAttachment[] = []): BenefitAtt
   }));
 }
 
+function deriveClaimDate(claim: { claimDate?: unknown; receiptDate?: unknown; submittedAt?: unknown }): string {
+  if (typeof claim.claimDate === 'string' && claim.claimDate.trim()) return claim.claimDate;
+  if (typeof claim.receiptDate === 'string' && claim.receiptDate.trim()) return claim.receiptDate;
+  if (typeof claim.submittedAt === 'string' && claim.submittedAt.length >= 10) return claim.submittedAt.slice(0, 10);
+  return '';
+}
+
+function normalizePersistedClaim(claim: BenefitClaimRequest): BenefitClaimRequest {
+  const claimDate = deriveClaimDate(claim);
+  const remark = typeof claim.remark === 'string' ? claim.remark : '';
+  return {
+    ...claim,
+    claimDate,
+    remark,
+    previousVersions: (claim.previousVersions ?? []).map((version) => ({
+      ...version,
+      claimDate: deriveClaimDate({ ...version, claimDate: version.claimDate }) || claimDate,
+      remark: typeof version.remark === 'string' ? version.remark : '',
+    })),
+  };
+}
+
 const initialClaims: BenefitClaimRequest[] = [
   // STA-28 PR-C: seed claim pending manager approval — routable at /workflows/benefit-claim/BEN-CLM-MGR1
   {
@@ -244,8 +272,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0501',
     receiptDate: '2026-05-01',
+    claimDate: '2026-05-01',
     receiptAmount: 3200,
     totalClaimAmount: 3200,
+    remark: '',
     status: 'pending_manager_approval',
     submittedAt: '2026-05-16T08:00:00.000Z',
     updatedAt: '2026-05-16T08:00:00.000Z',
@@ -280,8 +310,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0415',
     receiptDate: '2026-04-15',
+    claimDate: '2026-04-15',
     receiptAmount: 4820,
     totalClaimAmount: 4820,
+    remark: '',
     status: 'pending_spd',
     submittedAt: '2026-04-15T09:20:00.000Z',
     updatedAt: '2026-04-15T09:20:00.000Z',
@@ -311,8 +343,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0301',
     receiptDate: '2026-03-01',
+    claimDate: '2026-03-01',
     receiptAmount: 3500,
     totalClaimAmount: 3500,
+    remark: '',
     status: 'approved',
     submittedAt: '2026-03-01T08:00:00.000Z',
     updatedAt: '2026-03-02T10:00:00.000Z',
@@ -343,8 +377,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0210',
     receiptDate: '2026-02-10',
+    claimDate: '2026-02-10',
     receiptAmount: 2200,
     totalClaimAmount: 2200,
+    remark: '',
     status: 'approved',
     submittedAt: '2026-02-10T09:30:00.000Z',
     updatedAt: '2026-02-11T14:00:00.000Z',
@@ -373,8 +409,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0115',
     receiptDate: '2026-01-15',
+    claimDate: '2026-01-15',
     receiptAmount: 599,
     totalClaimAmount: 599,
+    remark: '',
     status: 'approved',
     submittedAt: '2026-01-15T11:00:00.000Z',
     updatedAt: '2026-01-16T09:00:00.000Z',
@@ -402,8 +440,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0320',
     receiptDate: '2026-03-20',
+    claimDate: '2026-03-20',
     receiptAmount: 4800,
     totalClaimAmount: 4800,
+    remark: '',
     status: 'approved',
     submittedAt: '2026-03-20T13:00:00.000Z',
     updatedAt: '2026-03-21T10:00:00.000Z',
@@ -431,8 +471,10 @@ const initialClaims: BenefitClaimRequest[] = [
     currency: 'THB',
     receiptNo: 'RCPT-2026-0228',
     receiptDate: '2026-02-28',
+    claimDate: '2026-02-28',
     receiptAmount: 7800,
     totalClaimAmount: 7800,
+    remark: '',
     status: 'approved',
     submittedAt: '2026-02-28T15:00:00.000Z',
     updatedAt: '2026-03-01T09:00:00.000Z',
@@ -450,7 +492,7 @@ const initialClaims: BenefitClaimRequest[] = [
   },
 ];
 
-export const BENEFIT_CLAIMS_PERSIST_VERSION = 1;
+export const BENEFIT_CLAIMS_PERSIST_VERSION = 2;
 
 export function migrateBenefitClaimsPersistedState(
   persistedState: unknown,
@@ -460,7 +502,11 @@ export function migrateBenefitClaimsPersistedState(
     typeof persistedState === 'object' &&
     Array.isArray((persistedState as { claims?: unknown }).claims)
   ) {
-    return persistedState as Partial<BenefitClaimsState>;
+    const state = persistedState as Partial<BenefitClaimsState>;
+    return {
+      ...state,
+      claims: state.claims?.map(normalizePersistedClaim) ?? [],
+    };
   }
   return { claims: initialClaims };
 }
@@ -491,9 +537,11 @@ export const useBenefitClaimsStore = create<BenefitClaimsState>()(
           currency: 'THB',
           receiptNo: input.receiptNo,
           receiptDate: input.receiptDate,
+          claimDate: input.claimDate ?? input.receiptDate,
           receiptAmount: input.receiptAmount,
           totalClaimAmount,
           claimAmount: totalClaimAmount,
+          remark: input.remark ?? input.remarks ?? '',
           status: 'pending_spd',
           submittedAt: at,
           updatedAt: at,
@@ -519,14 +567,25 @@ export const useBenefitClaimsStore = create<BenefitClaimsState>()(
         claims: s.claims.map((claim) => {
           if (claim.id !== id) return claim;
           const at = nowIso();
+          const remark = input.remark ?? input.remarks ?? claim.remark;
           return {
             ...claim,
             ...input,
+            claimDate: input.claimDate ?? claim.claimDate,
+            remark,
             status: 'pending_spd',
             updatedAt: at,
             correctionReason: undefined,
             version: claim.version + 1,
-            previousVersions: [{ receiptNo: claim.receiptNo, receiptAmount: claim.receiptAmount, totalClaimAmount: claim.totalClaimAmount, updatedAt: claim.updatedAt, version: claim.version }, ...claim.previousVersions],
+            previousVersions: [{
+              receiptNo: claim.receiptNo,
+              receiptAmount: claim.receiptAmount,
+              totalClaimAmount: claim.totalClaimAmount,
+              claimDate: claim.claimDate,
+              remark: claim.remark,
+              updatedAt: claim.updatedAt,
+              version: claim.version,
+            }, ...claim.previousVersions],
             audit: [...claim.audit, { at, actorRole: actor.role, actorName: actor.name, action: 'resubmit', note: 'ส่งกลับหลังแก้ไข' }],
           };
         }),

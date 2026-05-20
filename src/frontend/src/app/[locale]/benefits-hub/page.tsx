@@ -493,6 +493,13 @@ function ClaimsTab() {
                 />
               </div>
               <p className="mt-2 text-small text-ink-muted">{b.sub}</p>
+              <Link
+                href={benefitReimbursementRoute(locale, b.id)}
+                className={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'mt-3 w-full justify-center')}
+              >
+                <Plus size={14} aria-hidden />
+                <span>เบิก{b.label}</span>
+              </Link>
             </Card>
           );
         })}
