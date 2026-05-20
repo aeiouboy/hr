@@ -184,18 +184,26 @@ export interface EligibilityRule {
   effective_from: string;
   effective_to: string | null;
   // SF-aligned fields
+  rule_name?: string | null;
+  status?: string | null;
   policy_profile: string | null;
+  business_unit?: string | null;
+  company: string | null;
+  company_code?: string | null;
+  job_code: string | null;
   employee_group: string | null;
+  employee_subgroup?: string | null;
+  dvt_project?: string | null;
   pg_from: number | null;
   pg_to: number | null;
   plan_effective: string | null;
+  waiting_period?: number | null;
   no_of_years_from_hiring: number | null;
   hiring_date_from: string | null;
   hiring_date_to: string | null;
+  claim_period?: string | null;
   entitlement_amount: number | null;
   max_per_claim: number | null;
-  company: string | null;
-  job_code: string | null;
   additional_condition: string | null;
 }
 
@@ -208,18 +216,28 @@ export interface EligibilityRuleInput {
   auto_approve_max?: number | null;
   created_by: string;
   // SF-aligned fields
+  rule_name?: string | null;
+  status?: string | null;
+  effective_from?: string | null;
+  effective_to?: string | null;
   policy_profile?: string | null;
+  business_unit?: string | null;
+  company?: string | null;
+  company_code?: string | null;
+  job_code?: string | null;
   employee_group?: string | null;
+  employee_subgroup?: string | null;
+  dvt_project?: string | null;
   pg_from?: number | null;
   pg_to?: number | null;
   plan_effective?: string | null;
+  waiting_period?: number | null;
   no_of_years_from_hiring?: number | null;
   hiring_date_from?: string | null;
   hiring_date_to?: string | null;
+  claim_period?: string | null;
   entitlement_amount?: number | null;
   max_per_claim?: number | null;
-  company?: string | null;
-  job_code?: string | null;
   additional_condition?: string | null;
 }
 

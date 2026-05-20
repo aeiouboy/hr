@@ -20,7 +20,7 @@ export interface BenefitTemplateProps {
 // ── SimpleClaimForm ───────────────────────────────────────────────────────────
 // Template: simple-claim
 // Use cases: OPD medical, dental, physical checkup, gasoline, toll, parking
-// Renders: receipt no, receipt date, amount, attachments + approval chain
+// Renders: selected benefit, claim date, remaining amount, receipt/doc no, amounts, remark, attachments + approval chain
 
 export function SimpleClaimForm({
   plan,
@@ -34,14 +34,21 @@ export function SimpleClaimForm({
   const requiredDocs = isTh ? plan.requiredDocsTh : plan.requiredDocsEn;
 
   const [form, setForm] = useState({
+    claimDate: '',
     receiptNo: '',
-    receiptDate: '',
     receiptAmount: '',
     claimAmount: '',
+    remark: '',
     attachmentName: '',
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [lastWorkflowId, setLastWorkflowId] = useState<string | null>(null);
+
+  const receiptAmountNumber = Number(form.receiptAmount);
+  const totalClaimAmount = form.claimAmount || form.receiptAmount;
+  const remainingAmount = plan.annualLimitThb === null
+    ? null
+    : Math.max(0, plan.annualLimitThb - (Number.isFinite(receiptAmountNumber) ? receiptAmountNumber : 0));
 
   const setField = (field: keyof typeof form, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -54,8 +61,8 @@ export function SimpleClaimForm({
     if (!form.receiptNo.trim()) {
       nextErrors.push(isTh ? 'กรุณาระบุเลขที่ใบเสร็จ' : 'Receipt number is required');
     }
-    if (!form.receiptDate) {
-      nextErrors.push(isTh ? 'กรุณาระบุวันที่ใบเสร็จ' : 'Receipt date is required');
+    if (!form.claimDate) {
+      nextErrors.push(isTh ? 'กรุณาระบุวันที่เคลม' : 'Claim date is required');
     }
     const amount = Number(form.receiptAmount);
     if (!Number.isFinite(amount) || amount <= 0) {
@@ -67,7 +74,7 @@ export function SimpleClaimForm({
     }
     const wfId = `WF-${Date.now()}`;
     setLastWorkflowId(wfId);
-    setForm({ receiptNo: '', receiptDate: '', receiptAmount: '', claimAmount: '', attachmentName: '' });
+    setForm({ claimDate: '', receiptNo: '', receiptAmount: '', claimAmount: '', remark: '', attachmentName: '' });
     setErrors([]);
     onSubmitted?.(wfId);
   };
@@ -85,7 +92,40 @@ export function SimpleClaimForm({
       )}
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        <FormField id={`${plan.id}-receipt-no`} label={isTh ? 'เลขที่ใบเสร็จ/เอกสาร' : 'Receipt / doc no.'} required>
+        <FormField id={`${plan.id}-selected-benefit`} label={isTh ? 'สวัสดิการที่เลือก' : 'Selected benefit'}>
+          {(controlProps) => (
+            <FormInput
+              {...controlProps}
+              value={planName}
+              readOnly
+              className="bg-canvas-soft text-ink-muted"
+            />
+          )}
+        </FormField>
+
+        <FormField id={`${plan.id}-claim-date`} label={isTh ? 'วันที่เคลม' : 'Claim date'} required>
+          {(controlProps) => (
+            <FormInput
+              {...controlProps}
+              type="date"
+              value={form.claimDate}
+              onChange={(e) => setField('claimDate', e.target.value)}
+            />
+          )}
+        </FormField>
+
+        <FormField id={`${plan.id}-remaining-amount`} label={isTh ? 'วงเงินคงเหลือ' : 'Remaining amount'}>
+          {(controlProps) => (
+            <FormInput
+              {...controlProps}
+              value={remainingAmount === null ? (isTh ? 'ไม่ระบุวงเงิน' : 'No limit configured') : `${remainingAmount.toLocaleString()} THB`}
+              readOnly
+              className="bg-canvas-soft text-ink-muted"
+            />
+          )}
+        </FormField>
+
+        <FormField id={`${plan.id}-receipt-no`} label={isTh ? 'เลขที่ใบเสร็จ/เอกสาร' : 'Receipt no. / Document No.'} required>
           {(controlProps) => (
             <FormInput
               {...controlProps}
@@ -96,18 +136,7 @@ export function SimpleClaimForm({
           )}
         </FormField>
 
-        <FormField id={`${plan.id}-receipt-date`} label={isTh ? 'วันที่ใบเสร็จ/เอกสาร' : 'Receipt date'} required>
-          {(controlProps) => (
-            <FormInput
-              {...controlProps}
-              type="date"
-              value={form.receiptDate}
-              onChange={(e) => setField('receiptDate', e.target.value)}
-            />
-          )}
-        </FormField>
-
-        <FormField id={`${plan.id}-receipt-amount`} label={isTh ? 'จำนวนเงินตามใบเสร็จ (บาท)' : 'Receipt amount (THB)'} required>
+        <FormField id={`${plan.id}-receipt-amount`} label={isTh ? 'จำนวนเงินตามใบเสร็จ' : 'Receipt Amount'} required>
           {(controlProps) => (
             <FormInput
               {...controlProps}
@@ -120,15 +149,26 @@ export function SimpleClaimForm({
 
         <FormField
           id={`${plan.id}-claim-amount`}
-          label={isTh ? 'จำนวนเงินที่ขอเบิก (บาท)' : 'Claim amount (THB)'}
+          label={isTh ? 'ยอดรวมที่ขอเบิก' : 'Total Claim Amount'}
           help={isTh ? 'เว้นว่างเพื่อใช้ยอดตามใบเสร็จ' : 'Leave blank to use receipt amount'}
         >
           {(controlProps) => (
             <FormInput
               {...controlProps}
               inputMode="numeric"
-              value={form.claimAmount}
+              value={totalClaimAmount}
               onChange={(e) => setField('claimAmount', e.target.value)}
+            />
+          )}
+        </FormField>
+
+        <FormField id={`${plan.id}-remark`} label={isTh ? 'หมายเหตุ' : 'Remark'}>
+          {(controlProps) => (
+            <FormInput
+              {...controlProps}
+              value={form.remark}
+              onChange={(e) => setField('remark', e.target.value)}
+              placeholder={isTh ? 'ระบุหมายเหตุเพิ่มเติม' : 'Additional note'}
             />
           )}
         </FormField>

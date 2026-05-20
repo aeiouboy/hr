@@ -343,9 +343,19 @@ function BenefitsTab() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 text-small font-semibold text-accent">
-                คลิกการ์ดเพื่อดูรายละเอียด
-              </p>
+              <div className="mt-5 flex items-center justify-between gap-3">
+                <p className="text-small font-semibold text-accent">
+                  คลิกการ์ดเพื่อดูรายละเอียด
+                </p>
+                <Link
+                  href={benefitReimbursementRoute(locale)}
+                  onClick={(event) => event.stopPropagation()}
+                  onKeyDown={(event) => event.stopPropagation()}
+                  className={buttonVariants({ variant: 'primary', size: 'sm' })}
+                >
+                  Claim
+                </Link>
+              </div>
             </Card>
           );
         })}

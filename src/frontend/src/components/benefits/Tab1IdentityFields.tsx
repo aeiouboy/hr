@@ -461,28 +461,6 @@ export function Tab1IdentityFields({
           </FormField>
         </div>
 
-        {/* 16. Eligible claim date */}
-        <div className="mt-4">
-          <FormField
-            id="tab1-eligibleClaimDate"
-            label={isTh ? 'วันเริ่มเบิกได้ (Eligible claim date)' : 'Eligible claim date'}
-            required
-          >
-            {(cp) => (
-              <select
-                {...cp}
-                value={values.eligibleClaimDate}
-                onChange={(e) => onChange('eligibleClaimDate', e.target.value as EligibleClaimDate)}
-                className={selectClass}
-              >
-                <option value="30">{isTh ? '30 วัน' : '30 days'}</option>
-                <option value="60">{isTh ? '60 วัน' : '60 days'}</option>
-                <option value="90">{isTh ? '90 วัน' : '90 days'}</option>
-                <option value="none">{isTh ? 'ไม่จำกัด (No eligible claim date)' : 'No eligible claim date'}</option>
-              </select>
-            )}
-          </FormField>
-        </div>
       </div>
 
       {/* ── STA-70 Legal Entity section ─────────────────────────────────── */}

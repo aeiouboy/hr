@@ -24,16 +24,26 @@ import {
 const POLICY_PROFILES = ['CPN', 'RIS', 'CRC', 'CPFM', 'CPN-FOOD'] as const;
 
 const EMPLOYEE_GROUPS = [
-  { value: 'A', label: 'A - Permanent (A)', color: 'bg-blue-50 text-blue-700 border-blue-200' },
-  { value: 'B', label: 'B - Contract (B)',  color: 'bg-amber-50 text-amber-700 border-amber-200' },
-  { value: 'C', label: 'C - Outsource (C)', color: 'bg-purple-50 text-purple-700 border-purple-200' },
-  { value: 'D', label: 'D - Probation (D)', color: 'bg-slate-50 text-slate-600 border-slate-200' },
+  { value: 'A', label: 'A - Permanent',         color: 'bg-blue-50 text-blue-700 border-blue-200' },
+  { value: 'B', label: 'B - Expat Outbound',    color: 'bg-amber-50 text-amber-700 border-amber-200' },
+  { value: 'C', label: 'C - Expat Inbound',     color: 'bg-purple-50 text-purple-700 border-purple-200' },
+  { value: 'D', label: 'D - Retirement',        color: 'bg-slate-50 text-slate-600 border-slate-200' },
+  { value: 'E', label: 'E - Temporary',         color: 'bg-cyan-50 text-cyan-700 border-cyan-200' },
+  { value: 'F', label: 'F - DVT',               color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+  { value: 'G', label: 'G - Internship',        color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  { value: 'H', label: 'H - Contingent Worker', color: 'bg-stone-50 text-stone-700 border-stone-200' },
 ] as const;
 
+const EMPLOYEE_SUBGROUPS = ['Permanent', 'Expat Outbound', 'Expat Inbound', 'Retirement', 'Temporary', 'DVT', 'Internship', 'Contingent Worker'] as const;
+
 const PLAN_EFFECTIVE_OPTIONS = [
-  { value: 'hire_date',     label: 'วันที่เริ่มงาน (Hire Date)' },
-  { value: 'specific_date', label: 'วันที่กำหนด (Specific Date)' },
+  { value: 'hire_date',           label: 'HireDate' },
+  { value: 'pass_probation_date', label: 'PassProbationDate' },
+  { value: 'day_from_hire_date',  label: 'DayFromHireDate' },
+  { value: 'hour_from_hire_date', label: 'HourFromHireDate' },
 ] as const;
+
+const CLAIM_PERIOD_OPTIONS = ['Year', 'Month', 'Quarter', 'One-time', 'Lifetime'] as const;
 
 const PREVIEW_ROWS = 5;
 
@@ -169,7 +179,7 @@ export function EntitlementRulesManager() {
           {grouped.map(({ key, plan, rules: groupRules }) => {
             const isCollapsed = collapsed.has(key);
             return (
-              <div key={key} className="rounded-lg border border-hairline overflow-hidden">
+              <div key={key} className="rounded-md border border-hairline overflow-hidden">
                 <button
                   type="button"
                   onClick={() => toggleCollapse(key)}
@@ -303,6 +313,9 @@ function RuleRow({ rule, onEdit, onDelete, onHistory }: { rule: EligibilityRule;
           {rule.job_code && (
             <span className="text-small text-ink-muted">Job: <span className="font-semibold text-ink">{rule.job_code}</span></span>
           )}
+          {'rule_name' in rule && typeof rule.rule_name === 'string' && rule.rule_name && (
+            <span className="text-small text-ink-muted">Rule: <span className="font-semibold text-ink">{rule.rule_name}</span></span>
+          )}
         </div>
         <div className="shrink-0 text-right">
           <div className="font-display text-[18px] font-bold text-ink tabular-nums">฿{(rule.entitlement_amount ?? 0).toLocaleString('th-TH')}</div>
@@ -346,24 +359,35 @@ function RuleForm({ initialRule, createdBy, onSave, onCancel }: RuleFormProps) {
   const isEdit = !!initialRule;
 
   const [benefitKey,     setBenefitKey]     = useState<BenefitKey>((initialRule?.benefit_key as BenefitKey) ?? 'medical-reimbursement');
+  const [ruleId,         setRuleId]         = useState(initialRule?.id ?? '');
+  const [ruleName,       setRuleName]       = useState(('rule_name' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { rule_name?: string }).rule_name ?? '') : ''));
+  const [status,         setStatus]         = useState(initialRule?.allow === false ? 'inactive' : 'active');
+  const [effectiveStart, setEffectiveStart] = useState(initialRule?.effective_from?.slice(0, 10) ?? new Date().toISOString().slice(0, 10));
+  const [effectiveEnd,   setEffectiveEnd]   = useState(initialRule?.effective_to?.slice(0, 10) ?? '');
   const [policyProfile,  setPolicyProfile]  = useState(initialRule?.policy_profile ?? 'CPN');
+  const [businessUnit,   setBusinessUnit]   = useState(('business_unit' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { business_unit?: string }).business_unit ?? '') : ''));
+  const [company,        setCompany]        = useState(initialRule?.company ?? '');
+  const [companyCode,    setCompanyCode]    = useState(('company_code' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { company_code?: string }).company_code ?? '') : ''));
+  const [jobCode,        setJobCode]        = useState(initialRule?.job_code ?? '');
   const [employeeGroup,  setEmployeeGroup]  = useState(initialRule?.employee_group ?? 'A');
+  const [employeeSubgroup, setEmployeeSubgroup] = useState(('employee_subgroup' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { employee_subgroup?: string }).employee_subgroup ?? '') : 'Permanent'));
+  const [dvtProject,     setDvtProject]     = useState(('dvt_project' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { dvt_project?: string }).dvt_project ?? '') : ''));
   const [pgFrom,         setPgFrom]         = useState(initialRule?.pg_from?.toString() ?? '');
   const [pgTo,           setPgTo]           = useState(initialRule?.pg_to?.toString() ?? '');
-  const [planEffective,  setPlanEffective]  = useState<'hire_date' | 'specific_date'>((initialRule?.plan_effective as 'hire_date' | 'specific_date') ?? 'hire_date');
-  const [noOfYears,      setNoOfYears]      = useState(initialRule?.no_of_years_from_hiring?.toString() ?? '');
+  const [planEffective,  setPlanEffective]  = useState<(typeof PLAN_EFFECTIVE_OPTIONS)[number]['value']>((initialRule?.plan_effective as (typeof PLAN_EFFECTIVE_OPTIONS)[number]['value']) ?? 'hire_date');
+  const [waitingPeriod,  setWaitingPeriod]  = useState(('waiting_period' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { waiting_period?: number | string }).waiting_period ?? '') : ''));
   const [hiringDateFrom, setHiringDateFrom] = useState(initialRule?.hiring_date_from ?? '1900-01-01');
   const [hiringDateTo,   setHiringDateTo]   = useState(initialRule?.hiring_date_to ?? '9999-12-31');
+  const [claimPeriod,    setClaimPeriod]    = useState(('claim_period' in (initialRule ?? {}) ? String((initialRule as EligibilityRule & { claim_period?: string }).claim_period ?? '') : 'Year'));
   const [entitlementAmt, setEntitlementAmt] = useState(initialRule?.entitlement_amount?.toString() ?? '');
   const [maxPerClaim,          setMaxPerClaim]          = useState(initialRule?.max_per_claim?.toString() ?? '');
-  const [company,              setCompany]              = useState(initialRule?.company ?? '');
-  const [jobCode,              setJobCode]              = useState(initialRule?.job_code ?? '');
   const [additionalCondition,  setAdditionalCondition]  = useState(initialRule?.additional_condition ?? '');
   const [saving,               setSaving]               = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!entitlementAmt || Number(entitlementAmt) <= 0) { toast('warning', 'กรุณาระบุวงเงินเบิกต่อปี'); return; }
+    if (employeeSubgroup === 'DVT' && !dvtProject.trim()) { toast('warning', 'กรุณาระบุ DVTProject เมื่อ Employee Subgroup เป็น DVT'); return; }
     if (pgFrom && pgTo && Number(pgFrom) > Number(pgTo)) { toast('warning', 'PG From ต้องน้อยกว่าหรือเท่ากับ PG To'); return; }
     setSaving(true);
     try {
@@ -372,21 +396,30 @@ function RuleForm({ initialRule, createdBy, onSave, onCancel }: RuleFormProps) {
       const payload: Partial<EligibilityRuleInput> = {
         scope_type: 'entitlement',
         scope_value: `${policyProfile}:${employeeGroup}:${pg_from ?? 'any'}-${pg_to ?? 'any'}`,
-        allow: true,
+        allow: status === 'active',
         created_by: createdBy,
-        policy_profile:          policyProfile,
-        employee_group:          employeeGroup,
+        rule_name:              ruleName || null,
+        status,
+        effective_from:         effectiveStart || new Date().toISOString().slice(0, 10),
+        effective_to:           effectiveEnd || null,
+        policy_profile:         policyProfile,
+        business_unit:          businessUnit || null,
+        company:                company || null,
+        company_code:           companyCode || null,
+        job_code:               jobCode || null,
+        employee_group:         employeeGroup,
+        employee_subgroup:      employeeSubgroup || null,
+        dvt_project:            employeeSubgroup === 'DVT' ? dvtProject || null : null,
         pg_from,
         pg_to,
-        plan_effective:          planEffective,
-        no_of_years_from_hiring: noOfYears ? parseInt(noOfYears, 10) : null,
-        hiring_date_from:        hiringDateFrom || '1900-01-01',
-        hiring_date_to:          hiringDateTo   || '9999-12-31',
-        entitlement_amount:      parseInt(entitlementAmt, 10),
-        max_per_claim:           maxPerClaim ? parseInt(maxPerClaim, 10) : null,
-        company:               company || null,
-        job_code:              jobCode || null,
-        additional_condition:  additionalCondition || null,
+        plan_effective:         planEffective,
+        waiting_period:         waitingPeriod ? parseInt(waitingPeriod, 10) : null,
+        hiring_date_from:       hiringDateFrom || '1900-01-01',
+        hiring_date_to:         hiringDateTo   || '9999-12-31',
+        claim_period:           claimPeriod || null,
+        entitlement_amount:     parseInt(entitlementAmt, 10),
+        max_per_claim:          maxPerClaim ? parseInt(maxPerClaim, 10) : null,
+        additional_condition:   additionalCondition || null,
       };
       await onSave(payload, isEdit ? undefined : benefitKey);
     } catch (err) {
@@ -400,96 +433,149 @@ function RuleForm({ initialRule, createdBy, onSave, onCancel }: RuleFormProps) {
   const labelCls = 'text-small font-medium text-ink';
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 rounded-lg border border-accent/30 bg-accent/5 p-4 space-y-4" aria-label={isEdit ? 'แก้ไขกฎวงเงินสิทธิ์' : 'เพิ่มกฎวงเงินสิทธิ์'}>
+    <form onSubmit={handleSubmit} className="mt-4 rounded-md border border-accent/30 bg-accent/5 p-4 space-y-4" aria-label={isEdit ? 'แก้ไขกฎวงเงินสิทธิ์' : 'เพิ่มกฎวงเงินสิทธิ์'}>
       <p className="text-small font-semibold text-ink">{isEdit ? 'แก้ไขกฎวงเงินสิทธิ์' : 'เพิ่มกฎวงเงินสิทธิ์ใหม่'}</p>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
-        {!isEdit && (
-          <div className="flex flex-col gap-1 sm:col-span-2 lg:col-span-3">
-            <label className={labelCls}>Benefit Plan <span className="text-danger ml-0.5">*</span></label>
-            <select value={benefitKey} onChange={(e) => setBenefitKey(e.target.value as BenefitKey)} disabled={saving} className={inputCls}>
-              {ALL_BENEFIT_KEYS.map((k) => <option key={k} value={k}>{BENEFIT_PLAN_LABELS[k].th} ({BENEFIT_PLAN_LABELS[k].code})</option>)}
+      <section className="space-y-3">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Rule ID and Validity</p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Rule ID</label>
+            <input type="text" value={ruleId} onChange={(e) => setRuleId(e.target.value)} disabled={saving || isEdit} placeholder="ระบบสร้างให้อัตโนมัติ" className={`${inputCls} disabled:bg-canvas-soft`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Rule Name</label>
+            <input type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} disabled={saving} placeholder="เช่น Medical entitlement A" className={inputCls} />
+          </div>
+          {!isEdit && (
+            <div className="flex flex-col gap-1">
+              <label className={labelCls}>Benefit Plan ID <span className="text-danger ml-0.5">*</span></label>
+              <select value={benefitKey} onChange={(e) => setBenefitKey(e.target.value as BenefitKey)} disabled={saving} className={inputCls}>
+                {ALL_BENEFIT_KEYS.map((k) => <option key={k} value={k}>{BENEFIT_PLAN_LABELS[k].th} ({BENEFIT_PLAN_LABELS[k].code})</option>)}
+              </select>
+            </div>
+          )}
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Status <span className="text-danger ml-0.5">*</span></label>
+            <select value={status} onChange={(e) => setStatus(e.target.value)} disabled={saving} className={inputCls}>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
             </select>
           </div>
-        )}
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>Policy Profile <span className="text-danger ml-0.5">*</span></label>
-          <select value={policyProfile} onChange={(e) => setPolicyProfile(e.target.value)} disabled={saving} className={inputCls}>
-            {POLICY_PROFILES.map((p) => <option key={p} value={p}>{p}</option>)}
-          </select>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>Company</label>
-          <select value={company} onChange={(e) => setCompany(e.target.value)} disabled={saving} className={inputCls}>
-            <option value="">ทุกบริษัท</option>
-            {POLICY_PROFILES.map((p) => <option key={p} value={p}>{p}</option>)}
-          </select>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>Job Code</label>
-          <input type="text" value={jobCode} onChange={(e) => setJobCode(e.target.value)} disabled={saving} placeholder="เช่น SE-01" className={inputCls} />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>กลุ่มพนักงาน <span className="text-danger ml-0.5">*</span></label>
-          <select value={employeeGroup} onChange={(e) => setEmployeeGroup(e.target.value)} disabled={saving} className={inputCls}>
-            {EMPLOYEE_GROUPS.map((g) => <option key={g.value} value={g.value}>{g.label}</option>)}
-          </select>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>Plan Effective</label>
-          <select value={planEffective} onChange={(e) => setPlanEffective(e.target.value as 'hire_date' | 'specific_date')} disabled={saving} className={inputCls}>
-            {PLAN_EFFECTIVE_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>PG From</label>
-          <input type="number" min={1} max={99} value={pgFrom} onChange={(e) => setPgFrom(e.target.value)} disabled={saving} placeholder="เช่น 17" className={inputCls} />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>PG To</label>
-          <input type="number" min={1} max={99} value={pgTo} onChange={(e) => setPgTo(e.target.value)} disabled={saving} placeholder="เช่น 20" className={inputCls} />
-        </div>
-
-        {planEffective === 'specific_date' && (
           <div className="flex flex-col gap-1">
-            <label className={labelCls}>จำนวนปีนับจากวันเริ่มงาน</label>
-            <input type="number" min={0} value={noOfYears} onChange={(e) => setNoOfYears(e.target.value)} disabled={saving} placeholder="เช่น 1" className={inputCls} />
+            <label className={labelCls}>effectiveStartDate</label>
+            <input type="date" value={effectiveStart} onChange={(e) => setEffectiveStart(e.target.value)} disabled={saving} className={inputCls} />
           </div>
-        )}
-
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>วงเงินเบิกต่อปี (THB) <span className="text-danger ml-0.5">*</span></label>
-          <input type="number" min={0} value={entitlementAmt} onChange={(e) => setEntitlementAmt(e.target.value)} disabled={saving} placeholder="เช่น 70000" className={`${inputCls} font-semibold`} />
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>effectiveEndDate</label>
+            <input type="date" value={effectiveEnd} onChange={(e) => setEffectiveEnd(e.target.value)} disabled={saving} className={inputCls} />
+          </div>
         </div>
+      </section>
 
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>วงเงินต่อครั้ง (THB)</label>
-          <input type="number" min={0} value={maxPerClaim} onChange={(e) => setMaxPerClaim(e.target.value)} disabled={saving} placeholder="ไม่จำกัด" className={inputCls} />
+      <section className="space-y-3 border-t border-hairline-soft pt-4">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Employee Info.</p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Business Unit</label>
+            <input type="text" value={businessUnit} onChange={(e) => setBusinessUnit(e.target.value)} disabled={saving} placeholder="เช่น BU-HR" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Company Code</label>
+            <input type="text" value={companyCode} onChange={(e) => setCompanyCode(e.target.value)} disabled={saving} placeholder="เช่น CPN" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Policy Profile <span className="text-danger ml-0.5">*</span></label>
+            <select value={policyProfile} onChange={(e) => setPolicyProfile(e.target.value)} disabled={saving} className={inputCls}>
+              {POLICY_PROFILES.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Company</label>
+            <select value={company} onChange={(e) => setCompany(e.target.value)} disabled={saving} className={inputCls}>
+              <option value="">ทุกบริษัท</option>
+              {POLICY_PROFILES.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Job Code</label>
+            <input type="text" value={jobCode} onChange={(e) => setJobCode(e.target.value)} disabled={saving} placeholder="เช่น SE-01" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Employee Group <span className="text-danger ml-0.5">*</span></label>
+            <select value={employeeGroup} onChange={(e) => setEmployeeGroup(e.target.value)} disabled={saving} className={inputCls}>
+              {EMPLOYEE_GROUPS.map((g) => <option key={g.value} value={g.value}>{g.label}</option>)}
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Employee Subgroup</label>
+            <select value={employeeSubgroup} onChange={(e) => setEmployeeSubgroup(e.target.value)} disabled={saving} className={inputCls}>
+              {EMPLOYEE_SUBGROUPS.map((g) => <option key={g} value={g}>{g}</option>)}
+            </select>
+          </div>
+          {employeeSubgroup === 'DVT' && (
+            <div className="flex flex-col gap-1">
+              <label className={labelCls}>DVTProject <span className="text-danger ml-0.5">*</span></label>
+              <input type="text" value={dvtProject} onChange={(e) => setDvtProject(e.target.value)} disabled={saving} placeholder="ระบุ DVT project" className={inputCls} />
+            </div>
+          )}
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>PG From</label>
+            <input type="number" min={1} max={99} value={pgFrom} onChange={(e) => setPgFrom(e.target.value)} disabled={saving} placeholder="เช่น 17" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>PG To</label>
+            <input type="number" min={1} max={99} value={pgTo} onChange={(e) => setPgTo(e.target.value)} disabled={saving} placeholder="เช่น 20" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Hiring Date From</label>
+            <input type="date" value={hiringDateFrom} onChange={(e) => setHiringDateFrom(e.target.value)} disabled={saving} className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Hiring Date To</label>
+            <input type="date" value={hiringDateTo} onChange={(e) => setHiringDateTo(e.target.value)} disabled={saving} className={inputCls} />
+          </div>
         </div>
+      </section>
 
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>Hiring Date From</label>
-          <input type="date" value={hiringDateFrom} onChange={(e) => setHiringDateFrom(e.target.value)} disabled={saving} className={inputCls} />
+      <section className="space-y-3 border-t border-hairline-soft pt-4">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Effective of plan</p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Effective Types</label>
+            <select value={planEffective} onChange={(e) => setPlanEffective(e.target.value as (typeof PLAN_EFFECTIVE_OPTIONS)[number]['value'])} disabled={saving} className={inputCls}>
+              {PLAN_EFFECTIVE_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Waiting Period</label>
+            <input type="number" min={0} value={waitingPeriod} onChange={(e) => setWaitingPeriod(e.target.value)} disabled={saving} placeholder="เช่น 30" className={inputCls} />
+          </div>
         </div>
+      </section>
 
-        <div className="flex flex-col gap-1">
-          <label className={labelCls}>Hiring Date To</label>
-          <input type="date" value={hiringDateTo} onChange={(e) => setHiringDateTo(e.target.value)} disabled={saving} className={inputCls} />
+      <section className="space-y-3 border-t border-hairline-soft pt-4">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Reimbursement Limitation</p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Claim Period</label>
+            <select value={claimPeriod} onChange={(e) => setClaimPeriod(e.target.value)} disabled={saving} className={inputCls}>
+              {CLAIM_PERIOD_OPTIONS.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Entitlement Amount <span className="text-danger ml-0.5">*</span></label>
+            <input type="number" min={0} value={entitlementAmt} onChange={(e) => setEntitlementAmt(e.target.value)} disabled={saving} placeholder="เช่น 70000" className={`${inputCls} font-semibold`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={labelCls}>Maximum Amount per Claim</label>
+            <input type="number" min={0} value={maxPerClaim} onChange={(e) => setMaxPerClaim(e.target.value)} disabled={saving} placeholder="ไม่จำกัด" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1 sm:col-span-2 lg:col-span-3">
+            <label className={labelCls}>Additional Condition (Defined in Rule)</label>
+            <textarea rows={2} value={additionalCondition} onChange={(e) => setAdditionalCondition(e.target.value)} disabled={saving} placeholder="เงื่อนไขเพิ่มเติม (ถ้ามี)" className={`${inputCls} resize-none`} />
+          </div>
         </div>
-
-        <div className="flex flex-col gap-1 sm:col-span-2 lg:col-span-3">
-          <label className={labelCls}>Additional Condition</label>
-          <textarea rows={2} value={additionalCondition} onChange={(e) => setAdditionalCondition(e.target.value)} disabled={saving} placeholder="เงื่อนไขเพิ่มเติม (ถ้ามี)" className={`${inputCls} resize-none`} />
-        </div>
-      </div>
-
+      </section>
       <div className="flex justify-end gap-3 pt-2 border-t border-hairline-soft">
         <Button type="button" variant="ghost" size="sm" onClick={onCancel} disabled={saving}>ยกเลิก</Button>
         <Button type="submit" variant="primary" size="sm" loading={saving}>{isEdit ? 'บันทึกการแก้ไข' : 'บันทึกกฎ'}</Button>
