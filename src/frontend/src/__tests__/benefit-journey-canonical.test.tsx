@@ -77,31 +77,23 @@ describe('benefit claim journey canonical route', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('/benefits-hub claims tab routes to the dedicated reimbursement service', async () => {
-    const { useBenefitsStore } = await import('@/stores/humi-benefits-slice');
-    useBenefitsStore.getState().setTab('claims');
-
+  it('/benefits-hub service catalog routes to the dedicated reimbursement service', async () => {
     const { default: BenefitsHubPage } = await import('@/app/[locale]/benefits-hub/page');
     render(<BenefitsHubPage />);
 
-    const claimStart = screen.getByRole('link', { name: 'เริ่มเบิกสวัสดิการ' });
-    expect(claimStart).toHaveAttribute('href', '/th/benefits-hub/reimbursement');
-    expect(screen.getByRole('link', { name: 'เบิกค่ารักษาพยาบาล' })).toHaveAttribute(
+    const reimbursementService = screen.getByRole('link', {
+      name: /เบิกสวัสดิการ เบิกค่ารักษา ตรวจสุขภาพ ค่าเดินทาง และอื่น ๆ ตามวงเงิน/,
+    });
+    expect(reimbursementService).toHaveAttribute('href', '/th/benefits-hub/reimbursement');
+    expect(screen.getByRole('link', { name: 'เริ่มเบิก' })).toHaveAttribute(
       'href',
-      '/th/benefits-hub/reimbursement?allowance=ca-medical',
+      '/th/benefits-hub/reimbursement',
     );
-    expect(screen.getByRole('link', { name: 'เบิกค่าทันตกรรม' })).toHaveAttribute(
-      'href',
-      '/th/benefits-hub/reimbursement?allowance=ca-dental',
-    );
-    expect(screen.getByRole('link', { name: 'เบิกค่าโทรศัพท์' })).toHaveAttribute(
-      'href',
-      '/th/benefits-hub/reimbursement?allowance=ca-phone',
-    );
-    expect(screen.getByRole('link', { name: 'เบิกค่าน้ำมันรถ' })).toHaveAttribute(
-      'href',
-      '/th/benefits-hub/reimbursement?allowance=ca-fuel',
-    );
+    const allowanceLinks = screen.getAllByRole('link');
+    expect(allowanceLinks.some((link) => link.getAttribute('href') === '/th/benefits-hub/reimbursement?allowance=ca-medical')).toBe(true);
+    expect(allowanceLinks.some((link) => link.getAttribute('href') === '/th/benefits-hub/reimbursement?allowance=ca-dental')).toBe(true);
+    expect(allowanceLinks.some((link) => link.getAttribute('href') === '/th/benefits-hub/reimbursement?allowance=ca-phone')).toBe(true);
+    expect(allowanceLinks.some((link) => link.getAttribute('href') === '/th/benefits-hub/reimbursement?allowance=ca-fuel')).toBe(true);
     expect(screen.queryByRole('button', { name: 'สร้างคำขอเบิก' })).not.toBeInTheDocument();
   });
 
@@ -109,24 +101,31 @@ describe('benefit claim journey canonical route', () => {
     const user = userEvent.setup();
     navigationMocks.useSearchParams.mockReturnValue(new URLSearchParams('allowance=ca-phone'));
     const { useBenefitClaimsStore } = await import('@/stores/benefit-claims');
+    const { useAuthStore } = await import('@/stores/auth-store');
     useBenefitClaimsStore.getState().clear();
+    useAuthStore.getState().setUser({
+      id: 'spd-test',
+      name: 'SPD Test',
+      email: 'spd@example.com',
+      roles: ['spd'],
+    });
 
     const { default: ReimbursementPage } = await import('@/app/[locale]/benefits-hub/reimbursement/page');
     render(<ReimbursementPage />);
 
     expect(screen.getByLabelText('สวัสดิการที่เลือก')).toHaveValue('ค่าโทรศัพท์');
     expect(screen.getByLabelText('วงเงินคงเหลือ')).toHaveValue('฿4,800');
-    expect(screen.getByLabelText('วันที่เคลม')).toBeInTheDocument();
-    expect(screen.getByLabelText('เลขที่ใบเสร็จ/เอกสาร')).toBeInTheDocument();
-    expect(screen.getByLabelText('จำนวนเงินตามใบเสร็จ (บาท)')).toBeInTheDocument();
+    expect(screen.getByLabelText(/วันที่เคลม/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/เลขที่ใบเสร็จ\/เอกสาร/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/จำนวนเงินตามใบเสร็จ \(บาท\)/)).toBeInTheDocument();
     expect(screen.getByLabelText('ยอดเบิกสุทธิ (บาท)')).toBeInTheDocument();
     expect(screen.getByLabelText('หมายเหตุ')).toBeInTheDocument();
 
-    await user.clear(screen.getByLabelText('วันที่เคลม'));
-    await user.type(screen.getByLabelText('วันที่เคลม'), '2026-05-20');
-    await user.type(screen.getByLabelText('เลขที่ใบเสร็จ/เอกสาร'), 'MOB-2026-001');
-    await user.type(screen.getByLabelText('วันที่ใบเสร็จ/เอกสาร'), '2026-05-18');
-    await user.type(screen.getByLabelText('จำนวนเงินตามใบเสร็จ (บาท)'), '799');
+    await user.clear(screen.getByLabelText(/วันที่เคลม/));
+    await user.type(screen.getByLabelText(/วันที่เคลม/), '2026-05-20');
+    await user.type(screen.getByLabelText(/เลขที่ใบเสร็จ\/เอกสาร/), 'MOB-2026-001');
+    await user.type(screen.getByLabelText(/วันที่ใบเสร็จ\/เอกสาร/), '2026-05-18');
+    await user.type(screen.getByLabelText(/จำนวนเงินตามใบเสร็จ \(บาท\)/), '799');
     await user.type(screen.getByLabelText('ยอดเบิกสุทธิ (บาท)'), '799');
     await user.type(screen.getByLabelText('หมายเหตุ'), 'ค่าโทรศัพท์เดือนพฤษภาคม');
     await user.click(screen.getByRole('button', { name: 'ส่งคำขอเบิกสวัสดิการ' }));
@@ -142,25 +141,28 @@ describe('benefit claim journey canonical route', () => {
     expect(claim.remainingAmount).toBe(4800);
   });
 
-  it('/benefits-hub presents a Benefit Work Zone with exactly two benefit-owned actions', async () => {
-    const { useBenefitsStore } = await import('@/stores/humi-benefits-slice');
-    useBenefitsStore.getState().setTab('benefits');
-
+  it('/benefits-hub presents a Benefits Hub service catalog with benefit-owned service routes', async () => {
     const { default: BenefitsHubPage } = await import('@/app/[locale]/benefits-hub/page');
     render(<BenefitsHubPage />);
 
-    expect(screen.getByRole('heading', { name: 'งานสวัสดิการ' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'เลือกสวัสดิการที่ต้องการ' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'สิทธิ์จากข้อมูล HRMS/EC' })).toBeInTheDocument();
-    expect(document.querySelectorAll('[data-benefit-owned-action="true"]')).toHaveLength(2);
-    expect(screen.getByRole('link', { name: 'ดูสรุปสิทธิ์ในโปรไฟล์' })).toHaveAttribute('href', '/th/profile/me?tab=benefits');
-    const reimbursementAction = screen.getByRole('link', { name: 'เบิกสวัสดิการ' });
-    const referralAction = screen.getByRole('link', { name: 'ขอใบส่งตัว' });
+    expect(screen.getByRole('heading', { name: 'สวัสดิการของคุณ' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'บริการสวัสดิการ' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'วงเงินตามประเภท' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'ดูสิทธิ์ในโปรไฟล์' })).toHaveAttribute('href', '/th/profile/me?tab=benefits');
+    const reimbursementAction = screen.getByRole('link', {
+      name: /เบิกสวัสดิการ เบิกค่ารักษา ตรวจสุขภาพ ค่าเดินทาง และอื่น ๆ ตามวงเงิน/,
+    });
+    const referralAction = screen.getByRole('link', {
+      name: /ขอใบส่งตัว ใบส่งตัว ePatient ก่อนเข้ารับบริการที่โรงพยาบาลในเครือ/,
+    });
     expect(reimbursementAction).toHaveAttribute('href', '/th/benefits-hub/reimbursement');
     expect(referralAction).toHaveAttribute('href', '/th/benefits-hub/referral');
+    expect(screen.getByRole('link', { name: /เคลมค่ารักษา/ })).toHaveAttribute('href', '/th/benefits-hub/hospital-claim');
+    expect(screen.getByRole('link', { name: /ตรวจสุขภาพประจำปี/ })).toHaveAttribute('href', '/th/benefits-hub/physical-checkup');
+    expect(screen.getByRole('link', { name: /ประกันชีวิตและอุบัติเหตุ/ })).toHaveAttribute('href', '/th/benefits-hub/life-accident');
+    expect(screen.getByRole('link', { name: /ผู้รับผลประโยชน์/ })).toHaveAttribute('href', '/th/benefits-hub/beneficiary');
     expect(reimbursementAction.querySelector('button')).toBeNull();
     expect(referralAction.querySelector('button')).toBeNull();
-    expect(screen.getByRole('button', { name: 'ดูรายละเอียด แพลน Flex Plus · ครอบครัว' })).toBeInTheDocument();
     expect(screen.queryByRole('tab', { name: 'สลิปเงินเดือน' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /วางแผนภาษี/ })).not.toBeInTheDocument();
     expect(screen.queryByText(/Payroll\/Tax|เงินเดือนและสวัสดิการ/)).not.toBeInTheDocument();
