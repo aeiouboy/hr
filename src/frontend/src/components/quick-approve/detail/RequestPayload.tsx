@@ -31,6 +31,10 @@ function HiddenFieldPlaceholder() {
   );
 }
 
+function money(value: number | undefined, currency: string) {
+  return typeof value === 'number' ? `${value.toLocaleString()} ${currency}` : '—';
+}
+
 // ── Sub-renderers ─────────────────────────────────────────────────────────────
 
 function LeavePayload({ details, t }: { details: LeaveDetails; t: ReturnType<typeof useTranslations> }) {
@@ -60,6 +64,12 @@ function OvertimePayload({ details, t }: { details: OvertimeDetails; t: ReturnTy
 function ClaimPayload({ details, t }: { details: ClaimDetails; t: ReturnType<typeof useTranslations> }) {
   return (
     <dl>
+      <Row label={t('remainingAmount')} value={money(details.remainingAmount, details.currency)} />
+      <Row label={t('receiptDate')} value={details.receiptDate ?? '—'} />
+      <Row label={t('receiptNo')} value={details.receiptNo ?? '—'} />
+      <Row label={t('receiptAmount')} value={money(details.receiptAmount, details.currency)} />
+      <Row label={t('totalClaimAmount')} value={money(details.totalClaimAmount ?? details.amount, details.currency)} />
+      <Row label={t('remark')} value={details.remark ?? '—'} />
       <Row
         label={t('amount')}
         value={`${details.amount.toLocaleString()} ${details.currency}`}

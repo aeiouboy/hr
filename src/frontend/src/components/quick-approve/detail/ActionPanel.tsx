@@ -5,9 +5,11 @@ import { useTranslations } from 'next-intl';
 import { CheckCircle2, XCircle, RotateCcw, Route, ShieldAlert } from 'lucide-react';
 import { Button, Modal, FormField, Capability } from '@/components/humi';
 import { cn } from '@/lib/utils';
+import type { RequestType } from '@/lib/quick-approve-api';
 
 interface ActionPanelProps {
   requestId: string;
+  requestType?: RequestType;
   onApprove?: (id: string, comment: string) => void;
   onReject?: (id: string, reason: string) => void;
   onReturn?: (id: string, reason: string) => void;
@@ -19,6 +21,7 @@ type ActionType = 'approve' | 'reject' | 'return' | 'reroute' | 'override';
 
 export function ActionPanel({
   requestId,
+  requestType,
   onApprove,
   onReject,
   onReturn,
@@ -94,6 +97,7 @@ export function ActionPanel({
   const canSubmit = activeAction
     ? !inputRequired[activeAction] || inputValue.trim().length > 0
     : false;
+  const isClaim = requestType === 'claim';
 
   return (
     <>
@@ -109,15 +113,17 @@ export function ActionPanel({
             <CheckCircle2 className="h-4 w-4" aria-hidden />
             {t('approve')}
           </Button>
-          <Button
-            variant="danger"
-            size="md"
-            onClick={() => handleOpen('reject')}
-            className="flex items-center gap-2"
-          >
-            <XCircle className="h-4 w-4" aria-hidden />
-            {t('reject')}
-          </Button>
+          {!isClaim && (
+            <Button
+              variant="danger"
+              size="md"
+              onClick={() => handleOpen('reject')}
+              className="flex items-center gap-2"
+            >
+              <XCircle className="h-4 w-4" aria-hidden />
+              {t('reject')}
+            </Button>
+          )}
           <Button
             variant="secondary"
             size="md"
@@ -129,29 +135,33 @@ export function ActionPanel({
           </Button>
         </Capability>
 
-        <Capability action="reroute">
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => handleOpen('reroute')}
-            className="flex items-center gap-2"
-          >
-            <Route className="h-4 w-4" aria-hidden />
-            {t('reroute')}
-          </Button>
-        </Capability>
+        {!isClaim && (
+          <>
+            <Capability action="reroute">
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={() => handleOpen('reroute')}
+                className="flex items-center gap-2"
+              >
+                <Route className="h-4 w-4" aria-hidden />
+                {t('reroute')}
+              </Button>
+            </Capability>
 
-        <Capability action="override">
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => handleOpen('override')}
-            className={cn('flex items-center gap-2 border-warning text-warning hover:bg-warning-soft')}
-          >
-            <ShieldAlert className="h-4 w-4" aria-hidden />
-            {t('override')}
-          </Button>
-        </Capability>
+            <Capability action="override">
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={() => handleOpen('override')}
+                className={cn('flex items-center gap-2 border-warning text-warning hover:bg-warning-soft')}
+              >
+                <ShieldAlert className="h-4 w-4" aria-hidden />
+                {t('override')}
+              </Button>
+            </Capability>
+          </>
+        )}
       </div>
 
       {/* Confirmation modal */}

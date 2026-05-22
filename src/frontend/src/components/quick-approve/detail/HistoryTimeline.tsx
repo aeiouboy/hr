@@ -23,19 +23,25 @@ const STATUS_LINE: Record<ApprovalStep['status'], string> = {
 
 export function HistoryTimeline({ steps }: HistoryTimelineProps) {
   const t = useTranslations('quick_approve_detail');
+  const latestFirst = [...steps].sort((a, b) => {
+    const dateA = a.date ? new Date(a.date).getTime() : 0;
+    const dateB = b.date ? new Date(b.date).getTime() : 0;
+    if (dateA !== dateB) return dateB - dateA;
+    return b.step - a.step;
+  });
 
-  if (steps.length === 0) return null;
+  if (latestFirst.length === 0) return null;
 
   return (
     <div className="flex flex-col gap-0 rounded-[var(--radius-lg)] border border-hairline bg-surface p-5">
       <h3 className="mb-4 text-base font-semibold text-ink">{t('approvalHistory')}</h3>
       <ol className="space-y-0">
-        {steps.map((step, index) => (
+        {latestFirst.map((step, index) => (
           <li key={step.step} className="flex gap-3">
             {/* Connector column */}
             <div className="flex flex-col items-center">
               {STATUS_ICON[step.status]}
-              {index < steps.length - 1 && (
+              {index < latestFirst.length - 1 && (
                 <div className={cn('mt-1 h-full w-0.5 min-h-[24px]', STATUS_LINE[step.status])} />
               )}
             </div>

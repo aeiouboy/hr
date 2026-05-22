@@ -2,6 +2,10 @@ import React, { Suspense } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 
+const capabilityMock = vi.hoisted(() => ({
+  canSeeBenefitEmployeeClaim: true,
+}));
+
 // ── Mocks ─────────────────────────────────────────────────────────────────────
 
 vi.mock('next/navigation', () => ({
@@ -15,7 +19,7 @@ vi.mock('next-intl', () => ({
 
 vi.mock('@/hooks/use-capabilities', () => ({
   useCapabilities: () => ({
-    canSee: (entity: string) => entity !== 'BenefitEmployeeClaim', // deny claim by default
+    canSee: (_entity: string) => true,
     canDo: (_action: string) => true,
   }),
 }));
@@ -42,17 +46,16 @@ vi.mock('@/components/humi', () => ({
     children,
     fallback,
     entity,
-    action,
   }: {
     children: React.ReactNode;
     fallback?: React.ReactNode;
     entity?: string;
     action?: string;
   }) => {
-    // mirror real logic: deny BenefitEmployeeClaim, allow everything else
-    const entityOk = entity ? entity !== 'BenefitEmployeeClaim' : true;
-    const actionOk = action ? true : true;
-    return entityOk && actionOk ? <>{children}</> : <>{fallback ?? null}</>;
+    if (entity === 'BenefitEmployeeClaim' && !capabilityMock.canSeeBenefitEmployeeClaim) {
+      return <>{fallback ?? null}</>;
+    }
+    return <>{children}</>;
   },
 }));
 
@@ -92,6 +95,10 @@ async function renderPage(id: string) {
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('QuickApproveDetailPage', () => {
+  beforeEach(() => {
+    capabilityMock.canSeeBenefitEmployeeClaim = true;
+  });
+
   it('renders request summary for a known ID', async () => {
     await renderPage('WF-001');
     expect(screen.getByText('สมชาย ใจดี')).toBeInTheDocument();
@@ -103,10 +110,44 @@ describe('QuickApproveDetailPage', () => {
     expect(screen.getByText('quick_approve_detail.notFound')).toBeInTheDocument();
   });
 
-  it('shows claim details when entity capability passes', async () => {
-    // WF-003 is a claim; our mock canSee returns false for BenefitEmployeeClaim
-    await renderPage('WF-003');
-    // fallback placeholder should appear (entity denied)
+  it('renders STA-79 claim approval details without removed claim actions', async () => {
+    await renderPage('WF-2026-004');
+
+    expect(screen.getByText('quick_approve_detail.employeeId')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.businessUnit')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.company')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.branch')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.payGrade')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.remainingAmount')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.receiptDate')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.receiptNo')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.receiptAmount')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.totalClaimAmount')).toBeInTheDocument();
+    expect(screen.getByText('quick_approve_detail.remark')).toBeInTheDocument();
+    expect(screen.getByText(/SPD.*Ben/)).toBeInTheDocument();
+    expect(screen.getByText(/HRBP.*Peter/)).toBeInTheDocument();
+    expect(screen.queryByText('quick_approve_detail.waiting')).not.toBeInTheDocument();
+    expect(screen.queryByText('quick_approve_detail.reject')).not.toBeInTheDocument();
+    expect(screen.queryByText('quick_approve_detail.reroute')).not.toBeInTheDocument();
+    expect(screen.queryByText('quick_approve_detail.override')).not.toBeInTheDocument();
+  });
+
+  it('renders STA-79 claim approval timeline latest-first', async () => {
+    await renderPage('WF-2026-004');
+
+    const latestStep = screen.getByText(/quick_approve_detail\.step 2: SPD.*Ben/);
+    const previousStep = screen.getByText(/quick_approve_detail\.step 1: HRBP.*Peter/);
+
+    expect(latestStep.compareDocumentPosition(previousStep) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('hides claim employee facts and payload when BenefitEmployeeClaim access is denied', async () => {
+    capabilityMock.canSeeBenefitEmployeeClaim = false;
+
+    await renderPage('WF-2026-004');
+
+    expect(screen.queryByText('quick_approve_detail.employeeId')).not.toBeInTheDocument();
+    expect(screen.queryByText('quick_approve_detail.remainingAmount')).not.toBeInTheDocument();
     expect(screen.getByText('quick_approve_detail.claimHidden')).toBeInTheDocument();
   });
 

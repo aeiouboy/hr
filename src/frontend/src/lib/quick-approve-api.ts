@@ -14,6 +14,11 @@ export interface PendingRequest {
  avatar?: string;
  position: string;
  department: string;
+ employeeId?: string;
+ businessUnit?: string;
+ company?: string;
+ branch?: string;
+ payGrade?: string;
  };
  description: string;
  submittedAt: string;
@@ -65,6 +70,12 @@ export interface ClaimDetails {
  category: string;
  receiptUrl?: string;
  merchant: string;
+ remainingAmount?: number;
+ receiptDate?: string;
+ receiptNo?: string;
+ receiptAmount?: number;
+ totalClaimAmount?: number;
+ remark?: string;
  policyChecks: { rule: string; passed: boolean }[];
 }
 
