@@ -3,10 +3,10 @@
  *
  * Acceptance criteria for the Unified Approval Workspace (A-4):
  *   1. Inbox renders for Manager / SPD / HRBP / HR Admin
- *   2. Bulk-action bar HIDDEN for Manager (no bulkApprove capability)
+ *   2. Bulk-action bar becomes visible after row selection
  *   3. Bulk-action bar VISIBLE for SPD, HRBP, HR Admin
- *   4. Benefits filter HIDDEN for Manager (BenefitEmployeeClaim entity gate)
- *   5. Benefits filter VISIBLE for SPD / HRBP / HR Admin
+ *   4. Claim Approve filters match STA-78 list requirements
+ *   5. Assign-to-me and attachment list columns are functional
  *   6. Queue scope label matches resolved capability bundle
  *   7. Delegation banner shown when originalUser is non-null
  */
@@ -65,13 +65,18 @@ vi.mock('@/components/humi/Button', () => ({
     onClick,
     disabled,
     className,
+    leadingIcon,
+    ...rest
   }: {
     children: React.ReactNode;
     onClick?: () => void;
     disabled?: boolean;
     className?: string;
+    leadingIcon?: React.ReactNode;
+    [k: string]: unknown;
   }) => (
-    <button onClick={onClick} disabled={disabled} className={className}>
+    <button onClick={onClick} disabled={disabled} className={className} {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>
+      {leadingIcon}
       {children}
     </button>
   ),
@@ -136,9 +141,9 @@ vi.mock('@/components/humi', async () => {
     ),
     CardTitle: ({ children }: { children: React.ReactNode }) => <h2>{children}</h2>,
     cardVariants: {},
-    Button: ({ children, onClick, disabled, className }: {
-      children: React.ReactNode; onClick?: () => void; disabled?: boolean; className?: string;
-    }) => <button onClick={onClick} disabled={disabled} className={className}>{children}</button>,
+    Button: ({ children, onClick, disabled, className, leadingIcon, ...rest }: {
+      children: React.ReactNode; onClick?: () => void; disabled?: boolean; className?: string; leadingIcon?: React.ReactNode; [k: string]: unknown;
+    }) => <button onClick={onClick} disabled={disabled} className={className} {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{leadingIcon}{children}</button>,
     buttonVariants: {},
     Modal: ({ open, children, title }: {
       open: boolean; children: React.ReactNode; title: string; onClose: () => void;
@@ -237,6 +242,7 @@ import { QuickApprovePage } from '@/components/manager/quick-approve-page';
 function setPersona(
   roles: Role[],
   opts?: {
+    userId?: string;
     username?: string;
     originalUser?: {
       userId: string;
@@ -247,7 +253,7 @@ function setPersona(
   },
 ) {
   useAuthStore.setState({
-    userId: 'TEST-001',
+    userId: opts?.userId ?? 'TEST-001',
     username: opts?.username ?? 'Test User',
     email: 'test@humi.test',
     roles,
@@ -305,7 +311,7 @@ describe('QuickApprovePage — inbox renders for all personas', () => {
 // ════════════════════════════════════════════════════════════════════════════
 
 describe('Bulk-action bar visibility', () => {
-  it('bulk-action bar HIDDEN for Manager — clicking checkbox does not reveal it', async () => {
+  it('bulk-action bar VISIBLE for Manager after selecting a row', async () => {
     setPersona(['manager']);
     const user = userEvent.setup();
     render(<QuickApprovePage />);
@@ -316,7 +322,7 @@ describe('Bulk-action bar visibility', () => {
       await user.click(checkboxes[1]);
     }
 
-    expect(screen.queryByTestId('bulk-action-bar')).not.toBeInTheDocument();
+    expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'false');
   });
 
   it('bulk-action bar VISIBLE for SPD after selecting a row', async () => {
@@ -329,7 +335,7 @@ describe('Bulk-action bar visibility', () => {
       await user.click(checkboxes[1]);
     }
 
-    expect(screen.getByTestId('bulk-action-bar')).toBeInTheDocument();
+    expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'false');
   });
 
   it('bulk-action bar VISIBLE for HRBP after selecting a row', async () => {
@@ -342,7 +348,7 @@ describe('Bulk-action bar visibility', () => {
       await user.click(checkboxes[1]);
     }
 
-    expect(screen.getByTestId('bulk-action-bar')).toBeInTheDocument();
+    expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'false');
   });
 
   it('bulk-action bar VISIBLE for HR Admin after selecting a row', async () => {
@@ -355,37 +361,54 @@ describe('Bulk-action bar visibility', () => {
       await user.click(checkboxes[1]);
     }
 
-    expect(screen.getByTestId('bulk-action-bar')).toBeInTheDocument();
+    expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'false');
   });
 });
 
 // ════════════════════════════════════════════════════════════════════════════
-// AC-4: Benefits filter chip RBAC gate
+// AC-4: Claim filter is available on the unified Claim Approve list
 // ════════════════════════════════════════════════════════════════════════════
 
-describe('Benefits filter chip RBAC gate', () => {
-  it('Benefits filter chip HIDDEN for Manager', () => {
+describe('Claim Approve list filters', () => {
+  it('hides claim type filters for Manager because BenefitEmployeeClaim is restricted', () => {
     setPersona(['manager']);
     render(<QuickApprovePage />);
-    expect(screen.queryByTestId('benefits-filter-chip')).not.toBeInTheDocument();
+
+    expect(screen.queryByRole('button', { name: /เบิก/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: 'เบิก' })).not.toBeInTheDocument();
   });
 
-  it('Benefits filter chip VISIBLE for SPD', () => {
-    setPersona(['spd']);
-    render(<QuickApprovePage />);
-    expect(screen.getByTestId('benefits-filter-chip')).toBeInTheDocument();
-  });
-
-  it('Benefits filter chip VISIBLE for HRBP', () => {
-    setPersona(['hrbp']);
-    render(<QuickApprovePage />);
-    expect(screen.getByTestId('benefits-filter-chip')).toBeInTheDocument();
-  });
-
-  it('Benefits filter chip VISIBLE for HR Admin', () => {
+  it('shows Linear sample filter fields and clears active filters', async () => {
     setPersona(['hr_admin']);
+    const user = userEvent.setup();
     render(<QuickApprovePage />);
-    expect(screen.getByTestId('benefits-filter-chip')).toBeInTheDocument();
+
+    expect(screen.getByTestId('filter-request-type')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-eventReason')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-requestedFor')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-effective-from')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-initiatedBy')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-initiated-from')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-company')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-location')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-costCentre')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-businessUnit')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-division')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-department')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-assignment')).toBeInTheDocument();
+
+    const initialRowCount = screen.getAllByTestId('table-row').length;
+
+    await user.selectOptions(screen.getByTestId('filter-request-type'), 'claim');
+    expect(screen.getAllByTestId('table-row')).toHaveLength(7);
+
+    await user.type(screen.getByTestId('quick-approve-search'), 'สมชาย');
+    expect(screen.getAllByTestId('table-row')).toHaveLength(1);
+
+    await user.click(screen.getByRole('button', { name: 'ล้าง' }));
+    expect(screen.getAllByTestId('table-row').length).toBeGreaterThanOrEqual(initialRowCount);
+    expect(screen.getByTestId('quick-approve-search')).toHaveValue('');
+    expect(screen.getByTestId('filter-request-type')).toHaveValue('all');
   });
 });
 
@@ -443,9 +466,61 @@ describe('Delegation banner (proxy mode)', () => {
 // ════════════════════════════════════════════════════════════════════════════
 
 describe('Inbox table', () => {
-  it('renders 20 mock rows for HR Admin', () => {
+  it('renders the merged mock rows for HR Admin', () => {
     setPersona(['hr_admin']);
     render(<QuickApprovePage />);
-    expect(screen.getAllByTestId('table-row').length).toBe(20);
+    expect(screen.getAllByTestId('table-row').length).toBeGreaterThanOrEqual(21);
+  });
+
+  it('clears selection when filters change so hidden rows cannot keep bulk actions active', async () => {
+    setPersona(['hr_admin']);
+    const user = userEvent.setup();
+    render(<QuickApprovePage />);
+
+    const checkboxes = screen.getAllByRole('checkbox');
+    await user.click(checkboxes[1]);
+    expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'false');
+
+    await user.type(screen.getByTestId('quick-approve-search'), 'no matching request');
+    expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('claims only the selected row for the current approver without removing it', async () => {
+    setPersona(['manager'], { userId: 'MGR001', username: 'พิชญ์ ม. (หัวหน้าทีม)' });
+    const user = userEvent.setup();
+    render(<QuickApprovePage />);
+
+    const alreadyAssigned = screen.getByTestId('assign-to-me-WF-2026-001');
+    expect(alreadyAssigned).toBeDisabled();
+    expect(alreadyAssigned).toHaveTextContent('รับแล้ว');
+
+    const beforeCount = screen.getAllByTestId('table-row').length;
+    const assignable = screen.getAllByRole('button', { name: /รับงาน/ })[0];
+    expect(assignable).toBeEnabled();
+    await user.click(assignable);
+
+    expect(assignable).toBeDisabled();
+    expect(assignable).toHaveTextContent('รับแล้ว');
+    expect(screen.getAllByTestId('table-row').length).toBe(beforeCount);
+  });
+
+  it('does not allow taking over rows assigned to another approver', async () => {
+    setPersona(['manager'], { userId: 'MGR-OTHER', username: 'Other Manager' });
+    const user = userEvent.setup();
+    render(<QuickApprovePage />);
+
+    await user.click(screen.getByRole('tab', { name: /ติดตาม/ }));
+    const assignedToOther = screen.getByTestId('assign-to-me-WF-2026-001');
+    expect(assignedToOther).toBeDisabled();
+    expect(assignedToOther).toHaveTextContent('มีผู้รับแล้ว');
+  });
+
+  it('shows attachment indicators only when a request has files', () => {
+    setPersona(['hr_admin']);
+    render(<QuickApprovePage />);
+
+    expect(screen.getByTestId('attachment-indicator-WF-2026-002')).toHaveTextContent('1');
+    expect(screen.getByTestId('attachment-indicator-WF-2026-004')).toHaveTextContent('2');
+    expect(screen.queryByTestId('attachment-indicator-WF-2026-001')).not.toBeInTheDocument();
   });
 });

@@ -45,6 +45,10 @@ export function getPersonaGroup(persona: Role): PersonaGroup {
 
 // ── Tab predicates ──────────────────────────────────────────────────────────
 
+function getAssigneeId(row: PendingRequest & Record<string, unknown>): string | undefined {
+  return (row.assigneeId as string | undefined) ?? row.assignedApprover?.id;
+}
+
 /**
  * Action Required tab predicate.
  * Fields that may not exist on mock data (escalatedToHR, slaOverrun, assigneeId)
@@ -55,7 +59,7 @@ export function isActionRequired(
   personaGroup: PersonaGroup,
   currentUserId: string,
 ): boolean {
-  const assigneeId = row.assigneeId as string | undefined;
+  const assigneeId = getAssigneeId(row);
   const escalatedToHR = (row.escalatedToHR as boolean | undefined) ?? false;
   const slaOverrun = (row.slaOverrun as boolean | undefined) ?? false;
   // Derive pending status from approval timeline
@@ -84,7 +88,7 @@ export function isWatching(
   personaGroup: PersonaGroup,
   currentUserId: string,
 ): boolean {
-  const assigneeId = row.assigneeId as string | undefined;
+  const assigneeId = getAssigneeId(row);
   const escalatedToHR = (row.escalatedToHR as boolean | undefined) ?? false;
   const isPending = row.approvalTimeline.some((s) => s.status === 'pending');
 
@@ -113,7 +117,7 @@ export function isHistory(
   currentUserId: string,
 ): boolean {
   if (!isWithin90Days(row.submittedAt)) return false;
-  const assigneeId = row.assigneeId as string | undefined;
+  const assigneeId = getAssigneeId(row);
   // Determine resolved status from timeline
   const allResolved = row.approvalTimeline.every((s) => s.status !== 'pending');
   const anyHistorical = row.approvalTimeline.some((s) => isHistorical(s.status));

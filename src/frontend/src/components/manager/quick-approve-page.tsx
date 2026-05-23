@@ -23,7 +23,6 @@ import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import {
   Search,
-  Calendar,
   Filter,
   CheckCircle2,
   ChevronRight,
@@ -32,8 +31,11 @@ import {
   Globe,
   AlertCircle,
   Settings2,
+  Paperclip,
+  UserCheck,
+  UserPlus,
 } from 'lucide-react';
-import { Card, CardTitle, Button, DataTable, Capability, Modal } from '@/components/humi';
+import { Card, CardTitle, Button, DataTable, Modal } from '@/components/humi';
 import type { DataTableColumn } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -143,8 +145,133 @@ type FilterState = {
   type: RequestType | 'all';
   urgency: Urgency | 'all';
   search: string;
+  eventReason: string;
+  requestedFor: string;
+  effectiveDateFrom: string;
+  effectiveDateTo: string;
+  initiatedBy: string;
   dateFrom: string;
   dateTo: string;
+  company: string;
+  location: string;
+  costCentre: string;
+  businessUnit: string;
+  division: string;
+  department: string;
+  assignment: string;
+};
+
+type SelectFilterKey =
+  | 'eventReason'
+  | 'requestedFor'
+  | 'initiatedBy'
+  | 'company'
+  | 'location'
+  | 'costCentre'
+  | 'businessUnit'
+  | 'division'
+  | 'department'
+  | 'assignment';
+
+type RequestFilterMeta = Required<NonNullable<PendingRequest['filterMeta']>>;
+
+const EMPTY_FILTERS: FilterState = {
+  type: 'all',
+  urgency: 'all',
+  search: '',
+  eventReason: '',
+  requestedFor: '',
+  effectiveDateFrom: '',
+  effectiveDateTo: '',
+  initiatedBy: '',
+  dateFrom: '',
+  dateTo: '',
+  company: '',
+  location: '',
+  costCentre: '',
+  businessUnit: '',
+  division: '',
+  department: '',
+  assignment: '',
+};
+
+const ADVANCED_SELECT_FIELDS: Array<{ key: SelectFilterKey; labelTh: string; labelEn: string }> = [
+  { key: 'eventReason', labelTh: 'เหตุผลเหตุการณ์', labelEn: 'Event Reason' },
+  { key: 'requestedFor', labelTh: 'ผู้ถูกขอให้ดำเนินการ', labelEn: 'Requested For' },
+  { key: 'initiatedBy', labelTh: 'ผู้เริ่มคำขอ', labelEn: 'Initiated By' },
+  { key: 'company', labelTh: 'บริษัท', labelEn: 'Company' },
+  { key: 'location', labelTh: 'สถานที่ทำงาน', labelEn: 'Location' },
+  { key: 'costCentre', labelTh: 'Cost Centre', labelEn: 'Cost Centre' },
+  { key: 'businessUnit', labelTh: 'Business Unit', labelEn: 'Business Unit' },
+  { key: 'division', labelTh: 'Division', labelEn: 'Division' },
+  { key: 'department', labelTh: 'Department', labelEn: 'Department' },
+  { key: 'assignment', labelTh: 'Assignment', labelEn: 'Assignment' },
+];
+
+const DEPARTMENT_FILTER_META: Record<string, Pick<RequestFilterMeta, 'company' | 'location' | 'costCentre' | 'businessUnit' | 'division'>> = {
+  IT: {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'IT-110',
+    businessUnit: 'Corporate Services',
+    division: 'Digital & Technology',
+  },
+  Product: {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'PD-210',
+    businessUnit: 'Digital Commerce',
+    division: 'Product',
+  },
+  HR: {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'HR-310',
+    businessUnit: 'People',
+    division: 'Human Resources',
+  },
+  Finance: {
+    company: 'Central Retail',
+    location: 'Central Chidlom',
+    costCentre: 'FN-410',
+    businessUnit: 'Finance',
+    division: 'Accounting & Control',
+  },
+  Operations: {
+    company: 'Central Retail',
+    location: 'Distribution Center Bangna',
+    costCentre: 'OP-510',
+    businessUnit: 'Operations',
+    division: 'Store Operations',
+  },
+  Marketing: {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'MK-610',
+    businessUnit: 'Commercial',
+    division: 'Marketing',
+  },
+  Sales: {
+    company: 'Central Retail',
+    location: 'Central Ladprao',
+    costCentre: 'SL-710',
+    businessUnit: 'Retail',
+    division: 'Sales',
+  },
+  Analytics: {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'AN-810',
+    businessUnit: 'Digital Commerce',
+    division: 'Data & Analytics',
+  },
+  Legal: {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'LG-910',
+    businessUnit: 'Corporate Services',
+    division: 'Legal',
+  },
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -161,6 +288,89 @@ function pickTone(seed: string) {
   let h = 0;
   for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
   return AVATAR_TONES[Math.abs(h) % AVATAR_TONES.length];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function asString(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function getDetailString(row: PendingRequest, key: string): string | undefined {
+  if (!isRecord(row.details)) return undefined;
+  return asString(row.details[key]);
+}
+
+function getEffectiveDate(row: PendingRequest): string {
+  return (
+    row.filterMeta?.effectiveDate ??
+    getDetailString(row, 'effectiveDate') ??
+    getDetailString(row, 'startDate') ??
+    getDetailString(row, 'date') ??
+    row.submittedAt.slice(0, 10)
+  );
+}
+
+function getEventReason(row: PendingRequest): string {
+  if (row.filterMeta?.eventReason) return row.filterMeta.eventReason;
+  return (
+    getDetailString(row, 'leaveType') ??
+    getDetailString(row, 'category') ??
+    getDetailString(row, 'changeType') ??
+    getDetailString(row, 'reason') ??
+    row.type
+  );
+}
+
+function getPendingApprover(row: PendingRequest): string {
+  return row.approvalTimeline.find((step) => step.status === 'pending')?.approver ?? 'Unassigned';
+}
+
+function getRequestFilterMeta(row: PendingRequest): RequestFilterMeta {
+  const dept = row.requester.department || row.filterMeta?.department || 'Unassigned';
+  const derived = DEPARTMENT_FILTER_META[dept] ?? {
+    company: 'Central Retail',
+    location: 'Head Office Rama 9',
+    costCentre: 'GEN-000',
+    businessUnit: dept,
+    division: dept,
+  };
+  const assignment = row.filterMeta?.assignment ?? row.assignedApprover?.name ?? getPendingApprover(row);
+
+  return {
+    eventReason: getEventReason(row),
+    requestedFor: row.filterMeta?.requestedFor ?? row.requester.name,
+    effectiveDate: getEffectiveDate(row),
+    initiatedBy: row.filterMeta?.initiatedBy ?? row.requester.name,
+    initiatedDate: row.filterMeta?.initiatedDate ?? row.submittedAt.slice(0, 10),
+    company: row.filterMeta?.company ?? derived.company,
+    location: row.filterMeta?.location ?? derived.location,
+    costCentre: row.filterMeta?.costCentre ?? derived.costCentre,
+    businessUnit: row.filterMeta?.businessUnit ?? derived.businessUnit,
+    division: row.filterMeta?.division ?? derived.division,
+    department: row.filterMeta?.department ?? dept,
+    assignment,
+  };
+}
+
+function getAttachmentNames(row: PendingRequest): string[] {
+  if (row.attachments?.length) return row.attachments;
+  const receiptUrl = getDetailString(row, 'receiptUrl');
+  return receiptUrl ? [receiptUrl] : [];
+}
+
+function isWithinRange(date: string, from: string, to: string): boolean {
+  if (from && date < from) return false;
+  if (to && date > to) return false;
+  return true;
+}
+
+function uniqueOptions(items: PendingRequest[], key: SelectFilterKey): string[] {
+  return Array.from(new Set(items.map((item) => getRequestFilterMeta(item)[key]).filter(Boolean))).sort((a, b) =>
+    a.localeCompare(b),
+  );
 }
 
 // Probation cases live in their own mock store (PR #135) — adapt the pending
@@ -224,6 +434,18 @@ function benefitClaimToPendingRequest(c: BenefitClaimRequest): PendingRequest {
     submittedAt: c.submittedAt,
     urgency,
     waitingDays,
+    attachments: c.attachments.map((file) => file.filename ?? file.name ?? 'attachment'),
+    filterMeta: {
+      eventReason: c.benefitType,
+      requestedFor: c.employeeName,
+      effectiveDate: c.receiptDate,
+      initiatedBy: c.employeeName,
+      initiatedDate: c.submittedAt.slice(0, 10),
+      company: c.company,
+      businessUnit: c.businessUnit,
+      department: c.businessUnit,
+      assignment: 'Manager approval',
+    },
     details: {},
     approvalTimeline: [
       { step: 1, approver: 'หัวหน้างาน', status: 'pending' },
@@ -242,19 +464,31 @@ function isProbationPending(c: ProbationCase): boolean {
 
 function applyFilters(items: PendingRequest[], filters: FilterState): PendingRequest[] {
   return items.filter((item) => {
+    const meta = getRequestFilterMeta(item);
     if (filters.type !== 'all' && item.type !== filters.type) return false;
     if (filters.urgency !== 'all' && item.urgency !== filters.urgency) return false;
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      if (
-        !item.requester.name.toLowerCase().includes(q) &&
-        !item.description.toLowerCase().includes(q) &&
-        !item.requester.department.toLowerCase().includes(q)
-      )
-        return false;
+      const haystack = [
+        item.requester.name,
+        item.requester.department,
+        item.description,
+        ...Object.values(meta),
+      ].join(' ').toLowerCase();
+      if (!haystack.includes(q)) return false;
     }
-    if (filters.dateFrom && item.submittedAt < filters.dateFrom) return false;
-    if (filters.dateTo && item.submittedAt > filters.dateTo + 'T23:59:59') return false;
+    if (filters.eventReason && meta.eventReason !== filters.eventReason) return false;
+    if (filters.requestedFor && meta.requestedFor !== filters.requestedFor) return false;
+    if (!isWithinRange(meta.effectiveDate, filters.effectiveDateFrom, filters.effectiveDateTo)) return false;
+    if (filters.initiatedBy && meta.initiatedBy !== filters.initiatedBy) return false;
+    if (!isWithinRange(meta.initiatedDate, filters.dateFrom, filters.dateTo)) return false;
+    if (filters.company && meta.company !== filters.company) return false;
+    if (filters.location && meta.location !== filters.location) return false;
+    if (filters.costCentre && meta.costCentre !== filters.costCentre) return false;
+    if (filters.businessUnit && meta.businessUnit !== filters.businessUnit) return false;
+    if (filters.division && meta.division !== filters.division) return false;
+    if (filters.department && meta.department !== filters.department) return false;
+    if (filters.assignment && meta.assignment !== filters.assignment) return false;
     return true;
   });
 }
@@ -292,6 +526,7 @@ export function QuickApprovePage() {
   const roles = useAuthStore((s) => s.roles);
   const originalUser = useAuthStore((s) => s.originalUser);
   const caps = useCapabilities();
+  const canSeeBenefitClaims = caps.canSee('BenefitEmployeeClaim');
   const primaryRole = roles[0] ?? 'employee';
 
   // STA-28 PR-B v2 — Smart Tabs: persona-aware default tab (AC-1)
@@ -322,34 +557,37 @@ export function QuickApprovePage() {
   const benefitClaims = useBenefitClaimsStore((s) => s.claims);
   const benefitClaimItems = useMemo(
     () =>
-      benefitClaims
-        .filter((c) => c.status === 'pending_manager_approval')
-        .map(benefitClaimToPendingRequest),
-    [benefitClaims],
+      canSeeBenefitClaims
+        ? benefitClaims
+            .filter((c) => c.status === 'pending_manager_approval')
+            .map(benefitClaimToPendingRequest)
+        : [],
+    [benefitClaims, canSeeBenefitClaims],
   );
+
+  const [assignmentOverrides, setAssignmentOverrides] = useState<Record<string, NonNullable<PendingRequest['assignedApprover']>>>({});
 
   // Use mock data directly for the demo workspace; merge in probation + benefit claims.
   const allItems = useMemo(
-    () => [...MOCK_PENDING_REQUESTS, ...probationItems, ...benefitClaimItems],
-    [probationItems, benefitClaimItems],
+    () =>
+      [...MOCK_PENDING_REQUESTS, ...probationItems, ...benefitClaimItems]
+        .filter((item) => item.type !== 'claim' || canSeeBenefitClaims)
+        .map((item) => {
+        const assignedApprover = assignmentOverrides[item.id] ?? item.assignedApprover;
+        return assignedApprover ? { ...item, assignedApprover } : item;
+      }),
+    [assignmentOverrides, probationItems, benefitClaimItems, canSeeBenefitClaims],
   );
 
   // STA-28 PR-B v2 — SINGLE useMemo keyed on (currentUserId, personaGroup, allItems) (AC-3).
   // Computes all tab counts in one sweep; do NOT add separate per-tab memo calls.
   const tabCounts = useMemo(
     () => computeTabCounts(allItems as (PendingRequest & Record<string, unknown>)[], personaGroup, currentUserId),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [allItems, personaGroup, currentUserId],
   );
 
   // Local filter state
-  const [filters, setFilters] = useState<FilterState>({
-    type: 'all',
-    urgency: 'all',
-    search: '',
-    dateFrom: '',
-    dateTo: '',
-  });
+  const [filters, setFilters] = useState<FilterState>(EMPTY_FILTERS);
 
   // Apply Smart Tab filter first, then chip-strip filters (AC-4, AC-9)
   const tabFilteredItems = useMemo(() => {
@@ -363,8 +601,44 @@ export function QuickApprovePage() {
 
   const filteredItems = useMemo(() => applyFilters(tabFilteredItems, filters), [tabFilteredItems, filters]);
 
+  const visibleRequestTypes = useMemo(
+    () =>
+      (canSeeBenefitClaims
+        ? ['all', 'leave', 'overtime', 'claim', 'transfer', 'change_request', 'probation']
+        : ['all', 'leave', 'overtime', 'transfer', 'change_request', 'probation']) as Array<RequestType | 'all'>,
+    [canSeeBenefitClaims],
+  );
+
+  const selectFilterOptions = useMemo(() => {
+    return ADVANCED_SELECT_FIELDS.reduce(
+      (acc, field) => {
+        acc[field.key] = uniqueOptions(tabFilteredItems, field.key);
+        return acc;
+      },
+      {} as Record<SelectFilterKey, string[]>,
+    );
+  }, [tabFilteredItems]);
+
+  const hasActiveFilters = useMemo(() => {
+    return Object.entries(filters).some(([key, value]) => {
+      if (key === 'type') return value !== 'all';
+      if (key === 'urgency') return value !== 'all';
+      return value !== '';
+    });
+  }, [filters]);
+
   // Selection state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const updateFilters = useCallback((updater: (current: FilterState) => FilterState) => {
+    setFilters((current) => updater(current));
+    setSelectedIds(new Set());
+  }, []);
+
+  const resetFilters = useCallback(() => {
+    setFilters(EMPTY_FILTERS);
+    setSelectedIds(new Set());
+  }, []);
 
   const handleToggleSelect = useCallback((id: string) => {
     setSelectedIds((prev) => {
@@ -383,6 +657,18 @@ export function QuickApprovePage() {
   }, [filteredItems]);
 
   const handleClearSelection = useCallback(() => setSelectedIds(new Set()), []);
+
+  const handleAssignToMe = useCallback((row: PendingRequest) => {
+    if (!currentUserId || row.assignedApprover) return;
+    setAssignmentOverrides((prev) => ({
+      ...prev,
+      [row.id]: {
+        id: currentUserId,
+        name: username ?? (isTh ? 'ผู้อนุมัติปัจจุบัน' : 'Current approver'),
+        assignedAt: new Date().toISOString(),
+      },
+    }));
+  }, [currentUserId, isTh, username]);
 
   // Confirm modal state
   const [confirmModal, setConfirmModal] = useState<{ action: 'approve' | 'reject' | 'reroute'; ids: string[] } | null>(null);
@@ -412,10 +698,10 @@ export function QuickApprovePage() {
 
   // STA-28 PR-B v2 — selected row types for high-risk gating in BulkActionToolbar (AC-6)
   const selectedTypes = useMemo(() => {
-    return filteredItems
+    return allItems
       .filter((item) => selectedIds.has(item.id))
       .map((item) => item.type);
-  }, [filteredItems, selectedIds]);
+  }, [allItems, selectedIds]);
 
   // Stats
   const stats = useMemo(() => ({
@@ -488,6 +774,72 @@ export function QuickApprovePage() {
       ),
     },
     {
+      id: 'assignToMe',
+      header: isTh ? 'Assign to Me' : 'Assign to Me',
+      cell: (row) => {
+        const assigned = row.assignedApprover;
+        const assignedToCurrentUser = Boolean(assigned && assigned.id === currentUserId);
+        const assignedToOther = Boolean(assigned && assigned.id !== currentUserId);
+        const disabled = !currentUserId || assignedToCurrentUser || assignedToOther;
+        const label = assignedToCurrentUser
+          ? (isTh ? 'รับแล้ว' : 'Assigned')
+          : assignedToOther
+          ? (isTh ? 'มีผู้รับแล้ว' : 'Assigned')
+          : (isTh ? 'รับงาน' : 'Assign');
+
+        return (
+          <Button
+            variant={assignedToCurrentUser ? 'ghost' : 'secondary'}
+            size="sm"
+            disabled={disabled}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAssignToMe(row);
+            }}
+            title={
+              assignedToOther
+                ? `${isTh ? 'มอบหมายให้' : 'Assigned to'} ${assigned?.name}`
+                : undefined
+            }
+            className="h-7 px-2 text-xs"
+            data-testid={`assign-to-me-${row.id}`}
+            leadingIcon={
+              assignedToCurrentUser ? (
+                <UserCheck className="h-3.5 w-3.5" />
+              ) : (
+                <UserPlus className="h-3.5 w-3.5" />
+              )
+            }
+          >
+            {label}
+          </Button>
+        );
+      },
+      className: 'w-32',
+    },
+    {
+      id: 'attachments',
+      header: isTh ? 'เอกสารแนบ' : 'Attachment',
+      cell: (row) => {
+        const attachments = getAttachmentNames(row);
+        if (attachments.length === 0) {
+          return <span className="text-xs text-ink-faint">—</span>;
+        }
+        return (
+          <span
+            className="inline-flex items-center gap-1 rounded-[var(--radius-full)] bg-accent-soft px-2 py-1 text-xs font-medium text-accent"
+            title={attachments.join(', ')}
+            data-testid={`attachment-indicator-${row.id}`}
+          >
+            <Paperclip className="h-3.5 w-3.5" aria-hidden />
+            {attachments.length}
+          </span>
+        );
+      },
+      className: 'w-24',
+      align: 'center',
+    },
+    {
       id: 'waiting',
       header: isTh ? 'รอ (วัน)' : 'Waiting',
       cell: (row) => (
@@ -547,7 +899,7 @@ export function QuickApprovePage() {
       className: 'w-16',
       align: 'right',
     },
-  ], [selectedIds, filteredItems, handleSelectAll, handleToggleSelect, t, typeLabels, urgencyLabels, isTh, locale]);
+  ], [currentUserId, filteredItems, handleAssignToMe, handleSelectAll, handleToggleSelect, isTh, locale, selectedIds, t, typeLabels, urgencyLabels]);
 
   if (loading) {
     return (
@@ -618,19 +970,6 @@ export function QuickApprovePage() {
       {/* ── HRBP/SPD scope transparency banner — STA-27 PR-A (AC-7) ── */}
       <HrbpScopeBanner persona={primaryRole} isTh={isTh} locale={locale} />
 
-      <Card>
-        <div className="space-y-1 text-small text-ink-soft">
-          <p className="font-semibold text-ink">
-            {isTh ? 'สถานะการอนุมัติและข้อมูลอ่อนไหว' : 'Approval state and sensitive data'}
-          </p>
-          <p>
-            {isTh
-              ? 'คิวนี้เป็น demo/client state เท่านั้น ผู้จัดการเห็นเฉพาะข้อมูลที่จำเป็นต่อการอนุมัติ; เงินเดือน ธนาคาร เลขบัตรประชาชน เลขภาษี ผู้พึ่งพิง และเอกสารจะแสดงแบบปิดบัง'
-              : 'This queue is demo/client state only. Managers see only what is needed to approve; salary, bank, national ID, Tax ID, dependents, and documents stay masked.'}
-          </p>
-        </div>
-      </Card>
-
       {/* ── Smart Tabs — STA-28 PR-B v2 (AC-4) ── */}
       <SmartTabs
         activeTab={activeTab}
@@ -652,27 +991,10 @@ export function QuickApprovePage() {
               <input
                 type="text"
                 value={filters.search}
-                onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
+                onChange={(e) => updateFilters((f) => ({ ...f, search: e.target.value }))}
                 placeholder={t('filters.searchPlaceholder')}
                 className="w-full rounded-[var(--radius-md)] border border-hairline pl-9 pr-3 py-2 text-sm bg-surface focus:border-brand focus:ring-1 focus:ring-brand outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <Calendar className="h-4 w-4 text-ink-muted" />
-              <input
-                type="date"
-                value={filters.dateFrom}
-                onChange={(e) => setFilters((f) => ({ ...f, dateFrom: e.target.value }))}
-                className="rounded-[var(--radius-md)] border border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
-                aria-label={t('filters.dateFrom')}
-              />
-              <span className="text-ink-muted text-xs">–</span>
-              <input
-                type="date"
-                value={filters.dateTo}
-                onChange={(e) => setFilters((f) => ({ ...f, dateTo: e.target.value }))}
-                className="rounded-[var(--radius-md)] border border-hairline px-2 py-1.5 text-sm bg-surface focus:border-brand outline-none"
-                aria-label={t('filters.dateTo')}
+                data-testid="quick-approve-search"
               />
             </div>
           </div>
@@ -682,10 +1004,10 @@ export function QuickApprovePage() {
             <Filter className="h-4 w-4 text-ink-muted shrink-0" />
 
             {/* Type filter chips */}
-            {(['all', 'leave', 'overtime', 'transfer', 'change_request', 'probation'] as const).map((type) => (
+            {visibleRequestTypes.map((type) => (
               <button
                 key={type}
-                onClick={() => setFilters((f) => ({ ...f, type }))}
+                onClick={() => updateFilters((f) => ({ ...f, type }))}
                 className={cn(
                   'rounded-[var(--radius-full)] px-3 py-1 text-xs font-medium transition',
                   filters.type === type
@@ -700,30 +1022,13 @@ export function QuickApprovePage() {
               </button>
             ))}
 
-            {/* Benefits (claim) filter — RBAC-gated: only SPD/HRBP/HR Admin can see BenefitEmployeeClaim */}
-            <Capability entity="BenefitEmployeeClaim">
-              <button
-                onClick={() => setFilters((f) => ({ ...f, type: filters.type === 'claim' ? 'all' : 'claim' }))}
-                className={cn(
-                  'rounded-[var(--radius-full)] px-3 py-1 text-xs font-medium transition',
-                  filters.type === 'claim'
-                    ? 'bg-brand/10 text-brand'
-                    : 'bg-surface-raised text-ink-muted hover:bg-surface-raised',
-                )}
-                data-testid="benefits-filter-chip"
-              >
-                {isTh ? 'สวัสดิการ' : 'Benefits'}
-                {stats.claim > 0 && <span className="ml-1 opacity-60">{stats.claim}</span>}
-              </button>
-            </Capability>
-
             <div className="h-4 w-px bg-hairline mx-1" />
 
             {/* Urgency filter chips */}
             {(['all', 'urgent', 'normal', 'low'] as const).map((level) => (
               <button
                 key={level}
-                onClick={() => setFilters((f) => ({ ...f, urgency: level }))}
+                onClick={() => updateFilters((f) => ({ ...f, urgency: level }))}
                 className={cn(
                   'rounded-[var(--radius-full)] px-3 py-1 text-xs font-medium transition',
                   filters.urgency === level
@@ -739,6 +1044,100 @@ export function QuickApprovePage() {
               </button>
             ))}
           </div>
+
+          <div className="rounded-[var(--radius-md)] border border-hairline bg-canvas-soft p-3">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+              <label className="space-y-1 text-xs font-medium text-ink-muted">
+                <span>{isTh ? 'ประเภทคำขอ' : 'Request Type'}</span>
+                <select
+                  value={filters.type}
+                  onChange={(e) => updateFilters((f) => ({ ...f, type: e.target.value as FilterState['type'] }))}
+                  className="h-9 w-full rounded-[var(--radius-sm)] border border-hairline bg-surface px-2 text-sm text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
+                  data-testid="filter-request-type"
+                >
+                  {visibleRequestTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {typeLabels[type]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {ADVANCED_SELECT_FIELDS.map((field) => (
+                <label key={field.key} className="space-y-1 text-xs font-medium text-ink-muted">
+                  <span>{isTh ? field.labelTh : field.labelEn}</span>
+                  <select
+                    value={filters[field.key]}
+                    onChange={(e) => updateFilters((f) => ({ ...f, [field.key]: e.target.value }))}
+                    className="h-9 w-full rounded-[var(--radius-sm)] border border-hairline bg-surface px-2 text-sm text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
+                    data-testid={`filter-${field.key}`}
+                  >
+                    <option value="">{isTh ? 'ไม่เลือก' : 'No Selection'}</option>
+                    {selectFilterOptions[field.key].map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ))}
+
+              <fieldset className="space-y-1 text-xs font-medium text-ink-muted sm:col-span-2">
+                <legend>{isTh ? 'ช่วงวันที่มีผล' : 'Effective Date Range'}</legend>
+                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                  <input
+                    type="date"
+                    value={filters.effectiveDateFrom}
+                    onChange={(e) => updateFilters((f) => ({ ...f, effectiveDateFrom: e.target.value }))}
+                    className="h-9 min-w-0 rounded-[var(--radius-sm)] border border-hairline bg-surface px-2 text-sm text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
+                    aria-label={isTh ? 'วันที่มีผลเริ่มต้น' : 'Effective date from'}
+                    data-testid="filter-effective-from"
+                  />
+                  <span className="text-ink-faint">–</span>
+                  <input
+                    type="date"
+                    value={filters.effectiveDateTo}
+                    onChange={(e) => updateFilters((f) => ({ ...f, effectiveDateTo: e.target.value }))}
+                    className="h-9 min-w-0 rounded-[var(--radius-sm)] border border-hairline bg-surface px-2 text-sm text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
+                    aria-label={isTh ? 'วันที่มีผลสิ้นสุด' : 'Effective date to'}
+                    data-testid="filter-effective-to"
+                  />
+                </div>
+              </fieldset>
+
+              <fieldset className="space-y-1 text-xs font-medium text-ink-muted sm:col-span-2">
+                <legend>{isTh ? 'ช่วงวันที่เริ่มคำขอ' : 'Initiated Date Range'}</legend>
+                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                  <input
+                    type="date"
+                    value={filters.dateFrom}
+                    onChange={(e) => updateFilters((f) => ({ ...f, dateFrom: e.target.value }))}
+                    className="h-9 min-w-0 rounded-[var(--radius-sm)] border border-hairline bg-surface px-2 text-sm text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
+                    aria-label={t('filters.dateFrom')}
+                    data-testid="filter-initiated-from"
+                  />
+                  <span className="text-ink-faint">–</span>
+                  <input
+                    type="date"
+                    value={filters.dateTo}
+                    onChange={(e) => updateFilters((f) => ({ ...f, dateTo: e.target.value }))}
+                    className="h-9 min-w-0 rounded-[var(--radius-sm)] border border-hairline bg-surface px-2 text-sm text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
+                    aria-label={t('filters.dateTo')}
+                    data-testid="filter-initiated-to"
+                  />
+                </div>
+              </fieldset>
+            </div>
+
+            <div className="mt-3 flex justify-end gap-2">
+              <Button variant="ghost" size="sm" onClick={resetFilters} disabled={!hasActiveFilters}>
+                {isTh ? 'ล้าง' : 'Clear'}
+              </Button>
+              <Button variant="primary" size="sm" onClick={() => setSelectedIds(new Set())}>
+                {isTh ? 'ใช้ตัวกรอง' : 'Apply'}
+              </Button>
+            </div>
+          </div>
         </div>
       </Card>
 
@@ -750,9 +1149,9 @@ export function QuickApprovePage() {
           <CardTitle className="text-base">
             {isTh ? `คำขอรออนุมัติ (${filteredItems.length})` : `Pending Requests (${filteredItems.length})`}
           </CardTitle>
-          {filteredItems.length !== allItems.length && (
+          {hasActiveFilters && (
             <button
-              onClick={() => setFilters({ type: 'all', urgency: 'all', search: '', dateFrom: '', dateTo: '' })}
+              onClick={resetFilters}
               className="text-xs text-brand hover:underline"
             >
               {isTh ? 'ล้างตัวกรอง' : 'Clear filters'}

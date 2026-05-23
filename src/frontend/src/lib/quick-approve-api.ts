@@ -19,6 +19,26 @@ export interface PendingRequest {
  submittedAt: string;
  urgency: Urgency;
  waitingDays: number;
+ attachments?: string[];
+ assignedApprover?: {
+ id: string;
+ name: string;
+ assignedAt?: string;
+ };
+ filterMeta?: {
+ eventReason?: string;
+ requestedFor?: string;
+ effectiveDate?: string;
+ initiatedBy?: string;
+ initiatedDate?: string;
+ company?: string;
+ location?: string;
+ costCentre?: string;
+ businessUnit?: string;
+ division?: string;
+ department?: string;
+ assignment?: string;
+ };
  details: LeaveDetails | OvertimeDetails | ClaimDetails | TransferDetails | Record<string, unknown>;
  approvalTimeline: ApprovalStep[];
 }
