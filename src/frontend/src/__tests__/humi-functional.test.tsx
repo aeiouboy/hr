@@ -10,7 +10,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor, act, within } from '@testing-library/react';
+import { render, screen, waitFor, act, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 // ── Mocks ────────────────────────────────────────────────────────────────────
@@ -326,6 +326,35 @@ describe('AC-10 — /benefits-hub functional', () => {
 
     const { useBenefitsStore } = await import('@/stores/humi-benefits-slice');
     expect(useBenefitsStore.getState().activeTab).toBe('claims');
+  });
+
+  it('renders STA-75 claim history filters and filters by search and submission date', async () => {
+    const user = userEvent.setup();
+    const { useBenefitsStore } = await import('@/stores/humi-benefits-slice');
+    useBenefitsStore.getState().setTab('claims');
+
+    const { default: Page } = await import('@/app/[locale]/benefits-hub/page');
+    render(<Page />);
+
+    expect(screen.getByLabelText(/Search bar/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Start Date/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/End Date/i)).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /Benefit Name/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /Claim Amount/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /Submission Date/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /Status/i })).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText(/Search bar/i), 'ค่าทันตกรรม');
+    expect(screen.getByText('ต้องแนบใบเสร็จเพิ่ม')).toBeInTheDocument();
+    expect(screen.queryByText(/รพ\.บำรุงราษฎร์/)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'ล้างตัวกรอง' }));
+    fireEvent.change(screen.getByLabelText(/Start Date/i), { target: { value: '2026-04-20' } });
+    fireEvent.change(screen.getByLabelText(/End Date/i), { target: { value: '2026-04-28' } });
+
+    expect(screen.getByText('AIS · บิลเดือน เม.ย.')).toBeInTheDocument();
+    expect(screen.getByText('บีเอ็นเอชคลินิก · ใบเสร็จ #RX-3280')).toBeInTheDocument();
+    expect(screen.queryByText(/รพ\.บำรุงราษฎร์/)).not.toBeInTheDocument();
   });
 
   it('toggleEnroll removes id from enrolled set when already enrolled', async () => {

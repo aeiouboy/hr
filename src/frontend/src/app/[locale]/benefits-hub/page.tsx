@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
@@ -19,7 +19,11 @@ import {
   DemoValuesDisclaimer,
   buttonVariants,
   Modal,
+  DataTable,
+  FormField,
+  FormInput,
 } from '@/components/humi';
+import type { DataTableColumn } from '@/components/humi';
 import { BenefitServicesPanel } from '@/components/benefits/BenefitServicesPanel';
 import { cn } from '@/lib/utils';
 import { benefitProfileRoute, benefitReimbursementRoute } from '@/lib/benefit-routes';
@@ -31,6 +35,7 @@ import {
   ACCENT_BAR_CLASS,
   CLAIM_STATUS_META,
   type HumiBenefitPlan,
+  type HumiClaimHistoryItem,
 } from '@/lib/humi-mock-data';
 import { useBenefitsStore, type BenefitsTabKey } from '@/stores/humi-benefits-slice';
 
@@ -81,6 +86,23 @@ const POLICIES = [
 
 function benefitDisplayItem(item: string) {
   return item === 'ไม่ต้องเสียภาษี' ? 'ใช้ตามเงื่อนไขสวัสดิการ' : item;
+}
+
+function claimHistorySearchText(row: HumiClaimHistoryItem) {
+  return [
+    row.id,
+    row.type,
+    row.desc,
+    row.amount,
+    row.date,
+    CLAIM_STATUS_META[row.status].label,
+  ]
+    .join(' ')
+    .toLocaleLowerCase('th-TH');
+}
+
+function claimAmountValue(amount: string) {
+  return Number(amount.replace(/[^0-9.-]/g, '')) || 0;
 }
 
 export default function HumiBenefitsHubPage() {
@@ -404,6 +426,84 @@ function BenefitsTab() {
 function ClaimsTab() {
   const params = useParams<{ locale?: string }>();
   const locale = typeof params.locale === 'string' ? params.locale : 'th';
+  const [searchQuery, setSearchQuery] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const filteredClaimHistory = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLocaleLowerCase('th-TH');
+
+    return HUMI_CLAIM_HISTORY.filter((row) => {
+      const submissionDate = row.submittedAt.slice(0, 10);
+      const matchesSearch = normalizedQuery
+        ? claimHistorySearchText(row).includes(normalizedQuery)
+        : true;
+      const matchesStartDate = startDate ? submissionDate >= startDate : true;
+      const matchesEndDate = endDate ? submissionDate <= endDate : true;
+
+      return matchesSearch && matchesStartDate && matchesEndDate;
+    });
+  }, [endDate, searchQuery, startDate]);
+
+  const claimHistoryColumns = useMemo<DataTableColumn<HumiClaimHistoryItem>[]>(() => [
+    {
+      id: 'benefitName',
+      header: 'ชื่อสวัสดิการ / Benefit Name',
+      cell: (row) => (
+        <div className="min-w-[180px]">
+          <p className="text-body font-semibold text-ink">{row.type}</p>
+          <p className="text-small text-ink-muted">{row.desc}</p>
+        </div>
+      ),
+      sortAccessor: (row) => row.type,
+    },
+    {
+      id: 'claimAmount',
+      header: 'จำนวนเงินเบิก / Claim Amount',
+      cell: (row) => (
+        <span className="font-display text-body font-semibold text-ink tabular-nums">
+          {row.amount}
+        </span>
+      ),
+      sortAccessor: (row) => claimAmountValue(row.amount),
+      align: 'right',
+      className: 'w-40',
+    },
+    {
+      id: 'submissionDate',
+      header: 'วันที่ส่ง / Submission Date',
+      cell: (row) => (
+        <span className="text-small tabular-nums text-ink-muted">{row.date}</span>
+      ),
+      sortAccessor: (row) => row.submittedAt,
+      className: 'w-44',
+    },
+    {
+      id: 'status',
+      header: 'สถานะ / Status',
+      cell: (row) => {
+        const meta = CLAIM_STATUS_META[row.status];
+        return (
+          <span
+            className={cn(
+              'rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] whitespace-nowrap',
+              meta.toneClass
+            )}
+          >
+            {meta.label}
+          </span>
+        );
+      },
+      sortAccessor: (row) => CLAIM_STATUS_META[row.status].label,
+      className: 'w-40',
+    },
+  ], []);
+
+  const resetClaimFilters = () => {
+    setSearchQuery('');
+    setStartDate('');
+    setEndDate('');
+  };
 
   return (
     <>
@@ -519,47 +619,78 @@ function ClaimsTab() {
             ส่งออกรายงาน
           </Button>
         </div>
-        <ul role="list" className="divide-y divide-hairline">
-          {HUMI_CLAIM_HISTORY.map((r) => {
-            const meta = CLAIM_STATUS_META[r.status];
-            return (
-              <li
-                key={r.id}
-                className="flex flex-col gap-2 py-3.5 sm:flex-row sm:items-center sm:gap-3"
-              >
-                <span
+
+        <div className="mb-4 grid gap-3 rounded-[var(--radius-md)] border border-hairline bg-canvas-soft p-4 lg:grid-cols-[minmax(220px,1fr)_180px_180px_auto] lg:items-end">
+          <FormField
+            id="claim-history-search"
+            label="ค้นหา / Search bar"
+            help="ค้นหาจากชื่อสวัสดิการ รายละเอียด จำนวนเงิน หรือสถานะ"
+          >
+            {(controlProps) => (
+              <div className="relative">
+                <Search
+                  size={16}
                   aria-hidden
-                  className="flex h-10 w-8 shrink-0 items-center justify-center rounded-[var(--radius-xs)] border border-hairline bg-canvas-soft text-ink-muted"
-                >
-                  <FileText size={16} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-body font-semibold text-ink">
-                    {r.type}{' '}
-                    <span className="font-normal text-ink-muted">· {r.date}</span>
-                  </p>
-                  <p className="text-small text-ink-muted">{r.desc}</p>
-                </div>
-                <div className="flex shrink-0 items-center gap-3">
-                  <span className="font-display text-body font-semibold text-ink tabular-nums">
-                    {r.amount}
-                  </span>
-                  <span
-                    className={cn(
-                      'rounded-full px-2.5 py-1 text-[length:var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] whitespace-nowrap',
-                      meta.toneClass
-                    )}
-                  >
-                    {meta.label}
-                  </span>
-                  <Button variant="ghost" size="sm">
-                    เปิด
-                  </Button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                  className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint"
+                />
+                <FormInput
+                  {...controlProps}
+                  type="search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="เช่น ค่าทันตกรรม หรือ อนุมัติแล้ว"
+                  className="pl-9"
+                />
+              </div>
+            )}
+          </FormField>
+          <FormField id="claim-history-start-date" label="วันที่เริ่มต้น / Start Date">
+            {(controlProps) => (
+              <FormInput
+                {...controlProps}
+                type="date"
+                value={startDate}
+                max={endDate || undefined}
+                onChange={(event) => setStartDate(event.target.value)}
+              />
+            )}
+          </FormField>
+          <FormField id="claim-history-end-date" label="วันที่สิ้นสุด / End Date">
+            {(controlProps) => (
+              <FormInput
+                {...controlProps}
+                type="date"
+                value={endDate}
+                min={startDate || undefined}
+                onChange={(event) => setEndDate(event.target.value)}
+              />
+            )}
+          </FormField>
+          <Button
+            type="button"
+            variant="ghost"
+            className="min-h-[44px] justify-center"
+            onClick={resetClaimFilters}
+          >
+            ล้างตัวกรอง
+          </Button>
+        </div>
+
+        <DataTable
+          caption="ประวัติการเบิกค่าใช้จ่าย"
+          columns={claimHistoryColumns}
+          rows={filteredClaimHistory}
+          rowKey={(row) => row.id}
+          dense
+          emptyState={
+            <div className="text-center">
+              <p className="text-body font-semibold text-ink">ไม่พบประวัติการเบิก</p>
+              <p className="mt-1 text-small text-ink-muted">
+                ลองปรับคำค้นหา วันที่เริ่มต้น หรือวันที่สิ้นสุด
+              </p>
+            </div>
+          }
+        />
       </Card>
     </>
   );

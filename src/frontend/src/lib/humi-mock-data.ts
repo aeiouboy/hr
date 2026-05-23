@@ -1378,7 +1378,10 @@ export type ClaimStatus = 'approved' | 'pending' | 'info';
 
 export interface HumiClaimHistoryItem {
   id: string;
+  /** Display submission date in Thai for compact hub surfaces. */
   date: string;
+  /** ISO date used by STA-75 claim-history start/end filters. */
+  submittedAt: string;
   type: string;
   desc: string;
   amount: string;
@@ -1386,11 +1389,11 @@ export interface HumiClaimHistoryItem {
 }
 
 export const HUMI_CLAIM_HISTORY: HumiClaimHistoryItem[] = [
-  { id: 'cl-1', date: '15 เม.ย. 2569', type: 'ค่ารักษาพยาบาล', desc: 'รพ.บำรุงราษฎร์ · ใบเสร็จ #RX-3381', amount: '฿4,820', status: 'approved' },
-  { id: 'cl-2', date: '2 เม.ย. 2569', type: 'ค่าน้ำมันรถ', desc: 'ปตท. สาขาทองหล่อ · 230 กิโลเมตร', amount: '฿1,280', status: 'approved' },
-  { id: 'cl-3', date: '28 เม.ย. 2569', type: 'ค่าโทรศัพท์', desc: 'AIS · บิลเดือน เม.ย.', amount: '฿800', status: 'pending' },
-  { id: 'cl-4', date: '22 เม.ย. 2569', type: 'ค่ารักษาพยาบาล', desc: 'บีเอ็นเอชคลินิก · ใบเสร็จ #RX-3280', amount: '฿7,580', status: 'approved' },
-  { id: 'cl-5', date: '10 เม.ย. 2569', type: 'ค่าทันตกรรม', desc: 'ต้องแนบใบเสร็จเพิ่ม', amount: '฿1,500', status: 'info' },
+  { id: 'cl-1', date: '15 เม.ย. 2569', submittedAt: '2026-04-15', type: 'ค่ารักษาพยาบาล', desc: 'รพ.บำรุงราษฎร์ · ใบเสร็จ #RX-3381', amount: '฿4,820', status: 'approved' },
+  { id: 'cl-2', date: '2 เม.ย. 2569', submittedAt: '2026-04-02', type: 'ค่าน้ำมันรถ', desc: 'ปตท. สาขาทองหล่อ · 230 กิโลเมตร', amount: '฿1,280', status: 'approved' },
+  { id: 'cl-3', date: '28 เม.ย. 2569', submittedAt: '2026-04-28', type: 'ค่าโทรศัพท์', desc: 'AIS · บิลเดือน เม.ย.', amount: '฿800', status: 'pending' },
+  { id: 'cl-4', date: '22 เม.ย. 2569', submittedAt: '2026-04-22', type: 'ค่ารักษาพยาบาล', desc: 'บีเอ็นเอชคลินิก · ใบเสร็จ #RX-3280', amount: '฿7,580', status: 'approved' },
+  { id: 'cl-5', date: '10 เม.ย. 2569', submittedAt: '2026-04-10', type: 'ค่าทันตกรรม', desc: 'ต้องแนบใบเสร็จเพิ่ม', amount: '฿1,500', status: 'info' },
 ];
 
 export interface HumiPayslip {
