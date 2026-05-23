@@ -20,6 +20,13 @@ export function RequestSummary({ request }: RequestSummaryProps) {
     [t('payGrade'), request.requester.payGrade],
   ];
   const visibleEmployeeFacts = employeeFacts.filter((item): item is [string, string] => Boolean(item[1]));
+  const requesterMeta = [request.requester.position, request.requester.department]
+    .filter((value): value is string => Boolean(value))
+    .filter((value, index, items) => {
+      if (index === 0) return true;
+      const current = value.toLocaleLowerCase();
+      return !items.some((item, itemIndex) => itemIndex < index && item.toLocaleLowerCase().includes(current));
+    });
 
   const submittedDate = new Date(request.submittedAt).toLocaleDateString('th-TH', {
     year: 'numeric',
@@ -38,8 +45,9 @@ export function RequestSummary({ request }: RequestSummaryProps) {
         />
         <div className="min-w-0 flex-1">
           <p className="font-semibold text-ink">{request.requester.name}</p>
-          <p className="text-small text-ink-muted">{request.requester.position}</p>
-          <p className="text-small text-ink-muted">{request.requester.department}</p>
+          {requesterMeta.length > 0 && (
+            <p className="text-small text-ink-muted">{requesterMeta.join(' · ')}</p>
+          )}
         </div>
         <UrgencyBadge urgency={request.urgency} />
       </div>
