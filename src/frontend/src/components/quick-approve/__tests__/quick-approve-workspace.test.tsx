@@ -485,6 +485,19 @@ describe('Inbox table', () => {
     expect(screen.getByTestId('bulk-action-toolbar')).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it('matches the user reference by removing waiting, chain, and urgency columns', () => {
+    setPersona(['hr_admin']);
+    render(<QuickApprovePage />);
+
+    expect(screen.queryByText('รอ (วัน)')).not.toBeInTheDocument();
+    expect(screen.queryByText('Waiting')).not.toBeInTheDocument();
+    expect(screen.queryByText('ขั้นตอน')).not.toBeInTheDocument();
+    expect(screen.queryByText('Chain')).not.toBeInTheDocument();
+    expect(screen.queryByText('table.urgency')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('approval-timeline-chain')).not.toBeInTheDocument();
+    expect(screen.queryByTestId(/urgency-/)).not.toBeInTheDocument();
+  });
+
   it('claims only the selected row for the current approver without removing it', async () => {
     setPersona(['manager'], { userId: 'MGR001', username: 'พิชญ์ ม. (หัวหน้าทีม)' });
     const user = userEvent.setup();

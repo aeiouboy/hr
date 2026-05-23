@@ -11,9 +11,10 @@
  *   1. Header card — bilingual title, persona chip, queue scope label
  *   2. Filter strip — type, urgency, search, date range; Benefits chip RBAC-gated
  *   3. Bulk-action bar — checkbox-driven; gated by bulkApprove capability
- *   4. Inbox table — DataTable with select-checkbox, type, requester, days waiting,
- *      current step, urgency chip, → link to /quick-approve/{id}
- *   5. Approval-chain per row (compact) — ApprovalTimelineChain
+ *   4. Inbox table — DataTable with select-checkbox, type, requester,
+ *      description, Assign to Me, attachment indicator, → link to /quick-approve/{id}.
+ *      STA-78 user reference explicitly removes waiting-days, approval-chain,
+ *      and urgency columns from the list view.
  *   6. Delegation banner — proxy mode via originalUser
  *   7. Empty state
  */
@@ -39,8 +40,6 @@ import { Card, CardTitle, Button, DataTable, Modal } from '@/components/humi';
 import type { DataTableColumn } from '@/components/humi';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { UrgencyBadge } from '@/components/quick-approve/UrgencyBadge';
-import { ApprovalTimelineChain } from '@/components/quick-approve/ApprovalChain';
 import { DelegationModal } from '@/components/quick-approve/DelegationModal';
 import { useAuthStore } from '@/stores/auth-store';
 import { useCapabilities } from '@/hooks/use-capabilities';
@@ -840,38 +839,6 @@ export function QuickApprovePage() {
       align: 'center',
     },
     {
-      id: 'waiting',
-      header: isTh ? 'รอ (วัน)' : 'Waiting',
-      cell: (row) => (
-        <span className={cn(
-          'text-sm font-medium tabular-nums',
-          row.waitingDays >= 7 ? 'text-danger' : row.waitingDays >= 3 ? 'text-warning' : 'text-ink-muted'
-        )}>
-          {row.waitingDays}
-        </span>
-      ),
-      sortAccessor: (row) => row.waitingDays,
-      className: 'w-20',
-      align: 'right',
-    },
-    {
-      id: 'chain',
-      header: isTh ? 'ขั้นตอน' : 'Chain',
-      cell: (row) => (
-        <ApprovalTimelineChain
-          steps={row.approvalTimeline}
-          activeStep={row.approvalTimeline.findIndex((s) => s.status === 'pending')}
-          size="sm"
-        />
-      ),
-    },
-    {
-      id: 'urgency',
-      header: t('table.urgency'),
-      cell: (row) => <UrgencyBadge urgency={row.urgency} label={urgencyLabels[row.urgency]} />,
-      className: 'w-24',
-    },
-    {
       id: 'action',
       header: '',
       headerVisuallyHidden: true,
@@ -899,7 +866,7 @@ export function QuickApprovePage() {
       className: 'w-16',
       align: 'right',
     },
-  ], [currentUserId, filteredItems, handleAssignToMe, handleSelectAll, handleToggleSelect, isTh, locale, selectedIds, t, typeLabels, urgencyLabels]);
+  ], [currentUserId, filteredItems, handleAssignToMe, handleSelectAll, handleToggleSelect, isTh, locale, selectedIds, t, typeLabels]);
 
   if (loading) {
     return (
