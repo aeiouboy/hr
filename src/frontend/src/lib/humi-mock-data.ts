@@ -1123,6 +1123,8 @@ export const HUMI_MY_PROFILE = {
     ['Current Position Effective Date', '1 ตุลาคม 2566'],
     ['Current Years in Position', _yip.display],
     ['Current Store Branch Effective Date', '1 ตุลาคม 2566'],
+    ['PF Service Date', '1 มีนาคม 2562'],
+    ['PF Service End Date', '—'],
     ['──── Organization Information ────', ''],
     ['Company', 'Central Retail Corporation PCL'],
     ['Group', 'Central Retail'],
