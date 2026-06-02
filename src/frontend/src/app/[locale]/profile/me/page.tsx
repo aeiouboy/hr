@@ -46,6 +46,13 @@ import {
   maskNationalId,
 } from '@/lib/all-ported-employees';
 import { useAuthStore } from '@/stores/auth-store';
+import { useShallow } from 'zustand/react/shallow';
+import {
+  useSpecialPrivilegeStore,
+  selectPrivilegesForEmployee,
+} from '@/stores/special-privilege-store';
+import { getPlan } from '@/data/benefits/plan-registry';
+import { formatCurrency, formatDate } from '@/lib/date';
 import {
   useHumiProfileStore,
   type ProfileTab,
@@ -364,6 +371,16 @@ export default function HumiProfileMePage({
   // T2 #89 — derive defaults from ported HUMI_EMPLOYEES + SF parity, keyed by current login (auth-store
   //          email reflects view-as persona via switchPersona). Falls back to FORM_DEFAULTS.
   const currentEmail = useAuthStore((s) => s.email);
+  // STA-90: demo seam — surface seeded special privilege for EMP-0005 on the
+  // self-profile benefits panel. The 'EMP-0005' literal is a hardcoded DEMO
+  // SEAM, NOT the logged-in persona (which resolves via employeeForLogin →
+  // EMP_BY_LOGIN, a separate lowercase emp-00x id space). Hook is at component
+  // top level (Rules of Hooks); only the rendered JSX is gated by panelKey.
+  // Selector returns a fresh array — wrap with useShallow to avoid churn.
+  const tSpecialPrivilege = useTranslations('admin.specialPrivilege');
+  const specialPrivileges = useSpecialPrivilegeStore(
+    useShallow(selectPrivilegesForEmployee('EMP-0005')),
+  );
   const portedEmployee = employeeForLogin(currentEmail);
   const initialFormValues = deriveFormValuesFromEmployee(portedEmployee);
   const [formValues, setFormValues] = useState<EditFormValues>(initialFormValues);
@@ -1989,6 +2006,49 @@ export default function HumiProfileMePage({
                 )}
               </ul>
             </div>
+
+            {/* STA-90: Special Privilege flag (BE-03) — additive, demo seam EMP-0005 */}
+            {specialPrivileges.length > 0 && (
+              <div className="humi-card lg:col-span-2">
+                <div
+                  className="humi-row"
+                  style={{ justifyContent: 'space-between', alignItems: 'center', gap: 12 }}
+                >
+                  <h4 className="font-display text-lg font-semibold leading-[1.2] tracking-tight text-ink">
+                    {tSpecialPrivilege('panelHeading')}
+                  </h4>
+                  <span className="humi-tag humi-tag--accent">
+                    {tSpecialPrivilege('flag')}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
+                  {specialPrivileges.map((rec) => {
+                    const plan = getPlan(rec.planId);
+                    const planName = plan
+                      ? (locale === 'th' ? plan.nameTh : plan.nameEn)
+                      : rec.planId;
+                    return (
+                      <div
+                        key={rec.id}
+                        className="rounded-md bg-canvas-soft p-3"
+                      >
+                        <div className="humi-row" style={{ justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+                          <span className="text-body font-medium text-ink">{planName}</span>
+                          <span className="text-body font-semibold text-ink">
+                            {formatCurrency(rec.benefitEntitlementAmount)}
+                          </span>
+                        </div>
+                        <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                          {formatDate(rec.effectiveStartDate, 'medium', locale)}
+                          {' — '}
+                          {formatDate(rec.effectiveEndDate, 'medium', locale)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

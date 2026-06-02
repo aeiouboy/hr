@@ -4119,6 +4119,55 @@
       "empty": {
         "all": "ไม่มีรายการ"
       }
+    },
+    "specialPrivilege": {
+      "menu": "เพิ่ม/ปรับสวัสดิการรายคน",
+      "pageTitle": "สิทธิพิเศษเฉพาะบุคคล",
+      "title": "เพิ่ม/ปรับสวัสดิการรายคน",
+      "subtitle": "กำหนดแผนสวัสดิการและปรับวงเงินเฉพาะพนักงานรายนี้",
+      "cardLabel": "เพิ่ม/ปรับสวัสดิการรายคน",
+      "cardDesc": "กำหนดแผนและปรับวงเงินสวัสดิการเป็นรายบุคคล",
+      "fields": {
+        "specialBenefitGroup": "กลุ่มสวัสดิการพิเศษ",
+        "specialBenefitGroupDesc": "ทำเครื่องหมายว่าพนักงานรายนี้อยู่ในกลุ่มสวัสดิการพิเศษ",
+        "plan": "แผนสวัสดิการ",
+        "planPlaceholder": "— เลือกแผน —",
+        "schedulePeriod": "รอบสิทธิ์",
+        "schedulePeriodOptions": {
+          "year": "ต่อปี",
+          "month": "ต่อเดือน",
+          "quarter": "ต่อไตรมาส",
+          "one-time": "ครั้งเดียว",
+          "lifetime": "ตลอดชีพ"
+        },
+        "entitlementAmount": "วงเงินสิทธิ์ (บาท)",
+        "maxPerClaim": "วงเงินต่อการเบิก (บาท)",
+        "effectiveStart": "วันที่เริ่มมีผล",
+        "effectiveEnd": "วันที่สิ้นสุด",
+        "reason": "เหตุผล"
+      },
+      "validation": {
+        "reasonRequired": "กรุณาระบุเหตุผล"
+      },
+      "buttons": {
+        "cancel": "ยกเลิก",
+        "submit": "บันทึกสิทธิพิเศษ"
+      },
+      "list": {
+        "heading": "สิทธิพิเศษเฉพาะบุคคล",
+        "empty": "ยังไม่มีสิทธิพิเศษสำหรับพนักงานรายนี้",
+        "plan": "แผน",
+        "entitlementAmount": "วงเงิน",
+        "maxPerClaim": "ต่อการเบิก",
+        "schedulePeriod": "รอบ",
+        "effectivePeriod": "ช่วงเวลาที่มีผล",
+        "reason": "เหตุผล",
+        "createdBy": "บันทึกโดย",
+        "delete": "ลบ"
+      },
+      "flag": "สิทธิพิเศษ",
+      "panelHeading": "สิทธิพิเศษเฉพาะบุคคล",
+      "panelEmpty": "ยังไม่มีสิทธิพิเศษ"
     }
   },
   "hireForm": {

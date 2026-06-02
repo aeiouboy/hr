@@ -5,16 +5,18 @@
 // Sections:
 //   A. Snapshot card — avatar + name + ID + class + hire date + tenure + org info + status
 //   B. Timeline event log — TimelineEvent[] sorted newest first, scrollable
-//   C. Action menu — 5 action cards (2 active, 3 placeholder per Plan §0.2 + §4)
+//   C. Action menu — lifecycle action cards (see ACTION_CARDS)
 //
 // Consume-only patterns (C1 surgical):
 //   - useEmployees (S2) — read via selector, no internal mutation
 //   - useTimelines (S3 own) — seed on mount, read via .get()
 //
-// C8: exactly 5 action cards — no extras
+// C8: action card count is driven by ACTION_CARDS — no hardcoded count
 
 import { useEffect, useMemo } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useShallow } from 'zustand/react/shallow'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -33,6 +35,8 @@ import {
   MapPin,
   Network,
   Star,
+  BadgePlus,
+  Trash2,
 } from 'lucide-react'
 import { useTimelines } from '@/lib/admin/store/useTimelines'
 import { useEmployees } from '@/lib/admin/store/useEmployees'
@@ -44,6 +48,13 @@ import { calcAge, calcGeneration, calcYearOfService, calcYearsInJob, calcYearsIn
 import type { LifecycleEvent } from '@/lib/calculations'
 import { mapEmplStatusCode } from '@/lib/employee/empStatus'
 import CompensationHistory from '@/components/profile/CompensationHistory'
+import { formatCurrency, formatDate } from '@/lib/date'
+import { getPlan } from '@/data/benefits/plan-registry'
+import { EmptyState } from '@/components/humi'
+import {
+  useSpecialPrivilegeStore,
+  selectPrivilegesForEmployee,
+} from '@/stores/special-privilege-store'
 
 // ── Avatar color by status ───────────────────────────────────
 function avatarClass(status: string): string {
@@ -181,6 +192,14 @@ export default function EmployeeDetailPage() {
   // BRD #207: HRBP-conditional PerPersonal snapshot
   const authRoles = useAuthStore((s) => s.roles)
   const isHRBPPlus = authRoles.some((r) => ['hrbp', 'spd', 'hr_admin', 'hr_manager'].includes(r))
+
+  // STA-90: per-employee special privileges (shared single join path).
+  // Selector returns a fresh array — wrap with useShallow to avoid re-render churn.
+  const tSpecial = useTranslations('admin.specialPrivilege')
+  const specialPrivileges = useSpecialPrivilegeStore(
+    useShallow(selectPrivilegesForEmployee(empId)),
+  )
+  const removePrivilege = useSpecialPrivilegeStore((s) => s.removePrivilege)
 
   // Timeline store — S3 owns this
   const { seed } = useTimelines()
@@ -337,6 +356,15 @@ export default function EmployeeDetailPage() {
       href: `/${locale}/admin/employees/${empId}/acting`,
       locked: !avail.acting.ok,
       lockReason: avail.acting.reason,
+    },
+    {
+      // STA-90: BE-03 Special Privilege — reuses the change_type isActive gate.
+      icon: BadgePlus,
+      label: tSpecial('cardLabel'),
+      desc: tSpecial('cardDesc'),
+      href: `/${locale}/admin/employees/${empId}/special-privilege`,
+      locked: !avail.change_type.ok,
+      lockReason: avail.change_type.reason,
     },
   ]
 
@@ -789,6 +817,74 @@ export default function EmployeeDetailPage() {
         </div>
       )}
 
+      {/* ── STA-90: Special Privilege list (BE-03) ─────────────── */}
+      <div className="humi-card" style={{ padding: 16 }}>
+        <div className="humi-row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div className="humi-eyebrow">{tSpecial('list.heading')}</div>
+          <span className="humi-tag humi-tag--accent">{tSpecial('flag')}</span>
+        </div>
+        {specialPrivileges.length === 0 ? (
+          <EmptyState
+            icon={BadgePlus}
+            titleTh={tSpecial('list.empty')}
+            titleEn={tSpecial('list.empty')}
+            descTh={tSpecial('subtitle')}
+            descEn={tSpecial('subtitle')}
+          />
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {specialPrivileges.map((rec) => {
+              const plan = getPlan(rec.planId)
+              const planName = plan
+                ? (locale === 'th' ? plan.nameTh : plan.nameEn)
+                : rec.planId
+              return (
+                <div
+                  key={rec.id}
+                  className="humi-row"
+                  style={{
+                    gap: 12, padding: '10px 14px', borderRadius: 8,
+                    background: 'var(--color-canvas-soft)', flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  <div style={{ flex: 1, minWidth: 200 }}>
+                    <div className="text-body font-medium text-ink">{planName}</div>
+                    <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                      {tSpecial('list.entitlementAmount')}: {formatCurrency(rec.benefitEntitlementAmount)}
+                      {' · '}
+                      {tSpecial('list.maxPerClaim')}: {formatCurrency(rec.maxPerClaim)}
+                      {' · '}
+                      {tSpecial('list.schedulePeriod')}: {tSpecial(`fields.schedulePeriodOptions.${rec.schedulePeriod}` as never)}
+                    </div>
+                    <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                      {tSpecial('list.effectivePeriod')}: {formatDate(rec.effectiveStartDate, 'medium', locale)}
+                      {' — '}
+                      {formatDate(rec.effectiveEndDate, 'medium', locale)}
+                    </div>
+                    <div className="text-small text-ink-muted" style={{ marginTop: 2 }}>
+                      {tSpecial('list.reason')}: {rec.reason}
+                    </div>
+                    <div className="text-small text-ink-soft" style={{ marginTop: 2 }}>
+                      {tSpecial('list.createdBy')}: {rec.createdBy} · {formatDate(rec.createdAt, 'medium', locale)}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removePrivilege(rec.id)}
+                    aria-label={tSpecial('list.delete')}
+                    className="humi-btn humi-btn--ghost"
+                    style={{ padding: '4px 8px' }}
+                  >
+                    <Trash2 size={14} aria-hidden />
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
       {/* ── BRD #207: HRBP-conditional PerPersonal snapshot ──────────────────
           Visible to: hrbp, spd, hr_admin, hr_manager only.
           SF cite: sf-extract/qas-fields-2026-04-26/sf-qas-PerPersonal-2026-04-26.json
@@ -900,7 +996,7 @@ export default function EmployeeDetailPage() {
       {/* ── P3 read-only Compensation History (admin/HRBP cross-user view) ── */}
       <CompensationHistory employeeId={employee.employee_id} viewerIsOwner={false} />
 
-      {/* ── Section C: Action menu (5 cards, C8 guardrail) ── */}
+      {/* ── Section C: Action menu (see ACTION_CARDS, C8 guardrail) ── */}
       <div className="humi-card">
         <div className="humi-eyebrow" style={{ marginBottom: 14 }}>
           การดำเนินการ

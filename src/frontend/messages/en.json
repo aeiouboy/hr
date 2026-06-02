@@ -4240,6 +4240,55 @@
       "empty": {
         "all": "No items"
       }
+    },
+    "specialPrivilege": {
+      "menu": "Add / adjust individual benefit",
+      "pageTitle": "Special Privilege",
+      "title": "Add / adjust individual benefit",
+      "subtitle": "Assign a benefit plan and override the entitlement limit for this employee",
+      "cardLabel": "Add / adjust individual benefit",
+      "cardDesc": "Assign a plan and override the entitlement limit per employee",
+      "fields": {
+        "specialBenefitGroup": "Special Benefit Group",
+        "specialBenefitGroupDesc": "Flag this employee as a special benefit group member",
+        "plan": "Benefit plan",
+        "planPlaceholder": "— Select a plan —",
+        "schedulePeriod": "Schedule period",
+        "schedulePeriodOptions": {
+          "year": "Per year",
+          "month": "Per month",
+          "quarter": "Per quarter",
+          "one-time": "One-time",
+          "lifetime": "Lifetime"
+        },
+        "entitlementAmount": "Entitlement amount (THB)",
+        "maxPerClaim": "Max per claim (THB)",
+        "effectiveStart": "Effective start date",
+        "effectiveEnd": "Effective end date",
+        "reason": "Reason"
+      },
+      "validation": {
+        "reasonRequired": "Reason is required"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "submit": "Save special privilege"
+      },
+      "list": {
+        "heading": "Special privileges",
+        "empty": "No special privileges for this employee yet",
+        "plan": "Plan",
+        "entitlementAmount": "Entitlement",
+        "maxPerClaim": "Max / claim",
+        "schedulePeriod": "Period",
+        "effectivePeriod": "Effective period",
+        "reason": "Reason",
+        "createdBy": "Created by",
+        "delete": "Remove"
+      },
+      "flag": "Special Privilege",
+      "panelHeading": "Individual special privilege",
+      "panelEmpty": "No special privilege assigned"
     }
   },
   "hireForm": {
