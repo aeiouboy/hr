@@ -11,7 +11,7 @@
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { ChevronDown, UploadCloud, FileText, X, CalendarDays, ShieldCheck } from 'lucide-react'
 import { useProfileEdit } from '@/lib/admin/store/useProfileEdit'
 import type { Attachment } from '@/stores/workflow-approvals'
@@ -64,6 +64,7 @@ const inputCls =
 
 export default function ProfileEditPage() {
   const router = useRouter()
+  const locale = useLocale()
   const tCr = useTranslations('ess.changeRequest')
   const { draft, baseline, isDirty, isSubmitting, setField, loadFromEmployee, submit } = useProfileEdit()
   const [toast, setToast] = useState<string | null>(null)
@@ -160,7 +161,7 @@ export default function ProfileEditPage() {
       }
       showToast('ส่งคำขอแก้ไขข้อมูลส่วนตัวแล้ว — รอ SPD อนุมัติ')
       setAttachments([])
-      setTimeout(() => router.push('/th/ess/workflows'), 1500)
+      setTimeout(() => router.push(`/${locale}/ess/workflows`), 1500)
     } catch (err) {
       console.warn('[ProfileEditPage] submit error:', err)
       showToast('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
