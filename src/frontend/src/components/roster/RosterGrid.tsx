@@ -11,6 +11,8 @@ interface TeamMember {
   id: string;
   nameTh: string;
   nameEn: string;
+  roleTh?: string;
+  roleEn?: string;
 }
 
 export interface RosterGridProps {
@@ -77,8 +79,13 @@ export function RosterGrid({
                 <span className="truncate text-sm font-medium text-ink">
                   {isTh ? emp.nameTh : emp.nameEn}
                 </span>
+                {(isTh ? emp.roleTh : emp.roleEn) && (
+                  <span className="truncate text-xs text-ink-muted">
+                    {isTh ? emp.roleTh : emp.roleEn}
+                  </span>
+                )}
                 <span
-                  className="text-xs text-ink-muted"
+                  className="text-xs text-ink-faint"
                   data-testid="weekly-hours"
                   data-emp={emp.id}
                 >

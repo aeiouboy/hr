@@ -171,3 +171,28 @@ export function applyTemplateRow(
   }
   return row;
 }
+
+/**
+ * Seed a roster from a hand-authored weekly PLAN keyed by employee id, where
+ * each value is a 7-slot array of codes indexed by day-of-week position in the
+ * displayed week (slot 0 = dates[0] … slot 6 = dates[6]). Unlike the template
+ * projection (one fixed shift per weekday), a plan models a realistic retail
+ * roster: rotating shifts and staggered day-offs so coverage stays balanced.
+ * Slots beyond the row's length fall back to the day-off sentinel.
+ */
+export function seedRosterFromPlan(
+  plan: Record<string, (string | null)[]>,
+  team: { id: string }[],
+  dates: string[],
+): Record<string, Record<string, string | null>> {
+  const roster: Record<string, Record<string, string | null>> = {};
+  for (const emp of team) {
+    const slots = plan[emp.id] ?? [];
+    const row: Record<string, string | null> = {};
+    dates.forEach((date, i) => {
+      row[date] = i < slots.length ? slots[i] : OFF;
+    });
+    roster[emp.id] = row;
+  }
+  return roster;
+}

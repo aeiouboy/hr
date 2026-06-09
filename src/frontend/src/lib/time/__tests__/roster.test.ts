@@ -5,6 +5,7 @@ import {
   weeklyHours,
   coverageForDay,
   seedRosterFromTemplates,
+  seedRosterFromPlan,
   rosterRowToSchedule,
   applyTemplateRow,
   REQUIRED_PER_DAY,
@@ -104,6 +105,39 @@ describe('seedRosterFromTemplates', () => {
     expect(roster['EMP101']['2026-05-22']).toBe('8A1000');
     // 2026-05-24 is Sunday — Store template Sun off
     expect(roster['EMP101']['2026-05-24']).toBe('F');
+  });
+});
+
+describe('seedRosterFromPlan', () => {
+  const team = [{ id: 'A' }, { id: 'B' }];
+  const wd = weekDates(START); // 7 dates Thu..Wed
+  const plan = {
+    A: ['9A0700', '8A0800', '8A1000', 'F', '8A0800', '8A0800', '8A1000'],
+    B: ['4C0800', '4C0800', 'F', '4C0800', '4C0800', '4C0800', 'F'],
+  };
+  const roster = seedRosterFromPlan(plan, team, wd);
+
+  test('maps plan slots by day index onto the week dates', () => {
+    expect(roster['A'][wd[0]]).toBe('9A0700');
+    expect(roster['A'][wd[3]]).toBe('F');
+    expect(roster['B'][wd[2]]).toBe('F');
+    expect(roster['B'][wd[5]]).toBe('4C0800');
+  });
+
+  test('rotating shifts produce a realistic weekly-hours mix (not flat)', () => {
+    expect(weeklyHours(wd.map((d) => roster['A'][d]))).toBe(49); // 9+8+8+0+8+8+8
+    expect(weeklyHours(wd.map((d) => roster['B'][d]))).toBe(20); // 4×5 part-time
+  });
+
+  test('staggered day-offs keep coverage non-zero each day', () => {
+    for (const d of wd) {
+      expect(coverageForDay(roster, d, REQUIRED_PER_DAY).assigned).toBeGreaterThan(0);
+    }
+  });
+
+  test('missing employee in plan → all day-off (never empty/null)', () => {
+    const r = seedRosterFromPlan({}, [{ id: 'Z' }], wd);
+    for (const d of wd) expect(r['Z'][d]).toBe('F');
   });
 });
 

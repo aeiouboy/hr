@@ -21,7 +21,7 @@ import { validateDwsPeriod, dwsLabel, DWS_LEVEL_CLASS, type DwsLevel } from '@/l
 import { currentPeriod } from '@/lib/time/period';
 import {
   weekDates as buildWeekDates,
-  seedRosterFromTemplates,
+  seedRosterFromPlan,
   rosterRowToSchedule,
 } from '@/lib/time/roster';
 import { useShiftRosterStore } from '@/stores/shift-roster';
@@ -30,13 +30,30 @@ import { CoverageRow } from '@/components/roster/CoverageRow';
 import { Legend } from '@/components/roster/Legend';
 import { ShiftPopover } from '@/components/roster/ShiftPopover';
 
-const DEMO_TEAM: { id: string; nameTh: string; nameEn: string }[] = [
-  { id: 'EMP101', nameTh: 'ก้องภพ สาขาสีลม', nameEn: 'Kongphop (Silom)' },
-  { id: 'EMP102', nameTh: 'นภา สำนักงานใหญ่', nameEn: 'Napha (HO)' },
-  { id: 'EMP103', nameTh: 'วิภา สาขาลาดพร้าว', nameEn: 'Wipha (Ladprao)' },
-  { id: 'EMP104', nameTh: 'ธีรพงษ์ สาขาบางนา', nameEn: 'Teerapong (Bangna)' },
-  { id: 'EMP105', nameTh: 'อรุณี สำนักงานใหญ่', nameEn: 'Arunee (HO)' },
+// Demo team for one store branch — a realistic retail mix (shift lead, senior
+// associate, sales, cashier, part-timer, stock). Roles surface in the grid's
+// sticky column so the roster reads like a real branch schedule.
+const DEMO_TEAM: { id: string; nameTh: string; nameEn: string; roleTh: string; roleEn: string }[] = [
+  { id: 'EMP101', nameTh: 'ก้องภพ วัฒนกุล', nameEn: 'Kongphop W.', roleTh: 'หัวหน้ากะ', roleEn: 'Shift lead' },
+  { id: 'EMP102', nameTh: 'นภา ศรีสุข', nameEn: 'Napha S.', roleTh: 'พนักงานขายอาวุโส', roleEn: 'Senior associate' },
+  { id: 'EMP103', nameTh: 'วิภา จันทร์เพ็ญ', nameEn: 'Wipha C.', roleTh: 'พนักงานขาย', roleEn: 'Sales associate' },
+  { id: 'EMP104', nameTh: 'ธีรพงษ์ มั่นคง', nameEn: 'Teerapong M.', roleTh: 'แคชเชียร์', roleEn: 'Cashier' },
+  { id: 'EMP105', nameTh: 'อรุณี พรหมมา', nameEn: 'Arunee P.', roleTh: 'พาร์ทไทม์', roleEn: 'Part-time' },
+  { id: 'EMP106', nameTh: 'ศักดิ์ชัย ใจกล้า', nameEn: 'Sakchai J.', roleTh: 'พนักงานคลัง', roleEn: 'Stock' },
 ];
+
+// Realistic weekly roster (codes by day-of-week slot 0..6 = the displayed week,
+// Thu→Wed for the current period). Rotating early/standard/late shifts with
+// staggered day-offs ('F') so daily coverage stays balanced (4–5 of 6 on duty).
+//   9A0700 early 07–16 · 8A0800 standard 08–17 · 8A1000 late 10–19 · 4C0800 part-time 08–12
+const DEMO_WEEK_PLAN: Record<string, (string | null)[]> = {
+  EMP101: ['8A0800', '8A0800', '8A1000', 'F', '8A0800', '8A0800', '8A1000'],
+  EMP102: ['8A1000', '8A1000', '8A0800', '8A0800', 'F', '8A1000', '8A1000'],
+  EMP103: ['9A0700', '9A0700', '9A0700', '8A1000', '8A1000', 'F', '8A0800'],
+  EMP104: ['8A0800', 'F', '8A0800', '8A0800', '8A0800', '9A0700', '9A0700'],
+  EMP105: ['4C0800', '4C0800', 'F', '4C0800', '4C0800', '4C0800', 'F'],
+  EMP106: ['F', '8A0800', '8A1000', '8A1000', '8A0800', '8A0800', 'F'],
+};
 
 const TEMPLATE_KEYS = Object.keys(SCHEDULE_TEMPLATES);
 
@@ -86,9 +103,9 @@ export default function ShiftSchedulePage() {
   const [warnings, setWarnings] = useState<Warning[] | null>(null);
   const [publishOpen, setPublishOpen] = useState(false);
 
-  // Seed the (non-persisted) roster from the template on mount.
+  // Seed the (non-persisted) roster from the realistic weekly plan on mount.
   useEffect(() => {
-    seed(seedRosterFromTemplates(DEMO_TEAM, wd));
+    seed(seedRosterFromPlan(DEMO_WEEK_PLAN, DEMO_TEAM, wd));
   }, [seed, wd]);
 
   const flash = (m: string) => {
