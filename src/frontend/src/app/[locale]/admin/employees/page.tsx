@@ -9,7 +9,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Search, Users2, Lock, Download, Upload } from 'lucide-react';
+import { Search, Users2, Lock, Download, Upload, UserPlus } from 'lucide-react';
 import { useEmployees } from '@/lib/admin/store/useEmployees';
 import type { MockEmployee } from '@/mocks/employees';
 import { useAuthStore } from '@/stores/auth-store';
@@ -295,6 +295,10 @@ export default function EmployeesPage() {
     router.push(`/${locale}/admin/employees/import`)
   }, [router, locale])
 
+  const handleAddEmployee = useCallback(() => {
+    router.push(`/${locale}/admin/hire`)
+  }, [router, locale])
+
   // Virtualizer — row count × fixed row height
   const virtualizer = useVirtualizer({
     count: filtered.length,
@@ -477,6 +481,31 @@ export default function EmployeesPage() {
               }}
             />
           </div>
+          <button
+            type="button"
+            onClick={handleAddEmployee}
+            aria-label="เพิ่มพนักงานใหม่ (จ้างงาน)"
+            style={{
+              minHeight: 44,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              padding: '9px 16px',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--color-accent)',
+              background: 'var(--color-accent)',
+              color: 'white',
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: 'var(--shadow-[var(--shadow-sm)])',
+              transition: 'border-color 120ms, box-shadow 120ms',
+            }}
+          >
+            <UserPlus size={16} aria-hidden />
+            เพิ่มพนักงาน
+          </button>
           <button
             type="button"
             disabled={filtered.length === 0}
