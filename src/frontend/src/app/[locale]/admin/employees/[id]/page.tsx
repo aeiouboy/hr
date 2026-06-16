@@ -901,24 +901,6 @@ export default function EmployeeDetailPage() {
       locked: !avail.acting.ok,
       lockReason: avail.acting.reason,
     },
-    {
-      // STA-90: BE-03 Special Privilege — reuses the change_type isActive gate.
-      icon: BadgePlus,
-      label: tSpecial('cardLabel'),
-      desc: tSpecial('cardDesc'),
-      href: `/${locale}/admin/employees/${empId}/special-privilege`,
-      locked: !avail.change_type.ok,
-      lockReason: avail.change_type.reason,
-    },
-    {
-      // STA-95: Reallocate Next Year Budget — same change_type isActive gate.
-      icon: ArrowLeftRight,
-      label: tReallocate('cardLabel'),
-      desc: tReallocate('cardDesc'),
-      href: `/${locale}/admin/employees/${empId}/reallocate-budget`,
-      locked: !avail.change_type.ok,
-      lockReason: avail.change_type.reason,
-    },
   ]
 
   return (
@@ -1014,6 +996,7 @@ export default function EmployeeDetailPage() {
         onToggle={() => setEmploymentCollapsed((v) => !v)}
         expandLabel={expandLabel}
         collapseLabel={collapseLabel}
+        dense
       >
 
         {/* Info grid: hire date, tenure, company, position, org unit */}
@@ -1395,6 +1378,103 @@ export default function EmployeeDetailPage() {
         </div>
       )}
 
+      {/* ── Current Benefits (default-collapsed; illustrative roll-up) ──────── */}
+      <CollapsibleSectionCard
+        id="emp-current-benefits"
+        icon={Gift}
+        eyebrow={isTh ? 'สวัสดิการ' : 'Benefits'}
+        title={isTh ? 'สวัสดิการปัจจุบัน' : 'Current Benefits'}
+        sub=""
+        collapsed={benefitsCollapsed}
+        onToggle={() => setBenefitsCollapsed((v) => !v)}
+        expandLabel={expandLabel}
+        collapseLabel={collapseLabel}
+        dense
+      >
+        {CURRENT_BENEFITS.length === 0 ? (
+          <EmptyState
+            icon={Gift}
+            titleTh="ยังไม่มีสวัสดิการ"
+            titleEn="No current benefits"
+            descTh="ข้อมูลสวัสดิการจะแสดงที่นี่"
+            descEn="Enrolled benefits will appear here"
+          />
+        ) : (
+          <div style={{ overflowX: 'auto' }}>
+            <table className="w-full text-small" style={{ borderCollapse: 'collapse' }}>
+              <thead>
+                <tr className="text-ink-muted" style={{ textAlign: 'left' }}>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>{isTh ? 'ชื่อสวัสดิการ' : 'Benefit name'}</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>{isTh ? 'รหัสแผนสวัสดิการ' : 'Benefit plan ID'}</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}>{isTh ? 'ยอดที่ใช้ไป' : 'Amount used'}</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}>{isTh ? 'สิทธิ์ทั้งหมด' : 'Entitle amount'}</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}><span className="sr-only">{isTh ? 'การกระทำ' : 'Actions'}</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {CURRENT_BENEFITS.map((b) => (
+                  <tr key={b.benefitPlanId} style={{ borderTop: '1px solid var(--color-hairline)' }}>
+                    <td className="text-ink font-medium" style={{ padding: '8px 12px' }}>{b.benefitName}</td>
+                    <td className="text-ink-muted font-mono" style={{ padding: '8px 12px' }}>{b.benefitPlanId}</td>
+                    <td className="text-ink tabular-nums" style={{ padding: '8px 12px', textAlign: 'right' }}>{`${b.amountUsed.toLocaleString('en-US')} ${b.currency}`}</td>
+                    <td className="text-ink tabular-nums" style={{ padding: '8px 12px', textAlign: 'right' }}>{`${b.entitleAmount.toLocaleString('en-US')} ${b.currency}`}</td>
+                    <td style={{ padding: '8px 12px', textAlign: 'right' }}>
+                      <div className="flex items-center justify-end gap-2">
+                        <Button variant="ghost" size="sm" onClick={() => setBenefitDetail(b)}>
+                          {isTh ? 'ดูรายละเอียด' : 'More detail'}
+                        </Button>
+                        {(b.benefitPlanId !== 'TH_ORD_001' || GIFT_ORD_CLAIMABLE) && (
+                          <Button variant="secondary" size="sm" onClick={() => setClaimTarget(b)}>
+                            {isTh ? 'เริ่มเบิก' : 'Start a claim'}
+                          </Button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </CollapsibleSectionCard>
+
+      {/* ── STA-104: Benefit enrollment (default-collapsed; below Current Benefits) ── */}
+      <CollapsibleSectionCard
+        id="emp-benefit-enrollment"
+        icon={Gift}
+        eyebrow={isTh ? 'สวัสดิการ' : 'Benefits'}
+        title={isTh ? 'ลงทะเบียนสวัสดิการ' : 'Benefit enrollment'}
+        sub=""
+        collapsed={enrollmentCollapsed}
+        onToggle={() => setEnrollmentCollapsed((v) => !v)}
+        expandLabel={expandLabel}
+        collapseLabel={collapseLabel}
+        dense
+      >
+        <div style={{ overflowX: 'auto' }}>
+          <table className="w-full text-small" style={{ borderCollapse: 'collapse' }}>
+            <thead>
+              <tr className="text-ink-muted" style={{ textAlign: 'left' }}>
+                <th style={{ padding: '8px 12px', fontWeight: 600 }}>{isTh ? 'ชื่อสวัสดิการ' : 'Benefit name'}</th>
+                <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}><span className="sr-only">{isTh ? 'การกระทำ' : 'Actions'}</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {ENROLLABLE_BENEFITS.map((b) => (
+                <tr key={b.benefitPlanId} style={{ borderTop: '1px solid var(--color-hairline)' }}>
+                  <td className="text-ink font-medium" style={{ padding: '8px 12px' }}>{b.benefitName}</td>
+                  <td style={{ padding: '8px 12px', textAlign: 'right' }}>
+                    <Button variant="primary" size="sm" onClick={() => setEnrollTarget(b)}>
+                      {isTh ? 'ลงทะเบียน' : 'Enroll now'}
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CollapsibleSectionCard>
+
       {/* ── STA-90: Special Privilege list (BE-03) ─────────────── */}
       <CollapsibleSectionCard
         id="emp-special-privilege"
@@ -1406,6 +1486,17 @@ export default function EmployeeDetailPage() {
         onToggle={() => setPrivilegeCollapsed((v) => !v)}
         expandLabel={expandLabel}
         collapseLabel={collapseLabel}
+        dense
+        headerAction={
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={!avail.change_type.ok}
+            onClick={() => router.push(`/${locale}/admin/employees/${empId}/special-privilege`)}
+          >
+            {tSpecial('cardLabel')}
+          </Button>
+        }
       >
         {specialPrivileges.length === 0 ? (
           <EmptyState
@@ -1516,6 +1607,17 @@ export default function EmployeeDetailPage() {
         onToggle={() => setReallocCollapsed((v) => !v)}
         expandLabel={expandLabel}
         collapseLabel={collapseLabel}
+        dense
+        headerAction={
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={!avail.change_type.ok}
+            onClick={() => router.push(`/${locale}/admin/employees/${empId}/reallocate-budget`)}
+          >
+            {tReallocate('cardLabel')}
+          </Button>
+        }
       >
         {!hasReallocData ? (
           <EmptyState
@@ -1549,101 +1651,6 @@ export default function EmployeeDetailPage() {
             />
           </div>
         )}
-      </CollapsibleSectionCard>
-
-      {/* ── Current Benefits (default-collapsed; illustrative roll-up) ──────── */}
-      <CollapsibleSectionCard
-        id="emp-current-benefits"
-        icon={Gift}
-        eyebrow={isTh ? 'สวัสดิการ' : 'Benefits'}
-        title={isTh ? 'สวัสดิการปัจจุบัน' : 'Current Benefits'}
-        sub=""
-        collapsed={benefitsCollapsed}
-        onToggle={() => setBenefitsCollapsed((v) => !v)}
-        expandLabel={expandLabel}
-        collapseLabel={collapseLabel}
-      >
-        {CURRENT_BENEFITS.length === 0 ? (
-          <EmptyState
-            icon={Gift}
-            titleTh="ยังไม่มีสวัสดิการ"
-            titleEn="No current benefits"
-            descTh="ข้อมูลสวัสดิการจะแสดงที่นี่"
-            descEn="Enrolled benefits will appear here"
-          />
-        ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table className="w-full text-small" style={{ borderCollapse: 'collapse' }}>
-              <thead>
-                <tr className="text-ink-muted" style={{ textAlign: 'left' }}>
-                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>{isTh ? 'ชื่อสวัสดิการ' : 'Benefit name'}</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>{isTh ? 'รหัสแผนสวัสดิการ' : 'Benefit plan ID'}</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}>{isTh ? 'ยอดที่ใช้ไป' : 'Amount used'}</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}>{isTh ? 'สิทธิ์ทั้งหมด' : 'Entitle amount'}</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}><span className="sr-only">{isTh ? 'การกระทำ' : 'Actions'}</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                {CURRENT_BENEFITS.map((b) => (
-                  <tr key={b.benefitPlanId} style={{ borderTop: '1px solid var(--color-hairline)' }}>
-                    <td className="text-ink font-medium" style={{ padding: '8px 12px' }}>{b.benefitName}</td>
-                    <td className="text-ink-muted font-mono" style={{ padding: '8px 12px' }}>{b.benefitPlanId}</td>
-                    <td className="text-ink tabular-nums" style={{ padding: '8px 12px', textAlign: 'right' }}>{`${b.amountUsed.toLocaleString('en-US')} ${b.currency}`}</td>
-                    <td className="text-ink tabular-nums" style={{ padding: '8px 12px', textAlign: 'right' }}>{`${b.entitleAmount.toLocaleString('en-US')} ${b.currency}`}</td>
-                    <td style={{ padding: '8px 12px', textAlign: 'right' }}>
-                      <div className="flex items-center justify-end gap-2">
-                        <Button variant="ghost" size="sm" onClick={() => setBenefitDetail(b)}>
-                          {isTh ? 'ดูรายละเอียด' : 'More detail'}
-                        </Button>
-                        {(b.benefitPlanId !== 'TH_ORD_001' || GIFT_ORD_CLAIMABLE) && (
-                          <Button variant="secondary" size="sm" onClick={() => setClaimTarget(b)}>
-                            {isTh ? 'เริ่มเบิก' : 'Start a claim'}
-                          </Button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </CollapsibleSectionCard>
-
-      {/* ── STA-104: Benefit enrollment (default-collapsed; below Current Benefits) ── */}
-      <CollapsibleSectionCard
-        id="emp-benefit-enrollment"
-        icon={Gift}
-        eyebrow={isTh ? 'สวัสดิการ' : 'Benefits'}
-        title={isTh ? 'ลงทะเบียนสวัสดิการ' : 'Benefit enrollment'}
-        sub=""
-        collapsed={enrollmentCollapsed}
-        onToggle={() => setEnrollmentCollapsed((v) => !v)}
-        expandLabel={expandLabel}
-        collapseLabel={collapseLabel}
-      >
-        <div style={{ overflowX: 'auto' }}>
-          <table className="w-full text-small" style={{ borderCollapse: 'collapse' }}>
-            <thead>
-              <tr className="text-ink-muted" style={{ textAlign: 'left' }}>
-                <th style={{ padding: '8px 12px', fontWeight: 600 }}>{isTh ? 'ชื่อสวัสดิการ' : 'Benefit name'}</th>
-                <th style={{ padding: '8px 12px', fontWeight: 600, textAlign: 'right' }}><span className="sr-only">{isTh ? 'การกระทำ' : 'Actions'}</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              {ENROLLABLE_BENEFITS.map((b) => (
-                <tr key={b.benefitPlanId} style={{ borderTop: '1px solid var(--color-hairline)' }}>
-                  <td className="text-ink font-medium" style={{ padding: '8px 12px' }}>{b.benefitName}</td>
-                  <td style={{ padding: '8px 12px', textAlign: 'right' }}>
-                    <Button variant="primary" size="sm" onClick={() => setEnrollTarget(b)}>
-                      {isTh ? 'ลงทะเบียน' : 'Enroll now'}
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </CollapsibleSectionCard>
 
       {/* STA-103: per-benefit "more detail" modal — Individual plan + Benefit Plan
