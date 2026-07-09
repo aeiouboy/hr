@@ -122,7 +122,7 @@ describe('STA-141 — InsertChangePopup renders date-only (attachment relocated)
 
   it('page.tsx imports FileUploadField directly (not the barrel)', () => {
     expect(PAGE_SRC).toContain(
-      "import { FileUploadField } from '@/components/humi/FileUploadField'",
+      "import { FileUploadField } from '@/components/humi/molecules/FileUploadField'",
     );
   });
 });

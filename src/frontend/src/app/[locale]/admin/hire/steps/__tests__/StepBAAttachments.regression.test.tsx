@@ -119,20 +119,16 @@ describe('hire wizard BA attachment rows beyond Work Permit', () => {
   })
 
   for (const section of candidateSections) {
-    if (sourceFor(section).includes('AttachmentDropzone')) {
-      it(`${section.name} renders the Humi attachment dropzone instead of a filename text input`, () => {
-        act(() => {
-          section.setup?.()
-        })
-
-        section.renderStep()
-
-        expect(screen.getByRole('button', { name: 'พื้นที่แนบไฟล์' })).toBeInTheDocument()
-        expect(screen.queryByPlaceholderText(/ชื่อไฟล์|filename|file name/i)).not.toBeInTheDocument()
+    it(`${section.name} renders the Humi attachment dropzone instead of a filename text input`, () => {
+      act(() => {
+        section.setup?.()
       })
-    } else {
-      it.todo(`${section.name} attachment dropzone is not implemented in the hire step yet`)
-    }
+
+      section.renderStep()
+
+      expect(screen.getByRole('button', { name: 'พื้นที่แนบไฟล์' })).toBeInTheDocument()
+      expect(screen.queryByPlaceholderText(/ชื่อไฟล์|filename|file name/i)).not.toBeInTheDocument()
+    })
   }
 })
 

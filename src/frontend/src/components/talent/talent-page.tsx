@@ -4,11 +4,11 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { TrendingUp, Users, AlertTriangle, Star } from 'lucide-react';
 import { Card, CardTitle } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { Tabs } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Tabs } from '@/components/humi/molecules/tabs';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useTalent } from '@/hooks/use-talent';
-import { CustomSelect } from '@/components/ui/custom-select';
+import { CustomSelect } from '@/components/humi/molecules/custom-select';
 
 export function TalentPage() {
  const t = useTranslations('talent');

@@ -9,7 +9,7 @@
 import { Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/humi';
 import { FormField } from '@/components/humi';
-import { FileUploadField } from '@/components/humi/FileUploadField';
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField';
 import { cn } from '@/lib/utils';
 import {
   DEPENDENT_RELATION_LABELS,

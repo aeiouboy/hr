@@ -8,7 +8,7 @@ import { useState, useMemo } from 'react';
 import { useLocale } from 'next-intl';
 import { Download } from 'lucide-react';
 import { Card } from '@/components/humi';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useDirectReports } from '@/hooks/use-direct-reports';
 import {
   getReportEntitlementUsage,

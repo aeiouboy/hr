@@ -77,7 +77,7 @@ import {
   type BenefitClaimStatus,
 } from '@/stores/benefit-claims'
 import { EmptyState, Modal, Button, FormField, FormInput } from '@/components/humi'
-import { FileUploadField } from '@/components/humi/FileUploadField'
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField'
 import { CollapsibleSectionCard } from '@/components/admin/wizard/CollapsibleSectionCard'
 import { SectionJumpNav, type JumpItem } from '@/components/admin/employees/SectionJumpNav'
 import { EmployeePersonalSections } from '@/components/admin/EmployeePersonalSections'

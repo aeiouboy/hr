@@ -4,7 +4,7 @@ import { type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { X, CheckCircle2, XCircle, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
 import { Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { UrgencyBadge } from './UrgencyBadge';
 import type { PendingRequest, ApprovalStep } from '@/lib/quick-approve-api';
 import { cn } from '@/lib/utils';

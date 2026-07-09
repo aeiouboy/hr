@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { BookOpen, Plus, CheckCircle, Clock, Circle } from 'lucide-react';
 import { Card, CardTitle } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { Button } from '@/components/humi';
-import { Tabs } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs } from '@/components/humi/molecules/tabs';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useIdp, type ActionStatus } from '@/hooks/use-idp';
 
 const ACTION_ICON: Record<ActionStatus, React.ReactNode> = {

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { CheckCircle, XCircle, Clock, RotateCcw } from 'lucide-react';
 import { Modal, Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import type { WorkflowItem, WorkflowStep } from '@/hooks/use-workflows';
 
 interface WorkflowDetailProps {

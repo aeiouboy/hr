@@ -9,7 +9,7 @@ import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { Search, ChevronDown } from 'lucide-react';
 import { Card } from '@/components/humi';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useDirectReports } from '@/hooks/use-direct-reports';
 import { TeamSummaryTiles } from '@/components/manager/team-summary-tiles';
 import { BENEFIT_PLAN_REGISTRY } from '@/data/benefits/plan-registry';

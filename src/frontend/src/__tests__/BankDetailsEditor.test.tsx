@@ -46,7 +46,7 @@ vi.mock('@/components/humi', () => ({
 }));
 
 // ── Mock FileUploadField ───────────────────────────────────────────────────────
-vi.mock('@/components/humi/FileUploadField', () => ({
+vi.mock('@/components/humi/molecules/FileUploadField', () => ({
   FileUploadField: ({ label }: { label?: React.ReactNode }) => (
     <div data-testid="file-upload-field">{label}</div>
   ),

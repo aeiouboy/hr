@@ -11,7 +11,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { FileText, Mail, Printer, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/humi';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/components/humi/molecules/toast';
 import { DOCUMENT_TEMPLATES, type DeliveryMode, type DocumentTemplate } from '@/data/documents/templates';
 import { DOCUMENT_STORYBOARD_BOUNDARY_EN, DOCUMENT_STORYBOARD_BOUNDARY_TH } from '@/lib/document-boundary';
 

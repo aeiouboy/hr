@@ -25,11 +25,11 @@ import {
  Heart,
 } from 'lucide-react';
 import { Card, CardTitle, Modal } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { Button } from '@/components/humi';
-import { Tabs } from '@/components/ui/tabs';
-import { FormField } from '@/components/ui/form-field';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs } from '@/components/humi/molecules/tabs';
+import { FormField } from '@/components/humi/molecules/form-field';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import {
  useMedicalClaims,
  DISEASE_CATEGORIES,
@@ -38,7 +38,7 @@ import {
  type DiseaseCategory,
 } from '@/hooks/use-medical-claims';
 import { formatCurrency, formatDate } from '@/lib/date';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/components/humi/molecules/toast';
 
 // --- Constants ---
 

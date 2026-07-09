@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Pencil, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { EmptyValue } from './empty-value';
+import { EmptyValue } from '../atoms/empty-value';
 
 type EmptyKind ='unknown' |'not-applicable' |'restricted' |'pending';
 

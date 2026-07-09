@@ -25,7 +25,7 @@ describe('STA-49 document boundary storyboard copy', () => {
 
   it('wires the shared copy into Employee Center, Time, Benefit, and document-center surfaces', () => {
     const surfaces = [
-      'src/frontend/src/components/humi/FileUploadField.tsx',
+      'src/frontend/src/components/humi/molecules/FileUploadField.tsx',
       'src/frontend/src/components/admin/AttachmentDropzone/AttachmentDropzone.tsx',
       'src/frontend/src/app/[locale]/profile/me/page.tsx',
       'src/frontend/src/app/[locale]/timeoff/page.tsx',
@@ -47,7 +47,7 @@ describe('STA-49 document boundary storyboard copy', () => {
   it('does not add backend document implementation artifacts for this storyboard', () => {
     const changedSurfaceText = [
       'src/frontend/src/lib/document-boundary.ts',
-      'src/frontend/src/components/humi/FileUploadField.tsx',
+      'src/frontend/src/components/humi/molecules/FileUploadField.tsx',
       'src/frontend/src/components/admin/AttachmentDropzone/AttachmentDropzone.tsx',
     ].map(read).join('\n');
 

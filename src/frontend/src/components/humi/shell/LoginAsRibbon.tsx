@@ -22,7 +22,7 @@
 import { useRouter, useParams } from 'next/navigation';
 import { LogOut } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
-import { Button } from '@/components/humi/Button';
+import { Button } from '@/components/humi/atoms/Button';
 import { personaTiers, type PersonaTier } from '@/lib/persona-tiers';
 
 const TIER_LABEL: Record<PersonaTier, { th: string; en: string }> = {

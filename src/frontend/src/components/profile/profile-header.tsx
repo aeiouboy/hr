@@ -3,8 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { MapPin, Mail, Phone, Building, Edit, Network } from 'lucide-react';
 import { Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { isHR } from '@/lib/rbac';
 import { useAuthStore } from '@/stores/auth-store';
 

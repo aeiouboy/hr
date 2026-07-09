@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan: Production-Grade Frontend Cleanup</title>
+<style>
+  /* ── Baseline plan theme (battle-tested for readability). ──
+     Identity retuned to the Humi palette: teal accent + indigo secondary. */
+  :root {
+    /* Light, high-contrast reading theme (default). Dark theme via @media below. */
+    --bg: #f6f1e8; --surface: #ffffff; --surface-2: #efe9dd; --border: #ddd5c6;
+    --text: #0e1b2c; --muted: #45505e; --dim: #75808d;
+    --accent: #1fa8a0;    /* Humi teal — primary identity accent */
+    --accent-2: #5b6ce0;  /* Humi indigo — secondary accent / links */
+    --pass: #1a7f37;      /* [x] complete / PASS — green */
+    --partial: #b45309;   /* [wip] / partial — orange */
+    --fail: #c0362c;      /* [f] failed / FAIL — red */
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
+    --radius: 10px; --maxw: 960px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1b2c; --surface: #16243a; --surface-2: #1d2d46; --border: #2b3d57;
+      --text: #e9eef5; --muted: #9fadbd; --dim: #7d8a99;
+      --accent: #2fc4bb; --accent-2: #8b99f0;
+      --pass: #3fb950; --partial: #e3902a; --fail: #f0564a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans);
+    line-height: 1.72; font-size: 17px; -webkit-font-smoothing: antialiased; }
+  main { max-width: var(--maxw); margin: 0 auto; padding: 44px 26px 96px; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 4px; letter-spacing: -0.02em; }
+  h2 { font-size: 1.3rem; margin: 52px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.08rem; margin: 26px 0 10px; }
+  h4 { font-size: 0.95rem; margin: 20px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  p { margin: 0 0 14px; }
+  a { color: var(--accent-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header .lede { color: var(--muted); font-size: 1.02rem; margin-top: 10px; }
+  section > p:first-of-type { font-size: 1.02rem; }
+  /* Code: colors via vars so BOTH themes render — never hardcode a foreground color. */
+  code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2);
+    border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px; color: var(--text); }
+  pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 0.84rem; line-height: 1.55; margin: 0 0 16px; }
+  pre code { background: none; border: none; padding: 0; color: var(--text); }
+  details.meta { margin-top: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  details.meta > summary { cursor: pointer; padding: 10px 16px; font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  details.meta dl { display: grid; grid-template-columns: 130px 1fr; gap: 4px 16px; margin: 0; padding: 4px 16px 16px; font-size: 0.85rem; }
+  details.meta dt { color: var(--dim); }
+  details.meta dd { margin: 0; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); word-break: break-word; }
+  /* Images: capped + centered so they aid the plan, never a full-screen wall. */
+  figure { margin: 22px 0; text-align: center; }
+  figure img { max-width: 100%; max-height: 560px; width: auto; height: auto; object-fit: contain;
+    border: 1px solid var(--border); border-radius: var(--radius); display: block; margin: 0 auto; }
+  figcaption { color: var(--dim); font-size: 0.84rem; margin-top: 9px; font-style: italic; max-width: 60ch; margin-left: auto; margin-right: auto; }
+  .tag { display: inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 1px 7px; border-radius: 20px; vertical-align: middle; }
+  .tag.existing { background: rgba(117,128,141,0.14); color: var(--muted); border: 1px solid var(--border); }
+  .tag.new { background: rgba(26,127,55,0.14); color: var(--pass); border: 1px solid rgba(26,127,55,0.4); }
+  .files ul { list-style: none; padding: 0; margin: 0; }
+  .files li { padding: 7px 0; border-bottom: 1px dashed var(--border); font-size: 0.95rem; }
+  .files li:last-child { border-bottom: none; }
+  .phase { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 6px 24px 22px; margin: 20px 0; }
+  .status { color: var(--dim); font-weight: 700; }
+  /* Checklists: HANGING MARKER — do NOT use display:flex on the <li>. */
+  ul.checklist { list-style: none; padding: 0; margin: 10px 0 6px; }
+  ul.checklist li { position: relative; padding: 6px 0 6px 30px; font-size: 0.95rem; line-height: 1.6; }
+  ul.checklist li .status { position: absolute; left: 0; top: 6px; }
+  ul.checklist li code { overflow-wrap: anywhere; }
+  .loop { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 14px 0 4px; font-size: 0.9rem; color: var(--muted); }
+  .loop strong { color: var(--text); }
+  /* Generic callout for the open-canvas Notes section. */
+  .callout { background: var(--surface-2); border-left: 3px solid var(--accent-2); border-radius: 6px; padding: 12px 16px; margin: 14px 0; font-size: 0.92rem; }
+  .callout.risk { border-left-color: var(--partial); }
+  .callout.win { border-left-color: var(--pass); }
+  table { width: 100%; border-collapse: collapse; margin: 4px 0 18px; font-size: 0.88rem; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  #questionables details, #notes details, #amendments details { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin: 10px 0; }
+  #questionables summary, #notes summary, #amendments summary { cursor: pointer; padding: 12px 16px; font-weight: 600; font-size: 0.92rem; }
+  #questionables details > *:not(summary), #notes details > *:not(summary), #amendments details > *:not(summary) { padding: 0 16px 14px; }
+  .qa-answer { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- ===== HEADER + UPDATABLE METADATA ===== -->
+  <header>
+    <h1>Plan: Production-Grade Frontend Cleanup</h1>
+    <p class="lede">Purge ~2,100 tracked junk files and the legacy microservices era, delete confirmed dead frontend code and old-design remnants, and align the repo with Vercel's AI-agents convention (Next 16.2 bundled docs + <code>AGENTS.md</code>) — leaving one clean, production-grade Next.js frontend.</p>
+    <details class="meta">
+      <summary>Metadata</summary>
+      <dl>
+        <dt>created</dt>      <dd>2026-07-09T01:35:00+07:00</dd>
+        <dt>modified</dt>     <dd>2026-07-09T01:35:00+07:00, 2026-07-09T01:52:00+07:00</dd>
+        <dt>commits</dt>      <dd>fef0a038</dd>
+        <dt>agent name</dt>        <dd>claude-fable-5 (planf3), claude-opus-4-8[1m] (planf3 update)</dd>
+        <dt>session id</dt>      <dd>d6cc09ed-4790-4f49-b48f-39206dbef986, bec9885a-7906-4585-9079-64b618c61fd9</dd>
+        <dt>back refs</dt>    <dd>CLAUDE.md, AGENTS.md, docs/design-system-humi.md, specs/all-test-cases-plan.html</dd>
+        <dt>forward refs</dt> <dd>—</dd>
+      </dl>
+    </details>
+  </header>
+
+  <!-- Hero image — synced to the :root visual identity. -->
+  <figure>
+    <img src="production-grade-frontend-cleanup/hero.png" alt="Cluttered legacy folders funneling into one clean production-grade frontend folder">
+    <figcaption>One repo, one product: everything that isn't the Next.js frontend gets archived to git history or deleted.</figcaption>
+  </figure>
+
+  <!-- ===== PURPOSE / PROBLEM / SOLUTION ===== -->
+  <section id="purpose">
+    <h2>Purpose</h2>
+    <p>Turn this repository into a clean, production-grade frontend codebase: only the active Next.js app and its living docs remain in the working tree, every quality gate (<code>lint</code> / <code>test</code> / <code>build</code>) covers the whole tree and passes, the Humi design system has zero old-design violations, and AI coding agents are pointed at version-matched Next.js docs via the official <a href="https://nextjs.org/docs/app/guides/ai-agents">Vercel AI-agents convention</a> (<code>AGENTS.md</code> → <code>node_modules/next/dist/docs/</code>).</p>
+  </section>
+
+  <section id="problem">
+    <h2>Problem</h2>
+    <p>The repo carries three generations of history in one working tree. Of <strong>3,540 tracked files, only ~1,400 belong to the active product</strong> (<code>src/frontend</code>). The rest is slop that misleads both humans and AI agents:</p>
+    <table>
+      <tr><th>Category</th><th>Evidence</th><th>Weight</th></tr>
+      <tr><td>Legacy backend era</td><td><code>src/services/</code> 14 NestJS microservices (955 tracked files), <code>src/infra/</code>, <code>docker-compose.yml</code>, <code>tsconfig.base.json</code>, root <code>.eslintrc.json</code></td><td>322 MB</td></tr>
+      <tr><td>Removed-SPA era</td><td>root <code>playwright.config.ts</code> serves <code>python -m http.server 8080 -d apps</code> — the <code>apps/</code> SPA no longer exists; root <code>tests/</code> (93 files) hit <code>localhost:8080</code>; root <code>package.json</code> <code>test:*</code> scripts all point there</td><td>13 MB</td></tr>
+      <tr><td>Test-result &amp; planning junk (tracked)</td><td><code>planning/</code> 326 files (183 MB), <code>test-artifacts/</code> 156, <code>test-pages/</code> 38, <code>agents/</code> 43, <code>projects/</code> 26, <code>deliverables/</code>, <code>reports/</code>, <code>spec-task/</code>, stray root files (<code>HANDOFF.md</code>, <code>showcase_deck_build.py</code>, <code>.AGENTS.md.bkup</code>…)</td><td>~300 MB</td></tr>
+      <tr><td>Untracked local junk</td><td><code>src/frontend/.next</code> 1.2 GB, <code>test-results</code> 65 MB, <code>logs</code> 46 MB, <code>playwright-report</code> 23 MB, root <code>logs/</code>, <code>plan-assets/</code>, <code>artifacts/</code>, <code>chrome/</code>; <strong><code>.env</code> with live API keys is NOT gitignored</strong></td><td>~1.5 GB</td></tr>
+      <tr><td>Dead frontend code</td><td><code>use-employee.ts</code>, <code>ec-personal-info.tsx</code>, <code>employment.tsx</code> (0 product importers each), <code>components/onboarding/</code>, 5 of 6 <code>manager-dashboard/</code> files, tracked <code>.archive-2026-04/</code> old-design pages, duplicate test files</td><td>~15 files</td></tr>
+      <tr><td>Old-design violations</td><td>8 NO-RED guardrail breaks (raw red hex / <code>ring-red-500</code>), 27 hardcoded hex occurrences (worst: <code>learning-page.tsx</code> ×10, <code>referral-letter-preview.tsx</code> ×9)</td><td>8 files</td></tr>
+      <tr><td>Fake quality gates</td><td><code>lint</code> is a hardcoded allowlist of ~60 file paths — the other ~1,300 frontend files are never linted; design-drift ESLint rules are <code>warn</code>-only; 7 disabled tests (<code>it.skip</code>/<code>describe.skip</code>/<code>it.todo</code>)</td><td>gate-wide</td></tr>
+      <tr><td>Doc rot</td><td>agents get told <code>README.md</code> is stale (it isn't anymore), <code>docs/</code> mixes 3 living design docs with pptx/pdf/xlsx/png dumps, no <code>AGENTS.md</code> per Vercel convention (Next is 16.1.6; bundled docs need 16.2+)</td><td>34 MB</td></tr>
+    </table>
+    <figure>
+      <img src="production-grade-frontend-cleanup/problem.png" alt="Treemap: frontend is a minority of the 3,540 tracked files; the rest is legacy and junk">
+      <figcaption>~60% of tracked files serve eras of the project that no longer exist.</figcaption>
+    </figure>
+  </section>
+
+  <section id="solution">
+    <h2>Solution</h2>
+    <p>Seven ordered phases. First a <strong>safety net</strong> (land in-flight work, tag <code>archive/pre-clean-2026-07</code> so git history is the permanent archive — nothing is ever lost). Then purge repo-root junk, retire the legacy backend and flatten the root workspace to frontend-only, adopt the Vercel AI-agents convention (upgrade Next 16.1.6 → 16.2.10, write the marker-delimited <code>AGENTS.md</code>, make <code>CLAUDE.md</code> import it), delete dead frontend code and fix every NO-RED / hardcoded-hex violation, replace the fake lint allowlist with whole-tree gates, and finally consolidate <code>docs/</code> + <code>specs/</code> so the remaining documentation is all load-bearing. Every phase ends with a green <code>build</code> + <code>vitest</code> checkpoint and its own commit, so the work is reversible step by step.</p>
+    <figure>
+      <img src="production-grade-frontend-cleanup/solution.png" alt="Seven-phase pipeline from archive tag to green production gates">
+      <figcaption>Archive tag first; then each phase lands as its own verified commit.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ===== RELEVANT FILES ===== -->
+  <section id="files" class="files">
+    <h2>Relevant Files</h2>
+
+    <h3>Existing Files</h3>
+    <ul>
+      <li><span class="tag existing">existing</span> <code>package.json</code> (root) — legacy monorepo scripts (<code>db:*</code>, <code>test:*</code> → removed SPA); rewrite to a thin frontend-only workspace</li>
+      <li><span class="tag existing">existing</span> <code>.gitignore</code> — misses <code>.env</code>, <code>plan-assets/</code>, <code>artifacts/</code>, <code>*.tsbuildinfo</code>; harden</li>
+      <li><span class="tag existing">existing</span> <code>AGENTS.md</code> / <code>CLAUDE.md</code> / <code>README.md</code> (root) — rewrite for the cleaned repo + Vercel nextjs-agent-rules block</li>
+      <li><span class="tag existing">existing</span> <code>playwright.config.ts</code> (root) — targets the removed <code>apps/</code> SPA on :8080; delete</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/package.json</code> — Next <code>^16.0.0</code> → <code>16.2.10</code>; replace the ~60-file <code>lint</code> allowlist</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/eslint.config.mjs</code> — promote design-drift rules <code>warn</code> → <code>error</code></li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/hooks/use-employee.ts</code> — dead (0 importers); delete</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/components/profile/tabs/ec-personal-info.tsx</code> — dead (0 importers); delete</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/components/profile/tabs/employment.tsx</code> — test-only orphan (0 product importers); delete with its TWO tests (<code>sf-parity-employment.test.tsx</code> + <code>employment-edit.test.tsx</code>)</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/components/onboarding/</code>, <code>manager-dashboard/</code> (5 of 6 files) — orphaned; delete after import re-check</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/app/[locale]/admin/employees/[id]/probation/page.tsx</code> — raw red hex trio <code>#FEF2F2/#EF4444/#B91C1C</code>; retoken</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/app/[locale]/admin/system/security/traffic/page.tsx</code>, <code>src/components/admin/wizard/CompanyTypeahead.tsx</code> — <code>ring-red-500</code>; retoken</li>
+      <li><span class="tag existing">existing</span> <code>src/frontend/src/components/learning/learning-page.tsx</code>, <code>src/components/hospital-referral/referral-letter-preview.tsx</code> — 19 hardcoded hex between them; retoken</li>
+      <li><span class="tag existing">existing</span> <code>src/services/</code>, <code>src/infra/</code>, <code>tests/</code>, <code>test-pages/</code>, <code>test-artifacts/</code>, <code>planning/</code>, <code>agents/</code>, <code>projects/</code>, <code>deliverables/</code>, <code>reports/</code>, <code>spec-task/</code> — tracked junk; <code>git rm</code> after archive tag</li>
+    </ul>
+
+    <h3>New Files</h3>
+    <ul>
+      <li><span class="tag new">new</span> <code>AGENTS.md</code> (rewritten, root) — Vercel <code>&lt;!-- BEGIN:nextjs-agent-rules --&gt;</code> block + condensed project rules (Humi tokens, NO-RED, RBAC remove-not-hide, quick-approve umbrella, TH/EN parity)</li>
+      <li><span class="tag new">new</span> <code>src/frontend/AGENTS.md</code> — thin pointer for agents launched with <code>src/frontend</code> as cwd</li>
+      <li><span class="tag new">new</span> <code>src/frontend/scripts/check-i18n-parity.mjs</code> — fails on any en.json/th.json key drift or empty value (Phase 5.3 parity gate)</li>
+      <li><span class="tag new">new</span> <code>src/frontend/src/__tests__/i18n-parity.test.ts</code> — Vitest wrapper so parity drift surfaces in <code>npm test</code></li>
+      <li><span class="tag new">new</span> <code>specs/README.md</code> — one-paragraph policy: specs are plans, git history is the archive, no generated assets</li>
+    </ul>
+  </section>
+
+  <!-- ===== IMPLEMENTATION PHASES ===== -->
+  <section id="phases">
+    <h2>Implementation Phases</h2>
+    <p><strong>IMPORTANT:</strong> Execute every phase and task step by step, in order, top to bottom. Each phase lands as its own commit so any step can be reverted independently.</p>
+    <p>Status markers: <code>[]</code> idle · <code>[wip]</code> in progress · <code>[x]</code> complete · <code>[f]</code> failed. All start as <code>[]</code>; the Build Plan workflow updates them as it works.</p>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 0: Safety Net &amp; Baseline</h3>
+      <p>Nothing is deleted until history is pinned and the working tree is clean. Git history becomes the permanent archive — "delete" in later phases always means "remove from the working tree", never "lose".</p>
+
+      <h4>0.1 Land in-flight work</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>git status</code> shows ~27 modified files (test updates, <code>AppShell.tsx</code>, <code>approval-registry.ts</code>) plus untracked e2e evidence suite — confirm no other session is mid-flight on them (two-session workflow), then commit them as their own commit(s) BEFORE any cleanup work</li>
+        <li><code class="status">[]</code> Triage untracked keepers: <code>specs/*.html</code> plans, <code>docs/testing-evidence-csv.md</code>, <code>learning/12-two-session-workflow-tools.md</code>, <code>src/frontend/e2e/evidence-*</code> — commit the ones that are real work; leave <code>.env</code>/<code>.omo/</code> untracked</li>
+      </ul>
+
+      <h4>0.2 Pin the archive point</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>git tag archive/pre-clean-2026-07 &amp;&amp; git push origin archive/pre-clean-2026-07</code> — permanent pointer to the full pre-cleanup tree</li>
+        <li><code class="status">[]</code> Create working branch: <code>git checkout -b chore/production-grade-cleanup</code></li>
+      </ul>
+
+      <h4>0.3 Testing Strategy</h4>
+      <p>Record the green baseline so later phases can prove they broke nothing. Any test already failing at baseline gets noted, not silently fixed.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — baseline build green</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npx vitest run</code> — record pass/fail counts as the baseline</li>
+        <li><code class="status">[]</code> <code>git tag -l 'archive/pre-clean*'</code> — tag exists and is pushed</li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 1: Repo-Root Junk Purge</h3>
+      <p>Remove every tracked directory/file that serves a dead era, and harden <code>.gitignore</code> so the junk cannot re-accumulate. This phase touches nothing inside <code>src/frontend</code>, so it cannot break the app.</p>
+
+      <h4>1.1 Remove tracked junk (git rm)</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>git rm -r tests/ test-pages/ test-artifacts/ planning/ agents/ projects/ deliverables/ reports/ spec-task/ .ironteam/</code></li>
+        <li><code class="status">[]</code> <code>git rm .ironteam_done showcase_deck_build.py HANDOFF.md DEMO-WALKTHROUGH-2026-04-W4.md start.md .AGENTS.md.bkup tokens.humi.json tailwind.theme.humi.json playwright.config.ts</code></li>
+        <li><code class="status">[]</code> <code>git rm -r src/components src/i18n</code> — root-level stub dirs containing only stale <code>CLAUDE.md</code> files (NOT <code>src/frontend/src/…</code>)</li>
+        <li><code class="status">[]</code> Keep: <code>.gates.config.json</code> (points at the live Sidebar), <code>DESIGN.md</code>, <code>scripts/</code> (used by <code>audit:fields</code> and <code>build:address</code>), <code>learning/</code>, <code>specs/</code>, <code>docs/</code> (trimmed in Phase 6)</li>
+      </ul>
+
+      <h4>1.2 Delete untracked local junk</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>rm -rf plan-assets/ artifacts/ logs/ chrome/ test-result/ test-results/ .codex/ .omx/ .ouroboros/ .ouroboros_eval_artifact.md .debug-journal.md .clawhip/</code> — all untracked runtime state (verify each with <code>git ls-files &lt;path&gt; | wc -l</code> = 0 first)</li>
+        <li><code class="status">[]</code> Inside frontend: <code>rm -rf src/frontend/test-results src/frontend/playwright-report src/frontend/test-artifacts src/frontend/logs</code> (~160 MB; regenerated on demand — leave <code>.next</code> alone, the delete hook blocks it and dev regenerates it)</li>
+      </ul>
+
+      <h4>1.3 Harden .gitignore</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> Add <code>.env</code> and <code>.env.*</code> (keep <code>!.env.example</code>) — <strong><code>.env</code> holds live API keys and is currently unignored</strong>; verify it was never committed with <code>git log --all --oneline -- .env</code> (if it ever was, rotate the keys)</li>
+        <li><code class="status">[]</code> Add <code>*.tsbuildinfo</code>, <code>plan-assets/</code>, <code>artifacts/</code>, <code>.omo/</code>, <code>.codex/</code>, <code>.omx/</code>, <code>.ouroboros/</code>, <code>.debug-journal.md</code></li>
+        <li><code class="status">[]</code> Remove gitignore entries for paths that no longer exist after this phase (optional tidy)</li>
+      </ul>
+
+      <h4>1.4 Testing Strategy</h4>
+      <p>Pure removals outside the app — prove the app didn't notice, and the junk is really gone from the index.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — still green</li>
+        <li><code class="status">[]</code> <code>git ls-files | wc -l</code> — dropped by ~700+ (from 3,540)</li>
+        <li><code class="status">[]</code> <code>git check-ignore .env</code> — exits 0 (now ignored)</li>
+        <li><code class="status">[]</code> Commit: <code>chore(repo): purge legacy-era root junk (archived at tag archive/pre-clean-2026-07)</code></li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 2: Legacy Backend Retirement &amp; Root Flattening</h3>
+      <p>Retire the NestJS microservices era from the working tree and turn the root <code>package.json</code> into a thin frontend-only workspace. The frontend's dependencies are hoisted into the root <code>node_modules</code>, so workspace changes must be followed by a clean install.</p>
+
+      <h4>2.1 Remove the legacy backend</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>git rm -r src/services src/infra</code> (955 + 28 tracked files, 322 MB)</li>
+        <li><code class="status">[]</code> <code>git rm tsconfig.base.json .eslintrc.json docker-compose.yml</code> — NestJS build config, legacy lint config, and the Postgres/Redis/Keycloak stack nothing in the mockup phase uses</li>
+        <li><code class="status">[]</code> <code>grep -rn "services/shared" src/frontend/vitest.config.ts src/frontend/tsconfig.json</code> — vitest aliases <code>../services/shared</code>; remove the alias and any import that used it (fix or inline the shared type)</li>
+      </ul>
+
+      <h4>2.2 Rewrite root package.json</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> Workspaces: <code>["src/frontend"]</code> only; drop all <code>db:*</code>, <code>seed</code>, <code>infra:*</code>, <code>test:*</code> (SPA-era), <code>dev</code> (docker) scripts</li>
+        <li><code class="status">[]</code> New thin scripts: <code>"dev" / "build" / "test" / "lint" / "test:e2e"</code> → <code>npm run &lt;script&gt; --workspace src/frontend</code>; keep <code>audit:fields</code> (uses <code>scripts/</code> + <code>tsx</code>)</li>
+        <li><code class="status">[]</code> Prune devDependencies to what remains: keep <code>tsx</code>; drop <code>concurrently</code>, <code>ts-node</code>, root <code>eslint@8</code> stack, root <code>playwright</code> duplicates (frontend has its own <code>@playwright/test</code>)</li>
+        <li><code class="status">[]</code> <strong>BEFORE</strong> deleting root <code>node_modules</code>: <code>git worktree list</code> — if ANY linked worktree exists, its <code>node_modules</code> is a symlink INTO this root tree, so <code>rm -rf node_modules</code> will break every sibling worktree's install. Either remove/settle those worktrees first, or re-create their symlinks after the reinstall (see Notes → worktree-symlink trap)</li>
+        <li><code class="status">[]</code> <code>rm -rf node_modules package-lock.json &amp;&amp; npm install</code> — regenerate the hoisted tree without 14 services' deps</li>
+      </ul>
+
+      <h4>2.3 Testing Strategy</h4>
+      <p>The risk here is hoisting: frontend deps resolve from root <code>node_modules</code>. A clean install plus full build/test proves resolution still works.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>npm run build</code> (from root, via the new proxy script) — green</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npx vitest run</code> — matches Phase 0 baseline</li>
+        <li><code class="status">[]</code> <code>npm run dev</code> — app boots; verify the served URL/port from the startup output (see the port trap in Notes) and <code>curl -sI localhost:&lt;port&gt;/en/home</code> returns 200/307</li>
+        <li><code class="status">[]</code> Commit: <code>chore(repo): retire legacy NestJS services + flatten root workspace to frontend-only</code></li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 3: Vercel AI-Agents Alignment</h3>
+      <p>Adopt the convention from <a href="https://nextjs.org/docs/app/guides/ai-agents">nextjs.org/docs/app/guides/ai-agents</a>: Next ≥ 16.2 bundles version-matched docs at <code>node_modules/next/dist/docs/</code>, and a marker-delimited <code>AGENTS.md</code> redirects agents from stale training data to those docs. <code>CLAUDE.md</code> imports it via <code>@AGENTS.md</code> so nothing is duplicated.</p>
+
+      <figure>
+        <img src="production-grade-frontend-cleanup/phase3.png" alt="AGENTS.md redirecting an AI agent away from stale training data toward bundled Next.js docs">
+        <figcaption>AGENTS.md points every agent at the docs that match the installed Next.js version.</figcaption>
+      </figure>
+
+      <h4>3.1 Upgrade Next.js 16.1.6 → 16.2.10 (latest stable)</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> In <code>src/frontend/package.json</code>: <code>"next": "16.2.10"</code>; <code>npm install</code> from root</li>
+        <li><code class="status">[]</code> <code>ls node_modules/next/dist/docs/index.mdx</code> — bundled docs now present (they are absent in 16.1.6)</li>
+        <li><code class="status">[]</code> Read the 16.2 release notes in the bundled docs (<code>node_modules/next/dist/docs/</code>) for breaking changes; fix any build/type errors the minor bump surfaces</li>
+        <li><code class="status">[]</code> Fallback ONLY if the upgrade is blocked: <code>npx @next/codemod@latest agents-md</code> (emits docs to <code>.next-docs/</code> and points the agent files there); gitignore <code>.next-docs/</code></li>
+      </ul>
+
+      <h4>3.2 Write the agent files</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> Rewrite root <code>AGENTS.md</code>: open with the exact <code>&lt;!-- BEGIN:nextjs-agent-rules --&gt;</code> … <code>&lt;!-- END:nextjs-agent-rules --&gt;</code> block from the guide ("Before any Next.js work, read <code>node_modules/next/dist/docs/</code> — training data is outdated"); below the markers keep ONLY the still-true project rules: active app = <code>src/frontend</code>, Humi tokens in <code>globals.css</code>, NO-RED (pumpkin danger), RBAC menu = remove not hide, approvals only via <code>/quick-approve</code>, TH/EN message parity</li>
+        <li><code class="status">[]</code> Root <code>CLAUDE.md</code>: first line <code>@AGENTS.md</code>, then trim the body to current reality — delete the stale "README describes microservices + vanilla apps/ SPA" claim (README was already rewritten), delete the Infrastructure/Keycloak section (compose is gone), fix the default-locale statement to match <code>src/i18n/config.ts</code> + <code>next.config.ts</code> redirects (EN-first per PR #302)</li>
+        <li><code class="status">[]</code> Add thin <code>src/frontend/AGENTS.md</code> (agents often start with cwd = <code>src/frontend</code>): same nextjs-agent-rules block + one line pointing to the root <code>AGENTS.md</code></li>
+        <li><code class="status">[]</code> Refresh <code>README.md</code>: single-app repo, quickstart (<code>npm run dev</code>), design-doc pointers; drop the "Legacy / Historical" microservices section (history lives at the archive tag)</li>
+      </ul>
+
+      <h4>3.3 Testing Strategy</h4>
+      <p>Prove the upgrade is safe and the convention is actually wired, not just written.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — green on 16.2.10</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npx vitest run</code> — matches baseline</li>
+        <li><code class="status">[]</code> <code>grep -c "BEGIN:nextjs-agent-rules" AGENTS.md src/frontend/AGENTS.md</code> — 1 each; <code>head -1 CLAUDE.md</code> = <code>@AGENTS.md</code></li>
+        <li><code class="status">[]</code> <code>grep -rn "apps/\|src/services\|Keycloak" README.md CLAUDE.md AGENTS.md</code> — no live references to dead eras (archive-tag mention is fine)</li>
+        <li><code class="status">[]</code> Commit: <code>feat(agents): adopt Vercel AI-agents convention — Next 16.2.10 bundled docs + AGENTS.md</code></li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 4: Frontend Dead Code &amp; Old-Design Removal</h3>
+      <p>Delete the confirmed-dead files, dedupe copy-pasted tests, and eliminate every old-design remnant that violates the Humi guardrails. Every deletion is re-verified with a fresh importer grep immediately before <code>rm</code> — findings age fast in a two-session repo.</p>
+
+      <h4>4.1 Delete dead code (re-verify each with grep first)</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>src/hooks/use-employee.ts</code> — 0 importers (NOT the same as the live <code>lib/admin/store/useEmployees</code>)</li>
+        <li><code class="status">[]</code> <code>src/components/profile/tabs/ec-personal-info.tsx</code> — 0 external importers</li>
+        <li><code class="status">[]</code> <code>src/components/profile/tabs/employment.tsx</code> — component kept alive only by tests (0 product importers). Delete it together with BOTH its tests: <code>src/components/__tests__/sf-parity-employment.test.tsx</code> AND <code>src/components/__tests__/employment-edit.test.tsx</code></li>
+        <li><code class="status">[]</code> <code>src/components/onboarding/</code> — 0 importers anywhere</li>
+        <li><code class="status">[]</code> <code>src/components/manager-dashboard/</code>: delete <code>MiniOrgChart</code>, <code>PendingApprovalsPanel</code>, <code>TeamMemberGrid</code>, <code>TeamSummaryCards</code>, <code>UrgentAlertBanner</code> (0 importers); KEEP <code>TeamCalendar</code> (2 importers) — relocate it or leave the dir with one file</li>
+        <li><code class="status">[]</code> <code>git rm -r src/frontend/src/app/.archive-2026-04/</code> (verify exact path) — tracked old-design pages explicitly archived in-tree</li>
+        <li><code class="status">[]</code> Untrack <code>src/frontend/scripts/audit/</code> deck-capture leftovers still in the index (<code>.gitignore</code> already covers <code>deck-capture/</code>; <code>git rm --cached</code> any stragglers, keep local copies — the deck-swap recipe still uses them)</li>
+      </ul>
+
+      <h4>4.2 Dedupe duplicate tests</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>HirePage.ux-refactor.test.tsx</code> exists in BOTH <code>src/__tests__/admin/</code> and <code>src/app/[locale]/admin/hire/__tests__/</code> — diff them, keep the co-located one, fold any unique cases in, delete the other</li>
+        <li><code class="status">[]</code> Same treatment for <code>hireSchema.test.ts</code> and <code>owner-guard.test.tsx</code> duplicates (co-located copy wins)</li>
+      </ul>
+
+      <h4>4.3 Fix NO-RED guardrail violations (danger = pumpkin, never red)</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>admin/employees/[id]/probation/page.tsx:120-122</code> — replace <code>#FEF2F2/#EF4444/#B91C1C</code> with <code>var(--color-danger-soft)</code> / <code>var(--color-danger)</code> tokens</li>
+        <li><code class="status">[]</code> <code>admin/employees/[id]/terminate/page.tsx:537</code> and <code>lib/admin/crud-template/createCrudPage.tsx:243</code> — drop the red hex fallbacks, keep the token var only</li>
+        <li><code class="status">[]</code> <code>admin/system/security/traffic/page.tsx:99</code> and <code>components/admin/wizard/CompanyTypeahead.tsx:205</code> — <code>ring-red-500</code> → <code>ring-[var(--color-danger)]</code></li>
+        <li><code class="status">[]</code> <code>src/__tests__/admin/ProfileEdit.test.tsx:66</code> — update the <code>text-red-500</code> assertion to the token class the fix produces</li>
+      </ul>
+
+      <h4>4.4 Retokenize remaining hardcoded hex</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>components/learning/learning-page.tsx</code> (10 hexes) and <code>components/hospital-referral/referral-letter-preview.tsx</code> (9) — map each to the nearest Humi token; if a color has no token, use the documented palette var, never a new hex</li>
+        <li><code class="status">[]</code> <code>components/admin/EffectiveDateGate/EffectiveDateGate.tsx</code> (1) — same</li>
+        <li><code class="status">[]</code> Mock-data audit (do NOT blind-merge): <code>grep -rn "humi-mock-data-sf-parity\|humi-mock-data-sf-real" src --include='*.ts*' -l</code> — if either variant has no live importers, fold what's used into <code>humi-mock-data.ts</code> and delete it; if both are live, add a header comment to each stating its distinct role</li>
+      </ul>
+
+      <h4>4.5 Testing Strategy</h4>
+      <p>Vitest full run after each deletion batch catches transitively-broken imports; grep proves the design sweep is complete, and a visual spot-check (per the verify-rendered-output rule) confirms the retokenized screens still look right.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npx vitest run</code> — green (minus the intentionally deleted tests)</li>
+        <li><code class="status">[]</code> <code>grep -rEn "#(EF4444|B91C1C|FEF2F2|FEE2E2|dc2626)|ring-red-500|text-red-500" src/frontend/src --include='*.ts*'</code> — zero hits</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — green</li>
+        <li><code class="status">[]</code> Playwright screenshot of <code>probation</code>, <code>learning</code>, and <code>referral letter</code> screens — danger states render pumpkin, layouts unchanged</li>
+        <li><code class="status">[]</code> Commit: <code>chore(frontend): remove dead code + old-design remnants; enforce NO-RED tokens</code></li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 5: Real Quality Gates</h3>
+      <p>The current <code>lint</code> script enforces on ~60 hand-listed files out of ~1,400 — a fake gate. Replace it with whole-tree linting, promote the design-drift rules to errors, and resolve every disabled test so the suite reports the truth.</p>
+
+      <h4>5.1 Whole-tree lint</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> Replace the allowlist: <code>"lint": "eslint src e2e --max-warnings=0"</code> in <code>src/frontend/package.json</code></li>
+        <li><code class="status">[]</code> First run will surface a backlog — triage: auto-fix (<code>--fix</code>) what's mechanical; fix real issues by hand; for rules that are genuinely wrong for this codebase, adjust the rule once in <code>eslint.config.mjs</code> with a comment, never per-file disables scattered around</li>
+        <li><code class="status">[]</code> Promote design-drift bans (<code>bg-white</code>, <code>rounded-xl</code>, <code>rounded-lg</code>, <code>dark:</code>) from <code>warn</code> → <code>error</code>; fix the violations they reveal</li>
+      </ul>
+
+      <h4>5.2 Resolve disabled tests (implement or delete, never leave skipped)</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>resignation-page.timeline.test.tsx</code> — 3× <code>it.skip</code> (AC-4): implement if the timeline feature exists, else delete the skips with a one-line note in the commit</li>
+        <li><code class="status">[]</code> <code>me-documents.test.tsx:265</code> — 1× <code>it.skip</code> (AC-7b): same decision</li>
+        <li><code class="status">[]</code> <code>admin/StepIdentity.test.tsx</code> — 2× <code>describe.skip</code> (whole suites off): un-skip and fix, or delete the dead suites</li>
+        <li><code class="status">[]</code> <code>StepBAAttachments.regression.test.tsx:134</code> — <code>it.todo</code> stub: implement or remove</li>
+        <li><code class="status">[]</code> Leave the e2e runtime guards (<code>test.skip()</code> when dev server unreachable) — those are conditions, not disabled tests</li>
+      </ul>
+
+      <h4>5.3 Automate the i18n TH/EN parity gate</h4>
+      <p>TH/EN message parity is a hard project rule (CLAUDE.md) but is enforced only by convention today — nothing fails when a key lands in <code>en.json</code> but not <code>th.json</code> (or is left empty). Turn it into a real gate so the mockup can't ship half-translated strings.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> Add <code>src/frontend/scripts/check-i18n-parity.mjs</code>: deep-collect the key paths of <code>messages/en.json</code> and <code>messages/th.json</code>; exit non-zero on any key present in one but not the other, or any empty-string value</li>
+        <li><code class="status">[]</code> Wire it BOTH ways: a <code>i18n:parity</code> npm script AND a Vitest test (e.g. <code>src/__tests__/i18n-parity.test.ts</code>) so a drift shows up in the normal <code>npm test</code> run, not only in CI</li>
+        <li><code class="status">[]</code> Run it once and fix whatever real drift the ~5.6k-line catalogs already contain before the gate goes green</li>
+      </ul>
+
+      <h4>5.4 Testing Strategy</h4>
+      <p>The gates themselves are the test — all must pass over the WHOLE tree with zero suppressions added in this phase.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run lint</code> — green over <code>src</code> + <code>e2e</code>, <code>--max-warnings=0</code></li>
+        <li><code class="status">[]</code> <code>grep -rn "it.skip\|describe.skip\|it.todo\|test.only\|describe.only" src/frontend/src</code> — zero hits</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; node scripts/check-i18n-parity.mjs</code> — exits 0 (en/th key sets identical, no empty values)</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npx vitest run</code> — green (incl. the new i18n-parity test)</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — green (TS gate)</li>
+        <li><code class="status">[]</code> Commit: <code>chore(quality): whole-tree lint gate + i18n parity gate + resolve all skipped tests</code></li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status">[]</code> Phase 6: Docs &amp; Specs Consolidation</h3>
+      <p>Keep only load-bearing documentation. Living design docs stay; generated decks, screenshot dumps, and superseded plans move to git history via the archive tag.</p>
+
+      <h4>6.1 docs/ triage</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> KEEP: <code>design-system-humi.md</code>, <code>humi-components.md</code>, <code>humi-shell-port-notes.md</code> (referenced by AGENTS/CLAUDE), <code>prd.md</code>, <code>two-session-workflow.md</code>, BA source spreadsheets (<code>User_Stories_HR_Solution.xlsx</code>, <code>time-module/source/list-of-value.xlsx</code> — inputs to the ec-field-mapper flow)</li>
+        <li><code class="status">[]</code> <code>git rm</code>: <code>central-group-hrms-presentation.pdf</code>, <code>HR-Humi-presentation.pptx</code>, <code>hr-platform-features-infographic.png</code>, <code>deck-script-TH.md</code>, <code>docs/presentation/</code>, <code>docs/mockup/*.png</code>, <code>docs/design-ref/**/uploads/*.png</code>, <code>docs/time-module/source/wfs-screenshots/</code>, <code>docs/test-results/</code>, <code>epic-breakdown-fe-be.xlsx</code> (md twin stays)</li>
+        <li><code class="status">[]</code> Sweep the remaining docs for references to deleted paths (<code>apps/</code>, <code>src/services</code>, port 8080) and fix or drop those docs</li>
+      </ul>
+
+      <h4>6.2 specs/ policy + trim</h4>
+      <ul class="checklist">
+        <li><code class="status">[]</code> Write <code>specs/README.md</code>: specs are plans/decision records; git history is the archive; no generated screenshots or result dumps belong here</li>
+        <li><code class="status">[]</code> <code>git rm</code> generated result artifacts inside <code>specs/</code>: the 7 <code>.json</code> result files, stray <code>.png</code> dumps, and asset dirs of plans that shipped; keep all <code>.md</code>/<code>.html</code> plans and the image dirs of ACTIVE plans (including this one)</li>
+        <li><code class="status">[]</code> <code>learning/</code>: keep all 13 chapters; grep them for paths deleted in Phases 1–2 (e.g. <code>src/services</code>, docker) and update the affected passages — the curriculum must describe the cleaned repo Ken will actually maintain</li>
+      </ul>
+
+      <h4>6.3 Testing Strategy</h4>
+      <p>Doc-only phase — validation is greps proving no doc points at a ghost, plus the standing app gates.</p>
+      <ul class="checklist">
+        <li><code class="status">[]</code> <code>grep -rln "src/services\|localhost:8080\|apps/" docs/ learning/ *.md | grep -v archive</code> — zero live references (historical mentions explicitly marked as archived are fine)</li>
+        <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — still green</li>
+        <li><code class="status">[]</code> Commit: <code>docs: consolidate to load-bearing docs; archive decks + superseded specs</code></li>
+      </ul>
+      <div class="loop">
+        🔁 <strong>Do not exit this phase until every box above is checked.</strong>
+        If any command fails, fix the cause and re-run — loop until all pass.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GLOBAL VALIDATION ===== -->
+  <section id="validation">
+    <h2>Validation Commands</h2>
+    <p>Execute these commands from the repo root to validate the entire plan is complete:</p>
+    <ul class="checklist">
+      <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run build</code> — production build green on Next 16.2.10</li>
+      <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npx vitest run</code> — full unit/integration suite green, zero skipped</li>
+      <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run lint</code> — whole-tree ESLint green with <code>--max-warnings=0</code></li>
+      <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; node scripts/check-i18n-parity.mjs</code> — en.json/th.json parity holds (no key drift, no empty values)</li>
+      <li><code class="status">[]</code> <code>ls node_modules/next/dist/docs/index.mdx &amp;&amp; grep -q "BEGIN:nextjs-agent-rules" AGENTS.md</code> — Vercel AI-agents convention wired</li>
+      <li><code class="status">[]</code> <code>test ! -d src/services &amp;&amp; test ! -d tests &amp;&amp; test ! -d planning &amp;&amp; test ! -d test-artifacts &amp;&amp; test ! -d test-pages</code> — junk eras gone from the tree</li>
+      <li><code class="status">[]</code> <code>grep -rEn "#(EF4444|B91C1C|FEF2F2|dc2626)|ring-red-500" src/frontend/src --include='*.ts*' | wc -l</code> — 0 (NO-RED holds)</li>
+      <li><code class="status">[]</code> <code>git ls-files | wc -l</code> — ≤ ~1,700 (from 3,540)</li>
+      <li><code class="status">[]</code> <code>git tag -l 'archive/pre-clean*'</code> — archive tag exists on origin (nothing was lost)</li>
+      <li><code class="status">[]</code> <code>cd src/frontend &amp;&amp; npm run test:e2e -- --project=chromium</code> — smoke e2e against the running dev server passes</li>
+    </ul>
+    <div class="loop">
+      🔁 <strong>The plan is not complete until every box is checked and every command passes. If for some reason a step is not possible to complete, mark it with [f] and move on if possible.</strong>
+    </div>
+  </section>
+
+  <!-- ===== NOTES ===== -->
+  <section id="notes">
+    <h2>Notes</h2>
+
+    <div class="callout risk">
+      <strong>Two-session trap.</strong> This repo intentionally runs a plan-only session and an implement session in parallel, sometimes in worktrees. Mass deletion while another session holds uncommitted edits will destroy its work. Phase 0.1 is therefore a hard gate: confirm no sibling session is active before touching anything, and run the whole cleanup on its own branch (<code>chore/production-grade-cleanup</code>) merged as one reviewed PR series.
+    </div>
+
+    <div class="callout risk">
+      <strong>Port trap.</strong> <code>src/frontend/package.json</code> says <code>next dev --port 3000</code> and CLAUDE.md agrees, but session memory records this repo actually serving on <strong>:4000</strong> with :3000 belonging to a different sibling project (<code>cnext/humi</code>). Before any live verification, read the port from the dev server's own startup output and confirm the cwd of the process (<code>lsof -p &lt;pid&gt;</code>) — do not trust either doc.
+    </div>
+
+    <div class="callout risk">
+      <strong><code>.env</code> exposure.</strong> Root <code>.env</code> (contains live API keys) is currently NOT in <code>.gitignore</code> — only luck has kept it untracked. Phase 1.3 fixes the ignore; if <code>git log --all -- .env</code> shows it was ever committed, rotate every key in it before doing anything else.
+    </div>
+
+    <div class="callout risk">
+      <strong>Worktree-symlink trap (Phase 2).</strong> This is a workspace repo: the frontend's dependencies are hoisted into the ROOT <code>node_modules</code>, and any linked git worktree gets its <code>node_modules</code> as a <em>symlink</em> back into that root tree (the fast alternative to a per-worktree <code>npm install</code>). So Phase 2's <code>rm -rf node_modules package-lock.json</code> at root will silently break the install of every active worktree. Run <code>git worktree list</code> first; if worktrees exist, settle/remove them before the reinstall, or re-point their <code>node_modules</code> symlinks at the freshly-installed root afterward. Combined with the two-session trap, treat Phase 2 as a stop-the-world step — no sibling session should be building against this repo while it runs.
+    </div>
+
+    <div class="callout">
+      <strong>Archive strategy = git, not folders.</strong> Every "ARCHIVE" verdict resolves to: pin tag <code>archive/pre-clean-2026-07</code>, then <code>git rm</code>. No <code>archive/</code> directory is created — a junk folder renamed is still a junk folder. Anyone needing the old microservices, planning docs, or decks checks out the tag. This is what keeps the working tree production-grade without losing a byte of history.
+    </div>
+
+    <div class="callout">
+      <strong>Why upgrade Next instead of the codemod.</strong> The Vercel guide's primary path (bundled docs at <code>node_modules/next/dist/docs/</code>) requires ≥ 16.2.0-canary.37; stable <strong>16.2.10</strong> is out and is a minor bump from the installed 16.1.6. Upgrading gets version-matched docs forever (every future <code>npm install</code> refreshes them) whereas the codemod snapshot in <code>.next-docs/</code> goes stale. The codemod remains the documented fallback if 16.2 surfaces a blocking regression.
+    </div>
+
+    <div class="callout">
+      <strong>Deliberately NOT in scope.</strong> (1) Backend wiring of any kind — the mockup phase explicitly skips it. (2) Payroll surfaces — owned by another team. (3) Blind merge of the three <code>humi-mock-data*</code> variants — Phase 4.4 only merges if the importer audit proves a variant dead; these seeds are how HR judges the design. (4) The 20+ legacy-route redirects in <code>next.config.ts</code> — they are cheap, user-facing bookmarks may depend on them; revisit after HR sign-off. (5) <code>src/frontend/.omc</code>, <code>.skills</code>, <code>.claude</code> — live agent tooling, not slop.
+    </div>
+
+    <div class="callout win">
+      <strong>Expected end state.</strong> Tracked files 3,540 → ≤ ~1,700; working tree sheds ~2 GB of junk; <code>lint</code>/<code>test</code>/<code>build</code> are real whole-tree gates; agents onboard from two accurate files (<code>AGENTS.md</code> + <code>CLAUDE.md</code>) plus version-matched Next docs; and Ken's <code>learning/</code> curriculum describes the repo that actually exists.
+    </div>
+
+    <h3>Execution order &amp; sizing</h3>
+    <table>
+      <tr><th>Phase</th><th>Risk</th><th>Effort</th><th>Depends on</th></tr>
+      <tr><td>0 Safety net</td><td>low</td><td>S</td><td>—</td></tr>
+      <tr><td>1 Root purge</td><td>low (outside app)</td><td>S</td><td>0</td></tr>
+      <tr><td>2 Backend retirement + flatten</td><td>medium (hoisting)</td><td>M</td><td>1</td></tr>
+      <tr><td>3 Vercel alignment (Next 16.2)</td><td>medium (upgrade)</td><td>M</td><td>2</td></tr>
+      <tr><td>4 Dead code + design sweep</td><td>medium (deletions)</td><td>M</td><td>0 (parallel with 1–3 if in worktree)</td></tr>
+      <tr><td>5 Real quality gates</td><td>high effort, low risk</td><td>L — the lint backlog is the unknown</td><td>4</td></tr>
+      <tr><td>6 Docs/specs consolidation</td><td>low</td><td>S–M</td><td>1–3 (paths must be final)</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== AMENDMENTS ===== -->
+  <section id="amendments">
+    <h2>Amendments</h2>
+    <!-- Append-only. Populated by Update Plan / Update References workflows. -->
+    <details>
+      <summary>2026-07-09T01:52:00+07:00 — Fact-check corrections + two added gates (worktree-symlink, i18n parity)</summary>
+      <p>Reviewed the plan against the live tree and applied three surgical fixes, all verified by grep/CLI:</p>
+      <p><strong>1. employment.tsx test count.</strong> Phase 4.1 and the Relevant Files entry said the component was kept alive by "its lone test". A grep found <em>two</em> test importers (<code>sf-parity-employment.test.tsx</code> AND <code>employment-edit.test.tsx</code>) and zero product importers — so the test-only verdict stands, but the deletion must remove BOTH tests. Updated both mentions.</p>
+      <p><strong>2. Worktree-symlink trap (Phase 2).</strong> Added a checklist pre-step (<code>git worktree list</code> before <code>rm -rf node_modules</code>) and a risk callout in Notes. In this workspace repo, linked worktrees get their <code>node_modules</code> as a symlink into the root tree, so Phase 2's root reinstall would silently break every active worktree — a hazard the original plan (which covered hoisting but not worktrees) missed.</p>
+      <p><strong>3. i18n TH/EN parity gate (Phase 5).</strong> TH/EN parity is a hard project rule but was enforced only by convention. Added task 5.3 (a <code>check-i18n-parity.mjs</code> script + a Vitest wrapper), renumbered Testing Strategy to 5.4, and added the parity check to both the phase and global validation command lists, plus two New Files entries.</p>
+      <p>Confirmed-accurate original claims left untouched: <code>src/services</code> 955 files, <code>.env</code> unignored (and never tracked), <code>use-employee</code>/<code>ec-personal-info</code> 0 importers, 7 skipped tests, Next 16.1.6 installed.</p>
+    </details>
+  </section>
+
+</main>
+</body>
+</html>

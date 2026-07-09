@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { ArrowLeft, FileText } from 'lucide-react';
 import { Button, Card, CardEyebrow, CardTitle, DataTable, buttonVariants } from '@/components/humi';
-import type { DataTableColumn } from '@/components/humi/DataTable';
+import type { DataTableColumn } from '@/components/humi/organisms/DataTable';
 import { useBenefitClaimsStore, BENEFIT_STATUS_LABEL, BENEFIT_TYPE_LABEL } from '@/stores/benefit-claims';
 import type { BenefitClaimRequest, BenefitClaimStatus } from '@/stores/benefit-claims';
 import { ClaimDetailModal } from '@/components/benefits/ClaimDetailModal';

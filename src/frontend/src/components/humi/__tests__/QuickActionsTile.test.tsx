@@ -7,7 +7,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { QuickActionsTile, DEFAULT_ESS_ACTIONS, type QuickAction } from '../QuickActionsTile';
+import { QuickActionsTile, DEFAULT_ESS_ACTIONS, type QuickAction } from '../molecules/QuickActionsTile';
 
 // Helper: safely coerce className (may be SVGAnimatedString on SVG nodes).
 function cls(el: Element): string {

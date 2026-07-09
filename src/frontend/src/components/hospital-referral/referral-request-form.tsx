@@ -3,8 +3,8 @@
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button, Card, CardTitle } from '@/components/humi';
-import { FormField } from '@/components/ui/form-field';
-import { useToast } from '@/components/ui/toast';
+import { FormField } from '@/components/humi/molecules/form-field';
+import { useToast } from '@/components/humi/molecules/toast';
 import type { Hospital, Province } from '@/hooks/use-hospital-referral';
 
 interface ReferralRequestFormProps {

@@ -22,7 +22,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { Card, CardEyebrow, CardTitle, Button } from '@/components/humi';
-import { QuickActionsTile, MANAGER_ACTIONS, type QuickAction } from '@/components/humi/QuickActionsTile';
+import { QuickActionsTile, MANAGER_ACTIONS, type QuickAction } from '@/components/humi/molecules/QuickActionsTile';
 import {
   HUMI_PENDING_REQUESTS,
   HUMI_EMPLOYEES,

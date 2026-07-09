@@ -2,12 +2,12 @@
 
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { Button, Modal } from '@/components/humi';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
-import { CustomSelect } from '@/components/ui/custom-select';
+import { CustomSelect } from '@/components/humi/molecules/custom-select';
 import { LEAVE_TYPE_COLORS } from './leave-balance';
 import type { LeaveRequest, LeaveStatus, LeaveType } from '@/hooks/use-leave';
 

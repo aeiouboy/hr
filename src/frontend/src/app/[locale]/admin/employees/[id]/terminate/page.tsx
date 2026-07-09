@@ -564,7 +564,7 @@ export default function TerminatePage() {
           <div
             style={{
               width: 36, height: 36, borderRadius: 10,
-              background: 'var(--color-danger-soft, #FEE2E2)',
+              background: 'var(--color-danger-soft)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0, color: 'var(--color-danger)',
             }}

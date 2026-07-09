@@ -14,7 +14,7 @@ import {
   RotateCcw,
   XCircle,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { Button } from '@/components/humi';
 import { formatDate } from '@/lib/date';
 import type { WorkflowItem, WorkflowStatus, WorkflowType } from '@/hooks/use-workflows';

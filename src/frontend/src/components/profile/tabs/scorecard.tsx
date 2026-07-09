@@ -2,11 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 import { BarChart3, History } from 'lucide-react';
-import { FieldGroup } from '@/components/ui/field-group';
+import { FieldGroup } from '@/components/humi/molecules/field-group';
 import { Card } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { EmptyValue } from '@/components/ui/empty-value';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/humi/atoms/badge';
+import { EmptyValue } from '@/components/humi/atoms/empty-value';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 
 interface ScorecardTabProps {
  employee: Record<string, unknown> | null;

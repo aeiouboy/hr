@@ -404,8 +404,15 @@ export const useHumiProfileStore = create<ProfileState>()(
     {
       name: 'humi-profile-v1',          // KEEP name — version controls migration
       version: 6,
-      migrate: (persistedState: any, version: number): ProfileState => {
-        if (!persistedState) return persistedState;
+      migrate: (persistedState: unknown, version: number): ProfileState => {
+        if (typeof persistedState !== 'object' || persistedState === null) {
+          return persistedState as ProfileState;
+        }
+        const persistedRecord = persistedState as Record<string, unknown>;
+        const readDraft = (value: unknown): Record<string, unknown> =>
+          typeof value === 'object' && value !== null
+            ? value as Record<string, unknown>
+            : {};
         if (version < 6 && version >= 5) {
           // v5 → v6 (BRD #167): emergencyContact.relation migrated from Thai string
           // to SF cust_refRelationship externalCode (e.g. 'บิดา' → 'cust_refRelationship_Father')
@@ -417,15 +424,25 @@ export const useHumiProfileStore = create<ProfileState>()(
             'พี่น้อง': 'cust_refRelationship_Brother',
             'อื่นๆ':   'cust_refRelationship_Other',
           };
-          const migrateContacts = (contacts: any[]) =>
-            (contacts ?? []).map((c: any) => ({
-              ...c,
-              relation: THAI_TO_EXT[c.relation] ?? c.relation,
-            }));
+          const migrateContacts = (contacts: unknown) =>
+            Array.isArray(contacts)
+              ? contacts.map((contact: unknown) => {
+                  const contactRecord = readDraft(contact);
+                  const relation = contactRecord.relation;
+                  return {
+                    ...contactRecord,
+                    relation: typeof relation === 'string'
+                      ? THAI_TO_EXT[relation] ?? relation
+                      : relation,
+                  };
+                })
+              : [];
+          const saved = readDraft(persistedRecord.saved);
+          const draft = readDraft(persistedRecord.draft);
           return {
-            ...persistedState,
-            saved: { ...persistedState.saved, emergencyContacts: migrateContacts(persistedState.saved?.emergencyContacts) },
-            draft: { ...persistedState.draft, emergencyContacts: migrateContacts(persistedState.draft?.emergencyContacts) },
+            ...persistedRecord,
+            saved: { ...saved, emergencyContacts: migrateContacts(saved.emergencyContacts) },
+            draft: { ...draft, emergencyContacts: migrateContacts(draft.emergencyContacts) },
           } as ProfileState;
         }
         if (version < 5 && version >= 4) {
@@ -438,29 +455,35 @@ export const useHumiProfileStore = create<ProfileState>()(
         }
         if (version < 4 && version >= 3) {
           // v3 → v4: add dependents[] — enrich legacy minimal rows to new shape
-          const enrichDraft = (d: any) => ({
-            ...d,
-            dependents: Array.isArray(d?.dependents) && d.dependents.length > 0
-              ? d.dependents.map((dep: any) => ({
-                  id: dep.id ?? crypto.randomUUID(),
-                  fullNameTh: dep.fullNameTh ?? dep.name ?? '',
-                  fullNameEn: dep.fullNameEn ?? '',
-                  relation: dep.relation ?? 'other',
-                  dateOfBirth: dep.dateOfBirth ?? '',
-                  nationalId: dep.nationalId,
-                  idCopyFileId: dep.idCopyFileId,
-                  hasInsurance: dep.hasInsurance ?? false,
-                  isCentralEmployee: dep.isCentralEmployee ?? false,
-                  name: dep.name,
-                  initials: dep.initials,
-                  tone: dep.tone,
-                }))
+          const enrichDraft = (value: unknown) => {
+            const draft = readDraft(value);
+            return {
+              ...draft,
+              dependents: Array.isArray(draft.dependents) && draft.dependents.length > 0
+              ? draft.dependents.map((dependent: unknown) => {
+                  const dep = readDraft(dependent);
+                  return {
+                    id: dep.id ?? crypto.randomUUID(),
+                    fullNameTh: dep.fullNameTh ?? dep.name ?? '',
+                    fullNameEn: dep.fullNameEn ?? '',
+                    relation: dep.relation ?? 'other',
+                    dateOfBirth: dep.dateOfBirth ?? '',
+                    nationalId: dep.nationalId,
+                    idCopyFileId: dep.idCopyFileId,
+                    hasInsurance: dep.hasInsurance ?? false,
+                    isCentralEmployee: dep.isCentralEmployee ?? false,
+                    name: dep.name,
+                    initials: dep.initials,
+                    tone: dep.tone,
+                  };
+                })
               : HUMI_DEPENDENTS,
-          });
+            };
+          };
           return {
-            ...persistedState,
-            saved: enrichDraft(persistedState.saved),
-            draft: enrichDraft(persistedState.draft),
+            ...persistedRecord,
+            saved: enrichDraft(persistedRecord.saved),
+            draft: enrichDraft(persistedRecord.draft),
           } as ProfileState;
         }
         if (version < 3 && version >= 2) {
@@ -469,26 +492,26 @@ export const useHumiProfileStore = create<ProfileState>()(
         }
         if (version < 2) {
           // v1 → v2: best-effort map flat address -> addressStructured.houseNo
-          const v1Saved = persistedState.saved ?? DRAFT_DEFAULTS;
-          const v1Draft = persistedState.draft ?? DRAFT_DEFAULTS;
-          const upgrade = (d: any): ProfileDraft => ({
-            nickname: d.nickname ?? DRAFT_DEFAULTS.nickname,
-            phone: d.phone ?? DRAFT_DEFAULTS.phone,
-            personalEmail: d.personalEmail ?? DRAFT_DEFAULTS.personalEmail,
-            address: d.address ?? DRAFT_DEFAULTS.address,
+          const v1Saved = readDraft(persistedRecord.saved);
+          const v1Draft = readDraft(persistedRecord.draft);
+          const upgrade = (draft: Record<string, unknown>): ProfileDraft => ({
+            nickname: typeof draft.nickname === 'string' ? draft.nickname : DRAFT_DEFAULTS.nickname,
+            phone: typeof draft.phone === 'string' ? draft.phone : DRAFT_DEFAULTS.phone,
+            personalEmail: typeof draft.personalEmail === 'string' ? draft.personalEmail : DRAFT_DEFAULTS.personalEmail,
+            address: typeof draft.address === 'string' ? draft.address : DRAFT_DEFAULTS.address,
             emergencyContacts: [],
             addressStructured: {
-              houseNo: typeof d.address === 'string' ? d.address : '',
+              houseNo: typeof draft.address === 'string' ? draft.address : '',
               village: '', soi: '', road: '',
               subdistrict: '', district: '', province: '', postalCode: '',
             },
-            phonesArr: d.phone ? [{ value: d.phone, primary: true }] : [],
-            emailsArr: d.personalEmail ? [{ value: d.personalEmail, primary: true }] : [],
+            phonesArr: typeof draft.phone === 'string' ? [{ value: draft.phone, primary: true }] : [],
+            emailsArr: typeof draft.personalEmail === 'string' ? [{ value: draft.personalEmail, primary: true }] : [],
             bank: { bankCode: '', accountNo: '', holderName: '', bookAttachmentId: null },
             dependents: HUMI_DEPENDENTS,
           });
           return {
-            ...persistedState,
+            ...persistedRecord,
             saved: upgrade(v1Saved),
             draft: upgrade(v1Draft),
           } as ProfileState;

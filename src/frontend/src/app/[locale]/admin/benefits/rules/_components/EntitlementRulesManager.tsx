@@ -6,8 +6,8 @@ import { Trash2, Plus, Pencil, Layers, Upload, Download, ChevronDown } from 'luc
 
 import { Card, CardEyebrow, CardTitle, Button, DataTable, Modal, Capability } from '@/components/humi';
 import { rulesToCsv, downloadCsv, parseRulesCsv } from './rules-csv';
-import type { DataTableColumn } from '@/components/humi/DataTable';
-import { useToast } from '@/components/ui/toast';
+import type { DataTableColumn } from '@/components/humi/organisms/DataTable';
+import { useToast } from '@/components/humi/molecules/toast';
 import { useAuthStore } from '@/stores/auth-store';
 import { useBenefitHistoryStore } from '@/stores/benefit-history-store';
 import { BenefitHistorySidebar } from '@/components/benefits/BenefitHistorySidebar';

@@ -75,7 +75,7 @@ export default function TrafficPage() {
             value={range.from}
             max={range.to}
             onChange={(e) => setRange((r) => ({ ...r, from: e.target.value }))}
-            className="text-sm border border-hairline rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-sm border border-hairline rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
             aria-label="วันที่เริ่มต้น"
           />
         </div>
@@ -87,7 +87,7 @@ export default function TrafficPage() {
             value={range.to}
             min={range.from}
             onChange={(e) => setRange((r) => ({ ...r, to: e.target.value }))}
-            className="text-sm border border-hairline rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-sm border border-hairline rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
             aria-label="วันที่สิ้นสุด"
           />
         </div>
@@ -96,7 +96,7 @@ export default function TrafficPage() {
             type="checkbox"
             checked={showFailed}
             onChange={(e) => setShowFailed(e.target.checked)}
-            className="w-4 h-4 rounded border-hairline text-danger focus:ring-red-500"
+            className="w-4 h-4 rounded border-hairline text-danger focus:ring-[var(--color-danger)]"
           />
           เฉพาะ login ล้มเหลว
         </label>

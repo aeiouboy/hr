@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import type { LucideIcon } from 'lucide-react';
 import { Card } from './Card';
-import { Button } from './Button';
+import { Button } from '../atoms/Button';
 
 export interface EmptyStateProps {
   icon: LucideIcon;

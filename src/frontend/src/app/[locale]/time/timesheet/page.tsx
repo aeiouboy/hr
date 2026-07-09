@@ -17,7 +17,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { resolveCurrentEmpId } from '@/lib/scope-filter';
 import { getEmployeeTimeAttrs } from '@/lib/time/employee-time-attrs';
 import { currentPeriod, periodOptions, demoToday } from '@/lib/time/period';
-import { CustomSelect } from '@/components/ui/custom-select';
+import { CustomSelect } from '@/components/humi/molecules/custom-select';
 import { getAttendanceForPeriod } from '@/lib/time/attendance-seed';
 import { periodLateSummary } from '@/lib/time/attendance-math';
 import { getClockLogForPeriod, clockLogWarnCount } from '@/lib/time/clock-log-seed';

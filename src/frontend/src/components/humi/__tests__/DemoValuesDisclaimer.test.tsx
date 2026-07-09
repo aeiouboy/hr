@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { DemoValuesDisclaimer } from '../DemoValuesDisclaimer';
+import { DemoValuesDisclaimer } from '../molecules/DemoValuesDisclaimer';
 
 vi.mock('lucide-react', () => ({
   Info: (props: React.SVGProps<SVGSVGElement>) => <svg {...props} />,

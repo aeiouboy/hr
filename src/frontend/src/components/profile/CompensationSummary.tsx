@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Wallet, Eye, EyeOff, Lock } from 'lucide-react';
-import { DemoValuesDisclaimer } from '@/components/humi/DemoValuesDisclaimer';
+import { DemoValuesDisclaimer } from '@/components/humi/molecules/DemoValuesDisclaimer';
 import PayStatements from '@/components/profile/PayStatements';
 import { HUMI_MY_PROFILE } from '@/lib/humi-mock-data';
 import { useAuthStore } from '@/stores/auth-store';

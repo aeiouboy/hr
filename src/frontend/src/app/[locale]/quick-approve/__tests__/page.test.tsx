@@ -89,8 +89,8 @@ vi.mock('next/link', () => ({
 
 // ── Humi component stubs ───────────────────────────────────────────────────
 vi.mock('@/components/humi', async () => {
-  const { Capability } = await vi.importActual<typeof import('@/components/humi/Capability')>(
-    '@/components/humi/Capability',
+  const { Capability } = await vi.importActual<typeof import('@/components/humi/atoms/Capability')>(
+    '@/components/humi/atoms/Capability',
   );
   return {
     Card: ({ children }: any) => <div>{children}</div>,

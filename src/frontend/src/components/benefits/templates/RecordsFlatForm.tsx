@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { Button, Card, CardEyebrow, CardTitle, FormField, FormInput } from '@/components/humi';
-import { FileUploadField } from '@/components/humi/FileUploadField';
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField';
 import { Capability } from '@/components/humi';
 import type { BenefitTemplateProps } from './SimpleClaimForm';
 

@@ -6,7 +6,7 @@
  * AC-2: HEADCOUNT BARS ต้องแสดง 3 หน่วยงาน พร้อม count
  * AC-3: MOVEMENT TIMELINE ต้องแสดง 3 types (joiner/leaver/transfer)
  * AC-4: DATE FILTER chips เดือนนี้ / 30 วันล่าสุด / ทั้งหมด
- * AC-5: CSV BUTTON placeholder (console.log on click)
+ * AC-5: CSV BUTTON shows neutral user-visible feedback
  * AC-6: LANGUAGE Thai-primary labels ทุกจุด
  * AC-7: NO REGRESSION — tabs อื่นยังทำงานได้
  */
@@ -256,12 +256,10 @@ describe('AC-5: CSV export button', () => {
     expect(screen.getByRole('button', { name: /ส่งออก CSV/i })).toBeDefined();
   });
 
-  it('click ส่งออก CSV logs TODO message (no crash)', () => {
-    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+  it('click ส่งออก CSV shows neutral feedback', () => {
     const btn = screen.getByRole('button', { name: /ส่งออก CSV/i });
     fireEvent.click(btn);
-    expect(consoleSpy).toHaveBeenCalledWith('TODO: backend phase wire CSV export');
-    consoleSpy.mockRestore();
+    expect(screen.getByRole('status')).toHaveTextContent('เร็วๆ นี้');
   });
 });
 

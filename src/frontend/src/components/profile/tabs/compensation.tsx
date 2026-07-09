@@ -2,12 +2,12 @@
 
 import { useTranslations } from 'next-intl';
 import { CreditCard, Receipt } from 'lucide-react';
-import { FieldGroup } from '@/components/ui/field-group';
-import { Field } from '@/components/ui/field';
-import { StatChip } from '@/components/ui/stat-chip';
+import { FieldGroup } from '@/components/humi/molecules/field-group';
+import { Field } from '@/components/humi/molecules/field';
+import { StatChip } from '@/components/humi/atoms/stat-chip';
 import { Card, DemoValuesDisclaimer } from '@/components/humi';
 import { maskValue, formatCurrency } from '@/lib/date';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 
 interface CompensationTabProps {
  employee: Record<string, unknown> | null;

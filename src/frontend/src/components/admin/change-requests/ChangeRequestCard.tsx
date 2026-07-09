@@ -1,8 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card } from '@/components/humi/Card';
-import { Button } from '@/components/humi/Button';
+import { Card } from '@/components/humi/molecules/Card';
+import { Button } from '@/components/humi/atoms/Button';
 import type { PendingChange, FileAttachment, SectionKey } from '@/stores/humi-profile-slice';
 
 // ════════════════════════════════════════════════════════════

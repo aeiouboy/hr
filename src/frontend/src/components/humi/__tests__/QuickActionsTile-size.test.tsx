@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { QuickActionsTile, MANAGER_ACTIONS, type QuickAction } from '../QuickActionsTile'
+import { QuickActionsTile, MANAGER_ACTIONS, type QuickAction } from '../molecules/QuickActionsTile'
 
 const SIZED: QuickAction[] = [
   { icon: <span />, labelTh: 'กลาง', labelEn: 'Medium', href: '/th/m', tone: 'teal', size: '2x2' },

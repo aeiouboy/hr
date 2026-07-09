@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { FileText } from 'lucide-react';
 import { useLocale } from 'next-intl';
 import { Button, Card, CardEyebrow, CardTitle, FormField, FormInput, Textarea } from '@/components/humi';
-import { Modal } from '@/components/humi/Modal';
-import { FileUploadField } from '@/components/humi/FileUploadField';
+import { Modal } from '@/components/humi/organisms/Modal';
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField';
 import type { BenefitPlan } from '@/data/benefits/plan-registry';
 import {
   bucketsForPlan,

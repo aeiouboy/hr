@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Building, Calendar, DollarSign, Bell, Shield, Palette } from 'lucide-react';
-import { Tabs } from '@/components/ui/tabs';
+import { Tabs } from '@/components/humi/molecules/tabs';
 import { Card, CardTitle, Button } from '@/components/humi';
-import { FormField } from '@/components/ui/form-field';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/components/ui/toast';
+import { FormField } from '@/components/humi/molecules/form-field';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
+import { useToast } from '@/components/humi/molecules/toast';
 import { useSettings } from '@/hooks/use-settings';
 import { useTheme } from '@/hooks/use-theme';
 import { useAuthStore } from '@/stores/auth-store';

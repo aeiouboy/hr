@@ -101,7 +101,7 @@ describe('STA-141 Change 2 — attachment relocated to BenefitDetailBody (edit m
 
   it('keeps the direct FileUploadField import (now used by BenefitDetailBody)', () => {
     expect(PAGE_SRC).toContain(
-      "import { FileUploadField } from '@/components/humi/FileUploadField'",
+      "import { FileUploadField } from '@/components/humi/molecules/FileUploadField'",
     );
   });
 });

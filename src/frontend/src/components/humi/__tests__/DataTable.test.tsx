@@ -8,7 +8,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DataTable, type DataTableColumn } from '../DataTable';
+import { DataTable, type DataTableColumn } from '../organisms/DataTable';
 
 // ────────────────────────────────────────────────────────────
 // Test fixture types + data

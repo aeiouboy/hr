@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DEFAULT_ESS_ACTIONS } from '@/components/humi/QuickActionsTile';
+import { DEFAULT_ESS_ACTIONS } from '@/components/humi/molecules/QuickActionsTile';
 
 const navigationMocks = vi.hoisted(() => ({
   redirect: vi.fn((href: string) => {

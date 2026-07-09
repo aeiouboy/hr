@@ -12,7 +12,7 @@ import { useParams } from 'next/navigation';
 import { ListChecks } from 'lucide-react';
 import { Button, CardEyebrow, DataTable, EmptyState, FormField, Modal } from '@/components/humi';
 import type { DataTableColumn } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { useAuthStore } from '@/stores/auth-store';
 import { useLeaveApprovals } from '@/stores/leave-approvals';
 import { useOvertimeRequests } from '@/stores/overtime-requests';

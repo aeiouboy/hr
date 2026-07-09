@@ -52,7 +52,7 @@ vi.mock('@/stores/auth-store', () => ({
 
 // ── Component imports (after mocks) ───────────────────────
 import { TalentSearchPanel } from '@/components/talent/TalentSearchPanel';
-import { Capability } from '@/components/humi/Capability';
+import { Capability } from '@/components/humi/atoms/Capability';
 import { Card, CardEyebrow, CardTitle, Button } from '@/components/humi';
 
 // ── NotAuthorized component (inline copy to test gate) ────

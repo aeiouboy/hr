@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import { MapPin, Plus, Trash2, Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardTitle, Button, Modal } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { FormField } from '@/components/ui/form-field';
+import { Badge } from '@/components/humi/atoms/badge';
+import { FormField } from '@/components/humi/molecules/form-field';
 import { useGeofencing, type GeofenceZone } from '@/hooks/use-geofencing';
 
 type ZoneForm = {

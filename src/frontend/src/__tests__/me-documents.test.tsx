@@ -257,34 +257,6 @@ describe('hr#84 BRD #173 — /me/documents', () => {
     expect(screen.getByTestId('docs-list')).toBeInTheDocument()
   })
 
-  // SKIPPED: vi.doMock + dynamic import doesn't reset module cache across the static
-  // top-of-file import. Empty state DOM is gated by `filtered.length === 0` per source
-  // review (page.tsx). Visual evidence captured in Phase 5 walkthrough.
-  // Tracked at hr#86 as a Playwright E2E candidate (filter that yields zero — would need
-  // synthetic 'unknown' type or zero-entry mock data via a separate test setup file).
-  it.skip('AC-7b — docs-empty renders when HUMI_HR_DOCS is empty (module mock)', async () => {
-    // Temporarily mock the module to return empty array
-    vi.doMock('@/lib/humi-mock-data', () => ({
-      HUMI_HR_DOCS: [],
-      HR_DOC_TYPE_LABELS: {
-        'employment-letter': 'หนังสือรับรองการทำงาน',
-        'income-cert': 'หนังสือรับรองเงินเดือน',
-        'tax-form': '50 ทวิ / ภงด.91',
-        'payslip-archive': 'สลิปเงินเดือนสะสม',
-      },
-    }))
-
-    // Dynamic import after mock to get the mocked version
-    const { default: MeDocumentsPageEmpty } = await import('@/app/[locale]/me/documents/page')
-    render(<MeDocumentsPageEmpty />)
-
-    expect(screen.getByTestId('docs-empty')).toBeInTheDocument()
-    expect(screen.getByText('ไม่พบเอกสาร')).toBeInTheDocument()
-    expect(screen.queryByTestId('docs-list')).toBeNull()
-
-    vi.resetModules()
-  })
-
   // ════════════════════════════════════════════════════════════
   // HR_DOC_TYPE_LABELS — static shape
   // ════════════════════════════════════════════════════════════

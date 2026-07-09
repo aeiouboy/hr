@@ -117,9 +117,9 @@ function ProbationBanner({ daysRemaining }: ProbationBannerProps) {
     color = 'var(--color-accent, #1D4ED8)'
     text = 'ครบกำหนดแล้ว — ระบบจะอนุมัติผ่านอัตโนมัติ'
   } else if (daysRemaining <= 14) {
-    bg = '#FEF2F2'
-    border = '#EF4444'
-    color = '#B91C1C'
+    bg = 'var(--color-danger-soft)'
+    border = 'var(--color-danger)'
+    color = 'var(--color-danger-ink)'
     text = `ใกล้ครบกำหนด (${daysRemaining} วัน) — โปรดประเมิน`
   } else if (daysRemaining <= 29) {
     bg = '#FFFBEB'

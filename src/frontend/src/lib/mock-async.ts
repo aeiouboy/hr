@@ -9,10 +9,6 @@ export function delay(ms = 300): Promise<void> {
 
 export async function mockSubmit<T>(payload: T, ms = 300): Promise<T> {
   await delay(ms);
-  if (typeof window !== 'undefined') {
-    // eslint-disable-next-line no-console
-    console.log('[mockSubmit]', payload);
-  }
   return payload;
 }
 

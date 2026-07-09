@@ -84,7 +84,7 @@ vi.mock('@/lib/utils', () => ({
 }));
 
 // ── Import component AFTER mocks ──────────────────────────────────────────────
-import { FileUploadField } from '@/components/humi/FileUploadField';
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

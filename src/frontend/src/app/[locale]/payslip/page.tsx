@@ -10,7 +10,7 @@
 
 import { Wallet } from 'lucide-react';
 import { Card, CardEyebrow } from '@/components/humi';
-import { DemoValuesDisclaimer } from '@/components/humi/DemoValuesDisclaimer';
+import { DemoValuesDisclaimer } from '@/components/humi/molecules/DemoValuesDisclaimer';
 import PayStatements from '@/components/profile/PayStatements';
 import { cn } from '@/lib/utils';
 

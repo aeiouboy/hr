@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Modal } from '@/components/humi/Modal';
-import { Button } from '@/components/humi/Button';
-import { FormField } from '@/components/humi/FormField';
+import { Modal } from '@/components/humi/organisms/Modal';
+import { Button } from '@/components/humi/atoms/Button';
+import { FormField } from '@/components/humi/molecules/FormField';
 import { useHumiProfileStore } from '@/stores/humi-profile-slice';
 
 // ════════════════════════════════════════════════════════════

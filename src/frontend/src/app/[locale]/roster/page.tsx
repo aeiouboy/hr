@@ -62,7 +62,7 @@ import {
 } from '@/lib/time/shift-time-calc';
 import { ROSTER_ROWS } from '@/data/roster/mock';
 import type { HumiEmployee } from '@/lib/humi-mock-data';
-import type { AvatarProps } from '@/components/humi/Avatar';
+import type { AvatarProps } from '@/components/humi/atoms/Avatar';
 
 // HumiEmployee.avatarTone → the Avatar primitive's supported tone set.
 const AVATAR_TONES: AvatarProps['tone'][] = ['teal', 'sage', 'butter', 'ink'];

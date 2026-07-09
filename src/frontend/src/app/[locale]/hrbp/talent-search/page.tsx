@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
-import { Capability } from '@/components/humi/Capability';
+import { Capability } from '@/components/humi/atoms/Capability';
 import { Card, CardEyebrow, CardTitle, Button } from '@/components/humi';
 import { TalentSearchPanel } from '@/components/talent/TalentSearchPanel';
 

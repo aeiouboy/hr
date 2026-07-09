@@ -159,8 +159,11 @@ describe('useLifecycleWizard — setStepData', () => {
 
     // เรียก setStepData ด้วย flow ที่ไม่ตรง — ต้อง no-op
     act(() => {
-      // @ts-ignore — ตั้งใจ test flow mismatch at runtime
-      result.current.setStepData('transfer', 1, { selectedEmployee: mockActiveEmployee })
+      Reflect.apply(result.current.setStepData, result.current, [
+        'transfer',
+        1,
+        { selectedEmployee: mockActiveEmployee },
+      ])
     })
 
     // active.flow ยังต้องเป็น rehire ไม่เปลี่ยน

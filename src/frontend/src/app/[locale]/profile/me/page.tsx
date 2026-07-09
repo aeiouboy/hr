@@ -53,7 +53,7 @@ import {
   type SectionKey,
   type EmergencyContactRow,
 } from '@/stores/humi-profile-slice';
-import { FileUploadField } from '@/components/humi/FileUploadField';
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField';
 import { Modal, FormField } from '@/components/humi';
 import { EmergencyContactList, areAllRowsValid } from '@/components/profile/EmergencyContactList';
 import { DependentsEditor, areAllDependentsValid } from '@/components/profile/DependentsEditor';

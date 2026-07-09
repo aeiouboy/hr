@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, CalendarDays, Clock, Clock3, Paperclip } from 'lucide-react';
 import { Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { ApprovalChain } from '@/components/quick-approve/ApprovalChain';
 import { useAuthStore } from '@/stores/auth-store';
 import { useLeaveApprovals } from '@/stores/leave-approvals';

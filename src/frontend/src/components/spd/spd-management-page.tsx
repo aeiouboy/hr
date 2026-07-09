@@ -4,13 +4,13 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Pencil, Save, X, Eye, Download } from 'lucide-react';
-import { Tabs } from '@/components/ui/tabs';
+import { Tabs } from '@/components/humi/molecules/tabs';
 import { Card, CardTitle, Button, Modal } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { FormField } from '@/components/ui/form-field';
+import { Badge } from '@/components/humi/atoms/badge';
+import { FormField } from '@/components/humi/molecules/form-field';
 import { useSpd, type TeamTimeRecord, type TeamOTRecord, type ShiftDay, type TeamSchedule } from '@/hooks/use-spd';
 import { cn } from '@/lib/utils';
-import { CustomSelect } from '@/components/ui/custom-select';
+import { CustomSelect } from '@/components/humi/molecules/custom-select';
 
 type TabKey ='timeRecords' |'otRecords' |'schedules' |'leaveDocuments';
 

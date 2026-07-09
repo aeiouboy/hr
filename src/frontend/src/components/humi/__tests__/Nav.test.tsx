@@ -9,7 +9,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import { Home, Users, Building2, Settings, Bell } from 'lucide-react';
-import { Nav, type NavSection } from '../Nav';
+import { Nav, type NavSection } from '../molecules/Nav';
 
 // Mock next/link เพื่อให้ render ใน jsdom ได้
 vi.mock('next/link', () => ({

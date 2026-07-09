@@ -24,7 +24,7 @@ import { History, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
 import { hasAnyRole } from '@/lib/rbac';
 import { formatDate } from '@/lib/date';
-import { DemoValuesDisclaimer } from '@/components/humi/DemoValuesDisclaimer';
+import { DemoValuesDisclaimer } from '@/components/humi/molecules/DemoValuesDisclaimer';
 import {
   SELF_COMP_HISTORY,
   getCompHistory,

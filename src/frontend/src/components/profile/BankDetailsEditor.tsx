@@ -8,7 +8,7 @@
 
 import { useTranslations } from 'next-intl';
 import { FormField } from '@/components/humi';
-import { FileUploadField } from '@/components/humi/FileUploadField';
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField';
 import { cn } from '@/lib/utils';
 import type { BankDetails } from '@/stores/humi-profile-slice';
 

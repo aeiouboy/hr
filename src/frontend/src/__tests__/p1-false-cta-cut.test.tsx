@@ -32,7 +32,7 @@ import {
   QuickActionsTile,
   DEFAULT_ESS_ACTIONS,
   MANAGER_ACTIONS,
-} from '@/components/humi/QuickActionsTile';
+} from '@/components/humi/molecules/QuickActionsTile';
 
 const FORBIDDEN = /\/admin\/(employees|positions)/;
 

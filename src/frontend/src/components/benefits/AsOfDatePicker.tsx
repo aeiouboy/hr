@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FormField, FormInput } from '@/components/humi/FormField';
+import { FormField, FormInput } from '@/components/humi/molecules/FormField';
 
 export interface AsOfDatePickerProps {
   value: string;               // ISO yyyy-mm-dd

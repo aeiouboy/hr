@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { ChevronRight, Inbox } from 'lucide-react';
 import { Card } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { useSelectPendingApprovals } from '@/lib/approval-registry';
 import { formatDate } from '@/lib/date';
 

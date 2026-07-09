@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { MapPin, Building, Users, ChevronRight, ChevronDown } from 'lucide-react';
 import { Card, CardTitle } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useLocations, type LocationNode } from '@/hooks/use-locations';
 
 function LocationTreeNode({ node, depth = 0, selectedId, onSelect }: { node: LocationNode; depth?: number; selectedId: string | null; onSelect: (node: LocationNode) => void }) {

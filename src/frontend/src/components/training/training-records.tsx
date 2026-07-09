@@ -3,10 +3,10 @@
 import { useTranslations } from 'next-intl';
 import { FileText, Clock, Award, Download } from 'lucide-react';
 import { Card, CardTitle, Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useTraining } from '@/hooks/use-training';
-import { CustomSelect } from '@/components/ui/custom-select';
+import { CustomSelect } from '@/components/humi/molecules/custom-select';
 import { formatDate, formatCurrency } from '@/lib/date';
 
 export function TrainingRecordsPage() {

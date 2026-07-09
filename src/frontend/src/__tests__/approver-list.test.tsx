@@ -23,11 +23,11 @@ vi.mock('next-intl', () => ({
 
 // ── humi component stubs ──────────────────────────────────────────────────────
 // Card renders children; Button renders a <button>; FormField passes children.
-vi.mock('@/components/humi/Card', () => ({
+vi.mock('@/components/humi/molecules/Card', () => ({
   Card: ({ children }: { children: React.ReactNode }) => <div data-testid="card">{children}</div>,
 }));
 
-vi.mock('@/components/humi/Button', () => ({
+vi.mock('@/components/humi/atoms/Button', () => ({
   Button: ({
     children,
     onClick,
@@ -43,7 +43,7 @@ vi.mock('@/components/humi/Button', () => ({
   ),
 }));
 
-vi.mock('@/components/humi/Modal', () => ({
+vi.mock('@/components/humi/organisms/Modal', () => ({
   Modal: ({
     open,
     children,
@@ -61,7 +61,7 @@ vi.mock('@/components/humi/Modal', () => ({
     ) : null,
 }));
 
-vi.mock('@/components/humi/FormField', () => ({
+vi.mock('@/components/humi/molecules/FormField', () => ({
   FormField: ({
     children,
     label,

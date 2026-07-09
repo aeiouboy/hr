@@ -42,7 +42,7 @@ vi.mock('next/link', () => ({
 }));
 
 // ── Stub heavy Humi primitives ──────────────────────────────────────────────
-vi.mock('@/components/humi/Card', () => ({
+vi.mock('@/components/humi/molecules/Card', () => ({
   Card: ({
     children,
     header,
@@ -59,7 +59,7 @@ vi.mock('@/components/humi/Card', () => ({
   cardVariants: {},
 }));
 
-vi.mock('@/components/humi/Button', () => ({
+vi.mock('@/components/humi/atoms/Button', () => ({
   Button: ({
     children,
     onClick,
@@ -83,7 +83,7 @@ vi.mock('@/components/humi/Button', () => ({
   buttonVariants: {},
 }));
 
-vi.mock('@/components/humi/Modal', () => ({
+vi.mock('@/components/humi/organisms/Modal', () => ({
   Modal: ({
     open,
     children,
@@ -101,7 +101,7 @@ vi.mock('@/components/humi/Modal', () => ({
     ) : null,
 }));
 
-vi.mock('@/components/humi/DataTable', () => ({
+vi.mock('@/components/humi/organisms/DataTable', () => ({
   DataTable: ({
     rows,
     emptyState,
@@ -132,8 +132,8 @@ vi.mock('@/components/humi/DataTable', () => ({
 // original. We inline the stubs here to avoid that confusion.
 vi.mock('@/components/humi', async () => {
   // Capability: import the real implementation so RBAC gates work
-  const { Capability } = await vi.importActual<typeof import('@/components/humi/Capability')>(
-    '@/components/humi/Capability',
+  const { Capability } = await vi.importActual<typeof import('@/components/humi/atoms/Capability')>(
+    '@/components/humi/atoms/Capability',
   );
   return {
     Card: ({ children, header }: { children: React.ReactNode; header?: React.ReactNode }) => (
@@ -177,13 +177,13 @@ vi.mock('@/components/humi', async () => {
   };
 });
 
-vi.mock('@/components/ui/badge', () => ({
+vi.mock('@/components/humi/atoms/badge', () => ({
   Badge: ({ children }: { children: React.ReactNode }) => (
     <span data-testid="badge">{children}</span>
   ),
 }));
 
-vi.mock('@/components/ui/skeleton', () => ({
+vi.mock('@/components/humi/atoms/skeleton', () => ({
   Skeleton: ({ className }: { className?: string }) => (
     <div className={className} aria-hidden />
   ),

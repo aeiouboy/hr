@@ -16,7 +16,7 @@ import {
  Briefcase,
 } from 'lucide-react';
 import { Modal, Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { formatDate } from '@/lib/date';
 import type { WorkflowItem, WorkflowStatus, WorkflowStep, WorkflowType } from '@/hooks/use-workflows';
 

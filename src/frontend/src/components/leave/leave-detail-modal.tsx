@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Modal, Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { formatDate } from '@/lib/date';
 import type { LeaveRequest, LeaveStatus } from '@/hooks/use-leave';
 

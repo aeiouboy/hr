@@ -40,7 +40,7 @@ import { cn } from '@/lib/utils';
 import { isManager } from '@/lib/rbac';
 import { Button } from '@/components/humi';
 import { AttendanceKpiCards } from '@/components/home/AttendanceKpiCards';
-import { QuickActionsTile, DEFAULT_ESS_ACTIONS, type QuickAction } from '@/components/humi/QuickActionsTile';
+import { QuickActionsTile, DEFAULT_ESS_ACTIONS, type QuickAction } from '@/components/humi/molecules/QuickActionsTile';
 import { useAdminSelfService } from '@/lib/admin/store/useAdminSelfService';
 import type { QuickActionSize } from '@/lib/admin/types/adminSelfService';
 import {

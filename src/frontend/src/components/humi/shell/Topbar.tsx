@@ -28,8 +28,8 @@ import { useAuthStore } from '@/stores/auth-store';
 import { cn } from '@/lib/utils';
 import { getLocaleFromPath, swapLocale, type SupportedLocale } from '@/lib/humi-locale';
 import { PersonaSwitcher } from '@/components/humi/shell/PersonaSwitcher';
-import { NotificationBell } from '@/components/humi/NotificationBell';
-import { TodoBell } from '@/components/humi/TodoBell';
+import { NotificationBell } from '@/components/humi/organisms/NotificationBell';
+import { TodoBell } from '@/components/humi/organisms/TodoBell';
 
 export interface TopbarProps {
   /** h2 page title — typically derived from route */

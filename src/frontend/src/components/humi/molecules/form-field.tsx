@@ -1,5 +1,11 @@
 'use client';
 
+// NOTE: distinct from ./FormField.tsx. This is the "batteries-included" field
+// (built-in input/select/textarea/combobox driven by a `type` prop + value/onChange),
+// while ./FormField.tsx is the headless label+a11y render-prop wrapper. They are
+// NOT duplicates and intentionally coexist; a future pass may rename this one for
+// clarity. Import this via `@/components/humi/molecules/form-field` (not the barrel).
+
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 

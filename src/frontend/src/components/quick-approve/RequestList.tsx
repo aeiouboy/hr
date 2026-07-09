@@ -4,8 +4,8 @@
 import { useState, useMemo, useCallback, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Search, Filter, Calendar, Clock, Palmtree, Receipt, ArrowLeftRight, FilePen, ClipboardList } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { CustomSelect } from '@/components/ui/custom-select';
+import { Badge } from '@/components/humi/atoms/badge';
+import { CustomSelect } from '@/components/humi/molecules/custom-select';
 import { UrgencyBadge } from './UrgencyBadge';
 import type { PendingRequest, Urgency, RequestType } from '@/lib/quick-approve-api';
 

@@ -50,19 +50,6 @@ export default function ChangeRequestsPage() {
   const pendingChanges = useHumiProfileStore((s) => s.pendingChanges);
   const attachments = useHumiProfileStore((s) => s.attachments);
 
-  if (!canApprove) {
-    return (
-      <div className="humi-card" data-testid="change-requests-no-access">
-        <h3 className="font-display text-xl font-semibold leading-[1.2] tracking-tight text-ink">
-          ไม่มีสิทธิ์เข้าถึง
-        </h3>
-        <p className="mt-2 text-ink-soft" style={{ fontSize: 14 }}>
-          คิวอนุมัติคำขอแก้ไขข้อมูลส่วนบุคคล สงวนสิทธิ์เฉพาะผู้อนุมัติ (SPD)
-        </p>
-      </div>
-    );
-  }
-
   // Group pending CRs by sectionKey; items without sectionKey fall into 'personal'
   const grouped = useMemo(() => {
     const pending = pendingChanges.filter((pc) => pc.status === 'pending');
@@ -97,6 +84,20 @@ export default function ChangeRequestsPage() {
         .slice(0, 20),
     [pendingChanges]
   );
+
+  // RBAC gate — placed after all hooks so hook order stays stable (rules-of-hooks)
+  if (!canApprove) {
+    return (
+      <div className="humi-card" data-testid="change-requests-no-access">
+        <h3 className="font-display text-xl font-semibold leading-[1.2] tracking-tight text-ink">
+          ไม่มีสิทธิ์เข้าถึง
+        </h3>
+        <p className="mt-2 text-ink-soft" style={{ fontSize: 14 }}>
+          คิวอนุมัติคำขอแก้ไขข้อมูลส่วนบุคคล สงวนสิทธิ์เฉพาะผู้อนุมัติ (SPD)
+        </p>
+      </div>
+    );
+  }
 
   const totalPending = SECTION_ORDER.reduce((sum, key) => sum + grouped[key].length, 0);
 

@@ -3,12 +3,12 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Gift, Users } from 'lucide-react';
-import { FieldGroup } from '@/components/ui/field-group';
-import { Badge } from '@/components/ui/badge';
-import { EmptyValue } from '@/components/ui/empty-value';
+import { FieldGroup } from '@/components/humi/molecules/field-group';
+import { Badge } from '@/components/humi/atoms/badge';
+import { EmptyValue } from '@/components/humi/atoms/empty-value';
 import { formatDate } from '@/lib/date';
-import { Skeleton } from '@/components/ui/skeleton';
-import { StatChip } from '@/components/ui/stat-chip';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
+import { StatChip } from '@/components/humi/atoms/stat-chip';
 import { Card, DemoValuesDisclaimer } from '@/components/humi';
 
 interface BenefitsTabProps {

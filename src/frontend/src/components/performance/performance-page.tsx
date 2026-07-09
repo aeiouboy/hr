@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Flag, Plus, TrendingUp, Target, ClipboardCheck } from 'lucide-react';
 import { Card, Button, Modal } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { Tabs } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
-import { FormField } from '@/components/ui/form-field';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Tabs } from '@/components/humi/molecules/tabs';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
+import { FormField } from '@/components/humi/molecules/form-field';
 import { usePerformance, type Goal, type GoalCategory, type GoalStatus } from '@/hooks/use-performance';
 
 const STATUS_VARIANT: Record<GoalStatus,'neutral' |'info' |'success' |'warning' |'error'> = {

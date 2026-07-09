@@ -76,6 +76,10 @@ npm run lint              # ESLint — scoped to a file allowlist in package.jso
 
 Focused runs: `npm test -- --run <pattern>`, `npm run test:e2e -- --project=chromium <spec>`.
 
+### Verify gate
+
+Run `cd src/frontend && npm run verify` before opening a PR. Vitest will join this gate after the pre-existing baseline failures are fixed.
+
 ## Architecture (`src/frontend/src/`)
 
 ```

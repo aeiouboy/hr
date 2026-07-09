@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { cn } from '@/lib/utils';
 import { Sun, Stethoscope, User, Baby, Users, Sparkles, Shield, FileText } from 'lucide-react';
 import type { LeaveBalance as LeaveBalanceType, LeaveType } from '@/hooks/use-leave';

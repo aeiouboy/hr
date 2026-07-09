@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { PageShell } from '@/components/shared/page-shell';
-import { Tabs } from '@/components/ui/tabs';
+import { Tabs } from '@/components/humi/molecules/tabs';
 import { Card, CardTitle } from '@/components/humi';
 import { AccessDenied } from '@/components/shared/access-denied';
 import { useAuthStore } from '@/stores/auth-store';

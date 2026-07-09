@@ -10,7 +10,7 @@ import { useState, useMemo } from 'react';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { Card } from '@/components/humi';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useSpdBranches } from '@/hooks/use-spd-branches';
 import { SpdBranchSummaryTiles } from '@/components/spd/SpdBranchSummaryTiles';
 import { BENEFIT_PLAN_REGISTRY } from '@/data/benefits/plan-registry';

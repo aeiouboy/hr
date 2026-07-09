@@ -2,9 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 import { ArrowRight, X } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { Card, CardTitle, Button } from '@/components/humi';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { useRecruitment, type ApplicationStatus } from '@/hooks/use-recruitment';
 
 const STAGES: ApplicationStatus[] = ['applied','screening','interview','offer','hired'];

@@ -23,7 +23,7 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { Capability } from '@/components/humi';
-import { QuickActionsTile, type QuickAction } from '@/components/humi/QuickActionsTile';
+import { QuickActionsTile, type QuickAction } from '@/components/humi/molecules/QuickActionsTile';
 import { ExitFeedbackPanel } from '@/components/hrbp/ExitFeedbackPanel';
 import {
   HUMI_PENDING_REQUESTS,

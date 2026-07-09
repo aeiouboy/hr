@@ -38,8 +38,8 @@ import {
 } from 'lucide-react';
 import { Card, CardTitle, Button, DataTable, Modal } from '@/components/humi';
 import type { DataTableColumn } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/humi/atoms/badge';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 import { DelegationModal } from '@/components/quick-approve/DelegationModal';
 import { useAuthStore } from '@/stores/auth-store';
 import { useCapabilities } from '@/hooks/use-capabilities';

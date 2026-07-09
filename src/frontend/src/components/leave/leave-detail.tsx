@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Modal, Button } from '@/components/humi';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/humi/atoms/badge';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Clock, XCircle, FileText } from 'lucide-react';
 import type { LeaveRequest, LeaveStatus } from '@/hooks/use-leave';

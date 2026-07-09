@@ -14,8 +14,8 @@
 import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { FileText, Download, Printer } from 'lucide-react';
-import { Modal } from '@/components/humi/Modal';
-import { Button } from '@/components/humi/Button';
+import { Modal } from '@/components/humi/organisms/Modal';
+import { Button } from '@/components/humi/atoms/Button';
 import {
   GENERATABLE_LETTERS,
   type GeneratableLetter,

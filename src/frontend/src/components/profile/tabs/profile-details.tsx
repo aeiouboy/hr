@@ -3,11 +3,11 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { GraduationCap, Briefcase, Languages, Award, MapPin } from 'lucide-react';
-import { FieldGroup } from '@/components/ui/field-group';
-import { Field } from '@/components/ui/field';
-import { EmptyValue } from '@/components/ui/empty-value';
+import { FieldGroup } from '@/components/humi/molecules/field-group';
+import { Field } from '@/components/humi/molecules/field';
+import { EmptyValue } from '@/components/humi/atoms/empty-value';
 import { formatDate } from '@/lib/date';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/humi/atoms/skeleton';
 
 interface ProfileDetailsTabProps {
  employee: Record<string, unknown> | null;

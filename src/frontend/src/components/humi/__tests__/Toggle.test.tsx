@@ -8,7 +8,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Toggle } from '../Toggle';
+import { Toggle } from '../atoms/Toggle';
 
 // ────────────────────────────────────────────────────────────
 // AC-7: Element semantics — must be <button role="switch"> ไม่ใช่ <div>

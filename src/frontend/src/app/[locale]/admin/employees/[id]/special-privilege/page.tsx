@@ -18,7 +18,7 @@ import { useAuthStore } from '@/stores/auth-store'
 import { ActionGuardBanner } from '@/components/admin/ActionGuardBanner'
 import { actionAvailability } from '@/lib/admin/actionAvailability'
 import { Toggle, Textarea } from '@/components/humi'
-import { FileUploadField } from '@/components/humi/FileUploadField'
+import { FileUploadField } from '@/components/humi/molecules/FileUploadField'
 import {
   BENEFIT_PLAN_REGISTRY,
   getPlan,
