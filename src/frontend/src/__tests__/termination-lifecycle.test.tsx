@@ -179,7 +179,7 @@ describe('termination request lifecycle across approval and requester surfaces',
     cleanup();
     setViewer({ id: 'MGR-LIFE', name: 'Manager Lifecycle', roles: ['manager'] });
     await renderApprovalDetail(requestId);
-    await userEvent.click(screen.getByRole('button', { name: /อนุมัติและส่งกลับ/ }));
+    await userEvent.click(screen.getByRole('button', { name: /^อนุมัติ$/ }));
     await waitFor(() => {
       expect(useTerminationApprovals.getState().requests[0]?.status).toBe('pending_spd');
     });
@@ -187,7 +187,7 @@ describe('termination request lifecycle across approval and requester surfaces',
     cleanup();
     setViewer({ id: 'SPD-LIFE', name: 'SPD Lifecycle', roles: ['hr_admin'] });
     await renderApprovalDetail(requestId);
-    await userEvent.click(screen.getByRole('button', { name: /อนุมัติและส่งกลับ/ }));
+    await userEvent.click(screen.getByRole('button', { name: /^อนุมัติ$/ }));
 
     await waitFor(() => {
       expect(useTerminationApprovals.getState().requests[0]?.status).toBe('approved');

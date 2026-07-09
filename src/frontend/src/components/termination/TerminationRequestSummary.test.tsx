@@ -69,16 +69,19 @@ describe('TerminationRequestSummary', () => {
     expect(within(dialog).getByText('Sample document')).toBeInTheDocument();
   });
 
-  it('renders fewer rows for a sparse ESS record', () => {
+  // BA feedback (STA-264): every request renders the FULL 10-field list —
+  // sparse ESS records show "—" for the fields they did not submit.
+  it('renders all 10 rows for a sparse ESS record with — placeholders', () => {
     render(<TerminationRequestSummary request={ESS_REQUEST} locale="en" />);
 
-    expect(screen.getAllByRole('term')).toHaveLength(7);
+    expect(screen.getAllByRole('term')).toHaveLength(10);
     expect(screen.getByText('Resigned Date')).toBeInTheDocument();
     expect(screen.getByText('วันที่ทำงานวันสุดท้าย')).toBeInTheDocument();
     expect(screen.getByText('Voluntary')).toBeInTheDocument();
-    expect(screen.queryByText('Transfer out to')).not.toBeInTheDocument();
-    expect(screen.queryByText('OK to Rehire')).not.toBeInTheDocument();
-    expect(screen.queryByText('Attachments')).not.toBeInTheDocument();
+    expect(screen.getByText('Transfer out to')).toBeInTheDocument();
+    expect(screen.getByText('OK to Rehire')).toBeInTheDocument();
+    expect(screen.getByText('Attachments')).toBeInTheDocument();
+    expect(screen.getAllByText('—').length).toBeGreaterThanOrEqual(3);
   });
 
   it('renders Thai-first labels when locale is th', () => {

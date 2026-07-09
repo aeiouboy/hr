@@ -104,7 +104,7 @@ describe('ResignationDetailPage — manager step (pending_manager)', () => {
   it('shows approve-and-send-back and send-back actions, without talk-first or reject', async () => {
     await renderPage();
 
-    expect(screen.getByRole('button', { name: /Approve & send back/i })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /^Approve$/i })).toBeEnabled();
     expect(screen.getByRole('button', { name: /^Send back$/i })).toBeEnabled();
     expect(screen.queryByRole('button', { name: /Talk first/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Reject/i })).not.toBeInTheDocument();
@@ -120,7 +120,7 @@ describe('ResignationDetailPage — manager step (pending_manager)', () => {
   it('approves the resignation and sends the manager back to quick approve', async () => {
     await renderPage();
 
-    await userEvent.click(screen.getByRole('button', { name: /Approve & send back/i }));
+    await userEvent.click(screen.getByRole('button', { name: /^Approve$/i }));
 
     await waitFor(() => {
       expect(pushSpy).toHaveBeenCalledWith('/en/quick-approve?decided=resignation-approved');
@@ -190,8 +190,8 @@ describe('ResignationDetailPage — HR Admin step (pending_spd)', () => {
   it('lets HR Admin approve at the HR Admin step (was previously stuck disabled for everyone)', async () => {
     await renderPage();
 
-    expect(screen.getByRole('button', { name: /Approve & send back/i })).toBeEnabled();
-    await userEvent.click(screen.getByRole('button', { name: /Approve & send back/i }));
+    expect(screen.getByRole('button', { name: /^Approve$/i })).toBeEnabled();
+    await userEvent.click(screen.getByRole('button', { name: /^Approve$/i }));
 
     await waitFor(() => {
       expect(pushSpy).toHaveBeenCalledWith('/en/quick-approve?decided=resignation-approved');
@@ -245,7 +245,7 @@ describe('ResignationDetailPage — cross-step view-only (remove not hide would 
 
     await renderPage();
 
-    expect(screen.getByRole('button', { name: /Approve & send back/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^Approve$/i })).toBeDisabled();
     expect(screen.getByRole('button', { name: /^Send back$/i })).toBeDisabled();
     expect(screen.getByText(/Awaiting HR Admin/i)).toBeInTheDocument();
   });
@@ -257,7 +257,7 @@ describe('ResignationDetailPage — cross-step view-only (remove not hide would 
 
     await renderPage();
 
-    expect(screen.getByRole('button', { name: /Approve & send back/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^Approve$/i })).toBeDisabled();
     expect(screen.getByRole('button', { name: /^Send back$/i })).toBeDisabled();
     expect(screen.getByText(/Awaiting manager/i)).toBeInTheDocument();
   });

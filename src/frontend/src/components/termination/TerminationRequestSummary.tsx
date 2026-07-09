@@ -12,7 +12,11 @@ import {
   TerminationAttachmentPreview,
   type TerminationSummaryLocale,
 } from './TerminationAttachmentPreview';
-import { normalizeTerminationReason, terminationSubReasonLabel } from '@/lib/termination-request';
+import {
+  deriveTermination,
+  normalizeTerminationReason,
+  terminationSubReasonLabel,
+} from '@/lib/termination-request';
 import { cn } from '@/lib/utils';
 
 type Label = {
@@ -25,10 +29,6 @@ type SummaryRow = {
   readonly label: Label;
   readonly value: React.ReactNode;
 };
-
-function isSummaryRow(row: SummaryRow | undefined): row is SummaryRow {
-  return row !== undefined;
-}
 
 const LABELS = {
   resignedDate: { th: 'วันที่ทำงานวันสุดท้าย', en: 'Resigned Date' },
@@ -112,83 +112,80 @@ export function TerminationRequestSummary({
 }) {
   const [previewFile, setPreviewFile] = useState<AttachedFile | null>(null);
   const reasonCode = normalizeTerminationReason(request.reasonCode);
-  const rowCandidates: Array<SummaryRow | undefined> = [
+  // BA feedback (STA-264): the approver must see the FULL 10-field list every
+  // time — a missing value renders as "—", never a dropped row.
+  const EMPTY = '—';
+  const rows: SummaryRow[] = [
     {
       id: 'resignedDate',
       label: LABELS.resignedDate,
       value: formatDate(request.requestedLastDay, locale),
     },
-    request.terminationDate
-      ? {
-          id: 'terminationDate',
-          label: LABELS.terminationDate,
-          value: formatDate(request.terminationDate, locale),
-        }
-      : undefined,
+    {
+      id: 'terminationDate',
+      label: LABELS.terminationDate,
+      // Always derivable (= resigned date + 1) — legacy seeds predate the field.
+      value: formatDate(
+        request.terminationDate ?? deriveTermination(request.requestedLastDay).terminationDate,
+        locale,
+      ),
+    },
     {
       id: 'terminationReason',
       label: LABELS.terminationReason,
       value: TERMINATION_REASON_LABEL[reasonCode],
     },
-    request.voluntary
-      ? {
-          id: 'voluntary',
-          label: LABELS.voluntary,
-          value: voluntaryLabel(request.voluntary, locale),
-        }
-      : undefined,
-    request.reasonForTermination || request.reasonText
-      ? {
-          id: 'reasonForTermination',
-          label: LABELS.reasonForTermination,
-          value:
-            terminationSubReasonLabel(request.reasonCode, request.reasonForTermination) ??
-            request.reasonText,
-        }
-      : undefined,
-    request.transferOutTo
-      ? {
-          id: 'transferOutTo',
-          label: LABELS.transferOutTo,
-          value: request.transferOutTo,
-        }
-      : undefined,
-    request.okToRehire !== undefined
-      ? {
-          id: 'okToRehire',
-          label: LABELS.okToRehire,
-          value: okToRehireLabel(request.okToRehire, locale),
-        }
-      : undefined,
-    request.additionalInfo
-      ? {
-          id: 'additionalInfo',
-          label: LABELS.additionalInfo,
-          value: request.additionalInfo,
-        }
-      : undefined,
-    request.personalEmail
-      ? {
-          id: 'personalEmail',
-          label: LABELS.personalEmail,
-          value: (
-            <div className="space-y-1">
-              <div className="font-medium text-ink">{request.personalEmail}</div>
-              <div className="text-xs leading-relaxed text-ink-muted">{textFor(PERSONAL_EMAIL_REMARK, locale).primary}</div>
-              <div className="text-xs leading-relaxed text-ink-faint">{textFor(PERSONAL_EMAIL_REMARK, locale).secondary}</div>
-            </div>
-          ),
-        }
-      : undefined,
-    request.attachments?.length
-      ? {
-          id: 'attachments',
-          label: LABELS.attachments,
-          value: <AttachmentList files={request.attachments} onPreview={setPreviewFile} />,
-        }
-      : undefined,
+    {
+      id: 'voluntary',
+      label: LABELS.voluntary,
+      value: request.voluntary ? voluntaryLabel(request.voluntary, locale) : EMPTY,
+    },
+    {
+      id: 'reasonForTermination',
+      label: LABELS.reasonForTermination,
+      value:
+        terminationSubReasonLabel(request.reasonCode, request.reasonForTermination) ??
+        request.reasonText ??
+        EMPTY,
+    },
+    {
+      id: 'transferOutTo',
+      label: LABELS.transferOutTo,
+      value: request.transferOutTo ?? EMPTY,
+    },
+    {
+      id: 'okToRehire',
+      label: LABELS.okToRehire,
+      value: request.okToRehire !== undefined ? okToRehireLabel(request.okToRehire, locale) : EMPTY,
+    },
+    {
+      id: 'additionalInfo',
+      label: LABELS.additionalInfo,
+      value: request.additionalInfo ?? EMPTY,
+    },
+    {
+      id: 'personalEmail',
+      label: LABELS.personalEmail,
+      value: request.personalEmail ? (
+        <div className="space-y-1">
+          <div className="font-medium text-ink">{request.personalEmail}</div>
+          <div className="text-xs leading-relaxed text-ink-muted">{textFor(PERSONAL_EMAIL_REMARK, locale).primary}</div>
+          <div className="text-xs leading-relaxed text-ink-faint">{textFor(PERSONAL_EMAIL_REMARK, locale).secondary}</div>
+        </div>
+      ) : (
+        EMPTY
+      ),
+    },
+    {
+      id: 'attachments',
+      label: LABELS.attachments,
+      value: request.attachments?.length ? (
+        <AttachmentList files={request.attachments} onPreview={setPreviewFile} />
+      ) : (
+        EMPTY
+      ),
+    },
   ];
-  const rows = rowCandidates.filter(isSummaryRow);
 
   return (
     <>

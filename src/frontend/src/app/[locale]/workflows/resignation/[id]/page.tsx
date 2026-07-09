@@ -8,9 +8,7 @@ import {
   AlertTriangle,
   ArrowRight,
   Check,
-  Plus,
   RotateCcw,
-  Users,
 } from 'lucide-react';
 import { Modal } from '@/components/humi';
 import { TerminationRequestSummary } from '@/components/termination/TerminationRequestSummary';
@@ -48,37 +46,6 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <div className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
       {children}
-    </div>
-  );
-}
-
-// ── Timeline metric cell ─────────────────────────────────────────────────────────
-function Metric({
-  label,
-  value,
-  sub,
-  accent,
-  last,
-}: {
-  label: string;
-  value: string;
-  sub?: string;
-  accent?: boolean;
-  last?: boolean;
-}) {
-  return (
-    <div className={`px-3.5 leading-tight ${last ? '' : 'border-r border-hairline-soft'}`}>
-      <div className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-        {label}
-      </div>
-      <div
-        className={`mt-1 font-display text-lg font-semibold tracking-tight ${
-          accent ? 'text-accent' : 'text-ink'
-        }`}
-      >
-        {value}
-      </div>
-      {sub && <div className="mt-0.5 text-xs text-ink-muted">{sub}</div>}
     </div>
   );
 }
@@ -158,18 +125,6 @@ export default function ResignationDetailPage({ params }: PageProps) {
     () => (submittedDate ? Math.max(0, daysBetween(submittedDate, new Date().toISOString())) : 0),
     [submittedDate],
   );
-  const noticeDays = useMemo(
-    () => (request ? Math.max(0, daysBetween(request.submittedAt, request.requestedLastDay)) : 0),
-    [request],
-  );
-  const daysToLastDay = useMemo(
-    () =>
-      request
-        ? Math.max(0, daysBetween(new Date().toISOString(), request.requestedLastDay))
-        : 0,
-    [request],
-  );
-
   if (!request) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
@@ -207,7 +162,7 @@ export default function ResignationDetailPage({ params }: PageProps) {
 
   // Footer left label mirrors the design's decision-state copy.
   const footerLeft = canAct
-    ? isTh ? 'พร้อมอนุมัติและกลับไปคิวอนุมัติ' : 'Ready to approve and send back'
+    ? isTh ? 'พร้อมอนุมัติ' : 'Ready to approve'
     : statusLabel;
 
   function handleApprove() {
@@ -282,35 +237,6 @@ export default function ResignationDetailPage({ params }: PageProps) {
               </Link>
             </div>
 
-            {/* Timeline metric strip */}
-            <div className="mt-4 grid grid-cols-4 gap-0 rounded-[var(--radius-md)] bg-canvas-soft p-4">
-              <Metric
-                label={isTh ? 'ส่งคำขอเมื่อ' : 'Submitted'}
-                value={formatDate(request.submittedAt, 'medium', locale)}
-                sub={isTh ? `เมื่อ ${submitWaitDays} วันที่แล้ว` : `${submitWaitDays} d ago`}
-              />
-              <Metric
-                label={isTh ? 'วันสุดท้าย' : 'Last day'}
-                value={formatDate(request.requestedLastDay, 'medium', locale)}
-                sub={isTh ? `อีก ${daysToLastDay} วัน` : `in ${daysToLastDay} d`}
-                accent
-              />
-              <Metric
-                label={isTh ? 'ระยะเวลาแจ้งล่วงหน้า' : 'Notice period'}
-                value={isTh ? `${noticeDays} วัน` : `${noticeDays} d`}
-                sub={
-                  noticeDays >= 30
-                    ? isTh ? 'ตามนโยบาย ≥ 30 วัน ✓' : 'Policy ≥ 30 d ✓'
-                    : isTh ? 'ต่ำกว่านโยบาย 30 วัน' : 'Below 30-d policy'
-                }
-              />
-              <Metric
-                label={isTh ? 'วันลาคงเหลือ' : 'Leave balance'}
-                value={isTh ? '6 วัน' : '6 d'}
-                sub={isTh ? 'ต้องเคลียร์ก่อน' : 'Clear before exit'}
-                last
-              />
-            </div>
           </div>
 
           <TerminationRequestSummary request={request} locale={isTh ? 'th' : 'en'} />
@@ -364,34 +290,6 @@ export default function ResignationDetailPage({ params }: PageProps) {
             />
           </div>
 
-          {/* Replacement plan */}
-          <div className="humi-card">
-            <div className="mb-2.5 flex items-center justify-between">
-              <h3 className="font-display text-base font-semibold tracking-tight text-ink">
-                {isTh ? 'แผนทดแทน' : 'Backfill plan'}
-              </h3>
-              <Users className="h-4 w-4 text-ink-muted" />
-            </div>
-            <div className="flex flex-col gap-2.5">
-              <button
-                type="button"
-                className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-[var(--radius-md)] border border-hairline bg-surface px-3.5 py-2 text-sm font-semibold text-ink-soft transition hover:bg-canvas-soft"
-              >
-                <Plus className="h-3.5 w-3.5" /> {isTh ? 'เปิด Job Requisition' : 'Open job requisition'}
-              </button>
-              <button
-                type="button"
-                className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-[var(--radius-md)] border border-hairline bg-surface px-3.5 py-2 text-sm font-semibold text-ink-soft transition hover:bg-canvas-soft"
-              >
-                <Users className="h-3.5 w-3.5" /> {isTh ? 'ขอโอนย้ายภายใน' : 'Request internal transfer'}
-              </button>
-            </div>
-            <div className="mt-3 text-xs leading-snug text-ink-muted">
-              {isTh
-                ? 'แนะนำเปิดรับสมัครภายใน 7 วัน · ใช้เวลาสรรหา ~ 4 สัปดาห์'
-                : 'Suggest opening within 7 days · ~4 weeks to fill.'}
-            </div>
-          </div>
         </div>
       </div>
 
@@ -420,7 +318,7 @@ export default function ResignationDetailPage({ params }: PageProps) {
             className="humi-button humi-button--primary disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ArrowRight className="h-3.5 w-3.5" />
-            {isTh ? 'อนุมัติและส่งกลับ' : 'Approve & send back'}
+            {isTh ? 'อนุมัติ' : 'Approve'}
           </button>
         </div>
       </div>
