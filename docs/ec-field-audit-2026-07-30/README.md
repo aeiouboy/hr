@@ -41,12 +41,10 @@ deployment:
 - `EMP-SEED-01` does not exist in this repository. `/admin/employees/EMP-SEED-01`
   renders `ไม่พบพนักงานรหัส EMP-SEED-01`, so `EMP-0002` was used instead. Field
   *presence* does not vary by employee record, only the values do.
-- A full-page capture of the dev-int screen shows **noticeably denser section
-  cards** than this repo renders — several with 15–25 labelled fields in a
-  two-column grid, and repeated per-record blocks under Dependents. If dev-int is
-  serving a different build, its coverage is **higher** than the numbers above and
-  this audit understates it. Re-run against dev-int before treating 5.5% as the
-  deployed figure.
+- **dev-int has since been audited separately — see `devint/`.** It scores
+  **573/604 FOUND (94.9%)** with **68 of 71** BA sections present, against 33
+  (5.5%) and 32/71 here. The deployed build is a different, far more complete
+  application than this repository. **Do not quote 5.5% as the dev-int figure.**
 
 ## How the evidence was captured
 
@@ -97,8 +95,9 @@ a field lands.
 1. **The URL in the request could not be reached.** `https://humi-dev-int.central.co.th`
    is an internal host and is blocked from the audit environment (403 on CONNECT).
    The screen was rendered from this repo instead (`master` @ `18904d8`) at
-   `localhost:3000`, which is the same code the dev-int deployment builds from. If
-   dev-int is running a different branch, re-run the scripts against it.
+   `localhost:3000`. A later capture of dev-int (see `devint/`) proves the two are
+   **not** the same build — dev-int carries 68 of 71 BA sections against 32 here —
+   so nothing in this file describes the deployed app.
 2. **`EMP-SEED-01` does not exist in this codebase** — no match anywhere in the git
    history; local seed IDs are `EMP-0001…EMP-1000`. **`EMP-0002`** was used
    (active, Permanent, CEN). Field *presence* is identical across employees; only

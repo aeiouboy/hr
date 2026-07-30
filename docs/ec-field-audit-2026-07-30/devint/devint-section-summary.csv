@@ -1,0 +1,72 @@
+﻿BA section,dev-int card,Fields,FOUND,PARTIAL,MISSING,NO CARD,Coverage %
+Compensation Information (ค่าตอบแทน),Compensation,16,16,0,0,0,100
+Contact (ข้อมูลติดต่อ),Contact information,26,21,3,2,0,81
+Dependents (บุคคลในอุปการะ),Dependents,27,24,0,3,0,89
+Employment Details (ข้อมูลการจ้างงาน),Employment information,8,8,0,0,0,100
+Formal Education (การศึกษา),Education,11,10,1,0,0,91
+Global Information (ข้อมูลทั่วไป),General information,13,12,0,1,0,92
+Identity (ข้อมูลระบุตัวตน),Identity information,21,18,1,2,0,86
+Job Information (ข้อมูลงาน),Job information,37,36,0,1,0,97
+Advanced Information,Advanced Information,4,3,1,0,0,75
+COI Approval,COI Approval,13,13,0,0,0,100
+Personal Information (ข้อมูลส่วนตัว),Personal information,14,14,0,0,0,100
+Position & Organization (ตำแหน่งและสังกัด),Position & assignment,17,17,0,0,0,100
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Emergency contacts,18,16,1,1,0,89
+Time Information (ข้อมูลเวลางาน),Time information,12,12,0,0,0,100
+compensation Information,Compensation Information (Payroll),4,4,0,0,0,100
+Employment Information,Employment information,21,21,0,0,0,100
+Job Information,Job Information (Termination),4,4,0,0,0,100
+Work Permit Information (ใบอนุญาตทำงาน),(none),8,0,0,0,8,0
+Pending,(none),4,0,0,0,4,0
+compensation,Compensation Review,15,15,0,0,0,100
+E-Letter,E-Letter,8,8,0,0,0,100
+Work Experience Within Company,Work Experience Within Company,6,6,0,0,0,100
+Salary History,Salary History,4,4,0,0,0,100
+Previous Employment,Previous Employment,8,8,0,0,0,100
+Language Skills,Language Skills,8,8,0,0,0,100
+Certification/License,Certification/License,11,11,0,0,0,100
+Goodness,Goodness,4,4,0,0,0,100
+Disciplinary,Disciplinary,11,11,0,0,0,100
+Company Loan,Company Loan,5,5,0,0,0,100
+Scholarship,Scholarship,6,6,0,0,0,100
+Guarantee,Guarantee,6,6,0,0,0,100
+Company Asset,Company Asset,8,8,0,0,0,100
+Mobility,Mobility,6,6,0,0,0,100
+Individual Document,Individual Documents,3,3,0,0,0,100
+Benefit Election,Benefit Election,10,10,0,0,0,100
+Community/Volunteer Involvement,Community/Volunteer Involvement,4,4,0,0,0,100
+Courses/Workshops/Seminars,Courses/Workshops/Seminars,4,4,0,0,0,100
+Key Successes,Key Successes,3,3,0,0,0,100
+Assessment Program,Assessment Program,6,6,0,0,0,100
+Coaching Feedback,Coaching Feedback,6,6,0,0,0,100
+Development Goals,Development Goals,9,9,0,0,0,100
+Development Opportunities,Development Opportunities,3,3,0,0,0,100
+Overall Competency Rating (UA),Overall Competency Rating,3,3,0,0,0,100
+Overall KPI Rating (UA),Overall KPI Rating,3,3,0,0,0,100
+Overall Performance Rating (UA),Overall Performance Rating,4,4,0,0,0,100
+Business Driver Assessment,Business Driver Assessment,6,6,0,0,0,100
+Learning Activities,Learning Activities,14,14,0,0,0,100
+MT/MA Reference,MT/MA Reference,5,5,0,0,0,100
+Top Strengths,Top Strengths,3,3,0,0,0,100
+Talent Reference,Talent Reference,5,5,0,0,0,100
+Performance Group,Performance Group,2,2,0,0,0,100
+E-Letter_Password,E-Letter Password,8,8,0,0,0,100
+Personal Assessment Summary,Personal Assessment Summary,6,6,0,0,0,100
+Individual Documents,Individual Documents,3,3,0,0,0,100
+Flexible Spending Accounts,Flexible Spending Accounts,6,6,0,0,0,100
+Functional Experience,Functional Experience,3,3,0,0,0,100
+Leadership Experience,Leadership Experience,5,5,0,0,0,100
+Professional Memberships,Professional Memberships,4,4,0,0,0,100
+Career Aspirations,Career Aspirations,9,9,0,0,0,100
+Promotability **Manager view only,Promotability,3,3,0,0,0,100
+Special Assignments/Projects,Special Assignments/Projects,5,5,0,0,0,100
+OHS Certificate,OHS Certificate,7,7,0,0,0,100
+OHS Document,OHS Document,8,8,0,0,0,100
+Previous Work History,Previous Work History,8,8,0,0,0,100
+Employee Benefit Obligation(EBO),Employee Benefit Obligation (EBO),3,2,0,1,0,67
+Honours/Awards,Honours/Awards,6,6,0,0,0,100
+Legal Execution Department,Legal Execution Department,6,6,0,0,0,100
+Product Liability Insurance,Product Liability Insurance,6,6,0,0,0,100
+Student Loan,Student Loan,6,6,0,0,0,100
+Work Experience Within Company (History),Work Experience Within Company (History),23,23,0,0,0,100
+Profile,(none),2,1,0,0,1,50
