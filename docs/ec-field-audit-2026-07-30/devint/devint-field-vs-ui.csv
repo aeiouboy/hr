@@ -1,0 +1,605 @@
+﻿BA section,BA sub-section,BA UI field,dev-int card,Status,Matched label
+Compensation Information (ค่าตอบแทน),Alternative cost centre,cost centre,Compensation,FOUND,cost centre
+Compensation Information (ค่าตอบแทน),Alternative cost centre,Allocation %,Compensation,FOUND,Allocation %
+Compensation Information (ค่าตอบแทน),Payment Information,Bank Code,Compensation,FOUND,Bank Code
+Compensation Information (ค่าตอบแทน),Payment Information,Bank,Compensation,FOUND,Bank
+Compensation Information (ค่าตอบแทน),Payment Information,Account Number,Compensation,FOUND,Account Number
+Compensation Information (ค่าตอบแทน),Payment Information,Bank Country/Region,Compensation,FOUND,Bank Country/Region
+Compensation Information (ค่าตอบแทน),Payment Information,Currency,Compensation,FOUND,Currency
+Compensation Information (ค่าตอบแทน),Payment Information,Payment Method,Compensation,FOUND,Payment Method
+Compensation Information (ค่าตอบแทน),Payment Information,Attachment,Compensation,FOUND,Attachment
+Compensation Information (ค่าตอบแทน),,Payroll ID,Compensation,FOUND,Payroll ID
+Compensation Information (ค่าตอบแทน),,Pay Type,Compensation,FOUND,Pay Type
+Compensation Information (ค่าตอบแทน),,Pay Component,Compensation,FOUND,Pay Component
+Compensation Information (ค่าตอบแทน),,Frequency,Compensation,FOUND,Frequency
+Compensation Information (ค่าตอบแทน),,Amount,Compensation,FOUND,Amount
+Compensation Information (ค่าตอบแทน),,Currency,Compensation,FOUND,Currency
+Compensation Information (ค่าตอบแทน),,pay group,Compensation,FOUND,pay group
+Contact (ข้อมูลติดต่อ),Home Address,Address Type,Contact information,FOUND,Address Type
+Contact (ข้อมูลติดต่อ),Home Address,Floor,Contact information,FOUND,Floor
+Contact (ข้อมูลติดต่อ),Home Address,Room No.,Contact information,FOUND,Room No.
+Contact (ข้อมูลติดต่อ),Home Address,Village,Contact information,FOUND,Village
+Contact (ข้อมูลติดต่อ),Home Address,House Number,Contact information,FOUND,House Number
+Contact (ข้อมูลติดต่อ),Home Address,Building,Contact information,FOUND,Building
+Contact (ข้อมูลติดต่อ),Home Address,Street,Contact information,FOUND,Street
+Contact (ข้อมูลติดต่อ),Home Address,Moo,Contact information,FOUND,Moo
+Contact (ข้อมูลติดต่อ),Home Address,Lane / Soi,Contact information,FOUND,Lane / Soi
+Contact (ข้อมูลติดต่อ),Home Address,District,Contact information,FOUND,District
+Contact (ข้อมูลติดต่อ),Home Address,Sub-District,Contact information,FOUND,Sub-District
+Contact (ข้อมูลติดต่อ),Home Address,Province,Contact information,FOUND,Province
+Contact (ข้อมูลติดต่อ),Home Address,Postal Code,Contact information,FOUND,Postal Code
+Contact (ข้อมูลติดต่อ),Home Address,Country,Contact information,FOUND,Country
+Contact (ข้อมูลติดต่อ),Home Address,Attachment,Contact information,FOUND,Attachment
+Contact (ข้อมูลติดต่อ),Email Information,Email Type,Contact information,FOUND,Email Type
+Contact (ข้อมูลติดต่อ),Email Information,Email Address,Contact information,FOUND,Email Address
+Contact (ข้อมูลติดต่อ),Email Information,Is Primary,Contact information,PARTIAL,"rendered as a ""Primary"" badge on the phone/email row"
+Contact (ข้อมูลติดต่อ),Phone Information,Phone Type,Contact information,FOUND,Phone Type
+Contact (ข้อมูลติดต่อ),Phone Information,Country Code,Contact information,MISSING,
+Contact (ข้อมูลติดต่อ),Phone Information,Phone Number,Contact information,FOUND,Phone Number
+Contact (ข้อมูลติดต่อ),Phone Information,Extension,Contact information,MISSING,
+Contact (ข้อมูลติดต่อ),Phone Information,Is Primary,Contact information,PARTIAL,"rendered as a ""Primary"" badge on the phone/email row"
+Contact (ข้อมูลติดต่อ),Social Accounts Information,Domain,Contact information,FOUND,Domain
+Contact (ข้อมูลติดต่อ),Social Accounts Information,Instant Messaging ID,Contact information,FOUND,Instant Messaging ID
+Contact (ข้อมูลติดต่อ),Social Accounts Information,URL,Contact information,PARTIAL,"social handle is a hyperlink; the URL is its href, not a field"
+Dependents (บุคคลในอุปการะ),,Relationship,Dependents,FOUND,Relationship
+Dependents (บุคคลในอุปการะ),,Salutation (EN),Dependents,FOUND,Salutation (EN)
+Dependents (บุคคลในอุปการะ),,Phone,Dependents,MISSING,
+Dependents (บุคคลในอุปการะ),,Firstname (EN),Dependents,FOUND,Firstname (EN)
+Dependents (บุคคลในอุปการะ),,Lastname (EN),Dependents,FOUND,Lastname (EN)
+Dependents (บุคคลในอุปการะ),,Salutation (Local),Dependents,FOUND,Salutation (Local)
+Dependents (บุคคลในอุปการะ),,Firstname (Local),Dependents,FOUND,Firstname (Local)
+Dependents (บุคคลในอุปการะ),,Lastname (Local),Dependents,FOUND,Lastname (Local)
+Dependents (บุคคลในอุปการะ),,Nationality,Dependents,FOUND,Nationality
+Dependents (บุคคลในอุปการะ),,Date of Birth,Dependents,FOUND,Date of Birth
+Dependents (บุคคลในอุปการะ),Dependent national ID,Country,Dependents,FOUND,Country
+Dependents (บุคคลในอุปการะ),Dependent national ID,National ID Card Type,Dependents,FOUND,National ID Card Type
+Dependents (บุคคลในอุปการะ),Dependent national ID,National ID / Tax ID,Dependents,FOUND,National ID / Tax ID
+Dependents (บุคคลในอุปการะ),,Primary,Dependents,MISSING,
+Dependents (บุคคลในอุปการะ),,Attachment,Dependents,FOUND,Attachment
+Dependents (บุคคลในอุปการะ),Dependent contact address,Copy Address from Employee,Dependents,MISSING,
+Dependents (บุคคลในอุปการะ),Dependent contact address,House Number,Dependents,FOUND,House Number
+Dependents (บุคคลในอุปการะ),Dependent contact address,Building,Dependents,FOUND,Building
+Dependents (บุคคลในอุปการะ),Dependent contact address,Floor,Dependents,FOUND,Floor
+Dependents (บุคคลในอุปการะ),Dependent contact address,Village,Dependents,FOUND,Village
+Dependents (บุคคลในอุปการะ),Dependent contact address,Moo,Dependents,FOUND,Moo
+Dependents (บุคคลในอุปการะ),Dependent contact address,Lane / Soi,Dependents,FOUND,Lane / Soi
+Dependents (บุคคลในอุปการะ),Dependent contact address,Street,Dependents,FOUND,Street
+Dependents (บุคคลในอุปการะ),Dependent contact address,Province,Dependents,FOUND,Province
+Dependents (บุคคลในอุปการะ),Dependent contact address,District,Dependents,FOUND,District
+Dependents (บุคคลในอุปการะ),Dependent contact address,Sub-District,Dependents,FOUND,Sub-District
+Dependents (บุคคลในอุปการะ),Dependent contact address,Postal Code,Dependents,FOUND,Postal Code
+Employment Details (ข้อมูลการจ้างงาน),,CG previous Employee ID,Employment information,FOUND,CG previous Employee ID
+Employment Details (ข้อมูลการจ้างงาน),,Hire Date,Employment information,FOUND,Hire Date
+Employment Details (ข้อมูลการจ้างงาน),,Retire­ment Date,Employment information,FOUND,Retire­ment Date
+Employment Details (ข้อมูลการจ้างงาน),,Original Start Date,Employment information,FOUND,Original Start Date
+Employment Details (ข้อมูลการจ้างงาน),,Seniority Start Date,Employment information,FOUND,Seniority Start Date
+Employment Details (ข้อมูลการจ้างงาน),,DVT previous ID,Employment information,FOUND,DVT previous ID
+Employment Details (ข้อมูลการจ้างงาน),,PF service Date,Employment information,FOUND,PF service Date
+Employment Details (ข้อมูลการจ้างงาน),,Employee age (Y/M/D),Employment information,FOUND,Employee age (Y/M/D)
+Formal Education (การศึกษา),Formal Education,Degree,Education,FOUND,Degree
+Formal Education (การศึกษา),Formal Education,Country,Education,FOUND,Country
+Formal Education (การศึกษา),Formal Education,University,Education,FOUND,University
+Formal Education (การศึกษา),Formal Education,Others,Education,FOUND,Others
+Formal Education (การศึกษา),Formal Education,Faculty,Education,FOUND,Faculty
+Formal Education (การศึกษา),Formal Education,Major,Education,FOUND,Major
+Formal Education (การศึกษา),Formal Education,Other Major,Education,FOUND,Other Major
+Formal Education (การศึกษา),Formal Education,GPA,Education,FOUND,GPA
+Formal Education (การศึกษา),Formal Education,Graduated Date,Education,FOUND,Graduated Date
+Formal Education (การศึกษา),Formal Education,Attachment,Education,FOUND,Attachment
+Formal Education (การศึกษา),Formal Education,Is primary,Education,PARTIAL,"rendered as a ""Primary"" badge on Education #1"
+Global Information (ข้อมูลทั่วไป),Global Information (ข้อมูลทั่วไป),Country/Region,General information,FOUND,Country/Region
+Global Information (ข้อมูลทั่วไป),Global Information (ข้อมูลทั่วไป),Attachment,General information,FOUND,Attachment
+Global Information (ข้อมูลทั่วไป),,Number of children,General information,FOUND,Number of children
+Global Information (ข้อมูลทั่วไป),,Religion,General information,MISSING,
+Global Information (ข้อมูลทั่วไป),,Disability Status,General information,FOUND,Disability Status
+Global Information (ข้อมูลทั่วไป),,Disability Certificate Start Date,General information,FOUND,Disability Certificate Start Date
+Global Information (ข้อมูลทั่วไป),,Disability Certificate End Date,General information,FOUND,Disability Certificate End Date
+Global Information (ข้อมูลทั่วไป),,Type of Disability,General information,FOUND,Type of Disability
+Global Information (ข้อมูลทั่วไป),,Certificate ID,General information,FOUND,Certificate ID
+Global Information (ข้อมูลทั่วไป),,Spouse's Father ID Number,General information,FOUND,Spouse's Father ID Number
+Global Information (ข้อมูลทั่วไป),,Spouse's Mother ID Number,General information,FOUND,Spouse's Mother ID Number
+Global Information (ข้อมูลทั่วไป),,Additional Information,General information,FOUND,Additional Information
+Global Information (ข้อมูลทั่วไป),,Number of Children,General information,FOUND,Number of Children
+Identity (ข้อมูลระบุตัวตน),Identity,Hire Date,Identity information,FOUND,Hire Date
+Identity (ข้อมูลระบุตัวตน),Identity,Company,Identity information,FOUND,Company
+Identity (ข้อมูลระบุตัวตน),Identity,Event reason,Identity information,MISSING,
+Identity (ข้อมูลระบุตัวตน),Identity,Date of Birth,Identity information,FOUND,Date of Birth
+Identity (ข้อมูลระบุตัวตน),Identity,Country of Birth,Identity information,FOUND,Country of Birth
+Identity (ข้อมูลระบุตัวตน),Identity,Region of Birth,Identity information,FOUND,Region of Birth
+Identity (ข้อมูลระบุตัวตน),Identity,Age,Identity information,FOUND,Age
+Identity (ข้อมูลระบุตัวตน),Identity,Employee ID,Identity information,PARTIAL,"shown in the page header as ""EMP-0002 · EJ: EJ-0002"""
+Identity (ข้อมูลระบุตัวตน),Identity,Replaced Employee ID,Identity information,MISSING,
+Identity (ข้อมูลระบุตัวตน),Identity,Salutation (EN),Identity information,FOUND,Salutation (EN)
+Identity (ข้อมูลระบุตัวตน),Identity,Firstname (EN),Identity information,FOUND,Firstname (EN)
+Identity (ข้อมูลระบุตัวตน),Identity,Middle Name (EN),Identity information,FOUND,Middle Name (EN)
+Identity (ข้อมูลระบุตัวตน),Identity,Lastname (EN),Identity information,FOUND,Lastname (EN)
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,National ID/Tax-ID,Identity information,FOUND,National ID/Tax-ID
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Issue Date,Identity information,FOUND,Issue Date
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Expiry Date,Identity information,FOUND,Expiry Date
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Attachment,Identity information,FOUND,Attachment
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Country,Identity information,FOUND,Country
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Issue Date,Identity information,FOUND,Issue Date
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Expiry Date,Identity information,FOUND,Expiry Date
+Identity (ข้อมูลระบุตัวตน),National ID / Tax ID,Is Primary,Identity information,FOUND,Is Primary
+Job Information (ข้อมูลงาน),Job Information,Probation Exemption,Job information,MISSING,
+Job Information (ข้อมูลงาน),Job Information,Band,Job information,FOUND,Band
+Job Information (ข้อมูลงาน),Job Information,Corporate Title,Job information,FOUND,Corporate Title
+Job Information (ข้อมูลงาน),Job Information,Supervisor ID,Job information,FOUND,Supervisor ID
+Job Information (ข้อมูลงาน),Job Information,Special Benefit Group,Job information,FOUND,Special Benefit Group
+Job Information (ข้อมูลงาน),Job Information,Employee Group,Job information,FOUND,Employee Group
+Job Information (ข้อมูลงาน),Job Information,Employee Subgroup,Job information,FOUND,Employee Subgroup
+Job Information (ข้อมูลงาน),Job Information,Personnel Grade,Job information,FOUND,Personnel Grade
+Job Information (ข้อมูลงาน),Job Information,Contract Type,Job information,FOUND,Contract Type
+Job Information (ข้อมูลงาน),Job Information,Contract End Date,Job information,FOUND,Contract End Date
+Job Information (ข้อมูลงาน),DVT,DVT: Project name,Job information,FOUND,DVT: Project name
+Job Information (ข้อมูลงาน),DVT,DVT: Partner University,Job information,FOUND,DVT: Partner University
+Advanced Information,,Group of people,Advanced Information,FOUND,Group of people
+Advanced Information,,Description,Advanced Information,FOUND,Description
+Advanced Information,,Additional Information - Name,Advanced Information,FOUND,Additional Information - Name
+Advanced Information,,Additional Information - URL,Advanced Information,PARTIAL,"""Additional Information - Name"" is a hyperlink; the URL is its href"
+COI Approval,,Approval ID (YYYY-COI-000),COI Approval,FOUND,Approval ID (YYYY-COI-000)
+COI Approval,,Company Name,COI Approval,FOUND,Company Name
+COI Approval,,Business Type,COI Approval,FOUND,Business Type
+COI Approval,,Business Nature,COI Approval,FOUND,Business Nature
+COI Approval,,Position Name,COI Approval,FOUND,Position Name
+COI Approval,,Term,COI Approval,FOUND,Term
+COI Approval,,Start Date,COI Approval,FOUND,Start Date
+COI Approval,,Compensation Rate,COI Approval,FOUND,Compensation Rate
+COI Approval,,End Date,COI Approval,FOUND,End Date
+COI Approval,,Approved Date,COI Approval,FOUND,Approved Date
+COI Approval,,Attachment,COI Approval,FOUND,Attachment
+COI Approval,,Attachment2,COI Approval,FOUND,Attachment2
+COI Approval,,End Date,COI Approval,FOUND,End Date
+Job Information (ข้อมูลงาน),DVT,DVT: Type,Job information,FOUND,DVT: Type
+Job Information (ข้อมูลงาน),DVT,DVT: Degree Level,Job information,FOUND,DVT: Degree Level
+Job Information (ข้อมูลงาน),DVT,DVT: Course,Job information,FOUND,DVT: Course
+Job Information (ข้อมูลงาน),DVT,DVT: Course of Time,Job information,FOUND,DVT: Course of Time
+Job Information (ข้อมูลงาน),DVT,DVT: Academic Year,Job information,FOUND,DVT: Academic Year
+Job Information (ข้อมูลงาน),DVT,DVT: Graduation Date,Job information,FOUND,DVT: Graduation Date
+Job Information (ข้อมูลงาน),DVT,DVT: Bonding End date,Job information,FOUND,DVT: Bonding End date
+Job Information (ข้อมูลงาน),DVT,Scholarship,Job information,FOUND,Scholarship
+Job Information (ข้อมูลงาน),Job Information,Probationary Period End Date,Job information,FOUND,Probationary Period End Date
+Job Information (ข้อมูลงาน),Job Information,Extended Retirement Date,Job information,FOUND,Extended Retirement Date
+Job Information (ข้อมูลงาน),Job Information,Extended Probation Date,Job information,FOUND,Extended Probation Date
+Job Information (ข้อมูลงาน),Job Information,Band Matching,Job information,FOUND,Band Matching
+Job Information (ข้อมูลงาน),Job Information,Transfer from,Job information,FOUND,Transfer from
+Job Information (ข้อมูลงาน),Job Information,Country,Job information,FOUND,Country
+Job Information (ข้อมูลงาน),Job Information,Job Code,Job information,FOUND,Job Code
+Job Information (ข้อมูลงาน),Job Information,Job Role,Job information,FOUND,Job Role
+Job Information (ข้อมูลงาน),Job Information,Job Family,Job information,FOUND,Job Family
+Job Information (ข้อมูลงาน),Job Information,Job Type,Job information,FOUND,Job Type
+Job Information (ข้อมูลงาน),Job Information,Job Grade,Job information,FOUND,Job Grade
+Job Information (ข้อมูลงาน),Job Information,Function,Job information,FOUND,Function
+Job Information (ข้อมูลงาน),,Attachment,Job information,FOUND,Attachment
+Job Information (ข้อมูลงาน),Job Information,Transfer out to,Job information,FOUND,Transfer out to
+Job Information (ข้อมูลงาน),Job Information,Transfer in to,Job information,FOUND,Transfer in to
+Job Information (ข้อมูลงาน),Job Relationships,Relationship Type,Job information,FOUND,Relationship Type
+Job Information (ข้อมูลงาน),Job Relationships,Name,Job information,FOUND,Name
+Personal Information (ข้อมูลส่วนตัว),,Nickname (EN/TH),Personal information,FOUND,Nickname (EN/TH)
+Personal Information (ข้อมูลส่วนตัว),,Gender,Personal information,FOUND,Gender
+Personal Information (ข้อมูลส่วนตัว),,Military Status,Personal information,FOUND,Military Status
+Personal Information (ข้อมูลส่วนตัว),,Salutation (Local),Personal information,FOUND,Salutation (Local)
+Personal Information (ข้อมูลส่วนตัว),,Other Title (TH),Personal information,FOUND,Other Title (TH)
+Personal Information (ข้อมูลส่วนตัว),,Firstname (Local),Personal information,FOUND,Firstname (Local)
+Personal Information (ข้อมูลส่วนตัว),,Lastname (Local),Personal information,FOUND,Lastname (Local)
+Personal Information (ข้อมูลส่วนตัว),,Middle Name (Local),Personal information,FOUND,Middle Name (Local)
+Personal Information (ข้อมูลส่วนตัว),,Nationality,Personal information,FOUND,Nationality
+Personal Information (ข้อมูลส่วนตัว),,Foreigner,Personal information,FOUND,Foreigner
+Personal Information (ข้อมูลส่วนตัว),,Blood Type,Personal information,FOUND,Blood Type
+Personal Information (ข้อมูลส่วนตัว),,Marital Status,Personal information,FOUND,Marital Status
+Personal Information (ข้อมูลส่วนตัว),,Marital Status Since,Personal information,FOUND,Marital Status Since
+Personal Information (ข้อมูลส่วนตัว),Personal Information,Attachment,Personal information,FOUND,Attachment
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Organization,Position & assignment,FOUND,Organization
+Position & Organization (ตำแหน่งและสังกัด),Target Position,Position,Position & assignment,FOUND,Position
+Position & Organization (ตำแหน่งและสังกัด),Target Position,Company,Position & assignment,FOUND,Company
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Cost Centre,Position & assignment,FOUND,Cost Centre
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Function,Position & assignment,FOUND,Function
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Point of Sales,Position & assignment,FOUND,Point of Sales
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Zone,Position & assignment,FOUND,Zone
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,HR District,Position & assignment,FOUND,HR District
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Work Location,Position & assignment,FOUND,Work Location
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Business unit,Position & assignment,FOUND,Business unit
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Group,Position & assignment,FOUND,Group
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Store Brand/ Format,Position & assignment,FOUND,Store Brand/ Format
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,store size,Position & assignment,FOUND,store size
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Store/ Branch Code,Position & assignment,FOUND,Store/ Branch Code
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Brand,Position & assignment,FOUND,Brand
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,SSO Location,Position & assignment,FOUND,SSO Location
+Position & Organization (ตำแหน่งและสังกัด),Organization Information,Time Zone,Position & assignment,FOUND,Time Zone
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Name,Emergency contacts,FOUND,Name
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Relationship,Emergency contacts,FOUND,Relationship
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary,Emergency contacts,PARTIAL,"rendered as a ""Primary Contact"" badge on Contact #1"
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Phone,Emergency contacts,FOUND,Phone
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),copy Address from Employee,Emergency contacts,MISSING,
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Country,Emergency contacts,FOUND,Country
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),House Number,Emergency contacts,FOUND,House Number
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Building,Emergency contacts,FOUND,Building
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Floor,Emergency contacts,FOUND,Floor
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Village,Emergency contacts,FOUND,Village
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Moo,Emergency contacts,FOUND,Moo
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Lane / Soi,Emergency contacts,FOUND,Lane / Soi
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Street,Emergency contacts,FOUND,Street
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Province,Emergency contacts,FOUND,Province
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),District,Emergency contacts,FOUND,District
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Sub-District,Emergency contacts,FOUND,Sub-District
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Postal Code,Emergency contacts,FOUND,Postal Code
+Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),Attachment,Emergency contacts,FOUND,Attachment
+Time Information (ข้อมูลเวลางาน),,Day off Type,Time information,FOUND,Day off Type
+Time Information (ข้อมูลเวลางาน),,PF service End Date,Time information,FOUND,PF service End Date (on Employment information)
+Time Information (ข้อมูลเวลางาน),,Time Management Status,Time information,FOUND,Time Management Status
+compensation Information,Payroll Information,Payslips,Compensation Information (Payroll),FOUND,Payslips
+compensation Information,Payroll Information,E-Letter,Compensation Information (Payroll),FOUND,E-Letter
+compensation Information,Payroll Information,50BIS,Compensation Information (Payroll),FOUND,50BIS
+compensation Information,Payroll Information,Tax Deduction,Compensation Information (Payroll),FOUND,Tax Deduction
+Employment Information,,CurrentJobEffectiveDate,Employment information,FOUND,CurrentJobEffectiveDate
+Employment Information,,Current Corporate Title Effective Date,Employment information,FOUND,Current Corporate Title Effective Date
+Employment Information,,Current JG Effective Date,Employment information,FOUND,Current JG Effective Date
+Employment Information,,Current PG Effective Date,Employment information,FOUND,Current PG Effective Date
+Employment Information,,Current Position Effective Date,Employment information,FOUND,Current Position Effective Date
+Employment Information,,Current Store Branch Effective Date,Employment information,FOUND,Current Store Branch Effective Date
+Employment Information,,Hire Date,Employment information,FOUND,Hire Date
+Employment Information,,Original Start Date,Employment information,FOUND,Original Start Date
+Employment Information,,Seniority Start Date,Employment information,FOUND,Seniority Start Date
+Employment Information,,Year of service,Employment information,FOUND,Year of service
+Employment Information,,Pass Probation Date/Confirm Date,Employment information,FOUND,Pass Probation Date/Confirm Date
+Employment Information,,Current Years in Corporate Title,Employment information,FOUND,Current Years in Corporate Title
+Employment Information,,Current Years in JG,Employment information,FOUND,Current Years in JG
+Employment Information,,Current Years in PG,Employment information,FOUND,Current Years in PG
+Employment Information,,Current Years in Position,Employment information,FOUND,Current Years in Position
+Employment Information,,Current Years in Store Branch,Employment information,FOUND,Current Years in Store Branch
+Employment Information,,Retire­ment Date,Employment information,FOUND,Retire­ment Date
+Employment Information,,CG previous Employee ID,Employment information,FOUND,CG previous Employee ID
+Employment Information,,DVT previous ID,Employment information,FOUND,DVT previous ID
+Employment Information,,PF service Date,Employment information,FOUND,PF service Date
+Employment Information,,Org. Chart,Employment information,FOUND,Org. Chart
+Job Information,,Failed Probation Date,Job Information (Termination),FOUND,Failed Probation Date
+Job Information,,probation result,Job Information (Termination),FOUND,probation result
+Job Information,,Additional Information (Termination),Job Information (Termination),FOUND,Additional Information (Termination)
+Job Information,,OK to Rehire,Job Information (Termination),FOUND,OK to Rehire
+Time Information (ข้อมูลเวลางาน),,Work Schedule,Time information,FOUND,Work Schedule
+Time Information (ข้อมูลเวลางาน),,Holiday Type Condition,Time information,FOUND,Holiday Type Condition
+Time Information (ข้อมูลเวลางาน),,O.T. Flag,Time information,FOUND,O.T. Flag
+Time Information (ข้อมูลเวลางาน),,Override Standard Weekly Hours,Time information,FOUND,Override Standard Weekly Hours
+Time Information (ข้อมูลเวลางาน),,FTE,Time information,FOUND,FTE
+Time Information (ข้อมูลเวลางาน),,Standard Weekly Hours,Time information,FOUND,Standard Weekly Hours
+Time Information (ข้อมูลเวลางาน),,Daily Working Hours,Time information,FOUND,Daily Working Hours
+Time Information (ข้อมูลเวลางาน),,Working Days per Week,Time information,FOUND,Working Days per Week
+Time Information (ข้อมูลเวลางาน),,Holiday Calendar,Time information,FOUND,Holiday Calendar
+Work Permit Information (ใบอนุญาตทำงาน),,Document Type,(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,Country,(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,Document Number,(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,Issue Date,(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,Expiry Date,(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,Arrival date (VISA),(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,90 days report (VISA),(none),NO CARD,
+Work Permit Information (ใบอนุญาตทำงาน),,Attachment,(none),NO CARD,
+Pending,,Username,(none),NO CARD,
+compensation,,Review Name,Compensation Review,FOUND,Review Name
+compensation,,Review Start,Compensation Review,FOUND,Review Start
+compensation,,Review End,Compensation Review,FOUND,Review End
+compensation,,Job Title,Compensation Review,FOUND,Job Title
+compensation,,Performance Management Rating,Compensation Review,FOUND,Performance Management Rating
+compensation,,Salary Before Review,Compensation Review,FOUND,Salary Before Review
+compensation,,Merit,Compensation Review,FOUND,Merit
+compensation,,Salary After Review,Compensation Review,FOUND,Salary After Review
+compensation,,Compa-Ratio,Compensation Review,FOUND,Compa-Ratio
+compensation,,Total Pay,Compensation Review,FOUND,Total Pay
+compensation,,Bonus,Compensation Review,FOUND,Bonus
+compensation,,Stock,Compensation Review,FOUND,Stock
+compensation,,Option,Compensation Review,FOUND,Option
+compensation,,Grant Date,Compensation Review,FOUND,Grant Date
+compensation,,Lump Sum,Compensation Review,FOUND,Lump Sum
+E-Letter,,Year,E-Letter,FOUND,Year
+E-Letter,,Group,E-Letter,FOUND,Group
+E-Letter,,Attachment,E-Letter,FOUND,Attachment
+E-Letter,,More Information,E-Letter,FOUND,More Information
+E-Letter,,Year,E-Letter,FOUND,Year
+E-Letter,,Group,E-Letter,FOUND,Group
+E-Letter,,Attachment,E-Letter,FOUND,Attachment
+E-Letter,,More Information,E-Letter,FOUND,More Information
+Work Experience Within Company,,Company (Current) -> start date,Work Experience Within Company,FOUND,Company (Current) -> start date
+Work Experience Within Company,,Company (Current) -> end date,Work Experience Within Company,FOUND,Company (Current) -> end date
+Work Experience Within Company,,Company (Current) -> event,Work Experience Within Company,FOUND,Company (Current) -> event
+Work Experience Within Company,,Work Experience Within Company (History) -> startdate,Work Experience Within Company,FOUND,Work Experience Within Company (History) -> startdate
+Work Experience Within Company,,Company (Current) -> end date,Work Experience Within Company,FOUND,Company (Current) -> end date
+Work Experience Within Company,,Company (Current) -> company,Work Experience Within Company,FOUND,Company (Current) -> company
+Salary History,,Start Date,Salary History,FOUND,Start Date
+Salary History,,Salary Amount,Salary History,FOUND,Salary Amount
+Salary History,,Changed Amount,Salary History,FOUND,Changed Amount
+Salary History,,Reason,Salary History,FOUND,Reason
+Previous Employment,,Previous Work History-> startdate,Previous Employment,FOUND,Previous Work History-> startdate
+Previous Employment,,Previous Work History-> enddate,Previous Employment,FOUND,Previous Work History-> enddate
+Previous Employment,,Previous Work History-> Company Name,Previous Employment,FOUND,Previous Work History-> Company Name
+Previous Employment,,Type of Business,Previous Employment,FOUND,Type of Business
+Previous Employment,,Function,Previous Employment,FOUND,Function
+Previous Employment,,Position,Previous Employment,FOUND,Position
+Previous Employment,,Additional Information,Previous Employment,FOUND,Additional Information
+Previous Employment,,Present Employer?,Previous Employment,FOUND,Present Employer?
+Pending,,Learning History,(none),NO CARD,
+Language Skills,,Language,Language Skills,FOUND,Language
+Language Skills,,Certificate,Language Skills,FOUND,Certificate
+Language Skills,,Others,Language Skills,FOUND,Others
+Language Skills,,Attachment,Language Skills,FOUND,Attachment
+Language Skills,,Speaking Proficiency,Language Skills,FOUND,Speaking Proficiency
+Language Skills,,Reading Proficiency,Language Skills,FOUND,Reading Proficiency
+Language Skills,,Writing Proficiency,Language Skills,FOUND,Writing Proficiency
+Language Skills,,Listening Proficiency,Language Skills,FOUND,Listening Proficiency
+Certification/License,,Type Of Certificate,Certification/License,FOUND,Type Of Certificate
+Certification/License,,Certification/ License,Certification/License,FOUND,Certification/ License
+Certification/License,,Description,Certification/License,FOUND,Description
+Certification/License,,Institution,Certification/License,FOUND,Institution
+Certification/License,,Effective Date,Certification/License,FOUND,Effective Date
+Certification/License,,Expiration Date,Certification/License,FOUND,Expiration Date
+Certification/License,,Certification/ License Number,Certification/License,FOUND,Certification/ License Number
+Certification/License,,Name as appears on Certification/License,Certification/License,FOUND,Name as appears on Certification/License
+Certification/License,,Certification/ License Country,Certification/License,FOUND,Certification/ License Country
+Certification/License,,Score,Certification/License,FOUND,Score
+Certification/License,,Attachment,Certification/License,FOUND,Attachment
+Goodness,,Effective Date,Goodness,FOUND,Effective Date
+Goodness,,Detail,Goodness,FOUND,Detail
+Goodness,,Point,Goodness,FOUND,Point
+Goodness,,Comment,Goodness,FOUND,Comment
+Disciplinary,,Start Date,Disciplinary,FOUND,Start Date
+Disciplinary,,Type,Disciplinary,FOUND,Type
+Disciplinary,,Detail,Disciplinary,FOUND,Detail
+Disciplinary,,Status,Disciplinary,FOUND,Status
+Disciplinary,,Punishment Detail,Disciplinary,FOUND,Punishment Detail
+Disciplinary,,Punishment Date,Disciplinary,FOUND,Punishment Date
+Disciplinary,,Appeal Date,Disciplinary,FOUND,Appeal Date
+Disciplinary,,Point,Disciplinary,FOUND,Point
+Disciplinary,,Damage Amount,Disciplinary,FOUND,Damage Amount
+Disciplinary,,Supervisor,Disciplinary,FOUND,Supervisor
+Disciplinary,,Attachment,Disciplinary,FOUND,Attachment
+Company Loan,,Start Date,Company Loan,FOUND,Start Date
+Company Loan,,End Date,Company Loan,FOUND,End Date
+Company Loan,,Type of Loan,Company Loan,FOUND,Type of Loan
+Company Loan,,Amount,Company Loan,FOUND,Amount
+Company Loan,,Additional Information,Company Loan,FOUND,Additional Information
+Scholarship,,Scholarship Award Year,Scholarship,FOUND,Scholarship Award Year
+Scholarship,,Graduation Year,Scholarship,FOUND,Graduation Year
+Scholarship,,Scholarship Start Year,Scholarship,FOUND,Scholarship Start Year
+Scholarship,,Scholarship End Year,Scholarship,FOUND,Scholarship End Year
+Scholarship,,Attachment,Scholarship,FOUND,Attachment
+Scholarship,,Remarks,Scholarship,FOUND,Remarks
+Guarantee,,Guarantee,Guarantee,FOUND,Guarantee
+Guarantee,,Effective date,Guarantee,FOUND,Effective date
+Guarantee,,Guarantor (Person name or Company name),Guarantee,FOUND,Guarantor (Person name or Company name)
+Guarantee,,Warranty Amount,Guarantee,FOUND,Warranty Amount
+Guarantee,,Contact No.,Guarantee,FOUND,Contact No.
+Guarantee,,End Date,Guarantee,FOUND,End Date
+Pending,Pending,Obligation(EBO),(none),NO CARD,
+Company Asset,,Receiving date,Company Asset,FOUND,Receiving date
+Company Asset,,Receiving status,Company Asset,FOUND,Receiving status
+Company Asset,,Volume,Company Asset,FOUND,Volume
+Company Asset,,Asset type,Company Asset,FOUND,Asset type
+Company Asset,,Returnable date,Company Asset,FOUND,Returnable date
+Company Asset,,Return Status,Company Asset,FOUND,Return Status
+Company Asset,,Remark,Company Asset,FOUND,Remark
+Company Asset,,Serial number,Company Asset,FOUND,Serial number
+Mobility,,Willing to Relocate,Mobility,FOUND,Willing to Relocate
+Mobility,,Country,Mobility,FOUND,Country
+Mobility,,Province,Mobility,FOUND,Province
+Mobility,,Business Unit,Mobility,FOUND,Business Unit
+Mobility,,Function,Mobility,FOUND,Function
+Mobility,,Comment,Mobility,FOUND,Comment
+Individual Document,,Document Name,Individual Documents,FOUND,Document Name
+Individual Document,,Effective Date,Individual Documents,FOUND,Effective Date
+Individual Document,,Attachment,Individual Documents,FOUND,Attachment
+Benefit Election,,Dependent Name,Benefit Election,FOUND,Dependent Name
+Benefit Election,,Relation,Benefit Election,FOUND,Relation
+Benefit Election,,Birth Date,Benefit Election,FOUND,Birth Date
+Benefit Election,,National ID,Benefit Election,FOUND,National ID
+Benefit Election,,Gender,Benefit Election,FOUND,Gender
+Benefit Election,,Student?,Benefit Election,FOUND,Student?
+Benefit Election,,Smoker?,Benefit Election,FOUND,Smoker?
+Benefit Election,,Disabled?,Benefit Election,FOUND,Disabled?
+Benefit Election,,Health Plan,Benefit Election,FOUND,Health Plan
+Benefit Election,,Dental Plan,Benefit Election,FOUND,Dental Plan
+Community/Volunteer Involvement,,From Date,Community/Volunteer Involvement,FOUND,From Date
+Community/Volunteer Involvement,,End Date,Community/Volunteer Involvement,FOUND,End Date
+Community/Volunteer Involvement,,Community/Volunteer Organization Name,Community/Volunteer Involvement,FOUND,Community/Volunteer Organization Name
+Community/Volunteer Involvement,,Role,Community/Volunteer Involvement,FOUND,Role
+Courses/Workshops/Seminars,,Course Name,Courses/Workshops/Seminars,FOUND,Course Name
+Courses/Workshops/Seminars,,Institution Name,Courses/Workshops/Seminars,FOUND,Institution Name
+Courses/Workshops/Seminars,,Start Date,Courses/Workshops/Seminars,FOUND,Start Date
+Courses/Workshops/Seminars,,End Date,Courses/Workshops/Seminars,FOUND,End Date
+Key Successes,,Year (AD),Key Successes,FOUND,Year (AD)
+Key Successes,,Achievement,Key Successes,FOUND,Achievement
+Key Successes,,Attachment,Key Successes,FOUND,Attachment
+Assessment Program,,Program,Assessment Program,FOUND,Program
+Assessment Program,,Year (AD),Assessment Program,FOUND,Year (AD)
+Assessment Program,,Result,Assessment Program,FOUND,Result
+Assessment Program,,MBTI Strength,Assessment Program,FOUND,MBTI Strength
+Assessment Program,,MBTI Weakness,Assessment Program,FOUND,MBTI Weakness
+Assessment Program,,Attachment,Assessment Program,FOUND,Attachment
+Coaching Feedback,,Type,Coaching Feedback,FOUND,Type
+Coaching Feedback,,Internal Name,Coaching Feedback,FOUND,Internal Name
+Coaching Feedback,,External Name,Coaching Feedback,FOUND,External Name
+Coaching Feedback,,Identified as of Date,Coaching Feedback,FOUND,Identified as of Date
+Coaching Feedback,,Comment/Feedback,Coaching Feedback,FOUND,Comment/Feedback
+Coaching Feedback,,Attachment,Coaching Feedback,FOUND,Attachment
+Development Goals,,Category,Development Goals,FOUND,Category
+Development Goals,,Development Goal ID,Development Goals,FOUND,Development Goal ID
+Development Goals,,Development Goal,Development Goals,FOUND,Development Goal
+Development Goals,,Description,Development Goals,FOUND,Description
+Development Goals,,Expected Outcome,Development Goals,FOUND,Expected Outcome
+Development Goals,,Competency,Development Goals,FOUND,Competency
+Development Goals,,Start Date,Development Goals,FOUND,Start Date
+Development Goals,,Complete Date,Development Goals,FOUND,Complete Date
+Development Goals,,Development Goal Status,Development Goals,FOUND,Development Goal Status
+Development Opportunities,,Year (AD),Development Opportunities,FOUND,Year (AD)
+Development Opportunities,,Development Needs,Development Opportunities,FOUND,Development Needs
+Development Opportunities,,Description,Development Opportunities,FOUND,Description
+Overall Competency Rating (UA),,Year(AD),Overall Competency Rating,FOUND,Year(AD)
+Overall Competency Rating (UA),,Rating Score,Overall Competency Rating,FOUND,Rating Score
+Overall Competency Rating (UA),,Rating Label,Overall Competency Rating,FOUND,Rating Label
+Overall KPI Rating (UA),,Year(AD),Overall KPI Rating,FOUND,Year(AD)
+Overall KPI Rating (UA),,Rating Score,Overall KPI Rating,FOUND,Rating Score
+Overall KPI Rating (UA),,Rating Label,Overall KPI Rating,FOUND,Rating Label
+Overall Performance Rating (UA),,Year(AD),Overall Performance Rating,FOUND,Year(AD)
+Overall Performance Rating (UA),,Rating Score,Overall Performance Rating,FOUND,Rating Score
+Overall Performance Rating (UA),,Rating Label,Overall Performance Rating,FOUND,Rating Label
+Overall Performance Rating (UA),,Remark,Overall Performance Rating,FOUND,Remark
+Business Driver Assessment,,Driving for Profitable Growth,Business Driver Assessment,FOUND,Driving for Profitable Growth
+Business Driver Assessment,,Striving to Meet Customer Satisfaction,Business Driver Assessment,FOUND,Striving to Meet Customer Satisfaction
+Business Driver Assessment,,Building Organization Excellence,Business Driver Assessment,FOUND,Building Organization Excellence
+Business Driver Assessment,,Promoting Sustainable Collaborations & Partnerships,Business Driver Assessment,FOUND,Promoting Sustainable Collaborations & Partnerships
+Business Driver Assessment,,Developing People,Business Driver Assessment,FOUND,Developing People
+Business Driver Assessment,,Leading Innovation,Business Driver Assessment,FOUND,Leading Innovation
+Learning Activities,,Category,Learning Activities,FOUND,Category
+Learning Activities,,Development Objective ID,Learning Activities,FOUND,Development Objective ID
+Learning Activities,,Topic,Learning Activities,FOUND,Topic
+Learning Activities,,Description,Learning Activities,FOUND,Description
+Learning Activities,,Planned Start Date,Learning Activities,FOUND,Planned Start Date
+Learning Activities,,Planned Completed Date,Learning Activities,FOUND,Planned Completed Date
+Learning Activities,,Status,Learning Activities,FOUND,Status
+Learning Activities,,Learning Activity ID,Learning Activities,FOUND,Learning Activity ID
+Learning Activities,,Type,Learning Activities,FOUND,Type
+Learning Activities,,Learning Name,Learning Activities,FOUND,Learning Name
+Learning Activities,,Learning Status,Learning Activities,FOUND,Learning Status
+Learning Activities,,Learning Planned Start Date,Learning Activities,FOUND,Learning Planned Start Date
+Learning Activities,,Learning Planned Completed Date,Learning Activities,FOUND,Learning Planned Completed Date
+Learning Activities,,Learning Planned Expected Result,Learning Activities,FOUND,Learning Planned Expected Result
+MT/MA Reference,,Program,MT/MA Reference,FOUND,Program
+MT/MA Reference,,Sponser,MT/MA Reference,FOUND,Sponser
+MT/MA Reference,,Year(AD),MT/MA Reference,FOUND,Year(AD)
+MT/MA Reference,,Remark,MT/MA Reference,FOUND,Remark
+MT/MA Reference,,Attachment,MT/MA Reference,FOUND,Attachment
+Top Strengths,,Year (AD),Top Strengths,FOUND,Year (AD)
+Top Strengths,,Achievement,Top Strengths,FOUND,Achievement
+Top Strengths,,Attachment,Top Strengths,FOUND,Attachment
+Talent Reference,,Program,Talent Reference,FOUND,Program
+Talent Reference,,Sponser,Talent Reference,FOUND,Sponser
+Talent Reference,,Year(AD),Talent Reference,FOUND,Year(AD)
+Talent Reference,,Remark,Talent Reference,FOUND,Remark
+Talent Reference,,Attachment,Talent Reference,FOUND,Attachment
+Performance Group,,Year(AD),Performance Group,FOUND,Year(AD)
+Performance Group,,Group,Performance Group,FOUND,Group
+E-Letter_Password,,E-Letter Password,E-Letter Password,FOUND,E-Letter Password
+E-Letter_Password,,Year,E-Letter Password,FOUND,Year
+E-Letter_Password,,PA Grade,E-Letter Password,FOUND,PA Grade
+E-Letter_Password,,New Salary,E-Letter Password,FOUND,New Salary
+E-Letter_Password,,Extra Overceiling,E-Letter Password,FOUND,Extra Overceiling
+E-Letter_Password,,Bonus,E-Letter Password,FOUND,Bonus
+E-Letter_Password,,Old Salary,E-Letter Password,FOUND,Old Salary
+E-Letter_Password,,Note,E-Letter Password,FOUND,Note
+Personal Assessment Summary,,1. Positive Side,Personal Assessment Summary,FOUND,1. Positive Side
+Personal Assessment Summary,,2. Positive Side,Personal Assessment Summary,FOUND,2. Positive Side
+Personal Assessment Summary,,3. Positive Side,Personal Assessment Summary,FOUND,3. Positive Side
+Personal Assessment Summary,,1. Need to be Improved Side,Personal Assessment Summary,FOUND,1. Need to be Improved Side
+Personal Assessment Summary,,2. Need to be Improved Side,Personal Assessment Summary,FOUND,2. Need to be Improved Side
+Personal Assessment Summary,,3. Need to be Improved Side,Personal Assessment Summary,FOUND,3. Need to be Improved Side
+Individual Documents,,Document Name,Individual Documents,FOUND,Document Name
+Individual Documents,,Effective Date,Individual Documents,FOUND,Effective Date
+Individual Documents,,Attachment,Individual Documents,FOUND,Attachment
+Flexible Spending Accounts,,Plan Name,Flexible Spending Accounts,FOUND,Plan Name
+Flexible Spending Accounts,,Election Amount,Flexible Spending Accounts,FOUND,Election Amount
+Flexible Spending Accounts,,Total Contributions,Flexible Spending Accounts,FOUND,Total Contributions
+Flexible Spending Accounts,,Total Funds Out,Flexible Spending Accounts,FOUND,Total Funds Out
+Flexible Spending Accounts,,Total Repayments,Flexible Spending Accounts,FOUND,Total Repayments
+Flexible Spending Accounts,,Available Balance,Flexible Spending Accounts,FOUND,Available Balance
+Functional Experience,,Function,Functional Experience,FOUND,Function
+Functional Experience,,Years of Experience,Functional Experience,FOUND,Years of Experience
+Functional Experience,,Comments,Functional Experience,FOUND,Comments
+Leadership Experience,,Area of Leadership,Leadership Experience,FOUND,Area of Leadership
+Leadership Experience,,Years of Experience,Leadership Experience,FOUND,Years of Experience
+Leadership Experience,,Number of People Managed,Leadership Experience,FOUND,Number of People Managed
+Leadership Experience,,Amount Managed (M),Leadership Experience,FOUND,Amount Managed (M)
+Leadership Experience,,Comments,Leadership Experience,FOUND,Comments
+Professional Memberships,,Organisation,Professional Memberships,FOUND,Organisation
+Professional Memberships,,Position/Role,Professional Memberships,FOUND,Position/Role
+Professional Memberships,,Start Date,Professional Memberships,FOUND,Start Date
+Professional Memberships,,End Date,Professional Memberships,FOUND,End Date
+Career Aspirations,,Destination Role,Career Aspirations,FOUND,Destination Role
+Career Aspirations,,Level,Career Aspirations,FOUND,Level
+Career Aspirations,,Function,Career Aspirations,FOUND,Function
+Career Aspirations,,Business Unit,Career Aspirations,FOUND,Business Unit
+Career Aspirations,,Year(AD),Career Aspirations,FOUND,Year(AD)
+Career Aspirations,,Type,Career Aspirations,FOUND,Type
+Career Aspirations,,Comments,Career Aspirations,FOUND,Comments
+Career Aspirations,,Status,Career Aspirations,FOUND,Status
+Career Aspirations,,Completed Date,Career Aspirations,FOUND,Completed Date
+Promotability **Manager view only,,Level,Promotability,FOUND,Level
+Promotability **Manager view only,,Function,Promotability,FOUND,Function
+Promotability **Manager view only,,Timeframe,Promotability,FOUND,Timeframe
+Special Assignments/Projects,,Assignment/Project,Special Assignments/Projects,FOUND,Assignment/Project
+Special Assignments/Projects,,Description,Special Assignments/Projects,FOUND,Description
+Special Assignments/Projects,,Comments,Special Assignments/Projects,FOUND,Comments
+Special Assignments/Projects,,Start Date,Special Assignments/Projects,FOUND,Start Date
+Special Assignments/Projects,,End Date,Special Assignments/Projects,FOUND,End Date
+OHS Certificate,,Completion date,OHS Certificate,FOUND,Completion date
+OHS Certificate,,Institute ID,OHS Certificate,FOUND,Institute ID
+OHS Certificate,,Description,OHS Certificate,FOUND,Description
+OHS Certificate,,Comments,OHS Certificate,FOUND,Comments
+OHS Certificate,,Certificate Number,OHS Certificate,FOUND,Certificate Number
+OHS Certificate,,Course,OHS Certificate,FOUND,Course
+OHS Certificate,,Course,OHS Certificate,FOUND,Course
+OHS Document,,Registration Date,OHS Document,FOUND,Registration Date
+OHS Document,,Inactive Date,OHS Document,FOUND,Inactive Date
+OHS Document,,Labour Department Area,OHS Document,FOUND,Labour Department Area
+OHS Document,,Document Number,OHS Document,FOUND,Document Number
+OHS Document,,Safety Officer Level,OHS Document,FOUND,Safety Officer Level
+OHS Document,,Direct Link - Name,OHS Document,FOUND,Direct Link - Name
+OHS Document,,Direct Link - URL,OHS Document,FOUND,Direct Link - URL
+OHS Document,,Attachment,OHS Document,FOUND,Attachment
+Previous Work History,,Start Date,Previous Work History,FOUND,Start Date
+Previous Work History,,End Date,Previous Work History,FOUND,End Date
+Previous Work History,,Company Name,Previous Work History,FOUND,Company Name
+Previous Work History,,Type of Business,Previous Work History,FOUND,Type of Business
+Previous Work History,,Function,Previous Work History,FOUND,Function
+Previous Work History,,Position,Previous Work History,FOUND,Position
+Previous Work History,,Additional Information,Previous Work History,FOUND,Additional Information
+Previous Work History,,Present Employer?,Previous Work History,FOUND,Present Employer?
+Employee Benefit Obligation(EBO),,Description,Employee Benefit Obligation (EBO),FOUND,Description
+Employee Benefit Obligation(EBO),,EBO Amount,Employee Benefit Obligation (EBO),FOUND,EBO Amount
+Employee Benefit Obligation(EBO),,หมายเหตุ,Employee Benefit Obligation (EBO),MISSING,
+Honours/Awards,,Honour or Award,Honours/Awards,FOUND,Honour or Award
+Honours/Awards,,Description,Honours/Awards,FOUND,Description
+Honours/Awards,,Institution,Honours/Awards,FOUND,Institution
+Honours/Awards,,Issue Date,Honours/Awards,FOUND,Issue Date
+Honours/Awards,,Additional Information,Honours/Awards,FOUND,Additional Information
+Honours/Awards,,Attachment,Honours/Awards,FOUND,Attachment
+Legal Execution Department,,Legal Execution Department,Legal Execution Department,FOUND,Legal Execution Department
+Legal Execution Department,,Execution Case No.,Legal Execution Department,FOUND,Execution Case No.
+Legal Execution Department,,Start Date,Legal Execution Department,FOUND,Start Date
+Legal Execution Department,,End Date,Legal Execution Department,FOUND,End Date
+Legal Execution Department,,Other information,Legal Execution Department,FOUND,Other information
+Legal Execution Department,,Attachment,Legal Execution Department,FOUND,Attachment
+Product Liability Insurance,,Effective Date,Product Liability Insurance,FOUND,Effective Date
+Product Liability Insurance,,Insurance Company,Product Liability Insurance,FOUND,Insurance Company
+Product Liability Insurance,,Bank,Product Liability Insurance,FOUND,Bank
+Product Liability Insurance,,value,Product Liability Insurance,FOUND,value
+Product Liability Insurance,,status,Product Liability Insurance,FOUND,status
+Product Liability Insurance,,Remark,Product Liability Insurance,FOUND,Remark
+Student Loan,,Year of Contract,Student Loan,FOUND,Year of Contract
+Student Loan,,Levels of Education,Student Loan,FOUND,Levels of Education
+Student Loan,,Academic Year,Student Loan,FOUND,Academic Year
+Student Loan,,Year of final payment,Student Loan,FOUND,Year of final payment
+Student Loan,,Attachment,Student Loan,FOUND,Attachment
+Student Loan,,Remark,Student Loan,FOUND,Remark
+Work Experience Within Company (History),,Start Date,Work Experience Within Company (History),FOUND,Start Date
+Work Experience Within Company (History),,End Date,Work Experience Within Company (History),FOUND,End Date
+Work Experience Within Company (History),,Event,Work Experience Within Company (History),FOUND,Event
+Work Experience Within Company (History),,Event Reason,Work Experience Within Company (History),FOUND,Event Reason
+Work Experience Within Company (History),,Company,Work Experience Within Company (History),FOUND,Company
+Work Experience Within Company (History),,Business Unit,Work Experience Within Company (History),FOUND,Business Unit
+Work Experience Within Company (History),,Function,Work Experience Within Company (History),FOUND,Function
+Work Experience Within Company (History),,Organization,Work Experience Within Company (History),FOUND,Organization
+Work Experience Within Company (History),,Department,Work Experience Within Company (History),FOUND,Department
+Work Experience Within Company (History),,Store/Branch Code,Work Experience Within Company (History),FOUND,Store/Branch Code
+Work Experience Within Company (History),,Work Location,Work Experience Within Company (History),FOUND,Work Location
+Work Experience Within Company (History),,Posiiton Code,Work Experience Within Company (History),FOUND,Posiiton Code
+Work Experience Within Company (History),,Position Name,Work Experience Within Company (History),FOUND,Position Name
+Work Experience Within Company (History),,Supervisor ID,Work Experience Within Company (History),FOUND,Supervisor ID
+Work Experience Within Company (History),,Job Family,Work Experience Within Company (History),FOUND,Job Family
+Work Experience Within Company (History),,Job Code,Work Experience Within Company (History),FOUND,Job Code
+Work Experience Within Company (History),,Job Role,Work Experience Within Company (History),FOUND,Job Role
+Work Experience Within Company (History),,Person Grade,Work Experience Within Company (History),FOUND,Person Grade
+Work Experience Within Company (History),,Job Grade,Work Experience Within Company (History),FOUND,Job Grade
+Work Experience Within Company (History),,Corperate Title,Work Experience Within Company (History),FOUND,Corperate Title
+Work Experience Within Company (History),,Band,Work Experience Within Company (History),FOUND,Band
+Work Experience Within Company (History),,Employee Group,Work Experience Within Company (History),FOUND,Employee Group
+Work Experience Within Company (History),,Contract Type,Work Experience Within Company (History),FOUND,Contract Type
+Pending,,Badges,(none),NO CARD,
+Profile,,Org Chart,(none),FOUND,Org Chart (on Employment information)
+Profile,,Tags,(none),NO CARD,

@@ -1,0 +1,72 @@
+﻿Process,Menu,BA Section,Section on screen?,Screen section (EN),BA fields,FOUND,PARTIAL,MISSING,Coverage % (FOUND + ½ PARTIAL),Evidence screenshot
+Hiring,Employment,Compensation Information (ค่าตอบแทน),YES,Bank details,16,2,0,14,12.5,shots/en-emp-bank.png
+Hiring,Personal,Contact (ข้อมูลติดต่อ),YES,Contact & address,26,2,11,13,28.8,shots/en-emp-contact-address.png
+Hiring,Personal,Dependents (บุคคลในอุปการะ),YES,Dependents,27,0,4,23,7.4,shots/en-emp-dependents.png
+Hiring,Employment,Employment Details (ข้อมูลการจ้างงาน),YES,Employment information,8,3,0,5,37.5,shots/en-emp-employment.png
+Hiring,Personal,Formal Education (การศึกษา),NO,(not on screen),11,0,0,11,0.0,shots/en-EMP-0002-full.png
+Hiring,Personal,Global Information (ข้อมูลทั่วไป),YES,Advanced personal,13,1,1,11,11.5,shots/en-emp-advanced.png
+Hiring,Personal,Identity (ข้อมูลระบุตัวตน),YES,Employee snapshot header,21,7,0,14,33.3,shots/en-emp-header.png
+Hiring,Employment,Job Information (ข้อมูลงาน),YES,Employment information,37,2,0,35,5.4,shots/en-emp-employment.png
+Maintain,Personal,Advanced Information,YES,Advanced personal,4,0,0,4,0.0,shots/en-emp-advanced.png
+Maintain,Personal,COI Approval,NO,(not on screen),13,0,0,13,0.0,shots/en-EMP-0002-full.png
+Hiring,Personal,Personal Information (ข้อมูลส่วนตัว),YES,Marital status,14,6,0,8,42.9,shots/en-emp-marital.png
+Hiring,Employment,Position & Organization (ตำแหน่งและสังกัด),YES,Employment information,17,3,1,13,20.6,shots/en-emp-employment.png
+Hiring,Personal,Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน),YES,Emergency contacts,18,0,4,14,11.1,shots/en-emp-emergency.png
+Hiring,Employment,Time Information (ข้อมูลเวลางาน),NO,(not on screen),12,0,0,12,0.0,shots/en-EMP-0002-full.png
+Maintain,Employment,compensation Information,YES,Documents & e-letter,4,0,1,3,12.5,shots/en-emp-documents.png
+Maintain,Employment,Employment Information,YES,Employment information,21,6,0,15,28.6,shots/en-emp-employment.png
+Maintain,Employment,Job Information,YES,Employment information,4,0,0,4,0.0,shots/en-emp-employment.png
+Hiring,Employment,Work Permit Information (ใบอนุญาตทำงาน),NO,(not on screen),8,0,0,8,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Pending,NO,(not on screen),4,0,0,4,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,compensation,YES,Compensation history,15,0,3,12,10.0,shots/en-emp-compensation-history.png
+Maintain,Profile,E-Letter,YES,Documents & e-letter,8,0,4,4,25.0,shots/en-emp-documents.png
+Maintain,Profile,Work Experience Within Company,YES,Work experience,6,0,5,1,41.7,shots/en-emp-work-experience.png
+Maintain,Profile,Salary History,YES,Compensation history,4,1,3,0,62.5,shots/en-emp-compensation-history.png
+Maintain,Profile,Previous Employment,YES,Work experience,8,0,5,3,31.2,shots/en-emp-work-experience.png
+Maintain,Profile,Language Skills,NO,(not on screen),8,0,0,8,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Certification/License,YES,Certifications & licenses,11,0,3,8,13.6,shots/en-emp-certifications.png
+Maintain,Profile,Goodness,NO,(not on screen),4,0,0,4,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Disciplinary,NO,(not on screen),11,0,0,11,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Company Loan,NO,(not on screen),5,0,0,5,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Scholarship,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Guarantee,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Company Asset,NO,(not on screen),8,0,0,8,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Mobility,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Individual Document,YES,Documents & e-letter,3,0,3,0,50.0,shots/en-emp-documents.png
+Maintain,Profile,Benefit Election,YES,Benefit enrollment,10,0,0,10,0.0,shots/en-emp-benefit-enrollment.png
+Maintain,Profile,Community/Volunteer Involvement,NO,(not on screen),4,0,0,4,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Courses/Workshops/Seminars,NO,(not on screen),4,0,0,4,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Key Successes,NO,(not on screen),3,0,0,3,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Assessment Program,YES,Performance & promotability,6,0,3,3,25.0,shots/en-emp-assessments.png
+Maintain,Profile,Coaching Feedback,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Development Goals,NO,(not on screen),9,0,0,9,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Development Opportunities,NO,(not on screen),3,0,0,3,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Overall Competency Rating (UA),YES,Performance & promotability,3,0,2,1,33.3,shots/en-emp-assessments.png
+Maintain,Profile,Overall KPI Rating (UA),YES,Performance & promotability,3,0,2,1,33.3,shots/en-emp-assessments.png
+Maintain,Profile,Overall Performance Rating (UA),YES,Performance & promotability,4,0,2,2,25.0,shots/en-emp-assessments.png
+Maintain,Profile,Business Driver Assessment,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Learning Activities,NO,(not on screen),14,0,0,14,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,MT/MA Reference,NO,(not on screen),5,0,0,5,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Top Strengths,NO,(not on screen),3,0,0,3,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Talent Reference,NO,(not on screen),5,0,0,5,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Performance Group,NO,(not on screen),2,0,0,2,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,E-Letter_Password,NO,(not on screen),8,0,0,8,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Personal Assessment Summary,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Individual Documents,YES,Documents & e-letter,3,0,3,0,50.0,shots/en-emp-documents.png
+Maintain,Profile,Flexible Spending Accounts,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Functional Experience,NO,(not on screen),3,0,0,3,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Leadership Experience,NO,(not on screen),5,0,0,5,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Professional Memberships,YES,Professional memberships,4,0,0,4,0.0,shots/en-emp-memberships.png
+Maintain,Profile,Career Aspirations,NO,(not on screen),9,0,0,9,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Promotability **Manager view only,YES,Performance & promotability,3,0,0,3,0.0,shots/en-emp-assessments.png
+Maintain,Profile,Special Assignments/Projects,YES,Special projects,5,0,2,3,20.0,shots/en-emp-projects.png
+Maintain,Profile,OHS Certificate,NO,(not on screen),7,0,0,7,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,OHS Document,NO,(not on screen),8,0,0,8,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Previous Work History,YES,Work experience,8,0,5,3,31.2,shots/en-emp-work-experience.png
+Maintain,Profile,Employee Benefit Obligation(EBO),NO,(not on screen),3,0,0,3,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Honours/Awards,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Legal Execution Department,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Product Liability Insurance,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Student Loan,NO,(not on screen),6,0,0,6,0.0,shots/en-EMP-0002-full.png
+Maintain,Profile,Work Experience Within Company (History),YES,Work experience,23,0,4,19,8.7,shots/en-emp-work-experience.png
+Maintain,Profile,Profile,NO,(not on screen),2,0,0,2,0.0,shots/en-EMP-0002-full.png
