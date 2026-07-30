@@ -1,0 +1,855 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EC field list vs Employee File screen — side-by-side evidence</title>
+<style>
+:root{--canvas:#F6F1E8;--surface:#fff;--ink:#0E1B2C;--muted:#5c6675;--line:#e6ded1;
+--accent:#1FA8A0;--indigo:#5B6CE0;--pumpkin:#FB923C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);
+font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:26px;margin:0 0 6px}
+h2{font-size:19px;margin:0}
+.lede{color:var(--muted);max-width:80ch;margin:0 0 22px}
+.kpis{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 26px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 18px;min-width:130px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi span{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:18px;
+padding:18px;margin:0 0 22px;box-shadow:0 1px 2px rgba(14,27,44,.04)}
+.sechead{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:1080px){.grid{grid-template-columns:1fr}}
+.shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--canvas);position:sticky;top:14px}
+.shot img{display:block;width:100%;height:auto}
+.cap{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 10px;border-bottom:1px solid var(--line)}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+.b{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;
+padding:2px 8px;border-radius:999px;white-space:nowrap}
+.b.ok{background:rgba(31,168,160,.14);color:#137e78}
+.b.warn{background:rgba(91,108,224,.14);color:#3f4dad}
+.b.gap{background:rgba(251,146,60,.18);color:#b45c0d}
+.mini{color:var(--muted);font-size:12px}
+.grp{font-weight:600;background:var(--canvas)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 24px;font-size:13px;color:var(--muted)}
+.count{font-size:12.5px;color:var(--muted);white-space:nowrap}
+</style></head><body><div class="wrap">
+<h1>EC list of fields (BA, 30 Jul) &nbsp;vs&nbsp; Employee File screen</h1>
+<p class="lede">Every field in the BA sheet checked against what the admin Employee File screen
+actually renders. Each screen capture sits beside the BA fields routed to it. Captured signed in
+as <code>admin@humi.test</code> (hr_admin + hr_manager + spd, so no section is RBAC-hidden), all
+collapsibles expanded.</p>
+<div class="kpis">
+<div class="kpi"><b>604</b><span>BA fields</span></div>
+<div class="kpi"><b>33</b><span>Found (5%)</span></div>
+<div class="kpi"><b>71</b><span>Partial (11%)</span></div>
+<div class="kpi"><b>500</b><span>Missing (82%)</span></div>
+<div class="kpi"><b>21</b><span>Screen sections</span></div>
+</div>
+<div class="legend">
+<span><span class="b ok">FOUND</span> labelled field rendered on screen</span>
+<span><span class="b warn">PARTIAL</span> value on screen but not as its own labelled field</span>
+<span><span class="b gap">MISSING</span> not on the screen at all</span>
+</div>
+<section class="sec">
+<div class="sechead"><h2>Bank details</h2><span class="count">16 BA fields &middot; <span class="b ok">2</span> <span class="b warn">0</span> <span class="b gap">14</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Bank details</div><img src="shots/en-emp-bank.png" alt="Bank details" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Compensation Information (ค่าตอบแทน) › Alternative cost centre</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>cost centre</td><td class="mini">Not required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Allocation %</td><td class="mini">Not required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Compensation Information (ค่าตอบแทน) › Payment Information</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Bank Code</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Bank</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Bank / ธนาคาร</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Account Number</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Account number / เลขที่บัญชี</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Bank Country/Region</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Currency</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Payment Method</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Attachment</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Compensation Information (ค่าตอบแทน)</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Payroll ID</td><td class="mini">Not required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Pay Type</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Pay Component</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Frequency</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Amount</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Currency</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>pay group</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Bank details&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Contact &amp; address</h2><span class="count">26 BA fields &middot; <span class="b ok">2</span> <span class="b warn">11</span> <span class="b gap">13</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Contact &amp; address</div><img src="shots/en-emp-contact-address.png" alt="Contact &amp; address" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Contact (ข้อมูลติดต่อ) › Home Address</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Address Type</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Floor</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Room No.</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Village</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>House Number</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Building</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Street</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Moo</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lane / Soi</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>District</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Sub-District</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Province</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Postal Code</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Contact (ข้อมูลติดต่อ) › Email Information</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Email Type</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Email Address</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Email / อีเมล</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Is Primary</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Contact (ข้อมูลติดต่อ) › Phone Information</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Phone Type</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country Code</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Phone Number</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Phone / โทรศัพท์</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Extension</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Is Primary</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Contact (ข้อมูลติดต่อ) › Social Accounts Information</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Domain</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Instant Messaging ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>URL</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Contact &amp; address&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Dependents</h2><span class="count">27 BA fields &middot; <span class="b ok">0</span> <span class="b warn">4</span> <span class="b gap">23</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Dependents</div><img src="shots/en-emp-dependents.png" alt="Dependents" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Dependents (บุคคลในอุปการะ)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Relationship</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Salutation (EN)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Phone</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Firstname (EN)</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lastname (EN)</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Salutation (Local)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Firstname (Local)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lastname (Local)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Nationality</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Date of Birth</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Dependents (บุคคลในอุปการะ) › Dependent national ID</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>National ID Card Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>National ID / Tax ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Dependents (บุคคลในอุปการะ)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Primary</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Dependents (บุคคลในอุปการะ) › Dependent contact address</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Copy Address from Employee</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>House Number</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Building</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Floor</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Village</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Moo</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lane / Soi</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Street</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Province</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>District</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Sub-District</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Postal Code</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Dependents&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Employment information</h2><span class="count">87 BA fields &middot; <span class="b ok">14</span> <span class="b warn">1</span> <span class="b gap">72</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Employment information</div><img src="shots/en-emp-employment.png" alt="Employment information" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Employment Details (ข้อมูลการจ้างงาน)</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>CG previous Employee ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Hire Date</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Hire Date / วันที่เริ่มงาน</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Retire­ment Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Original Start Date</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Original Start Date / วันที่เริ่มงานครั้งแรก</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Seniority Start Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT previous ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>PF service Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Employee age (Y/M/D)</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Age / อายุ (snapshot header)</td></tr>
+<tr><td class="grp" colspan="5">Job Information (ข้อมูลงาน) › Job Information</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Probation Exemption</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Band</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Corporate Title</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Supervisor ID</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Special Benefit Group</td><td class="mini">refer to employee group</td><td><span class="b ok">FOUND</span></td><td class="mini">Special benefit group / กลุ่มสิทธิพิเศษ</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Employee Group</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Employee Subgroup</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Personnel Grade</td><td class="mini">refer to employee group</td><td><span class="b ok">FOUND</span></td><td class="mini">Pay Grade / ประเภท</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Contract Type</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Contract End Date</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Job Information (ข้อมูลงาน) › DVT</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Project name</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Partner University</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Type</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Degree Level</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Course</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Course of Time</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Academic Year</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Graduation Date</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>DVT: Bonding End date</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Scholarship</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Job Information (ข้อมูลงาน) › Job Information</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Probationary Period End Date</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Extended Retirement Date</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Extended Probation Date</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Band Matching</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Transfer from</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Country</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Job Code</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Job Role</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Job Family</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Job Type</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Job Grade</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Function</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Job Information (ข้อมูลงาน)</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Attachment</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Job Information (ข้อมูลงาน) › Job Information</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Transfer out to</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Transfer in to</td><td class="mini">refer to employee group</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Job Information (ข้อมูลงาน) › Job Relationships</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Relationship Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Position &amp; Organization (ตำแหน่งและสังกัด) › Organization Information</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Organization</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Organization / หน่วยงาน</td></tr>
+<tr><td class="grp" colspan="5">Position &amp; Organization (ตำแหน่งและสังกัด) › Target Position</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Position</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Position / ตำแหน่ง</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Company</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Company / บริษัท</td></tr>
+<tr><td class="grp" colspan="5">Position &amp; Organization (ตำแหน่งและสังกัด) › Organization Information</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Cost Centre</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Function</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Point of Sales</td><td class="mini">Not required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Zone</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>HR District</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Work Location</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Business unit</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Group</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Store Brand/ Format</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>store size</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Store/ Branch Code</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Brand</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>SSO Location</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Time Zone</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Employment Information</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>CurrentJobEffectiveDate</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Corporate Title Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current JG Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current PG Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Position Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Store Branch Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Hire Date</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Hire Date / วันที่เริ่มงาน</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Original Start Date</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Original Start Date / วันที่เริ่มงานครั้งแรก</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Seniority Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Year of service</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">อายุงาน (บริษัท)</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Pass Probation Date/Confirm Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Years in Corporate Title</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">อายุงานในระดับ</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Years in JG</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">อายุงานในสายงาน</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Years in PG</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Years in Position</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">อายุงานในตำแหน่ง</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Current Years in Store Branch</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Retire­ment Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>CG previous Employee ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>DVT previous ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>PF service Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Org. Chart</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Job Information</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Failed Probation Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>probation result</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Additional Information (Termination)</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>OK to Rehire</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employment information&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Advanced personal</h2><span class="count">17 BA fields &middot; <span class="b ok">1</span> <span class="b warn">1</span> <span class="b gap">15</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Advanced personal</div><img src="shots/en-emp-advanced.png" alt="Advanced personal" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Global Information (ข้อมูลทั่วไป) › Global Information (ข้อมูลทั่วไป)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country/Region</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Global Information (ข้อมูลทั่วไป)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Number of children</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Religion</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Disability Status</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Disability / ความพิการ</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Disability Certificate Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Disability Certificate End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Type of Disability</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Certificate ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Spouse&#x27;s Father ID Number</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Spouse&#x27;s Mother ID Number</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Additional Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Number of Children</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Advanced Information</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Group of people</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Additional Information - Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Additional Information - URL</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Advanced personal&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Employee snapshot header</h2><span class="count">21 BA fields &middot; <span class="b ok">7</span> <span class="b warn">0</span> <span class="b gap">14</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Employee snapshot header</div><img src="shots/en-emp-header.png" alt="Employee snapshot header" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Identity (ข้อมูลระบุตัวตน) › Identity</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Hire Date</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Hire Date / วันที่เริ่มงาน (Employment information card)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Company</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Company / บริษัท (Employment information card)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Event reason</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Date of Birth</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country of Birth</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Region of Birth</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Age</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Age / อายุ (snapshot header)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Employee ID</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Employee ID (snapshot header)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Replaced Employee ID</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Salutation (EN)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Firstname (EN)</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">EN name line (snapshot header)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Middle Name (EN)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lastname (EN)</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">EN name line (snapshot header)</td></tr>
+<tr><td class="grp" colspan="5">Identity (ข้อมูลระบุตัวตน) › National ID / Tax ID</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>National ID/Tax-ID</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">National ID / เลขบัตรประชาชน — masked (Advanced personal card)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Issue Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Expiry Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Issue Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Expiry Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Is Primary</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Employee snapshot header&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Marital status</h2><span class="count">14 BA fields &middot; <span class="b ok">6</span> <span class="b warn">0</span> <span class="b gap">8</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Marital status</div><img src="shots/en-emp-marital.png" alt="Marital status" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Personal Information (ข้อมูลส่วนตัว)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Nickname (EN/TH)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Gender</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Military Status</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Military status / สถานะทางทหาร (Advanced personal card)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Salutation (Local)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Other Title (TH)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Firstname (Local)</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">TH name line (snapshot header)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lastname (Local)</td><td class="mini">Required</td><td><span class="b ok">FOUND</span></td><td class="mini">TH name line (snapshot header)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Middle Name (Local)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Nationality</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Foreigner</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Blood Type</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Blood type / กรุ๊ปเลือด (Advanced personal card)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Marital Status</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Status / สถานภาพ</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Marital Status Since</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">Since / มีผลตั้งแต่</td></tr>
+<tr><td class="grp" colspan="5">Personal Information (ข้อมูลส่วนตัว) › Personal Information</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Marital status&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Emergency contacts</h2><span class="count">18 BA fields &middot; <span class="b ok">0</span> <span class="b warn">4</span> <span class="b gap">14</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Emergency contacts</div><img src="shots/en-emp-emergency.png" alt="Emergency contacts" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน) › Primary Emergency Contact (ผู้ติดต่อฉุกเฉิน)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Name</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Relationship</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Primary</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Phone</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>copy Address from Employee</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>House Number</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Building</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Floor</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Village</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Moo</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Lane / Soi</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Street</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Province</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>District</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Sub-District</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Postal Code</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Emergency contacts&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Documents &amp; e-letter</h2><span class="count">18 BA fields &middot; <span class="b ok">0</span> <span class="b warn">11</span> <span class="b gap">7</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Documents &amp; e-letter</div><img src="shots/en-emp-documents.png" alt="Documents &amp; e-letter" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">compensation Information › Payroll Information</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Payslips</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>E-Letter</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>50BIS</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Employment / Maintain</td><td>Tax Deduction</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">E-Letter</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Group</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>More Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Group</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>More Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Documents &amp; e-letter&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Individual Document</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Document Name</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Effective Date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Individual Documents</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Document Name</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Effective Date</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Compensation history</h2><span class="count">19 BA fields &middot; <span class="b ok">1</span> <span class="b warn">6</span> <span class="b gap">12</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Compensation history</div><img src="shots/en-emp-compensation-history.png" alt="Compensation history" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">compensation</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Review Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Review Start</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Review End</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Job Title</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Performance Management Rating</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Salary Before Review</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Merit</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Salary After Review</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Compa-Ratio</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Total Pay</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Bonus</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Stock</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Option</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Grant Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Lump Sum</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Compensation history&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Salary History</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Not Required</td><td><span class="b ok">FOUND</span></td><td class="mini">&quot;Effective:&quot; date on each row</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Salary Amount</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Changed Amount</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Reason</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Work experience</h2><span class="count">45 BA fields &middot; <span class="b ok">0</span> <span class="b warn">19</span> <span class="b gap">26</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Work experience</div><img src="shots/en-emp-work-experience.png" alt="Work experience" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Work Experience Within Company</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company (Current) -&gt; start date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company (Current) -&gt; end date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company (Current) -&gt; event</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Work Experience Within Company (History) -&gt; startdate</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company (Current) -&gt; end date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company (Current) -&gt; company</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Previous Employment</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Previous Work History-&gt; startdate</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Previous Work History-&gt; enddate</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Previous Work History-&gt; Company Name</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type of Business</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Position</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Additional Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Present Employer?</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Previous Work History</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company Name</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type of Business</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Position</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Additional Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Present Employer?</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Work Experience Within Company (History)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Event</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Event Reason</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Company</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Business Unit</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Organization</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Department</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Store/Branch Code</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Work Location</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Posiiton Code</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Position Name</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Supervisor ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Job Family</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Job Code</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Job Role</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Person Grade</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Job Grade</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Corperate Title</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Band</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Employee Group</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Contract Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Work experience&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Certifications &amp; licenses</h2><span class="count">11 BA fields &middot; <span class="b ok">0</span> <span class="b warn">3</span> <span class="b gap">8</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Certifications &amp; licenses</div><img src="shots/en-emp-certifications.png" alt="Certifications &amp; licenses" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Certification/License</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type Of Certificate</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Certification/ License</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Institution</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Effective Date</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Expiration Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Certification/ License Number</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Name as appears on Certification/License</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Certification/ License Country</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Score</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Certifications &amp; licenses&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Benefit enrollment</h2><span class="count">10 BA fields &middot; <span class="b ok">0</span> <span class="b warn">0</span> <span class="b gap">10</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Benefit enrollment</div><img src="shots/en-emp-benefit-enrollment.png" alt="Benefit enrollment" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Benefit Election</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Dependent Name</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Relation</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Birth Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>National ID</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Gender</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Student?</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Smoker?</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Disabled?</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Health Plan</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Dental Plan</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Enrollment card lists plan names only — no dependent-level election fields</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Performance &amp; promotability</h2><span class="count">19 BA fields &middot; <span class="b ok">0</span> <span class="b warn">9</span> <span class="b gap">10</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Performance &amp; promotability</div><img src="shots/en-emp-assessments.png" alt="Performance &amp; promotability" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Assessment Program</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Program</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year (AD)</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Result</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>MBTI Strength</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>MBTI Weakness</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Overall Competency Rating (UA)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Rating Score</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Rating Label</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Overall KPI Rating (UA)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Rating Score</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Rating Label</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="grp" colspan="5">Overall Performance Rating (UA)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Rating Score</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Rating Label</td><td class="mini">Not Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remark</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="grp" colspan="5">Promotability **Manager view only</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Level</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Timeframe</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Performance &amp; promotability&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Professional memberships</h2><span class="count">4 BA fields &middot; <span class="b ok">0</span> <span class="b warn">0</span> <span class="b gap">4</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Professional memberships</div><img src="shots/en-emp-memberships.png" alt="Professional memberships" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Professional Memberships</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Organisation</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section card is on screen but renders &quot;No records&quot; — no fields at all</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Position/Role</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section card is on screen but renders &quot;No records&quot; — no fields at all</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section card is on screen but renders &quot;No records&quot; — no fields at all</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section card is on screen but renders &quot;No records&quot; — no fields at all</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>Special projects</h2><span class="count">5 BA fields &middot; <span class="b ok">0</span> <span class="b warn">2</span> <span class="b gap">3</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">Screen capture &mdash; Special projects</div><img src="shots/en-emp-projects.png" alt="Special projects" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Special Assignments/Projects</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Assignment/Project</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Special projects&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comments</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Special projects&quot; is on screen, but this field is not rendered</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Required</td><td><span class="b warn">PARTIAL</span></td><td class="mini">(no dedicated label)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">Section &quot;Special projects&quot; is on screen, but this field is not rendered</td></tr>
+</tbody></table></div></div></section>
+<section class="sec">
+<div class="sechead"><h2>(not on the Employee File screen)</h2><span class="count">247 BA fields &middot; <span class="b ok">0</span> <span class="b warn">0</span> <span class="b gap">247</span></span></div>
+<div class="grid">
+<div class="shot"><div class="cap">No capture &mdash; nothing on the screen carries these BA groups</div><img src="shots/en-EMP-0002-full.png" alt="Full screen for reference" loading="lazy"></div>
+<div class="tblwrap"><table><thead><tr><th>BA section / sub-section</th><th>BA UI field</th><th>Mand.</th><th>Status</th><th>On screen as</th></tr></thead><tbody>
+<tr><td class="grp" colspan="5">Formal Education (การศึกษา) › Formal Education</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Degree</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Country</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>University</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Others</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Faculty</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Major</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Other Major</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>GPA</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Graduated Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Attachment</td><td class="mini"></td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Hiring</td><td>Is primary</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">COI Approval</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Approval ID (YYYY-COI-000)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Company Name</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Business Type</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Business Nature</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Position Name</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Term</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Start Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Compensation Rate</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>End Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Approved Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>Attachment2</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Personal / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Time Information (ข้อมูลเวลางาน)</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Day off Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>PF service End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Time Management Status</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Work Schedule</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Holiday Type Condition</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>O.T. Flag</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Override Standard Weekly Hours</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>FTE</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Standard Weekly Hours</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Daily Working Hours</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Working Days per Week</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Holiday Calendar</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Work Permit Information (ใบอนุญาตทำงาน)</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Document Type</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Country</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Document Number</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Issue Date</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Expiry Date</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Arrival date (VISA)</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>90 days report (VISA)</td><td class="mini">required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Employment / Hiring</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Pending</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Username</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning History</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Language Skills</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Language</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Certificate</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Others</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Speaking Proficiency</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Reading Proficiency</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Writing Proficiency</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Listening Proficiency</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Goodness</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Detail</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Point</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Disciplinary</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Detail</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Punishment Detail</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Punishment Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Appeal Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Point</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Damage Amount</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Supervisor</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Company Loan</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type of Loan</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Amount</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Additional Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Scholarship</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Scholarship Award Year</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Graduation Year</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Scholarship Start Year</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Scholarship End Year</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remarks</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Guarantee</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Guarantee</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Effective date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Guarantor (Person name or Company name)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Warranty Amount</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Contact No.</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Pending › Pending</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Obligation(EBO)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Company Asset</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Receiving date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Receiving status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Volume</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Asset type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Returnable date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Return Status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remark</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Serial number</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Mobility</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Willing to Relocate</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Country</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Province</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Business Unit</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Community/Volunteer Involvement</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>From Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Community/Volunteer Organization Name</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Role</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Courses/Workshops/Seminars</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Course Name</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Institution Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Key Successes</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year (AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Achievement</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Coaching Feedback</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Internal Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>External Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Identified as of Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comment/Feedback</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Development Goals</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Category</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Development Goal ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Development Goal</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Expected Outcome</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Competency</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Complete Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Development Goal Status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Development Opportunities</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year (AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Development Needs</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Business Driver Assessment</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Driving for Profitable Growth</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Striving to Meet Customer Satisfaction</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Building Organization Excellence</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Promoting Sustainable Collaborations &amp; Partnerships</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Developing People</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Leading Innovation</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Learning Activities</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Category</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Development Objective ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Topic</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Planned Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Planned Completed Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning Activity ID</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning Status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning Planned Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning Planned Completed Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Learning Planned Expected Result</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">MT/MA Reference</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Program</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Sponser</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remark</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Top Strengths</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year (AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Achievement</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Talent Reference</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Program</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Sponser</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remark</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Performance Group</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Group</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">E-Letter_Password</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>E-Letter Password</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>PA Grade</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>New Salary</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Extra Overceiling</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Bonus</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Old Salary</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Note</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Personal Assessment Summary</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>1. Positive Side</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>2. Positive Side</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>3. Positive Side</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>1. Need to be Improved Side</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>2. Need to be Improved Side</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>3. Need to be Improved Side</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Flexible Spending Accounts</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Plan Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Election Amount</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Total Contributions</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Total Funds Out</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Total Repayments</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Available Balance</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Functional Experience</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Years of Experience</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comments</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Leadership Experience</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Area of Leadership</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Years of Experience</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Number of People Managed</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Amount Managed (M)</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comments</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Career Aspirations</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Destination Role</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Level</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Function</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Business Unit</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year(AD)</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Type</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comments</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Completed Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">OHS Certificate</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Completion date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Institute ID</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Comments</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Certificate Number</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Course</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Course</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">OHS Document</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Registration Date</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Inactive Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Labour Department Area</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Document Number</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Safety Officer Level</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Direct Link - Name</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Direct Link - URL</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Employee Benefit Obligation(EBO)</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>EBO Amount</td><td class="mini">Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>หมายเหตุ</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Honours/Awards</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Honour or Award</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Description</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Institution</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Issue Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Additional Information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Legal Execution Department</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Legal Execution Department</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Execution Case No.</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Start Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>End Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Other information</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Product Liability Insurance</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Effective Date</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Insurance Company</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Bank</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>value</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>status</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remark</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Student Loan</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year of Contract</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Levels of Education</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Academic Year</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Year of final payment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Attachment</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Remark</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Pending</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Badges</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="grp" colspan="5">Profile</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Org Chart</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+<tr><td class="mini">Profile / Maintain</td><td>Tags</td><td class="mini">Not Required</td><td><span class="b gap">MISSING</span></td><td class="mini">No section for this BA group on the Employee File screen</td></tr>
+</tbody></table></div></div></section>
+</div></body></html>

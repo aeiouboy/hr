@@ -1,0 +1,15 @@
+﻿Screen section (EN),Field(s) on screen,Comment,Evidence screenshot
+Bank details,Account holder / ชื่อบัญชี,Bank details,shots/en-emp-bank.png
+Employee snapshot header,EJ code (EJ-0002),Employee snapshot header,shots/en-emp-header.png
+Employee snapshot header,Employment status (ทำงานอยู่),Employee snapshot header,shots/en-emp-header.png
+Employee snapshot header,Employee class (Permanent),Employee snapshot header,shots/en-emp-header.png
+Employee snapshot header,Generation (Millennial),Employee snapshot header,shots/en-emp-header.png
+Employment information,Position code (รหัส: POS-CEN-0002),Employment information,shots/en-emp-employment.png
+Employment information,Assignment type (ประเภทการมอบหมาย),Employment information,shots/en-emp-employment.png
+Employment information,Current Years in BU (อายุงานใน BU),Employment information,shots/en-emp-employment.png
+Personal Contact,Personal Email / อีเมลส่วนตัว,Personal Contact,shots/en-emp-personal-contact.png
+Personal Contact,Mobile Phone / โทรศัพท์มือถือ,Personal Contact,shots/en-emp-personal-contact.png
+Current Benefits,"Benefit name, Benefit plan ID, Type, Adjusted entitle amount, Entitle amount, Amount used, Remaining amount",Current Benefits (whole section absent from BA sheet),shots/en-emp-current-benefits.png
+Claim history,"Benefit Name, Claim Type, Claim Amount, Submission Date, Status (+ filters)",Claim history (whole section absent from BA sheet),shots/en-emp-claim-history.png
+Adjust entitlement amount history,"Date, Plan, Adjusted entitle amount, Year, Entitle amount, Reason",Adjust entitlement amount history (whole section absent from BA sheet),shots/en-emp-budget-reallocation.png
+Timeline,"Event, Effective date, Recorded date",Timeline (whole section absent from BA sheet),shots/en-emp-timeline.png
