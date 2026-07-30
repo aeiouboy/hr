@@ -29,6 +29,25 @@ worst gaps are `Job Information` (2/37), `Dependents` (0/27 labelled),
 | `shots/` | 22 PNGs — full page + snapshot header + one per section card |
 | `scripts/` | The harvest + compare scripts, so the audit can be re-run after each change |
 
+## What this audit measured — read before quoting the numbers
+
+The screen audited is **this repository**, rendered at `localhost:3000` from
+`master` @ `18904d8`, employee `EMP-0002`. It is **not** the `humi-dev-int`
+deployment:
+
+- `humi-dev-int.central.co.th` is unreachable from the environment this audit ran
+  in — the egress proxy returns `403 CONNECT` for the whole `central.co.th`
+  domain — so the deployed build could not be harvested.
+- `EMP-SEED-01` does not exist in this repository. `/admin/employees/EMP-SEED-01`
+  renders `ไม่พบพนักงานรหัส EMP-SEED-01`, so `EMP-0002` was used instead. Field
+  *presence* does not vary by employee record, only the values do.
+- A full-page capture of the dev-int screen shows **noticeably denser section
+  cards** than this repo renders — several with 15–25 labelled fields in a
+  two-column grid, and repeated per-record blocks under Dependents. If dev-int is
+  serving a different build, its coverage is **higher** than the numbers above and
+  this audit understates it. Re-run against dev-int before treating 5.5% as the
+  deployed figure.
+
 ## How the evidence was captured
 
 - Signed in as `admin@humi.test` (hr_admin + hr_manager + spd) so no section is
@@ -37,6 +56,22 @@ worst gaps are `Job Information` (2/37), `Dependents` (0/27 labelled),
   `label` / `.humi-eyebrow` / `<th>` / card title harvested from the live DOM.
 - Both locales harvested (`/en` and `/th`) so a Thai-only label still counts as found.
 - Per-section PNGs captured from the same run.
+
+### Expansion fix (re-run 30 Jul, after the first capture)
+
+The first harvest batch-clicked every Expand control inside one
+`page.evaluate()`. That only opened the handful of cards near the viewport and
+left 17 collapsed, so their contents never entered the DOM. `scripts/extract2.mjs`
+now clicks one control at a time, scrolling each into view and re-querying after
+every click, and logs a warning if any card is still collapsed when the harvest
+runs.
+
+Re-running the corrected harvest **did not change any status**: the 17 cards that
+had stayed collapsed render a one-line summary each (`Prasert Sriouk`,
+`Central Retail Corporation`, `HRM Certificate`, `No records`) rather than a
+labelled field grid, which is exactly the PARTIAL/MISSING treatment they already
+had. The regenerated CSVs are byte-identical to the committed ones. The fully
+expanded screen carries 56 distinct field labels in total.
 
 ## Status definitions
 

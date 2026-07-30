@@ -12,23 +12,30 @@ await p.locator('button[type="submit"]').first().click(); await p.waitForTimeout
 await p.goto(`http://localhost:3000/${LOCALE}/admin/employees/${EMP}`,{waitUntil:'networkidle',timeout:120000}); await p.waitForTimeout(4000)
 console.log('URL:',p.url())
 
-for(let pass=0;pass<10;pass++){
-  const n = await p.evaluate(()=>{
-    let c=0
-    for(const el of document.querySelectorAll('button,[role="button"],summary')){
-      const t=(el.innerText||'').trim(); const al=el.getAttribute('aria-label')||''
-      if(el.getAttribute('aria-expanded')==='false' || /^(expand|ขยาย|show more|ดูเพิ่มเติม|view all|show all)/i.test(t) || /^(expand|ขยาย)/i.test(al)){
-        try{el.click();c++}catch{}
-      }
-    }
-    document.querySelectorAll('details:not([open])').forEach(d=>{d.open=true;c++})
-    return c
-  })
-  await p.waitForTimeout(1500)
-  console.log('pass',pass,'expanded',n)
-  if(!n) break
+// Expand every collapsed card. Batch-clicking inside a single page.evaluate()
+// only ever opened the few cards already near the viewport — the rest stayed
+// collapsed and their fields never entered the DOM, which under-counted the
+// audit. Click one control at a time, scrolling it into view and re-querying
+// after each click, until no Expand control remains.
+const collapsedCount = () => p.evaluate(() =>
+  [...document.querySelectorAll('button,[role="button"],summary')]
+    .filter(el => /^(expand|ขยาย|show more|ดูเพิ่มเติม|view all|show all|see all)$/i.test((el.innerText||'').trim())).length)
+
+console.log('collapsed at start:', await collapsedCount())
+for(let i=0;i<200;i++){
+  const loc = p.locator('button,[role="button"],summary', {hasText:/^(Expand|ขยาย|Show more|ดูเพิ่มเติม|View all|Show all|See all)$/i}).first()
+  if(await loc.count()===0) break
+  try{
+    await loc.scrollIntoViewIfNeeded({timeout:3000})
+    await loc.click({timeout:3000})
+    await p.waitForTimeout(400)
+  }catch(e){ console.log('expand stalled at',i,String(e).split('\n')[0].slice(0,100)); break }
 }
+await p.evaluate(()=>document.querySelectorAll('details:not([open])').forEach(d=>{d.open=true}))
 await p.waitForTimeout(2500)
+const stillCollapsed = await collapsedCount()
+console.log('collapsed at end:', stillCollapsed)
+if(stillCollapsed) console.log('WARNING: harvest ran with', stillCollapsed, 'card(s) still collapsed — counts will under-report')
 
 // section-aware extraction
 const data = await p.evaluate(()=>{
